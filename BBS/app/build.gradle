@@ -27,4 +27,15 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    //滑动返回
+    compile 'com.r0adkll:slidableactivity:2.0.5'
+
+    //SharedPreference 文件操作
+    compile 'com.orhanobut:hawk:2.0.1'
+
+    //log
+    compile 'com.orhanobut:logger:1.15'
+
+
 }
