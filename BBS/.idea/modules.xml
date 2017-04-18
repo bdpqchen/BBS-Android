@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BBS.iml" filepath="$PROJECT_DIR$/BBS.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/slidebacklibrary/slidebacklibrary.iml" filepath="$PROJECT_DIR$/slidebacklibrary/slidebacklibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/viewspreadtranslationlibrary/viewspreadtranslationlibrary.iml" filepath="$PROJECT_DIR$/viewspreadtranslationlibrary/viewspreadtranslationlibrary.iml" />
     </modules>
   </component>
 </project>
