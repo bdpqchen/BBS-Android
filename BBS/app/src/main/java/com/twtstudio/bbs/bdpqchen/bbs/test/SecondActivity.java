@@ -9,11 +9,6 @@ import android.view.View;
 import android.widget.CompoundButton;
 
 import com.library.viewspread.helper.BaseViewHelper;
-import com.oubowu.slideback.SlideBackHelper;
-import com.oubowu.slideback.SlideConfig;
-import com.oubowu.slideback.widget.SlideBackLayout;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
-import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtils;
@@ -33,7 +28,6 @@ public class SecondActivity extends BaseActivity {
     SwitchCompat scNightMode;
 
     private BaseViewHelper helper;
-    private SlideBackLayout mSlideBackLayout;
 
 
     @Override
@@ -64,29 +58,6 @@ public class SecondActivity extends BaseActivity {
                     .create();
 //            PrefUtils.setIsNightMode();
         }
-
-        mSlideBackLayout = SlideBackHelper.attach(
-                // 当前Activity
-                this,
-                // Activity栈管理工具
-                App.getActivityHelper(),
-                // 参数的配置
-                new SlideConfig.Builder()
-                        // 屏幕是否旋转
-                        .rotateScreen(true)
-                        // 是否侧滑
-                        .edgeOnly(false)
-                        // 是否禁止侧滑
-                        .lock(false)
-                        // 边缘滑动的响应阈值，0~1，对应屏幕宽度*percent
-                        .edgePercent(0.1f)
-                        // 关闭页面的阈值，0~1，对应屏幕宽度*percent
-                        .slideOutPercent(0.5f).create(),
-                // 滑动的监听
-                null);
-
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintColor(ResourceUtils.getColor(this, R.color.colorAccent));
 
         final SwitchCompat switchNightMode = (SwitchCompat) findViewById(R.id.sc_night_mode);
         switchNightMode.setChecked(PrefUtils.isNightMode());
