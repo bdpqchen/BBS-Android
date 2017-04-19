@@ -43,13 +43,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         AppActivityManager.getActivityManager().addActivity(this);
         StatusBarUtil.setColor(this, ResourceUtils.getColor(this, R.color.colorPrimary), 25);
 
-        mSlideConfig = new SlideConfig.Builder()
-                .rotateScreen(true)
-                .edgeOnly(true)
-                .lock(false)
-                .edgePercent(0.2f)
-                .slideOutPercent(0.5f)
-                .create();
+        mSlideConfig = new SlideConfig.Builder().rotateScreen(true).edgeOnly(true).lock(false)
+                .edgePercent(0.2f).slideOutPercent(0.5f).create();
 
         mToolbar = getToolbarView();
         if (null != mToolbar){

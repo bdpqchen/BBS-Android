@@ -44,9 +44,6 @@ public class MainActivity extends BaseActivity {
         btnToSecond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-//                SwipeBackActivityHelper.startSwipeActivity(MainActivity.this, intent, true, true, false);
-
                 startActivity(new Intent(MainActivity.this, SecondActivity.class));
             }
         });
