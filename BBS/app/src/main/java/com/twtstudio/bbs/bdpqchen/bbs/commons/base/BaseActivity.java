@@ -6,8 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 
+import com.jaeger.library.StatusBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AppActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtils;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -34,17 +37,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(PrefUtils.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(getLayoutResourceId());
 
+        mUnbinder = ButterKnife.bind(this);
+        AppActivityManager.getActivityManager().addActivity(this);
+        StatusBarUtil.setColor(this, ResourceUtils.getColor(this, R.color.colorPrimary), 30);
+
 
         mToolbar = getToolbarView();
         if (null != mToolbar){
-            getSupportActionBar();
+            setSupportActionBar(mToolbar);
             if (isShowBackArrow()){
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
+
         }
 
-        mUnbinder = ButterKnife.bind(this);
-        AppActivityManager.getActivityManager().addActivity(this);
 
 
 

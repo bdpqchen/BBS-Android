@@ -27,12 +27,14 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected Toolbar getToolbarView() {
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle("main");
         return mToolbar;
     }
 
     @Override
     protected boolean isShowBackArrow() {
-        return true;
+        return false;
     }
 
     @Override
@@ -42,6 +44,9 @@ public class MainActivity extends BaseActivity {
         btnToSecond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+//                SwipeBackActivityHelper.startSwipeActivity(MainActivity.this, intent, true, true, false);
+
                 startActivity(new Intent(MainActivity.this, SecondActivity.class));
             }
         });

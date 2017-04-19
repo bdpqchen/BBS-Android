@@ -37,6 +37,7 @@ public class SecondActivity extends BaseActivity {
 
     @Override
     protected Toolbar getToolbarView() {
+        mToolbar.setTitle("第二");
         return mToolbar;
     }
 
@@ -48,6 +49,8 @@ public class SecondActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        Slidr.attach(this);
+//        StatusBarUtil.setColorForSwipeBack(this, ResourceUtils.getColor(this, R.color.colorAccent), 38);
 
         if (PrefUtils.isNightMode()) {
             helper = new BaseViewHelper.Builder(this)
@@ -56,7 +59,6 @@ public class SecondActivity extends BaseActivity {
                     .setDimColor(ResourceUtils.getColor(this, R.color.nightModeDim))
                     .setDimAlpha(200)
                     .create();
-//            PrefUtils.setIsNightMode();
         }
 
         final SwitchCompat switchNightMode = (SwitchCompat) findViewById(R.id.sc_night_mode);
@@ -84,5 +86,9 @@ public class SecondActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
 

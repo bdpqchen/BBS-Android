@@ -31,8 +31,9 @@ dependencies {
     //滑动返回
 //    compile 'com.r0adkll:slidableactivity:2.0.5'
 //    compile 'me.imid.swipebacklayout.lib:library:1.0.0'
-//    compile project(':slidebacklibrary')
-    compile 'cn.bingoogolapple:bga-swipebacklayout:1.0.8@aar'
+    compile project(':slidebacklibrary')
+//    compile 'cn.bingoogolapple:bga-swipebacklayout:1.0.8@aar'
+//    compile 'com.github.bluzwong:swipeback:0.2.0@aar'
 
 
     //沉浸式状态栏
