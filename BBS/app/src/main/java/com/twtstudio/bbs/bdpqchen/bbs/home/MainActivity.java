@@ -53,4 +53,8 @@ public class MainActivity extends BaseActivity {
 
 
     }
+
+    public static void updateUi(){
+
+    }
 }

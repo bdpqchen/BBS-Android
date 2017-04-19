@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
+import com.oubowu.slideback.ActivityHelper;
 
 /**
  * Created by bdpqchen on 17-4-17.
@@ -16,6 +17,8 @@ public class App extends Application {
 
     private Context mContext;
     private LogLevel mLogLevel = LogLevel.FULL;
+
+    private ActivityHelper mActivityHelper;
 
     private static App sMyApplication;
 
@@ -31,8 +34,14 @@ public class App extends Application {
 
         initApp();
 
+        mActivityHelper = new ActivityHelper();
+        registerActivityLifecycleCallbacks(mActivityHelper);
         sMyApplication = this;
 
+    }
+
+    public static ActivityHelper getActivityHelper(){
+        return sMyApplication.mActivityHelper;
     }
 
     private void initApp(){

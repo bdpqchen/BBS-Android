@@ -9,8 +9,12 @@ import android.view.View;
 import android.widget.CompoundButton;
 
 import com.library.viewspread.helper.BaseViewHelper;
+import com.oubowu.slideback.SlideBackHelper;
+import com.oubowu.slideback.widget.SlideBackLayout;
+import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AppActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtils;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtils;
 
@@ -28,6 +32,7 @@ public class SecondActivity extends BaseActivity {
     SwitchCompat scNightMode;
 
     private BaseViewHelper helper;
+    private SlideBackLayout mSlideBackLayout;
 
 
     @Override
@@ -49,15 +54,15 @@ public class SecondActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Slidr.attach(this);
-//        StatusBarUtil.setColorForSwipeBack(this, ResourceUtils.getColor(this, R.color.colorAccent), 38);
+
+        mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), mSlideConfig, null);
 
         if (PrefUtils.isNightMode()) {
             helper = new BaseViewHelper.Builder(this)
                     .isFullWindow(true)
                     .isShowTransition(false)
                     .setDimColor(ResourceUtils.getColor(this, R.color.nightModeDim))
-                    .setDimAlpha(200)
+                    .setDimAlpha(100)
                     .create();
         }
 
@@ -68,8 +73,10 @@ public class SecondActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     PrefUtils.setIsNightMode(true);
+                    AppActivityManager.getActivityManager().recreateAllActivity(SecondActivity.class);
                 } else {
                     PrefUtils.setIsNightMode(false);
+                    AppActivityManager.getActivityManager().recreateAllActivity(SecondActivity.class);
                 }
                 startMySelf(switchNightMode);
             }
@@ -78,11 +85,12 @@ public class SecondActivity extends BaseActivity {
     }
 
     public void startMySelf(View view) {
+        finish();
+
         Intent intent = new Intent(this, SecondActivity.class);
         new BaseViewHelper
                 .Builder(this, view)
                 .startActivity(intent);
-        finish();
 
     }
 

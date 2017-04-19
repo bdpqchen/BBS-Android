@@ -25,6 +25,16 @@ public final class AppActivityManager {
         return mInstance;
     }
 
+    public void recreateAllActivity(Class<?>cls){
+        if (mActivityStack != null){
+            for (Activity activity : mActivityStack){
+                if (activity.getClass() != cls){
+                    activity.recreate();
+                }
+            }
+        }
+    }
+
     public void addActivity(Activity activity){
         if(mActivityStack == null){
             mActivityStack = new Stack<>();

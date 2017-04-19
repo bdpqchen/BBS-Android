@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 
 import com.jaeger.library.StatusBarUtil;
+import com.oubowu.slideback.SlideConfig;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AppActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtils;
@@ -24,6 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private Unbinder mUnbinder;
+    public SlideConfig mSlideConfig;
 
     protected abstract int getLayoutResourceId();
 
@@ -39,8 +41,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         mUnbinder = ButterKnife.bind(this);
         AppActivityManager.getActivityManager().addActivity(this);
-        StatusBarUtil.setColor(this, ResourceUtils.getColor(this, R.color.colorPrimary), 30);
+        StatusBarUtil.setColor(this, ResourceUtils.getColor(this, R.color.colorPrimary), 25);
 
+        mSlideConfig = new SlideConfig.Builder()
+                .rotateScreen(true)
+                .edgeOnly(true)
+                .lock(false)
+                .edgePercent(0.2f)
+                .slideOutPercent(0.5f)
+                .create();
 
         mToolbar = getToolbarView();
         if (null != mToolbar){
