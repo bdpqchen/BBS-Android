@@ -4,14 +4,20 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
-import android.transition.Slide;
+import android.support.v7.widget.Toolbar;
+import android.view.WindowManager;
 
-import com.oubowu.slideback.SlideBackHelper;
-import com.oubowu.slideback.SlideConfig;
 import com.oubowu.slideback.widget.SlideBackLayout;
-import com.twtstudio.bbs.bdpqchen.bbs.App;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AppActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtils;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtils;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtils;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 
 /**
  * Created by bdpqchen on 17-4-18.
@@ -20,38 +26,53 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtils;
 public abstract class BaseActivity extends AppCompatActivity {
 
     private SlideBackLayout mSlideBackLayout;
+    private Toolbar mToolbar;
+    private Unbinder mUnbinder;
+
+    protected abstract int getLayoutResourceId();
+
+    protected abstract Toolbar getToolbarView();
+
+    protected abstract boolean isShowBackArrow();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (PrefUtils.isNightMode()){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            LogUtils.d("is mode night yes");
-        }else{
-            LogUtils.d("is mode night no");
+        AppCompatDelegate.setDefaultNightMode(PrefUtils.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+        setContentView(getLayoutResourceId());
 
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+            tintManager.setStatusBarTintEnabled(true);
+            tintManager.setNavigationBarTintEnabled(true);
+            tintManager.setTintColor(ResourceUtils.getColor(this, R.color.colorPrimaryDark));
+            LogUtils.d("sot the color");
+//            tintManager.setStatusBarTintResource(ResourceUtils.getColor(this, R.color.colorAccent));
+            tintManager.setNavigationBarTintColor(ResourceUtils.getColor(this, R.color.colorPrimaryDark));
+            SystemBarTintManager.SystemBarConfig config = tintManager.getConfig();
+//        map.setPadding(0, config.getPixelInsetTop(true), config.getPixelInsetRight(), config.getPixelInsetBottom());
+//        }
+
+        mToolbar = getToolbarView();
+        if (null != mToolbar){
+            getSupportActionBar();
+            if (isShowBackArrow()){
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
         }
 
-        /*mSlideBackLayout = SlideBackHelper.attach(
-                // 当前Activity
-                this,
-                // Activity栈管理工具
-                App.getActivityHelper(),
-                // 参数的配置
-                new SlideConfig.Builder()
-                        // 屏幕是否旋转
-                        .rotateScreen(true)
-                        // 是否侧滑
-                        .edgeOnly(false)
-                        // 是否禁止侧滑
-                        .lock(false)
-                        // 边缘滑动的响应阈值，0~1，对应屏幕宽度*percent
-                        .edgePercent(0.1f)
-                        // 关闭页面的阈值，0~1，对应屏幕宽度*percent
-                        .slideOutPercent(0.5f).create(),
-                // 滑动的监听
-                null);*/
+        mUnbinder = ButterKnife.bind(this);
+        AppActivityManager.getActivityManager().addActivity(this);
 
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUnbinder.unbind();
     }
 }

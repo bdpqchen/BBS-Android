@@ -6,7 +6,7 @@ import com.orhanobut.hawk.Hawk;
  * Created by bdpqchen on 17-4-18.
  */
 
-public class PrefUtils {
+public final class PrefUtils {
 
     private static final String IS_JUST_INSTALLED = "is_just_installed";
     private static final String IS_NIGHT_MODE = "is_night_mode";
