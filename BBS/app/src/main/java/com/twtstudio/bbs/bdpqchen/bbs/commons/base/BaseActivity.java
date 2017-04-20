@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import com.jaeger.library.StatusBarUtil;
 import com.oubowu.slideback.SlideConfig;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AppActivityManager;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtils;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtils;
 
@@ -40,7 +40,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutResourceId());
 
         mUnbinder = ButterKnife.bind(this);
-        AppActivityManager.getActivityManager().addActivity(this);
+        ActivityManager.getActivityManager().addActivity(this);
         StatusBarUtil.setColor(this, ResourceUtils.getColor(this, R.color.colorPrimary), 25);
 
         mSlideConfig = new SlideConfig.Builder().rotateScreen(true).edgeOnly(true).lock(false)
@@ -64,5 +64,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        ActivityManager.getActivityManager().finishActivity(this);
     }
 }

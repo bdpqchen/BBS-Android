@@ -11,7 +11,7 @@ import com.oubowu.slideback.widget.SlideBackLayout;
 import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AppActivityManager;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtils;
 
 import butterknife.BindView;
@@ -49,7 +49,6 @@ public class SecondActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), mSlideConfig, null);
 
         final SwitchCompat switchNightMode = (SwitchCompat) findViewById(R.id.sc_night_mode);
@@ -58,7 +57,7 @@ public class SecondActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PrefUtils.setIsNightMode(isChecked);
-                AppActivityManager.getActivityManager().recreateAllActivity(getClass());
+                ActivityManager.getActivityManager().recreateAllActivity(getClass());
                 startMySelf();
             }
 
@@ -67,7 +66,7 @@ public class SecondActivity extends BaseActivity {
 
     public void startMySelf() {
         //方案1
-        AppActivityManager.getActivityManager().finishActivity(this);
+        ActivityManager.getActivityManager().finishActivity(this);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         startActivity(getIntent());
         //方案2

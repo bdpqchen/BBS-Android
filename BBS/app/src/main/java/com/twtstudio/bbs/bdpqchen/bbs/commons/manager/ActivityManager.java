@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
+package com.twtstudio.bbs.bdpqchen.bbs.commons.manager;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,16 +11,16 @@ import java.util.Stack;
  * Created by bdpqchen on 17-4-17.
  */
 
-public final class AppActivityManager {
+public final class ActivityManager {
     private Stack<Activity> mActivityStack;
 
-    private static AppActivityManager mInstance;
+    private static ActivityManager mInstance;
 
-    private AppActivityManager(){}
+    private ActivityManager(){}
 
-    public static AppActivityManager getActivityManager(){
+    public static ActivityManager getActivityManager(){
         if(mInstance == null){
-            mInstance = new AppActivityManager();
+            mInstance = new ActivityManager();
         }
         return mInstance;
     }
@@ -46,6 +46,10 @@ public final class AppActivityManager {
     public void finishCurrentActivity(){
         Activity activity = mActivityStack.lastElement();
         finishActivity(activity);
+    }
+
+    public Activity getCurrentActivity(){
+        return mActivityStack.lastElement();
     }
 
     public void finishActivity(Activity activity) {

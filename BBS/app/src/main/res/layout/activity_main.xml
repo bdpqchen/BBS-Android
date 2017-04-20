@@ -30,4 +30,32 @@
 
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_snack_normal"
+        android:text="show snackbar normal"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_snack_yellow"
+        android:text="show yellow snack bar"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_snack_error"
+        android:text="show error snack bar"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_snack_yellow_action"
+        android:text="show yellow snack bar with action "
+        />
+
+
+
 </LinearLayout>

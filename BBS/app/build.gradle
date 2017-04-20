@@ -47,5 +47,9 @@ dependencies {
     //log
     compile 'com.orhanobut:logger:1.15'
 
+    //toast
+    compile 'com.androidadvance:topsnackbar:1.1.1'
+
+
 
 }
