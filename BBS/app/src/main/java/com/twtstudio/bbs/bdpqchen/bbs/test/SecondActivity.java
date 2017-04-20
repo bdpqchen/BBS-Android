@@ -1,14 +1,11 @@
 package com.twtstudio.bbs.bdpqchen.bbs.test;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.CompoundButton;
 
-import com.library.viewspread.helper.BaseViewHelper;
 import com.oubowu.slideback.SlideBackHelper;
 import com.oubowu.slideback.widget.SlideBackLayout;
 import com.twtstudio.bbs.bdpqchen.bbs.App;
@@ -16,7 +13,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AppActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtils;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtils;
 
 import butterknife.BindView;
 
@@ -31,7 +27,6 @@ public class SecondActivity extends BaseActivity {
     @BindView(R.id.sc_night_mode)
     SwitchCompat scNightMode;
 
-    private BaseViewHelper helper;
     private SlideBackLayout mSlideBackLayout;
 
 
@@ -57,42 +52,35 @@ public class SecondActivity extends BaseActivity {
 
         mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), mSlideConfig, null);
 
-        if (PrefUtils.isNightMode()) {
-            helper = new BaseViewHelper.Builder(this)
-                    .isFullWindow(true)
-                    .isShowTransition(false)
-                    .setDimColor(ResourceUtils.getColor(this, R.color.nightModeDim))
-                    .setDimAlpha(100)
-                    .create();
-        }
-
         final SwitchCompat switchNightMode = (SwitchCompat) findViewById(R.id.sc_night_mode);
         switchNightMode.setChecked(PrefUtils.isNightMode());
         switchNightMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    PrefUtils.setIsNightMode(true);
-                    AppActivityManager.getActivityManager().recreateAllActivity(SecondActivity.class);
-                } else {
-                    PrefUtils.setIsNightMode(false);
-                    AppActivityManager.getActivityManager().recreateAllActivity(SecondActivity.class);
-                }
-                startMySelf(switchNightMode);
+                PrefUtils.setIsNightMode(isChecked);
+                AppActivityManager.getActivityManager().recreateAllActivity(getClass());
+                startMySelf();
             }
 
         });
     }
 
-    public void startMySelf(View view) {
+    public void startMySelf() {
+        //方案1
         AppActivityManager.getActivityManager().finishActivity(this);
-        overridePendingTransition(0, android.R.anim.fade_out);
-
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        startActivity(getIntent());
+        //方案2
+//        Activity activity = this;
+//        activity.getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
+//        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//        activity.recreate();
+        //方案3
         /*Intent intent = new Intent(this, SecondActivity.class);
         new BaseViewHelper
                 .Builder(this, view)
                 .startActivity(intent);
-*/
+        */
     }
 
     @Override

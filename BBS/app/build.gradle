@@ -48,5 +48,4 @@ dependencies {
     compile 'com.orhanobut:logger:1.15'
 
 
-    compile project(path: ':viewspreadtranslationlibrary')
 }
