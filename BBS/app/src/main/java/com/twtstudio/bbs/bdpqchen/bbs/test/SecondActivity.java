@@ -86,11 +86,13 @@ public class SecondActivity extends BaseActivity {
 
     public void startMySelf(View view) {
         AppActivityManager.getActivityManager().finishActivity(this);
-        Intent intent = new Intent(this, SecondActivity.class);
+        overridePendingTransition(0, android.R.anim.fade_out);
+
+        /*Intent intent = new Intent(this, SecondActivity.class);
         new BaseViewHelper
                 .Builder(this, view)
                 .startActivity(intent);
-
+*/
     }
 
     @Override
