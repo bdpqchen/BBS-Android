@@ -14,7 +14,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.test.SecondActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -30,6 +30,8 @@ public class MainActivity extends BaseActivity {
     Button btnSnackYellowAction;
 
     private static final String TEXT_SNACK_BAR = "提示提示提示换行jjjjjjjjjj";
+
+    private MainPresenter mMainPresenter;
 
     @Override
     protected int getLayoutResourceId() {
@@ -51,7 +53,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mPresenter = new MainPresenter();
         btnToSecond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,5 +86,10 @@ public class MainActivity extends BaseActivity {
                 ToastUtils.normal(this, TEXT_SNACK_BAR);
                 break;
         }
+    }
+
+    @Override
+    public void showUpdateDialog(int versionCode) {
+
     }
 }

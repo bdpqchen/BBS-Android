@@ -21,7 +21,9 @@ import butterknife.Unbinder;
  * Created by bdpqchen on 17-4-18.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView {
+
+    protected T mPresenter;
 
     private Toolbar mToolbar;
     private Unbinder mUnbinder;

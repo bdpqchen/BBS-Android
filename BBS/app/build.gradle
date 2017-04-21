@@ -50,6 +50,14 @@ dependencies {
     //toast
     compile 'com.androidadvance:topsnackbar:1.1.1'
 
+    //rx
+//    compile "io.reactivex.rxjava2:rxjava:2.0.9"
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.8'
+
+    //google libraries for java
+    compile 'com.google.guava:guava:21.0'
+
 
 
 }
