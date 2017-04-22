@@ -49,6 +49,8 @@ dependencies {
 
     //toast
     compile 'com.androidadvance:topsnackbar:1.1.1'
+    compile 'com.isanwenyu.TopSnackbar:topsnackbar:1.0.0'
+
 
     //rx
 //    compile "io.reactivex.rxjava2:rxjava:2.0.9"
@@ -56,7 +58,7 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.0.8'
 
     //google libraries for java
-    compile 'com.google.guava:guava:21.0'
+//    compile 'com.google.guava:guava:21.0'
 
 
 

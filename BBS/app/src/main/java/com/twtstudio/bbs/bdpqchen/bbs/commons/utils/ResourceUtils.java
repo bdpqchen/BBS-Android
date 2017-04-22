@@ -18,4 +18,5 @@ public final class ResourceUtils {
         return ContextCompat.getColor(activity, resourceId);
     }
 
+
 }

@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ToastUtils;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtils;
 import com.twtstudio.bbs.bdpqchen.bbs.test.SecondActivity;
 
 import butterknife.BindView;
@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
       /*  btnSnackShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.normal(MainActivity.this, "提示提示提示\n换行jjjjjjjjjj");
+                SnackBarUtils.normal(MainActivity.this, "提示提示提示\n换行jjjjjjjjjj");
             }
         });*/
 
@@ -74,16 +74,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_snack_normal:
-                ToastUtils.normal(this, TEXT_SNACK_BAR);
+                SnackBarUtils.normal(this, TEXT_SNACK_BAR);
                 break;
             case R.id.btn_snack_yellow:
-                ToastUtils.notice(this, TEXT_SNACK_BAR);
+                SnackBarUtils.notice(this, TEXT_SNACK_BAR);
                 break;
             case R.id.btn_snack_error:
-                ToastUtils.error(this, TEXT_SNACK_BAR);
+                SnackBarUtils.error(this, TEXT_SNACK_BAR);
                 break;
             case R.id.btn_snack_yellow_action:
-                ToastUtils.normal(this, TEXT_SNACK_BAR);
+                SnackBarUtils.normal(this, TEXT_SNACK_BAR);
                 break;
         }
     }

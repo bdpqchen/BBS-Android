@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.twtstudio.bbs.bdpqchen.bbs.home.MainActivity">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context="com.twtstudio.bbs.bdpqchen.bbs.home.MainActivity">
 
     <include
+        layout="@layout/common_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/common_toolbar"
         />
 
     <TextView
@@ -20,7 +20,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
         android:id="@+id/btn_to_second"
@@ -31,31 +31,33 @@
         />
 
     <Button
+        android:id="@+id/btn_snack_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_snack_normal"
         android:text="show snackbar normal"
         />
 
     <Button
+        android:id="@+id/btn_snack_yellow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_snack_yellow"
         android:text="show yellow snack bar"
         />
+
     <Button
+        android:id="@+id/btn_snack_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_snack_error"
         android:text="show error snack bar"
         />
+
     <Button
+        android:id="@+id/btn_snack_yellow_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_snack_yellow_action"
         android:text="show yellow snack bar with action "
+        android:layout_alignParentBottom="true"
         />
-
 
 
 </LinearLayout>
