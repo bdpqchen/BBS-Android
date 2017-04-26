@@ -1,7 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.di.module;
 
-import android.content.Context;
-
 import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.ContextLife;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerApp;
@@ -23,7 +21,7 @@ public class AppModule {
 
     @Provides
     @PerApp
-    @ContextLife("Application")
+    @ContextLife()
     App provideApplication(){
         return mApp;
     }

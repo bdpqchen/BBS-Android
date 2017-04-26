@@ -29,6 +29,7 @@ import butterknife.Unbinder;
 
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView {
 
+    @Inject
     protected T mPresenter;
 
     private Toolbar mToolbar;
@@ -40,6 +41,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected abstract Toolbar getToolbarView();
 
     protected abstract boolean isShowBackArrow();
+
+    protected abstract void inject();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,17 +63,19 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         mSlideConfig = new SlideConfig.Builder().rotateScreen(true).edgeOnly(true).lock(false)
                 .edgePercent(0.2f).slideOutPercent(0.5f).create();
 
+        inject();
+        if (mPresenter != null){
+            mPresenter.attachView(this);
+        }
+
         mToolbar = getToolbarView();
-        if (null != mToolbar){
+        if (null != mToolbar) {
             setSupportActionBar(mToolbar);
-            if (isShowBackArrow()){
+            if (isShowBackArrow()) {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
 
         }
-
-
-
 
     }
 
@@ -81,14 +86,14 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 .build();
     }
 
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mPresenter != null){
+            mPresenter.detachView();
+        }
         mUnbinder.unbind();
     }
-
 
     @Override
     public void onBackPressed() {

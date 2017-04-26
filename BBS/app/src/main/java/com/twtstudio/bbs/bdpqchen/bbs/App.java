@@ -28,42 +28,37 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         mContext = this;
+        sApplication = this;
 
+        initLogUtils();
+        initSlideBack();
+
+    }
+
+    private void initLogUtils() {
         if (!isApkDebug(mContext)){
             mLogLevel = LogLevel.NONE;
         }
-
-        initApp();
-
-        mActivityHelper = new ActivityHelper();
-        registerActivityLifecycleCallbacks(mActivityHelper);
-        sApplication = this;
-
-    }
-
-    public static AppComponent getAppComponent(){
-        if (sAppComponent == null){
-            sAppComponent = DaggerAppComponent.builder()
-                    .appModule(new AppModule(sApplication))
-                    .build();
-        }
-        return sAppComponent;
-    }
-
-    public static ActivityHelper getActivityHelper(){
-        return sApplication.mActivityHelper;
-    }
-
-    private void initApp(){
         Hawk.init(mContext).build();
         Logger.init()
                 .logLevel(mLogLevel)
                 .methodCount(3);
 
-
     }
+
+    //滑动返回
+    private void initSlideBack() {
+        mActivityHelper = new ActivityHelper();
+        registerActivityLifecycleCallbacks(mActivityHelper);
+    }
+    public static ActivityHelper getActivityHelper(){
+        return sApplication.mActivityHelper;
+    }
+
+
+
+
 
     public static boolean isApkDebug(Context context) {
         try {
@@ -73,6 +68,15 @@ public class App extends Application {
 
         }
         return false;
+    }
+
+    public static AppComponent getAppComponent(){
+        if (sAppComponent == null){
+            sAppComponent = DaggerAppComponent.builder()
+                    .appModule(new AppModule(sApplication))
+                    .build();
+        }
+        return sAppComponent;
     }
 
 

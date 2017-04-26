@@ -6,12 +6,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
-import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerActivityComponent;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtils;
 import com.twtstudio.bbs.bdpqchen.bbs.test.SecondActivity;
 
@@ -42,10 +39,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     private static final String TEXT_SNACK_BAR = "提示提示提示换行jjjjjjjjjj";
 
-    private MainPresenter mMainPresenter;
-
     protected ActivityComponent mActivityComponent;
-
 
     @Override
     protected int getLayoutResourceId() {
@@ -65,9 +59,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     @Override
+    protected void inject() {
+        getActivityComponent().inject(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = new MainPresenter();
         btnToSecond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,23 +73,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
             }
         });
 
-      /*  btnSnackShow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SnackBarUtils.normal(MainActivity.this, "提示提示提示\n换行jjjjjjjjjj");
-            }
-        });*/
+        mPresenter.checkUpdate(1);
 
-
-/*
-        mActivityComponent = DaggerActivityComponent.builder()
-                .appComponent(((App) getApplication()).getAppComponent())
-                .activityModule(new ActivityModule(this))
-                .build();
-*/
-
-        getActivityComponent().inject(this);
-//        mActivityComponent.inject(this);
 
     }
 
