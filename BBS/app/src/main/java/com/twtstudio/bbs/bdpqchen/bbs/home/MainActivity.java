@@ -83,12 +83,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         });*/
 
 
+/*
         mActivityComponent = DaggerActivityComponent.builder()
                 .appComponent(((App) getApplication()).getAppComponent())
                 .activityModule(new ActivityModule(this))
                 .build();
+*/
 
-        mActivityComponent.inject(this);
+        getActivityComponent().inject(this);
+//        mActivityComponent.inject(this);
 
     }
 

@@ -11,6 +11,8 @@ import com.oubowu.slideback.SlideConfig;
 import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerActivityComponent;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtils;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtils;
@@ -71,19 +73,15 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
 
     }
-/*
+
     protected ActivityComponent getActivityComponent(){
         return  DaggerActivityComponent.builder()
-                .appComponent(App.getAppComponent())
-                .activityModule(getActivityModule())
+                .appComponent(((App)getApplication()).getAppComponent())
+                .activityModule(new ActivityModule(this))
                 .build();
-    }*/
-/*
-    protected ActivityComponent getActivityComponent(){
-//        return
-//        return Dagger.builder()
-        return null;
-    }*/
+    }
+
+
 
     @Override
     protected void onDestroy() {
