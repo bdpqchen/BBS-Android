@@ -76,7 +76,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     protected ActivityComponent getActivityComponent(){
         return  DaggerActivityComponent.builder()
-                .appComponent(((App)getApplication()).getAppComponent())
+                .appComponent(App.getAppComponent())
                 .activityModule(new ActivityModule(this))
                 .build();
     }

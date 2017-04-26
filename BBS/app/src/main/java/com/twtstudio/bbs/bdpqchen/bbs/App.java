@@ -21,9 +21,8 @@ public class App extends Application {
     private Context mContext;
     private LogLevel mLogLevel = LogLevel.FULL;
     private ActivityHelper mActivityHelper;
-    private static App sMyApplication;
-    private AppComponent mAppComponent;
-    private App mInstance;
+    private static App sApplication;
+    private static AppComponent sAppComponent;
 
 
     @Override
@@ -31,7 +30,6 @@ public class App extends Application {
         super.onCreate();
 
         mContext = this;
-        mInstance = this;
 
         if (!isApkDebug(mContext)){
             mLogLevel = LogLevel.NONE;
@@ -41,21 +39,21 @@ public class App extends Application {
 
         mActivityHelper = new ActivityHelper();
         registerActivityLifecycleCallbacks(mActivityHelper);
-        sMyApplication = this;
+        sApplication = this;
 
     }
 
-    public AppComponent getAppComponent(){
-        if (mAppComponent == null){
-            mAppComponent = DaggerAppComponent.builder()
-                    .appModule(new AppModule(this))
+    public static AppComponent getAppComponent(){
+        if (sAppComponent == null){
+            sAppComponent = DaggerAppComponent.builder()
+                    .appModule(new AppModule(sApplication))
                     .build();
         }
-        return mAppComponent;
+        return sAppComponent;
     }
 
     public static ActivityHelper getActivityHelper(){
-        return sMyApplication.mActivityHelper;
+        return sApplication.mActivityHelper;
     }
 
     private void initApp(){

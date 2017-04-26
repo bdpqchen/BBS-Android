@@ -24,8 +24,8 @@ public class AppModule {
     @Provides
     @PerApp
     @ContextLife("Application")
-    public Context provideApplicationContext(){
-        return mApp.getApplicationContext();
+    App provideApplication(){
+        return mApp;
     }
 
 }
