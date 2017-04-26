@@ -6,13 +6,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerActivityComponent;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtils;
 import com.twtstudio.bbs.bdpqchen.bbs.test.SecondActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+// TODO: 17-4-26
+// dagger2
+// rxjava
+// baseAdapter
+// login/logOut
+// APP Intro
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
 
@@ -32,6 +43,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private static final String TEXT_SNACK_BAR = "提示提示提示换行jjjjjjjjjj";
 
     private MainPresenter mMainPresenter;
+
+    protected ActivityComponent mActivityComponent;
+
 
     @Override
     protected int getLayoutResourceId() {
@@ -67,6 +81,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 SnackBarUtils.normal(MainActivity.this, "提示提示提示\n换行jjjjjjjjjj");
             }
         });*/
+
+
+        mActivityComponent = DaggerActivityComponent.builder()
+                .appComponent(((App) getApplication()).getAppComponent())
+                .activityModule(new ActivityModule(this))
+                .build();
+
+        mActivityComponent.inject(this);
 
     }
 

@@ -8,6 +8,9 @@ import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.oubowu.slideback.ActivityHelper;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.AppComponent;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerAppComponent;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
 
 /**
  * Created by bdpqchen on 17-4-17.
@@ -17,16 +20,18 @@ public class App extends Application {
 
     private Context mContext;
     private LogLevel mLogLevel = LogLevel.FULL;
-
     private ActivityHelper mActivityHelper;
-
     private static App sMyApplication;
+    private AppComponent mAppComponent;
+    private App mInstance;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         mContext = this;
+        mInstance = this;
 
         if (!isApkDebug(mContext)){
             mLogLevel = LogLevel.NONE;
@@ -38,6 +43,15 @@ public class App extends Application {
         registerActivityLifecycleCallbacks(mActivityHelper);
         sMyApplication = this;
 
+    }
+
+    public AppComponent getAppComponent(){
+        if (mAppComponent == null){
+            mAppComponent = DaggerAppComponent.builder()
+                    .appModule(new AppModule(this))
+                    .build();
+        }
+        return mAppComponent;
     }
 
     public static ActivityHelper getActivityHelper(){
@@ -62,5 +76,7 @@ public class App extends Application {
         }
         return false;
     }
+
+
 
 }
