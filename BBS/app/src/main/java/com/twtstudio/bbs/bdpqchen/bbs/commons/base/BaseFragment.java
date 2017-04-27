@@ -45,11 +45,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
                 isInited = true;
             }
         } else {
-/*
-            if (!isSupportHidden()) {
-                isInited = true;
-            }
-*/
+
         }
 
     }

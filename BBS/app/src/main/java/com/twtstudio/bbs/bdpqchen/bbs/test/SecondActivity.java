@@ -12,10 +12,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtils;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtils;
-
-import javax.inject.Inject;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
 import butterknife.BindView;
 
@@ -59,11 +56,11 @@ public class SecondActivity extends BaseActivity {
         mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
 
         final SwitchCompat switchNightMode = (SwitchCompat) findViewById(R.id.sc_night_mode);
-        switchNightMode.setChecked(PrefUtils.isNightMode());
+        switchNightMode.setChecked(PrefUtil.isNightMode());
         switchNightMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PrefUtils.setIsNightMode(isChecked);
+                PrefUtil.setIsNightMode(isChecked);
                 ActivityManager.getActivityManager().recreateAllActivity(getClass());
                 startMySelf();
             }

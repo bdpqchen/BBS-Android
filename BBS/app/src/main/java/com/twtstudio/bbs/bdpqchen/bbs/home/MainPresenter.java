@@ -2,7 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.home;
 
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.RxPresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtils;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import javax.inject.Inject;
 
@@ -15,7 +15,7 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
 
     @Inject
     public MainPresenter(){
-        LogUtils.d("MainPresenter is injected");
+        LogUtil.d("MainPresenter is injected");
     }
 
     @Override
@@ -23,6 +23,6 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
 //        mView.showUpdateDialog(1);
 //        checkNotNull(currentVersionCode);
 
-        LogUtils.d("show the method--> checkUpdate()");
+        LogUtil.d("show the method--> checkUpdate()");
     }
 }

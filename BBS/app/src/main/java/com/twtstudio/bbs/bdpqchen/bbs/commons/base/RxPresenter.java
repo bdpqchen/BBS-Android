@@ -25,6 +25,8 @@ public class RxPresenter<T extends BaseView> implements BasePresenter<T> {
         }
     }
 
+    
+
     @Override
     public void attachView(T view) {
         this.mView = view;

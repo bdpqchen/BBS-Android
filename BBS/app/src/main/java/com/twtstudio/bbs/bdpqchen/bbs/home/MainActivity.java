@@ -9,17 +9,12 @@ import android.widget.Button;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtils;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.test.SecondActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-// TODO: 17-4-26
-// rxjava
-// baseAdapter
-// login/logOut
-// APP Intro
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
 
@@ -81,16 +76,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_snack_normal:
-                SnackBarUtils.normal(this, TEXT_SNACK_BAR);
+                SnackBarUtil.normal(this, TEXT_SNACK_BAR);
                 break;
             case R.id.btn_snack_yellow:
-                SnackBarUtils.notice(this, TEXT_SNACK_BAR);
+                SnackBarUtil.notice(this, TEXT_SNACK_BAR);
                 break;
             case R.id.btn_snack_error:
-                SnackBarUtils.error(this, TEXT_SNACK_BAR);
+                SnackBarUtil.error(this, TEXT_SNACK_BAR);
                 break;
             case R.id.btn_snack_yellow_action:
-                SnackBarUtils.normal(this, TEXT_SNACK_BAR);
+                SnackBarUtil.normal(this, TEXT_SNACK_BAR);
                 break;
         }
     }

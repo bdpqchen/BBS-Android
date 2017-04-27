@@ -8,7 +8,7 @@ import android.support.v4.content.ContextCompat;
  * Created by bdpqchen on 17-4-19.
  */
 
-public final class ResourceUtils {
+public final class ResourceUtil {
 
     public static int getColor(Context context, int resourceId){
         return ContextCompat.getColor(context, resourceId);

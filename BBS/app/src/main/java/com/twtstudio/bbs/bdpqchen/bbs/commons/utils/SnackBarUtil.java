@@ -1,22 +1,16 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import android.app.Activity;
-import android.app.NotificationManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
-import android.support.design.widget.CoordinatorLayout;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.androidadvance.topsnackbar.TSnackbar;
-import com.isanwenyu.topsnackbar.TopSnackbar;
 import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 
@@ -24,7 +18,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
  * Created by bdpqchen on 17-4-21.
  */
 
-public final class SnackBarUtils {
+public final class SnackBarUtil {
 
     private static final int NORMAL_BG = 0xFF0BC4C4;
     private static final int NOTICE_BG = 0xFFe2a712;
@@ -70,7 +64,7 @@ public final class SnackBarUtils {
         FrameLayout view = (FrameLayout) act.findViewById(android.R.id.content);
         final TSnackbar snackBar = TSnackbar.make(view, m, duration);
         View snackBarView = snackBar.getView();
-        sOldColor = ResourceUtils.getColor(act, R.color.colorPrimaryDark);
+        sOldColor = ResourceUtil.getColor(act, R.color.colorPrimaryDark);
         //多次调用会出现sOldColor=上次的颜色
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             sOldColor = act.getWindow().getStatusBarColor();

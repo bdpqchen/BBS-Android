@@ -14,8 +14,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerActivityComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtils;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtils;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 
 import javax.inject.Inject;
 
@@ -48,17 +48,17 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (PrefUtils.isAutoNightMode()){
+        if (PrefUtil.isAutoNightMode()){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
         }else{
-            AppCompatDelegate.setDefaultNightMode(PrefUtils.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+            AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         }
 
         setContentView(getLayoutResourceId());
 
         mUnbinder = ButterKnife.bind(this);
         ActivityManager.getActivityManager().addActivity(this);
-        StatusBarUtil.setColor(this, ResourceUtils.getColor(this, R.color.colorPrimary), 25);
+        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimary), 25);
 
         inject();
         if (mPresenter != null){

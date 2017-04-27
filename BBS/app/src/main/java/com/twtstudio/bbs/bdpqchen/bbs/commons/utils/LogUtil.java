@@ -9,7 +9,7 @@ import com.orhanobut.logger.Logger;
  * Created by bdpqchen on 17-4-18.
  */
 
-public final class LogUtils{
+public final class LogUtil {
 
     public static boolean mIsLogable = true;
 

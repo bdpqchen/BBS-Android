@@ -16,6 +16,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
  * Created by bdpqchen on 17-4-17.
  */
 
+// TODO: 17-4-27 尚未搞定的事 
+// 支持lambda
+// login/logOut
+// APP Intro
+
 public class App extends Application {
 
     private Context mContext;
@@ -37,7 +42,7 @@ public class App extends Application {
     }
 
     private void initLogUtils() {
-        if (!isApkDebug(mContext)){
+        if (!isApkDebug(mContext)) {
             mLogLevel = LogLevel.NONE;
         }
         Hawk.init(mContext).build();
@@ -52,33 +57,30 @@ public class App extends Application {
         mActivityHelper = new ActivityHelper();
         registerActivityLifecycleCallbacks(mActivityHelper);
     }
-    public static ActivityHelper getActivityHelper(){
+
+    public static ActivityHelper getActivityHelper() {
         return sApplication.mActivityHelper;
     }
 
 
-
-
-
     public static boolean isApkDebug(Context context) {
         try {
-            ApplicationInfo info= context.getApplicationInfo();
-            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE)!=0;
+            ApplicationInfo info = context.getApplicationInfo();
+            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
         } catch (Exception ignored) {
 
         }
         return false;
     }
 
-    public static AppComponent getAppComponent(){
-        if (sAppComponent == null){
+    public static AppComponent getAppComponent() {
+        if (sAppComponent == null) {
             sAppComponent = DaggerAppComponent.builder()
                     .appModule(new AppModule(sApplication))
                     .build();
         }
         return sAppComponent;
     }
-
 
 
 }
