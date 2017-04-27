@@ -16,7 +16,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 // TODO: 17-4-26
-// dagger2
 // rxjava
 // baseAdapter
 // login/logOut

@@ -60,9 +60,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         ActivityManager.getActivityManager().addActivity(this);
         StatusBarUtil.setColor(this, ResourceUtils.getColor(this, R.color.colorPrimary), 25);
 
-        mSlideConfig = new SlideConfig.Builder().rotateScreen(true).edgeOnly(true).lock(false)
-                .edgePercent(0.2f).slideOutPercent(0.5f).create();
-
         inject();
         if (mPresenter != null){
             mPresenter.attachView(this);
@@ -77,6 +74,12 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
         }
 
+    }
+
+    protected SlideConfig getSlideConfig(){
+        // TODO: 17-4-26 one hand mode
+        return new SlideConfig.Builder().rotateScreen(true).edgeOnly(true).lock(false)
+                .edgePercent(0.2f).slideOutPercent(0.5f).create();
     }
 
     protected ActivityComponent getActivityComponent(){
