@@ -23,6 +23,7 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
 //        mView.showUpdateDialog(1);
 //        checkNotNull(currentVersionCode);
 
+//        addSubscribe();
         LogUtil.d("show the method--> checkUpdate()");
     }
 }
