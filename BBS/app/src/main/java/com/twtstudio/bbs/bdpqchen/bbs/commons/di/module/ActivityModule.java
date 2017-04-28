@@ -5,6 +5,9 @@ import android.content.Context;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.ContextLife;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -28,10 +31,13 @@ public class ActivityModule {
         return mActivity;
     }
 
+/*
     @Provides
     @PerActivity
-    @ContextLife("Activity")
+//    @ContextLife("Activity")
     public Context provideActivityContext(){
         return mActivity;
     }
+*/
+
 }

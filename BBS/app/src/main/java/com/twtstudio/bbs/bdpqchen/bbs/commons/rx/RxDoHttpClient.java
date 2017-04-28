@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RxDoHttpClient {
 
-    private static final String BASE_URL = "";
+    private static final String BASE_URL = "http://www.github.com/";
     private Retrofit mRetrofit;
     private BaseApi mApi;
     private RxBaseResponseTransformer mTransformer;
@@ -28,7 +28,7 @@ public class RxDoHttpClient {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .retryOnConnectionFailure(true)
-                .connectTimeout(20, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
                 .build();
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -42,6 +42,10 @@ public class RxDoHttpClient {
 
 //        CompositeSubscription
 //        Subscription subscription =
+    }
+
+    public void getDataList(){
+
     }
 
 //    public

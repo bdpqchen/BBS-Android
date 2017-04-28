@@ -79,7 +79,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected SlideConfig getSlideConfig(){
         // TODO: 17-4-26 one hand mode
         return new SlideConfig.Builder().rotateScreen(true).edgeOnly(true).lock(false)
-                .edgePercent(0.2f).slideOutPercent(0.5f).create();
+                .edgePercent(0.2f).slideOutPercent(0.3f).create();
     }
 
     protected ActivityComponent getActivityComponent(){

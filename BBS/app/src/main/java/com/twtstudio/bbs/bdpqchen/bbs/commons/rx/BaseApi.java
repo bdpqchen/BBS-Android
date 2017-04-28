@@ -6,8 +6,8 @@ import retrofit2.http.GET;
  * Created by bdpqchen on 17-4-27.
  */
 
-public class BaseApi {
+public interface BaseApi {
 
-//    @GET
+//     @GET
 
 }

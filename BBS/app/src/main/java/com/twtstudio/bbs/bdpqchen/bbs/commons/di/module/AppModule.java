@@ -2,7 +2,11 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.di.module;
 
 import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.ContextLife;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerApp;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -20,10 +24,17 @@ public class AppModule {
     }
 
     @Provides
-    @PerApp
-    @ContextLife()
+    @Singleton
     App provideApplication(){
         return mApp;
     }
+
+    @Provides
+//    @PerApp
+    @Singleton
+    RxDoHttpClient provideRxDoHttpClient(){
+        return new RxDoHttpClient();
+    }
+
 
 }

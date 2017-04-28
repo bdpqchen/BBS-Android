@@ -33,8 +33,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     private static final String TEXT_SNACK_BAR = "提示提示提示换行jjjjjjjjjj";
 
-    protected ActivityComponent mActivityComponent;
-
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_main;

@@ -61,7 +61,7 @@ public class SecondActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PrefUtil.setIsNightMode(isChecked);
-                ActivityManager.getActivityManager().recreateAllActivity(getClass());
+                ActivityManager.getActivityManager().recreateAllActivity(SecondActivity.class);
                 startMySelf();
             }
 
