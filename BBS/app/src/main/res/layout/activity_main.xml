@@ -1,73 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                tools:context="com.twtstudio.bbs.bdpqchen.bbs.home.MainActivity"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/colorMainBg"
+    tools:context="com.twtstudio.bbs.bdpqchen.bbs.home.MainActivity"
     >
 
-    <include
-        layout="@layout/common_toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <include
+            layout="@layout/common_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
-    <Button
-        android:id="@+id/btn_to_second"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="to second activity"
 
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World!"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <Button
-        android:id="@+id/btn_snack_normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="show snackbar normal"
-        />
+        <Button
+            android:id="@+id/btn_to_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="to second activity"
 
-    <Button
-        android:id="@+id/btn_snack_yellow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="show yellow snack bar"
-        />
+            />
 
-    <Button
-        android:id="@+id/btn_snack_error"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="show error snack bar"
-        />
+        <Button
+            android:id="@+id/btn_snack_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show snackbar normal"
+            />
 
-    <Button
-        android:id="@+id/btn_snack_yellow_action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="show yellow snack bar with action "
+        <Button
+            android:id="@+id/btn_snack_yellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show yellow snack bar"
+            />
+
+        <Button
+            android:id="@+id/btn_snack_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show error snack bar"
+            />
+
+        <Button
+            android:id="@+id/btn_snack_yellow_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show yellow snack bar with action "
+            />
+
+    </LinearLayout>
+
+    <com.roughike.bottombar.BottomBar
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
+        app:bb_tabXmlResource="@xml/bottom_bar_tabs"
+        android:background="@color/colorMainBg"
+        app:bb_behavior="iconsOnly"
+
         />
 
-
-    <android.support.design.widget.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-
-    </android.support.design.widget.BottomNavigationView>
-
-</LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+
+    <tab
+        id="@+id/bottom_bar_tab_home"
+        icon="@drawable/icon_bottom_bar_home"
+        title="首页"
+        />
+
+    <tab
+        id="@+id/bottom_bar_tab_forum"
+        icon="@drawable/icon_bottom_bar_forum"
+        title="论坛"
+        />
+
+    <tab
+        id="@+id/bottom_bar_tab_personal"
+        icon="@drawable/icon_bottom_bar_personal"
+        title="个人"
+        />
+
+</tabs>
+    <!--barColorWhenSelected="@color/colorBottomSelectedBgHome"-->
+

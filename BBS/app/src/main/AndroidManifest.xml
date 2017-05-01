@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.twtstudio.bbs.bdpqchen.bbs">
+          package="com.twtstudio.bbs.bdpqchen.bbs">
 
     <application
         android:name=".App"
@@ -17,8 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".test.SecondActivity"/>
-
-
     </application>
+
 
 </manifest>

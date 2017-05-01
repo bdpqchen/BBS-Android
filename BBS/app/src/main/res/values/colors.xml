@@ -10,5 +10,8 @@
 
     <color name="colorSnackNormalBg">#fcfc37</color>
 
+    <color name="colorBottomSelectedBgHome">#ad3768fc</color>
+    <color name="colorBottomSelectedBgForum">#ad3d5cb6</color>
+    <color name="colorBottomSelectedBgPersonal">#ad354679</color>
 
 </resources>
