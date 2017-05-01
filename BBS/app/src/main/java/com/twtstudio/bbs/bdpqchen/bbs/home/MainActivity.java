@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 startActivity(new Intent(MainActivity.this, SecondActivity.class));
             }
         });
-
+//        btnToSecond.setOnClickListener();
         mPresenter.checkUpdate(1);
 
 

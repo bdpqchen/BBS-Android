@@ -14,6 +14,7 @@ import io.reactivex.schedulers.Schedulers;
 public class RxSchedulersHelper {
 
     public static <T> ObservableTransformer<T, T> io_main() {
+
         return new ObservableTransformer<T, T>() {
             @Override
             public ObservableSource<T> apply(@NonNull Observable<T> observable) {

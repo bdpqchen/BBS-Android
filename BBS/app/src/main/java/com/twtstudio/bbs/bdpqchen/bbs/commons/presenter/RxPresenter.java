@@ -1,4 +1,7 @@
-package com.twtstudio.bbs.bdpqchen.bbs.commons.base;
+package com.twtstudio.bbs.bdpqchen.bbs.commons.presenter;
+
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;

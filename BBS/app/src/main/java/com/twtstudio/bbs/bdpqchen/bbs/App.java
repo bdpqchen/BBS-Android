@@ -16,8 +16,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
  * Created by bdpqchen on 17-4-17.
  */
 
-// TODO: 17-4-27 尚未搞定的事 
 // 支持lambda
+// TODO: 17-4-27 尚未搞定的事
+
 // login/logOut
 // APP Intro
 

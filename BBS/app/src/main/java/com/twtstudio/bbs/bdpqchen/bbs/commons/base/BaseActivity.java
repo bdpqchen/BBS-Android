@@ -2,7 +2,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 
@@ -21,13 +20,14 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.yokeyword.fragmentation.SupportActivity;
 
 
 /**
  * Created by bdpqchen on 17-4-18.
  */
 
-public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView {
+public abstract class BaseActivity<T extends BasePresenter> extends SupportActivity implements BaseView {
 
     @Inject
     protected T mPresenter;
@@ -99,8 +99,16 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     }
 
     @Override
+    public void onBackPressedSupport() {
+        super.onBackPressedSupport();
+        ActivityManager.getActivityManager().finishActivity(this);
+
+    }
+
+    /*
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         ActivityManager.getActivityManager().finishActivity(this);
-    }
+    }*/
 }

@@ -86,9 +86,11 @@ public class SecondActivity extends BaseActivity {
         */
     }
 
+/*
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
+*/
 }
 

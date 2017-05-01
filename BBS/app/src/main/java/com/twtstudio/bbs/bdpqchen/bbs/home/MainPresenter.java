@@ -1,7 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.home;
 
 
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.RxPresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
