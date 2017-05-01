@@ -13,6 +13,15 @@ public class MainFragment extends BaseFragment {
         return 0;
     }
 
+    @Override
+    protected void injectFragment() {
+
+    }
+
+    @Override
+    protected void initFragment() {
+
+    }
 
 
 }

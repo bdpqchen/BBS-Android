@@ -29,7 +29,7 @@ public abstract class SimpleFragment extends SupportFragment {
     private Unbinder mUnBinder;
     private boolean mInitialized = false;
 
-    protected abstract int getLayoutId();
+    protected abstract int getPerMainFragmentLayoutId();
 
     protected abstract void initFragments();
 
@@ -43,7 +43,7 @@ public abstract class SimpleFragment extends SupportFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(getLayoutId(), null);
+        mView = inflater.inflate(getPerMainFragmentLayoutId(), null);
         return mView;
     }
 
