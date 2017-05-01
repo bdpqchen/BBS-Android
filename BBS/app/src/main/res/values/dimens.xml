@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_top_text_input_layout_register">16dp</dimen>
+    <dimen name="margin_top_text_input_layout_register_double">16dp</dimen>
+    <dimen name="margin_side_text_input_layout_register">24dp</dimen>
+    <dimen name="margin_fab">16dp</dimen>
+</resources>

@@ -33,7 +33,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
     protected T mPresenter;
 
     private Toolbar mToolbar;
-    private Unbinder mUnbinder;
+    private Unbinder mUnBinder;
     public SlideConfig mSlideConfig;
 
     protected abstract int getLayoutResourceId();
@@ -56,7 +56,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
         setContentView(getLayoutResourceId());
 
-        mUnbinder = ButterKnife.bind(this);
+        mUnBinder = ButterKnife.bind(this);
         ActivityManager.getActivityManager().addActivity(this);
         StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimary), 25);
 
@@ -95,7 +95,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         if (mPresenter != null){
             mPresenter.detachView();
         }
-        mUnbinder.unbind();
+        mUnBinder.unbind();
     }
 
     @Override

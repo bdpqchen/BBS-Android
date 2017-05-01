@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.home.MainActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.register.RegisterActivity;
 
 import dagger.Component;
 
@@ -19,6 +20,8 @@ public interface ActivityComponent {
     Activity getActivity();
 
     void inject(MainActivity mainActivity);
+
+    void inject(RegisterActivity registerActivity);
 
 
 }

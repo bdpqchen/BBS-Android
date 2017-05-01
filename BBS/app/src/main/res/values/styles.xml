@@ -11,11 +11,11 @@
 
     </style>
 
-<!--
-    <style name="AppTheme.Translucent" parent="AppTheme">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+    <style name="AppTheme.EditText.Register" parent="AppTheme">
+        <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
--->
+
+
+
 
 </resources>
