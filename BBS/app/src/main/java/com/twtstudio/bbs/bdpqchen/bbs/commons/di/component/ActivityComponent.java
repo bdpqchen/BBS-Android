@@ -7,6 +7,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.home.MainActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.register.RegisterActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.replaceUser.ReplaceUserActivity;
 
 import dagger.Component;
 
@@ -26,4 +27,5 @@ public interface ActivityComponent {
 
     void inject(LoginActivity loginActivity);
 
+    void inject(ReplaceUserActivity replaceUserActivity);
 }

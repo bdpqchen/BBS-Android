@@ -1,11 +1,13 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.base;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 
 import com.jaeger.library.StatusBarUtil;
+import com.oubowu.slideback.SlideBackHelper;
 import com.oubowu.slideback.SlideConfig;
 import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -34,7 +36,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     private Toolbar mToolbar;
     private Unbinder mUnBinder;
-    public SlideConfig mSlideConfig;
 
     protected abstract int getLayoutResourceId();
 
@@ -45,6 +46,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
     protected abstract boolean isSupportNightMode();
 
     protected abstract void inject();
+
+    protected abstract void supportSwipeBack();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,12 +81,23 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
         }
 
+        supportSwipeBack();
+
     }
 
-    protected SlideConfig getSlideConfig() {
+    protected SlideConfig getSlideConfig(Activity activity) {
+
+
         // TODO: 17-4-26 one hand mode
+//        if (...)
+        SlideConfig slideConfig = new SlideConfig.Builder().rotateScreen(true).edgeOnly(true).lock(false)
+                .edgePercent(0.2f).slideOutPercent(0.3f).create();
+        SlideBackHelper.attach(activity, App.getActivityHelper(), slideConfig, null);
+
+/*
         return new SlideConfig.Builder().rotateScreen(true).edgeOnly(true).lock(false)
                 .edgePercent(0.2f).slideOutPercent(0.3f).create();
+*/
     }
 
     protected ActivityComponent getActivityComponent() {

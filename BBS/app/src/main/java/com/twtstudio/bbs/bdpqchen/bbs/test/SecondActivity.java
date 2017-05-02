@@ -56,9 +56,15 @@ public class SecondActivity extends BaseActivity {
     }
 
     @Override
+    protected void supportSwipeBack() {
+        mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
+
+    }
+
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
 
         final SwitchCompat switchNightMode = (SwitchCompat) findViewById(R.id.sc_night_mode);
         switchNightMode.setChecked(PrefUtil.isNightMode());

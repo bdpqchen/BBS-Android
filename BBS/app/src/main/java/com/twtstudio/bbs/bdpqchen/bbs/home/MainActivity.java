@@ -6,6 +6,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import com.oubowu.slideback.SlideBackHelper;
+import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
@@ -58,6 +60,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
+    }
+
+    @Override
+    protected void supportSwipeBack() {
+//        SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
     }
 
     @Override
