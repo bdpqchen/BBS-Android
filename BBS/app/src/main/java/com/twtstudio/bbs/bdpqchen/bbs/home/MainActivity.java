@@ -51,6 +51,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     @Override
+    protected boolean isSupportNightMode() {
+        return true;
+    }
+
+    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }

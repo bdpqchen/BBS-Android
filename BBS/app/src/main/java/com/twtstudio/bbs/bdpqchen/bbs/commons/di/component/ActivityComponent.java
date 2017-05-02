@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.di.component;
 
 import android.app.Activity;
 
+import com.twtstudio.bbs.bdpqchen.bbs.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.home.MainActivity;
@@ -23,5 +24,6 @@ public interface ActivityComponent {
 
     void inject(RegisterActivity registerActivity);
 
+    void inject(LoginActivity loginActivity);
 
 }

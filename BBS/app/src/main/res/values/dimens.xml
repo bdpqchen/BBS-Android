@@ -4,4 +4,9 @@
     <dimen name="margin_top_text_input_layout_register_double">16dp</dimen>
     <dimen name="margin_side_text_input_layout_register">24dp</dimen>
     <dimen name="margin_fab">16dp</dimen>
+    <dimen name="width_icon_login">24dp</dimen>
+    <dimen name="margin_icon_left">16dp</dimen>
+    <dimen name="padding_login_input">24dp</dimen>
+    <dimen name="margin_top_sub_selector">8dp</dimen>
+    <dimen name="text_size_16sp">16sp</dimen>
 </resources>

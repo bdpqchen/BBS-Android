@@ -42,16 +42,20 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     protected abstract boolean isShowBackArrow();
 
+    protected abstract boolean isSupportNightMode();
+
     protected abstract void inject();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (PrefUtil.isAutoNightMode()){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-        }else{
-            AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+        if (isSupportNightMode()) {
+            if (PrefUtil.isAutoNightMode()) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+            }
         }
 
         setContentView(getLayoutResourceId());
@@ -61,7 +65,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimary), 25);
 
         inject();
-        if (mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.attachView(this);
         }
 
@@ -76,14 +80,14 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     }
 
-    protected SlideConfig getSlideConfig(){
+    protected SlideConfig getSlideConfig() {
         // TODO: 17-4-26 one hand mode
         return new SlideConfig.Builder().rotateScreen(true).edgeOnly(true).lock(false)
                 .edgePercent(0.2f).slideOutPercent(0.3f).create();
     }
 
-    protected ActivityComponent getActivityComponent(){
-        return  DaggerActivityComponent.builder()
+    protected ActivityComponent getActivityComponent() {
+        return DaggerActivityComponent.builder()
                 .appComponent(App.getAppComponent())
                 .activityModule(new ActivityModule(this))
                 .build();
@@ -92,7 +96,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.detachView();
         }
         mUnBinder.unbind();

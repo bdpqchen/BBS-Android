@@ -46,6 +46,11 @@ public class SecondActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isSupportNightMode() {
+        return true;
+    }
+
+    @Override
     protected void inject() {
 
     }

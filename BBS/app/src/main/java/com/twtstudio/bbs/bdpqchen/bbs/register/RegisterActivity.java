@@ -12,7 +12,7 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-5-2.
  */
 
-public class RegisterActivity extends BaseActivity<RegisterPresenter> {
+public class RegisterActivity extends BaseActivity<RegisterPresenter> implements RegisterContract.View {
 
 
     @BindView(R.id.toolbar)
@@ -35,6 +35,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> {
     }
 
     @Override
+    protected boolean isSupportNightMode() {
+        return false;
+    }
+
+    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
@@ -45,6 +50,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> {
         // TODO: add setContentView(...) invocation
 
 
+
+    }
+
+    @Override
+    public void registerResults() {
 
     }
 }

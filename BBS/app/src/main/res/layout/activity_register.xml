@@ -22,17 +22,17 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/margin_side_text_input_layout_register"
+            android:layout_marginRight="@dimen/margin_side_text_input_layout_register"
+            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
+            >
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_side_text_input_layout_register"
-                android:layout_marginRight="@dimen/margin_side_text_input_layout_register"
-                android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
                 app:theme="@style/AppTheme.EditText.Register"
                 >
-
 
                 <EditText
                     android:layout_width="match_parent"
@@ -47,11 +47,8 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_side_text_input_layout_register"
-                android:layout_marginRight="@dimen/margin_side_text_input_layout_register"
                 android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
                 app:counterEnabled="true"
-
                 app:counterMaxLength="10"
                 app:counterOverflowTextAppearance="@color/colorAccent"
                 app:counterTextAppearance="@style/AppTheme.EditText.Register"
@@ -73,8 +70,6 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_side_text_input_layout_register"
-                android:layout_marginRight="@dimen/margin_side_text_input_layout_register"
                 app:counterEnabled="true"
                 app:counterMaxLength="18"
                 app:theme="@style/AppTheme.EditText.Register"
@@ -95,8 +90,6 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_side_text_input_layout_register"
-                android:layout_marginRight="@dimen/margin_side_text_input_layout_register"
                 app:counterEnabled="true"
                 app:counterMaxLength="16"
                 app:theme="@style/AppTheme.EditText.Register"
@@ -117,8 +110,6 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_side_text_input_layout_register"
-                android:layout_marginRight="@dimen/margin_side_text_input_layout_register"
                 app:counterEnabled="true"
                 app:counterMaxLength="20"
                 app:errorEnabled="true"
@@ -141,8 +132,6 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_side_text_input_layout_register"
-                android:layout_marginRight="@dimen/margin_side_text_input_layout_register"
                 app:counterEnabled="true"
                 app:counterMaxLength="20"
                 app:errorEnabled="true"
@@ -163,6 +152,7 @@
 
             </android.support.design.widget.TextInputLayout>
 
+<!--
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -170,6 +160,21 @@
                 android:layout_margin="@dimen/margin_fab"
                 android:src="@drawable/ic_arrow_forward_white_24dp"
                 app:fabSize="auto"
+                />
+-->
+
+            <com.dx.dxloadingbutton.lib.LoadingButton
+                android:id="@+id/loading_btn_login"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:lb_resetAfterFailed="true"
+                app:lb_btnRippleColor="#000000"
+                app:lb_btnText="注册"
+                app:lb_btnColor="@color/colorPrimary"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="@dimen/margin_top_text_input_layout_register_double"
                 />
 
         </LinearLayout>

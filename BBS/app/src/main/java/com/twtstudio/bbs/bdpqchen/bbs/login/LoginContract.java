@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.auth;
+package com.twtstudio.bbs.bdpqchen.bbs.login;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 
