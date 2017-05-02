@@ -13,8 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,21 +31,21 @@
             android:id="@+id/oldAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
             android:hint="用户名"
             android:imeOptions="actionNext"
             android:inputType="text"
             android:maxLines="1"
-            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
             />
 
         <EditText
             android:id="@+id/oldName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
             android:hint="姓名"
             android:imeOptions="actionNext"
             android:inputType="text"
-            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
             android:maxLines="1"
             />
 
@@ -55,21 +53,21 @@
             android:id="@+id/oldPIN"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
             android:hint="身份证号"
             android:imeOptions="actionDone"
             android:inputType="text"
             android:maxLines="1"
-            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
 
             />
 
         <com.dx.dxloadingbutton.lib.LoadingButton
-            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
+            android:id="@+id/btn_identify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
             app:lb_btnColor="@color/colorPrimary"
             app:lb_btnText="验证"
-            android:id="@+id/btn_identify"
             />
 
 

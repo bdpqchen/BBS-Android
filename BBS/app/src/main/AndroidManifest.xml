@@ -11,9 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
+
         <activity
-            android:name=".login.LoginActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            android:name=".splash.SplashActivity"
+            android:theme="@style/AppTheme.Splash"
 
             >
             <intent-filter>
@@ -23,19 +24,30 @@
         </activity>
 
         <activity
-            android:name=".register.RegisterActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
-            />
-
-        <activity
             android:name=".home.MainActivity"
             />
 
         <activity
-            android:name=".replaceUser.ReplaceUserActivity"
+            android:name=".register.RegisterActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
             />
 
-        <activity android:name=".test.SecondActivity"/>
+
+        <activity
+            android:name=".replaceUser.ReplaceUserActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            />
+
+        <activity
+            android:name=".login.LoginActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            />
+
+
+        <activity
+            android:name=".test.SecondActivity"
+
+            />
 
     </application>
 
