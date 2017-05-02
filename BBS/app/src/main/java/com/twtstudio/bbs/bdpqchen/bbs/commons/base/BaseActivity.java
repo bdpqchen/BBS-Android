@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
@@ -36,6 +37,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     private Toolbar mToolbar;
     private Unbinder mUnBinder;
+    public SlideConfig mSlideConfig;
 
     protected abstract int getLayoutResourceId();
 
@@ -47,7 +49,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     protected abstract void inject();
 
-    protected abstract void supportSwipeBack();
+    protected abstract Activity supportSlideBack();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,23 +83,15 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
         }
 
-        supportSwipeBack();
+        Activity activity = supportSlideBack();
+        if (activity != null){
+            // TODO: 17-4-26 one hand mode
+            SlideConfig slideConfig = new SlideConfig.Builder().rotateScreen(true).edgeOnly(true).lock(false)
+                    .edgePercent(0.2f).slideOutPercent(0.3f).create();
+            SlideBackHelper.attach(activity, App.getActivityHelper(), slideConfig, null);
+        }
 
-    }
 
-    protected SlideConfig getSlideConfig(Activity activity) {
-
-
-        // TODO: 17-4-26 one hand mode
-//        if (...)
-        SlideConfig slideConfig = new SlideConfig.Builder().rotateScreen(true).edgeOnly(true).lock(false)
-                .edgePercent(0.2f).slideOutPercent(0.3f).create();
-        SlideBackHelper.attach(activity, App.getActivityHelper(), slideConfig, null);
-
-/*
-        return new SlideConfig.Builder().rotateScreen(true).edgeOnly(true).lock(false)
-                .edgePercent(0.2f).slideOutPercent(0.3f).create();
-*/
     }
 
     protected ActivityComponent getActivityComponent() {

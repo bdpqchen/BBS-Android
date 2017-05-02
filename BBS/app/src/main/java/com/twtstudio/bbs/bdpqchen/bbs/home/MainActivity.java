@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.home;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -63,8 +64,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     }
 
     @Override
-    protected void supportSwipeBack() {
-//        SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
+    protected Activity supportSlideBack() {
+        return this;
     }
 
     @Override

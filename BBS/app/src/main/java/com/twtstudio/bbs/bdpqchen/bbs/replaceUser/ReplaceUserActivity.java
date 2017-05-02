@@ -1,12 +1,10 @@
 package com.twtstudio.bbs.bdpqchen.bbs.replaceUser;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.widget.BaseAdapter;
 
-import com.oubowu.slideback.SlideBackHelper;
-import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 
 /**
@@ -40,9 +38,8 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
     }
 
     @Override
-    protected void supportSwipeBack() {
-
-        SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
+    protected Activity supportSlideBack() {
+        return this;
     }
 
     @Override

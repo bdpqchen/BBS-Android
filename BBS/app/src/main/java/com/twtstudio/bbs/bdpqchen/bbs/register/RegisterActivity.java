@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.register;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
@@ -48,16 +49,14 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     }
 
     @Override
-    protected void supportSwipeBack() {
-        SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
+    protected Activity supportSlideBack() {
+        return this;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
-
-
 
     }
 

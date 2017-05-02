@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.login;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -67,8 +68,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
-    protected void supportSwipeBack() {
-
+    protected Activity supportSlideBack() {
+        return this;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.test;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
@@ -56,11 +57,9 @@ public class SecondActivity extends BaseActivity {
     }
 
     @Override
-    protected void supportSwipeBack() {
-        mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
-
+    protected Activity supportSlideBack() {
+        return this;
     }
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
