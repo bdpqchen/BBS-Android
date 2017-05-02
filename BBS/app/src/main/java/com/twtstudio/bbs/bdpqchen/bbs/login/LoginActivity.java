@@ -69,7 +69,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     protected Activity supportSlideBack() {
-        return this;
+        return null;
     }
 
     @Override

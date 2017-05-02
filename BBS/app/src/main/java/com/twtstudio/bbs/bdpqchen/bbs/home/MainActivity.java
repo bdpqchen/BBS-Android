@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     protected Activity supportSlideBack() {
-        return this;
+        return null;
     }
 
     @Override

@@ -31,6 +31,10 @@
             android:name=".home.MainActivity"
             />
 
+        <activity
+            android:name=".replaceUser.ReplaceUserActivity"
+            />
+
         <activity android:name=".test.SecondActivity"/>
 
     </application>
