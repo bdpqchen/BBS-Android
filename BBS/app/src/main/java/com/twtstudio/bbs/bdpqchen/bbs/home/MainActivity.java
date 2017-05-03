@@ -13,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.test.SecondActivity;
 
@@ -34,6 +35,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     Button btnSnackError;
     @BindView(R.id.btn_snack_yellow_action)
     Button btnSnackYellowAction;
+    @BindView(R.id.btn_logout)
+    Button btnLogOut;
 
     private static final String TEXT_SNACK_BAR = "提示提示提示换行jjjjjjjjjj";
 
@@ -82,7 +85,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         animator.start();
 
 
-
         btnToSecond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +97,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     }
 
-    @OnClick({R.id.btn_snack_normal, R.id.btn_snack_yellow, R.id.btn_snack_error, R.id.btn_snack_yellow_action})
+    @OnClick({R.id.btn_snack_normal, R.id.btn_snack_yellow, R.id.btn_snack_error, R.id.btn_snack_yellow_action, R.id.btn_logout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_snack_normal:
@@ -109,6 +111,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
                 break;
             case R.id.btn_snack_yellow_action:
                 SnackBarUtil.normal(this, TEXT_SNACK_BAR);
+                break;
+            case R.id.btn_logout:
+                PrefUtil.setHadLogin(false);
                 break;
         }
     }

@@ -112,20 +112,6 @@
 
             </RelativeLayout>
 
-            <com.dx.dxloadingbutton.lib.LoadingButton
-                android:id="@+id/loading_btn_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="8dp"
-                android:longClickable="false"
-                app:lb_btnColor="@color/colorPrimary"
-                app:lb_btnRippleColor="#000000"
-                app:lb_btnText="登录"
-                app:lb_resetAfterFailed="true"
-
-                />
-
             <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
                 android:id="@+id/cp_btn_login"
                 android:layout_width="match_parent"
@@ -137,7 +123,6 @@
                 android:textColor="@color/material_light_white"
                 app:spinning_bar_padding="6dp"
                 app:spinning_bar_width="4dp"
-
                 android:text="登\t\t录"
                 />
 

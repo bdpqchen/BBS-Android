@@ -96,7 +96,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     }
 
-    @OnClick({R.id.checkbox_save_password, R.id.tx_forgot_password, R.id.loading_btn_login, R.id.tv_goto_register,
+    @OnClick({R.id.checkbox_save_password, R.id.tx_forgot_password, R.id.tv_goto_register,
             R.id.et_account, R.id.et_password, R.id.tv_goto_replace_user, R.id.tv_no_account_user, R.id.cp_btn_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {

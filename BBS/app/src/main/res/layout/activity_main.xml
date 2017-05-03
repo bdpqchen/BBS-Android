@@ -77,11 +77,18 @@
                 android:text="show yellow snack bar with action "
                 />
 
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="log out"
+                />
+
         </LinearLayout>
 
         <com.roughike.bottombar.BottomBar
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:layout_alignParentBottom="true"
             android:background="@color/colorMainBg"
             app:bb_behavior="iconsOnly"
