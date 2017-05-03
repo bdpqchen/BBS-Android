@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.home.MainActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.login.LoginActivity;
 
 /**
@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
         if (PrefUtil.hadLogin() || PrefUtil.isNoAccountUser()){
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, HomeActivity.class));
         }else{
             startActivity(new Intent(this, LoginActivity.class));
         }

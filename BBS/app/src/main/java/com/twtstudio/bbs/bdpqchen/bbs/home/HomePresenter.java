@@ -12,13 +12,13 @@ import javax.inject.Inject;
  * Created by bdpqchen on 17-4-21.
  */
 
-public class MainPresenter extends RxPresenter<MainContract.View> implements MainContract.Presenter{
+public class HomePresenter extends RxPresenter<HomeContract.View> implements HomeContract.Presenter{
 
     private RxDoHttpClient mHttpClient;
 
     @Inject
-    public MainPresenter(RxDoHttpClient httpClient){
-        LogUtil.d("MainPresenter is injected");
+    public HomePresenter(RxDoHttpClient httpClient){
+        LogUtil.d("HomePresenter is injected");
         this.mHttpClient = httpClient;
         mHttpClient.getDataList();
     }

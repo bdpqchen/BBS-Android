@@ -6,7 +6,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
  * Created by bdpqchen on 17-5-1.
  */
 
-public class MainFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment {
 
     @Override
     protected int getFragmentLayoutId() {

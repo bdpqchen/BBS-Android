@@ -119,7 +119,7 @@
                 android:layout_margin="8dp"
                 android:layout_gravity="center"
                 android:background="@drawable/circular_border_shape"
-                app:spinning_bar_color="#FFF"
+                app:spinning_bar_color="@color/colorAccent"
                 android:textColor="@color/material_light_white"
                 app:spinning_bar_padding="6dp"
                 app:spinning_bar_width="4dp"

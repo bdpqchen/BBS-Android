@@ -5,7 +5,7 @@ import android.app.Activity;
 import com.twtstudio.bbs.bdpqchen.bbs.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.home.MainActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.replaceUser.ReplaceUserActivity;
 
@@ -21,7 +21,7 @@ public interface ActivityComponent {
 
     Activity getActivity();
 
-    void inject(MainActivity mainActivity);
+    void inject(HomeActivity homeActivity);
 
     void inject(RegisterActivity registerActivity);
 

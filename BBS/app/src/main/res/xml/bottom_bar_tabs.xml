@@ -2,7 +2,7 @@
 <tabs>
 
     <tab
-        id="@+id/bottom_bar_tab_home"
+        id="@+id/bottom_bar_tab_main"
         icon="@drawable/icon_bottom_bar_home"
         title="首页"
         />
@@ -14,8 +14,8 @@
         />
 
     <tab
-        id="@+id/bottom_bar_tab_personal"
-        icon="@drawable/icon_bottom_bar_personal"
+        id="@+id/bottom_bar_tab_individual"
+        icon="@drawable/icon_bottom_bar_individual"
         title="个人"
         />
 

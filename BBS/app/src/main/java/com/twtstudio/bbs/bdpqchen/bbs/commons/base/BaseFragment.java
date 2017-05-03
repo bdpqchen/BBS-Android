@@ -16,6 +16,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.FragmentModule;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Created by bdpqchen on 17-4-21.
@@ -25,13 +26,13 @@ import butterknife.Unbinder;
  * provided Presenter
  */
 
-public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements BaseView{
+public abstract class BaseFragment<T extends BasePresenter> extends SupportFragment implements BaseView{
 
     protected T mPresenter;
     protected View mView;
     protected Activity mActivity;
     protected Context mContext;
-    private Unbinder mUnbinder;
+    private Unbinder mUnBinder;
 
     protected boolean isInited = false;
 
@@ -43,6 +44,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(getFragmentLayoutId(), null);
+        injectFragment();
         return mView;
     }
 
@@ -50,14 +52,17 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mPresenter.attachView(this);
-        mUnbinder = ButterKnife.bind(this, view);
+        mUnBinder = ButterKnife.bind(this, view);
         if (savedInstanceState == null) {
             if (!isHidden()) {
                 isInited = true;
             }
         } else {
+            // TODO: 17-5-4 if (!isSupportHidden()) {
 
         }
+
+        initFragment();
 
     }
 
@@ -72,7 +77,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mUnbinder.unbind();
+        mUnBinder.unbind();
     }
 
     @Override

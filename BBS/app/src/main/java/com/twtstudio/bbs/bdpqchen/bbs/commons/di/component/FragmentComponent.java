@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.FragmentModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 
 import dagger.Component;
 
@@ -17,6 +18,6 @@ public interface FragmentComponent {
 
     Activity getActivity();
 
-//    void inject();
+    void inject(IndividualFragment individualFragment);
 
 }

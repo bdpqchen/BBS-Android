@@ -26,6 +26,7 @@
             android:layout_marginLeft="@dimen/margin_side_text_input_layout_register"
             android:layout_marginRight="@dimen/margin_side_text_input_layout_register"
             android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
+            android:layout_marginBottom="@dimen/margin_top_text_input_layout_register"
             >
 
             <android.support.design.widget.TextInputLayout
@@ -157,11 +158,11 @@
                 android:layout_margin="8dp"
                 android:layout_gravity="center"
                 android:background="@drawable/circular_border_shape"
-                app:spinning_bar_color="#FFF"
+                app:spinning_bar_color="@color/colorAccent"
                 android:textColor="@color/material_light_white"
                 app:spinning_bar_padding="6dp"
                 app:spinning_bar_width="4dp"
-                android:text="登\t\t录"
+                android:text="注册"
                 />
         </LinearLayout>
 

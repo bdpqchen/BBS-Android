@@ -7,7 +7,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
  * Created by bdpqchen on 17-4-21.
  */
 
-public interface MainContract {
+public interface HomeContract {
 
     interface View extends BaseView{
         void showUpdateDialog(int versionCode);

@@ -3,10 +3,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.login;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
@@ -15,14 +12,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.home.MainActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.replaceUser.ReplaceUserActivity;
 
@@ -140,7 +135,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         PrefUtil.setHadLogin(true);
         mCircularProgressButton.stopAnimation();
         ActivityOptions activityOptions = null;
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             activityOptions = ActivityOptions.makeSceneTransitionAnimation(this, new Pair<>(findViewById(R.id.cp_btn_login), "transition"));
@@ -148,7 +143,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
         if (activityOptions != null) {
             startActivity(intent, activityOptions.toBundle());
-            LogUtil.d("start activity with options");
+//            LogUtil.d("start activity with options");
         } else {
             startActivity(intent);
         }

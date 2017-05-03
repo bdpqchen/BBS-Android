@@ -78,7 +78,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         if (null != mToolbar) {
             setSupportActionBar(mToolbar);
             if (isShowBackArrow()) {
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                if (getSupportActionBar() != null){
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }else{
+
+                }
             }
 
         }
