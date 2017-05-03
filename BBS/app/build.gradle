@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
@@ -24,6 +24,10 @@ android {
         maven { url 'https://jitpack.io' }
     }
 
+   /* compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }*/
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -72,6 +76,7 @@ dependencies {
 
     //Login / Register button
     compile 'com.github.StevenDXC:DxLoadingButton:1.5'
+    compile 'br.com.simplepass:loading-button-android:1.6.5'
 
 
 }

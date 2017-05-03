@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.home;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -71,6 +72,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        getIntent();
+        // TODO: 17-5-3 非登录后跳转到这里，是否渐变
+        // 登录后的渐变,
+        ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_main),
+                "alpha", 0f).setDuration(600);
+        animator.setStartDelay(400);
+        animator.start();
+
+
+
         btnToSecond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

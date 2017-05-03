@@ -41,13 +41,13 @@
                     />
 
                 <EditText
+                    android:id="@+id/et_account"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="用户名"
-                    android:maxLines="1"
                     android:imeOptions="actionNext"
                     android:inputType="text"
-                    android:id="@+id/et_account"
+                    android:maxLines="1"
                     />
 
             </LinearLayout>
@@ -70,13 +70,13 @@
                     />
 
                 <EditText
+                    android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="密码"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:id="@+id/et_password"
                     />
 
             </LinearLayout>
@@ -118,12 +118,27 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
+                android:longClickable="false"
                 app:lb_btnColor="@color/colorPrimary"
                 app:lb_btnRippleColor="#000000"
                 app:lb_btnText="登录"
                 app:lb_resetAfterFailed="true"
-                android:longClickable="false"
 
+                />
+
+            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                android:id="@+id/cp_btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_gravity="center"
+                android:background="@drawable/circular_border_shape"
+                app:spinning_bar_color="#FFF"
+                android:textColor="@color/material_light_white"
+                app:spinning_bar_padding="6dp"
+                app:spinning_bar_width="4dp"
+
+                android:text="登\t\t录"
                 />
 
             <RelativeLayout
@@ -143,27 +158,27 @@
                     />
 
                 <TextView
+                    android:id="@+id/tv_goto_replace_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:clickable="true"
                     android:text="老用户认证>>"
                     android:textSize="@dimen/text_size_16sp"
-                    android:id="@+id/tv_goto_replace_user"
                     />
 
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/tv_no_account_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
+                android:clickable="true"
                 android:text="游客登录>>"
                 android:textColor="@color/material_blue_400"
                 android:textSize="@dimen/text_size_16sp"
-                android:id="@+id/tv_no_account_user"
-                android:clickable="true"
                 />
 
         </LinearLayout>

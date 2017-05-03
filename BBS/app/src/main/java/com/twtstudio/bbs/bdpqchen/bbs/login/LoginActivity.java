@@ -1,11 +1,16 @@
 package com.twtstudio.bbs.bdpqchen.bbs.login;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,9 +18,15 @@ import android.widget.TextView;
 import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.home.MainActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.replaceUser.ReplaceUserActivity;
 
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -29,8 +40,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     AppCompatCheckBox mCheckboxSavePassword;
     @BindView(R.id.tx_forgot_password)
     TextView mTxForgotPassword;
-    @BindView(R.id.loading_btn_login)
-    LoadingButton mLoadingBtnLogin;
     @BindView(R.id.tv_goto_register)
     TextView mTvGotoRegister;
     @BindView(R.id.et_account)
@@ -41,6 +50,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     TextView mTvGotoReplaceUser;
     @BindView(R.id.tv_no_account_user)
     TextView mTvNoAccountUser;
+    @BindView(R.id.cp_btn_login)
+    CircularProgressButton mCircularProgressButton;
 
     @Override
     protected int getLayoutResourceId() {
@@ -86,15 +97,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @OnClick({R.id.checkbox_save_password, R.id.tx_forgot_password, R.id.loading_btn_login, R.id.tv_goto_register,
-            R.id.et_account, R.id.et_password, R.id.tv_goto_replace_user, R.id.tv_no_account_user})
+            R.id.et_account, R.id.et_password, R.id.tv_goto_replace_user, R.id.tv_no_account_user, R.id.cp_btn_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.checkbox_save_password:
                 break;
             case R.id.tx_forgot_password:
-                break;
-            case R.id.loading_btn_login:
-                mLoadingBtnLogin.startLoading();
+                mCircularProgressButton.revertAnimation();
                 break;
             case R.id.tv_goto_register:
                 startActivity(new Intent(this, RegisterActivity.class));
@@ -107,15 +116,42 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 startActivity(new Intent(this, ReplaceUserActivity.class));
                 break;
             case R.id.tv_no_account_user:
+                mCircularProgressButton.doneLoadingAnimation(R.color.colorPrimaryDark, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
+//                mCircularProgressButton.stopAnimation();
+                break;
+            case R.id.cp_btn_login:
+                mCircularProgressButton.startAnimation();
+
+                HandlerUtil.postDelay(new Runnable() {
+                    @Override
+                    public void run() {
+                       loginSuccess();
+                    }
+                }, 2000);
 
                 break;
-
 
         }
 
     }
 
+    public void loginSuccess() {
+//        mCircularProgressButton.doneLoadingAnimation(R.color.material_amber_accent_400, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
+        PrefUtil.setHadLogin(true);
+        mCircularProgressButton.stopAnimation();
+        ActivityOptions activityOptions = null;
+        Intent intent = new Intent(this, MainActivity.class);
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            activityOptions = ActivityOptions.makeSceneTransitionAnimation(this, new Pair<>(findViewById(R.id.cp_btn_login), "transition"));
+        }
 
-
+        if (activityOptions != null) {
+            startActivity(intent, activityOptions.toBundle());
+            LogUtil.d("start activity with options");
+        } else {
+            startActivity(intent);
+        }
+    }
 }
+
