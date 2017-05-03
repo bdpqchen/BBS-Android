@@ -14,6 +14,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerFragmentCompone
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.FragmentComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.FragmentModule;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -26,8 +28,9 @@ import me.yokeyword.fragmentation.SupportFragment;
  * provided Presenter
  */
 
-public abstract class BaseFragment<T extends BasePresenter> extends SupportFragment implements BaseView{
+public abstract class BaseFragment<T extends BasePresenter> extends SupportFragment implements BaseView {
 
+    @Inject
     protected T mPresenter;
     protected View mView;
     protected Activity mActivity;

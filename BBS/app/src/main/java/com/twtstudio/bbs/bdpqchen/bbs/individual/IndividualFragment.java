@@ -7,7 +7,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
  * Created by bdpqchen on 17-5-3.
  */
 
-public class IndividualFragment extends BaseFragment<IndividualPresenter> {
+public class IndividualFragment extends BaseFragment<IndividualPresenter> implements IndividualContract.View {
 
 
     @Override
@@ -23,7 +23,11 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> {
     @Override
     protected void initFragment() {
 
+
+
     }
+
+
 
 
 }

@@ -8,7 +8,7 @@ import javax.inject.Inject;
  * Created by bdpqchen on 17-5-4.
  */
 
-public class IndividualPresenter extends RxPresenter<IndividualFragment> {
+public class IndividualPresenter extends RxPresenter<IndividualContract.View> implements IndividualContract.Presenter {
 
 
 

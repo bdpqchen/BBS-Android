@@ -15,5 +15,6 @@
     <color name="colorBottomSelectedBgForum">#ad3d5cb6</color>
     <color name="colorBottomSelectedBgPersonal">#ad354679</color>
     <color name="colorCheckBoxText">#86dad5</color>
+    <color name="colorPrimaryLight">#6275e2</color>
 
 </resources>
