@@ -74,9 +74,11 @@ dependencies {
     //material design colors and dimens
     compile 'com.dmitrymalkovich.android:material-design-dimens:1.4'
 
-    //Login / Register button
-    compile 'com.github.StevenDXC:DxLoadingButton:1.5'
+    // cooler button
     compile 'br.com.simplepass:loading-button-android:1.6.5'
+
+    //circle image view
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 
 
 }

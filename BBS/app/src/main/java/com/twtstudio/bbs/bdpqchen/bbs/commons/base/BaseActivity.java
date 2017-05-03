@@ -67,7 +67,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
         mUnBinder = ButterKnife.bind(this);
         ActivityManager.getActivityManager().addActivity(this);
-        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimary), 25);
+        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimary), 0);
 
         inject();
         if (mPresenter != null) {
