@@ -60,16 +60,19 @@
             android:maxLines="1"
 
             />
-
-        <com.dx.dxloadingbutton.lib.LoadingButton
-            android:id="@+id/btn_identify"
+        <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+            android:id="@+id/cp_btn_identify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
-            app:lb_btnColor="@color/colorPrimary"
-            app:lb_btnText="验证"
+            android:layout_margin="8dp"
+            android:layout_gravity="center"
+            android:background="@drawable/circular_border_shape"
+            app:spinning_bar_color="#FFF"
+            android:textColor="@color/material_light_white"
+            app:spinning_bar_padding="6dp"
+            app:spinning_bar_width="4dp"
+            android:text="登\t\t录"
             />
-
 
     </LinearLayout>
 

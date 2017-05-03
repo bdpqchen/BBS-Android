@@ -145,9 +145,7 @@
                     android:hint="确认密码"
                     android:inputType="textPassword"
                     android:maxLength="18"
-
                     android:maxLines="1"
-
                     />
 
             </android.support.design.widget.TextInputLayout>

@@ -11,6 +11,7 @@ import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -27,8 +28,8 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
     EditText mOldName;
     @BindView(R.id.oldPIN)
     EditText mOldPIN;
-    @BindView(R.id.btn_identify)
-    LoadingButton mBtnIdentify;
+    @BindView(R.id.cp_btn_identify)
+    CircularProgressButton mCpBtnIdentify;
 
     @Override
     protected int getLayoutResourceId() {
@@ -72,7 +73,7 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
 
     }
 
-    @OnClick({R.id.oldAccount, R.id.oldName, R.id.oldPIN, R.id.btn_identify})
+    @OnClick({R.id.oldAccount, R.id.oldName, R.id.oldPIN, R.id.cp_btn_identify})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.oldAccount:
@@ -81,8 +82,8 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
                 break;
             case R.id.oldPIN:
                 break;
-            case R.id.btn_identify:
-                mBtnIdentify.startLoading();
+            case R.id.cp_btn_identify:
+                mCpBtnIdentify.startAnimation();
                 break;
         }
     }
