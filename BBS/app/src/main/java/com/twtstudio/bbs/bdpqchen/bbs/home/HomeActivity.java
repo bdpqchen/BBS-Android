@@ -129,27 +129,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         });
 
 
-        /*
-        mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelected(@IdRes int i) {
-                if (i == R.id.bottom_bar_tab_main){
-
-                }else if (i == R.id.bottom_bar_tab_forum){
-
-                }else if (i == R.id.bottom_bar_tab_individual){
-
-                }
-            }
-        });*/
-
-        /*btnToSecond.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, SecondActivity.class));
-            }
-        });*/
-//        btnToSecond.setOnClickListener();
         mPresenter.checkUpdate(1);
 
 
@@ -171,30 +150,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         }
         return mMainFragment;
     }
-
-   /* @OnClick({R.id.btn_snack_normal, R.id.btn_snack_yellow, R.id.btn_snack_error, R.id.btn_snack_yellow_action, R.id.btn_logout, R.id.bottom_bar})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_snack_normal:
-                SnackBarUtil.normal(this, TEXT_SNACK_BAR);
-                break;
-            case R.id.btn_snack_yellow:
-                SnackBarUtil.notice(this, TEXT_SNACK_BAR);
-                break;
-            case R.id.btn_snack_error:
-                SnackBarUtil.error(this, TEXT_SNACK_BAR);
-                break;
-            case R.id.btn_snack_yellow_action:
-                SnackBarUtil.normal(this, TEXT_SNACK_BAR);
-                break;
-            case R.id.btn_logout:
-                PrefUtil.setHadLogin(false);
-                break;
-            case R.id.bottom_bar:
-
-                break;
-        }
-    }*/
 
     @Override
     public void showUpdateDialog(int versionCode) {

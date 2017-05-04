@@ -16,5 +16,6 @@ public class ForumFragment extends SimpleFragment {
     @Override
     protected void initFragments() {
 
+
     }
 }

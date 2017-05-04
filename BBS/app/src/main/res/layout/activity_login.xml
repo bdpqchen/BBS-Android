@@ -12,11 +12,30 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="240dp"
-            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="256dp"
+            >
+
+            <ImageView
+                android:id="@+id/iv_login_banner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/avatar1"
+                />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/avatar2"
+                android:id="@+id/civ_avatar"
+                app:civ_border_color="@color/material_light_white"
+                app:civ_border_width="1dp"
+                />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,24 +105,14 @@
                 android:layout_height="wrap_content"
                 >
 
-                <android.support.v7.widget.AppCompatCheckBox
-                    android:id="@+id/checkbox_save_password"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="@dimen/margin_top_sub_selector"
-                    android:text="记住密码"
-                    android:textColor="@color/material_cyan_600"
-                    android:textSize="@dimen/text_size_16sp"
-                    />
-
                 <TextView
                     android:id="@+id/tx_forgot_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/checkbox_save_password"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
                     android:clickable="true"
                     android:text="忘记密码?"
                     android:textColor="@color/material_red_300"
@@ -116,14 +125,14 @@
                 android:id="@+id/cp_btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:layout_gravity="center"
+                android:layout_margin="8dp"
                 android:background="@drawable/circular_border_shape"
-                app:spinning_bar_color="@color/colorAccent"
+                android:text="登\t\t录"
                 android:textColor="@color/material_light_white"
+                app:spinning_bar_color="@color/colorAccent"
                 app:spinning_bar_padding="6dp"
                 app:spinning_bar_width="4dp"
-                android:text="登\t\t录"
                 />
 
             <RelativeLayout
@@ -139,6 +148,7 @@
                     android:layout_alignParentStart="true"
                     android:clickable="true"
                     android:text="新用户注册>>"
+                    android:textColor="@color/material_blue_400"
                     android:textSize="@dimen/text_size_16sp"
                     />
 
@@ -149,6 +159,7 @@
                     android:layout_alignParentEnd="true"
                     android:clickable="true"
                     android:text="老用户认证>>"
+                    android:textColor="@color/material_blue_400"
                     android:textSize="@dimen/text_size_16sp"
                     />
 
@@ -162,7 +173,6 @@
                 android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:text="游客登录>>"
-                android:textColor="@color/material_blue_400"
                 android:textSize="@dimen/text_size_16sp"
                 />
 

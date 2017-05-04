@@ -38,11 +38,13 @@
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
             />
 
+        <activity android:name=".replaceUser.replacePassword.ReplacePasswordActivity"
+            />
+
         <activity
             android:name=".login.LoginActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
             />
-
 
         <activity
             android:name=".test.SecondActivity"

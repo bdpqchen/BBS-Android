@@ -31,8 +31,6 @@ import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
 
-    @BindView(R.id.checkbox_save_password)
-    AppCompatCheckBox mCheckboxSavePassword;
     @BindView(R.id.tx_forgot_password)
     TextView mTxForgotPassword;
     @BindView(R.id.tv_goto_register)
@@ -91,12 +89,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     }
 
-    @OnClick({R.id.checkbox_save_password, R.id.tx_forgot_password, R.id.tv_goto_register,
+    @OnClick({R.id.tx_forgot_password, R.id.tv_goto_register,
             R.id.et_account, R.id.et_password, R.id.tv_goto_replace_user, R.id.tv_no_account_user, R.id.cp_btn_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.checkbox_save_password:
-                break;
+
             case R.id.tx_forgot_password:
                 mCircularProgressButton.revertAnimation();
                 break;
@@ -111,19 +108,20 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 startActivity(new Intent(this, ReplaceUserActivity.class));
                 break;
             case R.id.tv_no_account_user:
+
+                loginSuccess();
                 mCircularProgressButton.doneLoadingAnimation(R.color.colorPrimaryDark, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
 //                mCircularProgressButton.stopAnimation();
                 break;
             case R.id.cp_btn_login:
                 mCircularProgressButton.startAnimation();
-
-                HandlerUtil.postDelay(new Runnable() {
+                /*HandlerUtil.postDelay(new Runnable() {
                     @Override
                     public void run() {
                        loginSuccess();
                     }
                 }, 2000);
-
+*/
                 break;
 
         }
@@ -132,7 +130,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     public void loginSuccess() {
 //        mCircularProgressButton.doneLoadingAnimation(R.color.material_amber_accent_400, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
-        PrefUtil.setHadLogin(true);
+//        PrefUtil.setHadLogin(true);
         mCircularProgressButton.stopAnimation();
         ActivityOptions activityOptions = null;
         Intent intent = new Intent(this, HomeActivity.class);

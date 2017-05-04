@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.replaceUser;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.replaceUser.replacePassword.ReplacePasswordActivity;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
@@ -63,7 +65,7 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
 
     @Override
     public void replaceUserResults() {
-
+        startActivity(new Intent(this, ReplacePasswordActivity.class));
     }
 
     @Override
@@ -83,6 +85,7 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
                 break;
             case R.id.cp_btn_identify:
                 mCpBtnIdentify.startAnimation();
+                replaceUserResults();
                 break;
         }
     }
