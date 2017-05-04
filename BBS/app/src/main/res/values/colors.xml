@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#2385df</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="nightModeDim">#000000</color>
 
-    <color name="colorMainBg">#dddddd</color>
+    <color name="colorMainBgLight">#fefefe</color>
+
+    <color name="colorMainBg">#EEEEEE</color>
     <color name="colorBottomBg">#ffffff</color>
 
     <color name="colorSnackNormalBg">#fcfc37</color>
@@ -15,6 +17,10 @@
     <color name="colorBottomSelectedBgForum">#ad3d5cb6</color>
     <color name="colorBottomSelectedBgPersonal">#ad354679</color>
     <color name="colorCheckBoxText">#86dad5</color>
-    <color name="colorPrimaryLight">#6275e2</color>
+    <color name="colorPrimaryLight">#1bbfe4</color>
+    <color name="colorHonorTextView">#f49979</color>
+    <color name="colorMainText">#FEFBF4</color>
+    <color name="colorTvBlackMain">#dc0c0c0c</color>
+    <color name="colorIndividualTagNum">#F26428</color>
 
 </resources>

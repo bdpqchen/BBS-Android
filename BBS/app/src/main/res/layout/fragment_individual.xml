@@ -1,72 +1,289 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/colorMainBg"
+    >
 
-    <RelativeLayout
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         >
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:background="@drawable/shade_individual_banner_bg"
-
-            />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="16dp"
-            android:text="个人中心"
-            android:textColor="@color/material_light_white"
-            android:textSize="18sp"/>
-
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="104dp"
-            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             >
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/civ_avatar"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/icon_login_account"
-                app:civ_border_color="@color/material_light_white"
-                app:civ_border_width="2dp"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="256dp"
+                android:background="@drawable/shade_individual_banner_bg"
                 />
 
             <TextView
-                android:layout_width="72dp"
-                android:layout_height="24dp"
-                android:layout_alignBaseline="@+id/civ_avatar"
-                android:layout_alignParentBottom="true"
+                android:id="@+id/tv_personal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/honor_shape_bg"
-                android:gravity="center"
-                android:text="一般站友"
+                android:layout_margin="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="个人中心"
                 android:textColor="@color/material_light_white"
+                android:textSize="18sp"
                 />
+
+            <RelativeLayout
+                android:id="@+id/rl_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="104dp"
+                android:layout_alignTop="@+id/tv_personal"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="24dp"
+                >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/civ_avatar"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/icon_login_account"
+                    app:civ_border_color="@color/material_light_white"
+                    app:civ_border_width="2dp"
+                    />
+
+                <TextView
+                    android:layout_width="64dp"
+                    android:layout_height="18dp"
+                    android:layout_alignBaseline="@+id/civ_avatar"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/honor_shape_bg"
+                    android:gravity="center"
+                    android:text="一般站友"
+                    android:textColor="@color/material_light_white"
+                    android:textSize="12sp"
+                    />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl_avatar"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="4dp"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:maxLines="1"
+                    android:text="jenny"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="20sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="你还没有签名哦哦哦哦哦～"
+                    android:textColor="@color/colorMainText"
+                    />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.GridLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_nickname"
+                android:layout_marginTop="4dp"
+                app:columnCount="5"
+                app:rowCount="2"
+                >
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="999999+"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="18sp"
+                    app:layout_column="0"
+                    app:layout_gravity="center"
+                    app:layout_row="0"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="积分"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="13sp"
+                    app:layout_column="0"
+                    app:layout_columnWeight="1"
+                    app:layout_gravity="center"
+                    app:layout_row="1"
+                    />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/colorMainText"
+                    app:layout_column="1"
+                    app:layout_columnWeight="1"
+                    app:layout_gravity="center"
+                    app:layout_row="0"
+                    app:layout_rowSpan="2"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="222"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="18sp"
+                    app:layout_column="2"
+                    app:layout_columnWeight="1"
+                    app:layout_gravity="center"
+                    app:layout_row="0"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发帖"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="13sp"
+                    app:layout_column="2"
+                    app:layout_columnWeight="1"
+                    app:layout_gravity="center"
+                    app:layout_row="1"
+
+                    />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/colorMainText"
+                    app:layout_column="3"
+                    app:layout_columnWeight="1"
+                    app:layout_gravity="center"
+                    app:layout_row="0"
+                    app:layout_rowSpan="2"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="333"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="18sp"
+                    app:layout_column="4"
+                    app:layout_columnWeight="1"
+                    app:layout_gravity="center"
+                    app:layout_row="0"
+                    android:id="@+id/individual_info_past_day_with_you"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="站龄"
+                    android:textColor="@color/colorMainText"
+                    android:textSize="13sp"
+                    app:layout_column="4"
+                    app:layout_columnWeight="1"
+                    app:layout_gravity="center"
+                    app:layout_row="1"
+                    />
+
+            </android.support.v7.widget.GridLayout>
 
         </RelativeLayout>
 
 
-    </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:text="Individual Fragment"
-        />
+            <ListView
+                android:id="@+id/lv_individual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorMainBgLight"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                />
 
-</LinearLayout>
+            <RelativeLayout
+                android:id="@+id/individual_item_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorMainBgLight"
+                >
+
+                <ImageView
+                    android:id="@+id/individual_item_iv_icon_start"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="16dp"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_my_settings"
+                    />
+
+                <TextView
+                    android:id="@+id/individual_item_tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_toEndOf="@+id/individual_item_iv_icon_start"
+                    android:text="通用设置"
+                    android:textColor="@color/colorTvBlackMain"
+                    android:textSize="18sp"
+                    />
+
+                <ImageView
+                    android:id="@+id/individual_item_iv_icon_end"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                    />
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

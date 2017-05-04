@@ -27,6 +27,10 @@ public final class ResourceUtil {
         return ContextCompat.getDrawable(activity, resourceId);
     }
 
+    public static Drawable getDrawable(Context context, int resourceId){
+        return ContextCompat.getDrawable(context, resourceId);
+    }
+
     public static Bitmap getBitmapFromResource(Activity activity, int resourceId){
         return BitmapFactory.decodeResource(activity.getResources(), resourceId);
     }

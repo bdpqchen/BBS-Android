@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+
+    <RelativeLayout
+        android:id="@+id/individual_item_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/individual_item_iv_icon_start"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            android:padding="2dp"
+            />
+
+        <TextView
+            android:id="@+id/individual_item_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_toEndOf="@+id/individual_item_iv_icon_start"
+            android:text="我的消息"
+            android:textColor="@color/colorTvBlackMain"
+            android:textSize="18sp"
+            />
+
+        <TextView
+            android:id="@+id/individual_item_tv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/individual_item_tv_title"
+            android:background="@drawable/individual_tag_num_shape"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
+            android:text="99+"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/individual_item_iv_icon_end"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_below="@+id/individual_item_iv_icon_start"
+            android:layout_marginStart="56dp"
+            android:background="@color/material_grey_800"
+            android:id="@+id/individual_item_v_line"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>

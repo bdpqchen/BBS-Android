@@ -20,5 +20,16 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="tvTextSizeNormal">
+        <item name="android:textSize">18sp</item>
+        <item name="android:color">@color/colorMainText</item>
+    </style>
+
+    <style name="tvTextSizeVeryLittle">
+        <item name="android:textSize">10sp</item>
+        <item name="android:color">@color/colorMainText</item>
+    </style>
+
+
 
 </resources>
