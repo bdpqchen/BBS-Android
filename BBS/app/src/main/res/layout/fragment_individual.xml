@@ -230,6 +230,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@color/colorMainBgLight"
+                android:foreground="@drawable/selector_foreground_settings"
+                android:clickable="true"
+                android:layout_marginBottom="16dp"
                 >
 
                 <ImageView

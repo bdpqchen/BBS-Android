@@ -93,8 +93,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        //键盘挡住输入框
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
         super.onCreate(savedInstanceState);
 //        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimary), 0);
 //        StatusBarUtil.setTransparent(this);

@@ -120,10 +120,5 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     }
 
-    /*
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        ActivityManager.getActivityManager().finishActivity(this);
-    }*/
+
 }
