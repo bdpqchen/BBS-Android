@@ -44,6 +44,7 @@
         <activity
             android:name=".login.LoginActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+
             />
 
         <activity

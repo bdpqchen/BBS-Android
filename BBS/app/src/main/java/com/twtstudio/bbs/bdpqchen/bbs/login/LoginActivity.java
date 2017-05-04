@@ -5,13 +5,18 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
@@ -45,7 +50,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     TextView mTvNoAccountUser;
     @BindView(R.id.cp_btn_login)
     CircularProgressButton mCircularProgressButton;
-
+    @BindView(R.id.iv_login_banner)
+    ImageView mIvBanner;
+    @BindView(R.id.view_need_offset)
+    LinearLayout mNeedOffset;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_login;
@@ -85,7 +93,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         super.onCreate(savedInstanceState);
+//        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimary), 0);
+//        StatusBarUtil.setTransparent(this);
+        StatusBarUtil.setTranslucentForImageView(this, 38, mNeedOffset);
+
 
     }
 
