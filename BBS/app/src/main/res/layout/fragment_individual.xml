@@ -23,27 +23,15 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="256dp"
+                android:layout_height="248dp"
                 android:background="@drawable/shade_individual_banner_bg"
                 />
 
-            <TextView
-                android:id="@+id/tv_personal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="个人中心"
-                android:textColor="@color/material_light_white"
-                android:textSize="18sp"
-                />
 
             <RelativeLayout
                 android:id="@+id/rl_avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="104dp"
-                android:layout_alignTop="@+id/tv_personal"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="24dp"
                 >
@@ -53,7 +41,7 @@
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/icon_login_account"
+                    android:src="@drawable/avatar1"
                     app:civ_border_color="@color/material_light_white"
                     app:civ_border_width="2dp"
                     />
@@ -191,6 +179,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/individual_info_past_day_with_you"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="333"
@@ -200,7 +189,6 @@
                     app:layout_columnWeight="1"
                     app:layout_gravity="center"
                     app:layout_row="0"
-                    android:id="@+id/individual_info_past_day_with_you"
                     />
 
 

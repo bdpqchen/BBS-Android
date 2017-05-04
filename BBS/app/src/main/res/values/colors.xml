@@ -20,7 +20,7 @@
     <color name="colorPrimaryLight">#1bbfe4</color>
     <color name="colorHonorTextView">#f49979</color>
     <color name="colorMainText">#FEFBF4</color>
-    <color name="colorTvBlackMain">#dc0c0c0c</color>
+    <color name="colorTvBlackMain">#ad0c0c0c</color>
     <color name="colorIndividualTagNum">#F26428</color>
 
 </resources>
