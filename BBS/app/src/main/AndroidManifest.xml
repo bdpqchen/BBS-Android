@@ -48,6 +48,10 @@
             />
 
         <activity
+            android:name=".individual.SettingsActivity"
+
+            />
+        <activity
             android:name=".test.SecondActivity"
 
             />

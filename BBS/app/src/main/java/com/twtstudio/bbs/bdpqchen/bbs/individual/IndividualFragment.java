@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual;
 
+import android.content.Intent;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
@@ -68,6 +69,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
             @Override
             public void onClick(View v) {
                 LogUtil.d("hhh clicked ");
+                startActivity(new Intent(mContext, SettingsActivity.class));
             }
         });
 
