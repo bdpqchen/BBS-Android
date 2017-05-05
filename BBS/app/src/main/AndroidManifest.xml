@@ -48,7 +48,7 @@
             />
 
         <activity
-            android:name=".individual.SettingsActivity"
+            android:name=".individual.settings.SettingsActivity"
 
             />
         <activity

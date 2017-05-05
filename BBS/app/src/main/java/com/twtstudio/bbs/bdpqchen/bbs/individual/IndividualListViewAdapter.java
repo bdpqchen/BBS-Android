@@ -50,21 +50,21 @@ public class IndividualListViewAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        IndividualListModel model = (IndividualListModel) getItem(position);
+        IndividualListModel item = (IndividualListModel) getItem(position);
         if (convertView == null){
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_list_view_individual, parent, false);
         }
         TextView textView = (TextView) convertView.findViewById(R.id.individual_item_tv_title);
-        textView.setText(model.title);
+        textView.setText(item.title);
 //        ImageView imageView = (ImageView) convertView.findViewById(R.id.individual_item_iv_icon_end);
         ImageView imageViewStart = (ImageView) convertView.findViewById(R.id.individual_item_iv_icon_start);
-        imageViewStart.setImageDrawable(ResourceUtil.getDrawable(mContext, model.iconStart));
-//        ImageUtil.load(mContext, model.iconStart, imageViewStart);
+        imageViewStart.setImageDrawable(ResourceUtil.getDrawable(mContext, item.iconStart));
+//        ImageUtil.load(mContext, item.iconStart, imageViewStart);
 //        ImageUtil.load(mContext, R.drawable.ic_keyboard_arrow_right_black_24dp, imageView);
-        if (model.hasTag){
+        if (item.hasTag){
             TextView tvTitle = (TextView) convertView.findViewById(R.id.individual_item_tv_tag);
             tvTitle.setVisibility(View.VISIBLE);
-            tvTitle.setText(model.tagNum + "");
+            tvTitle.setText(item.tagNum + "");
         }
 
         View line = convertView.findViewById(R.id.individual_item_v_line);

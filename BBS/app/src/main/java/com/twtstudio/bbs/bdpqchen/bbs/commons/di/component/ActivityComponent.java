@@ -2,7 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.di.component;
 
 import android.app.Activity;
 
-import com.twtstudio.bbs.bdpqchen.bbs.individual.SettingsActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerActivity;
@@ -33,5 +33,5 @@ public interface ActivityComponent {
 
     void inject(ReplacePasswordActivity replacePasswordActivity);
 
-    void inject(SettingsActivity settingsActivity);
+//    void inject(SettingsActivity settingsActivity);
 }

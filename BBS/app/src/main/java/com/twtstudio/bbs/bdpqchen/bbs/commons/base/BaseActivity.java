@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.base;
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
@@ -15,6 +16,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerActivityComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 
@@ -55,7 +57,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         super.onCreate(savedInstanceState);
 
         if (isSupportNightMode()) {
-            if (PrefUtil.isAutoNightMode()) {
+            // TODO: 17-5-6 将权限检查写一个Util 或使用第三方库
+            PackageManager pm = getPackageManager();
+            boolean permission = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.LOCATION", getPackageName()));
+            LogUtil.d(permission);
+            if (PrefUtil.isAutoNightMode() && permission) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
             } else {
                 AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
@@ -78,16 +84,16 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         if (null != mToolbar) {
             setSupportActionBar(mToolbar);
             if (isShowBackArrow()) {
-                if (getSupportActionBar() != null){
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                }else{
+                } else {
 
                 }
             }
         }
 
         Activity activity = supportSlideBack();
-        if (activity != null){
+        if (activity != null) {
             // TODO: 17-4-26 one hand mode
             SlideConfig slideConfig = new SlideConfig.Builder().rotateScreen(true).edgeOnly(true).lock(false)
                     .edgePercent(0.2f).slideOutPercent(0.3f).create();

@@ -5,9 +5,12 @@
     <color name="colorAccent">#FF4081</color>
     <color name="nightModeDim">#000000</color>
 
+    <color name="colorMainBgLight">#111111</color>
+
     <color name="colorMainBg">#222222</color>
     <color name="colorBottomBg">#111111</color>
 
+    <color name="colorTvBlackMain">#e5f4f0f0</color>
 
     <color name="colorSnackNormalBg">#fcfc37</color>
 

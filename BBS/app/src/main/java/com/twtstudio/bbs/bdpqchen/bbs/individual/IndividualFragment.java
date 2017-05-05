@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -14,8 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.ScrollProblemHelper;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;

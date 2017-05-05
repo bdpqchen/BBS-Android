@@ -1,8 +1,10 @@
-package com.twtstudio.bbs.bdpqchen.bbs.individual;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.settings;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -14,7 +16,7 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-5-5.
  */
 
-public class SettingsActivity extends BaseActivity {
+public class SettingsActivity extends BaseActivity{
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -42,7 +44,7 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void inject() {
-        getActivityComponent().inject(this);
+//        getActivityComponent().inject(this);
     }
 
     @Override
@@ -53,6 +55,11 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SettingFragment1 fragment1 = new SettingFragment1();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fl_settings_container_1, fragment1);
+        fragmentTransaction.commit();
 
     }
 }
