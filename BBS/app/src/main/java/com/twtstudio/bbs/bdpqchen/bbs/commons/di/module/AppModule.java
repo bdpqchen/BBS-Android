@@ -30,7 +30,6 @@ public class AppModule {
     }
 
     @Provides
-//    @PerApp
     @Singleton
     RxDoHttpClient provideRxDoHttpClient(){
         return new RxDoHttpClient();
