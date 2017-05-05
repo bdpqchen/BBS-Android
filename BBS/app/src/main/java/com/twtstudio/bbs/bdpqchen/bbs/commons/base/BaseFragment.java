@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,8 +63,8 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
             // TODO: 17-5-4 if (!isSupportHidden()) {
 
         }
-
         initFragment();
+
 
     }
 
@@ -73,7 +72,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
     public void onAttach(Context context) {
         mActivity = (Activity) context;
         mContext = context;
-//        mPresenter = new XXXPresenter();
         super.onAttach(context);
     }
 

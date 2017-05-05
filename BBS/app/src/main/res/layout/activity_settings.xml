@@ -38,5 +38,11 @@
         android:id="@+id/tv_logout"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="start second act"
+        android:id="@+id/btn_start_second"
+        />
 
 </LinearLayout>

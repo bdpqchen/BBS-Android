@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import com.jaeger.library.StatusBarUtil;
 import com.oubowu.slideback.SlideBackHelper;
 import com.oubowu.slideback.SlideConfig;
+import com.oubowu.slideback.widget.SlideBackLayout;
 import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
@@ -38,7 +39,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     private Toolbar mToolbar;
     private Unbinder mUnBinder;
-    public SlideConfig mSlideConfig;
+    public SlideBackLayout mSlideBackLayout;
 
     protected abstract int getLayoutResourceId();
 
@@ -62,7 +63,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
             boolean permission = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.LOCATION", getPackageName()));
             LogUtil.d(permission);
             if (PrefUtil.isAutoNightMode() && permission) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
             } else {
                 AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
             }
@@ -97,7 +98,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
             // TODO: 17-4-26 one hand mode
             SlideConfig slideConfig = new SlideConfig.Builder().rotateScreen(true).edgeOnly(true).lock(false)
                     .edgePercent(0.2f).slideOutPercent(0.3f).create();
-            SlideBackHelper.attach(activity, App.getActivityHelper(), slideConfig, null);
+            mSlideBackLayout = SlideBackHelper.attach(activity, App.getActivityHelper(), slideConfig, null);
         }
 
 

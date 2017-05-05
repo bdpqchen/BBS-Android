@@ -43,10 +43,11 @@ public class SettingFragment1 extends BaseFragment<SettingsPresenter> {
     @Override
     protected void initFragment() {
 
-        initDataSets();
+//        initDataSets();
 
-        mSettingsList.setAdapter(new SettingsFragmentAdapter1(mContext));
 
+        mSettingsList.setAdapter(new SettingsFragmentAdapter1(mContext, this.getActivity(), this));
+//        getActivity().recreate();
     }
 
     private void initDataSets() {
@@ -62,6 +63,7 @@ public class SettingFragment1 extends BaseFragment<SettingsPresenter> {
                     break;
                 case 2 :
                     model.status = PrefUtil.isNightMode();
+                    break;
                 case 3 :
                     model.status = PrefUtil.isAutoNightMode();
                     break;

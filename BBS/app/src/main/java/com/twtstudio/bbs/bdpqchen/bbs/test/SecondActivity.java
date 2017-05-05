@@ -13,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
 import butterknife.BindView;
@@ -71,7 +72,6 @@ public class SecondActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 PrefUtil.setIsNightMode(isChecked);
-                ActivityManager.getActivityManager().recreateAllActivity(SecondActivity.class);
                 startMySelf();
             }
 
@@ -80,9 +80,19 @@ public class SecondActivity extends BaseActivity {
 
     public void startMySelf() {
         //方案1
+        HandlerUtil.postDelay(new Runnable() {
+            @Override
+            public void run() {
+                ActivityManager.getActivityManager().recreateAllActivity(SecondActivity.class);
+//                mSlideBackLayout.lock(true);
+            }
+        }, 100);
+
+//        mSlideBackLayout.lock(true);
         ActivityManager.getActivityManager().finishActivity(this);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         startActivity(getIntent());
+
         //方案2
 //        Activity activity = this;
 //        activity.getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);

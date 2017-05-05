@@ -82,7 +82,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
             if (i == 0){
                 temp.title = "我的消息";
                 temp.hasTag = true;
-                temp.tagNum = 98;
+                temp.tagNum = 99;
                 temp.iconStart = R.drawable.icon_ll_my_message;
             }else{
                 temp.hasTag = false;

@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
@@ -28,6 +27,7 @@ public class SettingsFragmentAdapter1 extends BaseAdapter {
 
     private Context mContext;
     private Activity mActivity;
+    private SettingFragment1 mFragment;
 
     private List<SettingsModel1> mDataSets = new ArrayList<>();
     private String[] titles = new String[]{
@@ -37,11 +37,11 @@ public class SettingsFragmentAdapter1 extends BaseAdapter {
             "自动夜间模式"
     };
 
-
-    public SettingsFragmentAdapter1(Context context) {
+    public SettingsFragmentAdapter1(Context context, Activity act, SettingFragment1 fragment) {
         initDataSets();
         mContext = context;
-        mActivity = (Activity) context;
+        mActivity = act;
+        mFragment = fragment;
 
     }
 
@@ -57,6 +57,7 @@ public class SettingsFragmentAdapter1 extends BaseAdapter {
                     break;
                 case 2 :
                     model.status = PrefUtil.isNightMode();
+                    break;
                 case 3 :
                     model.status = PrefUtil.isAutoNightMode();
                     break;
@@ -100,7 +101,6 @@ public class SettingsFragmentAdapter1 extends BaseAdapter {
                 listener = new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
                     }
                 };
                 break;
@@ -116,10 +116,11 @@ public class SettingsFragmentAdapter1 extends BaseAdapter {
                 listener = new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        PrefUtil.setIsNightMode(isChecked);
-                        ActivityManager.getActivityManager().recreateAllActivity(SettingsActivity.class);
-                        startMySelf();
-                        LogUtil.d("set night mode");
+//                        PrefUtil.setIsNightMode(isChecked);
+//                        ActivityManager.getActivityManager().recreateAllActivity(SettingsActivity.class);
+//                        LogUtil.d(PrefUtil.isNightMode());
+//                        LogUtil.d("set night mode");
+//                        startMySelf();
                     }
                 };
                 break;
@@ -142,21 +143,11 @@ public class SettingsFragmentAdapter1 extends BaseAdapter {
 
     public void startMySelf() {
         //方案1
-        ActivityManager.getActivityManager().finishActivity(mActivity);
-        mActivity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//        mFragment.pop();
+//        ActivityManager.getActivityManager().finishActivity(mActivity);
+//        mActivity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 //        mActivity.startActivity(mActivity.getIntent());
-        mActivity.startActivity(mActivity.getIntent());
-        //方案2
-//        Activity activity = this;
-//        activity.getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
-//        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-//        activity.recreate();
-        //方案3
-        /*Intent intent = new Intent(this, SecondActivity.class);
-        new BaseViewHelper
-                .Builder(this, view)
-                .startActivity(intent);
-        */
+
     }
 
     //不能是private
