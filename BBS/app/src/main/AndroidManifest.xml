@@ -36,21 +36,21 @@
             />
 
         <activity
-            android:name=".register.RegisterActivity"
+            android:name=".auth.register.RegisterActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
             />
 
 
         <activity
-            android:name=".replaceUser.ReplaceUserActivity"
+            android:name=".auth.replaceUser.ReplaceUserActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
             />
 
-        <activity android:name=".replaceUser.replacePassword.ReplacePasswordActivity"
+        <activity android:name=".auth.replaceUser.replacePassword.ReplacePasswordActivity"
             />
 
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".auth.login.LoginActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
 
             />

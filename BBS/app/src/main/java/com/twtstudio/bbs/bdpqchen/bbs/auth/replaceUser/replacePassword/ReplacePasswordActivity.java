@@ -1,12 +1,10 @@
-package com.twtstudio.bbs.bdpqchen.bbs.register;
+package com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.replacePassword;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 
-import com.oubowu.slideback.SlideBackHelper;
-import com.oubowu.slideback.widget.SlideBackLayout;
-import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -14,23 +12,22 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import butterknife.BindView;
 
 /**
- * Created by bdpqchen on 17-5-2.
+ * Created by bdpqchen on 17-5-5.
  */
 
-public class RegisterActivity extends BaseActivity<RegisterPresenter> implements RegisterContract.View {
-
+public class ReplacePasswordActivity extends BaseActivity<ReplacePasswordPresenter> implements ReplacePasswordContract.View{
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_register;
+        return R.layout.activity_replace_password;
     }
 
     @Override
     protected Toolbar getToolbarView() {
-        mToolbar.setTitle("新用户注册");
+        mToolbar.setTitle("重置密码");
         return mToolbar;
     }
 
@@ -56,14 +53,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-
-    }
-
-    @Override
-    public void registerResults() {
 
     }
 
@@ -71,7 +62,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     protected void onResume() {
         super.onResume();
         if (mSlideBackLayout != null){
-            mSlideBackLayout.lock(PrefUtil.isSlideBackMode());
+            mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         }
 
     }

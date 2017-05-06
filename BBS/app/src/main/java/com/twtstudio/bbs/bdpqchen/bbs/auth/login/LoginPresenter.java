@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.login;
+package com.twtstudio.bbs.bdpqchen.bbs.auth.login;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 

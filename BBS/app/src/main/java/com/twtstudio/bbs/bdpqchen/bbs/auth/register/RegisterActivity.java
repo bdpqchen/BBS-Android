@@ -1,8 +1,7 @@
-package com.twtstudio.bbs.bdpqchen.bbs.replaceUser.replacePassword;
+package com.twtstudio.bbs.bdpqchen.bbs.auth.register;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -12,22 +11,23 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import butterknife.BindView;
 
 /**
- * Created by bdpqchen on 17-5-5.
+ * Created by bdpqchen on 17-5-2.
  */
 
-public class ReplacePasswordActivity extends BaseActivity<ReplacePasswordPresenter> implements ReplacePasswordContract.View{
+public class RegisterActivity extends BaseActivity<RegisterPresenter> implements RegisterContract.View {
+
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_replace_password;
+        return R.layout.activity_register;
     }
 
     @Override
     protected Toolbar getToolbarView() {
-        mToolbar.setTitle("重置密码");
+        mToolbar.setTitle("新用户注册");
         return mToolbar;
     }
 
@@ -53,8 +53,14 @@ public class ReplacePasswordActivity extends BaseActivity<ReplacePasswordPresent
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+
+    }
+
+    @Override
+    public void registerResults() {
 
     }
 
@@ -62,7 +68,7 @@ public class ReplacePasswordActivity extends BaseActivity<ReplacePasswordPresent
     protected void onResume() {
         super.onResume();
         if (mSlideBackLayout != null){
-            mSlideBackLayout.lock(PrefUtil.isSlideBackMode());
+            mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         }
 
     }

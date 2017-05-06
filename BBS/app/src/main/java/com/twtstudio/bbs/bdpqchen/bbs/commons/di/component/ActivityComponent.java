@@ -2,14 +2,13 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.di.component;
 
 import android.app.Activity;
 
-import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.login.LoginActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.register.RegisterActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.replaceUser.replacePassword.ReplacePasswordActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.replaceUser.ReplaceUserActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.replacePassword.ReplacePasswordActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
 
 import dagger.Component;
 

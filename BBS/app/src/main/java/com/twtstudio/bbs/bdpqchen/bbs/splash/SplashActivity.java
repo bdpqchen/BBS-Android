@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.login.LoginActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 
 /**
  * Created by bdpqchen on 17-5-2.

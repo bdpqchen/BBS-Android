@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.replaceUser;
+package com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;

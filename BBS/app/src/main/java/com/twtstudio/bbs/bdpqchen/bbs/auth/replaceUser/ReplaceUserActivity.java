@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.replaceUser;
+package com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import android.widget.EditText;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.replaceUser.replacePassword.ReplacePasswordActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.replacePassword.ReplacePasswordActivity;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
@@ -96,7 +96,7 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
     protected void onResume() {
         super.onResume();
         if (mSlideBackLayout != null){
-            mSlideBackLayout.lock(PrefUtil.isSlideBackMode());
+            mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         }
 
     }

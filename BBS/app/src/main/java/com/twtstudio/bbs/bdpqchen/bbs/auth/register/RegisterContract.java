@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.register;
+package com.twtstudio.bbs.bdpqchen.bbs.auth.register;
 
 import android.os.Bundle;
 
