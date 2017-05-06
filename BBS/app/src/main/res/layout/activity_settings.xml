@@ -13,11 +13,93 @@
         android:layout_height="wrap_content"
         />
 
-    <FrameLayout
+    <android.support.v7.widget.SwitchCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/fl_settings_container_1"
+        android:paddingStart="@dimen/padding_setting_list_start"
+        android:paddingEnd="@dimen/padding_setting_list_start"
+        android:paddingTop="@dimen/padding_setting_list_top"
+        android:paddingBottom="@dimen/padding_setting_list_top"
+        android:text="离线接收消息提醒"
+        android:textColor="@color/colorTvBlackMain"
+        android:textSize="@dimen/text_size_settings_list_view"
+        android:id="@+id/switch_no_network_message"
+        android:minHeight="@dimen/min_height_settings_list"
+        android:background="@color/colorMainBgLight"
+        android:gravity="center_vertical"
+        android:foreground="@drawable/selector_foreground_settings"
         android:layout_marginTop="16dp"
+        />
+
+    <android.support.v7.widget.SwitchCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding_setting_list_start"
+        android:paddingEnd="@dimen/padding_setting_list_start"
+        android:paddingTop="@dimen/padding_setting_list_top"
+        android:paddingBottom="@dimen/padding_setting_list_top"
+        android:text="接收陌生人私信"
+        android:textColor="@color/colorTvBlackMain"
+        android:textSize="@dimen/text_size_settings_list_view"
+        android:id="@+id/switch_stranger_message"
+        android:minHeight="@dimen/min_height_settings_list"
+        android:background="@color/colorMainBgLight"
+        android:gravity="center_vertical"
+        android:foreground="@drawable/selector_foreground_settings"
+        android:layout_marginTop="@dimen/margin_top_list_view_settings"
+        />
+
+    <android.support.v7.widget.SwitchCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding_setting_list_start"
+        android:paddingEnd="@dimen/padding_setting_list_start"
+        android:paddingTop="@dimen/padding_setting_list_top"
+        android:paddingBottom="@dimen/padding_setting_list_top"
+        android:text="夜间模式"
+        android:textColor="@color/colorTvBlackMain"
+        android:textSize="@dimen/text_size_settings_list_view"
+        android:id="@+id/switch_night_mode"
+        android:minHeight="@dimen/min_height_settings_list"
+        android:background="@color/colorMainBgLight"
+        android:gravity="center_vertical"
+        android:foreground="@drawable/selector_foreground_settings"
+        android:layout_marginTop="@dimen/margin_top_list_view_settings"
+        />
+
+    <android.support.v7.widget.SwitchCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding_setting_list_start"
+        android:paddingEnd="@dimen/padding_setting_list_start"
+        android:paddingTop="@dimen/padding_setting_list_top"
+        android:paddingBottom="@dimen/padding_setting_list_top"
+        android:text="自动夜间模式"
+        android:textColor="@color/colorTvBlackMain"
+        android:textSize="@dimen/text_size_settings_list_view"
+        android:id="@+id/switch_auto_night_mode"
+        android:minHeight="@dimen/min_height_settings_list"
+        android:background="@color/colorMainBgLight"
+        android:gravity="center_vertical"
+        android:foreground="@drawable/selector_foreground_settings"
+        android:layout_marginTop="@dimen/margin_top_list_view_settings"
+        />
+    <android.support.v7.widget.SwitchCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding_setting_list_start"
+        android:paddingEnd="@dimen/padding_setting_list_start"
+        android:paddingTop="@dimen/padding_setting_list_top"
+        android:paddingBottom="@dimen/padding_setting_list_top"
+        android:text="滑动返回"
+        android:textColor="@color/colorTvBlackMain"
+        android:textSize="@dimen/text_size_settings_list_view"
+        android:id="@+id/switch_slide_back"
+        android:minHeight="@dimen/min_height_settings_list"
+        android:background="@color/colorMainBgLight"
+        android:gravity="center_vertical"
+        android:foreground="@drawable/selector_foreground_settings"
+        android:layout_marginTop="@dimen/margin_top_list_view_settings"
         />
 
     <TextView
@@ -38,29 +120,5 @@
         android:id="@+id/tv_logout"
         />
 
-    <android.support.v7.widget.SwitchCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:text="夜间模式"
-        android:textColor="@color/colorTvBlackMain"
-        android:textSize="15sp"
-        android:id="@+id/switch_night_mode"
-        android:minHeight="48dp"
-        android:background="@color/colorMainBgLight"
-        android:gravity="center_vertical"
-        android:foreground="@drawable/selector_foreground_settings"
-        android:layout_marginTop="16dp"
-        />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="start second act"
-        android:id="@+id/btn_start_second"
-        />
 
 </LinearLayout>

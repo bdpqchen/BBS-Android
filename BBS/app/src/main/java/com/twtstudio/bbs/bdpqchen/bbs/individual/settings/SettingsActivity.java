@@ -18,7 +18,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.test.SecondActivity;
 
@@ -34,14 +33,18 @@ public class SettingsActivity extends BaseActivity {
     private static final String IS_SWITCH_NIGHT_MODE = "isSwitchNightMode";
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.fl_settings_container_1)
-    FrameLayout mFlSettingsContainer1;
     @BindView(R.id.tv_logout)
     TextView mTvLogout;
-    @BindView(R.id.btn_start_second)
-    Button mBtnStartSecond;
+    @BindView(R.id.switch_no_network_message)
+    SwitchCompat mSwitchNoNetworkMessage;
+    @BindView(R.id.switch_stranger_message)
+    SwitchCompat mSwitchStrangerMessage;
     @BindView(R.id.switch_night_mode)
     SwitchCompat mSwitchNightMode;
+    @BindView(R.id.switch_auto_night_mode)
+    SwitchCompat mSwitchAutoNightMode;
+    @BindView(R.id.switch_slide_back)
+    SwitchCompat mSwitchSlideBack;
 
     private Activity mActivity;
 
@@ -83,18 +86,8 @@ public class SettingsActivity extends BaseActivity {
         //本Activity不支持滑动返回，当前使用的滑动返回库不太友好
         mSlideBackLayout.lock(getIntent().getBooleanExtra(IS_SWITCH_NIGHT_MODE, false));
 
-        SettingFragment1 fragment1 = new SettingFragment1();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fl_settings_container_1, fragment1);
-        fragmentTransaction.commit();
         mActivity = this;
-        mBtnStartSecond.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mActivity, SecondActivity.class));
-            }
-        });
+
         mSwitchNightMode.setChecked(PrefUtil.isNightMode());
         mSwitchNightMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -104,20 +97,22 @@ public class SettingsActivity extends BaseActivity {
             }
         });
 
+
+
+
     }
 
 
     public void startMySelf() {
         //方案1
+        //要延迟更新，否则会很很卡顿，而且不能新开线程。暂行方案
         HandlerUtil.postDelay(new Runnable() {
             @Override
             public void run() {
                 ActivityManager.getActivityManager().recreateAllActivity(SettingsActivity.class);
-//                mSlideBackLayout.lock(true);
             }
         }, 100);
 
-//        mSlideBackLayout.lock(true);
         ActivityManager.getActivityManager().finishActivity(this);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         Intent intent = getIntent();
@@ -131,4 +126,21 @@ public class SettingsActivity extends BaseActivity {
 
     }
 
+    @OnClick({R.id.switch_no_network_message, R.id.switch_stranger_message, R.id.switch_night_mode, R.id.switch_auto_night_mode, R.id.switch_slide_back, R.id.tv_logout})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.switch_no_network_message:
+                break;
+            case R.id.switch_stranger_message:
+                break;
+            case R.id.switch_night_mode:
+                break;
+            case R.id.switch_auto_night_mode:
+                break;
+            case R.id.switch_slide_back:
+                break;
+            case R.id.tv_logout:
+                break;
+        }
+    }
 }
