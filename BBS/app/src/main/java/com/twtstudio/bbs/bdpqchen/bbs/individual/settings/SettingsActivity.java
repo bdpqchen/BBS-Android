@@ -100,6 +100,7 @@ public class SettingsActivity extends BaseActivity {
                 startMySelf();
             }
         });
+/*
         mSwitchAutoNightMode.setChecked(PrefUtil.isAutoNightMode());
         mSwitchAutoNightMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -107,6 +108,7 @@ public class SettingsActivity extends BaseActivity {
                 PrefUtil.setIsAutoNightMode(isChecked);
             }
         });
+*/
         mSwitchSlideBack.setChecked(PrefUtil.isSlideBackMode());
         mSwitchSlideBack.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -162,9 +164,4 @@ public class SettingsActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
-    }
 }

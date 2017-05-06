@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.jaeger.library.StatusBarUtil;
 import com.oubowu.slideback.SlideBackHelper;
@@ -112,6 +113,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
                 .build();
     }
 
+    private void finishThisActivity() {
+        ActivityManager.getActivityManager().finishActivity(this);
+    }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -124,9 +130,20 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
     @Override
     public void onBackPressedSupport() {
         super.onBackPressedSupport();
-        ActivityManager.getActivityManager().finishActivity(this);
-
+        finishThisActivity();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finishThisActivity();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
 
 }
