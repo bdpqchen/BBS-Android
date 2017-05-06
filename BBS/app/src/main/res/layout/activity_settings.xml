@@ -38,6 +38,24 @@
         android:id="@+id/tv_logout"
         />
 
+    <android.support.v7.widget.SwitchCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="夜间模式"
+        android:textColor="@color/colorTvBlackMain"
+        android:textSize="15sp"
+        android:id="@+id/switch_night_mode"
+        android:minHeight="48dp"
+        android:background="@color/colorMainBgLight"
+        android:gravity="center_vertical"
+        android:foreground="@drawable/selector_foreground_settings"
+        android:layout_marginTop="16dp"
+        />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
