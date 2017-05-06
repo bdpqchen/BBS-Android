@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.auth.register;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,24 +10,24 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
 import butterknife.BindView;
 
+
 /**
- * Created by bdpqchen on 17-5-2.
+ * Created by bdpqchen on 17-5-6.
  */
 
-public class RegisterActivity extends BaseActivity<RegisterPresenter> implements RegisterContract.View {
-
+public class UpdatePassword extends BaseActivity<UpdatePasswordPresenter> implements UpdatePasswordContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_register;
+        return R.layout.activity_update_password;
     }
 
     @Override
     protected Toolbar getToolbarView() {
-        mToolbar.setTitle("新用户注册");
+        mToolbar.setTitle("修改密码");
         return mToolbar;
     }
 
@@ -38,7 +38,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     @Override
     protected boolean isSupportNightMode() {
-        return false;
+        return true;
     }
 
     @Override
@@ -48,7 +48,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     @Override
     protected Activity supportSlideBack() {
-        if (!PrefUtil.isSlideBackMode()) return null;
         return this;
     }
 
@@ -56,12 +55,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
-        // TODO: add setContentView(...) invocation
 
-    }
-
-    @Override
-    public void registerResults() {
 
     }
 
@@ -71,6 +65,4 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
 
     }
-
-
 }

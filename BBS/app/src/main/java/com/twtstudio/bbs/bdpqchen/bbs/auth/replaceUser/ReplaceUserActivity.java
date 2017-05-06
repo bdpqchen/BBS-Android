@@ -61,7 +61,6 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
 
     @Override
     protected Activity supportSlideBack() {
-        if (!PrefUtil.isSlideBackMode()) return null;
         return this;
     }
 
@@ -73,6 +72,7 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
 
     }
 
@@ -95,9 +95,7 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
     @Override
     protected void onResume() {
         super.onResume();
-        if (mSlideBackLayout != null){
-            mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
-        }
+        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
 
     }
 }

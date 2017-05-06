@@ -14,4 +14,6 @@
     <dimen name="padding_setting_list_start">16dp</dimen>
     <dimen name="padding_setting_list_top">8dp</dimen>
     <dimen name="margin_top_list_view_settings">1px</dimen>
+    <dimen name="margin_start_update_info">16dp</dimen>
+    <dimen name="icon_size_normal">24dp</dimen>
 </resources>

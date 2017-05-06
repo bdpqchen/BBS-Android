@@ -11,7 +11,7 @@ import javax.inject.Inject;
 public class IndividualPresenter extends RxPresenter<IndividualContract.View> implements IndividualContract.Presenter {
 
     @Inject
-    public IndividualPresenter(){
+    IndividualPresenter(){
 
     }
 }

@@ -22,5 +22,7 @@
     <color name="colorMainText">#FEFBF4</color>
     <color name="colorTvBlackMain">#ad0c0c0c</color>
     <color name="colorIndividualTagNum">#F26428</color>
+    <color name="colorTintIconBlack">#403e3e</color>
+
 
 </resources>

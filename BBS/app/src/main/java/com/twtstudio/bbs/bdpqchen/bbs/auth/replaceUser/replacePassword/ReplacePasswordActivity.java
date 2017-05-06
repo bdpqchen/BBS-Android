@@ -15,7 +15,7 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-5-5.
  */
 
-public class ReplacePasswordActivity extends BaseActivity<ReplacePasswordPresenter> implements ReplacePasswordContract.View{
+public class ReplacePasswordActivity extends BaseActivity<ReplacePasswordPresenter> implements ReplacePasswordContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -48,22 +48,20 @@ public class ReplacePasswordActivity extends BaseActivity<ReplacePasswordPresent
 
     @Override
     protected Activity supportSlideBack() {
-        if (!PrefUtil.isSlideBackMode()) return null;
         return this;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (mSlideBackLayout != null){
-            mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
-        }
+        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
 
     }
 

@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import com.orhanobut.hawk.Hawk;
 
+import java.security.Signature;
 import java.util.HashMap;
 
 /**
@@ -19,6 +20,8 @@ public final class PrefUtil {
     private static final String IS_NO_ACCOUNT_USER = "is_no_account_user";
     private static final String IS_NO_NETWORK_RECEIVE_MESSAGE = "is_no_network_receive_message";
     private static final String IS_RECEIVE_UNKNOWN_MESSAGE = "is_receive_unknown_message";
+    private static final String NICKNAME = "nickname";
+    private static final String SIGNATURE = "signature";
 
     public static boolean isJustInstalled(){
         return Hawk.get(IS_JUST_INSTALLED, false);
@@ -77,5 +80,17 @@ public final class PrefUtil {
         return  Hawk.get(IS_RECEIVE_UNKNOWN_MESSAGE, true);
     }
 
+    public static void setNickname(String s) {
+        Hawk.put(NICKNAME, s);
+    }
+    public static String getNickname(){
+        return Hawk.get(NICKNAME, "无");
+    }
 
+    public static void setSignature(String s){
+        Hawk.put(SIGNATURE, s);
+    }
+    public static String getSignature(){
+        return Hawk.get(SIGNATURE, "无");
+    }
 }

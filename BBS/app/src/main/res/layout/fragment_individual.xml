@@ -219,7 +219,6 @@
                 android:id="@+id/lv_individual"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorMainBgLight"
                 android:divider="@null"
                 android:dividerHeight="0dp"
                 />
@@ -267,6 +266,7 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="8dp"
                     android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                    android:tint="@color/colorTintIconBlack"
                     />
 
 
