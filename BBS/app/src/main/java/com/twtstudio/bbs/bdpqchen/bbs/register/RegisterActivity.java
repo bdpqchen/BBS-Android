@@ -9,6 +9,7 @@ import com.oubowu.slideback.widget.SlideBackLayout;
 import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
 import butterknife.BindView;
 
@@ -50,6 +51,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
 
     @Override
     protected Activity supportSlideBack() {
+        if (!PrefUtil.isSlideBackMode()) return null;
         return this;
     }
 
@@ -64,4 +66,15 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     public void registerResults() {
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mSlideBackLayout != null){
+            mSlideBackLayout.lock(PrefUtil.isSlideBackMode());
+        }
+
+    }
+
+
 }

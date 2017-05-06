@@ -156,5 +156,4 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     }
 
-
 }

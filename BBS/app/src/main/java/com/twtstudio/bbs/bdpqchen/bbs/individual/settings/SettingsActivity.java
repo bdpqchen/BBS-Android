@@ -30,7 +30,7 @@ import butterknife.OnClick;
 
 public class SettingsActivity extends BaseActivity {
 
-    private static final String IS_SWITCH_NIGHT_MODE = "isSwitchNightMode";
+    private static final String IS_SWITCH_NIGHT_MODE_LOCK = "isSwitchNightModeLock";
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.tv_logout)
@@ -47,6 +47,7 @@ public class SettingsActivity extends BaseActivity {
     SwitchCompat mSwitchSlideBack;
 
     private Activity mActivity;
+
 
     @Override
     protected int getLayoutResourceId() {
@@ -84,8 +85,11 @@ public class SettingsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         //本Activity不支持滑动返回，当前使用的滑动返回库不太友好
-        mSlideBackLayout.lock(getIntent().getBooleanExtra(IS_SWITCH_NIGHT_MODE, false));
-
+        if (getIntent().getBooleanExtra(IS_SWITCH_NIGHT_MODE_LOCK, false)){
+            mSlideBackLayout.lock(true);
+        }else{
+            mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
+        }
         mActivity = this;
 
         mSwitchNightMode.setChecked(PrefUtil.isNightMode());
@@ -103,7 +107,14 @@ public class SettingsActivity extends BaseActivity {
                 PrefUtil.setIsAutoNightMode(isChecked);
             }
         });
-
+        mSwitchSlideBack.setChecked(PrefUtil.isSlideBackMode());
+        mSwitchSlideBack.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PrefUtil.setIsSlideBackMode(isChecked);
+                mSlideBackLayout.lock(!isChecked);
+            }
+        });
 
 
     }
@@ -122,7 +133,7 @@ public class SettingsActivity extends BaseActivity {
         ActivityManager.getActivityManager().finishActivity(this);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         Intent intent = getIntent();
-        intent.putExtra(IS_SWITCH_NIGHT_MODE, true);
+        intent.putExtra(IS_SWITCH_NIGHT_MODE_LOCK, true);
         startActivity(intent);
     }
 
@@ -149,5 +160,11 @@ public class SettingsActivity extends BaseActivity {
             case R.id.tv_logout:
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
     }
 }

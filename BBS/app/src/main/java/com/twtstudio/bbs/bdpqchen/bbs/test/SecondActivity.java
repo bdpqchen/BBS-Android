@@ -112,5 +112,16 @@ public class SecondActivity extends BaseActivity {
         super.onBackPressed();
     }
 */
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mSlideBackLayout != null){
+            mSlideBackLayout.lock(PrefUtil.isSlideBackMode());
+        }
+
+    }
+
+
 }
 

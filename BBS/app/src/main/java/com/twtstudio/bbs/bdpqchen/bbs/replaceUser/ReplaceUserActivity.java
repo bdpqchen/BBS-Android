@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.replaceUser.replacePassword.ReplacePasswordActivity;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
@@ -60,6 +61,7 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
 
     @Override
     protected Activity supportSlideBack() {
+        if (!PrefUtil.isSlideBackMode()) return null;
         return this;
     }
 
@@ -88,5 +90,14 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
                 replaceUserResults();
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mSlideBackLayout != null){
+            mSlideBackLayout.lock(PrefUtil.isSlideBackMode());
+        }
+
     }
 }

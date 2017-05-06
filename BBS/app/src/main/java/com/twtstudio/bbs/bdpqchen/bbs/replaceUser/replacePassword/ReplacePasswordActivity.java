@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
 import butterknife.BindView;
 
@@ -47,6 +48,7 @@ public class ReplacePasswordActivity extends BaseActivity<ReplacePasswordPresent
 
     @Override
     protected Activity supportSlideBack() {
+        if (!PrefUtil.isSlideBackMode()) return null;
         return this;
     }
 
@@ -55,4 +57,15 @@ public class ReplacePasswordActivity extends BaseActivity<ReplacePasswordPresent
         super.onCreate(savedInstanceState);
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mSlideBackLayout != null){
+            mSlideBackLayout.lock(PrefUtil.isSlideBackMode());
+        }
+
+    }
+
+
 }
