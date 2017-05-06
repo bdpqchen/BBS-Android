@@ -60,10 +60,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         if (isSupportNightMode()) {
             // TODO: 17-5-6 将权限检查写一个Util 或使用第三方库
             PackageManager pm = getPackageManager();
-            boolean permission = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.LOCATION", getPackageName()));
+            boolean permission = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.LOCATION_HARDWARE", getPackageName()));
+            boolean permission0 = (PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.ACCESS_FINE_LOCATION", getPackageName()));
             LogUtil.d(permission);
-            if (PrefUtil.isAutoNightMode() && permission) {
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+            if (PrefUtil.isAutoNightMode()) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
             } else {
                 AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
             }

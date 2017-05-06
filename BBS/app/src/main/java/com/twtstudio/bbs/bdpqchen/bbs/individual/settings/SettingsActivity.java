@@ -96,7 +96,13 @@ public class SettingsActivity extends BaseActivity {
                 startMySelf();
             }
         });
-
+        mSwitchAutoNightMode.setChecked(PrefUtil.isAutoNightMode());
+        mSwitchAutoNightMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PrefUtil.setIsAutoNightMode(isChecked);
+            }
+        });
 
 
 
