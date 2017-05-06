@@ -13,5 +13,5 @@
     <dimen name="min_height_settings_list">48dp</dimen>
     <dimen name="padding_setting_list_start">16dp</dimen>
     <dimen name="padding_setting_list_top">8dp</dimen>
-    <dimen name="margin_top_list_view_settings">1dp</dimen>
+    <dimen name="margin_top_list_view_settings">1px</dimen>
 </resources>

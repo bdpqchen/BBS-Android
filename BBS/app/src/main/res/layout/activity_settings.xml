@@ -84,6 +84,7 @@
         android:foreground="@drawable/selector_foreground_settings"
         android:layout_marginTop="@dimen/margin_top_list_view_settings"
         />
+
     <android.support.v7.widget.SwitchCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

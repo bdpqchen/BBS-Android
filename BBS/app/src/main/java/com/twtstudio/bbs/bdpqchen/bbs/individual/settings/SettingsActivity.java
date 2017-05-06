@@ -19,7 +19,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.test.SecondActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.login.LoginActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -118,12 +118,13 @@ public class SettingsActivity extends BaseActivity {
         Intent intent = getIntent();
         intent.putExtra(IS_SWITCH_NIGHT_MODE, true);
         startActivity(intent);
-
     }
 
     @OnClick(R.id.tv_logout)
     public void onViewClicked() {
-
+        PrefUtil.setHadLogin(false);
+        // TODO: 17-5-6 清除一些数据
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
     @OnClick({R.id.switch_no_network_message, R.id.switch_stranger_message, R.id.switch_night_mode, R.id.switch_auto_night_mode, R.id.switch_slide_back, R.id.tv_logout})
