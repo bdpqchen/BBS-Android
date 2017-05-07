@@ -2,7 +2,7 @@
 <resources>
 
     <color name="colorPrimary">#2385df</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#1c6bb4</color>
     <color name="colorAccent">#FF4081</color>
     <color name="nightModeDim">#000000</color>
 

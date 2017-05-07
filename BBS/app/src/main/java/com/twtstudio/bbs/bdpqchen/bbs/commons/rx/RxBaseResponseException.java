@@ -23,11 +23,11 @@ public class RxBaseResponseException extends RuntimeException{
 
     @Override
     public String getMessage() {
-        return mResponse.getMsg();
+        return String.valueOf(mResponse.getErr());
     }
 
     public int getErrorCode() {
-        return mResponse.getError_code();
+        return mResponse.getErr();
     }
 
 

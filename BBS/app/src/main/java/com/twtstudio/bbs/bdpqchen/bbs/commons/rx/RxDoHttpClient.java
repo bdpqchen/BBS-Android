@@ -1,7 +1,10 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
+import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
+
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -14,10 +17,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RxDoHttpClient {
 
-    private static final String BASE_URL = "http://www.github.com/";
+    private static final String BASE_URL = "http://202.113.13.162:8080/";
     private Retrofit mRetrofit;
     private BaseApi mApi;
-    private RxBaseResponseTransformer mTransformer;
+    public RxBaseResponseTransformer mTransformer;
+    public RxSchedulersHelper mSchedulerHelper;
 
 
 
@@ -38,6 +42,7 @@ public class RxDoHttpClient {
                 .build();
         mApi = mRetrofit.create(BaseApi.class);
         mTransformer = new RxBaseResponseTransformer();
+        mSchedulerHelper = new RxSchedulersHelper();
 
 
 //        CompositeSubscription
@@ -46,6 +51,10 @@ public class RxDoHttpClient {
 
     public void getDataList(){
 
+    }
+
+    public Observable<RxBaseResponse<LoginModel>> doLogin(String username, String password) {
+        return mApi.doLogin(username, password);
     }
 
 //    public

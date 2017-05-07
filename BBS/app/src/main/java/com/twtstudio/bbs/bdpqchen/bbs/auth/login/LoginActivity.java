@@ -50,6 +50,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     ImageView mIvBanner;
     @BindView(R.id.view_need_offset)
     LinearLayout mNeedOffset;
+
+
+    private static final String LOGIN_ERROR_TEXT = "这个没有输入如何登录？";
+
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_login;
@@ -82,6 +87,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void loginResults() {
+       /* switch (results){
+            case 0:{
+
+            }
+        }*/
 //        mLoadingBtnLogin.loadingFailed();
 //        mLoadingBtnLogin.loadingSuccessful();
 //        SnackBarUtil.error(this, "登录失败，请检查用户名与密码");
@@ -92,8 +102,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         //键盘挡住输入框
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState);
-//        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimary), 0);
-//        StatusBarUtil.setTransparent(this);
         StatusBarUtil.setTranslucentForImageView(this, 38, mNeedOffset);
 
 
@@ -124,14 +132,17 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 //                mCircularProgressButton.stopAnimation();
                 break;
             case R.id.cp_btn_login:
-                mCircularProgressButton.startAnimation();
-                /*HandlerUtil.postDelay(new Runnable() {
-                    @Override
-                    public void run() {
-                       loginSuccess();
-                    }
-                }, 2000);
-*/
+                String username = mEtAccount.getText() + "";
+                String password = mEtPassword.getText() + "";
+                if (username.length() == 0){
+                    mEtAccount.setError(LOGIN_ERROR_TEXT);
+                }else if (password.length() == 0){
+                    mEtAccount.setError(LOGIN_ERROR_TEXT);
+                }else{
+                    mCircularProgressButton.startAnimation();
+                    mPresenter.doLogin(username, password);
+                }
+
                 break;
 
         }

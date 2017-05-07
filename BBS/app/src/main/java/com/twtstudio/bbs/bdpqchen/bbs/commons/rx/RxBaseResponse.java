@@ -8,20 +8,9 @@ import java.io.Serializable;
 
 public class RxBaseResponse<T> implements Serializable {
 
-    private int error_code;
-
-    private String msg;
+    private int err;
 
     private T data;
-
-
-    public int getError_code() {
-        return error_code;
-    }
-
-    public void setError_code(int error_code) {
-        this.error_code = error_code;
-    }
 
     public T getData() {
         return data;
@@ -31,11 +20,11 @@ public class RxBaseResponse<T> implements Serializable {
         this.data = data;
     }
 
-    public String getMsg() {
-        return msg;
+    public int getErr() {
+        return err;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setErr(int err) {
+        this.err = err;
     }
 }
