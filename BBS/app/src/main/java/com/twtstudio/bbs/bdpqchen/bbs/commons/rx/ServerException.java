@@ -39,6 +39,7 @@ public class ServerException extends Exception{
         this.message = response.message();
         this.response = response;
         BaseResponse baseResponse = (BaseResponse) response.body();
+        LogUtil.d("sssssss");
         LogUtil.d(String.valueOf(baseResponse.getErr()), message);
 
 //        setErrMessage();

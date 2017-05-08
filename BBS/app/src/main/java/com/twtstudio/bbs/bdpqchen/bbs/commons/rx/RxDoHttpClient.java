@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.ObservableTransformer;
-import io.reactivex.annotations.NonNull;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -25,20 +22,8 @@ public class RxDoHttpClient {
     private static final String BASE_URL = "http://202.113.13.162:8080/";
     private Retrofit mRetrofit;
     public BaseApi mApi;
-    public ResponseTransformer mTransformer;
+    public ResponseTransformer<LoginModel> mTransformer;
     public SchedulersHelper mSchedulerHelper;
-
-
-    public <T> ObservableTransformer<BaseResponse<T>, T> transformer(){
-        return new ObservableTransformer<BaseResponse<T>, T>() {
-            @Override
-            public ObservableSource<T> apply(@NonNull Observable<BaseResponse<T>> observable) {
-
-
-                return Observable.empty();
-            }
-        };
-    }
 
     public RxDoHttpClient(){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -49,9 +34,12 @@ public class RxDoHttpClient {
                 .retryOnConnectionFailure(true)
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .build();
+
+
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
+                .addConverterFactory(DirtyJsonConverter.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

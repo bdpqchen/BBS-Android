@@ -4,14 +4,13 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import java.util.HashMap;
 
-import retrofit2.Response;
 
 
 /**
  * Created by bdpqchen on 17-4-27.
  */
 
-public class ResponseException extends Exception{
+public class ResponseException extends RuntimeException{
 
     private static final HashMap<Integer, String> ERROR_CODES_MAPS = new HashMap<Integer, String>();
     private BaseResponse mResponse;
@@ -25,6 +24,7 @@ public class ResponseException extends Exception{
 
     public ResponseException(BaseResponse baseResponse){
         this.mResponse = baseResponse;
+        LogUtil.d("11111ssssss");
     }
 
     @Override
