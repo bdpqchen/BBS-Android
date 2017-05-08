@@ -1,10 +1,15 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.annotations.NonNull;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -19,11 +24,21 @@ public class RxDoHttpClient {
 
     private static final String BASE_URL = "http://202.113.13.162:8080/";
     private Retrofit mRetrofit;
-    private BaseApi mApi;
+    public BaseApi mApi;
     public RxBaseResponseTransformer mTransformer;
     public RxSchedulersHelper mSchedulerHelper;
 
 
+    public <T> ObservableTransformer<RxBaseResponse<T>, T> transformer(){
+        return new ObservableTransformer<RxBaseResponse<T>, T>() {
+            @Override
+            public ObservableSource<T> apply(@NonNull Observable<RxBaseResponse<T>> observable) {
+
+
+                return Observable.empty();
+            }
+        };
+    }
 
     public RxDoHttpClient(){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -55,6 +70,10 @@ public class RxDoHttpClient {
 
     public Observable<RxBaseResponse<LoginModel>> doLogin(String username, String password) {
         return mApi.doLogin(username, password);
+    }
+
+    public Observable<RxBaseResponse<List<ForumModel>>> getForums(){
+        return mApi.getForums();
     }
 
 //    public

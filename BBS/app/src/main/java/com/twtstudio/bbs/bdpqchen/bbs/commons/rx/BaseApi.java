@@ -1,6 +1,9 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
@@ -20,6 +23,6 @@ public interface BaseApi {
     @POST("login")
     Observable<RxBaseResponse<LoginModel>> doLogin(@Field("username") String username, @Field("password") String password);
 
-
-
+    @GET("forum")
+    Observable<RxBaseResponse<List<ForumModel>>> getForums();
 }

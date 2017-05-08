@@ -124,6 +124,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         if (mPresenter != null) {
             mPresenter.detachView();
         }
+
         mUnBinder.unbind();
     }
 
