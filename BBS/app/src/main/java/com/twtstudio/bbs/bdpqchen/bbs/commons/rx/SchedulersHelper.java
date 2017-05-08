@@ -11,7 +11,9 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-4-27.
  */
 
-public class RxSchedulersHelper {
+public class SchedulersHelper {
+
+
 
     public static <T> ObservableTransformer<T, T> io_main() {
 
@@ -28,6 +30,18 @@ public class RxSchedulersHelper {
         };
     }
 
+    public static <T> ObservableTransformer<T, T> new_main() {
+
+        return new ObservableTransformer<T, T>() {
+            @Override
+            public ObservableSource<T> apply(@NonNull Observable<T> observable) {
+                return observable
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .unsubscribeOn(Schedulers.newThread());
+            }
+        };
+    }
 
 
 

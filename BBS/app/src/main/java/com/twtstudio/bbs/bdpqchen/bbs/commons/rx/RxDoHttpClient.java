@@ -25,14 +25,14 @@ public class RxDoHttpClient {
     private static final String BASE_URL = "http://202.113.13.162:8080/";
     private Retrofit mRetrofit;
     public BaseApi mApi;
-    public RxBaseResponseTransformer mTransformer;
-    public RxSchedulersHelper mSchedulerHelper;
+    public ResponseTransformer mTransformer;
+    public SchedulersHelper mSchedulerHelper;
 
 
-    public <T> ObservableTransformer<RxBaseResponse<T>, T> transformer(){
-        return new ObservableTransformer<RxBaseResponse<T>, T>() {
+    public <T> ObservableTransformer<BaseResponse<T>, T> transformer(){
+        return new ObservableTransformer<BaseResponse<T>, T>() {
             @Override
-            public ObservableSource<T> apply(@NonNull Observable<RxBaseResponse<T>> observable) {
+            public ObservableSource<T> apply(@NonNull Observable<BaseResponse<T>> observable) {
 
 
                 return Observable.empty();
@@ -56,23 +56,21 @@ public class RxDoHttpClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         mApi = mRetrofit.create(BaseApi.class);
-        mTransformer = new RxBaseResponseTransformer();
-        mSchedulerHelper = new RxSchedulersHelper();
+        mTransformer = new ResponseTransformer();
+        mSchedulerHelper = new SchedulersHelper();
 
 
-//        CompositeSubscription
-//        Subscription subscription =
     }
 
     public void getDataList(){
 
     }
 
-    public Observable<RxBaseResponse<LoginModel>> doLogin(String username, String password) {
+    public Observable<BaseResponse<LoginModel>> doLogin(String username, String password) {
         return mApi.doLogin(username, password);
     }
 
-    public Observable<RxBaseResponse<List<ForumModel>>> getForums(){
+    public Observable<BaseResponse<List<ForumModel>>> getForums(){
         return mApi.getForums();
     }
 

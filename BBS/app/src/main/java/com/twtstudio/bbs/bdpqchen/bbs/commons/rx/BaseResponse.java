@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by bdpqchen on 17-4-27.
  */
 
-public class RxBaseResponse<T> implements Serializable {
+public class BaseResponse<T> implements Serializable {
 
     private int err;
 
