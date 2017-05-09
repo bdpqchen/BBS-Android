@@ -30,6 +30,7 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
 
     @Override
     public void onNext(T t) {
+        LogUtil.d(t);
         LogUtil.d("onNext()");
         _onNext(t);
     }
@@ -40,7 +41,7 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
 //        LogUtil.d(throwable.getCause());
         LogUtil.d("onError()");
         // TODO: 17-4-27 无网络请求监听，扼杀在请求阶段
-        String msg = "";
+        String msg = "网络错误";
         if (throwable instanceof SocketTimeoutException) {
             msg = "网络请求超时...请重试";
         } else if (throwable instanceof UnknownHostException) {
@@ -50,19 +51,9 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
         } else if (throwable instanceof HttpException) {
 
             msg = "网络错误";
-//            msg = "身份验证失败";
 
         }
 
-/*
-            switch (httpException.code()) {
-                case 500:
-                    msg = "网络错误！500";
-                    break;
-
-            }
-
-*/
         _onError(msg);
 
         // TODO: 17-5-8 定义各种网络请求错误
@@ -73,7 +64,6 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
     @Override
     public void onComplete() {
 //        LogUtil.d("onComplete()--->not ed");
-
     }
 
     public abstract void _onError(String msg);

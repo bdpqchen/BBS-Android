@@ -189,8 +189,9 @@ public final class PrefUtil {
         Hawk.put(AUTH_UID, i);
     }
     public static int getAuthUid(){
-        return Hawk.get(AUTH_UID);
+        return Hawk.get(AUTH_UID, 0);
     }
+
 
 
 }

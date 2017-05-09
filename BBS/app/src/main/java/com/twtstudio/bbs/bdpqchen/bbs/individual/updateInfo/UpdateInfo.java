@@ -98,7 +98,7 @@ public class UpdateInfo extends BaseActivity<UpdateInfoPresenter> implements Upd
                     public void onInput(@NonNull MaterialDialog materialDialog, CharSequence charSequence) {
                         String s = charSequence.toString();
                         SnackBarUtil.normal(mActivity, s);
-                        PrefUtil.setNickname(s);
+                        PrefUtil.setInfoNickname(s);
                     }
                 });
                 break;
@@ -108,7 +108,7 @@ public class UpdateInfo extends BaseActivity<UpdateInfoPresenter> implements Upd
                     public void onInput(@NonNull MaterialDialog materialDialog, CharSequence charSequence) {
                         String s = charSequence.toString();
                         SnackBarUtil.normal(mActivity, s);
-                        PrefUtil.setSignature(s);
+                        PrefUtil.setInfoSignature(s);
                     }
                 });
 

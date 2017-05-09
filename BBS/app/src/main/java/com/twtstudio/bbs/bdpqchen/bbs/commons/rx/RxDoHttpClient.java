@@ -6,7 +6,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -49,7 +51,7 @@ public class RxDoHttpClient<T> {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         mApi = mRetrofit.create(BaseApi.class);
-        mTransformer = new ResponseTransformer<T>();
+        mTransformer = new ResponseTransformer<>();
         mSchedulerHelper = new SchedulersHelper();
 
 
@@ -75,6 +77,11 @@ public class RxDoHttpClient<T> {
                 bundle.getString(Constants.BUNDLE_REGISTER_STU_NUM),
                 bundle.getString(Constants.BUNDLE_REGISTER_REAL_NAME)
                 );
+    }
+
+    public Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(){
+        String authentication = PrefUtil.getAuthUid() + "|" + PrefUtil.getAuthToken();
+        return mApi.getIndividualInfo(authentication);
     }
 
 

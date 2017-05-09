@@ -14,9 +14,8 @@ public class ResponseTransformer<T> implements Function<BaseResponse<T>, T> {
 
     @Override
     public T apply(@NonNull BaseResponse<T> tBaseResponse) throws ResponseException{
-        LogUtil.d("RxBaseTransformer", tBaseResponse.getErr());
+//        LogUtil.d("RxBaseTransformer", tBaseResponse.getErr());
         if (tBaseResponse.getErr() == 0){
-            LogUtil.d("11111111111111111111111");
             return tBaseResponse.getData();
         }else{
             LogUtil.d(tBaseResponse.getErr());

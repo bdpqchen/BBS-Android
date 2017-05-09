@@ -37,6 +37,7 @@ public interface BaseApi {
                                                        @Field(Constants.BUNDLE_REGISTER_STU_NUM) String string3,
                                                        @Field(Constants.BUNDLE_REGISTER_REAL_NAME) String string4);
 
+
     @GET("home")
     Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(@Header("authentication")String idAndToken);
 

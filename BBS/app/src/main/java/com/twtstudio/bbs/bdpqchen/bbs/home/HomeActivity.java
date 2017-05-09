@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -39,6 +40,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     MainFragment mMainFragment;
     ForumFragment mForumFragment;
     IndividualFragment mIndividualFragment;
+    BottomBarTab mNearBy;
 
     private int mShowingFragment = Constants.FRAGMENT_MAIN;
     private int mHidingFragment = Constants.FRAGMENT_MAIN;
@@ -98,6 +100,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         mForumFragment = new ForumFragment();
         mIndividualFragment = new IndividualFragment();
         loadMultipleRootFragment(R.id.fl_main_container, 0, mMainFragment, mForumFragment, mIndividualFragment);
+        mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
 
         mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -147,18 +150,32 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     public void showIndividualInfo(IndividualInfoModel info) {
 
+
         //设置个人信息，在IndividualFragment 里可直接获取，需判断是否为最新getIsLatestInfo()
         PrefUtil.setInfoNickname(info.getNickname());
         PrefUtil.setInfoSignature(info.getSignature());
         PrefUtil.setInfoOnline(info.getC_online());
         PrefUtil.setInfoPost(info.getC_post());
         PrefUtil.setInfoPoints(info.getPoints());
-        PrefUtil.setInfoUnread(info.getC_unread());
         PrefUtil.setInfoCreate(info.getT_create());
         PrefUtil.setInfoGroup(info.getGroup());
         PrefUtil.setInfoLevel(info.getLevel());
         PrefUtil.setIsLatestInfo(true);
+        int unRead = info.getC_unread();
+        PrefUtil.setInfoUnread(unRead);
+        LogUtil.d(unRead);
+        // TODO: 17-5-10 为了测试
+        mNearBy.setBadgeCount(unRead + 1);
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int count = PrefUtil.getInfoUnread();
+        if (count > 0) {
+            mNearBy.setBadgeCount(count);
+        }
+
+    }
 }

@@ -174,6 +174,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         SnackBarUtil.error(this, msg);
     }
 
+    // TODO: 17-5-10 登录成功后跳转优化，主线程太多任务了
 
 }
 
