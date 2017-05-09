@@ -25,9 +25,9 @@ public class RegisterPresenter extends RxPresenter<RegisterContract.View> implem
     @Override
     public void doRegister(Bundle bundle) {
 
-        addSubscribe(mHttpClient.doRegister(bundle)
-        .map(mHttpClient.mTransformer)
-        );
+//        addSubscribe(mHttpClient.doRegister(bundle)
+//        .map(mHttpClient.mTransformer)
+//        );
 
     }
 }

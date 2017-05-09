@@ -28,11 +28,11 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LoginPresenter extends RxPresenter<LoginContract.View> {
 
-    private RxDoHttpClient mHttpClient;
+    private RxDoHttpClient<LoginModel> mHttpClient;
     private Context mContext;
 
     @Inject
-    public LoginPresenter(RxDoHttpClient<LoginModel> client) {
+    public LoginPresenter(RxDoHttpClient client) {
         mHttpClient = client;
 
     }

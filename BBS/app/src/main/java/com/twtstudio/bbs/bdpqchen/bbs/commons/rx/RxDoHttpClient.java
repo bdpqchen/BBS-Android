@@ -28,7 +28,7 @@ public class RxDoHttpClient<T> {
     private static final String BASE_URL = "http://202.113.13.162:8080/";
     private Retrofit mRetrofit;
     public BaseApi mApi;
-    public ResponseTransformer<LoginModel> mTransformer;
+    public ResponseTransformer<T> mTransformer;
     public SchedulersHelper mSchedulerHelper;
 
     public RxDoHttpClient(){

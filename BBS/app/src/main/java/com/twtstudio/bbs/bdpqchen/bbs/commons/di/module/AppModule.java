@@ -29,10 +29,12 @@ public class AppModule {
         return mApp;
     }
 
+
+    //已经为HttpClient提供了但里模式，无需在RxDoHttpClient里自作多情
     @Provides
     @Singleton
     RxDoHttpClient provideRxDoHttpClient(){
-        return new RxDoHttpClient();
+        return new RxDoHttpClient<>();
     }
 
 
