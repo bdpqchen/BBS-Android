@@ -9,7 +9,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 public interface LoginContract {
 
     interface View extends BaseView {
-        void loginSuccess();
+        void loginSuccess(LoginModel loginModel);
         void loginFailed(String msg);
 
     }

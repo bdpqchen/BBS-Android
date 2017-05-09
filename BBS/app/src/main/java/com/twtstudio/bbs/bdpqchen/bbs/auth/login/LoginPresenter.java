@@ -54,7 +54,7 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> {
                     @Override
                     public void _onNext(LoginModel loginModel) {
                         LogUtil.d("_onNext()", loginModel);
-                        mView.loginSuccess();
+                        mView.loginSuccess(loginModel);
                     }
 
                 }));

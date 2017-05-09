@@ -29,20 +29,7 @@ import me.yokeyword.fragmentation.SupportFragment;
 
 public class HomeActivity extends BaseActivity<HomePresenter> implements HomeContract.View {
 
-//    @BindView(R.id.toolbar)
-//    Toolbar mToolbar;
-    /* @BindView(R.id.btn_to_second)
-     Button btnToSecond;
-     @BindView(R.id.btn_snack_normal)
-     Button btnSnackNormal;
-     @BindView(R.id.btn_snack_yellow)
-     Button btnSnackYellow;
-     @BindView(R.id.btn_snack_error)
-     Button btnSnackError;
-     @BindView(R.id.btn_snack_yellow_action)
-     Button btnSnackYellowAction;
-     @BindView(R.id.btn_logout)
-     Button btnLogOut;*/
+
     @BindView(R.id.bottom_bar)
     BottomBar mBottomBar;
     @BindView(R.id.mask_home)
