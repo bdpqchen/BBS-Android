@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import com.orhanobut.hawk.Hawk;
 
+import java.security.PublicKey;
 import java.security.Signature;
 import java.util.HashMap;
 
@@ -22,6 +23,13 @@ public final class PrefUtil {
     private static final String IS_RECEIVE_UNKNOWN_MESSAGE = "is_receive_unknown_message";
     private static final String NICKNAME = "nickname";
     private static final String SIGNATURE = "signature";
+    private static final String AUTH_USERNAME = "auth_username";
+    private static final String AUTH_UID = "auth_uid";
+    private static final String AUTH_TOKEN = "auth_token";
+    private static final String AUTH_GROUP = "auth_group";
+
+//    private static final String INDIVIDUAL_
+
 
     public static boolean isJustInstalled(){
         return Hawk.get(IS_JUST_INSTALLED, false);
@@ -93,4 +101,25 @@ public final class PrefUtil {
     public static String getSignature(){
         return Hawk.get(SIGNATURE, "无");
     }
+
+    public static void setAuthGroup(int i){
+        Hawk.put(AUTH_GROUP, i);
+    }
+    public static int getAuthGroup(){
+        return Hawk.get(AUTH_GROUP, -9);
+    }
+
+    public static void setAuthToken(String token){
+        Hawk.put(AUTH_TOKEN, token);
+    }
+    public static String getAuthToken(){
+        return Hawk.get(AUTH_TOKEN, "");
+    }
+
+    public static void setAuthUid(int i){
+        Hawk.put(AUTH_UID, i);
+    }
+//    public static
+
+
 }

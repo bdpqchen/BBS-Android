@@ -11,6 +11,7 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 /**
@@ -29,8 +30,8 @@ public interface BaseApi {
     @FormUrlEncoded
     @POST("register/new")
     Observable<BaseResponse<RegisterModel>> doRegister(@Field(Constants.BUNDLE_REGISTER_USERNAME) String string,
-                                                       @Field(Constants.BUNDLE_REGISTER_PASSWORD) String string1,
-                                                       @Field(Constants.BUNDLE_REGISTER_CID) String string2,
+                                                       @Field(Constants.BUNDLE_REGISTER_CID) String string1,
+                                                       @Field(Constants.BUNDLE_REGISTER_PASSWORD) String string2,
                                                        @Field(Constants.BUNDLE_REGISTER_STU_NUM) String string3,
                                                        @Field(Constants.BUNDLE_REGISTER_REAL_NAME) String string4);
 

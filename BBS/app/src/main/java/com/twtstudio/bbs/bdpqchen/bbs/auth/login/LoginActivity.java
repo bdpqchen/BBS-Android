@@ -17,7 +17,9 @@ import android.widget.TextView;
 import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
@@ -52,7 +54,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     LinearLayout mNeedOffset;
 
 
-    private static final String LOGIN_ERROR_TEXT = "这个没有输入如何登录？";
+    private static final String LOGIN_ERROR_TEXT = "没有输入如何登录？";
 
 
     @Override
@@ -85,7 +87,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         return null;
     }
 
-    @Override
     public void loginResults() {
        /* switch (results){
             case 0:{
@@ -116,7 +117,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 mCircularProgressButton.revertAnimation();
                 break;
             case R.id.tv_goto_register:
-                startActivity(new Intent(this, RegisterActivity.class));
+                mCircularProgressButton.stopAnimation();
+//                startActivity(new Intent(this, RegisterActivity.class));
                 break;
             case R.id.et_account:
                 break;
@@ -126,9 +128,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 startActivity(new Intent(this, ReplaceUserActivity.class));
                 break;
             case R.id.tv_no_account_user:
-
-                loginSuccess();
                 mCircularProgressButton.doneLoadingAnimation(R.color.colorPrimaryDark, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
+//                loginSuccess();
 //                mCircularProgressButton.stopAnimation();
                 break;
             case R.id.cp_btn_login:
@@ -149,9 +150,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     }
 
+    @Override
     public void loginSuccess() {
-//        mCircularProgressButton.doneLoadingAnimation(R.color.material_amber_accent_400, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
-//        PrefUtil.setHadLogin(true);
         mCircularProgressButton.stopAnimation();
         ActivityOptions activityOptions = null;
         Intent intent = new Intent(this, HomeActivity.class);
@@ -166,6 +166,17 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         } else {
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void loginFailed(String msg) {
+        LogUtil.d("loginFailed()");
+        mCircularProgressButton.stopAnimation();
+        mCircularProgressButton.doneLoadingAnimation(R.color.colorPrimaryDark, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
+
+//        mCircularProgressButton
+//        StatusBarUtil.setTranslucent(this);
+//        SnackBarUtil.error(this, msg);
     }
 }
 

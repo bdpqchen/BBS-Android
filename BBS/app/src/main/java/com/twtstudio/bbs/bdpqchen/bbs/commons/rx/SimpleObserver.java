@@ -36,7 +36,7 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
 
     @Override
     public void onError(Throwable throwable) {
-        LogUtil.d(throwable.getMessage());
+//        LogUtil.d(throwable.getMessage());
 //        LogUtil.d(throwable.getCause());
         LogUtil.d("onError()");
         // TODO: 17-4-27 无网络请求监听，扼杀在请求阶段
@@ -47,13 +47,10 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
             msg = "找不到服务器了..";
         } else if (throwable instanceof ResponseException) {
             msg = throwable.getMessage();
-
         } else if (throwable instanceof HttpException) {
 
             msg = "网络错误";
-
-
-            msg = "身份验证失败";
+//            msg = "身份验证失败";
 
         }
 

@@ -10,7 +10,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 
 public interface RegisterContract {
     interface View extends BaseView {
-        void registerResults();
+        void registerSuccess();
+        void registerFailed(String errorMessage);
     }
 
     interface Presenter extends BaseView {

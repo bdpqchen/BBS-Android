@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -50,7 +49,7 @@ public class RxDoHttpClient<T> {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         mApi = mRetrofit.create(BaseApi.class);
-        mTransformer = new ResponseTransformer();
+        mTransformer = new ResponseTransformer<T>();
         mSchedulerHelper = new SchedulersHelper();
 
 

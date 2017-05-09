@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.auth.register;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
@@ -9,9 +10,13 @@ import android.widget.EditText;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.ContextLife;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
@@ -33,7 +38,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     @BindView(R.id.et_cid)
     EditText mEtCid;
     @BindView(R.id.et_username)
-    TextInputLayout mEtUsername;
+    EditText mEtUsername;
     @BindView(R.id.et_password)
     EditText mEtPassword;
     @BindView(R.id.cp_btn_register)
@@ -41,18 +46,15 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     @BindView(R.id.et_password_again)
     EditText mEtPasswordAgain;
 
-    private String mRealname;
+    private String mRealName;
     private String mStuNum;
     private String mCid;
     private String mUsername;
     private String mPassword;
     private String mPasswordAgain;
-/*
-    public static final String BUNDLE_REGISTER_CID = "cid";
-    public static final String BUNDLE_REGISTER_REAL_NAME = "real_name";
-    public static final String BUNDLE_REGISTER_STU_NUM = "stu_num";
-    public static final String BUNDLE_REGISTER_PASSWORD = "password";
-    public static final String BUNDLE_REGISTER_USERNAME = "username";*/
+
+    private Context mContext;
+    private Activity mActivity;
 
     @Override
     protected int getLayoutResourceId() {
@@ -90,12 +92,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
-        // TODO: add setContentView(...) invocation
-
-    }
-
-    @Override
-    public void registerResults() {
+        mContext = this;
+        mActivity = this;
 
     }
 
@@ -121,7 +119,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         if (checkNotNull()) {
             Bundle bundle = new Bundle();
             bundle.putString(Constants.BUNDLE_REGISTER_CID, mCid);
-            bundle.putString(Constants.BUNDLE_REGISTER_REAL_NAME, mRealname);
+            bundle.putString(Constants.BUNDLE_REGISTER_REAL_NAME, mRealName);
             bundle.putString(Constants.BUNDLE_REGISTER_STU_NUM, mStuNum);
             bundle.putString(Constants.BUNDLE_REGISTER_PASSWORD, mPassword);
             bundle.putString(Constants.BUNDLE_REGISTER_USERNAME, mUsername);
@@ -129,17 +127,34 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         }
     }
 
+    @Override
+    public void registerSuccess() {
+        SnackBarUtil.normal(this, "注册成功，请登录");
+        HandlerUtil.postDelay(new Runnable() {
+            @Override
+            public void run() {
+                ActivityManager.getActivityManager().finishActivity(mActivity);
+            }
+        }, 2000);
+
+    }
+
+    @Override
+    public void registerFailed(String errorMessage) {
+        SnackBarUtil.error(this, errorMessage);
+    }
+
     private boolean checkNotNull() {
         boolean isPerfect = true;
         String errorPwd = "密码不太安全";
         String error = "输入不正确";
         mCid = mEtCid.getText().toString();
-        mRealname = mEtRealName.getText().toString();
+        mRealName = mEtRealName.getText().toString();
         mStuNum =  mEtStuNum.getText().toString();
         mPassword = mEtPassword.getText().toString();
         mPasswordAgain = mEtPasswordAgain.getText().toString();
-        mUsername = mEtUsername.toString();
-        if (mRealname.length() == 0) {
+        mUsername = mEtUsername.getText().toString();
+        if (mRealName.length() == 0) {
             mEtStuNum.setError(error);
             isPerfect = false;
         }
@@ -167,5 +182,27 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         }
         return isPerfect;
     }
+
+    public static String chineseToUnicode(String str){
+        char[]arChar=str.toCharArray();
+        int iValue=0;
+        StringBuffer uStr = new StringBuffer();
+        for(int i=0;i<arChar.length;i++){
+            iValue=(int)str.charAt(i);
+            uStr.append("&#"+iValue+";");
+        }
+        return uStr.toString();
+    }
+
+    public static String unicodeToChinese(String str){
+        String[] strings = str.split(";");
+        StringBuffer aStr = new StringBuffer();
+        for(int i=0;i<strings.length;i++){
+            String s = strings[i].replace("&#", "");
+            aStr.append((char)Integer.parseInt(s));
+        }
+        return aStr.toString();
+    }
+
 
 }

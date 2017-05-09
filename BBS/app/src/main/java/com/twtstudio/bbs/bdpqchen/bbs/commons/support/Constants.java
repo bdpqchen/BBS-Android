@@ -13,9 +13,9 @@ public final class Constants {
 
     public static final String BUNDLE_REGISTER_CID = "cid";
     public static final String BUNDLE_REGISTER_REAL_NAME = "real_name";
-    public static final String BUNDLE_REGISTER_STU_NUM = "stu_num";
+    public static final String BUNDLE_REGISTER_STU_NUM = "stunum";
     public static final String BUNDLE_REGISTER_PASSWORD = "password";
     public static final String BUNDLE_REGISTER_USERNAME = "username";
 
-
+    public static final String NET_RETROFIT_POST_HEADER = "Content-Type:application/x-www-form-urlencoded; charset=utf-8";
 }
