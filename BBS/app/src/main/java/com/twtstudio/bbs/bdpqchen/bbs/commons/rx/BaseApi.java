@@ -4,6 +4,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -35,7 +37,8 @@ public interface BaseApi {
                                                        @Field(Constants.BUNDLE_REGISTER_STU_NUM) String string3,
                                                        @Field(Constants.BUNDLE_REGISTER_REAL_NAME) String string4);
 
-
+    @GET("home")
+    Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(@Header("authentication")String idAndToken);
 
 
 }

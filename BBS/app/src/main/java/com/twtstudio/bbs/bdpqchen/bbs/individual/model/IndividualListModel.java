@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.individual;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.model;
 
 /**
  * Created by bdpqchen on 17-5-4.

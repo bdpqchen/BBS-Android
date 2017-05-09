@@ -19,6 +19,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.test.SecondActivity;
 
@@ -115,7 +116,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             }
         });
 
-
+        mPresenter.initIndividualInfo();
         mPresenter.checkUpdate(1);
 
 
@@ -140,6 +141,23 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public void showUpdateDialog(int versionCode) {
+
+    }
+
+    @Override
+    public void showIndividualInfo(IndividualInfoModel info) {
+
+        //设置个人信息，在IndividualFragment 里可直接获取，需判断是否为最新getIsLatestInfo()
+        PrefUtil.setInfoNickname(info.getNickname());
+        PrefUtil.setInfoSignature(info.getSignature());
+        PrefUtil.setInfoOnline(info.getC_online());
+        PrefUtil.setInfoPost(info.getC_post());
+        PrefUtil.setInfoPoints(info.getPoints());
+        PrefUtil.setInfoUnread(info.getC_unread());
+        PrefUtil.setInfoCreate(info.getT_create());
+        PrefUtil.setInfoGroup(info.getGroup());
+        PrefUtil.setInfoLevel(info.getLevel());
+        PrefUtil.setIsLatestInfo(true);
 
     }
 

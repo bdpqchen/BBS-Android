@@ -35,4 +35,10 @@ public class HomePresenter extends RxPresenter<HomeContract.View> implements Hom
 //        addSubscribe();
         LogUtil.d("show the method--> checkUpdate()");
     }
+
+
+    @Override
+    public void initIndividualInfo() {
+
+    }
 }

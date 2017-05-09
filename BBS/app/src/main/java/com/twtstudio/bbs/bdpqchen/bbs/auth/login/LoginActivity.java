@@ -117,8 +117,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 break;
             case R.id.tv_no_account_user:
                 loginWithNoUsername();
-                mCircularProgressButton.doneLoadingAnimation(R.color.material_green_600, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
-//                mCircularProgressButton.stopAnimation();
                 break;
             case R.id.cp_btn_login:
                 String username = mEtAccount.getText() + "";
@@ -139,14 +137,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         // TODO: 17-5-9 游客登录逻辑
         PrefUtil.setIsNoAccountUser(true);
         PrefUtil.setHadLogin(false);
+        startActivity(new Intent(this, HomeActivity.class));
     }
 
     @Override
     public void loginSuccess(LoginModel loginModel) {
-        mCircularProgressButton.stopAnimation();
-        PrefUtil.setAuthToken(loginModel.token);
-        PrefUtil.setAuthGroup(loginModel.group);
-        PrefUtil.setAuthUid(loginModel.id);
+        mCircularProgressButton.doneLoadingAnimation(R.color.material_green_600, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
+        PrefUtil.setAuthToken(loginModel.getToken());
+        PrefUtil.setAuthGroup(loginModel.getGroup());
+        PrefUtil.setAuthUid(loginModel.getUid());
         ActivityOptions activityOptions = null;
         Intent intent = new Intent(this, HomeActivity.class);
 

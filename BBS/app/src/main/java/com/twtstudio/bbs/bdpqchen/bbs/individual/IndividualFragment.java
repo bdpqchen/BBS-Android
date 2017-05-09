@@ -13,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.ScrollProblemHelper;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
 
 import java.util.ArrayList;
