@@ -32,27 +32,13 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> {
     private Context mContext;
 
     @Inject
-    public LoginPresenter(RxDoHttpClient client) {
+    public LoginPresenter(RxDoHttpClient<LoginModel> client) {
         mHttpClient = client;
 
     }
 
     public void doLogin(String username, String password) {
 
-        new Function<BaseResponse<LoginModel>, LoginModel>() {
-            @Override
-            public LoginModel apply(@NonNull BaseResponse<LoginModel> loginModelBaseResponse) throws Exception {
-                LogUtil.d("apply()");
-                return loginModelBaseResponse.getData();
-            }
-        };
-        new ObservableTransformer<BaseResponse<LoginModel>, LoginModel>() {
-            @Override
-            public ObservableSource<LoginModel> apply(@NonNull Observable<BaseResponse<LoginModel>> observable) {
-                LogUtil.d("observable()");
-                return null;
-            }
-        };
         addSubscribe(mHttpClient.doLogin(username, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

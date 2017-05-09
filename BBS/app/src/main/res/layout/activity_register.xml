@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <include
         layout="@layout/common_toolbar"
@@ -17,6 +18,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:layout_marginBottom="36dp"
+            >
 
         <LinearLayout
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -41,6 +49,7 @@
                     android:hint="姓名"
                     android:imeOptions="actionNext"
                     android:maxLines="1"
+                    android:id="@+id/et_real_name"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -64,6 +73,7 @@
                     android:maxLength="10"
                     android:maxLines="1"
                     android:imeOptions="actionNext"
+                    android:id="@+id/et_stu_num"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -84,6 +94,7 @@
                     android:inputType="number"
                     android:maxLength="18"
                     android:maxLines="1"
+                    android:id="@+id/et_cid"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -116,6 +127,7 @@
                 app:errorEnabled="true"
                 app:passwordToggleEnabled="true"
                 app:theme="@style/AppTheme.EditText.Register"
+                android:id="@+id/et_username"
                 >
 
                 <EditText
@@ -126,6 +138,7 @@
                     android:inputType="textPassword"
                     android:maxLength="18"
                     android:maxLines="1"
+                    android:id="@+id/et_password_again"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -147,6 +160,7 @@
                     android:inputType="textPassword"
                     android:maxLength="18"
                     android:maxLines="1"
+                    android:id="@+id/et_password"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -158,13 +172,15 @@
                 android:layout_margin="8dp"
                 android:layout_gravity="center"
                 android:background="@drawable/circular_border_shape"
-                app:spinning_bar_color="@color/colorAccent"
                 android:textColor="@color/material_light_white"
-                app:spinning_bar_padding="6dp"
-                app:spinning_bar_width="4dp"
+                app:spinning_bar_color="@color/colorMainBgLight"
+                app:spinning_bar_padding="8dp"
+                app:spinning_bar_width="3dp"
                 android:text="注册"
                 />
         </LinearLayout>
+
+        </android.support.v7.widget.CardView>
 
     </ScrollView>
 </LinearLayout>

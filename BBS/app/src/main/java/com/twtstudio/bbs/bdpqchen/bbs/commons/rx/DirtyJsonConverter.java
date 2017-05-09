@@ -89,12 +89,16 @@ public class DirtyJsonConverter extends Converter.Factory {
 
         @Override
         public T convert(ResponseBody value) throws IOException {
-
+            String keyStart = "\"data\":\"";
+            String keyEnd = "\"}";
             String dirty = value.string();
             String clean = dirty;
-            if (dirty.endsWith("\"}") && dirty.contains("\"data\":\"")){
-                clean = dirty.replace("\"data\":\"", "\"data\":{\"message\":\"").replace("\"}", "\"}}");
+            if (dirty.endsWith(keyEnd) && dirty.contains(keyStart)){
+
+                clean = dirty.replace(keyStart, "\"message\":\"").replace(keyEnd, "\",\"data\":{}}");
+//                clean = dirty.replace(keyStart, "\"data\":{\"message\":\"").replace(keyEnd, "\"}}");
                 LogUtil.d("new Json -->", clean);
+
             }
 
             try {

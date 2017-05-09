@@ -11,5 +11,11 @@ public final class Constants {
     public static final int FRAGMENT_INDIVIDUAL = 103;
 
 
+    public static final String BUNDLE_REGISTER_CID = "cid";
+    public static final String BUNDLE_REGISTER_REAL_NAME = "real_name";
+    public static final String BUNDLE_REGISTER_STU_NUM = "stu_num";
+    public static final String BUNDLE_REGISTER_PASSWORD = "password";
+    public static final String BUNDLE_REGISTER_USERNAME = "username";
+
 
 }

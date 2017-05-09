@@ -10,6 +10,8 @@ public class BaseResponse<T> implements Serializable {
 
     private int err;
 
+    private String message;
+
     private T data;
 
     public T getData() {
@@ -26,5 +28,13 @@ public class BaseResponse<T> implements Serializable {
 
     public void setErr(int err) {
         this.err = err;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

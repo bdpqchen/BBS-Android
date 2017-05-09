@@ -24,11 +24,11 @@ public class ResponseException extends RuntimeException{
 
     public ResponseException(BaseResponse baseResponse){
         this.mResponse = baseResponse;
-        LogUtil.d("11111ssssss");
     }
 
     @Override
     public String getMessage() {
+        LogUtil.d(mResponse.getMessage());
         return getErrorMessage(getErrorCode());
     }
 
@@ -37,7 +37,6 @@ public class ResponseException extends RuntimeException{
     }
 
     public String getErrorMessage(int errCode){
-        LogUtil.d("-----=");
         if (!ERROR_CODES_MAPS.containsKey(errCode)){
             return "网络请求失败";
         }

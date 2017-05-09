@@ -1,6 +1,8 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 
 import java.util.List;
@@ -23,4 +25,17 @@ public interface BaseApi {
 
     @GET("forum")
     Observable<BaseResponse<List<ForumModel>>> getForums();
+
+    @FormUrlEncoded
+    @POST("register/new")
+    Observable<BaseResponse<RegisterModel>> doRegister(@Field(Constants.BUNDLE_REGISTER_USERNAME) String string,
+                                                       @Field(Constants.BUNDLE_REGISTER_PASSWORD) String string1,
+                                                       @Field(Constants.BUNDLE_REGISTER_CID) String string2,
+                                                       @Field(Constants.BUNDLE_REGISTER_STU_NUM) String string3,
+                                                       @Field(Constants.BUNDLE_REGISTER_REAL_NAME) String string4);
+
+
+
+
 }
+

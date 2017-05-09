@@ -1,12 +1,18 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
+import android.os.Bundle;
+
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -17,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by bdpqchen on 17-4-27.
  */
 
-public class RxDoHttpClient {
+public class RxDoHttpClient<T> {
 
     private static final String BASE_URL = "http://202.113.13.162:8080/";
     private Retrofit mRetrofit;
@@ -62,7 +68,16 @@ public class RxDoHttpClient {
         return mApi.getForums();
     }
 
-//    public
+    public Observable<BaseResponse<RegisterModel>> doRegister(Bundle bundle) {
+        return mApi.doRegister(
+                bundle.getString(Constants.BUNDLE_REGISTER_USERNAME),
+                bundle.getString(Constants.BUNDLE_REGISTER_CID),
+                bundle.getString(Constants.BUNDLE_REGISTER_PASSWORD),
+                bundle.getString(Constants.BUNDLE_REGISTER_STU_NUM),
+                bundle.getString(Constants.BUNDLE_REGISTER_REAL_NAME)
+                );
+    }
+
 
 
 }
