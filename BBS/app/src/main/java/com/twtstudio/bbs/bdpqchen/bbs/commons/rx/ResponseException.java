@@ -22,6 +22,7 @@ public class ResponseException extends RuntimeException{
         ERROR_CODES_MAPS.put(1010, "姓名，身份证号不匹配");
         ERROR_CODES_MAPS.put(1012, "姓名，学号不匹配");
         ERROR_CODES_MAPS.put(4000, "未上传头像");
+        ERROR_CODES_MAPS.put(2003, "图片格式仅支持 .JPEG, .JPG");
 
     }
 
@@ -31,7 +32,7 @@ public class ResponseException extends RuntimeException{
 
     @Override
     public String getMessage() {
-        LogUtil.d(mResponse.getMessage());
+        LogUtil.dd(mResponse.getMessage());
         return getErrorMessage(getErrorCode());
     }
 
@@ -41,7 +42,7 @@ public class ResponseException extends RuntimeException{
 
     public String getErrorMessage(int errCode){
         if (!ERROR_CODES_MAPS.containsKey(errCode)){
-            LogUtil.d("messageerr", mResponse.getMessage());
+            LogUtil.dd("messageerr", mResponse.getMessage());
             if (mResponse.getMessage() != null){
                 return mResponse.getMessage();
             }

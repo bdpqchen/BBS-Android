@@ -24,6 +24,7 @@ import com.pizidea.imagepicker.AndroidImagePicker;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -62,7 +63,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     private String mSignature;
     private String mOldNickname = PrefUtil.getInfoNickname();
     private String mOldSignature = PrefUtil.getInfoSignature();
-
+    private MaterialDialog mMaterialDialog;
     private int screenWidth;
     private final int REQ_IMAGE = 1433;
 
@@ -162,7 +163,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     private void showInputDialog(String title, String hint, int range, MaterialDialog.InputCallback callback) {
 
         new MaterialDialog.Builder(this)
-                .inputType(InputType.TYPE_CLASS_TEXT| InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE)
+                .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE)
                 .title(title)
                 .inputRange(6, range)
                 .input(hint, "", callback)
@@ -189,11 +190,10 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
     private void updateInfo() {
         boolean hasUnsyncInfo = true;
-        if (mNickname.equals(mOldNickname) && mSignature.equals(mOldSignature)){
+        if (mNickname.equals(mOldNickname) && mSignature.equals(mOldSignature)) {
             hasUnsyncInfo = false;
         }
         Intent intent = new Intent();
-        LogUtil.dd("has un start", String.valueOf(hasUnsyncInfo));
         intent.putExtra(HomeActivity.CODE_RESULT_FOR_UPDATE_INFO_TAG, hasUnsyncInfo);
         this.setResult(HomeActivity.CODE_RESULT_FOR_UPDATE_INFO, intent);
     }
@@ -203,15 +203,22 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         AndroidImagePicker.getInstance().pickAndCrop(this, true, 120, new AndroidImagePicker.OnImageCropCompleteListener() {
             @Override
             public void onImageCropComplete(Bitmap bmp, float ratio, String imagePath) {
-
-                LogUtil.dd("", "=====onImageCropComplete (get bitmap=" + bmp.toString());
-                LogUtil.dd("image path", imagePath);
                 mPresenter.doUpdateAvatar(imagePath);
                 mCivAvatar.setVisibility(View.VISIBLE);
                 mCivAvatar.setImageBitmap(bmp);
+                showProgressBar();
 
             }
         });
+    }
+
+    private void showProgressBar() {
+        mMaterialDialog = DialogUtil.showProgressDialog(this, "提示", "正在上传，请稍后..");
+    }
+
+    private void hideProgressBar() {
+        if (mMaterialDialog != null)
+        mMaterialDialog.dismiss();
     }
 
     private void hasPermission() {
@@ -240,16 +247,11 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQ_IMAGE) {
                 mCivAvatar.setVisibility(View.GONE);
-            }/*else if(requestCode == REQ_IMAGE_CROP){
-                Bitmap bmp = (Bitmap)data.getExtras().get("bitmap");
-                Log.i(TAG,"-----"+bmp.getRowBytes());
-            }*/
+            }
         }
-
     }
 
     @Override
@@ -260,11 +262,13 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
     @Override
     public void updateAvatarFailed(String msg) {
+        hideProgressBar();
         SnackBarUtil.error(this, msg);
     }
 
     @Override
     public void updateAvatarSuccess(BaseModel baseModel) {
+        hideProgressBar();
         SnackBarUtil.normal(this, "头像上传成功");
     }
 }

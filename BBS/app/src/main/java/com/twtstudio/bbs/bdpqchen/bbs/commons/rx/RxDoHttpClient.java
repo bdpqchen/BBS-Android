@@ -96,11 +96,9 @@ public class RxDoHttpClient<T> {
 
     public Observable<BaseResponse<BaseModel>> doUpdateAvatar(String imagePath) {
         File file = new File(imagePath);//filePath 图片地址
-        MultipartBody.Builder builder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM);//表单类型
-//                .addFormDataPart(Constants.NET_RETROFIT_HEADER_TITLE, getLatestAuthentication());//ParamKey.TOKEN 自定义参数key常量类，即参数名
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);//表单类型
         RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        builder.addFormDataPart("imgfile", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
+        builder.addFormDataPart("img_file", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
         List<MultipartBody.Part> parts = builder.build().parts();
         return mApi.doUpdateAvatar(getLatestAuthentication(), parts);
     }
