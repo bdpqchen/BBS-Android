@@ -7,10 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 
-import com.imnjh.imagepicker.PickerConfig;
-import com.imnjh.imagepicker.SImagePicker;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -25,7 +22,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import me.yokeyword.fragmentation.SupportFragment;
 
 
@@ -88,12 +84,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         super.onCreate(savedInstanceState);
         LogUtil.dd("token", PrefUtil.getAuthToken());
 
-        SImagePicker.init(new PickerConfig.Builder().setAppContext(this)
-//                .setImageLoader(new FrescoImageLoader())
-//                .setToolbaseColor(getColor(R.color.colorPrimary))
-                .build());
-
-//        getIntent();
         // TODO: 17-5-3 非登录后跳转到这里，是否渐变
         // 登录后的渐变,
         if (!PrefUtil.hadLogin()) {
@@ -190,12 +180,18 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        LogUtil.dd("received the result", String.valueOf(data.getBooleanExtra(CODE_RESULT_FOR_UPDATE_INFO_TAG, false)));
-        if (requestCode == CODE_RESULT_FOR_UPDATE_INFO){
-            if (data.getBooleanExtra(CODE_RESULT_FOR_UPDATE_INFO_TAG, false)){
-                mIndividualFragment.doUpdate();
+        if (data != null) {
+            LogUtil.dd("received the result", String.valueOf(data.getBooleanExtra(CODE_RESULT_FOR_UPDATE_INFO_TAG, false)));
+            if (requestCode == CODE_RESULT_FOR_UPDATE_INFO) {
+                if (data.getBooleanExtra(CODE_RESULT_FOR_UPDATE_INFO_TAG, false)) {
+                    mIndividualFragment.doUpdate();
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
+
+
 }

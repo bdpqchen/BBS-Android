@@ -5,16 +5,21 @@ import android.os.Bundle;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -57,13 +62,10 @@ public class RxDoHttpClient<T> {
 
     }
 
-    public String getLatestAuthentication(){
+    private String getLatestAuthentication(){
         return PrefUtil.getAuthUid() + "|" + PrefUtil.getAuthToken();
     }
 
-    public void getDataList(){
-
-    }
 
     public Observable<BaseResponse<LoginModel>> doLogin(String username, String password) {
         return mApi.doLogin(username, password);
@@ -92,5 +94,14 @@ public class RxDoHttpClient<T> {
     }
 
 
-
+    public Observable<BaseResponse<BaseModel>> doUpdateAvatar(String imagePath) {
+        File file = new File(imagePath);//filePath 图片地址
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);//表单类型
+//                .addFormDataPart(Constants.NET_RETROFIT_HEADER_TITLE, getLatestAuthentication());//ParamKey.TOKEN 自定义参数key常量类，即参数名
+        RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        builder.addFormDataPart("imgfile", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
+        List<MultipartBody.Part> parts = builder.build().parts();
+        return mApi.doUpdateAvatar(getLatestAuthentication(), parts);
+    }
 }

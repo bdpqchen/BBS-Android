@@ -1,27 +1,32 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
+import com.pizidea.imagepicker.AndroidImagePicker;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePassword;
 
@@ -57,6 +62,9 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     private String mSignature;
     private String mOldNickname = PrefUtil.getInfoNickname();
     private String mOldSignature = PrefUtil.getInfoSignature();
+
+    private int screenWidth;
+    private final int REQ_IMAGE = 1433;
 
     @Override
     protected int getLayoutResourceId() {
@@ -111,7 +119,14 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_avatar_update_info:
-
+                mRlAvatarUpdateInfo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        updateInfo();
+                        hasPermission();
+//                        startActivity(new Intent(mActivity, ImagePickerActivity.class));
+                    }
+                });
                 break;
             case R.id.rl_nickname_update_info:
                 showInputDialog("更改昵称", mNickname, 15, new MaterialDialog.InputCallback() {
@@ -183,5 +198,73 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         this.setResult(HomeActivity.CODE_RESULT_FOR_UPDATE_INFO, intent);
     }
 
+    private void showImageList() {
+        screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+        AndroidImagePicker.getInstance().pickAndCrop(this, true, 120, new AndroidImagePicker.OnImageCropCompleteListener() {
+            @Override
+            public void onImageCropComplete(Bitmap bmp, float ratio, String imagePath) {
 
+                LogUtil.dd("", "=====onImageCropComplete (get bitmap=" + bmp.toString());
+                LogUtil.dd("image path", imagePath);
+                mPresenter.doUpdateAvatar(imagePath);
+                mCivAvatar.setVisibility(View.VISIBLE);
+                mCivAvatar.setImageBitmap(bmp);
+
+            }
+        });
+    }
+
+    private void hasPermission() {
+        Dexter.withActivity(this)
+                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                        LogUtil.dd("onPermissionGranted");
+                        showImageList();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                        LogUtil.dd("onPermissionDenied");
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                        LogUtil.dd("onPermissionRationaleShouldBeShown");
+                    }
+                })
+                .check();
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQ_IMAGE) {
+                mCivAvatar.setVisibility(View.GONE);
+            }/*else if(requestCode == REQ_IMAGE_CROP){
+                Bitmap bmp = (Bitmap)data.getExtras().get("bitmap");
+                Log.i(TAG,"-----"+bmp.getRowBytes());
+            }*/
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        AndroidImagePicker.getInstance().onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void updateAvatarFailed(String msg) {
+        SnackBarUtil.error(this, msg);
+    }
+
+    @Override
+    public void updateAvatarSuccess(BaseModel baseModel) {
+        SnackBarUtil.normal(this, "头像上传成功");
+    }
 }

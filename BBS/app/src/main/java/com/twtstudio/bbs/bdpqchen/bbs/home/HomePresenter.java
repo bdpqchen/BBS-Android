@@ -28,7 +28,6 @@ public class HomePresenter extends RxPresenter<HomeContract.View> implements Hom
     @Inject
     public HomePresenter(RxDoHttpClient httpClient) {
         this.mHttpClient = httpClient;
-        mHttpClient.getDataList();
 
     }
 
