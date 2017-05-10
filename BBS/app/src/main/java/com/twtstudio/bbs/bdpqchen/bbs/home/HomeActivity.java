@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
@@ -17,15 +16,12 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.test.SecondActivity;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import me.yokeyword.fragmentation.SupportFragment;
 
 
@@ -42,9 +38,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     IndividualFragment mIndividualFragment;
     BottomBarTab mNearBy;
 
+
+
     private int mShowingFragment = Constants.FRAGMENT_MAIN;
     private int mHidingFragment = Constants.FRAGMENT_MAIN;
-
+    public static final int CODE_RESULT_FOR_UPDATE_INFO = 1;
+    public static final String CODE_RESULT_FOR_UPDATE_INFO_TAG = "hasUnSyncInfo";
     private static final String TEXT_SNACK_BAR = "提示提示提示换行jjjjjjjjjj";
 
     @Override
@@ -83,8 +82,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogUtil.dd("token", PrefUtil.getAuthToken());
 
-//        getIntent();
         // TODO: 17-5-3 非登录后跳转到这里，是否渐变
         // 登录后的渐变,
         if (!PrefUtil.hadLogin()) {
@@ -178,4 +177,21 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         }
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data != null) {
+            LogUtil.dd("received the result", String.valueOf(data.getBooleanExtra(CODE_RESULT_FOR_UPDATE_INFO_TAG, false)));
+            if (requestCode == CODE_RESULT_FOR_UPDATE_INFO) {
+                if (data.getBooleanExtra(CODE_RESULT_FOR_UPDATE_INFO_TAG, false)) {
+                    mIndividualFragment.doUpdate();
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+
+
 }

@@ -1,7 +1,9 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 
@@ -27,11 +30,13 @@ import butterknife.ButterKnife;
 public class IndividualListViewAdapter extends BaseAdapter {
 
     private Context mContext;
+    private Activity mActivity;
 
     private List<IndividualListModel> mDataSets = new ArrayList<>();
 
-    public IndividualListViewAdapter(Context context, List<IndividualListModel> list) {
-        mContext = context;
+    public IndividualListViewAdapter(Activity activity, List<IndividualListModel> list) {
+        mContext = activity;
+        this.mActivity = activity;
         mDataSets = list;
 
     }
@@ -80,7 +85,7 @@ public class IndividualListViewAdapter extends BaseAdapter {
             public void onClick(View v) {
                 switch (position){
                     case 3:
-                        mContext.startActivity(new Intent(mContext, UpdateInfoActivity.class));
+                        mActivity.startActivityForResult(new Intent(mContext, UpdateInfoActivity.class), HomeActivity.CODE_RESULT_FOR_UPDATE_INFO);
                         break;
                 }
             }

@@ -2,9 +2,17 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo;
 
 import android.os.Bundle;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 
 import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by bdpqchen on 17-5-6.
@@ -12,9 +20,33 @@ import javax.inject.Inject;
 
 class UpdateInfoPresenter extends RxPresenter<UpdateInfoContract.View> implements UpdateInfoContract.Presenter{
 
-    @Inject
-    UpdateInfoPresenter(){
+    private RxDoHttpClient<BaseModel> mRxDoHttpClient;
 
+    @Inject
+    UpdateInfoPresenter(RxDoHttpClient client){
+        this.mRxDoHttpClient = client;
     }
 
+
+    @Override
+    public void doUpdateAvatar(String imagePath) {
+        SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
+            @Override
+            public void _onError(String msg) {
+                mView.updateAvatarFailed(msg);
+            }
+
+            @Override
+            public void _onNext(BaseModel baseModel) {
+                mView.updateAvatarSuccess(baseModel);
+            }
+
+        };
+        addSubscribe(mRxDoHttpClient.doUpdateAvatar(imagePath)
+                .map(mRxDoHttpClient.mTransformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer)
+        );
+    }
 }

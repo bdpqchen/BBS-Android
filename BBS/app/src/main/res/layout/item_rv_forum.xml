@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+<!--
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </GridView>
+-->
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/avatar1"
+        android:id="@+id/iv_bg_image"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="休闲娱乐"
+        android:textColor="@color/material_light_white"
+        android:layout_centerInParent="true"
+        android:textSize="30sp"
+        android:id="@+id/tv_name"
+        />
+
+
+</RelativeLayout>

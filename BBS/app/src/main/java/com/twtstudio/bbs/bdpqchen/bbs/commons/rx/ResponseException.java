@@ -16,12 +16,14 @@ public class ResponseException extends RuntimeException{
     private BaseResponse mResponse;
 
     static {
+        //不可直接显示的error_code需要在这里进行替换
         ERROR_CODES_MAPS.put(1001, "登录失败, 请仔细检查账户密码");
 //        ERROR_CODES_MAPS.put(1010, "失败, 请检查输入是否有误");
         ERROR_CODES_MAPS.put(1010, "姓名，身份证号不匹配");
         ERROR_CODES_MAPS.put(1012, "姓名，学号不匹配");
+        ERROR_CODES_MAPS.put(4000, "未上传头像");
+        ERROR_CODES_MAPS.put(2003, "图片格式仅支持 .JPEG, .JPG");
 
-        // ...
     }
 
     public ResponseException(BaseResponse baseResponse){
@@ -30,7 +32,7 @@ public class ResponseException extends RuntimeException{
 
     @Override
     public String getMessage() {
-        LogUtil.d(mResponse.getMessage());
+        LogUtil.dd(mResponse.getMessage());
         return getErrorMessage(getErrorCode());
     }
 
@@ -40,7 +42,7 @@ public class ResponseException extends RuntimeException{
 
     public String getErrorMessage(int errCode){
         if (!ERROR_CODES_MAPS.containsKey(errCode)){
-            LogUtil.d("messageerr", mResponse.getMessage());
+            LogUtil.dd("messageerr", mResponse.getMessage());
             if (mResponse.getMessage() != null){
                 return mResponse.getMessage();
             }

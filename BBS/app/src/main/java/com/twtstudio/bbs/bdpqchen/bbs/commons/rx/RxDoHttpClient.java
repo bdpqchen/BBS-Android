@@ -5,16 +5,21 @@ import android.os.Bundle;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -26,7 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RxDoHttpClient<T> {
 
-    private static final String BASE_URL = "http://202.113.13.162:8080/";
+    public static final String BASE_URL = "http://202.113.13.162:8080/";
     private Retrofit mRetrofit;
     public BaseApi mApi;
     public ResponseTransformer<T> mTransformer;
@@ -57,19 +62,16 @@ public class RxDoHttpClient<T> {
 
     }
 
-    public String getLatestAuthentication(){
+    private String getLatestAuthentication(){
         return PrefUtil.getAuthUid() + "|" + PrefUtil.getAuthToken();
     }
 
-    public void getDataList(){
-
-    }
 
     public Observable<BaseResponse<LoginModel>> doLogin(String username, String password) {
         return mApi.doLogin(username, password);
     }
 
-    public Observable<BaseResponse<List<ForumModel>>> getForums(){
+    public Observable<BaseResponse<List<ForumModel>>> getForumList() {
         return mApi.getForums();
     }
 
@@ -84,8 +86,7 @@ public class RxDoHttpClient<T> {
     }
 
     public Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(){
-        String authentication = PrefUtil.getAuthUid() + "|" + PrefUtil.getAuthToken();
-        return mApi.getIndividualInfo(authentication);
+        return mApi.getIndividualInfo(getLatestAuthentication());
     }
 
     public Observable<BaseResponse<IndividualInfoModel>> doUpdateInfo(Bundle bundle) {
@@ -93,5 +94,12 @@ public class RxDoHttpClient<T> {
     }
 
 
-
+    public Observable<BaseResponse<BaseModel>> doUpdateAvatar(String imagePath) {
+        File file = new File(imagePath);//filePath 图片地址
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);//表单类型
+        RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        builder.addFormDataPart("img_file", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
+        List<MultipartBody.Part> parts = builder.build().parts();
+        return mApi.doUpdateAvatar(getLatestAuthentication(), parts);
+    }
 }

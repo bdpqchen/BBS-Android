@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
@@ -9,6 +10,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -44,14 +46,19 @@ public interface BaseApi {
     @GET("home")
     Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(@Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken);
 
-    @Multipart
+    @FormUrlEncoded
     @PUT("home")
     Observable<BaseResponse<IndividualInfoModel>> doUpdateInfo(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
-            @Part(Constants.BUNDLE_NICKNAME) String nickname,
-            @Part(Constants.BUNDLE_SIGNATURE) String signature
+            @Field(Constants.BUNDLE_NICKNAME) String nickname,
+            @Field(Constants.BUNDLE_SIGNATURE) String signature
     );
 
 
+    @Multipart
+    @PUT("user/avatar")
+    Observable<BaseResponse<BaseModel>> doUpdateAvatar(
+            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
+            @Part List<MultipartBody.Part> partList);
 }
 
