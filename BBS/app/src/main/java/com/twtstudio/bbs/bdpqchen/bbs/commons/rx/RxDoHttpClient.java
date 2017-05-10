@@ -31,7 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RxDoHttpClient<T> {
 
-    private static final String BASE_URL = "http://202.113.13.162:8080/";
+    public static final String BASE_URL = "http://202.113.13.162:8080/";
     private Retrofit mRetrofit;
     public BaseApi mApi;
     public ResponseTransformer<T> mTransformer;
@@ -71,7 +71,7 @@ public class RxDoHttpClient<T> {
         return mApi.doLogin(username, password);
     }
 
-    public Observable<BaseResponse<List<ForumModel>>> getForums(){
+    public Observable<BaseResponse<List<ForumModel>>> getForumList() {
         return mApi.getForums();
     }
 

@@ -25,6 +25,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -107,6 +108,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         mSignature = PrefUtil.getInfoSignature();
         mTvNicknameUpdate.setText(mNickname);
         mTvSignatureUpdate.setText(mSignature);
+        ImageUtil.loadAvatar(mActivity, mCivAvatar);
     }
 
     @OnClick({R.id.rl_avatar_update_info, R.id.rl_nickname_update_info, R.id.rl_signature_update_info, R.id.rl_password_update_info})
@@ -128,14 +130,13 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
                 });
                 break;
             case R.id.rl_signature_update_info:
-                showInputDialog("更改签名", "最大长度为100", 100, new MaterialDialog.InputCallback() {
+                showInputDialog("更改签名", "最大汉字长度为100", 100, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog materialDialog, CharSequence charSequence) {
                         String s = charSequence.toString();
                         mSignature = s;
                         mTvSignatureUpdate.setText(s);
                         PrefUtil.setInfoSignature(s);
-
                     }
                 });
 
