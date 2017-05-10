@@ -107,27 +107,13 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         mSignature = PrefUtil.getInfoSignature();
         mTvNicknameUpdate.setText(mNickname);
         mTvSignatureUpdate.setText(mSignature);
-//        LogUtil.d(PrefUtil.getAuthToken());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
     }
 
     @OnClick({R.id.rl_avatar_update_info, R.id.rl_nickname_update_info, R.id.rl_signature_update_info, R.id.rl_password_update_info})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_avatar_update_info:
-                mRlAvatarUpdateInfo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        updateInfo();
-                        hasPermission();
-//                        startActivity(new Intent(mActivity, ImagePickerActivity.class));
-                    }
-                });
+                hasPermission();
                 break;
             case R.id.rl_nickname_update_info:
                 showInputDialog("更改昵称", mNickname, 15, new MaterialDialog.InputCallback() {
@@ -203,22 +189,27 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         AndroidImagePicker.getInstance().pickAndCrop(this, true, 120, new AndroidImagePicker.OnImageCropCompleteListener() {
             @Override
             public void onImageCropComplete(Bitmap bmp, float ratio, String imagePath) {
+                showProgressBar();
                 mPresenter.doUpdateAvatar(imagePath);
                 mCivAvatar.setVisibility(View.VISIBLE);
                 mCivAvatar.setImageBitmap(bmp);
-                showProgressBar();
 
             }
         });
     }
 
     private void showProgressBar() {
-        mMaterialDialog = DialogUtil.showProgressDialog(this, "提示", "正在上传，请稍后..");
+        if (mMaterialDialog == null){
+            mMaterialDialog = DialogUtil.showProgressDialog(this, "提示", "正在上传，请稍后..");
+        }else{
+            mMaterialDialog.show();
+        }
     }
 
     private void hideProgressBar() {
-        if (mMaterialDialog != null)
-        mMaterialDialog.dismiss();
+        if (mMaterialDialog != null){
+            mMaterialDialog.dismiss();
+        }
     }
 
     private void hasPermission() {
@@ -234,11 +225,12 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
                         LogUtil.dd("onPermissionDenied");
+                        SnackBarUtil.error(mActivity, "请赋予我读取存储器内容的权限");
                     }
 
                     @Override
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-                        LogUtil.dd("onPermissionRationaleShouldBeShown");
+//                        LogUtil.dd("onPermissionRationaleShouldBeShown");
                     }
                 })
                 .check();
@@ -270,5 +262,11 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     public void updateAvatarSuccess(BaseModel baseModel) {
         hideProgressBar();
         SnackBarUtil.normal(this, "头像上传成功");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
     }
 }

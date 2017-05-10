@@ -18,7 +18,7 @@ public class ResponseTransformer<T> implements Function<BaseResponse<T>, T> {
         if (tBaseResponse.getErr() == 0){
             return tBaseResponse.getData();
         }else{
-            LogUtil.d(tBaseResponse.getErr());
+//            LogUtil.d(tBaseResponse.getErr());
             throw new ResponseException(tBaseResponse);
         }
     }
