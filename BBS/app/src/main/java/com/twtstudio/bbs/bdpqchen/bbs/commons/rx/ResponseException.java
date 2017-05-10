@@ -20,6 +20,7 @@ public class ResponseException extends RuntimeException{
 //        ERROR_CODES_MAPS.put(1010, "失败, 请检查输入是否有误");
         ERROR_CODES_MAPS.put(1010, "姓名，身份证号不匹配");
         ERROR_CODES_MAPS.put(1012, "姓名，学号不匹配");
+        ERROR_CODES_MAPS.put(4000, "未上传头像");
 
         // ...
     }

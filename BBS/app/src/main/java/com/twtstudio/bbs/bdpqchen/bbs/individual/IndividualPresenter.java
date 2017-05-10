@@ -31,7 +31,7 @@ public class IndividualPresenter extends RxPresenter<IndividualContract.View> im
         SimpleObserver<IndividualInfoModel> observer = new SimpleObserver<IndividualInfoModel>() {
             @Override
             public void _onError(String msg) {
-                mView.updateInfoSuccess();
+                mView.updateInfoFailed();
             }
 
             @Override

@@ -44,12 +44,12 @@ public interface BaseApi {
     @GET("home")
     Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(@Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken);
 
-    @Multipart
+    @FormUrlEncoded
     @PUT("home")
     Observable<BaseResponse<IndividualInfoModel>> doUpdateInfo(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
-            @Part(Constants.BUNDLE_NICKNAME) String nickname,
-            @Part(Constants.BUNDLE_SIGNATURE) String signature
+            @Field(Constants.BUNDLE_NICKNAME) String nickname,
+            @Field(Constants.BUNDLE_SIGNATURE) String signature
     );
 
 

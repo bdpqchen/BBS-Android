@@ -89,6 +89,9 @@ dependencies {
     // material-dialog
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'
 
+    //avatar
+    compile 'com.github.martin90s:ImagePicker:v1.3.2'
+
 
 }
 

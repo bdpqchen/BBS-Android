@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import com.imnjh.imagepicker.PickerConfig;
+import com.imnjh.imagepicker.SImagePicker;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -17,12 +19,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.test.SecondActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,9 +42,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     IndividualFragment mIndividualFragment;
     BottomBarTab mNearBy;
 
+
+
     private int mShowingFragment = Constants.FRAGMENT_MAIN;
     private int mHidingFragment = Constants.FRAGMENT_MAIN;
-
+    public static final int CODE_RESULT_FOR_UPDATE_INFO = 1;
+    public static final String CODE_RESULT_FOR_UPDATE_INFO_TAG = "hasUnSyncInfo";
     private static final String TEXT_SNACK_BAR = "提示提示提示换行jjjjjjjjjj";
 
     @Override
@@ -83,6 +86,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogUtil.dd("token", PrefUtil.getAuthToken());
+
+        SImagePicker.init(new PickerConfig.Builder().setAppContext(this)
+//                .setImageLoader(new FrescoImageLoader())
+//                .setToolbaseColor(getColor(R.color.colorPrimary))
+                .build());
 
 //        getIntent();
         // TODO: 17-5-3 非登录后跳转到这里，是否渐变
@@ -177,5 +186,16 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             mNearBy.setBadgeCount(count);
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        LogUtil.dd("received the result", String.valueOf(data.getBooleanExtra(CODE_RESULT_FOR_UPDATE_INFO_TAG, false)));
+        if (requestCode == CODE_RESULT_FOR_UPDATE_INFO){
+            if (data.getBooleanExtra(CODE_RESULT_FOR_UPDATE_INFO_TAG, false)){
+                mIndividualFragment.doUpdate();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -12,6 +12,7 @@ import com.orhanobut.logger.Logger;
 public final class LogUtil {
 
     public static boolean mIsLogable = true;
+    private static final String TAG = "LogUtil-->";
 
     public static void v(String s){
         Logger.v(s);
@@ -44,7 +45,12 @@ public final class LogUtil {
            Log.v(t, m);
    }
 
-   public static void dd(@Nullable String t, String m){
+    public static void dd(String m){
+        if (mIsLogable)
+            Log.d(TAG, m);
+    }
+
+    public static void dd(@Nullable String t, String m){
        if (mIsLogable)
            Log.d(t, m);
    }

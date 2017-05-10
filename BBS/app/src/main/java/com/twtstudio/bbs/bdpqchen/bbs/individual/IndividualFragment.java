@@ -16,7 +16,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.ScrollProblemHelper;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
@@ -29,6 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by bdpqchen on 17-5-3.
@@ -51,6 +52,8 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     @BindView(R.id.tv_post_count)
     TextView mTvPostCount;
     Unbinder unbinder;
+    @BindView(R.id.civ_avatar)
+    CircleImageView mCivAvatar;
 
     private IndividualListViewAdapter mListViewAdapter;
     private List<IndividualListModel> mDataSets = new ArrayList<>();
@@ -70,7 +73,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     protected void initFragment() {
         setDataSets();
 
-        mListViewAdapter = new IndividualListViewAdapter(this.getContext(), mDataSets);
+        mListViewAdapter = new IndividualListViewAdapter(this.getActivity(), mDataSets);
         mListView.setAdapter(mListViewAdapter);
         ScrollProblemHelper.setListViewHeightBasedOnChildren(mListView);
 
@@ -86,6 +89,8 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mTvNickname.setText(PrefUtil.getInfoNickname());
         mTvSignature.setText(PrefUtil.getInfoSignature());
         mTvPoints.setText(PrefUtil.getInfoPoints() + "");
+
+//        ImageUtil.load(this, PrefUtil.getAvatarUrl);
 
     }
 
@@ -114,7 +119,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
                 temp.iconStart = R.drawable.icon_ll_my_message;
             } else {
                 temp.hasTag = false;
-//                temp.tagNum = 0;
             }
             mDataSets.add(temp);
         }
@@ -133,11 +137,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mListViewAdapter.notifyDataSetChanged();
         mTvNickname.setText(PrefUtil.getInfoNickname());
         mTvSignature.setText(PrefUtil.getInfoSignature());
-        if (PrefUtil.hasUnSyncInfo()){
-            mPresenter.doUpdateInfo(getUnSyncInfoBundle());
-        }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -155,20 +155,18 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
     @Override
     public void updateInfoSuccess() {
-        PrefUtil.setHasUnSyncInfo(false);
         mTvSignature.setText(PrefUtil.getInfoSignature());
         mTvNickname.setText(PrefUtil.getInfoNickname());
-        SnackBarUtil.normal(this.getActivity(), "个人信息同步成功");
-
+        showSuccess();
     }
 
     @Override
     public void updateInfoFailed() {
-        PrefUtil.setHasUnSyncInfo(false);
+        PrefUtil.setHasUnSyncInfo(true);
         SnackBarUtil.error(this.getActivity(), "个人信息同步失败，请点击同步", "同步", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.doUpdateInfo(getUnSyncInfoBundle());
+                doUpdate();
             }
         });
     }
@@ -179,4 +177,20 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         bundle.putString(Constants.BUNDLE_NICKNAME, PrefUtil.getInfoNickname());
         return bundle;
     }
+
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+
+    }
+
+    public void doUpdate() {
+        mPresenter.doUpdateInfo(getUnSyncInfoBundle());
+    }
+
+    public void showSuccess() {
+        PrefUtil.setHasUnSyncInfo(false);
+        SnackBarUtil.normal(this.getActivity(), "个人信息同步成功");
+    }
+
 }

@@ -22,6 +22,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePassword;
 
 import butterknife.BindView;
@@ -54,6 +55,8 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     private Activity mActivity;
     private String mNickname;
     private String mSignature;
+    private String mOldNickname = PrefUtil.getInfoNickname();
+    private String mOldSignature = PrefUtil.getInfoSignature();
 
     @Override
     protected int getLayoutResourceId() {
@@ -111,10 +114,11 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
                 break;
             case R.id.rl_nickname_update_info:
-                showInputDialog("更改昵称", mNickname, 20, new MaterialDialog.InputCallback() {
+                showInputDialog("更改昵称", mNickname, 15, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog materialDialog, CharSequence charSequence) {
                         String s = charSequence.toString();
+                        mNickname = s;
                         mTvNicknameUpdate.setText(s);
                         PrefUtil.setInfoNickname(s);
 
@@ -122,10 +126,11 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
                 });
                 break;
             case R.id.rl_signature_update_info:
-                showInputDialog("更改签名", "最大长度为50", 50, new MaterialDialog.InputCallback() {
+                showInputDialog("更改签名", "最大长度为100", 100, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog materialDialog, CharSequence charSequence) {
                         String s = charSequence.toString();
+                        mSignature = s;
                         mTvSignatureUpdate.setText(s);
                         PrefUtil.setInfoSignature(s);
 
@@ -144,7 +149,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         new MaterialDialog.Builder(this)
                 .inputType(InputType.TYPE_CLASS_TEXT| InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE)
                 .title(title)
-                .inputRange(1, range)
+                .inputRange(6, range)
                 .input(hint, "", callback)
                 .negativeText("取消")
                 .show();
@@ -168,9 +173,14 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     }
 
     private void updateInfo() {
-        PrefUtil.setHasUnSyncInfo(true);
-        LogUtil.d("data info had restored");
-
+        boolean hasUnsyncInfo = true;
+        if (mNickname.equals(mOldNickname) && mSignature.equals(mOldSignature)){
+            hasUnsyncInfo = false;
+        }
+        Intent intent = new Intent();
+        LogUtil.dd("has un start", String.valueOf(hasUnsyncInfo));
+        intent.putExtra(HomeActivity.CODE_RESULT_FOR_UPDATE_INFO_TAG, hasUnsyncInfo);
+        this.setResult(HomeActivity.CODE_RESULT_FOR_UPDATE_INFO, intent);
     }
 
 

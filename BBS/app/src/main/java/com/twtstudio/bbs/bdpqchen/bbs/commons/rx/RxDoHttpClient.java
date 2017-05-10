@@ -84,8 +84,7 @@ public class RxDoHttpClient<T> {
     }
 
     public Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(){
-        String authentication = PrefUtil.getAuthUid() + "|" + PrefUtil.getAuthToken();
-        return mApi.getIndividualInfo(authentication);
+        return mApi.getIndividualInfo(getLatestAuthentication());
     }
 
     public Observable<BaseResponse<IndividualInfoModel>> doUpdateInfo(Bundle bundle) {
