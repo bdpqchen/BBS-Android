@@ -14,7 +14,10 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
 
 /**
  * Created by bdpqchen on 17-4-27.
@@ -39,7 +42,15 @@ public interface BaseApi {
 
 
     @GET("home")
-    Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(@Header("authentication")String idAndToken);
+    Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(@Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken);
+
+    @Multipart
+    @PUT("home")
+    Observable<BaseResponse<IndividualInfoModel>> doUpdateInfo(
+            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
+            @Part(Constants.BUNDLE_NICKNAME) String nickname,
+            @Part(Constants.BUNDLE_SIGNATURE) String signature
+    );
 
 
 }

@@ -133,7 +133,9 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mListViewAdapter.notifyDataSetChanged();
         mTvNickname.setText(PrefUtil.getInfoNickname());
         mTvSignature.setText(PrefUtil.getInfoSignature());
-        mPresenter.doUpdateInfo(getUnSyncInfoBundle());
+        if (PrefUtil.hasUnSyncInfo()){
+            mPresenter.doUpdateInfo(getUnSyncInfoBundle());
+        }
     }
 
 
