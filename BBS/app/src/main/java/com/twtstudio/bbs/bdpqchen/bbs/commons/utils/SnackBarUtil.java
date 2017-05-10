@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.webkit.WebHistoryItem;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -37,6 +38,12 @@ public final class SnackBarUtil {
             show(act, m, isLongTime(isLongTime), NORMAL_BG);
         }
     }
+    public static void normal(Activity act, String m, String actionTitle, View.OnClickListener listener) {
+        if (!sIsShowing){
+            sIsShowing = true;
+            show(act, m, isLongTime(true), NORMAL_BG, actionTitle, listener);
+        }
+    }
 
     public static void notice(Activity act, String m) {
         notice(act, m, false);
@@ -46,6 +53,12 @@ public final class SnackBarUtil {
         if (!sIsShowing){
             sIsShowing = true;
             show(act, m, isLongTime(isLongTime), NOTICE_BG);
+        }
+    }
+    public static void notice(Activity act, String m, String actionTitle, View.OnClickListener listener) {
+        if (!sIsShowing){
+            sIsShowing = true;
+            show(act, m, isLongTime(true), NOTICE_BG, actionTitle, listener);
         }
     }
 
@@ -60,7 +73,18 @@ public final class SnackBarUtil {
         }
     }
 
+    public static void error(Activity act, String m, String actionTitle, View.OnClickListener listener) {
+        if (!sIsShowing) {
+            sIsShowing = true;
+            show(act, m, isLongTime(true), ERROR_BG, actionTitle, listener);
+        }
+    }
+
     private static void show(final Activity act, String m, int duration, final int color) {
+        show(act, m, duration, color, "", null);
+    }
+
+    private static void show(final Activity act, String m, int duration, final int color, String actionTitle, View.OnClickListener listener) {
         FrameLayout view = (FrameLayout) act.findViewById(android.R.id.content);
         final TSnackbar snackBar = TSnackbar.make(view, m, duration);
         View snackBarView = snackBar.getView();
@@ -68,6 +92,11 @@ public final class SnackBarUtil {
         //多次调用会出现sOldColor=上次的颜色
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             sOldColor = act.getWindow().getStatusBarColor();
+        }
+
+        if (listener != null) {
+            snackBar.setAction(actionTitle, listener);
+            snackBar.setActionTextColor(Color.WHITE);
         }
 
         snackBarView.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +140,7 @@ public final class SnackBarUtil {
         });
         snackBar.show();
     }
+
 
     private static int isLongTime(boolean isL) {
         return isL ? TSnackbar.LENGTH_LONG : TSnackbar.LENGTH_SHORT;

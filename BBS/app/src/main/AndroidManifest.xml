@@ -60,7 +60,7 @@
 
             />
 
-        <activity android:name=".individual.updateInfo.UpdateInfo"
+        <activity android:name=".individual.updateInfo.UpdateInfoActivity"
 
                   />
         <activity android:name=".individual.updatePassword.UpdatePassword"

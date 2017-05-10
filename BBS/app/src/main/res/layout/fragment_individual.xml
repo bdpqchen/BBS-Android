@@ -76,7 +76,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:maxLines="1"
-                    android:text="jenny"
+                    android:text="未命名用户"
+                    android:id="@+id/tv_nickname"
                     android:textColor="@color/colorMainText"
                     android:textSize="20sp"
                     />
@@ -88,6 +89,7 @@
                     android:layout_marginTop="4dp"
                     android:gravity="center"
                     android:maxLines="1"
+                    android:id="@+id/tv_signature"
                     android:text="你还没有签名哦哦哦哦哦～"
                     android:textColor="@color/colorMainText"
                     />
@@ -114,6 +116,7 @@
                     app:layout_column="0"
                     app:layout_gravity="center"
                     app:layout_row="0"
+                    android:id="@+id/tv_points"
                     />
 
                 <TextView
@@ -151,6 +154,7 @@
                     app:layout_columnWeight="1"
                     app:layout_gravity="center"
                     app:layout_row="0"
+                    android:id="@+id/tv_post_count"
                     />
 
                 <TextView

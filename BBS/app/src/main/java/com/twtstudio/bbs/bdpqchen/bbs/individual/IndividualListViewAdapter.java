@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualListModel;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfo;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,9 +80,8 @@ public class IndividualListViewAdapter extends BaseAdapter {
             public void onClick(View v) {
                 switch (position){
                     case 3:
-                        mContext.startActivity(new Intent(mContext, UpdateInfo.class));
+                        mContext.startActivity(new Intent(mContext, UpdateInfoActivity.class));
                         break;
-
                 }
             }
         });

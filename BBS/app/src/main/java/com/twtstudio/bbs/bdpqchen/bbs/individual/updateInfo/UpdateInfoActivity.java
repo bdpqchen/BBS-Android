@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePassword;
@@ -24,7 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by bdpqchen on 17-5-6.
  */
 
-public class UpdateInfo extends BaseActivity<UpdateInfoPresenter> implements UpdateInfoContract.View {
+public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implements UpdateInfoContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -40,6 +42,8 @@ public class UpdateInfo extends BaseActivity<UpdateInfoPresenter> implements Upd
     RelativeLayout mRlPasswordUpdateInfo;
 
     private Activity mActivity;
+    private String mNickname;
+    private String mSignature;
 
     @Override
     protected int getLayoutResourceId() {
@@ -77,7 +81,9 @@ public class UpdateInfo extends BaseActivity<UpdateInfoPresenter> implements Upd
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mActivity = this;
-
+        mNickname = PrefUtil.getInfoNickname();
+        mSignature = PrefUtil.getInfoSignature();
+        LogUtil.d(PrefUtil.getAuthToken());
     }
 
     @Override
@@ -93,12 +99,16 @@ public class UpdateInfo extends BaseActivity<UpdateInfoPresenter> implements Upd
 
                 break;
             case R.id.rl_nickname_update_info:
-                showInputDialog("更改昵称", "每月只可更改一次", 10, new MaterialDialog.InputCallback() {
+                showInputDialog("更改昵称", mNickname, 10, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog materialDialog, CharSequence charSequence) {
+
+//                        mPresenter
+
                         String s = charSequence.toString();
                         SnackBarUtil.normal(mActivity, s);
                         PrefUtil.setInfoNickname(s);
+
                     }
                 });
                 break;
@@ -128,4 +138,30 @@ public class UpdateInfo extends BaseActivity<UpdateInfoPresenter> implements Upd
                 .negativeText("取消")
                 .show();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                updateInfo();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onBackPressedSupport() {
+        updateInfo();
+        super.onBackPressedSupport();
+    }
+
+    private void updateInfo() {
+        PrefUtil.setHasUnSyncInfo(true);
+        LogUtil.d("data info had restored");
+
+    }
+
+
+
 }

@@ -9,7 +9,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.replacePassword.ReplacePasswordActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfo;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePassword;
 
 import dagger.Component;
@@ -34,7 +34,7 @@ public interface ActivityComponent {
 
     void inject(ReplacePasswordActivity replacePasswordActivity);
 
-    void inject(UpdateInfo updateInfo);
+    void inject(UpdateInfoActivity updateInfoActivity);
 
     void inject(UpdatePassword updatePassword);
 

@@ -37,6 +37,7 @@ public final class PrefUtil {
     private static final String INFO_UNREAD = "info_unread";
     private static final String INFO_POST = "info_post";
     private static final String INFO_GROUP = "info_group";
+    private static final String HAS_UN_SYNC_INFO = "has_un_sync_info";
 
     public static void setInfoGroup(int infoGroup) {
         Hawk.put(INFO_GROUP, infoGroup);
@@ -192,6 +193,13 @@ public final class PrefUtil {
         return Hawk.get(AUTH_UID, 0);
     }
 
+
+    public static boolean hasUnSyncInfo() {
+        return Hawk.put(HAS_UN_SYNC_INFO, false);
+    }
+    public static void setHasUnSyncInfo(boolean b){
+        Hawk.get(HAS_UN_SYNC_INFO, b);
+    }
 
 
 }

@@ -1,5 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo;
 
+import android.os.Bundle;
+
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 
 import javax.inject.Inject;

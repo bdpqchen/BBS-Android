@@ -1,5 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual;
 
+import android.os.Bundle;
+
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 
@@ -10,10 +12,12 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 public interface IndividualContract {
 
     interface View extends BaseView {
-
+        void updateInfoSuccess();
+        void updateInfoFailed();
     }
 
     interface Presenter extends BasePresenter<View>{
+        void doUpdateInfo(Bundle bundle);
 
     }
 }

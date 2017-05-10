@@ -1,5 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo;
 
+import android.os.Bundle;
+
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 
@@ -8,11 +10,12 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
  */
 
 interface UpdateInfoContract {
-    interface View extends BaseView{
 
+    interface View extends BaseView{
     }
 
     interface Presenter extends BasePresenter<View>{
 
     }
+
 }
