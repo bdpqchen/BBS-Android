@@ -3,19 +3,25 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePassword;
 
 import butterknife.BindView;
@@ -40,6 +46,10 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     RelativeLayout mRlSignatureUpdateInfo;
     @BindView(R.id.rl_password_update_info)
     RelativeLayout mRlPasswordUpdateInfo;
+    @BindView(R.id.tv_nickname_update)
+    TextView mTvNicknameUpdate;
+    @BindView(R.id.tv_signature_update)
+    TextView mTvSignatureUpdate;
 
     private Activity mActivity;
     private String mNickname;
@@ -83,7 +93,9 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         mActivity = this;
         mNickname = PrefUtil.getInfoNickname();
         mSignature = PrefUtil.getInfoSignature();
-        LogUtil.d(PrefUtil.getAuthToken());
+        mTvNicknameUpdate.setText(mNickname);
+        mTvSignatureUpdate.setText(mSignature);
+//        LogUtil.d(PrefUtil.getAuthToken());
     }
 
     @Override
@@ -99,14 +111,11 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
                 break;
             case R.id.rl_nickname_update_info:
-                showInputDialog("更改昵称", mNickname, 10, new MaterialDialog.InputCallback() {
+                showInputDialog("更改昵称", mNickname, 20, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog materialDialog, CharSequence charSequence) {
-
-//                        mPresenter
-
                         String s = charSequence.toString();
-                        SnackBarUtil.normal(mActivity, s);
+                        mTvNicknameUpdate.setText(s);
                         PrefUtil.setInfoNickname(s);
 
                     }
@@ -117,8 +126,9 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
                     @Override
                     public void onInput(@NonNull MaterialDialog materialDialog, CharSequence charSequence) {
                         String s = charSequence.toString();
-                        SnackBarUtil.normal(mActivity, s);
+                        mTvSignatureUpdate.setText(s);
                         PrefUtil.setInfoSignature(s);
+
                     }
                 });
 
@@ -129,9 +139,10 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         }
     }
 
-    private void showInputDialog(String title, String hint, int range, MaterialDialog.InputCallback callback){
+    private void showInputDialog(String title, String hint, int range, MaterialDialog.InputCallback callback) {
+
         new MaterialDialog.Builder(this)
-                .inputType(InputType.TYPE_CLASS_TEXT)
+                .inputType(InputType.TYPE_CLASS_TEXT| InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE)
                 .title(title)
                 .inputRange(1, range)
                 .input(hint, "", callback)
@@ -161,7 +172,6 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         LogUtil.d("data info had restored");
 
     }
-
 
 
 }

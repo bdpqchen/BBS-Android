@@ -39,7 +39,7 @@ public class IndividualPresenter extends RxPresenter<IndividualContract.View> im
                 mView.updateInfoSuccess();
             }
         };
-        addSubscribe(mHttpClient.getIndividualInfo()
+        addSubscribe(mHttpClient.doUpdateInfo(bundle)
                 .map(mHttpClient.mTransformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

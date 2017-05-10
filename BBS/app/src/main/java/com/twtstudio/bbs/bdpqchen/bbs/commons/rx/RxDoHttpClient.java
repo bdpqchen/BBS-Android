@@ -57,6 +57,10 @@ public class RxDoHttpClient<T> {
 
     }
 
+    public String getLatestAuthentication(){
+        return PrefUtil.getAuthUid() + "|" + PrefUtil.getAuthToken();
+    }
+
     public void getDataList(){
 
     }
@@ -82,6 +86,10 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(){
         String authentication = PrefUtil.getAuthUid() + "|" + PrefUtil.getAuthToken();
         return mApi.getIndividualInfo(authentication);
+    }
+
+    public Observable<BaseResponse<IndividualInfoModel>> doUpdateInfo(Bundle bundle) {
+        return mApi.doUpdateInfo(getLatestAuthentication(), bundle.getString(Constants.BUNDLE_NICKNAME, ""), bundle.getString(Constants.BUNDLE_SIGNATURE, ""));
     }
 
 

@@ -88,6 +88,7 @@
             android:layout_toStartOf="@+id/icon_arrow_nickname"
             android:layout_centerVertical="true"
             android:maxLines="1"
+            android:id="@+id/tv_nickname_update"
             />
 
 
@@ -138,6 +139,7 @@
             android:layout_toStartOf="@+id/icon_arrow_signature"
             android:layout_centerVertical="true"
             android:maxLines="3"
+            android:id="@+id/tv_signature_update"
             />
 
 
