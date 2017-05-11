@@ -16,4 +16,12 @@
     <dimen name="margin_top_list_view_settings">1px</dimen>
     <dimen name="margin_start_update_info">16dp</dimen>
     <dimen name="icon_size_normal">24dp</dimen>
+    <dimen name="margin_thread_title">8dp</dimen>
+    <dimen name="margin_thread_content">16dp</dimen>
+    <dimen name="margin_start_thread_title">4dp</dimen>
+    <dimen name="text_size_thread_title">20sp</dimen>
+    <dimen name="size_image_thread_content_width">120dp</dimen>
+    <dimen name="text_size_thread_content">12sp</dimen>
+    <dimen name="margin_thread_content_content_text">4dp</dimen>
+    <dimen name="height_thread_content">128dp</dimen>
 </resources>

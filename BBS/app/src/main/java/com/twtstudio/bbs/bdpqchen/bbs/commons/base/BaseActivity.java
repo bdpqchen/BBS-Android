@@ -18,7 +18,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerActivityComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 

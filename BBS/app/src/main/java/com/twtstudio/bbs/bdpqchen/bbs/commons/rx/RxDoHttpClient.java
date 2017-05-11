@@ -3,12 +3,13 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 import android.os.Bundle;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 
 import java.io.File;
@@ -102,4 +103,12 @@ public class RxDoHttpClient<T> {
         List<MultipartBody.Part> parts = builder.build().parts();
         return mApi.doUpdateAvatar(getLatestAuthentication(), parts);
     }
+
+
+    public Observable<BaseResponse<BoardsModel>> getBoardList(int forumId) {
+        return mApi.getBoardList(String.valueOf(forumId));
+    }
+   /* public Observable<BaseResponse<ThreadModel>> getThreadList(int threadId, int page) {
+        return mApi.getThreadList(String.valueOf(threadId), String.valueOf(page));
+    }*/
 }
