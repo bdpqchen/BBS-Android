@@ -8,6 +8,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
  */
 
 interface BoardsContract {
+
     interface View extends BaseView{
 
     }

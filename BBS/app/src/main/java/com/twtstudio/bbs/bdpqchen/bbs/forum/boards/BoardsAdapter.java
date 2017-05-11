@@ -10,6 +10,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumAdapter;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 
 import butterknife.BindView;
 
@@ -17,7 +18,8 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-5-11.
  */
 
-public class BoardsAdapter extends BaseAdapter<ThreadModel> implements View.OnClickListener {
+public class BoardsAdapter extends BaseAdapter<
+        ThreadModel> implements View.OnClickListener {
 
     private ForumAdapter.OnItemClickListener mOnItemClickListener = null;
 

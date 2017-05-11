@@ -9,12 +9,22 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 
 import java.io.File;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
 import okhttp3.MediaType;
@@ -33,12 +43,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RxDoHttpClient<T> {
 
     public static final String BASE_URL = "http://202.113.13.162:8080/";
+    //将会遇到证书 CA 问题
+//    public static final String BASE_URL = "https://bbs.twtstudio.com/";
     private Retrofit mRetrofit;
     public BaseApi mApi;
     public ResponseTransformer<T> mTransformer;
     public SchedulersHelper mSchedulerHelper;
 
     public RxDoHttpClient(){
+        trustEveryone();
+
+
+
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -60,7 +76,28 @@ public class RxDoHttpClient<T> {
         mTransformer = new ResponseTransformer<>();
         mSchedulerHelper = new SchedulersHelper();
 
+    }
 
+    private void trustEveryone() {
+        try {
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier(){
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }});
+            SSLContext context = SSLContext.getInstance("TLS");
+            context.init(null, new X509TrustManager[]{new X509TrustManager(){
+                public void checkClientTrusted(X509Certificate[] chain,
+                                               String authType) throws CertificateException {}
+                public void checkServerTrusted(X509Certificate[] chain,
+                                               String authType) throws CertificateException {}
+                public X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }}}, new SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(
+                    context.getSocketFactory());
+        } catch (Exception e) { // should never happen
+            e.printStackTrace();
+        }
     }
 
     private String getLatestAuthentication(){
@@ -104,11 +141,11 @@ public class RxDoHttpClient<T> {
         return mApi.doUpdateAvatar(getLatestAuthentication(), parts);
     }
 
-
     public Observable<BaseResponse<BoardsModel>> getBoardList(int forumId) {
         return mApi.getBoardList(String.valueOf(forumId));
     }
-   /* public Observable<BaseResponse<ThreadModel>> getThreadList(int threadId, int page) {
-        return mApi.getThreadList(String.valueOf(threadId), String.valueOf(page));
-    }*/
+    public Observable<BaseResponse<ThreadModel>> getThreadList(int threadId, int page) {
+        return mApi.getThreadList(getLatestAuthentication(), String.valueOf(threadId), String.valueOf(page));
+    }
+
 }

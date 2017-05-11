@@ -91,6 +91,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
     @Override
     protected void inject() {
+
         getActivityComponent().inject(this);
     }
 
@@ -192,6 +193,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
             public void onImageCropComplete(Bitmap bmp, float ratio, String imagePath) {
                 showProgressBar();
                 mPresenter.doUpdateAvatar(imagePath);
+
                 mCivAvatar.setVisibility(View.VISIBLE);
                 mCivAvatar.setImageBitmap(bmp);
 

@@ -58,7 +58,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         super.onCreate(savedInstanceState);
 
         if (isSupportNightMode()) {
-            // TODO: 17-5-6 将权限检查写一个Util 或使用第三方库
+            // TODO: 17-5-6 将权限检查写一个Util 或使用第三方库 -- 已使用库 dexter
             AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
 /*
             if (PrefUtil.isAutoNightMode()) {

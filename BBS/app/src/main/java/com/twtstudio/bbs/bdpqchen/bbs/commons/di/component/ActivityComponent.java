@@ -41,5 +41,7 @@ public interface ActivityComponent {
 
     void inject(BoardsActivity boardsActivity);
 
+
+
 //    void inject(SettingsActivity settingsActivity);
 }

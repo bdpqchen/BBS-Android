@@ -45,7 +45,6 @@ public interface BaseApi {
                                                        @Field(Constants.BUNDLE_REGISTER_STU_NUM) String string3,
                                                        @Field(Constants.BUNDLE_REGISTER_REAL_NAME) String string4);
 
-
     @GET("home")
     Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(@Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken);
 
@@ -68,7 +67,10 @@ public interface BaseApi {
     Observable<BaseResponse<BoardsModel>> getBoardList(@Path("forumId") String forumId);
 
     @GET("board/{boardId}/page/{page}")
-    Observable<BaseResponse<ThreadModel>> getThreadList(@Path("boardId")String boardId, @Path("page")String page);
+    Observable<BaseResponse<ThreadModel>> getThreadList(
+            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
+            @Path("boardId") String boardId,
+            @Path("page") String page);
 
 
 }

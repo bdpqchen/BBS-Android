@@ -12,6 +12,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +99,9 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
         List<ThreadModel> list = new ArrayList<>();
         for (int i = 0; i < 3; i++){
             ThreadModel model = new ThreadModel();
-            model.id = i;
+            ThreadModel.BoardBean boardBean = new ThreadModel.BoardBean();
+            boardBean.setId(i);
+            model.setBoard(boardBean);
             list.add(model);
         }
 

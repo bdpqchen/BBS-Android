@@ -6,15 +6,14 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 
-import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.ObservableSource;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -25,7 +24,8 @@ import io.reactivex.schedulers.Schedulers;
 class BoardsPresenter extends RxPresenter<BoardsContract.View> implements BoardsContract.Presenter {
 
     private RxDoHttpClient<BoardsModel> mHttpClient;
-//    public ResponseTransformer<List<BoardsModel>> mTransformer = new ResponseTransformer<>();
+    public ResponseTransformer<BoardsModel> mTransformer = new ResponseTransformer<>();
+    public ResponseTransformer<ThreadModel> mTransformerThread = new ResponseTransformer<>();
 
 
     @Inject
@@ -38,43 +38,45 @@ class BoardsPresenter extends RxPresenter<BoardsContract.View> implements Boards
     @Override
     public void getBoardList(final int boardId) {
 
-      /*  SimpleObserver<BoardsModel> observer = new SimpleObserver<BoardsModel>() {
+        SimpleObserver<ThreadModel> observer = new SimpleObserver<ThreadModel>() {
 
             @Override
             public void _onError(String msg) {
 //                mView.failedToGetForum(msg);
-                LogUtil.dd("get board list onNext()");
+                LogUtil.dd("message", msg);
+                LogUtil.dd("get board list onError()");
             }
 
             @Override
-            public void _onNext(BoardsModel boardsModel) {
-
+            public void _onNext(ThreadModel threadModel) {
+                LogUtil.d("OnNext()");
             }
 
-        };*/
+        };
 
 
-        /*addSubscribe(mHttpClient.getBoardList(boardId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext(new Consumer<BaseResponse<BoardsModel>>() {
-                            @Override
-                            public void accept(@NonNull BaseResponse<BoardsModel> boardsModelBaseResponse) throws Exception {
-                                boardsModelBaseResponse.getData().getBoards().get(0).getId();
-                            }
-                        })
-                        .observeOn(Schedulers.io())
-                        .flatMap(new Function<BaseResponse<BoardsModel>, ObservableSource<?>>() {
-                            @Override
-                            public ObservableSource<?> apply(@NonNull BaseResponse<BoardsModel> boardsModelBaseResponse) throws Exception {
-                                List<BoardsModel> boardList = boardsModelBaseResponse.getData().getBoards();
-                                mHttpClient.getThreadList()
-                                return null;
-                            }
-                        })
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeWith(observer)
-        );*/
+        addSubscribe(mHttpClient.getBoardList(boardId)
+                .map(mTransformer)
+                .flatMap(new Function<BoardsModel, Observable<BoardsModel.BoardsBean>>() {
+                    @Override
+                    public Observable<BoardsModel.BoardsBean> apply(@NonNull BoardsModel boardsModel) throws Exception {
+                        LogUtil.dd("apply()", String.valueOf(boardsModel.getBoards().size()));
+//                        List<Integer> list = new ArrayList<>();
+                        return Observable.fromIterable(boardsModel.getBoards());
+
+                    }
+                })
+                .flatMap(new Function<BoardsModel.BoardsBean, Observable<BaseResponse<ThreadModel>>>() {
+                    @Override
+                    public Observable<BaseResponse<ThreadModel>> apply(@NonNull BoardsModel.BoardsBean boardsBean) throws Exception {
+
+                        return mHttpClient.getThreadList(boardsBean.getId(), 1);
+                    }
+                })
+                .map(mTransformerThread)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer)
+        );
     }
 }
