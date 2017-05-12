@@ -10,6 +10,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
+
 
 import java.io.File;
 import java.util.List;
@@ -74,7 +76,9 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<List<ForumModel>>> getForumList() {
         return mApi.getForums();
     }
-
+    public Observable<BaseResponse<List<LatestPostModel>>> getLatestPost() {
+        return mApi.getLatestPost();
+    }
     public Observable<BaseResponse<RegisterModel>> doRegister(Bundle bundle) {
         return mApi.doRegister(
                 bundle.getString(Constants.BUNDLE_REGISTER_USERNAME),

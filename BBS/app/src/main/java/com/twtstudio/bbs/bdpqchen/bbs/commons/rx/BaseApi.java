@@ -6,6 +6,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
 
 import java.util.List;
 
@@ -60,5 +61,8 @@ public interface BaseApi {
     Observable<BaseResponse<BaseModel>> doUpdateAvatar(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Part List<MultipartBody.Part> partList);
+
+    @GET("index/announce")
+    Observable<BaseResponse<List<LatestPostModel>>> getLatestPost();
 }
 

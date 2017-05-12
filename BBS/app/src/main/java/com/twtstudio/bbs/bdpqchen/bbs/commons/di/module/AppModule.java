@@ -1,5 +1,8 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.di.module;
 
+import android.content.Context;
+import android.support.v4.app.FragmentManager;
+
 import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.ContextLife;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerActivity;
@@ -10,6 +13,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Created by bdpqchen on 17-4-26.
@@ -18,7 +22,6 @@ import dagger.Provides;
 @Module
 public class AppModule {
     private App mApp;
-
     public AppModule(App app) {
         this.mApp = app;
     }

@@ -6,6 +6,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.FragmentModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostFragment;
 
 import dagger.Component;
 
@@ -23,4 +25,5 @@ public interface FragmentComponent {
 
 
     void inject(ForumFragment forumFragment);
+    void inject(LatestPostFragment latestPostFragment);
 }

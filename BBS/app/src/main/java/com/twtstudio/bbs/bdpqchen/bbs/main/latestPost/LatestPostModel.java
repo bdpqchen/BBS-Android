@@ -6,7 +6,7 @@ import java.util.List;
  * Created by bdpqchen on 17-5-11.
  */
 
-class LatestPostModel {
+public class LatestPostModel {
 
         private List<?> latest;
         private List<AnnounceBean> announce;
