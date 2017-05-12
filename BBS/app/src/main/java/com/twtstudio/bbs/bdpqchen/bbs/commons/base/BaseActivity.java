@@ -18,7 +18,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerActivityComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 
@@ -59,7 +58,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         super.onCreate(savedInstanceState);
 
         if (isSupportNightMode()) {
-            // TODO: 17-5-6 将权限检查写一个Util 或使用第三方库
+            // TODO: 17-5-6 将权限检查写一个Util 或使用第三方库 -- 已使用库 dexter
             AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
 /*
             if (PrefUtil.isAutoNightMode()) {
@@ -103,6 +102,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
             mSlideBackLayout = SlideBackHelper.attach(activity, App.getActivityHelper(), slideConfig, null);
 
         }
+
 
     }
 

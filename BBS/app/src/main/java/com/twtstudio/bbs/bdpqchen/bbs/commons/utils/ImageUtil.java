@@ -21,6 +21,10 @@ public final class ImageUtil  {
         Glide.with(context).load(resourceId).asBitmap().centerCrop().dontAnimate().into(view);
     }
 
+    public static void loadWithHeight(Context context, int resourceId, ImageView view){
+        Glide.with(context).load(resourceId).centerCrop().dontAnimate().into(view);
+    }
+
     public static void loadFromUrl(Context context, String url, ImageView view){
         Glide.with(context).load(url).centerCrop().into(view);
     }
@@ -30,6 +34,11 @@ public final class ImageUtil  {
     }
 
 
+/*
+    public static void load(Context context, int resourceId, ImageView view){
+
+    }
+*/
 
 
 

@@ -3,7 +3,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +63,7 @@ public class IndividualListViewAdapter extends BaseAdapter {
         ViewHolder holder;
         IndividualListModel item = (IndividualListModel) getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_list_view_individual, parent, false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_ll_individual, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {

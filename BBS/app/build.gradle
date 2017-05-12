@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
@@ -26,10 +26,14 @@ android {
     }
 
 //    packageBuildConfig(false)
+<<<<<<< HEAD
     /* compileOptions {
+=======
+    compileOptions {
+>>>>>>> upstream/master
         targetCompatibility 1.8
         sourceCompatibility 1.8
-    }*/
+    }
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')

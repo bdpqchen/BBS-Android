@@ -3,19 +3,30 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 import android.os.Bundle;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
 
 
 import java.io.File;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import javax.security.cert.CertificateException;
+import javax.security.cert.X509Certificate;
 
 import io.reactivex.Observable;
 import okhttp3.MediaType;
@@ -33,17 +44,61 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RxDoHttpClient<T> {
 
-    public static final String BASE_URL = "http://202.113.13.162:8080/";
+//    public static final String BASE_URL = "http://202.113.13.162:8080/";
+    //将会遇到证书 CA 问题
+    public static final String BASE_URL = "https://bbs.twtstudio.com/";
     private Retrofit mRetrofit;
     public BaseApi mApi;
     public ResponseTransformer<T> mTransformer;
     public SchedulersHelper mSchedulerHelper;
 
+    // 由于https在连接的过程中会遇到
+    //javax.net.ssl.SSLHandshakeException: java.security.cert.CertPathValidatorException: Trust anchor for certification path not found.
+    //由于无证书的连接是不可信的，在此，建立Okhttp3连接时，选择信任所有的证书。参照
+    //https://blog.ijustyce.win/post/retrofit2%E4%B9%8Bhttps.html
+    private static OkHttpClient.Builder getUnSaveBuilder() {
+        try {
+            // Create a trust manager that does not validate certificate chains
+            final TrustManager[] trustAllCerts = new TrustManager[] {
+                    new X509TrustManager() {
+                        @Override
+                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                        }
+                        @Override
+                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                        }
+                        @Override
+                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                            return new java.security.cert.X509Certificate[]{};
+                        }
+                    }
+            };
+            // Install the all-trusting trust manager
+            final SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+            // Create an ssl socket factory with our all-trusting manager
+            final javax.net.ssl.SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.sslSocketFactory(sslSocketFactory);
+            builder.hostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
+            return builder;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public RxDoHttpClient(){
+
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient client = new OkHttpClient.Builder()
+//        OkHttpClient client = new OkHttpClient.Builder()
+        OkHttpClient client = getUnSaveBuilder()
                 .addInterceptor(interceptor)
                 .retryOnConnectionFailure(true)
                 .connectTimeout(10, TimeUnit.SECONDS)
@@ -60,7 +115,6 @@ public class RxDoHttpClient<T> {
         mApi = mRetrofit.create(BaseApi.class);
         mTransformer = new ResponseTransformer<>();
         mSchedulerHelper = new SchedulersHelper();
-
 
     }
 
@@ -106,4 +160,12 @@ public class RxDoHttpClient<T> {
         List<MultipartBody.Part> parts = builder.build().parts();
         return mApi.doUpdateAvatar(getLatestAuthentication(), parts);
     }
+
+    public Observable<BaseResponse<BoardsModel>> getBoardList(int forumId) {
+        return mApi.getBoardList(String.valueOf(forumId));
+    }
+    public Observable<BaseResponse<ThreadModel>> getThreadList(int threadId, int page) {
+        return mApi.getThreadList(getLatestAuthentication(), String.valueOf(threadId), String.valueOf(page));
+    }
+
 }

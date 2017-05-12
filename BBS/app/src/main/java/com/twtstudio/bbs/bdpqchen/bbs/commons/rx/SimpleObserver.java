@@ -30,8 +30,8 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
 
     @Override
     public void onNext(T t) {
-        LogUtil.d(t);
-        LogUtil.d("onNext()");
+//        LogUtil.d(t);
+        LogUtil.dd("onNext()");
         _onNext(t);
     }
 
