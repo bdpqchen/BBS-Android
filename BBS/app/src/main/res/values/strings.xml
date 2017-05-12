@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BBS</string>
+
+    <string name="icon">&#xe601;</string>
 </resources>
