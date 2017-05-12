@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 
 import java.util.ArrayList;
@@ -84,11 +86,8 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
         mRvBoardList.setLayoutManager(mLayoutManager);
         mRvBoardList.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new ForumAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-
-            }
+        mAdapter.setOnItemClickListener((view, position) -> {
+            startActivity(new Intent(mContext, ThreadActivity.class));
         });
 
 

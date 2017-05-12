@@ -74,6 +74,9 @@
         <activity android:name=".forum.boards.BoardsActivity"
 
             />
+        <activity android:name=".forum.boards.thread.ThreadActivity"
+
+            />
 
 
         <activity

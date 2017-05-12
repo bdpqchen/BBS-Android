@@ -60,15 +60,12 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
         mAdapter = new ForumAdapter(this.getContext());
         mRvForumList.setLayoutManager(mGridLayoutManager);
         mRvForumList.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new ForumAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
+        mAdapter.setOnItemClickListener((view, position) -> {
 
-                Intent intent = new Intent(mActivity, BoardsActivity.class);
-                intent.putExtra(INTENT_FORUM_ID, mAdapter.getItemForumId(position));
-                startActivity(intent);
-                mAdapter.getItemForumId(position);
-            }
+            Intent intent = new Intent(mActivity, BoardsActivity.class);
+            intent.putExtra(INTENT_FORUM_ID, mAdapter.getItemForumId(position));
+            startActivity(intent);
+            mAdapter.getItemForumId(position);
         });
 
     }
@@ -77,8 +74,6 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-
-
         unbinder = ButterKnife.bind(this, rootView);
         return rootView;
     }
