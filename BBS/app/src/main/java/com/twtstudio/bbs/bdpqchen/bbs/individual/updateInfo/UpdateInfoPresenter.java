@@ -6,6 +6,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 
@@ -30,6 +31,7 @@ class UpdateInfoPresenter extends RxPresenter<UpdateInfoContract.View> implement
 
     @Override
     public void doUpdateAvatar(String imagePath) {
+
         SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
             @Override
             public void _onError(String msg) {

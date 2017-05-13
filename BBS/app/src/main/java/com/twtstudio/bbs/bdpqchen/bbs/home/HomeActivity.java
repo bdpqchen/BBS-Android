@@ -104,14 +104,14 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int i) {
-                LogUtil.d("onTabSelected()");
+                LogUtil.dd("onTabSelected()");
                 if (i == R.id.bottom_bar_tab_main) {
 
                     mShowingFragment = Constants.FRAGMENT_MAIN;
                 } else if (i == R.id.bottom_bar_tab_forum) {
                     mShowingFragment = Constants.FRAGMENT_FORUM;
                 } else if (i == R.id.bottom_bar_tab_individual) {
-                    LogUtil.d("selected the individual ");
+//                    LogUtil.dd("selected the individual ");
                     mShowingFragment = Constants.FRAGMENT_INDIVIDUAL;
                 }
                 loadFragment();

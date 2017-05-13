@@ -32,6 +32,7 @@ public class MainFragment extends SimpleFragment {
         mButtonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 PrefUtil.setHadLogin(false);
             }
         });

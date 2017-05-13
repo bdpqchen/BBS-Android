@@ -5,6 +5,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 
 import java.util.List;
@@ -20,6 +22,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 /**
  * Created by bdpqchen on 17-4-27.
@@ -42,7 +45,6 @@ public interface BaseApi {
                                                        @Field(Constants.BUNDLE_REGISTER_STU_NUM) String string3,
                                                        @Field(Constants.BUNDLE_REGISTER_REAL_NAME) String string4);
 
-
     @GET("home")
     Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(@Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken);
 
@@ -60,5 +62,16 @@ public interface BaseApi {
     Observable<BaseResponse<BaseModel>> doUpdateAvatar(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Part List<MultipartBody.Part> partList);
+
+    @GET("forum/{forumId}")
+    Observable<BaseResponse<BoardsModel>> getBoardList(@Path("forumId") String forumId);
+
+    @GET("board/{boardId}/page/{page}")
+    Observable<BaseResponse<ThreadModel>> getThreadList(
+            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
+            @Path("boardId") String boardId,
+            @Path("page") String page);
+
+
 }
 
