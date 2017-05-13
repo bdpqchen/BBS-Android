@@ -66,7 +66,7 @@ public interface BaseApi {
 
 
     @GET("index/announce")
-    Observable<BaseResponse<List<LatestPostModel>>> getLatestPost();
+    Observable<BaseResponse<LatestPostModel>> getLatestPost();
 
     @GET("forum/{forumId}")
     Observable<BaseResponse<BoardsModel>> getBoardList(@Path("forumId") String forumId);

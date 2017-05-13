@@ -69,18 +69,20 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
 
 
     @Override
-    public void addLatestPostList(List<LatestPostModel> LatestPostModel) {
-        latestPostAdapter.addList(LatestPostModel);
+    public void addLatestPostList(List<LatestPostModel.AnnounceBean> announceBeen) {
+        latestPostAdapter.addList(announceBeen);
     }
 
     @Override
-    public void refreshLatestPostList(List<LatestPostModel> LatestPostModel) {
-        latestPostAdapter.refreshList(LatestPostModel);
+    public void refreshLatestPostList(List<LatestPostModel.AnnounceBean> announceBeen) {
+        latestPostAdapter.refreshList(announceBeen);
     }
 
     @Override
     public void failedToGetLatestPost(String msg) {
 
     }
-
+    void initData() {
+        List<LatestPostModel> latestPostModels=new ArrayList<>();
+    }
 }

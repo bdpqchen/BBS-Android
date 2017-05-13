@@ -130,7 +130,7 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<List<ForumModel>>> getForumList() {
         return mApi.getForums();
     }
-    public Observable<BaseResponse<List<LatestPostModel>>> getLatestPost() {
+    public Observable<BaseResponse<LatestPostModel> getLatestPost() {
         return mApi.getLatestPost();
     }
     public Observable<BaseResponse<RegisterModel>> doRegister(Bundle bundle) {
