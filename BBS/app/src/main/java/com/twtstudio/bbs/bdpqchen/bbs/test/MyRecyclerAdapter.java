@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 
 
 /**
- * Created by Arsener on 2017/3/25.
+ * Created by Arsener on 2017/5/13.
  */
 
 public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyHolder> {

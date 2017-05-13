@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.test;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ import butterknife.ButterKnife;
  * Created by Arsener on 2017/5/13.
  */
 
-public class MyReleaseActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implements MyReleaseContract.View, SwipeRefreshLayout.OnRefreshListener{
 
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -39,13 +41,42 @@ public class MyReleaseActivity extends AppCompatActivity implements SwipeRefresh
     private boolean ready = true;
 
     @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_release;
+    }
+
+    @Override
+    protected Toolbar getToolbarView() {
+        toolbar.setTitle("我的发布");
+        return toolbar;
+    }
+
+    @Override
+    protected boolean isShowBackArrow() {
+        return true;
+    }
+
+    @Override
+    protected boolean isSupportNightMode() {
+        return true;
+    }
+
+    @Override
+    protected void inject() {
+        getActivityComponent().inject(this);
+    }
+
+    @Override
+    protected Activity supportSlideBack() {
+        return this;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_release);
+        //setContentView(R.layout.activity_release);
 
         ButterKnife.bind(this);
-
-        toolbar.setTitle("我的发布");
 
         myRecyclerAdapter = new MyRecyclerAdapter(this, data);
         init();
@@ -70,7 +101,7 @@ public class MyReleaseActivity extends AppCompatActivity implements SwipeRefresh
     public void init() {
         for (int i = 0; i < 10; i++) {
             ReleaseBean rb = new ReleaseBean();
-            rb.title = "this is " + page * 10 + i + " hahaha";
+            rb.title = "this is " + (page * 10 + i) + " hahaha";
             rb.visit = page * 10 + i;
             rb.time = "YY/MM/DD";
             data.add(rb);
@@ -93,7 +124,7 @@ public class MyReleaseActivity extends AppCompatActivity implements SwipeRefresh
         List<ReleaseBean> moreList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             ReleaseBean rb = new ReleaseBean();
-            rb.title = "this is " + page * 10 + i + " hahaha";
+            rb.title = "this is " + (page * 10 + i) + " hahaha";
             rb.visit = page * 10 + i;
             rb.time = "YY/MM/DD";
             data.add(rb);
