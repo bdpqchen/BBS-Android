@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 
 class LatestPostPresenter extends RxPresenter<LatestPostContract.View> implements LatestPostContract.Presenter {
 
-    public RxDoHttpClient<List<LatestPostModel>> mHttpClient;
+    public RxDoHttpClient<LatestPostModel> mHttpClient;
 
     @Inject
     LatestPostPresenter(RxDoHttpClient client){
@@ -26,16 +26,16 @@ class LatestPostPresenter extends RxPresenter<LatestPostContract.View> implement
     }
 
     @Override
-    public void refreshLatestPostList() {
-        SimpleObserver<List<LatestPostModel>> observer = new SimpleObserver<List<LatestPostModel>>() {
+    public void refreshAnnounce() {
+        SimpleObserver<LatestPostModel> observer = new SimpleObserver<LatestPostModel>() {
             @Override
             public void _onError(String msg) {
                 mView.failedToGetLatestPost(msg);
             }
 
             @Override
-            public void _onNext(List<LatestPostModel> LatestPostModels) {
-                mView.refreshLatestPostList(LatestPostModels);
+            public void _onNext(LatestPostModel latestPostModel) {
+                mView.refreshAnnounce(latestPostModel.getAnnounce());
             }
 
         };
@@ -47,17 +47,17 @@ class LatestPostPresenter extends RxPresenter<LatestPostContract.View> implement
         );
     }
 
-    public void addLatestPostList(){
+    public void addAnnounce(){
 
-        SimpleObserver<List<LatestPostModel>> observer = new SimpleObserver<List<LatestPostModel>>() {
+        SimpleObserver<LatestPostModel> observer = new SimpleObserver<LatestPostModel>() {
             @Override
             public void _onError(String msg) {
                 mView.failedToGetLatestPost(msg);
             }
 
             @Override
-            public void _onNext(List<LatestPostModel> LatestPostModels) {
-              mView.addLatestPostList(LatestPostModels);
+            public void _onNext(LatestPostModel latestPostModel) {
+                mView.refreshAnnounce(latestPostModel.getAnnounce());
             }
 
         };

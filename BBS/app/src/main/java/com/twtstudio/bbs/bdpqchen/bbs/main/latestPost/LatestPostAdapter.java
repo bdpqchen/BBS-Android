@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
  * Created by zhangyulong on 5/12/17.
  */
 
-public class LatestPostAdapter extends BaseAdapter<LatestPostModel>{
+public class LatestPostAdapter extends BaseAdapter<LatestPostModel.AnnounceBean>{
     public LatestPostAdapter(Context context) {
         super(context);
     }
@@ -27,7 +27,7 @@ public class LatestPostAdapter extends BaseAdapter<LatestPostModel>{
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LatestPostViewHolder holder = new LatestPostViewHolder(LayoutInflater.from(
-                parent.getContext()).inflate(R.layout.activity_latestpost_item, parent,
+                parent.getContext()).inflate(R.layout.activity_latest_post_item, parent,
                 false));
         return holder;
     }
@@ -35,7 +35,7 @@ public class LatestPostAdapter extends BaseAdapter<LatestPostModel>{
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         LatestPostViewHolder mholder=(LatestPostViewHolder) holder;
-        mholder.announceBean= (LatestPostModel.AnnounceBean) mDataSet.get(position).getAnnounce();
+        mholder.announceBean= mDataSet.get(position);
         mholder.title.setText(mholder.announceBean.getTitle());
     }
 

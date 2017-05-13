@@ -49,7 +49,8 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
         latestPostAdapter=new LatestPostAdapter(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(linearLayoutManager);
-        mPresenter.refreshLatestPostList();
+        initData();
+        mPresenter.refreshAnnounce();
         recyclerview.setAdapter(latestPostAdapter);
     }
 
@@ -69,18 +70,27 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
 
 
     @Override
-    public void addLatestPostList(List<LatestPostModel> LatestPostModel) {
-        latestPostAdapter.addList(LatestPostModel);
+    public void addAnnounce(List<LatestPostModel.AnnounceBean> announceBeen) {
+        latestPostAdapter.addList(announceBeen);
     }
 
     @Override
-    public void refreshLatestPostList(List<LatestPostModel> LatestPostModel) {
-        latestPostAdapter.refreshList(LatestPostModel);
+    public void refreshAnnounce(List<LatestPostModel.AnnounceBean> announceBeen) {
+        latestPostAdapter.refreshList(announceBeen);
     }
 
     @Override
     public void failedToGetLatestPost(String msg) {
 
     }
-
+    void initData(){
+        List<LatestPostModel.AnnounceBean> announceBeens= new ArrayList<>();
+        for(int i=1;i<=10;i++){
+            LatestPostModel.AnnounceBean announceBean = new LatestPostModel.AnnounceBean();
+            announceBean.setTitle("这是标题" +i);
+            announceBean.setContent("这是内容"+i);
+            announceBeens.add(announceBean);
+        }
+        latestPostAdapter.addList(announceBeens);
+    }
 }
