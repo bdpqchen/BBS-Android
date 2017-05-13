@@ -64,10 +64,10 @@ public interface BaseApi {
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Part List<MultipartBody.Part> partList);
 
-<<<<<<< HEAD
+
     @GET("index/announce")
     Observable<BaseResponse<List<LatestPostModel>>> getLatestPost();
-=======
+
     @GET("forum/{forumId}")
     Observable<BaseResponse<BoardsModel>> getBoardList(@Path("forumId") String forumId);
 
@@ -78,6 +78,6 @@ public interface BaseApi {
             @Path("page") String page);
 
 
->>>>>>> upstream/master
+
 }
 

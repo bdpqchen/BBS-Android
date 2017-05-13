@@ -35,7 +35,7 @@ class LatestPostPresenter extends RxPresenter<LatestPostContract.View> implement
 
             @Override
             public void _onNext(List<LatestPostModel> LatestPostModels) {
-                mView.showLatestPostList(LatestPostModels);
+                mView.refreshLatestPostList(LatestPostModels);
             }
 
         };
@@ -57,7 +57,7 @@ class LatestPostPresenter extends RxPresenter<LatestPostContract.View> implement
 
             @Override
             public void _onNext(List<LatestPostModel> LatestPostModels) {
-              mView.showLatestPostList(LatestPostModels);
+              mView.addLatestPostList(LatestPostModels);
             }
 
         };

@@ -39,24 +39,16 @@ public class MainFragment extends SimpleFragment {
 
     @Override
     protected void initFragments() {
-<<<<<<< HEAD
+
         TabAdapter tabAdapter= new TabAdapter(getFragmentManager());
         mViewpager.setAdapter(tabAdapter);
         mTablayout.setupWithViewPager(mViewpager);
-=======
-        mButtonLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                PrefUtil.setHadLogin(false);
-            }
-        });
-    }
->>>>>>> upstream/master
-
-
 
     }
+
+
+
+
 
 
     @Override

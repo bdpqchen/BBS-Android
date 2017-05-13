@@ -24,13 +24,11 @@ android {
         jcenter()
         maven { url 'https://jitpack.io' }
     }
-
 //    packageBuildConfig(false)
-<<<<<<< HEAD
-    /* compileOptions {
-=======
+
+     compileOptions {
+
     compileOptions {
->>>>>>> upstream/master
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
@@ -114,4 +112,5 @@ configurations.all {
             }
         }
     }
+ }
 }
