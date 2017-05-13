@@ -49,6 +49,7 @@
                 tools:text="1895" />
 
             <TextView
+                android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 tools:text="2017年5月12日"
