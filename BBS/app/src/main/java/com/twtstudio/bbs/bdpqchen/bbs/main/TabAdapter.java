@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.twtstudio.bbs.bdpqchen.bbs.main.TopTen.TopTenFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostFragment;
 
 import javax.inject.Inject;
@@ -30,9 +32,9 @@ public class TabAdapter extends FragmentPagerAdapter {
             case 0:
                 return new LatestPostFragment();
             case 1:
-                return new LatestPostFragment();
+                return new TopTenFragment();
             case 2:
-                return new LatestPostFragment();
+                return new HistoryHotFragment();
             default:
                 return new LatestPostFragment();
         }

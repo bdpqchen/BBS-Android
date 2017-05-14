@@ -1,7 +1,6 @@
-package com.twtstudio.bbs.bdpqchen.bbs.main.latestPost;
+package com.twtstudio.bbs.bdpqchen.bbs.main.topTen;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,23 +9,23 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
-
+import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by zhangyulong on 5/12/17.
+ * Created by zhangyulong on 5/13/17.
  */
 
-public class LatestPostAdapter extends BaseAdapter<LatestPostModel.AnnounceBean>{
-    public LatestPostAdapter(Context context) {
+public class TopTenAdapter extends BaseAdapter<TopTenModel.AnnounceBean> {
+    public TopTenAdapter(Context context) {
         super(context);
     }
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LatestPostViewHolder holder = new LatestPostViewHolder(LayoutInflater.from(
+       TopTenViewHolder holder = new TopTenViewHolder(LayoutInflater.from(
                 parent.getContext()).inflate(R.layout.activity_latest_post_item, parent,
                 false));
         return holder;
@@ -34,19 +33,19 @@ public class LatestPostAdapter extends BaseAdapter<LatestPostModel.AnnounceBean>
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-        LatestPostViewHolder mholder=(LatestPostViewHolder) holder;
+        TopTenViewHolder mholder=(TopTenViewHolder) holder;
         mholder.announceBean= mDataSet.get(position);
         mholder.title.setText(mholder.announceBean.getTitle());
         mholder.content.setText(mholder.announceBean.getContent());
     }
 
-    class LatestPostViewHolder extends BaseViewHolder{
+    class TopTenViewHolder extends BaseViewHolder{
         @BindView(R.id.title)
         TextView title;
         @BindView(R.id.content)
         TextView content;
-        LatestPostModel.AnnounceBean announceBean;
-        public LatestPostViewHolder(View itemView) {
+        TopTenModel.AnnounceBean announceBean;
+        public TopTenViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }

@@ -11,7 +11,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
 
 
 import java.io.File;
@@ -132,6 +134,12 @@ public class RxDoHttpClient<T> {
     }
     public Observable<BaseResponse<LatestPostModel>> getLatestPost() {
         return mApi.getLatestPost();
+    }
+    public Observable<BaseResponse<TopTenModel>> getTopTen() {
+        return mApi.getTopTen();
+    }
+    public Observable<BaseResponse<HistoryHotModel>> getHistoryHot() {
+        return mApi.getHistoryHot();
     }
     public Observable<BaseResponse<RegisterModel>> doRegister(Bundle bundle) {
         return mApi.doRegister(
