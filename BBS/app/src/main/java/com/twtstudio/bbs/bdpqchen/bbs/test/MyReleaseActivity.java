@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -34,7 +33,7 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
     Toolbar toolbar;
 
     private LinearLayoutManager layoutManager;
-    private List<ReleaseBean> data = new ArrayList<>();
+    private List<MyReleaseBean> data = new ArrayList<>();
     private MyRecyclerAdapter myRecyclerAdapter;
     private EndlessRecyclerOnScrollListener eros;
     private int page = 0;
@@ -100,7 +99,7 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
 
     public void init() {
         for (int i = 0; i < 10; i++) {
-            ReleaseBean rb = new ReleaseBean();
+            MyReleaseBean rb = new MyReleaseBean();
             rb.title = "this is " + (page * 10 + i) + " hahaha";
             rb.visit = page * 10 + i;
             rb.time = "YY/MM/DD";
@@ -121,9 +120,9 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
     }
 
     public void loadMoreData(){
-        List<ReleaseBean> moreList = new ArrayList<>();
+        List<MyReleaseBean> moreList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            ReleaseBean rb = new ReleaseBean();
+            MyReleaseBean rb = new MyReleaseBean();
             rb.title = "this is " + (page * 10 + i) + " hahaha";
             rb.visit = page * 10 + i;
             rb.time = "YY/MM/DD";

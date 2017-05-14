@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.test;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,12 +25,12 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
 
     private Context context;
     private View mFooterView;
-    private List<ReleaseBean> data;
+    private List<MyReleaseBean> data;
 
     public static int NORMAL_TYPE = 0;//without footer
     public static int FOOTER_TYPE = 1;//with footer
 
-    public MyRecyclerAdapter(Context context, List<ReleaseBean> data) {
+    public MyRecyclerAdapter(Context context, List<MyReleaseBean> data) {
 
         super();
         this.context = context;
@@ -76,8 +77,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
         if (getItemViewType(position) == NORMAL_TYPE) {
 
             holder.tv_title.setText(data.get(position).title);
-            //holder.tv_icon.setTypeface(iconfont);
-            holder.tv_icon.setText("yanjing");
+            Typeface iconfont = Typeface.createFromAsset(context.getAssets(), "iconfont/iconfont.ttf");
+            holder.tv_icon.setTypeface(iconfont);
+//            holder.tv_icon.setText("yanjing");
             holder.tv_visit.setText(data.get(position).visit + "");
             holder.tv_time.setText(data.get(position).time);
 
@@ -123,7 +125,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
                 ButterKnife.bind(this, view);
 
                 cdv.setRadius(0);//设置图片圆角的半径大小
-                cdv.setCardElevation(5);//设置阴影部分大小
+                cdv.setCardElevation(0);//设置阴影部分大小
             }
         }
     }

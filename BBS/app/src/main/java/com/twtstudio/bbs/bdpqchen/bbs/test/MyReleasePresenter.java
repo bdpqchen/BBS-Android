@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 class MyReleasePresenter extends RxPresenter<MyReleaseContract.View> implements  MyReleaseContract.Presenter {
 
-    private RxDoHttpClient<ReleaseBean> mHttpClient;
+    private RxDoHttpClient<MyReleaseBean> mHttpClient;
 
     @Inject
     MyReleasePresenter(RxDoHttpClient client){
