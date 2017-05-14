@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
  * Created by zhangyulong on 5/13/17.
  */
 
-public class TopTenAdapter extends BaseAdapter<TopTenModel.AnnounceBean> {
+public class TopTenAdapter extends BaseAdapter<TopTenModel.DataBean.LatestBean> {
     public TopTenAdapter(Context context) {
         super(context);
     }
@@ -36,15 +36,15 @@ public class TopTenAdapter extends BaseAdapter<TopTenModel.AnnounceBean> {
         TopTenViewHolder mholder=(TopTenViewHolder) holder;
         mholder.announceBean= mDataSet.get(position);
         mholder.title.setText(mholder.announceBean.getTitle());
-        mholder.content.setText(mholder.announceBean.getContent());
+        //mholder.content.setText(mholder.announceBean.getContent());
     }
 
     class TopTenViewHolder extends BaseViewHolder{
         @BindView(R.id.title)
         TextView title;
-        @BindView(R.id.content)
+        @BindView(R.id.author)
         TextView content;
-        TopTenModel.AnnounceBean announceBean;
+        TopTenModel.DataBean.LatestBean announceBean;
         public TopTenViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

@@ -72,12 +72,12 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
 
 
     @Override
-    public void addAnnounce(List<TopTenModel.AnnounceBean> announceBeen) {
+    public void addAnnounce(List<TopTenModel.DataBean.LatestBean> announceBeen) {
         TopTenAdapter.addList(announceBeen);
     }
 
     @Override
-    public void refreshAnnounce(List<TopTenModel.AnnounceBean> announceBeen) {
+    public void refreshAnnounce(List<TopTenModel.DataBean.LatestBean> announceBeen) {
         TopTenAdapter.refreshList(announceBeen);
     }
 
@@ -87,11 +87,11 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
     }
    
     void initData(){
-        List<TopTenModel.AnnounceBean> announceBeens= new ArrayList<>();
+        List<TopTenModel.DataBean.LatestBean> announceBeens= new ArrayList<>();
         for(int i=1;i<=10;i++){
-            TopTenModel.AnnounceBean announceBean = new TopTenModel.AnnounceBean();
+            TopTenModel.DataBean.LatestBean announceBean = new TopTenModel.DataBean.LatestBean();
             announceBean.setTitle("全站十大这是标题" +i);
-            announceBean.setContent("全站十大这是内容"+i);
+            //announceBean.setContent("全站十大这是内容"+i);
             announceBeens.add(announceBean);
         }
         TopTenAdapter.addList(announceBeens);

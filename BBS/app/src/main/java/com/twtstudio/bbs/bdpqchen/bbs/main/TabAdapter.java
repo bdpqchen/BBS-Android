@@ -32,9 +32,9 @@ public class TabAdapter extends FragmentPagerAdapter {
             case 0:
                 return new LatestPostFragment();
             case 1:
-                return new TopTenFragment();
+                return new LatestPostFragment();
             case 2:
-                return new HistoryHotFragment();
+                return new LatestPostFragment();
             default:
                 return new LatestPostFragment();
         }

@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
  * Created by zhangyulong on 5/13/17.
  */
 
-public class HistoryHotAdapter extends BaseAdapter<HistoryHotModel.AnnounceBean> {
+public class HistoryHotAdapter extends BaseAdapter<HistoryHotModel.DataBean.LatestBean> {
     public HistoryHotAdapter(Context context) {
         super(context);
     }
@@ -35,15 +35,15 @@ public class HistoryHotAdapter extends BaseAdapter<HistoryHotModel.AnnounceBean>
         HistoryHotViewHolder mholder=(HistoryHotViewHolder) holder;
         mholder.announceBean= mDataSet.get(position);
         mholder.title.setText(mholder.announceBean.getTitle());
-        mholder.content.setText(mholder.announceBean.getContent());
+        mholder.content.setText(mholder.announceBean.getAuthor_nickname());
     }
 
     class HistoryHotViewHolder extends BaseViewHolder{
         @BindView(R.id.title)
         TextView title;
-        @BindView(R.id.content)
+        @BindView(R.id.author)
         TextView content;
-        HistoryHotModel.AnnounceBean announceBean;
+        HistoryHotModel.DataBean.LatestBean announceBean;
         public HistoryHotViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

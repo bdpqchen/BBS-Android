@@ -68,12 +68,12 @@ public class HistoryHotFragment extends BaseFragment<HistoryHotPresenter> implem
 
 
     @Override
-    public void addAnnounce(List<HistoryHotModel.AnnounceBean> announceBeen) {
+    public void addAnnounce(List<HistoryHotModel.DataBean.LatestBean> announceBeen) {
         HistoryHotAdapter.addList(announceBeen);
     }
 
     @Override
-    public void refreshAnnounce(List<HistoryHotModel.AnnounceBean> announceBeen) {
+    public void refreshAnnounce(List<HistoryHotModel.DataBean.LatestBean> announceBeen) {
         HistoryHotAdapter.refreshList(announceBeen);
     }
 
@@ -83,11 +83,11 @@ public class HistoryHotFragment extends BaseFragment<HistoryHotPresenter> implem
     }
    
     void initData(){
-        List<HistoryHotModel.AnnounceBean> announceBeens= new ArrayList<>();
+        List<HistoryHotModel.DataBean.LatestBean> announceBeens= new ArrayList<>();
         for(int i=1;i<=10;i++){
-            HistoryHotModel.AnnounceBean announceBean = new HistoryHotModel.AnnounceBean();
+            HistoryHotModel.DataBean.LatestBean announceBean = new HistoryHotModel.DataBean.LatestBean();
             announceBean.setTitle("历史热门这是标题" +i);
-            announceBean.setContent("历史热门这是内容"+i);
+            //announceBean.setContent("历史热门这是内容"+i);
             announceBeens.add(announceBean);
         }
         HistoryHotAdapter.addList(announceBeens);

@@ -49,9 +49,20 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
         latestPostAdapter=new LatestPostAdapter(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(linearLayoutManager);
-        initData();
+        //initData();
         mPresenter.refreshAnnounce();
         recyclerview.setAdapter(latestPostAdapter);
+        layoutSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(
+
+        ) {
+            @Override
+            public void onRefresh() {
+
+                mPresenter.refreshAnnounce();
+                layoutSwipeRefresh.setRefreshing(false);
+
+            }
+        });
     }
 
     @Override
@@ -70,20 +81,17 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
 
 
     @Override
-<<<<<<< HEAD
-    public void addAnnounce(List<LatestPostModel.AnnounceBean> announceBeen) {
-=======
-    public void addLatestPostList(List<LatestPostModel.AnnounceBean> announceBeen) {
->>>>>>> e3882c000025967bd9b94f720b4bd3fc38106ef6
+
+    public void addAnnounce(List<LatestPostModel.DataBean.LatestBean> announceBeen) {
+
+
+
         latestPostAdapter.addList(announceBeen);
     }
 
     @Override
-<<<<<<< HEAD
-    public void refreshAnnounce(List<LatestPostModel.AnnounceBean> announceBeen) {
-=======
-    public void refreshLatestPostList(List<LatestPostModel.AnnounceBean> announceBeen) {
->>>>>>> e3882c000025967bd9b94f720b4bd3fc38106ef6
+
+    public void refreshAnnounce(List<LatestPostModel.DataBean.LatestBean> announceBeen) {
         latestPostAdapter.refreshList(announceBeen);
     }
 
@@ -91,19 +99,19 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
     public void failedToGetLatestPost(String msg) {
 
     }
-<<<<<<< HEAD
-    void initData(){
-        List<LatestPostModel.AnnounceBean> announceBeens= new ArrayList<>();
-        for(int i=1;i<=10;i++){
-            LatestPostModel.AnnounceBean announceBean = new LatestPostModel.AnnounceBean();
-            announceBean.setTitle("这是标题" +i);
-            announceBean.setContent("这是内容"+i);
-            announceBeens.add(announceBean);
+
+    void initData () {
+            List<LatestPostModel.DataBean.LatestBean> announceBeens = new ArrayList<>();
+            for (int i = 1; i <= 10; i++) {
+                LatestPostModel.DataBean.LatestBean announceBean = new LatestPostModel.DataBean.LatestBean();
+                announceBean.setTitle("这是标题" + i);
+                announceBean.setAuthor_nickname("这是内容" + i);
+                announceBeens.add(announceBean);
+            }
+            latestPostAdapter.addList(announceBeens);
+
+
+            List<LatestPostModel> latestPostModels = new ArrayList<>();
+
         }
-        latestPostAdapter.addList(announceBeens);
-=======
-    void initData() {
-        List<LatestPostModel> latestPostModels=new ArrayList<>();
->>>>>>> e3882c000025967bd9b94f720b4bd3fc38106ef6
-    }
 }

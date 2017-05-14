@@ -31,7 +31,7 @@ public class HistoryHotPresenter extends RxPresenter<HistoryHotContract.View> im
 
             @Override
             public void _onNext(HistoryHotModel HistoryHotModel) {
-                mView.refreshAnnounce(HistoryHotModel.getAnnounce());
+                mView.refreshAnnounce(HistoryHotModel.getData().getLatest());
             }
 
         };
@@ -53,7 +53,7 @@ public class HistoryHotPresenter extends RxPresenter<HistoryHotContract.View> im
 
             @Override
             public void _onNext(HistoryHotModel HistoryHotModel) {
-                mView.refreshAnnounce(HistoryHotModel.getAnnounce());
+                mView.refreshAnnounce(HistoryHotModel.getData().getLatest());
             }
 
         };

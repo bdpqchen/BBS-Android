@@ -12,8 +12,8 @@ import java.util.List;
 
 public class TopTenContract {
     public interface View extends BaseView {
-        void addAnnounce(List<TopTenModel.AnnounceBean> announceBeen);
-        void refreshAnnounce(List<TopTenModel.AnnounceBean> announceBeen);
+        void addAnnounce(List<TopTenModel.DataBean.LatestBean> announceBeen);
+        void refreshAnnounce(List<TopTenModel.DataBean.LatestBean> announceBeen);
         void failedToGetTopTen(String msg);
     }
     interface Presenter extends BasePresenter<TopTenContract.View> {

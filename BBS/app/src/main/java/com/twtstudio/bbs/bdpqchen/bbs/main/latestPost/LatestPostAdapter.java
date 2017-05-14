@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
  * Created by zhangyulong on 5/12/17.
  */
 
-public class LatestPostAdapter extends BaseAdapter<LatestPostModel.AnnounceBean>{
+public class LatestPostAdapter extends BaseAdapter<LatestPostModel.DataBean.LatestBean>{
     public LatestPostAdapter(Context context) {
         super(context);
     }
@@ -37,15 +37,15 @@ public class LatestPostAdapter extends BaseAdapter<LatestPostModel.AnnounceBean>
         LatestPostViewHolder mholder=(LatestPostViewHolder) holder;
         mholder.announceBean= mDataSet.get(position);
         mholder.title.setText(mholder.announceBean.getTitle());
-        mholder.content.setText(mholder.announceBean.getContent());
+        mholder.content.setText(mholder.announceBean.getAuthor_name());
     }
 
     class LatestPostViewHolder extends BaseViewHolder{
         @BindView(R.id.title)
         TextView title;
-        @BindView(R.id.content)
+        @BindView(R.id.author)
         TextView content;
-        LatestPostModel.AnnounceBean announceBean;
+        LatestPostModel.DataBean.LatestBean announceBean;
         public LatestPostViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

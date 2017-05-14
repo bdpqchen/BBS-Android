@@ -67,8 +67,8 @@ public interface BaseApi {
             @Part List<MultipartBody.Part> partList);
 
 
-    @GET("index/announce")
-    Observable<BaseResponse<LatestPostModel>> getLatestPost();
+    @GET("index")
+    Observable<BaseResponse<LatestPostModel.DataBean>> getLatestPost();
 
     @GET("forum/{forumId}")
     Observable<BaseResponse<BoardsModel>> getBoardList(@Path("forumId") String forumId);

@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 
 class LatestPostPresenter extends RxPresenter<LatestPostContract.View> implements LatestPostContract.Presenter {
 
-    public RxDoHttpClient<LatestPostModel> mHttpClient;
+    public RxDoHttpClient<LatestPostModel.DataBean> mHttpClient;
 
     @Inject
     LatestPostPresenter(RxDoHttpClient client){
@@ -27,15 +27,15 @@ class LatestPostPresenter extends RxPresenter<LatestPostContract.View> implement
 
     @Override
     public void refreshAnnounce() {
-        SimpleObserver<LatestPostModel> observer = new SimpleObserver<LatestPostModel>() {
+        SimpleObserver<LatestPostModel.DataBean> observer = new SimpleObserver<LatestPostModel.DataBean>() {
             @Override
             public void _onError(String msg) {
                 mView.failedToGetLatestPost(msg);
             }
 
             @Override
-            public void _onNext(LatestPostModel latestPostModel) {
-                mView.refreshAnnounce(latestPostModel.getAnnounce());
+            public void _onNext(LatestPostModel.DataBean latestPostModel) {
+                mView.refreshAnnounce(latestPostModel.getLatest());
             }
 
         };
@@ -49,20 +49,17 @@ class LatestPostPresenter extends RxPresenter<LatestPostContract.View> implement
 
     public void addAnnounce(){
 
-        SimpleObserver<LatestPostModel> observer = new SimpleObserver<LatestPostModel>() {
+        SimpleObserver<LatestPostModel.DataBean> observer = new SimpleObserver<LatestPostModel.DataBean>() {
             @Override
             public void _onError(String msg) {
                 mView.failedToGetLatestPost(msg);
             }
 
             @Override
-<<<<<<< HEAD
-            public void _onNext(LatestPostModel latestPostModel) {
-                mView.refreshAnnounce(latestPostModel.getAnnounce());
-=======
-            public void _onNext(List<LatestPostModel> LatestPostModels) {
-              mView.showLatestPostList(LatestPostModels);
->>>>>>> e3882c000025967bd9b94f720b4bd3fc38106ef6
+
+            public void _onNext(LatestPostModel.DataBean latestPostModel) {
+                mView.refreshAnnounce(latestPostModel.getLatest());
+
             }
 
         };
