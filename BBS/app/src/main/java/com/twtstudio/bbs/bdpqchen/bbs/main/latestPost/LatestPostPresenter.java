@@ -56,8 +56,13 @@ class LatestPostPresenter extends RxPresenter<LatestPostContract.View> implement
             }
 
             @Override
+<<<<<<< HEAD
             public void _onNext(LatestPostModel latestPostModel) {
                 mView.refreshAnnounce(latestPostModel.getAnnounce());
+=======
+            public void _onNext(List<LatestPostModel> LatestPostModels) {
+              mView.showLatestPostList(LatestPostModels);
+>>>>>>> e3882c000025967bd9b94f720b4bd3fc38106ef6
             }
 
         };

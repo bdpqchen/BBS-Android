@@ -11,8 +11,13 @@ import java.util.List;
 
 interface LatestPostContract {
     interface View extends BaseView{
+<<<<<<< HEAD
         void addAnnounce(List<LatestPostModel.AnnounceBean> announceBeen);
         void refreshAnnounce(List<LatestPostModel.AnnounceBean> announceBeen);
+=======
+        void addLatestPostList(List<LatestPostModel.AnnounceBean> announceBeens);
+        void refreshLatestPostList(List<LatestPostModel.AnnounceBean> announceBeens);
+>>>>>>> e3882c000025967bd9b94f720b4bd3fc38106ef6
         void failedToGetLatestPost(String msg);
     }
     interface Presenter extends BasePresenter<View>{

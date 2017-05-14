@@ -70,12 +70,20 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
 
 
     @Override
+<<<<<<< HEAD
     public void addAnnounce(List<LatestPostModel.AnnounceBean> announceBeen) {
+=======
+    public void addLatestPostList(List<LatestPostModel.AnnounceBean> announceBeen) {
+>>>>>>> e3882c000025967bd9b94f720b4bd3fc38106ef6
         latestPostAdapter.addList(announceBeen);
     }
 
     @Override
+<<<<<<< HEAD
     public void refreshAnnounce(List<LatestPostModel.AnnounceBean> announceBeen) {
+=======
+    public void refreshLatestPostList(List<LatestPostModel.AnnounceBean> announceBeen) {
+>>>>>>> e3882c000025967bd9b94f720b4bd3fc38106ef6
         latestPostAdapter.refreshList(announceBeen);
     }
 
@@ -83,6 +91,7 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
     public void failedToGetLatestPost(String msg) {
 
     }
+<<<<<<< HEAD
     void initData(){
         List<LatestPostModel.AnnounceBean> announceBeens= new ArrayList<>();
         for(int i=1;i<=10;i++){
@@ -92,5 +101,9 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
             announceBeens.add(announceBean);
         }
         latestPostAdapter.addList(announceBeens);
+=======
+    void initData() {
+        List<LatestPostModel> latestPostModels=new ArrayList<>();
+>>>>>>> e3882c000025967bd9b94f720b4bd3fc38106ef6
     }
 }

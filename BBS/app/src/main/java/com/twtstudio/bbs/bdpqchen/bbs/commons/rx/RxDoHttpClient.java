@@ -132,7 +132,11 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<List<ForumModel>>> getForumList() {
         return mApi.getForums();
     }
+<<<<<<< HEAD
     public Observable<BaseResponse<LatestPostModel>> getLatestPost() {
+=======
+    public Observable<BaseResponse<LatestPostModel> getLatestPost() {
+>>>>>>> e3882c000025967bd9b94f720b4bd3fc38106ef6
         return mApi.getLatestPost();
     }
     public Observable<BaseResponse<TopTenModel>> getTopTen() {
