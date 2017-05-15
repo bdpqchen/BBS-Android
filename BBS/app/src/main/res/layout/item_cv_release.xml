@@ -23,10 +23,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
+                android:maxLines="1"
                 android:textColor="#717171"
                 android:textSize="20sp"
-                tools:text="here is title" />
+                tools:text="here is title here is title here is title here is title here is title " />
 
             <TextView
                 android:id="@+id/tv_icon"
@@ -42,8 +43,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_title"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_toEndOf="@id/tv_icon"
                 android:textColor="#7b7b7b"
                 android:textSize="15sp"
@@ -53,11 +54,11 @@
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="2017年5月12日"
+                android:layout_alignBottom="@+id/tv_visit"
+                android:layout_alignEnd="@+id/tv_title"
                 android:textColor="#9f9f9f"
                 android:textSize="15sp"
-                android:layout_alignBottom="@+id/tv_visit"
-                android:layout_alignEnd="@+id/tv_title"/>
+                tools:text="2017年5月12日" />
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

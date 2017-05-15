@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,10 +78,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
         if (getItemViewType(position) == NORMAL_TYPE) {
 
             holder.tv_title.setText(data.get(position).title);
+            holder.tv_title.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
             Typeface iconfont = Typeface.createFromAsset(context.getAssets(), "iconfont/iconfont.ttf");
             holder.tv_icon.setTypeface(iconfont);
-//            holder.tv_icon.setText("yanjing");
-            holder.tv_visit.setText(data.get(position).visit + "");
+            holder.tv_visit.setText(String.valueOf(data.get(position).visit));
             holder.tv_time.setText(data.get(position).time);
 
             holder.cdv.setOnClickListener(new View.OnClickListener() {
