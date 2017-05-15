@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.collection.CollectionActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 
@@ -83,6 +84,10 @@ public class IndividualListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 switch (position){
+                    case 1:
+                        mActivity.startActivityForResult(new Intent(mContext, CollectionActivity.class), HomeActivity.CODE_RESULT_FOR_UPDATE_INFO);
+
+                        break;
                     case 3:
                         mActivity.startActivityForResult(new Intent(mContext, UpdateInfoActivity.class), HomeActivity.CODE_RESULT_FOR_UPDATE_INFO);
                         break;
