@@ -8,6 +8,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
 
 import java.util.List;
 
@@ -63,6 +66,10 @@ public interface BaseApi {
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Part List<MultipartBody.Part> partList);
 
+
+    @GET("index")
+    Observable<BaseResponse<LatestPostModel.DataBean>> getLatestPost();
+
     @GET("forum/{forumId}")
     Observable<BaseResponse<BoardsModel>> getBoardList(@Path("forumId") String forumId);
 
@@ -72,6 +79,9 @@ public interface BaseApi {
             @Path("boardId") String boardId,
             @Path("page") String page);
 
-
+    @GET("topten")
+    Observable<BaseResponse<TopTenModel>> getTopTen();
+    @GET("historyhot")
+    Observable<BaseResponse<HistoryHotModel>> getHistoryHot();
 }
 
