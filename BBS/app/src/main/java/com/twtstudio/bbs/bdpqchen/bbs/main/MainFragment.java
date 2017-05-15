@@ -1,17 +1,20 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostFragment;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by bdpqchen on 17-5-3.
@@ -19,8 +22,15 @@ import butterknife.BindView;
 
 public class MainFragment extends SimpleFragment {
 
-    @BindView(R.id.btn_log_out)
-    Button mButtonLogout;
+
+    LatestPostFragment latestPostFragment;
+    @BindView(R.id.main_tablayout)
+    TabLayout mTablayout;
+    @BindView(R.id.main_viewpager)
+    ViewPager mViewpager;
+    Unbinder unbinder;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected int getPerMainFragmentLayoutId() {
@@ -29,17 +39,26 @@ public class MainFragment extends SimpleFragment {
 
     @Override
     protected void initFragments() {
-        mButtonLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                PrefUtil.setHadLogin(false);
-            }
-        });
+        TabAdapter tabAdapter = new TabAdapter(getFragmentManager());
+        mViewpager.setAdapter(tabAdapter);
+        mTablayout.setupWithViewPager(mViewpager);
+
     }
 
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        ;
+        return rootView;
+    }
 
-
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }
