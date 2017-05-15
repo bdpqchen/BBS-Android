@@ -15,7 +15,7 @@ public class TimeUtils {
     public static String getStandardDate(long t) {
 
         StringBuffer sb = new StringBuffer();
-        long time = System.currentTimeMillis()-(t*1000);
+        long time = System.currentTimeMillis()-(t*1000)+(8*60*60*1000);
         Log.d("currentTime",Long.toString(time));
         long mill = (long) Math.ceil(time /1000);//秒前
 
