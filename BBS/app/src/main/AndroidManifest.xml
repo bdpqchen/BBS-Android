@@ -38,13 +38,13 @@
         <activity android:name=".auth.replaceUser.replacePassword.ReplacePasswordActivity" />
         <activity
             android:name=".auth.login.LoginActivity"
+
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity android:name=".individual.settings.SettingsActivity" />
         <activity android:name=".individual.updateInfo.UpdateInfoActivity" />
         <activity android:name=".individual.updatePassword.UpdatePassword" />
         <activity android:name=".individual.avatar.ImagePickerActivity" />
         android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
-
         />
         <activity android:name=".individual.settings.SettingsActivity" />
         <activity android:name=".individual.updateInfo.UpdateInfoActivity" />
