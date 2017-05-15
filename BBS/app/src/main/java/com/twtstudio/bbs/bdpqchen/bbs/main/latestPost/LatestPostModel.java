@@ -58,24 +58,24 @@ public class LatestPostModel {
              * board_name : 这是一个子版块
              */
 
-            private int id;
+            private String id;
             private String title;
-            private int author_id;
+            private String author_id;
             private int board_id;
             private String author_name;
             private String author_nickname;
             private int b_top;
             private int b_elite;
             private int visibility;
-            private int t_create;
-            private int t_modify;
+            private long t_create;
+            private long t_modify;
             private String board_name;
 
-            public int getId() {
+            public String getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(String id) {
                 this.id = id;
             }
 
@@ -87,11 +87,11 @@ public class LatestPostModel {
                 this.title = title;
             }
 
-            public int getAuthor_id() {
+            public String getAuthor_id() {
                 return author_id;
             }
 
-            public void setAuthor_id(int author_id) {
+            public void setAuthor_id(String author_id) {
                 this.author_id = author_id;
             }
 
@@ -143,19 +143,19 @@ public class LatestPostModel {
                 this.visibility = visibility;
             }
 
-            public int getT_create() {
+            public long getT_create() {
                 return t_create;
             }
 
-            public void setT_create(int t_create) {
+            public void setT_create(long t_create) {
                 this.t_create = t_create;
             }
 
-            public int getT_modify() {
+            public long getT_modify() {
                 return t_modify;
             }
 
-            public void setT_modify(int t_modify) {
+            public void setT_modify(long t_modify) {
                 this.t_modify = t_modify;
             }
 

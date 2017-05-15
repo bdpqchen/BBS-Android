@@ -52,6 +52,18 @@
             android:textSize="18sp"
             android:textColor="@color/black"
             android:hint="2" />
+         <TextView
+            android:id="@+id/create_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:gravity="left"
+            android:hint="time"
+            android:textSize="14sp"
+            android:layout_marginRight="10dp"
+             android:layout_marginEnd="12dp"
+             android:layout_alignParentBottom="true"
+             android:layout_alignParentEnd="true"
+             android:layout_marginBottom="13dp" />
 
     </RelativeLayout>
 </FrameLayout>
