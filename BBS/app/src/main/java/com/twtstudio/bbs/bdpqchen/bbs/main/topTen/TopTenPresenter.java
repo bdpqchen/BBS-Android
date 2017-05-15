@@ -1,11 +1,9 @@
-package com.twtstudio.bbs.bdpqchen.bbs.main.latestPost;
+package com.twtstudio.bbs.bdpqchen.bbs.main.topTen;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -13,33 +11,32 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by bdpqchen on 17-5-11.
+ * Created by zhangyulong on 5/13/17.
  */
 
-class LatestPostPresenter extends RxPresenter<LatestPostContract.View> implements LatestPostContract.Presenter {
-
-    public RxDoHttpClient<LatestPostModel.DataBean> mHttpClient;
+public class TopTenPresenter extends RxPresenter<TopTenContract.View> implements TopTenContract.Presenter{
+    public RxDoHttpClient<TopTenModel> mHttpClient;
 
     @Inject
-    LatestPostPresenter(RxDoHttpClient client){
+    TopTenPresenter(RxDoHttpClient client){
         mHttpClient = client;
     }
 
     @Override
     public void refreshAnnounce() {
-        SimpleObserver<LatestPostModel.DataBean> observer = new SimpleObserver<LatestPostModel.DataBean>() {
+        SimpleObserver<TopTenModel> observer = new SimpleObserver<TopTenModel>() {
             @Override
             public void _onError(String msg) {
-                mView.failedToGetLatestPost(msg);
+                mView.failedToGetTopTen(msg);
             }
 
             @Override
-            public void _onNext(LatestPostModel.DataBean latestPostModel) {
-                mView.refreshAnnounce(latestPostModel.getLatest());
+            public void _onNext(TopTenModel TopTenModel) {
+                mView.refreshAnnounce(TopTenModel.getData().getLatest());
             }
 
         };
-        addSubscribe(mHttpClient.getLatestPost()
+        addSubscribe(mHttpClient.getTopTen()
                 .map(mHttpClient.mTransformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -49,27 +46,23 @@ class LatestPostPresenter extends RxPresenter<LatestPostContract.View> implement
 
     public void addAnnounce(){
 
-        SimpleObserver<LatestPostModel.DataBean> observer = new SimpleObserver<LatestPostModel.DataBean>() {
+        SimpleObserver<TopTenModel> observer = new SimpleObserver<TopTenModel>() {
             @Override
             public void _onError(String msg) {
-                mView.failedToGetLatestPost(msg);
+                mView.failedToGetTopTen(msg);
             }
 
             @Override
-
-            public void _onNext(LatestPostModel.DataBean latestPostModel) {
-                mView.refreshAnnounce(latestPostModel.getLatest());
-
+            public void _onNext(TopTenModel TopTenModel) {
+                mView.refreshAnnounce(TopTenModel.getData().getLatest());
             }
 
         };
-        addSubscribe(mHttpClient.getLatestPost()
+        addSubscribe(mHttpClient.getTopTen()
                 .map(mHttpClient.mTransformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
         );
     }
-
-
 }
