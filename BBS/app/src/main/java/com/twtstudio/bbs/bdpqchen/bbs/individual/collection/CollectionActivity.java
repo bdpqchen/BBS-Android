@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -23,6 +26,8 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
     Toolbar mToolbar;
     @BindView(R.id.collection_recyclerView)
     RecyclerView collection_recyclerView;
+    @BindView(R.id.collection_no_collection)
+    TextView collection_no_collection;
     CollectionBean collectionBean = new CollectionBean();
 
     CollectionPresenter collectionPresenter = new CollectionPresenter(this);
@@ -65,7 +70,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
         super.onCreate(savedInstanceState);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         collection_recyclerView.setLayoutManager(linearLayoutManager);
-        collectionAdapter = new CollectionAdapter(this, collectionBean);
+        collectionAdapter = new CollectionAdapter(this, collectionBean, collectionPresenter);
         collection_recyclerView.setAdapter(collectionAdapter);
 
         collectionPresenter.loadCollections();
@@ -76,5 +81,20 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
         this.collectionBean.err = collectionBean.err;
         this.collectionBean.data = collectionBean.data;
         collectionAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void makeDeleteSuccessToast() {
+        Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setNoCollectionVisible() {
+        collection_no_collection.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setNoCollectionInvisible() {
+        collection_no_collection.setVisibility(View.INVISIBLE);
     }
 }
