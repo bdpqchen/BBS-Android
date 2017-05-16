@@ -2,7 +2,9 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.di.module;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerFragment;
 
 import dagger.Module;
