@@ -29,4 +29,15 @@ class CollectionPresenter extends RxPresenter<CollectionContract.View> implement
         collectionClient.loadCollection(tempUidToken);
     }
 
+    @Override
+    public void deleteCollection(int tid) {
+        System.out.println("abcdefP");
+        collectionClient.deleteCollection(tempUidToken,tid);
+    }
+
+    @Override
+    public void makeDeleteSuccessToast() {
+        collectionView.makeDeleteSuccessToast();
+    }
+
 }
