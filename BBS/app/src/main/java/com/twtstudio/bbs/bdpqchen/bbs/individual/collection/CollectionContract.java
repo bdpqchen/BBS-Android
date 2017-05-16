@@ -13,6 +13,8 @@ interface CollectionContract  {
     interface View extends BaseView{
         void setCollectionAdapter(CollectionBean collectionDate);
         void makeDeleteSuccessToast();
+        void setNoCollectionVisible();
+        void setNoCollectionInvisible();
 
     }
     interface Presenter extends BasePresenter<View>{

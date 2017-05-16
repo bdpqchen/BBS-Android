@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BBS</string>
+    <string name="collection_no_collection">你还没有收藏的帖子哦~</string>
 </resources>
