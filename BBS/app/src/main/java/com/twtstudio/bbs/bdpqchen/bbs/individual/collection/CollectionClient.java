@@ -105,28 +105,28 @@ public class CollectionClient {
 
     // TODO: 2017/5/16 仍然使用的我自己的token
     public void deleteCollection(String uidToken, int tid) {
-        System.out.println("abcdefClient");
+
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("https://bbs.twtstudio.com/home/")
                 .build();
-        System.out.println("abcdefClient1111");
+
         CollectionApi collectionApi = retrofit.create(CollectionApi.class);
-        System.out.println("abcdefClient2222");
+
         Call<ResponseBody> call = collectionApi.deleteCollection(uidToken, String.valueOf(tid));
-        System.out.println("abcdefClient3333");
+
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                System.out.println("adcdefonResponse(Call<Response> call, R");
+
                 collectionPresenter.makeDeleteSuccessToast();
                 loadCollection(uidToken);
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                System.out.println("adcdefonFaIL(Call<Response> call, R");
+
             }
         });
     }
