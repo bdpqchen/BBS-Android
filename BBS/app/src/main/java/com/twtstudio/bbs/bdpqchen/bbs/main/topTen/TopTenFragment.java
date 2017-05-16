@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.main.TopTen;
+package com.twtstudio.bbs.bdpqchen.bbs.main.topTen;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
