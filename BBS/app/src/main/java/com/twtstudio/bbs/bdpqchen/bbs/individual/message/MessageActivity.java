@@ -2,7 +2,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.message;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
@@ -59,5 +58,6 @@ public class MessageActivity extends BaseActivity<MessagePresenter> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_message);
         ButterKnife.bind(this);
+        mPresenter.getMessageList(1);
     }
 }

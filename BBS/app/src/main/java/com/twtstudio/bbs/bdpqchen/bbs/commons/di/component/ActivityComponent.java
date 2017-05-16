@@ -44,6 +44,8 @@ public interface ActivityComponent {
 
     void inject(ThreadActivity threadActivity);
 
+    void inject(MessageActivity messageActivity);
+
 
 //    void inject(SettingsActivity settingsActivity);
 }
