@@ -79,9 +79,15 @@ public interface BaseApi {
             @Path("boardId") String boardId,
             @Path("page") String page);
 
+    @GET("home/message/page/{page}")
+    Observable<BaseResponse<List<MessageModel>>> getMessageList(
+            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
+            @Path("page") String page);
+
     @GET("topten")
     Observable<BaseResponse<TopTenModel>> getTopTen();
     @GET("historyhot")
     Observable<BaseResponse<HistoryHotModel>> getHistoryHot();
+
 }
 

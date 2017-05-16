@@ -180,4 +180,7 @@ public class RxDoHttpClient<T> {
         return mApi.getThreadList(getLatestAuthentication(), String.valueOf(threadId), String.valueOf(page));
     }
 
+    public Observable<BaseResponse<List<MessageModel>>> getMessageList(int page) {
+        return mApi.getMessageList(getLatestAuthentication(), String.valueOf(page));
+    }
 }
