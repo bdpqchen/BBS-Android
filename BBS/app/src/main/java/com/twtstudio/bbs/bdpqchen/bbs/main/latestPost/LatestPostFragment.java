@@ -12,6 +12,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.main.EndLessOnScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,11 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
         //initData();
         mPresenter.refreshAnnounce();
         recyclerview.setAdapter(latestPostAdapter);
+        recyclerview.setOnScrollListener(new EndLessOnScrollListener(linearLayoutManager){
+            public void onLoadMore(int currentPage) {
+                mPresenter.addAnnounce();
+            }
+        });
         layoutSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(
 
         ) {

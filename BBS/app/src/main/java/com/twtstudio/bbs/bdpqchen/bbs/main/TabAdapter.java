@@ -5,8 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
 
 import javax.inject.Inject;
 
@@ -27,15 +29,29 @@ public class TabAdapter extends FragmentPagerAdapter {
     }
     @Override
     public Fragment getItem(int position) {
+        BaseFragment showFragment=null;
+        LatestPostFragment latestPostFragment=null;
         switch (position) {
-            case 0:
-                return new LatestPostFragment();
+            case 0: if(latestPostFragment==null) {
+                latestPostFragment=new LatestPostFragment();
+                showFragment=latestPostFragment;
+            }
             case 1:
-                return new LatestPostFragment();
+                if(latestPostFragment==null) {
+                    latestPostFragment=new LatestPostFragment();
+                    showFragment=latestPostFragment;
+                };
             case 2:
-                return new LatestPostFragment();
+                if(latestPostFragment==null) {
+                    latestPostFragment=new LatestPostFragment();
+                    showFragment=latestPostFragment;
+                };
             default:
-                return new LatestPostFragment();
+                if(latestPostFragment==null) {
+                    latestPostFragment=new LatestPostFragment();
+                    showFragment=latestPostFragment;
+                };
+                return showFragment;
         }
     }
 

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -46,10 +47,13 @@ public class LatestPostAdapter extends BaseAdapter<LatestPostModel.DataBean.Late
         mholder.title.setText(mholder.announceBean.getTitle());
         mholder.author.setText(mholder.announceBean.getAuthor_name());
         mholder.create_time.setText(TimeUtils.getStandardDate(mholder.announceBean.getT_create()));
+        mholder.collection.setAlpha(0x000); 
 
     }
 
     class LatestPostViewHolder extends BaseViewHolder{
+        @BindView(R.id.main_collection_delete)
+        ImageView collection;
         @BindView(R.id.title)
         TextView title;
         @BindView(R.id.author)
