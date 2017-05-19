@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.main.TopTen;
+package com.twtstudio.bbs.bdpqchen.bbs.main.topTen;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,10 +10,6 @@ import android.view.ViewGroup;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenAdapter;
-import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenContract;
-import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenPresenter;
 
 import java.util.ArrayList;
 import java.util.List;

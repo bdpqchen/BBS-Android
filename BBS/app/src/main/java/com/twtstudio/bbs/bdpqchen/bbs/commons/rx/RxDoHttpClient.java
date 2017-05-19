@@ -10,25 +10,21 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
 
-
 import java.io.File;
-import java.security.SecureRandom;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import javax.security.cert.CertificateException;
-import javax.security.cert.X509Certificate;
 
 import io.reactivex.Observable;
 import okhttp3.MediaType;
@@ -48,7 +44,7 @@ public class RxDoHttpClient<T> {
 
 //    public static final String BASE_URL = "http://202.113.13.162:8080/";
     //将会遇到证书 CA 问题
-    public static final String BASE_URL = "https://bbs.twtstudio.com/";
+    public static final String BASE_URL = "https://bbs.twtstudio.com/api/";
     private Retrofit mRetrofit;
     public BaseApi mApi;
     public ResponseTransformer<T> mTransformer;

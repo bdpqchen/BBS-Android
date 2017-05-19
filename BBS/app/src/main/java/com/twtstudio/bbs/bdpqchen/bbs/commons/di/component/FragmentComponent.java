@@ -6,10 +6,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.FragmentModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.TopTen.TopTenFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenFragment;
+
 import dagger.Component;
 
 /**
@@ -29,4 +29,5 @@ public interface FragmentComponent {
     void inject(LatestPostFragment latestPostFragment);
     void inject(TopTenFragment topTenFragment);
     void inject(HistoryHotFragment historyHotFragment);
+
 }
