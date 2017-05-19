@@ -47,6 +47,15 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
         notifyItemInserted(getItemCount() - 1);
     }
 
+    public void clear(){
+        data.clear();
+    }
+
+    public void addItems(List<MyReleaseBean> newData){
+        data.addAll(newData);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (mFooterView == null) {
@@ -81,8 +90,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
             holder.tv_title.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
             Typeface iconfont = Typeface.createFromAsset(context.getAssets(), "iconfont/iconfont.ttf");
             holder.tv_icon.setTypeface(iconfont);
-            holder.tv_visit.setText(String.valueOf(data.get(position).visit));
-            holder.tv_time.setText(data.get(position).time);
+            holder.tv_visit.setText(String.valueOf(data.get(position).c_post));
+            holder.tv_time.setText(data.get(position).t_create);
 
             holder.cdv.setOnClickListener(new View.OnClickListener() {
                 @Override

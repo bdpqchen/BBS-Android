@@ -17,18 +17,14 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
 
 
 import java.io.File;
-import java.security.SecureRandom;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import javax.security.cert.CertificateException;
-import javax.security.cert.X509Certificate;
 
 import io.reactivex.Observable;
 import okhttp3.MediaType;
