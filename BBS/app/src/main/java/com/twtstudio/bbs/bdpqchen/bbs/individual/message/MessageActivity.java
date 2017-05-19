@@ -58,6 +58,6 @@ public class MessageActivity extends BaseActivity<MessagePresenter> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_message);
         ButterKnife.bind(this);
-        mPresenter.getMessageList(1);
+        mPresenter.getMessageList(0);
     }
 }

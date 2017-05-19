@@ -15,7 +15,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 
 public final class ImageUtil  {
 
-    public static final String avatarUrl = RxDoHttpClient.BASE_URL + "/user/" + PrefUtil.getAuthUid() + "avatar";
+    public static final String AVATAR_URL = RxDoHttpClient.BASE_URL + "/user/%d/avatar";
+
+    public static final String DEFAULT_AVATAR_URL = RxDoHttpClient.BASE_URL + "/user/" + PrefUtil.getAuthUid() + "avatar";
 
     public static void load(Context context, int resourceId, ImageView view){
         Glide.with(context).load(resourceId).asBitmap().centerCrop().dontAnimate().into(view);
@@ -30,7 +32,11 @@ public final class ImageUtil  {
     }
 
     public static void loadAvatar(Context context, ImageView view){
-        Glide.with(context).load(avatarUrl).centerCrop().placeholder(R.drawable.avatar2).into(view);
+        Glide.with(context).load(DEFAULT_AVATAR_URL).centerCrop().placeholder(R.drawable.avatar2).into(view);
+    }
+
+    public static void loadAvatarById(Context context, int id, ImageView view){
+        Glide.with(context).load(String.format(AVATAR_URL, id)).centerCrop().into(view);
     }
 
 
