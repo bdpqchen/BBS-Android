@@ -41,7 +41,6 @@
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/avatar1"
                     app:civ_border_color="@color/material_light_white"
                     app:civ_border_width="2dp"
                     />

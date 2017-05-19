@@ -17,12 +17,18 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
 
 import java.io.File;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
@@ -42,7 +48,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RxDoHttpClient<T> {
 
-//    public static final String BASE_URL = "http://202.113.13.162:8080/";
+    //    public static final String BASE_URL = "http://202.113.13.162:8080/";
     //将会遇到证书 CA 问题
     public static final String BASE_URL = "https://bbs.twtstudio.com/api/";
     private Retrofit mRetrofit;
@@ -54,17 +60,19 @@ public class RxDoHttpClient<T> {
     //javax.net.ssl.SSLHandshakeException: java.security.cert.CertPathValidatorException: Trust anchor for certification path not found.
     //由于无证书的连接是不可信的，在此，建立Okhttp3连接时，选择信任所有的证书。参照
     //https://blog.ijustyce.win/post/retrofit2%E4%B9%8Bhttps.html
-    private static OkHttpClient.Builder getUnSaveBuilder() {
+    public static OkHttpClient.Builder getUnsafeBuilder() {
         try {
             // Create a trust manager that does not validate certificate chains
-            final TrustManager[] trustAllCerts = new TrustManager[] {
+            final TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
                         @Override
                         public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
                         }
+
                         @Override
                         public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
                         }
+
                         @Override
                         public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                             return new java.security.cert.X509Certificate[]{};
@@ -78,6 +86,7 @@ public class RxDoHttpClient<T> {
             final javax.net.ssl.SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.sslSocketFactory(sslSocketFactory);
+
             builder.hostnameVerifier(new HostnameVerifier() {
                 @Override
                 public boolean verify(String hostname, SSLSession session) {
@@ -90,13 +99,60 @@ public class RxDoHttpClient<T> {
         }
     }
 
-    public RxDoHttpClient(){
+
+
+    public static OkHttpClient getUnsafeOkHttpClient() {
+        // Create a trust manager that does not validate certificate chains
+        final TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                    }
+
+                    @Override
+                    public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                    }
+
+                    @Override
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        X509Certificate[] x509Certificates = new X509Certificate[0];
+                        return x509Certificates;
+                    }
+                }
+        };
+
+        // Install the all-trusting trust manager
+        SSLContext sslContext = null;
+        try {
+            sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new SecureRandom());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Create an ssl socket factory with our all-trusting manager
+        final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.sslSocketFactory(sslSocketFactory);
+        builder.hostnameVerifier(new HostnameVerifier() {
+            @Override
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        });
+
+        return builder.build();
+    }
+
+
+    public RxDoHttpClient() {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
 //        OkHttpClient client = new OkHttpClient.Builder()
-        OkHttpClient client = getUnSaveBuilder()
+        OkHttpClient client = getUnsafeBuilder()
                 .addInterceptor(interceptor)
                 .retryOnConnectionFailure(true)
                 .connectTimeout(10, TimeUnit.SECONDS)
@@ -116,7 +172,7 @@ public class RxDoHttpClient<T> {
 
     }
 
-    private String getLatestAuthentication(){
+    private String getLatestAuthentication() {
         return PrefUtil.getAuthUid() + "|" + PrefUtil.getAuthToken();
     }
 
@@ -130,17 +186,19 @@ public class RxDoHttpClient<T> {
     }
 
 
-
-    public Observable<BaseResponse<LatestPostModel.DataBean>>getLatestPost() {
+    public Observable<BaseResponse<LatestPostModel.DataBean>> getLatestPost() {
 
         return mApi.getLatestPost();
     }
+
     public Observable<BaseResponse<TopTenModel>> getTopTen() {
         return mApi.getTopTen();
     }
+
     public Observable<BaseResponse<HistoryHotModel>> getHistoryHot() {
         return mApi.getHistoryHot();
     }
+
     public Observable<BaseResponse<RegisterModel>> doRegister(Bundle bundle) {
         return mApi.doRegister(
                 bundle.getString(Constants.BUNDLE_REGISTER_USERNAME),
@@ -148,10 +206,10 @@ public class RxDoHttpClient<T> {
                 bundle.getString(Constants.BUNDLE_REGISTER_PASSWORD),
                 bundle.getString(Constants.BUNDLE_REGISTER_STU_NUM),
                 bundle.getString(Constants.BUNDLE_REGISTER_REAL_NAME)
-                );
+        );
     }
 
-    public Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(){
+    public Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo() {
         return mApi.getIndividualInfo(getLatestAuthentication());
     }
 
@@ -172,6 +230,7 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<BoardsModel>> getBoardList(int forumId) {
         return mApi.getBoardList(String.valueOf(forumId));
     }
+
     public Observable<BaseResponse<ThreadModel>> getThreadList(int threadId, int page) {
         return mApi.getThreadList(getLatestAuthentication(), String.valueOf(threadId), String.valueOf(page));
     }
