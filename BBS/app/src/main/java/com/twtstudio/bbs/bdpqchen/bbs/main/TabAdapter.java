@@ -1,4 +1,4 @@
-﻿package com.twtstudio.bbs.bdpqchen.bbs.main;
+package com.twtstudio.bbs.bdpqchen.bbs.main;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
