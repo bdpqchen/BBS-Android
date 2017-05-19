@@ -12,10 +12,15 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 interface CollectionContract  {
     interface View extends BaseView{
         void setCollectionAdapter(CollectionBean collectionDate);
+        void makeDeleteSuccessToast();
+        void setNoCollectionVisible();
+        void setNoCollectionInvisible();
 
     }
     interface Presenter extends BasePresenter<View>{
         void setCollectionDate(CollectionBean collectionDate);
         void loadCollections();
+        void deleteCollection(int tid);
+        void makeDeleteSuccessToast();
     }
 }

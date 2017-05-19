@@ -1,8 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.collection;
 
-import android.nfc.Tag;
-import android.util.Log;
-
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
 
 import java.util.concurrent.TimeUnit;
@@ -14,6 +11,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,17 +27,20 @@ public class CollectionClient {
 
     CollectionPresenter collectionPresenter;
     OkHttpClient client;
+
     private static OkHttpClient.Builder getUnSaveBuilder() {
         try {
             // Create a trust manager that does not validate certificate chains
-            final TrustManager[] trustAllCerts = new TrustManager[] {
+            final TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
                         @Override
                         public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
                         }
+
                         @Override
                         public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
                         }
+
                         @Override
                         public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                             return new java.security.cert.X509Certificate[]{};
@@ -89,20 +90,43 @@ public class CollectionClient {
         CollectionApi collectionApi = retrofit.create(CollectionApi.class);
 
 
-
         Call<CollectionBean> call = collectionApi.getCollection(uidToken);
-        System.out.println("abcde");
         call.enqueue(new Callback<CollectionBean>() {
             @Override
             public void onResponse(Call<CollectionBean> call, Response<CollectionBean> response) {
-                System.out.println("abcde");
                 collectionPresenter.setCollectionDate(response.body());
             }
 
             @Override
             public void onFailure(Call<CollectionBean> call, Throwable t) {
-                System.out.println("abcde000");
-                System.out.println("abcde000"+t);
+            }
+        });
+    }
+
+    // TODO: 2017/5/16 仍然使用的我自己的token
+    public void deleteCollection(String uidToken, int tid) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("https://bbs.twtstudio.com/home/")
+                .build();
+
+        CollectionApi collectionApi = retrofit.create(CollectionApi.class);
+
+        Call<ResponseBody> call = collectionApi.deleteCollection(uidToken, String.valueOf(tid));
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                collectionPresenter.makeDeleteSuccessToast();
+                loadCollection(uidToken);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
             }
         });
     }

@@ -22,11 +22,28 @@ class CollectionPresenter extends RxPresenter<CollectionContract.View> implement
     @Override
     public void setCollectionDate(CollectionBean collectionDate) {
         collectionView.setCollectionAdapter(collectionDate);
+        if(collectionDate.data==null||collectionDate.data.size()==0){
+            System.out.println("abcdefdatenull");
+            collectionView.setNoCollectionVisible();
+        }
+        else{
+            collectionView.setNoCollectionInvisible();
+        }
     }
 
     @Override
     public void loadCollections() {
         collectionClient.loadCollection(tempUidToken);
+    }
+
+    @Override
+    public void deleteCollection(int tid) {
+        collectionClient.deleteCollection(tempUidToken,tid);
+    }
+
+    @Override
+    public void makeDeleteSuccessToast() {
+        collectionView.makeDeleteSuccessToast();
     }
 
 }
