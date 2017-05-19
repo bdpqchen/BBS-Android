@@ -7,68 +7,73 @@ import com.bumptech.glide.util.ContentLengthInputStream;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.Map;
 
-import okhttp3.OkHttpClient;
+import okhttp3.Call;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class OkHttpStreamFetcher implements DataFetcher<InputStream> {
-    private final OkHttpClient client;
+    private final Call.Factory client;
     private final GlideUrl url;
     private InputStream stream;
     private ResponseBody responseBody;
+    private volatile Call call;
 
-    public OkHttpStreamFetcher(OkHttpClient client, GlideUrl url) {
+    public OkHttpStreamFetcher(Call.Factory client, GlideUrl url) {
         this.client = client;
         this.url = url;
     }
 
-    @Override
     public InputStream loadData(Priority priority) throws Exception {
-        Request.Builder requestBuilder = new Request.Builder()
-                .url(url.toStringUrl());
+        Request.Builder requestBuilder = (new Request.Builder()).url(this.url.toStringUrl());
+        Iterator request = this.url.getHeaders().entrySet().iterator();
 
-        for (Map.Entry<String, String> headerEntry : url.getHeaders().entrySet()) {
-            String key = headerEntry.getKey();
-            requestBuilder.addHeader(key, headerEntry.getValue());
+        while(request.hasNext()) {
+            Map.Entry response = (Map.Entry)request.next();
+            String contentLength = (String)response.getKey();
+            requestBuilder.addHeader(contentLength, (String)response.getValue());
         }
 
-        Request request = requestBuilder.build();
-
-        Response response = client.newCall(request).execute();
-        responseBody = response.body();
-        if (!response.isSuccessful()) {
-            throw new IOException("Request failed with code: " + response.code());
+        Request request1 = requestBuilder.build();
+        this.call = this.client.newCall(request1);
+        Response response1 = this.call.execute();
+        this.responseBody = response1.body();
+        if(!response1.isSuccessful()) {
+            throw new IOException("Request failed with code: " + response1.code());
+        } else {
+            long contentLength1 = this.responseBody.contentLength();
+            this.stream = ContentLengthInputStream.obtain(this.responseBody.byteStream(), contentLength1);
+            return this.stream;
         }
-
-        long contentLength = responseBody.contentLength();
-        stream = ContentLengthInputStream.obtain(responseBody.byteStream(), contentLength);
-        return stream;
     }
 
-    @Override
     public void cleanup() {
-        if (stream != null) {
-            try {
-                stream.close();
-            } catch (IOException e) {
-                // Ignored
+        try {
+            if(this.stream != null) {
+                this.stream.close();
             }
+        } catch (IOException var2) {
+            ;
         }
-        if (responseBody != null) {
-            responseBody.close();
+
+        if(this.responseBody != null) {
+            this.responseBody.close();
         }
+
     }
 
-    @Override
     public String getId() {
-        return url.getCacheKey();
+        return this.url.getCacheKey();
     }
 
-    @Override
     public void cancel() {
-        // TODO: call cancel on the client when this method is called on a background thread. See #257
+        Call local = this.call;
+        if(local != null) {
+            local.cancel();
+        }
+
     }
 }

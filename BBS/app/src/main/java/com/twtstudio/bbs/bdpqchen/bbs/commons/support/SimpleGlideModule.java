@@ -11,15 +11,14 @@ import java.io.InputStream;
 
 
 public class SimpleGlideModule implements GlideModule {
-    @Override
+    public SimpleGlideModule() {
+    }
+
     public void applyOptions(Context context, GlideBuilder builder) {
-
     }
 
-    @Override
     public void registerComponents(Context context, Glide glide) {
-
         glide.register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory());
-
     }
+
 }

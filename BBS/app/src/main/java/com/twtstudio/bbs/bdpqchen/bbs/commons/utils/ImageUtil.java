@@ -18,9 +18,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public final class ImageUtil {
 
-    private static final String sMyAvatarUrl = RxDoHttpClient.BASE_URL + "/user/" + PrefUtil.getAuthUid() + "avatar";
+    private static String getAvatarUrl(int uid){
+        return RxDoHttpClient.BASE_URL + "user/" + uid + "/avatar";
+    }
 
-    public static void load(Context context, int resourceId, ImageView view) {
+    public static void loadAsBitmap(Context context, int resourceId, ImageView view) {
         Glide.with(context).load(resourceId).asBitmap().centerCrop().dontAnimate().into(view);
     }
 
@@ -32,17 +34,18 @@ public final class ImageUtil {
         Glide.with(context).load(url).centerCrop().into(view);
     }
 
-    public static void loadAvatar(Context context, String avatarUrl, ImageView view) {
-        Glide.with(context).load(avatarUrl).centerCrop()
+    public static void loadAvatarByUid(Context context, int uid, ImageView view) {
+        Glide.with(context).load(getAvatarUrl(uid)).centerCrop()
 //                .placeholder(R.drawable.avatar2)
                 .into(view);
     }
 
-
     public static void loadMyAvatar(Context context, ImageView civAvatar) {
 //        String url = RxDoHttpClient.BASE_URL + "user/19667/avatar";
-        String url = "https://www.instantssl.com/images/http-vs-https.png";
-//        loadAvatar(context, sMyAvatarUrl, civAvatar);
-        loadAvatar(context, url, civAvatar);
+        loadAvatarByUid(context, PrefUtil.getAuthUid(), civAvatar);
     }
+
+
+
+
 }
