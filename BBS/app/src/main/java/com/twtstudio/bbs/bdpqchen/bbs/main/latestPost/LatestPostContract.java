@@ -22,4 +22,7 @@ interface LatestPostContract {
         void refreshAnnounce();
         void addAnnounce();
     }
+    interface ItemClickListener {
+        void OnItemClick(View v, int position);
+    }
 }

@@ -12,6 +12,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.main.EndLessOnScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,13 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
     SwipeRefreshLayout layoutSwipeRefresh;
     Unbinder unbinder;
     LatestPostAdapter latestPostAdapter;
+
+
+
     private LinearLayoutManager linearLayoutManager;
+    public LatestPostFragment(){
+        LogUtil.dd("getItem");
+    }
 
     @Override
     protected int getFragmentLayoutId() {
@@ -51,7 +59,14 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
         recyclerview.setLayoutManager(linearLayoutManager);
         //initData();
         mPresenter.refreshAnnounce();
+        layoutSwipeRefresh.setRefreshing(true);
+
         recyclerview.setAdapter(latestPostAdapter);
+        recyclerview.setOnScrollListener(new EndLessOnScrollListener(linearLayoutManager){
+            public void onLoadMore(int currentPage) {
+                mPresenter.addAnnounce();
+            }
+        });
         layoutSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(
 
         ) {
@@ -93,6 +108,7 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
 
     public void refreshAnnounce(List<LatestPostModel.DataBean.LatestBean> announceBeen) {
         latestPostAdapter.refreshList(announceBeen);
+        layoutSwipeRefresh.setRefreshing(false);
     }
 
     @Override

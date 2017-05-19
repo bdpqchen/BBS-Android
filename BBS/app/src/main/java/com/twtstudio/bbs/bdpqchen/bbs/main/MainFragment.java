@@ -52,7 +52,6 @@ public class MainFragment extends SimpleFragment {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);
-        ;
         return rootView;
     }
 
