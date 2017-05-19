@@ -91,7 +91,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
             Typeface iconfont = Typeface.createFromAsset(context.getAssets(), "iconfont/iconfont.ttf");
             holder.tv_icon.setTypeface(iconfont);
             holder.tv_visit.setText(String.valueOf(data.get(position).c_post));
-            holder.tv_time.setText(data.get(position).t_create);
+            holder.tv_time.setText(String.valueOf(data.get(position).t_create));
 
             holder.cdv.setOnClickListener(new View.OnClickListener() {
                 @Override
