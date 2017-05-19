@@ -85,7 +85,7 @@ public class CollectionClient {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://bbs.twtstudio.com/home/")
+                .baseUrl("https://bbs.twtstudio.com/api/home/")
                 .build();
         CollectionApi collectionApi = retrofit.create(CollectionApi.class);
 
@@ -109,7 +109,7 @@ public class CollectionClient {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://bbs.twtstudio.com/home/")
+                .baseUrl("https://bbs.twtstudio.com/api/home/")
                 .build();
 
         CollectionApi collectionApi = retrofit.create(CollectionApi.class);
