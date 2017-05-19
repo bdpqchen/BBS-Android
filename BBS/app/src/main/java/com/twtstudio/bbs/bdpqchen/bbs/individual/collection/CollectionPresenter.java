@@ -1,22 +1,19 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.collection;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
 
 /**
  * Created by HP on 2017/5/12.
  */
 
-public class CollectionPresenter extends RxPresenter<CollectionContract.View> implements CollectionContract.Presenter {
+class CollectionPresenter extends RxPresenter<CollectionContract.View> implements CollectionContract.Presenter {
 
-    private CollectionContract.View collectionView;
-    private CollectionClient collectionClient = new CollectionClient(this);
+    CollectionContract.View collectionView;
+    CollectionClient collectionClient = new CollectionClient(this);
 
     // TODO: 2017/5/14 换成用户的uid和Token
-    private String uid = String.valueOf(PrefUtil.getAuthUid());
-    private String uidToken = uid +"|"+ PrefUtil.getAuthToken();
-    String tempUidToken = "21145|wTAutgt4yr8LyE2Tl6tkiQstZkySpASnqs1R8yHell0";
+    String tempUidToken = "21145|SXNW5h9w1Njag3hXSt-2r8IGiOmk3b_tU-nqTddYhOk";
 
     public CollectionPresenter(CollectionContract.View collectionView) {
         this.collectionView = collectionView;
@@ -36,12 +33,12 @@ public class CollectionPresenter extends RxPresenter<CollectionContract.View> im
 
     @Override
     public void loadCollections() {
-        collectionClient.loadCollection(uidToken);
+        collectionClient.loadCollection(tempUidToken);
     }
 
     @Override
     public void deleteCollection(int tid) {
-        collectionClient.deleteCollection(uidToken,tid);
+        collectionClient.deleteCollection(tempUidToken,tid);
     }
 
     @Override
