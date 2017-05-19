@@ -35,25 +35,29 @@
         <activity
             android:name=".auth.replaceUser.ReplaceUserActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-        <activity android:name=".auth.replaceUser.replacePassword.ReplacePasswordActivity" />
+        <activity
+            android:name=".auth.replaceUser.replacePassword.ReplacePasswordActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity
+            android:name=".individual.avatar.ImagePickerActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
             android:name=".auth.login.LoginActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity android:name=".individual.settings.SettingsActivity" />
         <activity android:name=".individual.updateInfo.UpdateInfoActivity" />
         <activity android:name=".individual.updatePassword.UpdatePassword" />
-        <activity android:name=".individual.avatar.ImagePickerActivity" />
-        android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
-
-        />
-        <activity android:name=".individual.settings.SettingsActivity" />
-        <activity android:name=".individual.updateInfo.UpdateInfoActivity" />
-        <activity android:name=".individual.updatePassword.UpdatePassword" />
-        <activity android:name=".individual.avatar.ImagePickerActivity" />
         <activity android:name=".forum.boards.BoardsActivity" />
         <activity android:name=".forum.boards.thread.ThreadActivity" />
+        <activity android:name=".individual.collection.CollectionActivity" />
+        <activity android:name=".test.MyReleaseActivity" />
         <activity android:name=".test.SecondActivity" />
-        <activity android:name=".LatestPost_item"></activity>
+
+        <meta-data
+            android:name="com.twtstudio.bbs.bdpqchen.bbs.main.SimpleGlideModule"
+            android:value="GlideModule" />
+
+        <activity android:name=".main.latestPost.LatestPostContent"></activity>
     </application>
 
 </manifest>
