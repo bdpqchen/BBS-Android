@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.twtstudio.bbs.bdpqchen.bbs">
+          package="com.twtstudio.bbs.bdpqchen.bbs">
 
     <!--
         <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -8,8 +8,8 @@
         <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
         <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".App"
@@ -24,36 +24,36 @@
             android:name=".splash.SplashActivity"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".home.HomeActivity" />
+        <activity android:name=".home.HomeActivity"/>
         <activity
             android:name=".auth.register.RegisterActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            />
         <activity
             android:name=".auth.replaceUser.ReplaceUserActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-        <activity android:name=".auth.replaceUser.replacePassword.ReplacePasswordActivity" />
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
+        <activity android:name=".auth.replaceUser.replacePassword.ReplacePasswordActivity"
+                  android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            />
+        <activity android:name=".individual.avatar.ImagePickerActivity"
+                  android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            />
         <activity
             android:name=".auth.login.LoginActivity"
-
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
         <activity android:name=".individual.settings.SettingsActivity" />
         <activity android:name=".individual.updateInfo.UpdateInfoActivity" />
         <activity android:name=".individual.updatePassword.UpdatePassword" />
-        <activity android:name=".individual.avatar.ImagePickerActivity" />
-        android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
-        />
-        <activity android:name=".individual.settings.SettingsActivity" />
-        <activity android:name=".individual.updateInfo.UpdateInfoActivity" />
-        <activity android:name=".individual.updatePassword.UpdatePassword" />
-        <activity android:name=".individual.avatar.ImagePickerActivity" />
+        <activity android:name=".test.MyReleaseActivity" />
         <activity android:name=".forum.boards.BoardsActivity" />
         <activity android:name=".forum.boards.thread.ThreadActivity" />
         <activity android:name=".test.SecondActivity" />
-        <activity android:name=".LatestPost_item"></activity>
+        <activity android:name=".LatestPost_item"/>
+        <activity android:name=".individual.collection.CollectionActivity"/>
 
     </application>
 

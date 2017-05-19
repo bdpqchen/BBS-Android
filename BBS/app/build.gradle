@@ -4,6 +4,7 @@ apply plugin: 'me.tatarka.retrolambda'
 dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
 }
 android {
     compileSdkVersion 25
