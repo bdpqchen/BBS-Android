@@ -12,6 +12,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.EndLessOnScrollListener;
 
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
     Unbinder unbinder;
     LatestPostAdapter latestPostAdapter;
     private LinearLayoutManager linearLayoutManager;
+    public LatestPostFragment(){
+        LogUtil.dd("getItem");
+    }
 
     @Override
     protected int getFragmentLayoutId() {

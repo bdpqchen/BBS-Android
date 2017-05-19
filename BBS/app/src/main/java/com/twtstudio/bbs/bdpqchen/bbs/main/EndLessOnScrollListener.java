@@ -39,9 +39,7 @@ public abstract class EndLessOnScrollListener extends  RecyclerView.OnScrollList
         totalItemCount = mLinearLayoutManager.getItemCount();
         firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
         if(loading){
-            Log.d("wnwn","firstVisibleItem: " +firstVisibleItem);
-            Log.d("wnwn","totalPageCount:" +totalItemCount);
-            Log.d("wnwn", "visibleItemCount:" + visibleItemCount);
+
 
             if(totalItemCount > previousTotal){
                 //说明数据已经加载结束

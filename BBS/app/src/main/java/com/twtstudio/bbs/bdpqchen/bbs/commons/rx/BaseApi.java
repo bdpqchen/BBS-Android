@@ -62,13 +62,13 @@ public interface BaseApi {
 
 
     @Multipart
-    @PUT("user/avatar")
+    @PUT("/user/avatar")
     Observable<BaseResponse<BaseModel>> doUpdateAvatar(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Part List<MultipartBody.Part> partList);
 
 
-    @GET("api/index")
+    @GET("index")
     Observable<BaseResponse<LatestPostModel.DataBean>> getLatestPost();
 
     @GET("forum/{forumId}")
