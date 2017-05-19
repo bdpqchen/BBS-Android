@@ -10,7 +10,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
@@ -49,7 +48,7 @@ public class RxDoHttpClient<T> {
 
 //    public static final String BASE_URL = "http://202.113.13.162:8080/";
     //将会遇到证书 CA 问题
-    public static final String BASE_URL = "https://bbs.twtstudio.com/api/";
+    public static final String BASE_URL = "https://bbs.twtstudio.com/";
     private Retrofit mRetrofit;
     public BaseApi mApi;
     public ResponseTransformer<T> mTransformer;

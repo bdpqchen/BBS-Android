@@ -8,12 +8,13 @@
     android:layout_marginBottom="5dp">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="144dp"
+        android:layout_height="100dp"
         android:background="#FFFFFF">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/item_civ_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:src="@drawable/avatar1"
             app:civ_border_color="@color/material_light_white"
             app:civ_border_width="2dp"
             android:layout_marginLeft="20dp"
@@ -39,14 +40,6 @@
             android:text="发布"
             android:textSize="14sp"
             android:layout_marginLeft="10dp"/>
-        <ImageView
-            android:id="@+id/main_collection_delete"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/icon_my_collection" />
 
         <TextView
             android:id="@+id/title"
@@ -58,10 +51,7 @@
             android:layout_marginTop="15dp"
             android:textSize="18sp"
             android:textColor="@color/black"
-            android:hint="2"
-            android:lines="2"
-            android:ellipsize="end"
-            />
+            android:hint="2" />
          <TextView
             android:id="@+id/create_time"
             android:layout_width="wrap_content"

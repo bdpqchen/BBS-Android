@@ -32,9 +32,6 @@ public final class ImageUtil  {
     public static void loadAvatar(Context context, ImageView view){
         Glide.with(context).load(avatarUrl).centerCrop().placeholder(R.drawable.avatar2).into(view);
     }
-    public static void loadItemAvatarHome(Context context, ImageView view,String avatarUrl){
-        Glide.with(context).load(avatarUrl).asBitmap().centerCrop().placeholder(R.drawable.avatar2).thumbnail( 0.1f ).error(R.drawable.avatar2).into(view);
-    }
 
 
 /*

@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.main.topTen;
+package com.twtstudio.bbs.bdpqchen.bbs.main.TopTen;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -28,17 +28,17 @@ import butterknife.Unbinder;
 
 public class TopTenFragment extends BaseFragment<TopTenPresenter> implements TopTenContract.View {
     private static final String ARG_TopTen_TYPE = "ARG_LATESPOST_TYPE";
-    /*@BindView(R.id.id_recyclerview)
+    @BindView(R.id.id_recyclerview)
     RecyclerView recyclerview;
     @BindView(R.id.layout_swipe_refresh)
-    SwipeRefreshLayout layoutSwipeRefresh;*/
+    SwipeRefreshLayout layoutSwipeRefresh;
     Unbinder unbinder;
     TopTenAdapter TopTenAdapter;
     private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected int getFragmentLayoutId() {
-        return R.layout.fragmetn_topten;
+        return R.layout.fragment_latest_post;
     }
 
     @Override
@@ -50,10 +50,10 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
     protected void initFragment() {
         TopTenAdapter=new TopTenAdapter(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        //recyclerview.setLayoutManager(linearLayoutManager);
-        //initData();
-       // mPresenter.refreshAnnounce();
-        //recyclerview.setAdapter(TopTenAdapter);
+        recyclerview.setLayoutManager(linearLayoutManager);
+        initData();
+        mPresenter.refreshAnnounce();
+        recyclerview.setAdapter(TopTenAdapter);
     }
 
     @Override
