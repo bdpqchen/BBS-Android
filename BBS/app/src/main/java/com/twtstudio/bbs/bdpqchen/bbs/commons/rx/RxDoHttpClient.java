@@ -11,6 +11,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
+
 
 import java.io.File;
 import java.security.SecureRandom;
@@ -129,6 +133,18 @@ public class RxDoHttpClient<T> {
         return mApi.getForums();
     }
 
+
+
+    public Observable<BaseResponse<LatestPostModel.DataBean>>getLatestPost() {
+
+        return mApi.getLatestPost();
+    }
+    public Observable<BaseResponse<TopTenModel>> getTopTen() {
+        return mApi.getTopTen();
+    }
+    public Observable<BaseResponse<HistoryHotModel>> getHistoryHot() {
+        return mApi.getHistoryHot();
+    }
     public Observable<BaseResponse<RegisterModel>> doRegister(Bundle bundle) {
         return mApi.doRegister(
                 bundle.getString(Constants.BUNDLE_REGISTER_USERNAME),
@@ -164,4 +180,7 @@ public class RxDoHttpClient<T> {
         return mApi.getThreadList(getLatestAuthentication(), String.valueOf(threadId), String.valueOf(page));
     }
 
+    public Observable<BaseResponse<List<MessageModel>>> getMessageList(int page) {
+        return mApi.getMessageList(getLatestAuthentication(), String.valueOf(page));
+    }
 }

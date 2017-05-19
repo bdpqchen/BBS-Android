@@ -13,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.replacePassword.ReplacePa
 import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePassword;
+import com.twtstudio.bbs.bdpqchen.bbs.test.MyReleaseActivity;
 
 import dagger.Component;
 
@@ -43,6 +44,10 @@ public interface ActivityComponent {
     void inject(BoardsActivity boardsActivity);
 
     void inject(ThreadActivity threadActivity);
+
+    void inject(MessageActivity messageActivity);
+
+    void inject(MyReleaseActivity myReleaseActivity);
 
 
 //    void inject(SettingsActivity settingsActivity);
