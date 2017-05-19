@@ -34,6 +34,9 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
     SwipeRefreshLayout layoutSwipeRefresh;
     Unbinder unbinder;
     LatestPostAdapter latestPostAdapter;
+
+
+
     private LinearLayoutManager linearLayoutManager;
     public LatestPostFragment(){
         LogUtil.dd("getItem");
@@ -56,6 +59,8 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
         recyclerview.setLayoutManager(linearLayoutManager);
         //initData();
         mPresenter.refreshAnnounce();
+        layoutSwipeRefresh.setRefreshing(true);
+
         recyclerview.setAdapter(latestPostAdapter);
         recyclerview.setOnScrollListener(new EndLessOnScrollListener(linearLayoutManager){
             public void onLoadMore(int currentPage) {
@@ -103,6 +108,7 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
 
     public void refreshAnnounce(List<LatestPostModel.DataBean.LatestBean> announceBeen) {
         latestPostAdapter.refreshList(announceBeen);
+        layoutSwipeRefresh.setRefreshing(false);
     }
 
     @Override

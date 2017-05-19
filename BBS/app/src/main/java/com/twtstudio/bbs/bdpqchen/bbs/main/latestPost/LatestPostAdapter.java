@@ -62,7 +62,7 @@ public class LatestPostAdapter extends BaseAdapter<LatestPostModel.DataBean.Late
         mholder.author.setText(mholder.announceBean.getAuthor_name());
         mholder.create_time.setText(TimeUtils.getStandardDate(mholder.announceBean.getT_create()));
         mholder.collection.setAlpha(0x000);
-        ImageUtil.loadItemAvatar(mContext,mholder.avatar,avatarurl);
+        ImageUtil.loadItemAvatarHome(mContext,mholder.avatar,avatarurl);
 
     }
 
@@ -81,6 +81,7 @@ public class LatestPostAdapter extends BaseAdapter<LatestPostModel.DataBean.Late
         public LatestPostViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            itemView.setOnClickListener(this);
         }
 
         @Override
