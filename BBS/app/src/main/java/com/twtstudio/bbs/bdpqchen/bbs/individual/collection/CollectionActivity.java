@@ -63,6 +63,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         collection_recyclerView.setLayoutManager(linearLayoutManager);
         collectionAdapter = new CollectionAdapter(this, collectionBean);

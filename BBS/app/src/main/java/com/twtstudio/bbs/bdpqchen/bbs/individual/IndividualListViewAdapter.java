@@ -87,7 +87,7 @@ public class IndividualListViewAdapter extends BaseAdapter {
                 switch (position){
 
                     case 2:
-                        mActivity.startActivityForResult(new Intent(mContext, MyReleaseActivity.class), HomeActivity.CODE_RESULT_FOR_UPDATE_INFO);
+                        mActivity.startActivity(new Intent(mContext, MyReleaseActivity.class));
                         break;
                     case 1:
                         mActivity.startActivityForResult(new Intent(mContext, CollectionActivity.class), HomeActivity.CODE_RESULT_FOR_UPDATE_INFO);

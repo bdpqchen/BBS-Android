@@ -13,10 +13,13 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
     private boolean loading = true;
     private int firstVisibleItem, visibleItemCount, totalItemCount;
 
+    private int page;
+
     private LinearLayoutManager mLinearLayoutManager;
 
     public EndlessRecyclerOnScrollListener(LinearLayoutManager linearLayoutManager) {
         this.mLinearLayoutManager = linearLayoutManager;
+        this.page = page;
     }
 
     @Override
@@ -34,6 +37,7 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
             }
         }
         if (!loading && (totalItemCount - visibleItemCount) <= firstVisibleItem) {
+            page++;
             onLoadMore();
             loading = true;
         }
