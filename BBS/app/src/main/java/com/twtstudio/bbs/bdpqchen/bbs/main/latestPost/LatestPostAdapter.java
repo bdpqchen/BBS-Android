@@ -15,6 +15,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.TimeUtils;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by zhangyulong on 5/12/17.
@@ -36,13 +37,12 @@ public class LatestPostAdapter extends BaseAdapter<LatestPostModel.DataBean.Late
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         LatestPostViewHolder mholder=(LatestPostViewHolder) holder;
-        //Date date=new Date(mholder.announceBean.getT_create());
-        mholder.announceBean= mDataSet.get(position);
-        mholder.title.setText(mholder.announceBean.getTitle());
-        mholder.author.setText(mholder.announceBean.getAuthor_name());
-        mholder.create_time.setText(TimeUtils.getStandardDate(mholder.announceBean.getT_create()));
-        //mholder.collection.setAlpha(0x000);
-//        ImageUtil.loadItemAvatarHome(mContext,mholder.avatar,avatarurl);
+        //Date date=new Date(mholder.data.getT_create());
+        mholder.data= mDataSet.get(position);
+        mholder.title.setText(mholder.data.getTitle());
+        mholder.author.setText(mholder.data.getAuthor_name());
+        mholder.create_time.setText(TimeUtils.getStandardDate(mholder.data.getT_create()));
+        ImageUtil.loadAvatarByUid(mContext,mholder.data.getAuthor_id(),mholder.avatar);
 
     }
 
@@ -53,7 +53,9 @@ public class LatestPostAdapter extends BaseAdapter<LatestPostModel.DataBean.Late
         TextView author;
         @BindView(R.id.create_time)
         TextView create_time;
-        LatestPostModel.DataBean.LatestBean announceBean;
+        @BindView(R.id.item_civ_avatar)
+        CircleImageView avatar;
+        LatestPostModel.DataBean.LatestBean data;
         public LatestPostViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

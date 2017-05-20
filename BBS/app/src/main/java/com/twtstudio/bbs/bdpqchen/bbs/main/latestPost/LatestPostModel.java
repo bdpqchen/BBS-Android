@@ -184,7 +184,7 @@ public class LatestPostModel {
 
             private String id;
             private String title;
-            private String author_id;
+            private int author_id;
             private int board_id;
             private String author_name;
             private String author_nickname;
@@ -211,11 +211,11 @@ public class LatestPostModel {
                 this.title = title;
             }
 
-            public String getAuthor_id() {
+            public int getAuthor_id() {
                 return author_id;
             }
 
-            public void setAuthor_id(String author_id) {
+            public void setAuthor_id(int author_id) {
                 this.author_id = author_id;
             }
 
