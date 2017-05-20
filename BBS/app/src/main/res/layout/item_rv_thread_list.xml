@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/margin_thread_content"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_thread_user"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="@dimen/size_avatar_normal"
+            android:layout_height="@dimen/size_avatar_normal"
+            android:id="@+id/civ_thread_avatar"
+            android:layout_gravity="center"
+            android:src="@drawable/avatar1"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/tv_thread_nickname"
+            tools:text="名字"
+            android:textColor="@color/colorTvBlackMain"
+            android:layout_marginStart="@dimen/margin_start_thread_title"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_thread_title"
+        tools:text="标题标题标题"
+        android:textColor="@color/colorTvBlackMain"
+        android:textSize="17sp"
+        android:layout_marginTop="@dimen/margin_thread_top"
+        android:maxLines="2"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_thread_content"
+        android:layout_marginTop="@dimen/margin_thread_top"
+        tools:text="样式是指为 View 或窗口指定外观和格式的属性集合。样式可以指定高度、填充、字体颜色、字号、背景色等许多属性。 样式是在与指定布局的 XML 不同的 XML 资源中进行定义。"
+        android:textColor="@color/colorTvBlackMain"
+        android:textSize="13sp"
+        android:maxLines="5"
+        android:layout_marginStart="@dimen/margin_start_thread_title"
+        android:layout_marginEnd="@dimen/margin_start_thread_title"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_thread_top"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            tools:text="20 回复"
+            android:textSize="12sp"
+            android:textColor="@color/colorTvBlackMain"
+            android:id="@+id/tv_thread_post_count"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2017-1-1"
+            android:id="@+id/tv_thread_date"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/colorTvBlackMain"
+            android:textSize="12sp"
+            />
+
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>

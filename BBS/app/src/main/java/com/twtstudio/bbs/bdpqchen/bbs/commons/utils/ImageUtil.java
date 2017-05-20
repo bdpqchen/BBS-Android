@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -37,6 +38,14 @@ public final class ImageUtil {
     public static void loadAvatarByUid(Context context, int uid, ImageView view) {
         Glide.with(context).load(getAvatarUrl(uid)).centerCrop()
     //               .placeholder(R.drawable.avatar2)
+                .into(view);
+    }
+
+    public static void loadAvatarAsBitmapByUid(Context context, int uid, ImageView view){
+        Glide.with(context).load(getAvatarUrl(uid))
+                .asBitmap()
+                .centerCrop()
+//                .placeholder(R.drawable.avatar2)
                 .into(view);
     }
 

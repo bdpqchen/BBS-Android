@@ -1,6 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards;
 
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadListModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +10,14 @@ import android.support.v7.widget.Toolbar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity;
 
 import butterknife.BindView;
+
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity.INTENT_BOARD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity.INTENT_BOARD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity.INTENT_THREAD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity.INTENT_THREAD_TITLE;
 
 /**
  * Created by bdpqchen on 17-5-12.
@@ -19,11 +26,10 @@ import butterknife.BindView;
 public class ThreadActivity extends BaseActivity<ThreadPresenter> implements ThreadContract.View {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.rv_thread_list)
-    RecyclerView mRvThreadList;
 
     private String mThreadTitle = "";
     private int mThreadId = 0;
+    private Context mContext;
 
     @Override
     protected int getLayoutResourceId() {
@@ -32,7 +38,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     @Override
     protected Toolbar getToolbarView() {
-        // TODO: 17-5-12 获取到的名称，要提前传过来
         mToolbar.setTitle(mThreadTitle);
         return mToolbar;
     }
@@ -60,9 +65,14 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
-
+        mThreadId = intent.getIntExtra(INTENT_THREAD_ID, 0);
+        mThreadTitle = intent.getStringExtra(INTENT_THREAD_TITLE);
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(PrefUtil.isSlideBackMode());
+        mContext = this;
+
+
+
 
 
     }
