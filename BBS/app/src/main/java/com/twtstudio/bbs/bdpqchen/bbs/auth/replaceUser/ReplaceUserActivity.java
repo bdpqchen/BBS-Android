@@ -26,10 +26,6 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
     Toolbar mToolbar;
     @BindView(R.id.oldAccount)
     EditText mOldAccount;
-    @BindView(R.id.oldName)
-    EditText mOldName;
-    @BindView(R.id.oldPIN)
-    EditText mOldPIN;
     @BindView(R.id.cp_btn_identify)
     CircularProgressButton mCpBtnIdentify;
 
@@ -76,14 +72,10 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
 
     }
 
-    @OnClick({R.id.oldAccount, R.id.oldName, R.id.oldPIN, R.id.cp_btn_identify})
+    @OnClick({R.id.oldAccount, R.id.cp_btn_identify})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.oldAccount:
-                break;
-            case R.id.oldName:
-                break;
-            case R.id.oldPIN:
                 break;
             case R.id.cp_btn_identify:
                 mCpBtnIdentify.startAnimation();

@@ -58,6 +58,8 @@
         <activity android:name=".main.content.ContentActivity" />
         <activity android:name=".test.MyReleaseActivity"/>
         <activity android:name=".welcome.WelcomeActivity"/>
+        <activity android:name=".auth.renew.identify.IdentifyActivity"/>
+        <activity android:name=".auth.renew.appeal.AppealPassportActivity"/>
 
     </application>
 

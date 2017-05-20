@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -234,5 +235,9 @@ public class RxDoHttpClient<T> {
 
     public Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(String threadid) {
         return mApi.getIndexContent(threadid);
+    }
+
+    public Observable<BaseResponse<IdentifyModel>> doIdentifyOldUser(String username, String password) {
+        return mApi.getIdentifyContent(username, password);
     }
 }

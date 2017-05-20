@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
 
 import butterknife.BindView;
@@ -47,7 +49,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.civ_old_user:
-                startActivity(new Intent(this, ReplaceUserActivity.class));
+                startActivity(new Intent(this, IdentifyActivity.class));
                 break;
             case R.id.civ_new_user:
                 startActivity(new Intent(this, RegisterActivity.class));

@@ -128,7 +128,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                     mEtPassword.setError(LOGIN_ERROR_TEXT);
                 } else {
                     mCircularProgressButton.startAnimation();
-                    HandlerUtil.postDelay(() -> mPresenter.doLogin(username, password), 500);
                     mPresenter.doLogin(username, password);
                 }
                 break;
@@ -159,7 +158,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             startActivity(intent, activityOptions.toBundle());
 //            LogUtil.d("start activity with options");
         } else {
-            startActivity(intent);
+            HandlerUtil.postDelay(() -> startActivity(intent), 500);
         }
     }
 
