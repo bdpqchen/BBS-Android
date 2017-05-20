@@ -309,6 +309,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     @Override
     public void updateInfoFailed(String m) {
         SnackBarUtil.error(this, m, "同步", v -> doUpdateInfo());
+        hideProgressBar();
     }
 
     @Override

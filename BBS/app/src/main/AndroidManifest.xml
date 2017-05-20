@@ -57,6 +57,7 @@
         <activity android:name=".forum.boards.thread_list.ThreadListActivity"/>
         <activity android:name=".main.content.ContentActivity" />
         <activity android:name=".test.MyReleaseActivity"/>
+        <activity android:name=".welcome.WelcomeActivity"/>
 
     </application>
 

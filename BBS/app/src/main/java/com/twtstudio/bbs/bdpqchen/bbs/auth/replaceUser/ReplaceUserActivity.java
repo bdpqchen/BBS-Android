@@ -87,7 +87,8 @@ public class ReplaceUserActivity extends BaseActivity<ReplaceUserPresenter> impl
                 break;
             case R.id.cp_btn_identify:
                 mCpBtnIdentify.startAnimation();
-                replaceUserResults();
+
+//                replaceUserResults();
                 break;
         }
     }

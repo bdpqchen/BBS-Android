@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:text="老用户(即已拥有BBS帐号)请如实填写以下信息认证"
+            android:text="老用户(即已拥有BBS帐号)请登录认证新版BBS"
             android:textColor="@color/material_cyan_400"
             />
 
@@ -32,13 +32,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
-            android:hint="用户名"
+            android:hint="当年的用户名"
             android:imeOptions="actionNext"
             android:inputType="text"
             android:maxLines="1"
             />
 
         <EditText
+            android:id="@+id/oldPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
+            android:hint="当年的密码"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLines="1"
+            />
+
+       <!-- <EditText
             android:id="@+id/oldName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,7 +70,8 @@
             android:inputType="text"
             android:maxLines="1"
 
-            />
+            />-->
+
         <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
             android:id="@+id/cp_btn_identify"
             android:layout_width="match_parent"

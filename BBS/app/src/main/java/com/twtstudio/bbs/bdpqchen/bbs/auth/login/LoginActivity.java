@@ -122,12 +122,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             case R.id.cp_btn_login:
                 String username = mEtAccount.getText() + "";
                 String password = mEtPassword.getText() + "";
-                if (username.length() == 0){
+                if (username.length() == 0) {
                     mEtAccount.setError(LOGIN_ERROR_TEXT);
-                }else if (password.length() == 0){
+                } else if (password.length() == 0) {
                     mEtPassword.setError(LOGIN_ERROR_TEXT);
-                }else{
+                } else {
                     mCircularProgressButton.startAnimation();
+                    HandlerUtil.postDelay(() -> mPresenter.doLogin(username, password), 500);
                     mPresenter.doLogin(username, password);
                 }
                 break;
@@ -166,12 +167,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void loginFailed(String msg) {
         LogUtil.d("loginFailed()");
         mCircularProgressButton.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
-        HandlerUtil.postDelay(new Runnable() {
-            @Override
-            public void run() {
-                mCircularProgressButton.revertAnimation();
-            }
-        }, 3000);
+        HandlerUtil.postDelay(() -> mCircularProgressButton.revertAnimation(), 3000);
         // TODO: 17-5-20 不使用顶部snackbar
         SnackBarUtil.error(this, msg);
     }
