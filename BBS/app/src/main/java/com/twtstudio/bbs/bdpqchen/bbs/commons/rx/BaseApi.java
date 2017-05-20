@@ -77,6 +77,7 @@ public interface BaseApi {
     @GET("board/{boardId}/page/{page}")
     Observable<BaseResponse<ThreadListModel>> getThreadList(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
+            @Header(Constants.NET_RETROFIT_HEADER_REQUEST)String requestedWith,
             @Path("boardId") String boardId,
             @Path("page") String page);
 

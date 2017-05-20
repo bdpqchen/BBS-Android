@@ -149,6 +149,7 @@ public class ThreadListModel {
         private int t_reply;
         private int t_create;
         private int t_modify;
+        private String content;
 
         public int getId() {
             return id;
@@ -252,6 +253,14 @@ public class ThreadListModel {
 
         public void setT_modify(int t_modify) {
             this.t_modify = t_modify;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
         }
     }
 }

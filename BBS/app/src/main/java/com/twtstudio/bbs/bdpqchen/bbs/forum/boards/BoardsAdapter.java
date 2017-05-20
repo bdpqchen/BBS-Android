@@ -20,6 +20,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivit
 
 import butterknife.BindView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity.INTENT_BOARD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity.INTENT_BOARD_TITLE;
+
 /**
  * Created by bdpqchen on 17-5-11.
  */
@@ -79,19 +82,28 @@ public class BoardsAdapter extends BaseAdapter<PreviewThreadModel> implements Vi
             holder.mTvPreviewThreadAuthor2.setText(AUTHOR_PRE + thread2.getAuthor_nickname());
             holder.mTvPreviewThreadTime1.setText(StampUtil.getDatetimeByStamp(thread1.getT_create()));
             holder.mTvPreviewThreadTime2.setText(StampUtil.getDatetimeByStamp(thread2.getT_create()));
-            holder.mTvPreviewThreadContent1.setText(thread1.getTitle());
-            holder.mTvPreviewThreadContent2.setText(thread2.getTitle());
+            holder.mTvPreviewThreadContent1.setText(thread1.getContent());
+            holder.mTvPreviewThreadContent2.setText(thread2.getContent());
 
 
             holder.mRlBoardTitle.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, ThreadListActivity.class);
                 LogUtil.dd(previewThread.getBoard().getName());
                 LogUtil.dd(String.valueOf(previewThread.getBoard().getId()));
-                intent.putExtra(BoardsActivity.INTENT_BOARD_TITLE, previewThread.getBoard().getName());
+                intent.putExtra(INTENT_BOARD_TITLE, previewThread.getBoard().getName());
                 intent.putExtra(BoardsActivity.INTENT_BOARD_ID, previewThread.getBoard().getId());
                 mContext.startActivity(intent);
             });
-
+            Intent intent = new Intent();
+            intent.putExtra(INTENT_BOARD_TITLE, previewThread.getBoard().getName());
+            holder.mLlBoardContainedThread1.setOnClickListener(v -> {
+                intent.putExtra(INTENT_BOARD_ID, previewThread.getThreadList().get(0).getId());
+                mContext.startActivity(intent);
+            });
+            holder.mLlBoardContainedThread2.setOnClickListener(v -> {
+                intent.putExtra(INTENT_BOARD_ID, previewThread.getThreadList().get(1).getId());
+                mContext.startActivity(intent);
+            });
 
         }
 

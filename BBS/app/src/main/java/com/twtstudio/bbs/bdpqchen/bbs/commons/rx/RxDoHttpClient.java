@@ -223,7 +223,7 @@ public class RxDoHttpClient<T> {
     }
 
     public Observable<BaseResponse<ThreadListModel>> getThreadList(int threadId, int page) {
-        return mApi.getThreadList(getLatestAuthentication(), String.valueOf(threadId), String.valueOf(page));
+        return mApi.getThreadList(getLatestAuthentication(),"Mobile" ,String.valueOf(threadId), String.valueOf(page));
     }
 
     public Observable<BaseResponse<List<MessageModel>>> getMessageList(int page) {

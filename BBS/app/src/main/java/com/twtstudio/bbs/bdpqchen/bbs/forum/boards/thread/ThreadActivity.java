@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     @BindView(R.id.rv_thread_list)
     RecyclerView mRvThreadList;
 
+    private String mThreadTitle = "";
+    private int mThreadId = 0;
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_thread;
@@ -29,7 +33,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     @Override
     protected Toolbar getToolbarView() {
         // TODO: 17-5-12 获取到的名称，要提前传过来
-        mToolbar.setTitle("休闲放松");
+        mToolbar.setTitle(mThreadTitle);
         return mToolbar;
     }
 
@@ -55,7 +59,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO: 17-5-12 getIntent() title
+        Intent intent = getIntent();
+
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(PrefUtil.isSlideBackMode());
 
