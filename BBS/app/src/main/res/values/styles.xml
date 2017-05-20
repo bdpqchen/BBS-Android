@@ -38,6 +38,9 @@
         <item name="android:color">@color/colorMainText</item>
     </style>
 
+    <style name="tvSupportNightMode">
+        <item name="android:textColor">@color/colorTvBlackMain</item>
+    </style>
 
 
 </resources>

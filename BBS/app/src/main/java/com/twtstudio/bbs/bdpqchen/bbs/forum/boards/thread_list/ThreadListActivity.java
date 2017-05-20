@@ -1,18 +1,24 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsAdapter;
+
+import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by bdpqchen on 17-5-20.
@@ -22,9 +28,15 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.rv_thread_list)
+    RecyclerView mRecyclerView;
 
     private String mThreadTitle = "";
-    private int mThreadId = 0;
+    private int mBoardId = 0;
+    ThreadListAdapter mAdapter;
+    LinearLayoutManager mLayoutManager;
+    private Context mContext;
+    private int mPage = 0;
 
     @Override
     protected int getLayoutResourceId() {
@@ -60,13 +72,34 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        mThreadId = intent.getIntExtra(BoardsActivity.INTENT_BOARD_ID, 0);
+        mBoardId = intent.getIntExtra(BoardsActivity.INTENT_BOARD_ID, 0);
         mThreadTitle = intent.getStringExtra(BoardsActivity.INTENT_BOARD_TITLE);
 //        LogUtil.dd(mThreadTitle);
         super.onCreate(savedInstanceState);
+        mContext = this;
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
+        mPresenter.getThreadList(mBoardId, mPage);
+        mAdapter = new ThreadListAdapter(this);
+        mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(16));
+        mRecyclerView.setOnClickListener(v -> {
+
+        });
 
 
 
+    }
+
+    @Override
+    public void setThreadList(ThreadListModel threadListModel) {
+        mAdapter.addList(threadListModel.getThread());
+
+    }
+
+    @Override
+    public void showErrorMessage(String msg) {
+        SnackBarUtil.error(this, msg);
     }
 }

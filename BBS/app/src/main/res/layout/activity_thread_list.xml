@@ -6,20 +6,18 @@
     android:orientation="vertical">
 
     <include
+        layout="@layout/common_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_thread_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/common_toolbar"/>
+        android:background="@color/colorMainBgLight"
 
-
-    <!--
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/rv_thread_list"
-            android:background="@color/colorMainBgLight"
-            />
-    -->
+        />
 
 
 </LinearLayout>

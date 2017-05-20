@@ -22,12 +22,21 @@ public final class StampUtil {
         return days + 1;    //不能从零天开始计算
     }
 
+    private static String convert(String formatMode, int oldStamp){
+
+        oldStamp -= diff;
+        long longTime = Long.parseLong(oldStamp + "000");
+        SimpleDateFormat format = new SimpleDateFormat(formatMode);
+        return format.format(new Date(longTime));
+    }
+
     public static String getDatetimeByStamp(int postTime){
-        postTime -= diff;
-        long longTime = Long.parseLong(postTime + "000");
         String datetimeMode = "yyyy-MM-dd HH:mm";
-        SimpleDateFormat format = new SimpleDateFormat(datetimeMode);
-        String datetime = format.format(new Date(longTime));
-        return datetime;
+        return convert(datetimeMode, postTime);
+    }
+
+    public static String getDateByStamp(int t_create) {
+        String dateMode = "yyyy-MM-dd";
+        return convert(dateMode, t_create);
     }
 }
