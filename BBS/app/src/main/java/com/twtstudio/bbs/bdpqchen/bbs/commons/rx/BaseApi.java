@@ -9,6 +9,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
@@ -84,10 +85,11 @@ public interface BaseApi {
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Path("page") String page);
 
-    @GET("topten")
-    Observable<BaseResponse<TopTenModel>> getTopTen();
+    @GET("index")
+    Observable<BaseResponse<TopTenModel.DataBean>> getTopTen();
     @GET("historyhot")
     Observable<BaseResponse<HistoryHotModel>> getHistoryHot();
-
+    @GET("thread/{threadid}/page/0")
+    Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(@Path("threadid") String threadid);
 }
 

@@ -42,6 +42,7 @@ public class MainFragment extends SimpleFragment {
 
         TabAdapter tabAdapter = new TabAdapter(getFragmentManager());
         mViewpager.setAdapter(tabAdapter);
+        mViewpager.setOffscreenPageLimit(3);
         mTablayout.setupWithViewPager(mViewpager);
 
     }
