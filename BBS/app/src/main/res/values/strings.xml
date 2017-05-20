@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BBS</string>
+    <string name="collection_no_collection">你还没有收藏的帖子哦~</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="icon">&#xe699;</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+</resources>

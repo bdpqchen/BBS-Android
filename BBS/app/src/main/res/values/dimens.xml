@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_top_text_input_layout_register">16dp</dimen>
+    <dimen name="margin_top_text_input_layout_register_double">16dp</dimen>
+    <dimen name="margin_side_text_input_layout_register">24dp</dimen>
+    <dimen name="margin_fab">16dp</dimen>
+    <dimen name="width_icon_login">24dp</dimen>
+    <dimen name="margin_icon_left">16dp</dimen>
+    <dimen name="padding_login_input">24dp</dimen>
+    <dimen name="margin_top_sub_selector">8dp</dimen>
+    <dimen name="text_size_16sp">16sp</dimen>
+    <dimen name="text_size_settings_list_view">15sp</dimen>
+    <dimen name="min_height_settings_list">48dp</dimen>
+    <dimen name="padding_setting_list_start">16dp</dimen>
+    <dimen name="padding_setting_list_top">8dp</dimen>
+    <dimen name="margin_top_list_view_settings">1px</dimen>
+    <dimen name="margin_start_update_info">16dp</dimen>
+    <dimen name="icon_size_normal">24dp</dimen>
+    <dimen name="margin_thread_title">8dp</dimen>
+    <dimen name="margin_thread_content">16dp</dimen>
+    <dimen name="margin_start_thread_title">4dp</dimen>
+    <dimen name="text_size_thread_title">20sp</dimen>
+    <dimen name="size_image_thread_content_width">120dp</dimen>
+    <dimen name="text_size_thread_content">12sp</dimen>
+    <dimen name="margin_thread_content_content_text">4dp</dimen>
+    <dimen name="height_thread_content">128dp</dimen>
+    <dimen name="size_avatar_normal">36dp</dimen>
+    <dimen name="size_avatar_large">96dp</dimen>
+    <dimen name="margin_thread_top">4dp</dimen>
+</resources>

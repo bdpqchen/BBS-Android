@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorMainBg"
+    >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/common_toolbar"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:background="@color/colorMainBgLight"
+        android:clickable="true"
+        android:foreground="@drawable/selector_foreground_settings"
+        android:id="@+id/rl_avatar_update_info"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_start_update_info"
+            android:src="@drawable/avatar2"
+            android:id="@+id/civ_avatar"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTvBlackMain"
+            android:layout_centerVertical="true"
+            android:text="编辑头像"
+            android:textSize="@dimen/text_size_16sp"
+            android:layout_toStartOf="@+id/arrow_right"
+            />
+
+        <ImageView
+            android:layout_width="@dimen/icon_size_normal"
+            android:layout_height="@dimen/icon_size_normal"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/margin_start_update_info"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:id="@+id/arrow_right"
+            android:tint="@color/colorTintIconBlack"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/min_height_settings_list"
+        android:layout_marginTop="@dimen/margin_top_list_view_settings"
+        android:clickable="true"
+        android:foreground="@drawable/selector_foreground_settings"
+        android:background="@color/colorMainBgLight"
+        android:id="@+id/rl_nickname_update_info"
+        android:orientation="horizontal"
+
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="昵称"
+            android:textColor="@color/colorTvBlackMain"
+            android:layout_marginStart="@dimen/margin_start_update_info"
+            android:textSize="@dimen/text_size_16sp"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="jenny"
+            android:textColor="@color/colorTvBlackMain"
+            android:textSize="@dimen/text_size_16sp"
+            android:layout_toStartOf="@+id/icon_arrow_nickname"
+            android:layout_centerVertical="true"
+            android:maxLines="1"
+            android:id="@+id/tv_nickname_update"
+            />
+
+
+
+        <ImageView
+            android:layout_width="@dimen/icon_size_normal"
+            android:layout_height="@dimen/icon_size_normal"
+            android:id="@+id/icon_arrow_nickname"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/margin_start_update_info"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:tint="@color/colorTintIconBlack"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/min_height_settings_list"
+        android:layout_marginTop="@dimen/margin_top_list_view_settings"
+        android:clickable="true"
+        android:foreground="@drawable/selector_foreground_settings"
+        android:background="@color/colorMainBgLight"
+        android:id="@+id/rl_signature_update_info"
+        android:orientation="horizontal"
+
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="签名"
+            android:textColor="@color/colorTvBlackMain"
+            android:layout_marginStart="@dimen/margin_start_update_info"
+            android:textSize="@dimen/text_size_16sp"
+
+            />
+
+        <TextView
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="go big or go home.\\go big or go home.\\go big or go home.\\"
+            android:textColor="@color/colorTvBlackMain"
+            android:textSize="@dimen/text_size_16sp"
+            android:layout_toStartOf="@+id/icon_arrow_signature"
+            android:layout_centerVertical="true"
+            android:maxLines="3"
+            android:id="@+id/tv_signature_update"
+            />
+
+
+        <ImageView
+            android:layout_width="@dimen/icon_size_normal"
+            android:layout_height="@dimen/icon_size_normal"
+            android:id="@+id/icon_arrow_signature"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/margin_start_update_info"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:tint="@color/colorTintIconBlack"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/min_height_settings_list"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:foreground="@drawable/selector_foreground_settings"
+        android:background="@color/colorMainBgLight"
+        android:id="@+id/rl_password_update_info"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="修改密码"
+            android:textColor="@color/colorTvBlackMain"
+            android:layout_marginStart="@dimen/margin_start_update_info"
+            android:textSize="@dimen/text_size_16sp"
+            />
+
+        <ImageView
+            android:layout_width="@dimen/icon_size_normal"
+            android:layout_height="@dimen/icon_size_normal"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/margin_start_update_info"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:tint="@color/colorTintIconBlack"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>
