@@ -125,7 +125,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 if (username.length() == 0){
                     mEtAccount.setError(LOGIN_ERROR_TEXT);
                 }else if (password.length() == 0){
-                    mEtAccount.setError(LOGIN_ERROR_TEXT);
+                    mEtPassword.setError(LOGIN_ERROR_TEXT);
                 }else{
                     mCircularProgressButton.startAnimation();
                     mPresenter.doLogin(username, password);

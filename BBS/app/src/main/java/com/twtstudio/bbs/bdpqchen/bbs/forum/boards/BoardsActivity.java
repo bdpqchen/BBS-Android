@@ -2,21 +2,16 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumAdapter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,16 +25,21 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.rv_board_list)
+    RecyclerView mRvBoardList;
 //    @BindView(R.id.progress_bar)
 //    ProgressBar mProgressBar;
+
+    public static final String  INTENT_BOARD_TITLE = "intent_board_title";
+    public static final String  INTENT_BOARD_ID = "intent_board_id";
 
     int mForumId;
     Context mContext;
     Activity mActivity;
     BoardsAdapter mAdapter;
     LinearLayoutManager mLayoutManager;
-    @BindView(R.id.rv_board_list)
-    RecyclerView mRvBoardList;
+
+    private String mForumTitle = "";
 
     @Override
     protected int getLayoutResourceId() {
@@ -48,7 +48,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
 
     @Override
     protected Toolbar getToolbarView() {
-        mToolbar.setTitle("休闲娱乐");
+        mToolbar.setTitle(mForumTitle);
         return mToolbar;
     }
 
@@ -74,37 +74,30 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         mContext = this;
         mForumId = getIntent().getIntExtra(ForumFragment.INTENT_FORUM_ID, 0);
+        mForumTitle = getIntent().getStringExtra(ForumFragment.INTENT_FORUM_TITLE);
+        super.onCreate(savedInstanceState);
 
         mPresenter.getBoardList(mForumId);
         mAdapter = new BoardsAdapter(mContext);
 
-        getDataList();
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        mRvBoardList.addItemDecoration(new RecyclerViewItemDecoration(16));
         mRvBoardList.setLayoutManager(mLayoutManager);
         mRvBoardList.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener((view, position) -> {
+        /*mAdapter.setOnItemClickListener(((view, position) -> {
             startActivity(new Intent(mContext, ThreadActivity.class));
-        });
+        }));*/
 
 
     }
 
-    public void getDataList() {
+    @Override
+    public void setBoardList(List<PreviewThreadModel> previewThreadList) {
 
-        List<ThreadModel> list = new ArrayList<>();
-        for (int i = 0; i < 3; i++){
-            ThreadModel model = new ThreadModel();
-            ThreadModel.BoardBean boardBean = new ThreadModel.BoardBean();
-            boardBean.setId(i);
-            model.setBoard(boardBean);
-            list.add(model);
-        }
-
-        mAdapter.addList(list);
+        mAdapter.addList(previewThreadList);
 
     }
 }

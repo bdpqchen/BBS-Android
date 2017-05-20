@@ -42,6 +42,10 @@ public class ForumAdapter extends BaseAdapter<ForumModel> implements View.OnClic
         return mDataSet.get(position).getId();
     }
 
+    public String getItemForumTitle(int position){
+        return mDataSet.get(position).getName();
+    }
+
 
     public ForumAdapter(Context context)
     {
@@ -72,7 +76,7 @@ public class ForumAdapter extends BaseAdapter<ForumModel> implements View.OnClic
             ForumModel model = mDataSet.get(position);
             ViewHolder viewHolder = (ViewHolder) holder;
             LogUtil.dd(model.getName());
-            viewHolder.mTvName.setText(mDataSet.get(position).getName());
+            viewHolder.mTvName.setText(model.getName());
             ViewGroup.LayoutParams params = viewHolder.mIvBgImage.getLayoutParams();
             params.width = WindowUtil.getWindowWidth(mContext) / 2;
             viewHolder.mIvBgImage.setLayoutParams(params);

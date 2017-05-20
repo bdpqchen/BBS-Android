@@ -54,6 +54,7 @@
         <activity android:name=".test.SecondActivity" />
         <activity android:name=".individual.message.MessageActivity"/>
         <activity android:name=".individual.collection.CollectionActivity"/>
+        <activity android:name=".forum.boards.thread_list.ThreadListActivity"/>
 
 
     </application>

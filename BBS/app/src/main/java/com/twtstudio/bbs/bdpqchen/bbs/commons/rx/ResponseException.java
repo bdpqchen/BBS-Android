@@ -17,11 +17,11 @@ public class ResponseException extends RuntimeException{
 
     static {
         //不可直接显示的error_code需要在这里进行替换
-        ERROR_CODES_MAPS.put(1001, "登录失败, 请仔细检查账户密码");
+//        ERROR_CODES_MAPS.put(1001, "登录失败, 请仔细检查账户密码");
 //        ERROR_CODES_MAPS.put(1010, "失败, 请检查输入是否有误");
-        ERROR_CODES_MAPS.put(1010, "姓名，身份证号不匹配");
-        ERROR_CODES_MAPS.put(1012, "姓名，学号不匹配");
-        ERROR_CODES_MAPS.put(4000, "未上传头像");
+//        ERROR_CODES_MAPS.put(1010, "姓名，身份证号不匹配");
+//        ERROR_CODES_MAPS.put(1012, "姓名，学号不匹配");
+//        ERROR_CODES_MAPS.put(4000, "未上传头像");
         ERROR_CODES_MAPS.put(2003, "图片格式仅支持 .JPEG, .JPG");
 
     }

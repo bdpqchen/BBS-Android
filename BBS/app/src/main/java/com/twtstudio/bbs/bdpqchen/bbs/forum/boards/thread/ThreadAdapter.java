@@ -16,7 +16,7 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-5-12.
  */
 
-public class ThreadAdapter extends BaseAdapter<ThreadModel> {
+public class ThreadAdapter extends BaseAdapter<ThreadListModel> {
 
 
     public ThreadAdapter(Context context) {

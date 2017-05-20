@@ -6,7 +6,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
@@ -74,7 +74,7 @@ public interface BaseApi {
     Observable<BaseResponse<BoardsModel>> getBoardList(@Path("forumId") String forumId);
 
     @GET("board/{boardId}/page/{page}")
-    Observable<BaseResponse<ThreadModel>> getThreadList(
+    Observable<BaseResponse<ThreadListModel>> getThreadList(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
             @Path("boardId") String boardId,
             @Path("page") String page);

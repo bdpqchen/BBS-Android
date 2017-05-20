@@ -30,6 +30,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
 
 
     public static final String INTENT_FORUM_ID = "intent_forum_id";
+    public static final String INTENT_FORUM_TITLE = "intent_forum_title";
     @BindView(R.id.tv_title_toolbar)
     TextView mTvTitleToolbar;
     @BindView(R.id.rv_forum_list)
@@ -64,6 +65,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
 
             Intent intent = new Intent(mActivity, BoardsActivity.class);
             intent.putExtra(INTENT_FORUM_ID, mAdapter.getItemForumId(position));
+            intent.putExtra(INTENT_FORUM_TITLE, mAdapter.getItemForumTitle(position));
             startActivity(intent);
             mAdapter.getItemForumId(position);
         });
