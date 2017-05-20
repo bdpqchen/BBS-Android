@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
  * Created by zhangyulong on 5/13/17.
  */
 
-public class TopTenAdapter extends BaseAdapter<TopTenModel.DataBean.LatestBean> {
+public class TopTenAdapter extends BaseAdapter<TopTenModel.DataBean.HotBean> {
     public TopTenAdapter(Context context) {
         super(context);
     }
@@ -43,7 +43,7 @@ public class TopTenAdapter extends BaseAdapter<TopTenModel.DataBean.LatestBean> 
         TextView title;
         @BindView(R.id.author)
         TextView content;
-        TopTenModel.DataBean.LatestBean announceBean;
+        TopTenModel.DataBean.HotBean announceBean;
         public TopTenViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
