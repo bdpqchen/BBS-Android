@@ -90,7 +90,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mTvSignature.setText(PrefUtil.getInfoSignature());
         mTvPoints.setText(PrefUtil.getInfoPoints() + "");
 
-//        ImageUtil.load(this, PrefUtil.getAvatarUrl);
+        ImageUtil.loadMyAvatar(mContext, mCivAvatar);
 
     }
 

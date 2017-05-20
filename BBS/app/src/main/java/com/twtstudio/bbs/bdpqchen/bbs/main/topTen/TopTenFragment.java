@@ -10,12 +10,7 @@ import android.view.ViewGroup;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenAdapter;
-import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenContract;
-import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,7 +33,7 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
 
     @Override
     protected int getFragmentLayoutId() {
-        return R.layout.fragmetn_topten;
+        return R.layout.fragment_latest_post;
     }
 
     @Override

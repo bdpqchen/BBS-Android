@@ -43,7 +43,7 @@ public class ContentAdapter extends BaseAdapter<ContentModel.DataBean.PostBean> 
         mholder.author.setText(mholder.data.getAuthor_name());
         mholder.create_time.setText(TimeUtils.getStandardDate(mholder.data.getT_create()));
         //mholder.collection.setAlpha(0x000);
-        ImageUtil.loadItemAvatarHome(mContext,mholder.avatar,avatarurl);
+//        ImageUtil.loadItemAvatarHome(mContext,mholder.avatar,avatarurl);
     }
     class ContentViewHolder extends BaseViewHolder{
         @BindView(R.id.main_collection_delete)

@@ -6,7 +6,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentModel;
@@ -22,7 +22,6 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -36,7 +35,7 @@ import retrofit2.http.Path;
 public interface BaseApi {
 
     @FormUrlEncoded
-    @POST("login")
+    @POST("passport/login")
     Observable<BaseResponse<LoginModel>> doLogin(@Field("username") String username, @Field("password") String password);
 
     @GET("forum")
@@ -63,7 +62,7 @@ public interface BaseApi {
 
 
     @Multipart
-    @PUT("/user/avatar")
+    @PUT("user/avatar")
     Observable<BaseResponse<BaseModel>> doUpdateAvatar(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Part List<MultipartBody.Part> partList);
@@ -76,8 +75,9 @@ public interface BaseApi {
     Observable<BaseResponse<BoardsModel>> getBoardList(@Path("forumId") String forumId);
 
     @GET("board/{boardId}/page/{page}")
-    Observable<BaseResponse<ThreadModel>> getThreadList(
+    Observable<BaseResponse<ThreadListModel>> getThreadList(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
+            @Header(Constants.NET_RETROFIT_HEADER_REQUEST)String requestedWith,
             @Path("boardId") String boardId,
             @Path("page") String page);
 

@@ -24,5 +24,5 @@ public final class Constants {
     public static final String NET_RETROFIT_HEADER_TITLE = "authentication";
 
 
-
+    public static final String NET_RETROFIT_HEADER_REQUEST = "X-Requested_With";
 }

@@ -109,7 +109,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         mSignature = PrefUtil.getInfoSignature();
         mTvNicknameUpdate.setText(mNickname);
         mTvSignatureUpdate.setText(mSignature);
-        ImageUtil.loadAvatar(mActivity, mCivAvatar);
+        ImageUtil.loadMyAvatar(mActivity, mCivAvatar);
     }
 
     @OnClick({R.id.rl_avatar_update_info, R.id.rl_nickname_update_info, R.id.rl_signature_update_info, R.id.rl_password_update_info})

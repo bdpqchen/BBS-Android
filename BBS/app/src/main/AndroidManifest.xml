@@ -19,12 +19,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.twtstudio.bbs.bdpqchen.bbs.commons.support.SimpleGlideModule"
+            android:value="GlideModule" />
+
         <activity
             android:name=".splash.SplashActivity"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -35,29 +39,24 @@
         <activity
             android:name=".auth.replaceUser.ReplaceUserActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-        <activity
-            android:name=".auth.replaceUser.replacePassword.ReplacePasswordActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-        <activity
-            android:name=".individual.avatar.ImagePickerActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity android:name=".auth.replaceUser.replacePassword.ReplacePasswordActivity" />
         <activity
             android:name=".auth.login.LoginActivity"
+
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity android:name=".individual.settings.SettingsActivity" />
         <activity android:name=".individual.updateInfo.UpdateInfoActivity" />
         <activity android:name=".individual.updatePassword.UpdatePassword" />
+        <activity android:name=".individual.avatar.ImagePickerActivity"
+                  android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
         <activity android:name=".forum.boards.BoardsActivity" />
         <activity android:name=".forum.boards.thread.ThreadActivity" />
-        <activity android:name=".individual.collection.CollectionActivity" />
-        <activity android:name=".test.MyReleaseActivity" />
         <activity android:name=".test.SecondActivity" />
-
-        <meta-data
-            android:name="com.twtstudio.bbs.bdpqchen.bbs.main.SimpleGlideModule"
-            android:value="GlideModule" />
-
+        <activity android:name=".individual.message.MessageActivity"/>
+        <activity android:name=".individual.collection.CollectionActivity"/>
+        <activity android:name=".forum.boards.thread_list.ThreadListActivity"/>
         <activity android:name=".main.content.ContentActivity" />
+
     </application>
 
 </manifest>

@@ -5,7 +5,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 
 
-import java.util.List;
 
 import javax.inject.Inject;
 

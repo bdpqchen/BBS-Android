@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 class ThreadPresenter extends RxPresenter<ThreadContract.View> implements ThreadContract.Presenter{
 
-    private RxDoHttpClient<ThreadModel> mHttpClient;
+    private RxDoHttpClient<ThreadListModel> mHttpClient;
 
     @Inject
     ThreadPresenter(RxDoHttpClient client){

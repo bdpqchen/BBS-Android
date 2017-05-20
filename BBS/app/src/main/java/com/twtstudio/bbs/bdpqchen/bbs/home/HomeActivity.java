@@ -162,7 +162,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         PrefUtil.setIsLatestInfo(true);
         int unRead = info.getC_unread();
         PrefUtil.setInfoUnread(unRead);
-        LogUtil.d(unRead);
+        LogUtil.dd(String.valueOf(unRead));
         // TODO: 17-5-10 为了测试
         mNearBy.setBadgeCount(unRead + 1);
 

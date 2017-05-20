@@ -102,7 +102,7 @@ public class ContentActivity extends BaseActivity<ContentPresenter> implements C
     @Override
     public void showThread(ContentModel.DataBean.ThreadBean thread) {
         String avatarurl = "https://bbs.twtstudio.com/api/user/" + thread.getAuthor_id() + "/avatar";
-        ImageUtil.loadItemAvatarHome(this, itemCivAvatar, avatarurl);
+//        ImageUtil.loadItemAvatarHome(this, itemCivAvatar, avatarurl);
         author.setText(thread.getAuthor_nickname());
         title.setText(thread.getTitle());
         createTime.setText(TimeUtils.getStandardDate(thread.getT_create()));

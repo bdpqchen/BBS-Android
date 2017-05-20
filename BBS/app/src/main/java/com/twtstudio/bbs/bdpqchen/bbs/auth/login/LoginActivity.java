@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
@@ -93,7 +94,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         //键盘挡住输入框
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState);
-//        StatusBarUtil.setTranslucentForImageView(this, 38, mNeedOffset);
+        StatusBarUtil.setTranslucentForImageView(this, 38, mNeedOffset);
 
     }
 
@@ -124,7 +125,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 if (username.length() == 0){
                     mEtAccount.setError(LOGIN_ERROR_TEXT);
                 }else if (password.length() == 0){
-                    mEtAccount.setError(LOGIN_ERROR_TEXT);
+                    mEtPassword.setError(LOGIN_ERROR_TEXT);
                 }else{
                     mCircularProgressButton.startAnimation();
                     mPresenter.doLogin(username, password);
@@ -171,6 +172,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 mCircularProgressButton.revertAnimation();
             }
         }, 3000);
+        // TODO: 17-5-20 不使用顶部snackbar
         SnackBarUtil.error(this, msg);
     }
 
