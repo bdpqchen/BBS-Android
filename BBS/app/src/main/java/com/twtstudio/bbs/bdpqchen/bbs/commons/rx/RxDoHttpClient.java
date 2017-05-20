@@ -12,6 +12,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
@@ -140,7 +141,7 @@ public class RxDoHttpClient<T> {
 
         return mApi.getLatestPost();
     }
-    public Observable<BaseResponse<TopTenModel>> getTopTen() {
+    public Observable<BaseResponse<TopTenModel.DataBean>> getTopTen() {
         return mApi.getTopTen();
     }
     public Observable<BaseResponse<HistoryHotModel>> getHistoryHot() {
@@ -183,5 +184,9 @@ public class RxDoHttpClient<T> {
 
     public Observable<BaseResponse<List<MessageModel>>> getMessageList(int page) {
         return mApi.getMessageList(getLatestAuthentication(), String.valueOf(page));
+    }
+
+    public Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(String threadid) {
+        return mApi.getIndexContent(threadid);
     }
 }

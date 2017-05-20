@@ -28,10 +28,10 @@ import butterknife.Unbinder;
 
 public class TopTenFragment extends BaseFragment<TopTenPresenter> implements TopTenContract.View {
     private static final String ARG_TopTen_TYPE = "ARG_LATESPOST_TYPE";
-    /*@BindView(R.id.id_recyclerview)
+    @BindView(R.id.id_topten_recyclerview)
     RecyclerView recyclerview;
     @BindView(R.id.layout_swipe_refresh)
-    SwipeRefreshLayout layoutSwipeRefresh;*/
+    SwipeRefreshLayout layoutSwipeRefresh;
     Unbinder unbinder;
     TopTenAdapter TopTenAdapter;
     private LinearLayoutManager linearLayoutManager;
@@ -50,10 +50,10 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
     protected void initFragment() {
         TopTenAdapter=new TopTenAdapter(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        //recyclerview.setLayoutManager(linearLayoutManager);
-        //initData();
-       // mPresenter.refreshAnnounce();
-        //recyclerview.setAdapter(TopTenAdapter);
+        recyclerview.setLayoutManager(linearLayoutManager);
+        mPresenter.refreshAnnounce();
+        layoutSwipeRefresh.setRefreshing(true);
+        recyclerview.setAdapter(TopTenAdapter);
     }
 
     @Override
@@ -72,29 +72,21 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
 
 
     @Override
-    public void addAnnounce(List<TopTenModel.DataBean.LatestBean> announceBeen) {
+    public void addAnnounce(List<TopTenModel.DataBean.HotBean> announceBeen) {
         TopTenAdapter.addList(announceBeen);
     }
 
     @Override
-    public void refreshAnnounce(List<TopTenModel.DataBean.LatestBean> announceBeen) {
+    public void refreshAnnounce(List<TopTenModel.DataBean.HotBean> announceBeen) {
         TopTenAdapter.refreshList(announceBeen);
+        layoutSwipeRefresh.setRefreshing(false);
     }
 
     @Override
     public void failedToGetTopTen(String msg) {
 
     }
-   
-    void initData(){
-        List<TopTenModel.DataBean.LatestBean> announceBeens= new ArrayList<>();
-        for(int i=1;i<=10;i++){
-            TopTenModel.DataBean.LatestBean announceBean = new TopTenModel.DataBean.LatestBean();
-            announceBean.setTitle("全站十大这是标题" +i);
-            //announceBean.setContent("全站十大这是内容"+i);
-            announceBeens.add(announceBean);
-        }
-        TopTenAdapter.addList(announceBeens);
-    }
+
+
 }
 

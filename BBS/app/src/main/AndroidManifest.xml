@@ -57,7 +57,7 @@
             android:name="com.twtstudio.bbs.bdpqchen.bbs.main.SimpleGlideModule"
             android:value="GlideModule" />
 
-        <activity android:name=".main.latestPost.LatestPostContent"></activity>
+        <activity android:name=".main.content.ContentActivity" />
     </application>
 
 </manifest>
