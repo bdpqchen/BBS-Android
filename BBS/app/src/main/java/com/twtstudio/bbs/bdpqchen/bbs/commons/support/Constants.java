@@ -20,7 +20,7 @@ public final class Constants {
     public static final String BUNDLE_NICKNAME = "nickname";
     public static final String BUNDLE_SIGNATURE = "signature";
 
-//    public static final String NET_RETROFIT_POST_HEADER = "Content-Type:application/x-www-form-urlencoded; charset=utf-8";
+//    public static final String NET_RETROFIT_POST_HEADER = "ContentActivity-Type:application/x-www-form-urlencoded; charset=utf-8";
     public static final String NET_RETROFIT_HEADER_TITLE = "authentication";
 
 

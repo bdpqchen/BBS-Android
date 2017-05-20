@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:layout_marginTop="5dp">
+    android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="368dp"
         android:layout_height="144dp"
-        android:background="#FFFFFF">
+        android:background="#FFFFFF"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/item_civ_avatar"
@@ -81,4 +81,4 @@
             android:textSize="14sp" />
 
     </RelativeLayout>
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

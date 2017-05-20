@@ -14,6 +14,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePassword;
+import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.test.MyReleaseActivity;
 
 import dagger.Component;
@@ -50,6 +51,6 @@ public interface ActivityComponent {
 
     void inject(MyReleaseActivity myReleaseActivity);
 
-
+    void inject(ContentActivity contentActivity);
 //    void inject(SettingsActivity settingsActivity);
 }
