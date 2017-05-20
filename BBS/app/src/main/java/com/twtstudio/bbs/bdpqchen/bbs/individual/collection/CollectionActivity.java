@@ -18,8 +18,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by HP on 2017/5/12.
- */
+ * Created by whm on 2017/5/12.
+ **/
 
 public class CollectionActivity extends BaseActivity<CollectionPresenter> implements CollectionContract.View {
     @BindView(R.id.toolbar)

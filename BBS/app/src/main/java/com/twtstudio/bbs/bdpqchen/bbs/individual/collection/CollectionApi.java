@@ -12,10 +12,10 @@ import retrofit2.http.Headers;
 import retrofit2.http.Path;
 
 /**
- * Created by HP on 2017/5/14.
- */
+ * Created by whm on 2017/5/14.
+ **/
 
-public interface CollectionApi {
+interface CollectionApi {
     @GET("collection")
     Call<CollectionBean> getCollection(@Header("authentication") String uidToken);
 
