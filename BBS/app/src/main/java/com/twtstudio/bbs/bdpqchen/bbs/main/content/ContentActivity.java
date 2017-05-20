@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -36,8 +37,13 @@ public class ContentActivity extends BaseActivity<ContentPresenter> implements C
     TextView content;
     @BindView(R.id.layout_swipe_refresh)
     SwipeRefreshLayout layoutSwipeRefresh;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.status)
+    TextView status;
     private LinearLayoutManager linearLayoutManager;
     private ContentAdapter contentAdapter;
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_index_content;
@@ -45,17 +51,17 @@ public class ContentActivity extends BaseActivity<ContentPresenter> implements C
 
     @Override
     protected Toolbar getToolbarView() {
-        return null;
+        return toolbar;
     }
 
     @Override
     protected boolean isShowBackArrow() {
-        return false;
+        return true;
     }
 
     @Override
     protected boolean isSupportNightMode() {
-        return false;
+        return true;
     }
 
     @Override
@@ -65,15 +71,17 @@ public class ContentActivity extends BaseActivity<ContentPresenter> implements C
 
     @Override
     protected Activity supportSlideBack() {
-        return null;
+        return this;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
         Intent intent = getIntent();
         String threadid = intent.getStringExtra("threadid");
-        contentAdapter=new ContentAdapter(this);
+        contentAdapter = new ContentAdapter(this);
         linearLayoutManager = new LinearLayoutManager(this);
         idRecyclerview.setLayoutManager(linearLayoutManager);
         layoutSwipeRefresh.setRefreshing(true);
@@ -83,8 +91,12 @@ public class ContentActivity extends BaseActivity<ContentPresenter> implements C
 
     @Override
     public void showPost(List<ContentModel.DataBean.PostBean> post) {
-        contentAdapter.refreshList(post);
+        if(post.toString()!="[]")
+            contentAdapter.refreshList(post);
+        else
+            status.setText("暂无评论");
         layoutSwipeRefresh.setRefreshing(false);
+        Log.d("post",post.toString());
     }
 
     @Override
