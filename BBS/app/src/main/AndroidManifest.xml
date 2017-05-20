@@ -60,6 +60,7 @@
         <activity android:name=".welcome.WelcomeActivity"/>
         <activity android:name=".auth.renew.identify.IdentifyActivity"/>
         <activity android:name=".auth.renew.appeal.AppealPassportActivity"/>
+        <activity android:name=".auth.renew.identify.retrieve.RetrieveActivity"/>
 
     </application>
 

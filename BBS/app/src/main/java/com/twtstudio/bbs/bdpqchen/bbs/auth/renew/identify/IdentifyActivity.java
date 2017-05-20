@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -98,7 +99,7 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
                 break;
             case R.id.tv_find_username:
 
-//                startActivity(new Intent(this, ));
+                startActivity(new Intent(this, RetrieveActivity.class));
                 break;
         }
     }
