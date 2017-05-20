@@ -15,10 +15,8 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.collection.CollectionActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
@@ -186,44 +184,5 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         unbinder.unbind();
     }
 
-    @Override
-    public void updateInfoSuccess() {
-        mTvSignature.setText(PrefUtil.getInfoSignature());
-        mTvNickname.setText(PrefUtil.getInfoNickname());
-        showSuccess();
-    }
-
-    @Override
-    public void updateInfoFailed() {
-        PrefUtil.setHasUnSyncInfo(true);
-        SnackBarUtil.error(this.getActivity(), "个人信息同步失败，请点击同步", "同步", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doUpdate();
-            }
-        });
-    }
-
-    private Bundle getUnSyncInfoBundle() {
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.BUNDLE_SIGNATURE, PrefUtil.getInfoSignature());
-        bundle.putString(Constants.BUNDLE_NICKNAME, PrefUtil.getInfoNickname());
-        return bundle;
-    }
-
-    @Override
-    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
-        super.onFragmentResult(requestCode, resultCode, data);
-
-    }
-
-    public void doUpdate() {
-        mPresenter.doUpdateInfo(getUnSyncInfoBundle());
-    }
-
-    public void showSuccess() {
-        PrefUtil.setHasUnSyncInfo(false);
-        SnackBarUtil.normal(this.getActivity(), "个人信息同步成功");
-    }
 
 }

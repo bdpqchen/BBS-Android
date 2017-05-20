@@ -26,24 +26,5 @@ public class IndividualPresenter extends RxPresenter<IndividualContract.View> im
         this.mHttpClient = httpClient;
     }
 
-    @Override
-    public void doUpdateInfo(Bundle bundle) {
-        SimpleObserver<IndividualInfoModel> observer = new SimpleObserver<IndividualInfoModel>() {
-            @Override
-            public void _onError(String msg) {
-                mView.updateInfoFailed();
-            }
 
-            @Override
-            public void _onNext(IndividualInfoModel individualInfoModel) {
-                mView.updateInfoSuccess();
-            }
-        };
-        addSubscribe(mHttpClient.doUpdateInfo(bundle)
-                .map(mHttpClient.mTransformer)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(observer)
-        );
-    }
 }
