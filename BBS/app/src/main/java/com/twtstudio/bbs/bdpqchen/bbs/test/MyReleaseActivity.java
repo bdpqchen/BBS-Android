@@ -91,9 +91,9 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
             }
         };
         rv.addOnScrollListener(eros);
-
-        View footer = LayoutInflater.from(MyReleaseActivity.this).inflate(R.layout.footer_view, rv, false);
-        myRecyclerAdapter.setFooterView(footer);
+//
+//        View footer = LayoutInflater.from(MyReleaseActivity.this).inflate(R.layout.footer_view, rv, false);
+//        myRecyclerAdapter.setFooterView(footer);
 
         mPresenter.initMyReleaseList();
     }
@@ -121,10 +121,10 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
     @Override
     public void showMyReleaseList(List<MyReleaseModel> data) {
         myRecyclerAdapter.addItems(data);
-        View footer = LayoutInflater.from(MyReleaseActivity.this).inflate(R.layout.footer_view, rv, false);
-        myRecyclerAdapter.setFooterView(footer);
+//        View footer = LayoutInflater.from(MyReleaseActivity.this).inflate(R.layout.footer_view, rv, false);
+//        myRecyclerAdapter.setFooterView(footer);
         myRecyclerAdapter.notifyDataSetChanged();
-        myRecyclerAdapter.removeFooterView();
-        myRecyclerAdapter.notifyDataSetChanged();
+//        myRecyclerAdapter.removeFooterView();
+//        myRecyclerAdapter.notifyDataSetChanged();
     }
 }
