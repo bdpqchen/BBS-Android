@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -33,10 +34,9 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
     Toolbar toolbar;
 
     private LinearLayoutManager layoutManager;
-    private List<MyReleaseBean> data = new ArrayList<>();
+    private List<MyReleaseModel> data = new ArrayList<>();
     private MyRecyclerAdapter myRecyclerAdapter;
     private EndlessRecyclerOnScrollListener eros;
-    private MyReleasePresenter myReleasePresenter;
 
     @Override
     protected int getLayoutResourceId() {
@@ -76,9 +76,7 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
 
         ButterKnife.bind(this);
 
-        myReleasePresenter = new MyReleasePresenter(this);
         myRecyclerAdapter = new MyRecyclerAdapter(this, data);
-        myReleasePresenter.initData();
 
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -89,44 +87,44 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
         eros = new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore() {
-
-                loadMoreData();
+                mPresenter.getMyReleaseList();
             }
         };
         rv.addOnScrollListener(eros);
 
+        View footer = LayoutInflater.from(MyReleaseActivity.this).inflate(R.layout.footer_view, rv, false);
+        myRecyclerAdapter.setFooterView(footer);
+
+        mPresenter.initMyReleaseList();
     }
 
-    @Override
-    public void getMyReleaseList (List<MyReleaseBean> newData){
-        myRecyclerAdapter.clear();
-        myRecyclerAdapter.addItems(newData);
-    }
-
-    @Override
-    public void getMore (List<MyReleaseBean> newData){
-        myRecyclerAdapter.addItems(newData);
-    }
 
     @Override
     public void onError (Throwable throwable){
-
+        Toast.makeText(this, throwable.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onRefresh() {
         data.clear();
         eros.restart();
-        myReleasePresenter.initData();
+        mPresenter.initMyReleaseList();
         srl.setRefreshing(false);
         myRecyclerAdapter.notifyDataSetChanged();
     }
 
-    public void loadMoreData(){
-        myReleasePresenter.getMoreData();
-        View footer = LayoutInflater.from(this).inflate(R.layout.footer_view, rv, false);
-        myRecyclerAdapter.setFooterView(footer);
-        myRecyclerAdapter.notifyDataSetChanged();
+    @Override
+    public void clearMyReleaseList() {
+        myRecyclerAdapter.clear();
     }
 
+    @Override
+    public void showMyReleaseList(List<MyReleaseModel> data) {
+        myRecyclerAdapter.addItems(data);
+        View footer = LayoutInflater.from(MyReleaseActivity.this).inflate(R.layout.footer_view, rv, false);
+        myRecyclerAdapter.setFooterView(footer);
+        myRecyclerAdapter.notifyDataSetChanged();
+        myRecyclerAdapter.removeFooterView();
+        myRecyclerAdapter.notifyDataSetChanged();
+    }
 }

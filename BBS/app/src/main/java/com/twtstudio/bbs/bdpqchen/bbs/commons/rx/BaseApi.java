@@ -11,6 +11,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
+import com.twtstudio.bbs.bdpqchen.bbs.test.MyReleaseModel;
 
 import java.util.List;
 
@@ -82,5 +83,8 @@ public interface BaseApi {
     Observable<BaseResponse<TopTenModel>> getTopTen();
     @GET("historyhot")
     Observable<BaseResponse<HistoryHotModel>> getHistoryHot();
+    @GET("home/publish/thread/page/{page}")
+    Observable<BaseResponse<List<MyReleaseModel>>> getMyReleaseList(@Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken, @Path("page") String page);
+
 }
 

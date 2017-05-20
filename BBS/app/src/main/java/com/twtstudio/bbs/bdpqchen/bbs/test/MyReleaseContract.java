@@ -11,12 +11,12 @@ import java.util.List;
 
 interface MyReleaseContract {
     interface View extends BaseView {
-        void getMyReleaseList(List<MyReleaseBean> data);
-
-        void getMore(List<MyReleaseBean> data);
-
+        void clearMyReleaseList();
+        void showMyReleaseList(List<MyReleaseModel> data);
         void onError(Throwable throwable);
     }
     interface Presenter extends BasePresenter<View> {
+        void initMyReleaseList();
+        void getMyReleaseList();
     }
 }

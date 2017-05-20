@@ -3,38 +3,38 @@ package com.twtstudio.bbs.bdpqchen.bbs.test;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 /**
  * Created by Arsener on 2017/5/13.
  */
 
-public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyHolder> {
+public class MyRecyclerAdapter extends BaseAdapter<MyReleaseModel> {
 
-    private Context context;
     private View mFooterView;
-    private List<MyReleaseBean> data;
+    private List<MyReleaseModel> data;
 
     public static int NORMAL_TYPE = 0;//without footer
     public static int FOOTER_TYPE = 1;//with footer
 
-    public MyRecyclerAdapter(Context context, List<MyReleaseBean> data) {
+    public MyRecyclerAdapter(Context context, List<MyReleaseModel> data) {
 
-        super();
-        this.context = context;
+        super(context);
         this.data = data;
     }
 
@@ -47,11 +47,16 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
         notifyItemInserted(getItemCount() - 1);
     }
 
-    public void clear(){
+    public void removeFooterView (){
+        Log.d("remove", "removeFooterView: ");
+        notifyItemRemoved(2);
+    }
+
+    public void clear() {
         data.clear();
     }
 
-    public void addItems(List<MyReleaseBean> newData){
+    public void addItems(List<MyReleaseModel> newData) {
         data.addAll(newData);
         notifyDataSetChanged();
     }
@@ -79,19 +84,18 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
         }
     }
 
-    @Override
     // 填充onCreateViewHolder方法返回的holder中的控件
-    public void onBindViewHolder(MyHolder holder, int position) {
+    public void onBindViewHolder(BaseViewHolder mholder, int position) {
         // TODO Auto-generated method stub
         //holder.tv.setText(data.get(position));
         if (getItemViewType(position) == NORMAL_TYPE) {
-
+            MyHolder holder = (MyHolder) mholder;
             holder.tv_title.setText(data.get(position).title);
             holder.tv_title.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
-            Typeface iconfont = Typeface.createFromAsset(context.getAssets(), "iconfont/iconfont.ttf");
+            Typeface iconfont = Typeface.createFromAsset(mContext.getAssets(), "iconfont/iconfont.ttf");
             holder.tv_icon.setTypeface(iconfont);
             holder.tv_visit.setText(String.valueOf(data.get(position).c_post));
-            holder.tv_time.setText(String.valueOf(data.get(position).t_create));
+            holder.tv_time.setText(StampUtil.TimeStamp2Date(data.get(position).t_create));
 
             holder.cdv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -106,17 +110,23 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
 
     @Override
     // 重写onCreateViewHolder方法，返回一个自定义的ViewHolder
-    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // 填充布局
         if (mFooterView != null && viewType == FOOTER_TYPE) {
-            return new MyHolder(mFooterView);
+            return new FooterViewHolder(mFooterView);
         }
-        View view = LayoutInflater.from(context).inflate(R.layout.item_cv_release, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_cv_release, parent, false);
         MyHolder holder = new MyHolder(view);
         return holder;
     }
 
-    class MyHolder extends RecyclerView.ViewHolder {
+    class FooterViewHolder extends BaseViewHolder {
+        public FooterViewHolder(View view) {
+            super(view);
+        }
+    }
+
+    class MyHolder extends BaseViewHolder {
 
         @BindView(R.id.tv_title)
         TextView tv_title;
@@ -131,12 +141,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.My
 
         public MyHolder(View view) {
             super(view);
-            if (view != mFooterView) {
-                ButterKnife.bind(this, view);
 
-                cdv.setRadius(0);//设置图片圆角的半径大小
-                cdv.setCardElevation(0);//设置阴影部分大小
-            }
+            cdv.setRadius(0);//设置图片圆角的半径大小
+            cdv.setCardElevation(0);//设置阴影部分大小
+
         }
     }
 }
