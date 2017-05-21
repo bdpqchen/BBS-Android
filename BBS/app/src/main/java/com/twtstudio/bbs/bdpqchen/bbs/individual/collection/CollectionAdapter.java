@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
 
 import java.util.Date;
@@ -63,18 +64,14 @@ public class CollectionAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final int positionFianl = position;
-        String date = timeFromEpoch(collectionBean.data.get(positionFianl).t_create);
+        CollectionBean.DataBean data = collectionBean.data.get(positionFianl);
+        String date = timeFromEpoch(data.t_create);
         CollectionViewHolder collectionViewHolder = (CollectionViewHolder) holder;
-        collectionViewHolder.collection_author_name.setText(collectionBean.data.get(positionFianl).author_nickname);
-        collectionViewHolder.collection_summary.setText(collectionBean.data.get(positionFianl).title);
+        collectionViewHolder.collection_author_name.setText(data.author_nickname);
+        collectionViewHolder.collection_summary.setText(data.title);
         collectionViewHolder.collection_time.setText(date);
-        collectionViewHolder.collection_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("abcdefonclick");
-                collectionPresenter.deleteCollection(collectionBean.data.get(positionFianl).id);
-            }
-        });
+        collectionViewHolder.collection_delete.setOnClickListener(view -> collectionPresenter.deleteCollection(data.id));
+        ImageUtil.loadAvatarAsBitmapByUid(context, data.author_id, collectionViewHolder.collection_avatar);
     }
 
     @Override

@@ -13,12 +13,18 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadListModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 
 import butterknife.BindView;
+
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity.INTENT_BOARD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity.INTENT_THREAD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity.INTENT_THREAD_TITLE;
 
 /**
  * Created by bdpqchen on 17-5-11.
@@ -36,10 +42,6 @@ public class BoardsAdapter extends BaseAdapter<PreviewThreadModel> implements Vi
             //注意这里使用getTag方法获取position
             mOnItemClickListener.onItemClick(v, (int) v.getTag());
         }
-    }
-
-    interface OnItemClickListener {
-        void onItemClick(View view, int position);
     }
 
     void setOnItemClickListener(OnItemClickListener listener) {
@@ -79,19 +81,28 @@ public class BoardsAdapter extends BaseAdapter<PreviewThreadModel> implements Vi
             holder.mTvPreviewThreadAuthor2.setText(AUTHOR_PRE + thread2.getAuthor_nickname());
             holder.mTvPreviewThreadTime1.setText(StampUtil.getDatetimeByStamp(thread1.getT_create()));
             holder.mTvPreviewThreadTime2.setText(StampUtil.getDatetimeByStamp(thread2.getT_create()));
-            holder.mTvPreviewThreadContent1.setText(thread1.getTitle());
-            holder.mTvPreviewThreadContent2.setText(thread2.getTitle());
-
+            holder.mTvPreviewThreadContent1.setText(thread1.getContent());
+            holder.mTvPreviewThreadContent2.setText(thread2.getContent());
 
             holder.mRlBoardTitle.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, ThreadListActivity.class);
                 LogUtil.dd(previewThread.getBoard().getName());
                 LogUtil.dd(String.valueOf(previewThread.getBoard().getId()));
-                intent.putExtra(BoardsActivity.INTENT_BOARD_TITLE, previewThread.getBoard().getName());
+                intent.putExtra(INTENT_BOARD_TITLE, previewThread.getBoard().getName());
                 intent.putExtra(BoardsActivity.INTENT_BOARD_ID, previewThread.getBoard().getId());
                 mContext.startActivity(intent);
             });
-
+            Intent intent = new Intent(mContext, ThreadActivity.class);
+            holder.mLlBoardContainedThread1.setOnClickListener(v -> {
+                intent.putExtra(INTENT_THREAD_ID, thread1.getId());
+                intent.putExtra(INTENT_THREAD_TITLE, thread1.getTitle());
+                mContext.startActivity(intent);
+            });
+            holder.mLlBoardContainedThread2.setOnClickListener(v -> {
+                intent.putExtra(INTENT_THREAD_ID, thread1.getId());
+                intent.putExtra(INTENT_THREAD_TITLE, thread2.getTitle());
+                mContext.startActivity(intent);
+            });
 
         }
 

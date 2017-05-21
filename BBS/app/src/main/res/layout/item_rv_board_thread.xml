@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorMainBgLight"
     android:orientation="vertical"
 
@@ -100,7 +101,7 @@
                     android:layout_margin="@dimen/margin_thread_content_content_text"
                     android:layout_toEndOf="@id/iv_content_1"
                     android:maxLines="6"
-                    android:text="5月6日上午10时，“留学天大，情系中华——天津大学第十届‘国际文化节’”于卫津路校区北洋广场正式开幕。本届国际文化节旨在增进中外大学生的了解和友谊，为世界各地多元文化搭建相互交流的舞台，最终推动我校中外人文交流品牌项目的建设。来自不同国家和地区的留学生以歌舞形式展示世界不同民族的文化特色，通过丰富的图片、各国工艺品、风味美食等形式传播各国文化，每年吸引数千名校内外人士参观和交流。"
+                    tools:text="5月6日上午10时，“留学天大，情系中华——天津大学第十届‘国际文化节’”于卫津路校区北洋广场正式开幕。本届国际文化节旨在增进中外大学生的了解和友谊，为世界各地多元文化搭建相互交流的舞台，最终推动我校中外人文交流品牌项目的建设。来自不同国家和地区的留学生以歌舞形式展示世界不同民族的文化特色，通过丰富的图片、各国工艺品、风味美食等形式传播各国文化，每年吸引数千名校内外人士参观和交流。"
                     android:textColor="@color/colorTvBlackMain"
                     android:textSize="@dimen/text_size_thread_content"
                     />
@@ -111,6 +112,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginBottom="4dp"
+                    android:layout_below="@id/tv_preview_thread_content_1"
                     >
 
 
@@ -191,6 +193,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginBottom="4dp"
+                    android:layout_below="@id/tv_preview_thread_content_2"
                     >
 
 

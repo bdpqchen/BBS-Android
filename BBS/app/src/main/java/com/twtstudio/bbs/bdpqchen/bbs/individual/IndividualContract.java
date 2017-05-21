@@ -12,12 +12,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 public interface IndividualContract {
 
     interface View extends BaseView {
-        void updateInfoSuccess();
-        void updateInfoFailed();
     }
 
     interface Presenter extends BasePresenter<View>{
-        void doUpdateInfo(Bundle bundle);
 
     }
 }

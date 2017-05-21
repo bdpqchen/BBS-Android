@@ -15,11 +15,13 @@ interface UpdateInfoContract {
     interface View extends BaseView{
         void updateAvatarFailed(String msg);
         void updateAvatarSuccess(BaseModel baseModel);
-
+        void updateInfoFailed(String m);
+        void updateInfoSuccess();
     }
 
     interface Presenter extends BasePresenter<View>{
         void doUpdateAvatar(String imagePath);
+        void doUpdateInfo(Bundle bundle, int t);
     }
 
 }

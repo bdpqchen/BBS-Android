@@ -56,6 +56,11 @@
         <activity android:name=".individual.collection.CollectionActivity"/>
         <activity android:name=".forum.boards.thread_list.ThreadListActivity"/>
         <activity android:name=".main.content.ContentActivity" />
+        <activity android:name=".test.MyReleaseActivity"/>
+        <activity android:name=".welcome.WelcomeActivity"/>
+        <activity android:name=".auth.renew.identify.IdentifyActivity"/>
+        <activity android:name=".auth.renew.appeal.AppealPassportActivity"/>
+        <activity android:name=".auth.renew.identify.retrieve.RetrieveActivity"/>
 
     </application>
 

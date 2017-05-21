@@ -38,12 +38,10 @@ public class ContentAdapter extends BaseAdapter<ContentModel.DataBean.PostBean> 
         ContentViewHolder mholder=(ContentViewHolder) holder;
         mholder.itemView.setTag(position);
         mholder.data= mDataSet.get(position);
-        String avatarurl="https://bbs.twtstudio.com/api/user/"+mholder.data.getAuthor_id()+"/avatar";
         mholder.title.setText(mholder.data.getContent());
         mholder.author.setText(mholder.data.getAuthor_name());
         mholder.create_time.setText(TimeUtils.getStandardDate(mholder.data.getT_create()));
-        //mholder.collection.setAlpha(0x000);
-//        ImageUtil.loadItemAvatarHome(mContext,mholder.avatar,avatarurl);
+        ImageUtil.loadAvatarAsBitmapByUid(mContext,mholder.data.getAuthor_id(),mholder.avatar);
     }
     class ContentViewHolder extends BaseViewHolder{
         @BindView(R.id.main_collection_delete)

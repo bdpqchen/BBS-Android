@@ -4,8 +4,11 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
+import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenFragment;
 
 import javax.inject.Inject;
 
@@ -28,13 +31,13 @@ public class TabAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new LatestPostFragment();
+                return LatestPostFragment.newInstance();
             case 1:
-                return new LatestPostFragment();
+                return TopTenFragment.newInstance();
             case 2:
-                return new LatestPostFragment();
+                return HistoryHotFragment.newInstance();
             default:
-                return new LatestPostFragment();
+                return LatestPostFragment.newInstance();
         }
     }
 

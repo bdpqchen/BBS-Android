@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 
 import javax.inject.Inject;
 
