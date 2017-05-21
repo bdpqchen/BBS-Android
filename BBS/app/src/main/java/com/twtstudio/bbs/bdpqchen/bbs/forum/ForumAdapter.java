@@ -80,7 +80,7 @@ public class ForumAdapter extends BaseAdapter<ForumModel> implements View.OnClic
             ViewGroup.LayoutParams params = viewHolder.mIvBgImage.getLayoutParams();
             params.width = WindowUtil.getWindowWidth(mContext) / 2;
             viewHolder.mIvBgImage.setLayoutParams(params);
-            ImageUtil.loadWithHeight(mContext, R.drawable.avatar1, viewHolder.mIvBgImage);
+            ImageUtil.loadWithHeight(mContext, R.drawable.forum_banner_1, viewHolder.mIvBgImage);
             viewHolder.itemView.setTag(position);
         }
 

@@ -40,13 +40,6 @@ public abstract class SimpleFragment extends SupportFragment {
         super.onAttach(context);
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        setHasOptionsMenu(true);
-
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,11 +59,11 @@ public abstract class SimpleFragment extends SupportFragment {
         } else {
             // TODO: 17-5-2 理解它的懒加载模式以及isSupportHidden为什么不暴露了
             LogUtil.i("savedInstanceState != null");
-//            if (isVisible()) {
-            onLazyInitView(savedInstanceState);
-            mInitialized = true;
-            initFragments();
-//            }
+            if (isVisible()) {
+//                onLazyInitView(savedInstanceState);
+                mInitialized = true;
+                initFragments();
+            }
 /*
             if (!isSupportHidden()) {
                 mInitialized = true;

@@ -29,11 +29,14 @@ public class MainFragment extends SimpleFragment {
     Toolbar mToolbar;
     @BindView(R.id.iv_announce)
     ImageView mIvAnnounce;
-    Unbinder unbinder;
 
     @Override
     protected int getPerMainFragmentLayoutId() {
         return R.layout.fragment_main;
+    }
+
+    public static MainFragment newInstance(){
+        return new MainFragment();
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -54,11 +55,15 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
         getFragmentComponent().inject(this);
     }
 
+    public static ForumFragment newInstance(){
+        return new ForumFragment();
+    }
+
     @Override
     protected void initFragment() {
+
         mActivity = this.getActivity();
         mTvTitleToolbar.setText("论坛区");
-        mPresenter.getForumList();
         mGridLayoutManager = new GridLayoutManager(this.getActivity(), 2, GridLayoutManager.VERTICAL, false);
         mGridLayoutManager.generateDefaultLayoutParams();
         mAdapter = new ForumAdapter(this.getContext());
@@ -86,16 +91,19 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
 
     @Override
     public void showForumList(List<ForumModel> forumModel) {
-        if (forumModel.size() % 2 != 0) {
-            ForumModel model = new ForumModel();
-            model.setId(0);
-            model.setName("敬请期待");
-            model.setInfo("为了对称");
-            forumModel.add(model);
-        }
+        if (forumModel != null && forumModel.size() != 0){
+            mAdapter.clearAll();
+            if (forumModel.size() % 2 != 0) {
+                ForumModel model = new ForumModel();
+                model.setId(0);
+                model.setName("敬请期待");
+                model.setInfo("为了对称");
+                forumModel.add(model);
+            }
 //        mGridLayoutManager.setSpanCount(forumModel.size() / 2);
-        mAdapter.addList(forumModel);
-        mAdapter.notifyDataSetChanged();
+            mAdapter.addList(forumModel);
+            mAdapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -105,15 +113,10 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.add("announce").setIcon(R.drawable.ic_notifications_white_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        super.onCreateOptionsMenu(menu, inflater);
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        mPresenter.getForumList();
+//        initFragment();
 
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 }

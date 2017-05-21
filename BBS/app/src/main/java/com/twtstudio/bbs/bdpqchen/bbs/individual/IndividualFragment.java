@@ -104,6 +104,10 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         getFragmentComponent().inject(this);
     }
 
+    public static IndividualFragment newInstance() {
+        return new IndividualFragment();
+    }
+
     @Override
     protected void initFragment() {
         setUnread();
@@ -119,14 +123,13 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mRlIndividualItemPublish.setOnClickListener(v -> startItemActivity(3));
         mRlIndividualItemUpdateInfo.setOnClickListener(v -> startItemActivity(4));
         mRlSettings.setOnClickListener(v -> startItemActivity(5));
-
-
     }
+
 
     private void startItemActivity(int index) {
 //        Class clazz = MessageActivity.class;
         Class clazz = CollectionActivity.class;
-        switch (index){
+        switch (index) {
             case 2:
                 clazz = CollectionActivity.class;
                 break;
@@ -146,10 +149,10 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
     private void setUnread() {
         int unread = PrefUtil.getInfoUnread();
-        if (unread != 0){
+        if (unread != 0) {
             mTvIndividualUnread.setText(unread + "");
             mTvIndividualUnread.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mTvIndividualUnread.setVisibility(View.GONE);
         }
     }
