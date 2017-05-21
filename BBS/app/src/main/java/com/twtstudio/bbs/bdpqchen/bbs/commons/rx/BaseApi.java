@@ -118,14 +118,14 @@ public interface BaseApi {
     @GET("thread/{threadid}/page/0")
     Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(@Path("threadid") String threadid);
 
-<<<<<<< HEAD
+
     @PUT("thread/{threadid}/page/0")
     Observable<BaseResponse<IndexPostModel>> postIndexPost(@Path("threadid") String threadid, @Body IndexPostModel indexPostModel, @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken);
-=======
+
     @FormUrlEncoded
     @POST("passport/login/old")
     Observable<BaseResponse<IdentifyModel>> getIdentifyContent(@Field(Constants.BUNDLE_REGISTER_USERNAME) String username,
                                                                @Field(Constants.BUNDLE_REGISTER_PASSWORD) String password);
->>>>>>> upstream/master
+
 }
 

@@ -237,15 +237,15 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(String threadid) {
         return mApi.getIndexContent(threadid);
     }
-<<<<<<< HEAD
-    public Observable<BaseResponse<IndexPostModel>> putComment(String threadid,String comment){
-        IndexPostModel indexPostModel =new IndexPostModel();
+    public Observable<BaseResponse<IndexPostModel>> putComment(String threadid,String comment) {
+        IndexPostModel indexPostModel = new IndexPostModel();
         indexPostModel.setContent(comment);
-        return mApi.postIndexPost(threadid, indexPostModel,PrefUtil.getAuthToken());
-=======
+        return mApi.postIndexPost(threadid, indexPostModel, PrefUtil.getAuthToken());
 
+    }
     public Observable<BaseResponse<IdentifyModel>> doIdentifyOldUser(String username, String password) {
         return mApi.getIdentifyContent(username, password);
->>>>>>> upstream/master
+
     }
+
 }
