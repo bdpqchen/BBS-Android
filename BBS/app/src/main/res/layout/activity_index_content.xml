@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorMainBg"
     tools:context="com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentActivity">
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -69,7 +70,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="15dp"
         android:ellipsize="end"
-        android:textColor="@color/black"
+        android:textColor="@color/colorTvBlackMain"
         android:textSize="18sp"
         tools:text="2" />
     <TextView

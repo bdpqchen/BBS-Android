@@ -41,7 +41,7 @@ public class ContentAdapter extends BaseAdapter<ContentModel.DataBean.PostBean> 
         mholder.title.setText(mholder.data.getContent());
         mholder.author.setText(mholder.data.getAuthor_name());
         mholder.create_time.setText(TimeUtils.getStandardDate(mholder.data.getT_create()));
-        ImageUtil.loadAvatarByUid(mContext,mholder.data.getAuthor_id(),mholder.avatar);
+        ImageUtil.loadAvatarAsBitmapByUid(mContext,mholder.data.getAuthor_id(),mholder.avatar);
     }
     class ContentViewHolder extends BaseViewHolder{
         @BindView(R.id.main_collection_delete)

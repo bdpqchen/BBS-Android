@@ -101,7 +101,7 @@ public class ContentActivity extends BaseActivity<ContentPresenter> implements C
 
     @Override
     public void showThread(ContentModel.DataBean.ThreadBean thread) {
-        ImageUtil.loadAvatarByUid(this,thread.getAuthor_id(),itemCivAvatar);
+        ImageUtil.loadAvatarAsBitmapByUid(this,thread.getAuthor_id(),itemCivAvatar);
         author.setText(thread.getAuthor_nickname());
         title.setText(thread.getTitle());
         createTime.setText(TimeUtils.getStandardDate(thread.getT_create()));

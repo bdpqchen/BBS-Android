@@ -45,7 +45,7 @@ public final class ImageUtil {
         Glide.with(context).load(getAvatarUrl(uid))
                 .asBitmap()
                 .centerCrop()
-//                .placeholder(R.drawable.avatar2)
+ //               .placeholder(R.drawable.avatar2)
                 .into(view);
     }
 

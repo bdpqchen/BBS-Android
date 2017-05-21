@@ -10,6 +10,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.content.post.IndexPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -101,5 +103,8 @@ public interface BaseApi {
     Observable<BaseResponse<HistoryHotModel>> getHistoryHot();
     @GET("thread/{threadid}/page/0")
     Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(@Path("threadid") String threadid);
+
+    @PUT("thread/{threadid}/page/0")
+    Observable<BaseResponse<IndexPostModel>> postIndexPost(@Path("threadid") String threadid, @Body IndexPostModel indexPostModel, @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken);
 }
 

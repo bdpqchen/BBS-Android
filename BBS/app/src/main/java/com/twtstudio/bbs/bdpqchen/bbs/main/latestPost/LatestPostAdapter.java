@@ -42,7 +42,7 @@ public class LatestPostAdapter extends BaseAdapter<LatestPostModel.DataBean.Late
         mholder.title.setText(mholder.data.getTitle());
         mholder.author.setText(mholder.data.getAuthor_name());
         mholder.create_time.setText(TimeUtils.getStandardDate(mholder.data.getT_create()));
-        ImageUtil.loadAvatarByUid(mContext,mholder.data.getAuthor_id(),mholder.avatar);
+        ImageUtil.loadAvatarAsBitmapByUid(mContext,mholder.data.getAuthor_id(),mholder.avatar);
 
     }
 

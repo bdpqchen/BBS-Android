@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="#FFFFFF">
+        android:background="@color/colorMainBg">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/item_civ_avatar"
@@ -64,7 +64,7 @@
             android:ellipsize="end"
             tools:text="2"
             android:lines="2"
-            android:textColor="@color/black"
+            android:textColor="@color/colorTvBlackMain"
             android:textSize="18sp" />
 
         <TextView

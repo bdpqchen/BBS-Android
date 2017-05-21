@@ -22,15 +22,18 @@ import butterknife.Unbinder;
  */
 
 public class TopTenFragment extends BaseFragment<TopTenPresenter> implements TopTenContract.View {
-    private static final String ARG_TopTen_TYPE = "ARG_LATESPOST_TYPE";
-    @BindView(R.id.id_topten_recyclerview)
+    Unbinder unbinder;
+    TopTenAdapter TopTenAdapter;
+    @BindView(R.id.id_recyclerview)
     RecyclerView recyclerview;
     @BindView(R.id.layout_swipe_refresh)
     SwipeRefreshLayout layoutSwipeRefresh;
-    Unbinder unbinder;
-    TopTenAdapter TopTenAdapter;
     private LinearLayoutManager linearLayoutManager;
 
+    public static TopTenFragment newInstance() {
+        TopTenFragment fragment = new TopTenFragment();
+        return fragment;
+    }
     @Override
     protected int getFragmentLayoutId() {
         return R.layout.fragment_latest_post;
@@ -43,7 +46,7 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
 
     @Override
     protected void initFragment() {
-        TopTenAdapter=new TopTenAdapter(getActivity());
+        TopTenAdapter = new TopTenAdapter(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(linearLayoutManager);
         mPresenter.refreshAnnounce();
