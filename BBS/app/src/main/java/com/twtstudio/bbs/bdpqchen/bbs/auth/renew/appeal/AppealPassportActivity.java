@@ -10,6 +10,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
@@ -139,12 +140,17 @@ public class AppealPassportActivity extends BaseActivity<AppealPassportPresenter
     @Override
     public void sendFailed(String s) {
         SnackBarUtil.error(this, s, true);
+        mCpBtnSubmitAppeal.revertAnimation();
     }
 
     @Override
     public void sendSuccess() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finishMe();
+        HandlerUtil.postDelay(() -> {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
+                    finishMe();
+                }, 3000
+        );
+
     }
 }
