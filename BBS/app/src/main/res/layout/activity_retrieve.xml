@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/colorMainBgLight"
+    >
+
+    <include layout="@layout/common_toolbar"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="我的需要以下信息来确认你是否拥有旧版BBS账户的绝对使用权"
+        android:textColor="@color/material_green_500"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:orientation="vertical"
+        >
+
+        <EditText
+            android:id="@+id/et_retrieve_stu_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="用户名"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:maxLines="1"
+            />
+
+        <EditText
+            android:id="@+id/et_retrieve_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="学号"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:maxLines="1"
+            android:layout_marginTop="@dimen/margin_top_retrieve_et"
+            />
+
+        <EditText
+            android:id="@+id/et_retrieve_real_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="真实姓名"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:layout_marginTop="@dimen/margin_top_retrieve_et"
+            android:maxLines="1"
+            />
+
+        <EditText
+            android:id="@+id/et_retrieve_cid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="身份证号"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:maxLines="1"
+            android:layout_marginTop="@dimen/margin_top_retrieve_et"
+            android:layout_marginBottom="8dp"
+            />
+
+        <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+            android:id="@+id/cp_btn_retrieve"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:background="@drawable/circular_border_shape"
+            android:text="找\t\t回"
+            android:textColor="@color/material_light_white"
+            app:spinning_bar_color="@color/colorMainBgLight"
+            app:spinning_bar_padding="8dp"
+            app:spinning_bar_width="3dp"
+            />
+
+
+    </LinearLayout>
+
+</LinearLayout>

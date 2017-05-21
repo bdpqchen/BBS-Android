@@ -3,6 +3,8 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
@@ -61,12 +63,14 @@ public interface BaseApi {
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
             @Field(Constants.BUNDLE_NICKNAME) String nickname
     );
+
     @FormUrlEncoded
     @PUT("home")
     Observable<BaseResponse<BaseModel>> doUpdateInfoSignature(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
             @Field(Constants.BUNDLE_SIGNATURE) String signature
     );
+
     @FormUrlEncoded
     @PUT("home")
     Observable<BaseResponse<BaseModel>> doUpdateInfoAll(
@@ -74,7 +78,6 @@ public interface BaseApi {
             @Field(Constants.BUNDLE_SIGNATURE) String signature,
             @Field(Constants.BUNDLE_NICKNAME) String nickname
     );
-
 
 
     @Multipart
@@ -93,7 +96,7 @@ public interface BaseApi {
     @GET("board/{boardId}/page/{page}")
     Observable<BaseResponse<ThreadListModel>> getThreadList(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
-            @Header(Constants.NET_RETROFIT_HEADER_REQUEST)String requestedWith,
+            @Header(Constants.NET_RETROFIT_HEADER_REQUEST) String requestedWith,
             @Path("boardId") String boardId,
             @Path("page") String page);
 
@@ -113,8 +116,10 @@ public interface BaseApi {
 
     @GET("index")
     Observable<BaseResponse<TopTenModel.DataBean>> getTopTen();
+
     @GET("historyhot")
     Observable<BaseResponse<HistoryHotModel>> getHistoryHot();
+
     @GET("thread/{threadid}/page/0")
     Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(@Path("threadid") String threadid);
 
@@ -127,5 +132,17 @@ public interface BaseApi {
     Observable<BaseResponse<IdentifyModel>> getIdentifyContent(@Field(Constants.BUNDLE_REGISTER_USERNAME) String username,
                                                                @Field(Constants.BUNDLE_REGISTER_PASSWORD) String password);
 
+    @FormUrlEncoded
+    @POST("passport/retrieve")
+    Observable<BaseResponse<RetrieveModel>> doRetrieveUsername(@Field(RetrieveActivity.BUNDLE_STU_NUM) String string,
+                                                               @Field(RetrieveActivity.BUNDLE_USERNAME) String string1,
+                                                               @Field(RetrieveActivity.BUNDLE_REAL_NAME) String string2,
+                                                               @Field(RetrieveActivity.BUNDLE_CID) String string3);
+
+    @FormUrlEncoded
+    @POST("passport/reset-pass")
+    Observable<BaseResponse<BaseModel>> resetPassword(@Field(Constants.BUNDLE_UID) String uid,
+                                                      @Field(Constants.BUNDLE_TOKEN) String token,
+                                                      @Field(Constants.PASSWORD) String password);
 }
 

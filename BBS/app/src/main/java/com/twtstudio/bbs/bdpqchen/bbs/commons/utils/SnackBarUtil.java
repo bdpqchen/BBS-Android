@@ -66,10 +66,10 @@ public final class SnackBarUtil {
         error(act, m, false);
     }
 
-    public static void error(Activity act, String m, boolean b) {
+    public static void error(Activity act, String m, boolean isLongTime) {
         if (!sIsShowing) {
             sIsShowing = true;
-            show(act, m, isLongTime(b), ERROR_BG);
+            show(act, m, isLongTime(isLongTime), ERROR_BG);
         }
     }
 

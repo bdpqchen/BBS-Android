@@ -1,12 +1,11 @@
-package com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve;
+package com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.reset_password;
 
 import android.os.Bundle;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -15,34 +14,35 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-5-21.
  */
 
-class RetrievePresenter extends RxPresenter<RetrieveContract.View> implements RetrieveContract.Presenter {
+class ResetPasswordPresenter extends RxPresenter<ResetPasswordContract.View> implements ResetPasswordContract.Presenter{
 
-    RxDoHttpClient<RetrieveModel> mHttpClient;
+    private RxDoHttpClient<BaseModel> mHttpClient;
 
-    @Inject
-    RetrievePresenter(RxDoHttpClient client) {
-        mHttpClient = client;
+    ResetPasswordPresenter(RxDoHttpClient httpClient) {
+        mHttpClient = httpClient;
+
     }
 
 
     @Override
-    public void doRetrieveUsername(Bundle bundle) {
-        SimpleObserver<RetrieveModel> observer = new SimpleObserver<RetrieveModel>() {
+    public void resetPassword(Bundle bundle) {
+        SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
             @Override
             public void _onError(String msg) {
-                mView.retrieveFailed(msg);
+                mView.resetFailed(msg);
             }
 
             @Override
-            public void _onNext(RetrieveModel model) {
-                mView.retrieveSuccess(model);
+            public void _onNext(BaseModel model) {
+                mView.resetSuccess(model);
             }
         };
-        addSubscribe(mHttpClient.doRetrieveUsername(bundle)
+        addSubscribe(mHttpClient.resetPassword(bundle)
                 .map(mHttpClient.mTransformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
         );
+
     }
 }

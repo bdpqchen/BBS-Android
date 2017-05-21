@@ -25,4 +25,9 @@ public final class Constants {
 
 
     public static final String NET_RETROFIT_HEADER_REQUEST = "X-Requested_With";
+    public static final String BUNDLE_TOKEN = "token";
+
+
+    public static final String BUNDLE_UID = "uid";
+    public static final String PASSWORD = "password";
 }
