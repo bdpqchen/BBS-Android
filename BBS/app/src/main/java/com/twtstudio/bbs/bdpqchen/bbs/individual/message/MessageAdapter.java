@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.message;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,13 +21,16 @@ import butterknife.BindView;
 
 public class MessageAdapter extends BaseAdapter<MessageModel> {
 
+    LayoutInflater inflater;
+
     public MessageAdapter(Context context) {
         super(context);
+        inflater = LayoutInflater.from(context);
     }
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        return new MessageItemViewHolder(inflater.inflate(R.layout.item_rv_message, parent));
     }
 
     @Override
@@ -35,9 +39,9 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
         MessageModel item = mDataSet.get(position);
         MessageItemViewHolder holderConverted = (MessageItemViewHolder) holder;
 
-        ImageUtil.loadAvatarById(mContext, item.getAuthor_id(), holderConverted.ivAvatar);
+        ImageUtil.loadAvatarByUid(mContext, item.getAuthor_id(), holderConverted.ivAvatar);
         holderConverted.tvFrom.setText(item.getAuthor_nickname());
-        holderConverted.tvTime.setText(StampUtil.formatDateFromStamp(item.getT_create()));
+        holderConverted.tvTime.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
         holderConverted.tvSummary.setText(item.getContent());
     }
 

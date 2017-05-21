@@ -7,6 +7,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -18,6 +20,7 @@ class ResetPasswordPresenter extends RxPresenter<ResetPasswordContract.View> imp
 
     private RxDoHttpClient<BaseModel> mHttpClient;
 
+    @Inject
     ResetPasswordPresenter(RxDoHttpClient httpClient) {
         mHttpClient = httpClient;
 

@@ -19,6 +19,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.collection.CollectionActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.test.MyReleaseActivity;
@@ -127,6 +128,9 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 //        Class clazz = MessageActivity.class;
         Class clazz = CollectionActivity.class;
         switch (index){
+            case 1:
+                clazz = MessageActivity.class;
+                break;
             case 2:
                 clazz = CollectionActivity.class;
                 break;
