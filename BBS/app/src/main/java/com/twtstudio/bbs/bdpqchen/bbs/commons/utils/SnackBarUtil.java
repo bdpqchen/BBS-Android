@@ -23,7 +23,7 @@ public final class SnackBarUtil {
 
     private static final int NORMAL_BG = 0xFF0BC4C4;
     private static final int NOTICE_BG = 0xFFe2a712;
-    private static final int ERROR_BG = 0xFFf2381f;
+    private static final int ERROR_BG = 0xFFfd5602;
 
     private static boolean sIsShowing = false;
     private static int sOldColor;
