@@ -27,6 +27,7 @@ import java.security.cert.CertificateException;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -261,5 +262,16 @@ public class RxDoHttpClient<T> {
 
     public Observable<BaseResponse<BaseModel>> resetPassword(Bundle bundle) {
         return mApi.resetPassword(bundle.getString(Constants.BUNDLE_UID), Constants.BUNDLE_TOKEN, Constants.PASSWORD);
+    }
+
+    public Observable<BaseResponse<BaseModel>> appealPassport(Bundle bundle) {
+        return mApi.appealPassport(bundle.getString(Constants.BUNDLE_REGISTER_USERNAME),
+                bundle.getString(Constants.BUNDLE_REGISTER_CID),
+                bundle.getString(Constants.BUNDLE_REGISTER_REAL_NAME),
+                bundle.getString(Constants.BUNDLE_REGISTER_STU_NUM),
+                bundle.getString(Constants.BUNDLE_EMAIL),
+                bundle.getString(Constants.BUNDLE_MESSAGE),
+                bundle.getString(Constants.CAPTCHA_ID),
+                bundle.getString(Constants.CAPTCHA_VALUE));
     }
 }

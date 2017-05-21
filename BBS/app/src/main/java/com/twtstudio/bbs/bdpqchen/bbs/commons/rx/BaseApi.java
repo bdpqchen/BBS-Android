@@ -144,5 +144,10 @@ public interface BaseApi {
     Observable<BaseResponse<BaseModel>> resetPassword(@Field(Constants.BUNDLE_UID) String uid,
                                                       @Field(Constants.BUNDLE_TOKEN) String token,
                                                       @Field(Constants.PASSWORD) String password);
+
+    @FormUrlEncoded
+    @POST("passport/appeal")
+    Observable<BaseResponse<BaseModel>> appealPassport(String string, String string1, String string2, String string3, String string4, String string5, String string6, String string7);
+
 }
 

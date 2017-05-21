@@ -9,7 +9,6 @@ import android.widget.EditText;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
@@ -76,8 +75,7 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> 
     public void resetSuccess(BaseModel response) {
         SnackBarUtil.normal(this, "已重置密码，欢迎老用户归来");
         HandlerUtil.postDelay(() -> startActivity(new Intent(this, LoginActivity.class)), 3000);
-        ActivityManager.getActivityManager().finishActivity(this);
-        finish();
+        finishMe();
     }
 
     @Override
@@ -102,8 +100,9 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> 
         }
         mCpBtnResetPassword.startAnimation();
         Bundle bundle = new Bundle();
-        bundle.getString(Constants.BUNDLE_UID, mUid);
-        bundle.getString(Constants.BUNDLE_TOKEN, mToken);
+        bundle.putString(Constants.BUNDLE_UID, mUid);
+        bundle.putString(Constants.BUNDLE_TOKEN, mToken);
+        bundle.putString(Constants.PASSWORD, mPassword);
         mPresenter.resetPassword(bundle);
 
     }
