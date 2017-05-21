@@ -30,15 +30,12 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
 
     @Override
     public void onNext(T t) {
-//        LogUtil.d(t);
         LogUtil.dd("onNext()");
         _onNext(t);
     }
 
     @Override
     public void onError(Throwable throwable) {
-//        LogUtil.d(throwable.getMessage());
-//        LogUtil.d(throwable.getCause());
         LogUtil.dd("onError()");
         // TODO: 17-4-27 无网络请求监听，扼杀在请求阶段
         String msg = "网络错误";
@@ -50,9 +47,13 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
             msg = throwable.getMessage();
         } else if (throwable instanceof HttpException) {
 
-            msg = "网络错误";
+            msg = "网络连接错误";
 
         }
+        LogUtil.dd("error type", String.valueOf(throwable.getCause()));
+        LogUtil.dd("error message", String.valueOf(throwable.getMessage()));
+        LogUtil.dd("error strackT", String.valueOf(throwable.getStackTrace()));
+        LogUtil.dd("error strackT", String.valueOf(throwable.getLocalizedMessage()));
 
         _onError(msg);
 

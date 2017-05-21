@@ -23,7 +23,6 @@ import butterknife.Unbinder;
  */
 
 public class HistoryHotFragment extends BaseFragment<HistoryHotPresenter> implements HistoryHotContract.View {
-    private static final String ARG_HistoryHot_TYPE = "ARG_LATESPOST_TYPE";
     @BindView(R.id.id_recyclerview)
     RecyclerView recyclerview;
     @BindView(R.id.layout_swipe_refresh)
@@ -32,6 +31,10 @@ public class HistoryHotFragment extends BaseFragment<HistoryHotPresenter> implem
     com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotAdapter HistoryHotAdapter;
     private LinearLayoutManager linearLayoutManager;
 
+    public static HistoryHotFragment newInstance() {
+        HistoryHotFragment fragment = new HistoryHotFragment();
+        return fragment;
+    }
     @Override
     protected int getFragmentLayoutId() {
         return R.layout.fragment_latest_post;

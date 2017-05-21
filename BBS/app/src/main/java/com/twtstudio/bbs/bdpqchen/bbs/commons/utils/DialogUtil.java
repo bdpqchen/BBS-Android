@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import android.content.Context;
+import android.content.DialogInterface;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -12,10 +13,11 @@ public final class DialogUtil {
 
     public static MaterialDialog showProgressDialog(Context context, String title, String content){
         return new MaterialDialog.Builder(context)
-                .title("提示")
-                .content("正在上传，请稍后..")
+                .title(title)
+                .content(content)
                 .progress(true, 0)
                 .show();
     }
+
 
 }

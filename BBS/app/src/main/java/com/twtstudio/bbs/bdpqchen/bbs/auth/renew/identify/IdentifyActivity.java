@@ -1,0 +1,143 @@
+package com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
+import butterknife.BindView;
+import butterknife.OnClick;
+
+/**
+ * Created by bdpqchen on 17-5-21.
+ */
+
+public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements IdentifyContract.View {
+
+    private static final String INTENT_ENTERING_USERNAME = "intent_entering_username";
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.old_account)
+    EditText mOldAccount;
+    @BindView(R.id.old_password)
+    EditText mOldPassword;
+    @BindView(R.id.cp_btn_identify)
+    CircularProgressButton mCpBtnIdentify;
+    @BindView(R.id.tv_find_username)
+    TextView mTvFindUsername;
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_identify;
+    }
+
+    @Override
+    protected Toolbar getToolbarView() {
+        mToolbar.setTitle("老用户验证");
+        return mToolbar;
+    }
+
+    @Override
+    protected boolean isShowBackArrow() {
+        return true;
+    }
+
+    @Override
+    protected boolean isSupportNightMode() {
+        return true;
+    }
+
+    @Override
+    protected void inject() {
+        getActivityComponent().inject(this);
+    }
+
+    @Override
+    protected Activity supportSlideBack() {
+        return this;
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
+
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
+
+    }
+
+
+    @OnClick({R.id.old_account, R.id.old_password, R.id.cp_btn_identify, R.id.tv_find_username})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.old_account:
+                break;
+            case R.id.old_password:
+                break;
+            case R.id.cp_btn_identify:
+                inputCheck();
+                break;
+            case R.id.tv_find_username:
+
+                startActivity(new Intent(this, RetrieveActivity.class));
+                break;
+        }
+    }
+
+    private void inputCheck() {
+        String err = "长度不符合规范";
+        String username = String.valueOf(mOldAccount.getText());
+        String password = String.valueOf(mOldPassword.getText());
+        if (username.length() < 5) {
+            mOldAccount.setError(err);
+            return;
+        }
+        if (password.length() < 5) {
+            mOldPassword.setError(err);
+            return;
+        }
+        mCpBtnIdentify.startAnimation();
+        mPresenter.doIdentify(username, password);
+    }
+
+
+    @Override
+    public void identifyFailed(String m) {
+        mCpBtnIdentify.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
+        HandlerUtil.postDelay(() -> mCpBtnIdentify.revertAnimation(), 3000);
+        SnackBarUtil.error(this, m, "找回密码", v -> {
+            Intent intent = new Intent(this, IdentifyActivity.class);
+            intent.putExtra(INTENT_ENTERING_USERNAME, mOldAccount.getText());
+            startActivity(intent);
+        });
+
+    }
+
+    @Override
+    public void identifySuccess(IdentifyModel model) {
+
+        // TODO: 17-5-21 认证成功后
+    }
+
+
+}

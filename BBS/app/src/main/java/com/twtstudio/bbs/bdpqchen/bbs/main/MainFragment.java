@@ -40,8 +40,9 @@ public class MainFragment extends SimpleFragment {
     @Override
     protected void initFragments() {
 
-        TabAdapter tabAdapter = new TabAdapter(getFragmentManager());
+        TabAdapter tabAdapter = new TabAdapter(getChildFragmentManager());
         mViewpager.setAdapter(tabAdapter);
+        mViewpager.setOffscreenPageLimit(3);
         mTablayout.setupWithViewPager(mViewpager);
 
     }

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.welcome.WelcomeActivity;
 
 /**
  * Created by bdpqchen on 17-5-2.
@@ -24,10 +25,11 @@ public class SplashActivity extends AppCompatActivity {
 //        if (isFirstOpen)
 
 
-        if (PrefUtil.hadLogin() || PrefUtil.isNoAccountUser()){
+//        if (PrefUtil.hadLogin() || PrefUtil.isNoAccountUser()){
+        if (PrefUtil.hadLogin()){
             startActivity(new Intent(this, HomeActivity.class));
         }else{
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, WelcomeActivity.class));
         }
 
         finish();

@@ -143,6 +143,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         return super.onOptionsItemSelected(item);
     }
 
+    public void finish(){
+        finishThisActivity();
+    }
 
 
 

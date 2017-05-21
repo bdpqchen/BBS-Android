@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorMainBg"
     >
 
@@ -14,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+
         >
 
         <RelativeLayout
@@ -41,7 +43,6 @@
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/avatar1"
                     app:civ_border_color="@color/material_light_white"
                     app:civ_border_width="2dp"
                     />
@@ -219,13 +220,215 @@
             android:orientation="vertical"
             >
 
-            <ListView
-                android:id="@+id/lv_individual"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@null"
-                android:dividerHeight="0dp"
-                />
+                android:orientation="vertical"
+                android:layout_marginBottom="1px"
+                android:background="@color/colorMainBg"
+                >
+
+                <RelativeLayout
+                    android:id="@+id/rl_individual_item_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorMainBgLight"
+                    android:foreground="@drawable/selector_foreground_settings"
+                    android:clickable="true"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_individual_message_icon"
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:layout_gravity="center"
+                        android:layout_margin="16dp"
+                        android:padding="2dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_ll_my_message"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_individual_message_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/iv_individual_message_icon"
+                        android:text="我的消息"
+                        android:textColor="@color/colorTvBlackMain"
+                        android:textSize="18sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_individual_unread"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:layout_toEndOf="@+id/tv_individual_message_title"
+                        android:background="@drawable/individual_tag_num_shape"
+                        android:paddingEnd="2dp"
+                        android:padding="2dp"
+                        android:paddingStart="2dp"
+                        android:layout_marginStart="4dp"
+                        tools:text="99+"
+                        android:visibility="gone"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_individual_icon_end"
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                        android:tint="@color/colorTintIconBlack"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_individual_item_collection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorMainBgLight"
+                    android:foreground="@drawable/selector_foreground_settings"
+                    android:clickable="true"
+                    android:layout_marginTop="1px"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_individual_collection_icon"
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:layout_gravity="center"
+                        android:layout_margin="16dp"
+                        android:padding="2dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_my_collection"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_individual_collection_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/iv_individual_collection_icon"
+                        android:text="我的收藏"
+                        android:textColor="@color/colorTvBlackMain"
+                        android:textSize="18sp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_individual_collection_end"
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                        android:tint="@color/colorTintIconBlack"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_individual_item_publish"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorMainBgLight"
+                    android:foreground="@drawable/selector_foreground_settings"
+                    android:clickable="true"
+                    android:layout_marginTop="1px"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_individual_publish_icon"
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:layout_gravity="center"
+                        android:layout_margin="16dp"
+                        android:padding="2dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_my_published"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_individual_publish_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/iv_individual_publish_icon"
+                        android:text="我的发布"
+                        android:textColor="@color/colorTvBlackMain"
+                        android:textSize="18sp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_individual_publish_end"
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                        android:tint="@color/colorTintIconBlack"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_individual_item_update_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorMainBgLight"
+                    android:foreground="@drawable/selector_foreground_settings"
+                    android:clickable="true"
+                    android:layout_marginTop="1px"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_individual_update_info_icon"
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:layout_gravity="center"
+                        android:layout_margin="16dp"
+                        android:padding="2dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_my_detail_update"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_individual_update_info_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/iv_individual_update_info_icon"
+                        android:text="编辑资料"
+                        android:textColor="@color/colorTvBlackMain"
+                        android:textSize="18sp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_individual_update_info_end"
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                        android:tint="@color/colorTintIconBlack"
+                        />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
 
             <RelativeLayout
                 android:id="@+id/individual_item_rl"

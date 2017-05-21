@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 
 import butterknife.BindView;
 
@@ -16,7 +17,7 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-5-12.
  */
 
-public class ThreadAdapter extends BaseAdapter<ThreadModel> {
+public class ThreadAdapter extends BaseAdapter<ThreadListModel> {
 
 
     public ThreadAdapter(Context context) {

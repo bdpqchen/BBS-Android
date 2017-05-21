@@ -6,8 +6,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -25,7 +27,7 @@ class BoardsPresenter extends RxPresenter<BoardsContract.View> implements Boards
 
     private RxDoHttpClient<BoardsModel> mHttpClient;
     public ResponseTransformer<BoardsModel> mTransformer = new ResponseTransformer<>();
-    public ResponseTransformer<ThreadModel> mTransformerThread = new ResponseTransformer<>();
+    public ResponseTransformer<ThreadListModel> mTransformerThread = new ResponseTransformer<>();
 
 
     @Inject
@@ -38,18 +40,18 @@ class BoardsPresenter extends RxPresenter<BoardsContract.View> implements Boards
     @Override
     public void getBoardList(final int boardId) {
 
-        SimpleObserver<ThreadModel> observer = new SimpleObserver<ThreadModel>() {
+        SimpleObserver<List<PreviewThreadModel>> observer = new SimpleObserver<List<PreviewThreadModel>>() {
 
             @Override
             public void _onError(String msg) {
 //                mView.failedToGetForum(msg);
-                LogUtil.dd("message", msg);
-                LogUtil.dd("get board list onError()");
+                LogUtil.dd("error_message", msg);
             }
 
             @Override
-            public void _onNext(ThreadModel threadModel) {
-                LogUtil.d("OnNext()");
+            public void _onNext(List<PreviewThreadModel> previewThreadModels) {
+                mView.setBoardList(previewThreadModels);
+                LogUtil.dd("OnNext()");
             }
 
         };
@@ -61,19 +63,34 @@ class BoardsPresenter extends RxPresenter<BoardsContract.View> implements Boards
                     @Override
                     public Observable<BoardsModel.BoardsBean> apply(@NonNull BoardsModel boardsModel) throws Exception {
                         LogUtil.dd("apply()", String.valueOf(boardsModel.getBoards().size()));
-//                        List<Integer> list = new ArrayList<>();
                         return Observable.fromIterable(boardsModel.getBoards());
 
                     }
                 })
-                .flatMap(new Function<BoardsModel.BoardsBean, Observable<BaseResponse<ThreadModel>>>() {
+                .flatMap(new Function<BoardsModel.BoardsBean, Observable<BaseResponse<ThreadListModel>>>() {
                     @Override
-                    public Observable<BaseResponse<ThreadModel>> apply(@NonNull BoardsModel.BoardsBean boardsBean) throws Exception {
-
-                        return mHttpClient.getThreadList(boardsBean.getId(), 1);
+                    public Observable<BaseResponse<ThreadListModel>> apply(@NonNull BoardsModel.BoardsBean boardsBean) throws Exception {
+                        return mHttpClient.getThreadList(boardsBean.getId(), 0);
                     }
                 })
                 .map(mTransformerThread)
+                .map(threadListModel -> {
+                    List<PreviewThreadModel> previewThreadList = new ArrayList<>();
+                    int listSize = threadListModel.getBoard().getC_thread();
+                    LogUtil.dd(String.valueOf(listSize));
+                    if (listSize > 2) {
+                        PreviewThreadModel model = new PreviewThreadModel();
+                        model.setBoard(threadListModel.getBoard());
+                        List<ThreadListModel.ThreadBean> threadBeanList = new ArrayList<>();
+                        ThreadListModel.ThreadBean threadBean0 = threadListModel.getThread().get(0);
+                        ThreadListModel.ThreadBean threadBean1 = threadListModel.getThread().get(1);
+                        threadBeanList.add(threadBean0);
+                        threadBeanList.add(threadBean1);
+                        model.setThreadList(threadBeanList);
+                        previewThreadList.add(model);
+                    }
+                    return previewThreadList;
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)

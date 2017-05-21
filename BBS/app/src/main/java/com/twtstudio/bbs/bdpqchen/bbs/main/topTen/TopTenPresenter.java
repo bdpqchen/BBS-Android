@@ -15,7 +15,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class TopTenPresenter extends RxPresenter<TopTenContract.View> implements TopTenContract.Presenter{
-    public RxDoHttpClient<TopTenModel> mHttpClient;
+    public RxDoHttpClient<TopTenModel.DataBean> mHttpClient;
 
     @Inject
     TopTenPresenter(RxDoHttpClient client){
@@ -24,15 +24,15 @@ public class TopTenPresenter extends RxPresenter<TopTenContract.View> implements
 
     @Override
     public void refreshAnnounce() {
-        SimpleObserver<TopTenModel> observer = new SimpleObserver<TopTenModel>() {
+        SimpleObserver<TopTenModel.DataBean> observer = new SimpleObserver<TopTenModel.DataBean>() {
             @Override
             public void _onError(String msg) {
                 mView.failedToGetTopTen(msg);
             }
 
             @Override
-            public void _onNext(TopTenModel TopTenModel) {
-                mView.refreshAnnounce(TopTenModel.getData().getLatest());
+            public void _onNext(TopTenModel.DataBean TopTenModel) {
+                mView.refreshAnnounce(TopTenModel.getHot());
             }
 
         };
@@ -46,15 +46,17 @@ public class TopTenPresenter extends RxPresenter<TopTenContract.View> implements
 
     public void addAnnounce(){
 
-        SimpleObserver<TopTenModel> observer = new SimpleObserver<TopTenModel>() {
+        SimpleObserver<TopTenModel.DataBean> observer = new SimpleObserver<TopTenModel.DataBean>() {
             @Override
             public void _onError(String msg) {
                 mView.failedToGetTopTen(msg);
             }
 
             @Override
-            public void _onNext(TopTenModel TopTenModel) {
-                mView.refreshAnnounce(TopTenModel.getData().getLatest());
+
+            public void _onNext(TopTenModel.DataBean TopTenModel) {
+                mView.refreshAnnounce(TopTenModel.getHot());
+
             }
 
         };
@@ -65,4 +67,5 @@ public class TopTenPresenter extends RxPresenter<TopTenContract.View> implements
                 .subscribeWith(observer)
         );
     }
+
 }

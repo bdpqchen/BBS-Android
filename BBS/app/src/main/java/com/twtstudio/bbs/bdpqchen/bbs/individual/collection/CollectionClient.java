@@ -73,7 +73,7 @@ public class CollectionClient {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-//        OkHttpClient client = new OkHttpClient.Builder()
+
         client = getUnSaveBuilder()
                 .addInterceptor(interceptor)
                 .retryOnConnectionFailure(true)
@@ -85,7 +85,7 @@ public class CollectionClient {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://bbs.twtstudio.com/home/")
+                .baseUrl("https://bbs.twtstudio.com/api/home/")
                 .build();
         CollectionApi collectionApi = retrofit.create(CollectionApi.class);
 
@@ -103,13 +103,13 @@ public class CollectionClient {
         });
     }
 
-    // TODO: 2017/5/16 仍然使用的我自己的token
+
     public void deleteCollection(String uidToken, int tid) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://bbs.twtstudio.com/home/")
+                .baseUrl("https://bbs.twtstudio.com/api/home/")
                 .build();
 
         CollectionApi collectionApi = retrofit.create(CollectionApi.class);
