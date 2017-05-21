@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorMainBg"
+    android:background="@color/colorMainBgLight"
     tools:context="com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentActivity">
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -93,40 +93,48 @@
         android:layout_marginRight="10dp"
         android:gravity="left"
         android:textSize="14sp"
-        tools:text="time" />
-    <TextView
-        android:id="@+id/post"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/create_time"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:gravity="left"
-        android:text="评论"
-        android:textSize="20sp" />
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/post"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:textSize="14sp"
-        tools:text="status" />
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/layout_swipe_refresh"
-        android:layout_below="@+id/status"
+        tools:text="time"
+        />
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/id_recyclerview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_below="@+id/title"
-        android:divider="#ffff0000"
-        android:dividerHeight="10dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/content"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorMainBg">
+        <TextView
+            android:id="@+id/post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="left"
+            android:text="评论"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/post"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textSize="14sp"
+            tools:text="status" />
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/layout_swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/id_recyclerview"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_below="@+id/title"
+                android:divider="#ffff0000"
+                android:dividerHeight="10dp"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="8dp" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </RelativeLayout>
+
 </RelativeLayout>
 
