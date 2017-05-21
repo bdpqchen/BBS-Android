@@ -14,6 +14,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.content.post.IndexPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
@@ -236,8 +237,15 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(String threadid) {
         return mApi.getIndexContent(threadid);
     }
+    public Observable<BaseResponse<IndexPostModel>> putComment(String threadid,String comment) {
+        IndexPostModel indexPostModel = new IndexPostModel();
+        indexPostModel.setContent(comment);
+        return mApi.postIndexPost(threadid, indexPostModel, PrefUtil.getAuthToken());
 
+    }
     public Observable<BaseResponse<IdentifyModel>> doIdentifyOldUser(String username, String password) {
         return mApi.getIdentifyContent(username, password);
+
     }
+
 }

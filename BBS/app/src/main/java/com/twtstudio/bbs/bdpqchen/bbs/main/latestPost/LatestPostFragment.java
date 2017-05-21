@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,6 @@ import butterknife.Unbinder;
  */
 
 public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implements LatestPostContract.View {
-    private static final String ARG_LATESTPOST_TYPE = "ARG_LATESPOST_TYPE";
     @BindView(R.id.id_recyclerview)
     RecyclerView recyclerview;
     @BindView(R.id.layout_swipe_refresh)
@@ -33,6 +33,12 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
     Unbinder unbinder;
     LatestPostAdapter latestPostAdapter;
     private LinearLayoutManager linearLayoutManager;
+
+    public static LatestPostFragment newInstance() {
+        Log.d("tab","item");
+        LatestPostFragment fragment = new LatestPostFragment();
+        return fragment;
+    }
 
     @Override
     protected int getFragmentLayoutId() {
