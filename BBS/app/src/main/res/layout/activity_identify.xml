@@ -11,7 +11,8 @@
     <include
         layout="@layout/common_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +29,7 @@
             />
 
         <EditText
-            android:id="@+id/oldAccount"
+            android:id="@+id/old_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
@@ -38,8 +39,22 @@
             android:maxLines="1"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/material_blue_600"
+            android:text="忘记了用户名？"
+            android:layout_gravity="end"
+            android:gravity="center"
+            android:clickable="true"
+            android:id="@+id/tv_find_username"
+            android:padding="5dp"
+            android:foreground="@drawable/selector_foreground_settings"
+
+            />
+
         <EditText
-            android:id="@+id/oldPassword"
+            android:id="@+id/old_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
@@ -49,37 +64,14 @@
             android:maxLines="1"
             />
 
-       <!-- <EditText
-            android:id="@+id/oldName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
-            android:hint="姓名"
-            android:imeOptions="actionNext"
-            android:inputType="text"
-            android:maxLines="1"
-            />
-
-        <EditText
-            android:id="@+id/oldPIN"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
-            android:hint="身份证号"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:maxLines="1"
-
-            />-->
-
         <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
             android:id="@+id/cp_btn_identify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="16dp"
             android:layout_gravity="center"
             android:background="@drawable/circular_border_shape"
-            app:spinning_bar_color="@color/colorAccent"
+            app:spinning_bar_color="@color/material_light_white"
             android:textColor="@color/material_light_white"
             app:spinning_bar_padding="6dp"
             app:spinning_bar_width="4dp"

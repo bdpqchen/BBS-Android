@@ -14,7 +14,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsAdapter;
 
 import java.util.List;
 

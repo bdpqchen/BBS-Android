@@ -96,21 +96,15 @@ public final class SnackBarUtil {
 
         if (listener != null) {
             snackBar.setAction(actionTitle, listener);
-            snackBar.setActionTextColor(Color.WHITE);
+            snackBar.setActionTextColor(Color.GREEN);
         }
 
-        snackBarView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snackBar.dismiss();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //等待动画时间
-                        StatusBarUtil.setColor(act, sOldColor, 0);
-                    }
-                }, 250);
-            }
+        snackBarView.setOnClickListener(v -> {
+            snackBar.dismiss();
+            new Handler().postDelayed(() -> {
+                //等待动画时间
+                StatusBarUtil.setColor(act, sOldColor, 0);
+            }, 250);
         });
         //设定snackBar 最小高度
         TypedValue tv = new TypedValue();

@@ -4,6 +4,9 @@ import android.app.Activity;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.appeal.AppealPassportActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.replacePassword.ReplacePasswordActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
@@ -55,4 +58,10 @@ public interface ActivityComponent {
     void inject(ThreadListActivity threadListActivity);
 
     void inject(ContentActivity contentActivity);
+
+    void inject(AppealPassportActivity appealPassportActivity);
+
+    void inject(IdentifyActivity identifyActivity);
+
+    void inject(RetrieveActivity retrieveActivity);
 }

@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
@@ -56,11 +57,24 @@ public interface BaseApi {
 
     @FormUrlEncoded
     @PUT("home")
-    Observable<BaseResponse<IndividualInfoModel>> doUpdateInfo(
+    Observable<BaseResponse<BaseModel>> doUpdateInfoNickname(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
-            @Field(Constants.BUNDLE_NICKNAME) String nickname,
+            @Field(Constants.BUNDLE_NICKNAME) String nickname
+    );
+    @FormUrlEncoded
+    @PUT("home")
+    Observable<BaseResponse<BaseModel>> doUpdateInfoSignature(
+            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
             @Field(Constants.BUNDLE_SIGNATURE) String signature
     );
+    @FormUrlEncoded
+    @PUT("home")
+    Observable<BaseResponse<BaseModel>> doUpdateInfoAll(
+            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
+            @Field(Constants.BUNDLE_SIGNATURE) String signature,
+            @Field(Constants.BUNDLE_NICKNAME) String nickname
+    );
+
 
 
     @Multipart
@@ -104,7 +118,14 @@ public interface BaseApi {
     @GET("thread/{threadid}/page/0")
     Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(@Path("threadid") String threadid);
 
+<<<<<<< HEAD
     @PUT("thread/{threadid}/page/0")
     Observable<BaseResponse<IndexPostModel>> postIndexPost(@Path("threadid") String threadid, @Body IndexPostModel indexPostModel, @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken);
+=======
+    @FormUrlEncoded
+    @POST("passport/login/old")
+    Observable<BaseResponse<IdentifyModel>> getIdentifyContent(@Field(Constants.BUNDLE_REGISTER_USERNAME) String username,
+                                                               @Field(Constants.BUNDLE_REGISTER_PASSWORD) String password);
+>>>>>>> upstream/master
 }
 

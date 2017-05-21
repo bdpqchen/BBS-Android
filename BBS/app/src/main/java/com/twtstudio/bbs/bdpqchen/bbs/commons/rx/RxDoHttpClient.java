@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -87,12 +88,7 @@ public class RxDoHttpClient<T> {
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.sslSocketFactory(sslSocketFactory);
 
-            builder.hostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
+            builder.hostnameVerifier((hostname, session) -> true);
             return builder;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -205,8 +201,15 @@ public class RxDoHttpClient<T> {
         return mApi.getIndividualInfo(getLatestAuthentication());
     }
 
-    public Observable<BaseResponse<IndividualInfoModel>> doUpdateInfo(Bundle bundle) {
-        return mApi.doUpdateInfo(getLatestAuthentication(), bundle.getString(Constants.BUNDLE_NICKNAME, ""), bundle.getString(Constants.BUNDLE_SIGNATURE, ""));
+    public Observable<BaseResponse<BaseModel>> doUpdateInfo(Bundle bundle, int type) {
+
+        if (type == 1) {
+            return mApi.doUpdateInfoNickname(getLatestAuthentication(), bundle.getString(Constants.BUNDLE_NICKNAME, ""));
+        } else if (type == 2) {
+            return mApi.doUpdateInfoSignature(getLatestAuthentication(), bundle.getString(Constants.BUNDLE_SIGNATURE, ""));
+        }
+        return mApi.doUpdateInfoAll(getLatestAuthentication(), bundle.getString(Constants.BUNDLE_NICKNAME, ""), bundle.getString(Constants.BUNDLE_SIGNATURE, ""));
+
     }
 
 
@@ -224,7 +227,7 @@ public class RxDoHttpClient<T> {
     }
 
     public Observable<BaseResponse<ThreadListModel>> getThreadList(int threadId, int page) {
-        return mApi.getThreadList(getLatestAuthentication(),"Mobile" ,String.valueOf(threadId), String.valueOf(page));
+        return mApi.getThreadList(getLatestAuthentication(), "Mobile", String.valueOf(threadId), String.valueOf(page));
     }
 
     public Observable<BaseResponse<List<MessageModel>>> getMessageList(int page) {
@@ -234,9 +237,15 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(String threadid) {
         return mApi.getIndexContent(threadid);
     }
+<<<<<<< HEAD
     public Observable<BaseResponse<IndexPostModel>> putComment(String threadid,String comment){
         IndexPostModel indexPostModel =new IndexPostModel();
         indexPostModel.setContent(comment);
         return mApi.postIndexPost(threadid, indexPostModel,PrefUtil.getAuthToken());
+=======
+
+    public Observable<BaseResponse<IdentifyModel>> doIdentifyOldUser(String username, String password) {
+        return mApi.getIdentifyContent(username, password);
+>>>>>>> upstream/master
     }
 }
