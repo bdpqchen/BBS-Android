@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.test;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.my_release;
 
 import android.content.Context;
 import android.graphics.Typeface;

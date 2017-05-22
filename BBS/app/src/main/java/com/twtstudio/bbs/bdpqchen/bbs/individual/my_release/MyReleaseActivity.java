@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.test;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.my_release;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import android.view.View;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;

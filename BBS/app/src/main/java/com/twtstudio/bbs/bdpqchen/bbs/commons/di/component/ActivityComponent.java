@@ -20,7 +20,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePassword;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.test.MyReleaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
 
 import dagger.Component;
 
