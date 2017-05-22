@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
 
 import butterknife.BindView;
@@ -62,13 +63,13 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
 
     @Override
     protected Activity supportSlideBack() {
-        return null;
+        return this;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
+        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         collection_recyclerView.setLayoutManager(linearLayoutManager);
         collectionAdapter = new CollectionAdapter(this, collectionBean, collectionPresenter);

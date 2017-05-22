@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.test;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.my_release;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
