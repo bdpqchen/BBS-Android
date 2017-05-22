@@ -30,7 +30,7 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MessageItemViewHolder(inflater.inflate(R.layout.item_rv_message, parent));
+        return new MessageItemViewHolder(inflater.inflate(R.layout.item_rv_message, parent, false));
     }
 
     @Override

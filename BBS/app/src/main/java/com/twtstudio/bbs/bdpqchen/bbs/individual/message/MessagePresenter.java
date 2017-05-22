@@ -26,7 +26,7 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
 
     @Override
     public void getMessageList(int page) {
-        mRxDoHttpClient.getMessageList(1)
+        mRxDoHttpClient.getMessageList(page)
                 .map(BaseResponse::getData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
