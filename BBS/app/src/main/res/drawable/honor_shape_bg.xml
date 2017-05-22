@@ -4,5 +4,4 @@
     <corners android:radius="4dp"/>
     <solid android:color="@color/colorHonorTextView"/>
 
-
 </shape>

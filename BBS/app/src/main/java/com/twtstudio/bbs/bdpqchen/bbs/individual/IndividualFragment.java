@@ -15,10 +15,8 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.collection.CollectionActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
@@ -106,6 +104,10 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         getFragmentComponent().inject(this);
     }
 
+    public static IndividualFragment newInstance() {
+        return new IndividualFragment();
+    }
+
     @Override
     protected void initFragment() {
         setUnread();
@@ -121,14 +123,13 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mRlIndividualItemPublish.setOnClickListener(v -> startItemActivity(3));
         mRlIndividualItemUpdateInfo.setOnClickListener(v -> startItemActivity(4));
         mRlSettings.setOnClickListener(v -> startItemActivity(5));
-
-
     }
+
 
     private void startItemActivity(int index) {
 //        Class clazz = MessageActivity.class;
         Class clazz = CollectionActivity.class;
-        switch (index){
+        switch (index) {
             case 2:
                 clazz = CollectionActivity.class;
                 break;
@@ -148,10 +149,10 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
     private void setUnread() {
         int unread = PrefUtil.getInfoUnread();
-        if (unread != 0){
+        if (unread != 0) {
             mTvIndividualUnread.setText(unread + "");
             mTvIndividualUnread.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mTvIndividualUnread.setVisibility(View.GONE);
         }
     }
@@ -173,57 +174,5 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mTvSignature.setText(PrefUtil.getInfoSignature());
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
-    public void updateInfoSuccess() {
-        mTvSignature.setText(PrefUtil.getInfoSignature());
-        mTvNickname.setText(PrefUtil.getInfoNickname());
-        showSuccess();
-    }
-
-    @Override
-    public void updateInfoFailed() {
-        PrefUtil.setHasUnSyncInfo(true);
-        SnackBarUtil.error(this.getActivity(), "个人信息同步失败，请点击同步", "同步", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doUpdate();
-            }
-        });
-    }
-
-    private Bundle getUnSyncInfoBundle() {
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.BUNDLE_SIGNATURE, PrefUtil.getInfoSignature());
-        bundle.putString(Constants.BUNDLE_NICKNAME, PrefUtil.getInfoNickname());
-        return bundle;
-    }
-
-    @Override
-    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
-        super.onFragmentResult(requestCode, resultCode, data);
-
-    }
-
-    public void doUpdate() {
-        mPresenter.doUpdateInfo(getUnSyncInfoBundle());
-    }
-
-    public void showSuccess() {
-        PrefUtil.setHasUnSyncInfo(false);
-        SnackBarUtil.normal(this.getActivity(), "个人信息同步成功");
-    }
 
 }

@@ -23,7 +23,7 @@ public final class SnackBarUtil {
 
     private static final int NORMAL_BG = 0xFF0BC4C4;
     private static final int NOTICE_BG = 0xFFe2a712;
-    private static final int ERROR_BG = 0xFFf2381f;
+    private static final int ERROR_BG = 0xFFfd5602;
 
     private static boolean sIsShowing = false;
     private static int sOldColor;
@@ -66,10 +66,10 @@ public final class SnackBarUtil {
         error(act, m, false);
     }
 
-    public static void error(Activity act, String m, boolean b) {
+    public static void error(Activity act, String m, boolean isLongTime) {
         if (!sIsShowing) {
             sIsShowing = true;
-            show(act, m, isLongTime(b), ERROR_BG);
+            show(act, m, isLongTime(isLongTime), ERROR_BG);
         }
     }
 
@@ -96,21 +96,15 @@ public final class SnackBarUtil {
 
         if (listener != null) {
             snackBar.setAction(actionTitle, listener);
-            snackBar.setActionTextColor(Color.WHITE);
+            snackBar.setActionTextColor(Color.GREEN);
         }
 
-        snackBarView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snackBar.dismiss();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //等待动画时间
-                        StatusBarUtil.setColor(act, sOldColor, 0);
-                    }
-                }, 250);
-            }
+        snackBarView.setOnClickListener(v -> {
+            snackBar.dismiss();
+            new Handler().postDelayed(() -> {
+                //等待动画时间
+                StatusBarUtil.setColor(act, sOldColor, 0);
+            }, 250);
         });
         //设定snackBar 最小高度
         TypedValue tv = new TypedValue();

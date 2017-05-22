@@ -63,4 +63,8 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     public void setShowHeader(boolean showHeader) {
         isShowHeader = showHeader;
     }
+
+    public void clearAll(){
+        mDataSet.clear();
+    }
 }

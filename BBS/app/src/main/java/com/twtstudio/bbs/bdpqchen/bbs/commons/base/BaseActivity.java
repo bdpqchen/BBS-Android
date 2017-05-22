@@ -142,7 +142,14 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         }
         return super.onOptionsItemSelected(item);
     }
+/*    public void finish(){
+        // 重写默认的finish动作
+        // nothing
+    }*/
 
+    public void finishMe(){
+        finishThisActivity();
+    }
 
 
 

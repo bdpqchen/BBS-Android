@@ -27,4 +27,6 @@
     <dimen name="size_avatar_normal">36dp</dimen>
     <dimen name="size_avatar_large">96dp</dimen>
     <dimen name="margin_thread_top">4dp</dimen>
+    <dimen name="margin_top_retrieve_et">8dp</dimen>
+    <dimen name="red_point_radius_small">5dp</dimen>
 </resources>

@@ -59,11 +59,11 @@ public abstract class SimpleFragment extends SupportFragment {
         } else {
             // TODO: 17-5-2 理解它的懒加载模式以及isSupportHidden为什么不暴露了
             LogUtil.i("savedInstanceState != null");
-//            if (isVisible()) {
-            onLazyInitView(savedInstanceState);
-            mInitialized = true;
-            initFragments();
-//            }
+            if (isVisible()) {
+//                onLazyInitView(savedInstanceState);
+                mInitialized = true;
+                initFragments();
+            }
 /*
             if (!isSupportHidden()) {
                 mInitialized = true;

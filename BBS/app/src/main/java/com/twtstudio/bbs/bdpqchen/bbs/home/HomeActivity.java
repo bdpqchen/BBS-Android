@@ -42,9 +42,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     private int mShowingFragment = Constants.FRAGMENT_MAIN;
     private int mHidingFragment = Constants.FRAGMENT_MAIN;
-    public static final int CODE_RESULT_FOR_UPDATE_INFO = 1;
-    public static final String CODE_RESULT_FOR_UPDATE_INFO_TAG = "hasUnSyncInfo";
-    private static final String TEXT_SNACK_BAR = "提示提示提示换行jjjjjjjjjj";
 
     @Override
     protected int getLayoutResourceId() {
@@ -95,32 +92,32 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             animator.start();
         }
 
-        mMainFragment = new MainFragment();
-        mForumFragment = new ForumFragment();
-        mIndividualFragment = new IndividualFragment();
+        mMainFragment = MainFragment.newInstance();
+        mForumFragment = ForumFragment.newInstance();
+        mIndividualFragment = IndividualFragment.newInstance();
         loadMultipleRootFragment(R.id.fl_main_container, 0, mMainFragment, mForumFragment, mIndividualFragment);
         mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
 
-        mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelected(@IdRes int i) {
-                LogUtil.dd("onTabSelected()");
-                if (i == R.id.bottom_bar_tab_main) {
+        mBottomBar.setOnTabSelectListener(i -> {
+            LogUtil.dd("onTabSelected()");
+            if (i == R.id.bottom_bar_tab_main) {
 
-                    mShowingFragment = Constants.FRAGMENT_MAIN;
-                } else if (i == R.id.bottom_bar_tab_forum) {
-                    mShowingFragment = Constants.FRAGMENT_FORUM;
-                } else if (i == R.id.bottom_bar_tab_individual) {
+                mShowingFragment = Constants.FRAGMENT_MAIN;
+            } else if (i == R.id.bottom_bar_tab_forum) {
+                mShowingFragment = Constants.FRAGMENT_FORUM;
+            } else if (i == R.id.bottom_bar_tab_individual) {
 //                    LogUtil.dd("selected the individual ");
-                    mShowingFragment = Constants.FRAGMENT_INDIVIDUAL;
-                }
-                loadFragment();
+                mShowingFragment = Constants.FRAGMENT_INDIVIDUAL;
             }
+            loadFragment();
         });
 
-        mPresenter.initIndividualInfo();
+//        if (mIndividualFragment.isVisible()){
+        // TODO: 17-5-22 解决夜间模式View的空指针问题
+            mPresenter.initIndividualInfo();
+            LogUtil.d("send a net request");
+//        }
         mPresenter.checkUpdate(1);
-
 
     }
 
@@ -148,24 +145,25 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public void showIndividualInfo(IndividualInfoModel info) {
+        LogUtil.d("receive a response");
+        if (info != null) {
 
-
-        //设置个人信息，在IndividualFragment 里可直接获取，需判断是否为最新getIsLatestInfo()
-        PrefUtil.setInfoNickname(info.getNickname());
-        PrefUtil.setInfoSignature(info.getSignature());
-        PrefUtil.setInfoOnline(info.getC_online());
-        PrefUtil.setInfoPost(info.getC_post());
-        PrefUtil.setInfoPoints(info.getPoints());
-        PrefUtil.setInfoCreate(info.getT_create());
-        PrefUtil.setInfoGroup(info.getGroup());
-        PrefUtil.setInfoLevel(info.getLevel());
-        PrefUtil.setIsLatestInfo(true);
-        int unRead = info.getC_unread();
-        PrefUtil.setInfoUnread(unRead);
-        LogUtil.dd(String.valueOf(unRead));
-        // TODO: 17-5-10 为了测试
-        mNearBy.setBadgeCount(unRead + 1);
-
+            //设置个人信息，在IndividualFragment 里可直接获取，需判断是否为最新getIsLatestInfo()
+            PrefUtil.setInfoNickname(info.getNickname());
+            PrefUtil.setInfoSignature(info.getSignature());
+            PrefUtil.setInfoOnline(info.getC_online());
+            PrefUtil.setInfoPost(info.getC_post());
+            PrefUtil.setInfoPoints(info.getPoints());
+            PrefUtil.setInfoCreate(info.getT_create());
+            PrefUtil.setInfoGroup(info.getGroup());
+            PrefUtil.setInfoLevel(info.getLevel());
+            PrefUtil.setIsLatestInfo(true);
+            int unRead = info.getC_unread();
+            PrefUtil.setInfoUnread(unRead);
+            LogUtil.dd(String.valueOf(unRead));
+            // TODO: 17-5-10 为了测试
+            mNearBy.setBadgeCount(unRead + 1);
+        }
     }
 
     @Override
@@ -177,20 +175,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         }
 
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
-            LogUtil.dd("received the result", String.valueOf(data.getBooleanExtra(CODE_RESULT_FOR_UPDATE_INFO_TAG, false)));
-            if (requestCode == CODE_RESULT_FOR_UPDATE_INFO) {
-                if (data.getBooleanExtra(CODE_RESULT_FOR_UPDATE_INFO_TAG, false)) {
-                    mIndividualFragment.doUpdate();
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
 
 
 

@@ -25,6 +25,7 @@ public class ContentAdapter extends BaseAdapter<ContentModel.DataBean.PostBean> 
     public ContentAdapter(Context context) {
         super(context);
     }
+
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ContentViewHolder holder = new ContentViewHolder(LayoutInflater.from(
@@ -35,17 +36,16 @@ public class ContentAdapter extends BaseAdapter<ContentModel.DataBean.PostBean> 
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-        ContentViewHolder mholder=(ContentViewHolder) holder;
+        ContentViewHolder mholder = (ContentViewHolder) holder;
         mholder.itemView.setTag(position);
-        mholder.data= mDataSet.get(position);
-        String avatarurl="https://bbs.twtstudio.com/api/user/"+mholder.data.getAuthor_id()+"/avatar";
+        mholder.data = mDataSet.get(position);
         mholder.title.setText(mholder.data.getContent());
         mholder.author.setText(mholder.data.getAuthor_name());
         mholder.create_time.setText(TimeUtils.getStandardDate(mholder.data.getT_create()));
-        //mholder.collection.setAlpha(0x000);
-//        ImageUtil.loadItemAvatarHome(mContext,mholder.avatar,avatarurl);
+        ImageUtil.loadAvatarAsBitmapByUid(mContext, mholder.data.getAuthor_id(), mholder.avatar);
     }
-    class ContentViewHolder extends BaseViewHolder{
+
+    class ContentViewHolder extends BaseViewHolder {
         @BindView(R.id.main_collection_delete)
         ImageView collection;
         @BindView(R.id.title)
@@ -57,11 +57,11 @@ public class ContentAdapter extends BaseAdapter<ContentModel.DataBean.PostBean> 
         @BindView(R.id.item_civ_avatar)
         CircleImageView avatar;
         ContentModel.DataBean.PostBean data;
-        public ContentViewHolder(View itemView) {
+
+        ContentViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
         }
 
-       
+
     }
 }

@@ -31,10 +31,6 @@ public class HomePresenter extends RxPresenter<HomeContract.View> implements Hom
 
     }
 
-    private void getDataList() {
-
-    }
-
     @Override
     public void checkUpdate(int currentVersionCode) {
 //        LogUtil.d("show the method--> checkUpdate()");
@@ -51,6 +47,7 @@ public class HomePresenter extends RxPresenter<HomeContract.View> implements Hom
 
             @Override
             public void _onNext(IndividualInfoModel individualInfoModel) {
+                LogUtil.d(individualInfoModel.getNickname());
                 mView.showIndividualInfo(individualInfoModel);
             }
         };
