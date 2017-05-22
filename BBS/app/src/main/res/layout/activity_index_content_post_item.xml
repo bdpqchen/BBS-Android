@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
     >
 
     <RelativeLayout
-        android:layout_width="368dp"
+        android:layout_width="match_parent"
         android:layout_height="144dp"
-        android:background="@color/colorMainBg"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="8dp">
+        android:background="@color/colorMainBgLight">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/item_civ_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
-            app:civ_border_color="@color/material_light_white"
+            app:civ_border_color="@color/colorMainBgLight"
             app:civ_border_width="2dp" />
 
         <TextView
@@ -41,7 +41,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/author"
             android:gravity="left"
-            android:text="发布"
+            android:text="回复"
             android:textSize="14sp" />
 
         <ImageView
@@ -62,6 +62,7 @@
             android:layout_below="@+id/author"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
             android:ellipsize="end"
             tools:text="2"
             android:lines="2"
@@ -82,4 +83,5 @@
             android:textSize="14sp" />
 
     </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

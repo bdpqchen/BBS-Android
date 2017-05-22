@@ -68,7 +68,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mThreadId = intent.getIntExtra(INTENT_THREAD_ID, 0);
         mThreadTitle = intent.getStringExtra(INTENT_THREAD_TITLE);
         super.onCreate(savedInstanceState);
-        mSlideBackLayout.lock(PrefUtil.isSlideBackMode());
+        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
 
 

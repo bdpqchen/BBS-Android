@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -12,6 +13,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.TimeUtils;
+
+import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +31,7 @@ public class ContentAdapter extends BaseAdapter<ContentModel.DataBean.PostBean> 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ContentViewHolder holder = new ContentViewHolder(LayoutInflater.from(
-                parent.getContext()).inflate(R.layout.activity_latest_post_item, parent,
+                parent.getContext()).inflate(R.layout.activity_index_content_post_item, parent,
                 false));
         return holder;
     }

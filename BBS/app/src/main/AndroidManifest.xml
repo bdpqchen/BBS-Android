@@ -61,6 +61,8 @@
         <activity android:name=".auth.renew.identify.IdentifyActivity"/>
         <activity android:name=".auth.renew.appeal.AppealPassportActivity"/>
         <activity android:name=".auth.renew.identify.retrieve.RetrieveActivity"/>
+        <activity android:name=".auth.renew.identify.retrieve.reset_password.ResetPasswordActivity"/>
+
 
     </application>
 

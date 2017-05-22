@@ -1,10 +1,13 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -24,10 +27,9 @@ import java.security.cert.CertificateException;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -183,7 +185,7 @@ public class RxDoHttpClient<T> {
         return mApi.getTopTen();
     }
 
-    public Observable<BaseResponse<HistoryHotModel>> getHistoryHot() {
+    public Observable<BaseResponse<HistoryHotModel.DataBean>> getHistoryHot() {
         return mApi.getHistoryHot();
     }
 
@@ -237,15 +239,39 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(String threadid) {
         return mApi.getIndexContent(threadid);
     }
-    public Observable<BaseResponse<IndexPostModel>> putComment(String threadid,String comment) {
+
+    public Observable<BaseResponse<IndexPostModel>> putComment(String threadid, String comment) {
         IndexPostModel indexPostModel = new IndexPostModel();
         indexPostModel.setContent(comment);
         return mApi.postIndexPost(threadid, indexPostModel, PrefUtil.getAuthToken());
 
     }
+
     public Observable<BaseResponse<IdentifyModel>> doIdentifyOldUser(String username, String password) {
         return mApi.getIdentifyContent(username, password);
 
     }
 
+    public Observable<BaseResponse<RetrieveModel>> doRetrieveUsername(Bundle bundle) {
+        return mApi.doRetrieveUsername(bundle.getString(RetrieveActivity.BUNDLE_STU_NUM),
+                bundle.getString(RetrieveActivity.BUNDLE_USERNAME),
+                bundle.getString(RetrieveActivity.BUNDLE_REAL_NAME),
+                bundle.getString(RetrieveActivity.BUNDLE_CID));
+
+    }
+
+    public Observable<BaseResponse<BaseModel>> resetPassword(Bundle bundle) {
+        return mApi.resetPassword(bundle.getString(Constants.BUNDLE_UID), Constants.BUNDLE_TOKEN, Constants.PASSWORD);
+    }
+
+    public Observable<BaseResponse<BaseModel>> appealPassport(Bundle bundle) {
+        return mApi.appealPassport(bundle.getString(Constants.BUNDLE_REGISTER_USERNAME),
+                bundle.getString(Constants.BUNDLE_REGISTER_CID),
+                bundle.getString(Constants.BUNDLE_REGISTER_REAL_NAME),
+                bundle.getString(Constants.BUNDLE_REGISTER_STU_NUM),
+                bundle.getString(Constants.BUNDLE_EMAIL),
+                bundle.getString(Constants.BUNDLE_MESSAGE),
+                bundle.getString(Constants.CAPTCHA_ID),
+                bundle.getString(Constants.CAPTCHA_VALUE));
+    }
 }

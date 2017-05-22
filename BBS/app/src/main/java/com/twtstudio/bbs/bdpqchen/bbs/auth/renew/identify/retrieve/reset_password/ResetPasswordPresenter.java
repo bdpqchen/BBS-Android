@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.auth.renew.appeal;
+package com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.reset_password;
 
 import android.os.Bundle;
 
@@ -16,34 +16,36 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-5-21.
  */
 
-class AppealPassportPresenter extends RxPresenter<AppealPassportContract.View> implements AppealPassportContract.Presenter{
+class ResetPasswordPresenter extends RxPresenter<ResetPasswordContract.View> implements ResetPasswordContract.Presenter{
 
-    RxDoHttpClient<BaseModel> mHttpClient;
+    private RxDoHttpClient<BaseModel> mHttpClient;
 
     @Inject
-    AppealPassportPresenter(RxDoHttpClient client){
-        this.mHttpClient = client;
+    ResetPasswordPresenter(RxDoHttpClient httpClient) {
+        mHttpClient = httpClient;
+
     }
 
 
     @Override
-    public void appealPassport(Bundle bundle) {
+    public void resetPassword(Bundle bundle) {
         SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
             @Override
             public void _onError(String msg) {
-                mView.sendFailed(msg);
+                mView.resetFailed(msg);
             }
 
             @Override
             public void _onNext(BaseModel model) {
-                mView.sendSuccess();
+                mView.resetSuccess(model);
             }
         };
-        addSubscribe(mHttpClient.appealPassport(bundle)
+        addSubscribe(mHttpClient.resetPassword(bundle)
                 .map(mHttpClient.mTransformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
         );
+
     }
 }
