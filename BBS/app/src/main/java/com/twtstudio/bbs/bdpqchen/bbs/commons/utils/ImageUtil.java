@@ -49,7 +49,4 @@ public final class ImageUtil {
         loadAvatarByUid(context, PrefUtil.getAuthUid(), civAvatar);
     }
 
-
-
-
 }

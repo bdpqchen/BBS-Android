@@ -1,57 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
-    android:layout_marginTop="5dp">
+    android:background="@color/colorMainBgLight"
+    android:foreground="@drawable/selector_foreground_settings"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="@color/colorMainBg">
+        >
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/item_civ_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             app:civ_border_color="@color/material_light_white"
-            app:civ_border_width="2dp" />
+            app:civ_border_width="2dp"/>
 
         <TextView
             android:id="@+id/author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@+id/item_civ_avatar"
             android:gravity="left"
-            tools:text="1"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            tools:text="1"/>
 
         <TextView
             android:id="@+id/release"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/author"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_toRightOf="@+id/author"
             android:gravity="left"
             android:text="发布"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:id="@+id/main_collection_delete"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignBottom="@+id/release"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/icon_my_collection" />
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/title"
@@ -62,10 +55,10 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="15dp"
             android:ellipsize="end"
-            tools:text="2"
             android:lines="2"
             android:textColor="@color/colorTvBlackMain"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            tools:text="2"/>
 
         <TextView
             android:id="@+id/create_time"
@@ -77,8 +70,8 @@
             android:layout_marginEnd="12dp"
             android:layout_marginRight="10dp"
             android:gravity="left"
-            tools:text="time"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:text="time"/>
 
     </RelativeLayout>
 </FrameLayout>

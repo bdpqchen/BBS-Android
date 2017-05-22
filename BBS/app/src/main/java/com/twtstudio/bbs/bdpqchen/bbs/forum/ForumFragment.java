@@ -3,10 +3,14 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -51,11 +55,15 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
         getFragmentComponent().inject(this);
     }
 
+    public static ForumFragment newInstance(){
+        return new ForumFragment();
+    }
+
     @Override
     protected void initFragment() {
+
         mActivity = this.getActivity();
         mTvTitleToolbar.setText("论坛区");
-        mPresenter.getForumList();
         mGridLayoutManager = new GridLayoutManager(this.getActivity(), 2, GridLayoutManager.VERTICAL, false);
         mGridLayoutManager.generateDefaultLayoutParams();
         mAdapter = new ForumAdapter(this.getContext());
@@ -83,16 +91,19 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
 
     @Override
     public void showForumList(List<ForumModel> forumModel) {
-        if (forumModel.size() % 2 != 0) {
-            ForumModel model = new ForumModel();
-            model.setId(0);
-            model.setName("敬请期待");
-            model.setInfo("为了对称");
-            forumModel.add(model);
-        }
+        if (forumModel != null && forumModel.size() != 0){
+            mAdapter.clearAll();
+            if (forumModel.size() % 2 != 0) {
+                ForumModel model = new ForumModel();
+                model.setId(0);
+                model.setName("敬请期待");
+                model.setInfo("为了对称");
+                forumModel.add(model);
+            }
 //        mGridLayoutManager.setSpanCount(forumModel.size() / 2);
-        mAdapter.addList(forumModel);
-        mAdapter.notifyDataSetChanged();
+            mAdapter.addList(forumModel);
+            mAdapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -101,10 +112,11 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
         SnackBarUtil.error(this.getActivity(), msg);
     }
 
-
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        mPresenter.getForumList();
+//        initFragment();
+
     }
 }

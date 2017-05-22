@@ -1,9 +1,9 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import java.util.List;
 
@@ -38,6 +38,8 @@ class ForumPresenter extends RxPresenter<ForumContract.View> implements ForumCon
 
             @Override
             public void _onNext(List<ForumModel> forumModels) {
+//                LogUtil.d(forumModels.size());
+//                LogUtil.d(mView);
                 mView.showForumList(forumModels);
             }
 

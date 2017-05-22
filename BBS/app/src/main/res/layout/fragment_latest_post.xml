@@ -1,19 +1,32 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorMainBg"
     tools:context="com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostFragment">
+
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/pb_loading"
+        />
+
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/layout_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/id_recyclerview"
-            android:divider="#ffff0000"
-            android:dividerHeight="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
+
     </android.support.v4.widget.SwipeRefreshLayout>
-    <!-- TODO: Update blank fragment layout -->
+
 </FrameLayout>
