@@ -34,7 +34,7 @@ public class TopTenAdapter extends BaseAdapter<TopTenModel.DataBean.HotBean> {
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         TopTenViewHolder mholder=(TopTenViewHolder) holder;
         mholder.announceBean= mDataSet.get(position);
-        mholder.title.setText(mholder.announceBean.getTitle());
+        mholder.title.setText(mholder.announceBean.title);
         //mholder.content.setText(mholder.announceBean.getContent());
     }
 

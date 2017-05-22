@@ -32,7 +32,7 @@ public class TopTenPresenter extends RxPresenter<TopTenContract.View> implements
 
             @Override
             public void _onNext(TopTenModel.DataBean TopTenModel) {
-                mView.refreshAnnounce(TopTenModel.getHot());
+                mView.refreshAnnounce(TopTenModel.hot);
             }
 
         };
@@ -55,7 +55,7 @@ public class TopTenPresenter extends RxPresenter<TopTenContract.View> implements
             @Override
 
             public void _onNext(TopTenModel.DataBean TopTenModel) {
-                mView.refreshAnnounce(TopTenModel.getHot());
+                mView.refreshAnnounce(TopTenModel.hot);
 
             }
 

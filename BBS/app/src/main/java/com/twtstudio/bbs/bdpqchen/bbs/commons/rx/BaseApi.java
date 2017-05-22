@@ -118,7 +118,7 @@ public interface BaseApi {
     Observable<BaseResponse<TopTenModel.DataBean>> getTopTen();
 
     @GET("historyhot")
-    Observable<BaseResponse<HistoryHotModel>> getHistoryHot();
+    Observable<BaseResponse<HistoryHotModel.DataBean>> getHistoryHot();
 
     @GET("thread/{threadid}/page/0")
     Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(@Path("threadid") String threadid);
