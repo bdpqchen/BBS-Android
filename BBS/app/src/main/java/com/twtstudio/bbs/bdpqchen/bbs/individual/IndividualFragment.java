@@ -142,8 +142,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
                 clazz = SettingsActivity.class;
                 break;
             default:
-                clazz = CollectionActivity.class;
-                break;
+                return;
         }
         Intent intent = new Intent(mContext, clazz);
         startActivity(intent);

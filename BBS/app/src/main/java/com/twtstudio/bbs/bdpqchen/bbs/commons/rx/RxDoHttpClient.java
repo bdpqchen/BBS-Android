@@ -13,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
@@ -120,11 +121,8 @@ public class RxDoHttpClient<T> {
             // Install the all-trusting trust manager
             final SSLContext sslContext = SSLContext.getInstance("SSL");
             sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-
             // Create an ssl socket factory with our all-trusting manager
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-            OkHttpClient client = new OkHttpClient();
-
             OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
             okHttpClient.sslSocketFactory(sslSocketFactory);
             okHttpClient.protocols(Collections.singletonList(Protocol.HTTP_1_1));
@@ -273,5 +271,9 @@ public class RxDoHttpClient<T> {
                 bundle.getString(Constants.BUNDLE_MESSAGE),
                 bundle.getString(Constants.CAPTCHA_ID),
                 bundle.getString(Constants.CAPTCHA_VALUE));
+    }
+
+    public Observable<BaseResponse<ThreadModel>> getThread(int threadId, int postPage) {
+        return mApi.getThread(threadId + "", postPage + "");
     }
 }

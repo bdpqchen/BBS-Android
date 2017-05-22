@@ -34,4 +34,7 @@ public final class Constants {
     public static final String BUNDLE_MESSAGE = "message";
     public static final String CAPTCHA_ID = "captcha_id";
     public static final String CAPTCHA_VALUE = "captcha_value";
+    public static final String INTENT_THREAD_ID = "intent_thread_id";
+    public static final String INTENT_THREAD_TITLE = "intent_thread_title";
+
 }
