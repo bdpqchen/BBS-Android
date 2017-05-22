@@ -1,0 +1,1072 @@
+[33mcommit 6f6389da89bbf6ade02b5c538c0572442a0b7441[m[33m ([m[1;36mHEAD -> [m[1;32mdev_whm[m[33m, [m[1;31morigin/dev_whm[m[33m)[m
+Author: CodingMakesMeHappy <75936119@qq.com>
+Date:   Sat May 20 22:09:51 2017 +0800
+
+    优化了变量的field
+
+[33mcommit ede33e831cb593a9cb0ae85d6a71d762badb6080[m
+Author: CodingMakesMeHappy <75936119@qq.com>
+Date:   Sat May 20 21:54:34 2017 +0800
+
+    添加了头像
+
+[33mcommit 75074a2ac7e2924bd6c7aae67d96f3890cd220c8[m
+Author: CodingMakesMeHappy <75936119@qq.com>
+Date:   Sat May 20 21:39:46 2017 +0800
+
+    改为用户的token
+
+[33mcommit 936aa47fdbb21ecedc3a9136ab3e5ce7eff971fd[m
+Merge: f63c8a6 c62a598
+Author: CodingMakesMeHappy <75936119@qq.com>
+Date:   Sat May 20 21:17:26 2017 +0800
+
+    0
+
+[33mcommit f63c8a645ad1b7896075f2157f780d354a5450c0[m
+Merge: ee0b658 dbf7f1d
+Author: CodingMakesMeHappy <75936119@qq.com>
+Date:   Sat May 20 21:16:12 2017 +0800
+
+    00
+
+[33mcommit c62a598686cfc2cabd0f6342956d2f6d65c3e18e[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 20 21:15:58 2017 +0800
+
+    解决个人中心闪退问题
+
+[33mcommit ee0b6587fcdfa548765d3e7ef594ebd09d0da604[m
+Author: CodingMakesMeHappy <75936119@qq.com>
+Date:   Sat May 20 21:14:45 2017 +0800
+
+    0
+
+[33mcommit dbf7f1dc149d9cf4e66bd4903572998234fede47[m[33m ([m[1;32mmaster[m[33m)[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 20 20:17:18 2017 +0800
+
+    完成帖子列表模块
+
+[33mcommit 38b7015bffe93c5c73273f3178965df3bf48f613[m
+Author: CodingMakesMeHappy <75936119@qq.com>
+Date:   Sat May 20 20:04:31 2017 +0800
+
+    delete test
+
+[33mcommit e17c0342ff37449e69f91c74135c2d5c216c12ac[m
+Author: CodingMakesMeHappy <75936119@qq.com>
+Date:   Sat May 20 20:01:36 2017 +0800
+
+    test
+
+[33mcommit 5ae52f19e05396e2aa3860e6acf84aefcaf60d8a[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 20 19:53:09 2017 +0800
+
+    添加bitmapImageUtil,添加帖子列表模块
+
+[33mcommit fa5fb2d73dd00989306e4640c4008b3ac6c424d2[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 20 17:25:41 2017 +0800
+
+    完成ThreadActivity:1/2
+
+[33mcommit 651244fcbdde21126b38b344ace45cdad4ed7394[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 20 17:12:02 2017 +0800
+
+    获取到PreviewContent数据，需要特殊的Header
+
+[33mcommit d42683d1d85f87fb56de404dff0168b53fc98702[m
+Merge: a34142f d73dfce
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Sat May 20 16:50:52 2017 +0800
+
+    Merge pull request #22 from bdpqchen/dev_zyl
+    
+    Dev zyl
+
+[33mcommit d73dfce2a6a67c6eb99d5689f4f30fc0e7ded4c2[m[33m ([m[1;31morigin/dev_zyl[m[33m)[m
+Merge: a34142f 9f9c2cf
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 20 16:49:56 2017 +0800
+
+    解决一些冲突文件
+
+[33mcommit a34142fa29d16a4b00772c73f708866c1301e29b[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 20 16:16:18 2017 +0800
+
+    完成版块区，子板块列表
+
+[33mcommit 9f9c2cf096f6ab7e7c99b95952a4012fac625245[m
+Merge: 4417b0b 6e2df7a
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Sat May 20 15:19:24 2017 +0800
+
+    Merge pull request #21 from CodeChild/zyl
+    
+    添加详情页(雏形)
+
+[33mcommit 6e2df7ae86e83dc7d7d18c2d0587abfbfdea0f61[m
+Author: CodeChild <zhangyulong@tju.edu.cn>
+Date:   Sat May 20 13:52:47 2017 +0800
+
+    添加详情页(雏形)
+
+[33mcommit 2e34979f590319783b701da88e27e1339d1cc73f[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 20 03:41:10 2017 +0800
+
+    修复部分真机不能加载http图片，登录banner的沉浸式状态栏
+
+[33mcommit eaafa09b836d004944574ceae7515fec7c5c357f[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 20 03:30:04 2017 +0800
+
+    修改manifest,解决OKHttp的https使用Glide加载图片的自签名证书问题
+
+[33mcommit 852d18535f927cbd65617db70cbf41520649489a[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri May 19 23:02:22 2017 +0800
+
+    Manifest--
+
+[33mcommit 919094459e2460dfb3e9cb0939f7b90238564d84[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri May 19 22:51:37 2017 +0800
+
+    解决包名大小写问题
+
+[33mcommit 74cc442a1f900c999682a40f4a438d6a73f72227[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri May 19 21:55:13 2017 +0800
+
+    整合最新进度
+
+[33mcommit 9ef9d9e1a1b20026128a31604e4b50a51a872ddd[m
+Merge: 336d782 4417b0b
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Fri May 19 21:50:47 2017 +0800
+
+    Merge pull request #19 from bdpqchen/dev_zyl
+    
+    Dev zyl
+
+[33mcommit 336d78207639f5ba03794b1bd2ca6dcd58300591[m
+Merge: 686ecaa de7de25
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Fri May 19 21:50:26 2017 +0800
+
+    Merge pull request #18 from bdpqchen/revert-17-master
+    
+    Revert 17 master
+
+[33mcommit 4417b0b52aeb2c8dc662f6fee22fe7b0f5a3d14b[m
+Merge: 7200f37 5e3c079
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Fri May 19 21:49:43 2017 +0800
+
+    Merge pull request #16 from CodeChild/zyl
+    
+    Zyl
+
+[33mcommit de7de25a6f03ba2c1f7f793363bb73301569b59a[m
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Fri May 19 21:48:36 2017 +0800
+
+    Revert "添加/api/"
+
+[33mcommit d05217c059a43f10c04456ea567512d475f42fd2[m
+Merge: 6b29530 3e87825
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Fri May 19 21:48:20 2017 +0800
+
+    Merge pull request #17 from CodingMakesMeHappy/master
+    
+    添加/api/
+
+[33mcommit 5e3c0799c093ae896e66327e7b752363092012d7[m
+Author: CodeChild <zhangyulong@tju.edu.cn>
+Date:   Fri May 19 21:47:13 2017 +0800
+
+    *
+
+[33mcommit 3e8782527ebd39c5cb8185d2ba0dd0c42ef1773e[m
+Merge: 3bc602c 686ecaa
+Author: CodingMakesMeHappy <75936119@qq.com>
+Date:   Fri May 19 21:11:09 2017 +0800
+
+    Merge branch 'master' of https://github.com/bdpqchen/BBS-Android
+
+[33mcommit 3bc602ce505fc6b68941a880ac9db2aee887d895[m
+Author: CodingMakesMeHappy <75936119@qq.com>
+Date:   Fri May 19 21:08:10 2017 +0800
+
+    000
+
+[33mcommit 4e54f642a707ff668936fc495137f6477d3312fe[m
+Author: CodeChild <zhangyulong@tju.edu.cn>
+Date:   Fri May 19 21:06:41 2017 +0800
+
+    *
+
+[33mcommit 686ecaad11ffed1c442f988f32ff2cfb2a9964a6[m[33m ([m[1;31morigin/dev_jcy[m[33m)[m
+Merge: e444e87 7d8fde4
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Fri May 19 21:04:37 2017 +0800
+
+    Merge pull request #15 from bdpqchen/revert-14-dev_gmh
+    
+    Revert 14 dev gmh
+
+[33mcommit 7d8fde449604d3b0341fd0e8b04f173932693648[m
+Merge: 176b151 e444e87
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Fri May 19 21:04:30 2017 +0800
+
+    Merge branch 'master' into revert-14-dev_gmh
+
+[33mcommit 176b1518ae4a9005107ed0d4e85ad8243476ab89[m
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Fri May 19 20:59:50 2017 +0800
+
+    Revert "Dev gmh"
+
+[33mcommit 66e9ec079415a1b2c0e28e46f726ca3116e730e1[m[33m ([m[1;31morigin/dev_gmh[m[33m)[m
+Merge: 8ab0a82 7cd065a
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Fri May 19 20:59:35 2017 +0800
+
+    Merge pull request #14 from Arsener/dev_gmh
+    
+    Dev gmh
+
+[33mcommit 7cd065ab957981e2a8266e8d8cdda077122ed22e[m
+Author: Arsener <1769879278@qq.com>
+Date:   Fri May 19 11:04:58 2017 +0800
+
+    fix an encoding bug
+
+[33mcommit f426f127be058a473c205eddba11f0c7b309fded[m
+Merge: 508b074 12502fa
+Author: Arsener <1769879278@qq.com>
+Date:   Fri May 19 10:54:56 2017 +0800
+
+    handle conflicts
+
+[33mcommit 508b0747b8fd8f4a213764333a2118b6673346ff[m
+Author: Arsener <1769879278@qq.com>
+Date:   Fri May 19 10:17:19 2017 +0800
+
+    fix conflicts
+
+[33mcommit c993660b33c0e06c7200428e411ac1416a47ba04[m
+Author: CodeChild <zhangyulong@tju.edu.cn>
+Date:   Thu May 18 16:34:07 2017 +0800
+
+    一些小修改
+
+[33mcommit e444e87edcad752668ffad77e76fa06720daf9c3[m
+Merge: 2f2a96f 6b29530
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Tue May 16 22:48:03 2017 +0800
+
+    Merge pull request #13 from bdpqchen/dev_whm
+    
+    Dev whm 添加了点击五角星删除该收藏的功能、没有收藏时显示没有收藏的提示
+
+[33mcommit 6b29530bdb16635a7cc8867afe9f7280593e9708[m
+Merge: 6831be5 2f2a96f
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Tue May 16 22:47:46 2017 +0800
+
+    Merge branch 'master' into dev_whm
+
+[33mcommit 2f2a96f0089d55da52062ecce88b5c590bdd7dce[m
+Merge: 12502fa f3e3698
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Tue May 16 22:45:56 2017 +0800
+
+    Merge pull request #12 from bdpqchen/dev_grj
+    
+    Dev grj添加了我的消息API
+
+[33mcommit f3e3698b46f22b7c46b243bb5464967c448c4df7[m
+Merge: 0339055 12502fa
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Tue May 16 22:45:35 2017 +0800
+
+    Merge branch 'master' into dev_grj
+
+[33mcommit 6831be58d22795c660666458f65e9f5790ec6c73[m
+Merge: 400b5a4 b2d5b54
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Tue May 16 22:40:15 2017 +0800
+
+    Merge pull request #9 from CodingMakesMeHappy/master
+    
+    添加了点击五角星删除该收藏的功能、没有收藏时显示没有收藏的提示
+
+[33mcommit 0339055c411845ef2c6a963c23f00d87c09cc625[m
+Merge: 22d165c 3003536
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Tue May 16 22:39:55 2017 +0800
+
+    Merge pull request #11 from rickygao/dev-grj
+    
+    添加了部分我的消息的代码
+
+[33mcommit 300353686d2d1f7d12b98c0491d39c3326c6948c[m
+Author: rickygao <rckgao@gmail.com>
+Date:   Tue May 16 21:57:51 2017 +0800
+
+    添加了我的消息API
+
+[33mcommit b2d5b54b7a4878a93c273c119eb392e5c06480db[m
+Merge: 2a2595e 400b5a4
+Author: 王惠民 <a759361109@163.com>
+Date:   Tue May 16 19:44:57 2017 +0800
+
+    Merge branch 'dev_whm' into master
+
+[33mcommit 1e5b8c691affaaa3712701bfc019626dd6e47225[m
+Author: Ricky <rckgao@gmail.com>
+Date:   Tue May 16 18:43:23 2017 +0800
+
+    添加了我的消息的UI
+
+[33mcommit 2a2595eca29bf6ff5ae34dfa9216d235ff6a8c0a[m
+Author: CodingMakesMeHappy <75936119@qq.com>
+Date:   Tue May 16 17:38:30 2017 +0800
+
+    添加了点击五角星删除该收藏的功能、没有收藏时显示没有收藏的提示
+
+[33mcommit 400b5a4b65de4dbfd23eb803ce3862d96441e1e0[m
+Merge: dd868db 61ca32b
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Tue May 16 17:28:39 2017 +0800
+
+    Merge pull request #8 from CodingMakesMeHappy/master
+    
+    添加了点击五角星可删除收藏的功能
+
+[33mcommit 61ca32be3be475ba6ac16046ed7f30a18fdad073[m
+Author: CodingMakesMeHappy <75936119@qq.com>
+Date:   Tue May 16 17:02:46 2017 +0800
+
+    添加了点击五角星可删除收藏的功能
+
+[33mcommit 12502fa5c7a536d7f6e4b80c8d4a091d20cf69f1[m
+Author: retrox <976885345@qq.com>
+Date:   Tue May 16 11:09:38 2017 +0800
+
+    修复一些包名冲突和rm掉没用的东西
+
+[33mcommit 1b4a5bf3ad2af452f4d5044a362a9204b2f5df27[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 16 00:55:48 2017 +0800
+
+    解决merge后的一些小问题
+
+[33mcommit e1e01eeae758aa967956ab60228609f55f64c34b[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 16 00:32:49 2017 +0800
+
+    更新gitignore，取消跟踪gradle.properties
+
+[33mcommit 10460ce3ca77dc403c214a22734773b2472fcf4c[m
+Merge: 0a2ac87 8ab0a82
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Tue May 16 00:20:43 2017 +0800
+
+    Merge pull request #6 from bdpqchen/dev_gmh
+    
+    Dev gmh 优化UI
+
+[33mcommit 8ab0a82574e13b915dbbd34c5514bcbe936e89a4[m
+Merge: a606fa0 0a2ac87
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Tue May 16 00:20:30 2017 +0800
+
+    Merge branch 'master' into dev_gmh
+
+[33mcommit a606fa04b742c0993409060373edd8eed03e4204[m
+Merge: e0ed57b 0a2ac87
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Tue May 16 00:19:14 2017 +0800
+
+    Merge branch 'master' into dev_gmh
+
+[33mcommit 0a2ac873c563140992b033bb886b35d9be7cc48e[m
+Merge: a538a25 dd868db
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Tue May 16 00:16:12 2017 +0800
+
+    Merge pull request #7 from bdpqchen/dev_whm
+    
+    Dev whm   解决两个文件冲突
+
+[33mcommit dd868dbd4509fa92b96530b464b5486d9ae36f87[m
+Merge: 788bb6a a538a25
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Tue May 16 00:15:50 2017 +0800
+
+    Merge branch 'master' into dev_whm
+
+[33mcommit a538a25aacdba51ce575d083bddfd88703c4c8bb[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 16 00:08:58 2017 +0800
+
+    更新gitignore文件
+
+[33mcommit e0ed57b09a6f818c4c22a5266a358cf8a04c4cda[m
+Merge: 22d165c 42101cc
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Mon May 15 23:30:25 2017 +0800
+
+    Merge pull request #4 from Arsener/master
+    
+    sao merge
+
+[33mcommit a89f00633841a74a7422f121677cf250259593ad[m
+Merge: e16da3e 7200f37
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Mon May 15 23:28:19 2017 +0800
+
+    Merge pull request #5 from bdpqchen/dev_zyl
+    
+    Dev zyl
+
+[33mcommit 7200f375ebf3a121742cd59385d0241d24be0d60[m
+Merge: 22d165c e024b5c
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Mon May 15 23:21:26 2017 +0800
+
+    Merge pull request #3 from CodeChild/zyl
+    
+    Zyl_首页
+
+[33mcommit e024b5c49a11e16fe8568b4ca6e37c053c0ecdad[m
+Author: CodeChild <zhangyulong@tju.edu.cn>
+Date:   Mon May 15 23:20:30 2017 +0800
+
+    *
+
+[33mcommit 788bb6ac17f03ff8136b1dec4aba55e7afdff055[m
+Merge: 22d165c 21a72e1
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Mon May 15 23:15:50 2017 +0800
+
+    Merge pull request #2 from CodingMakesMeHappy/master
+    
+    test_dev_whm
+
+[33mcommit 21a72e15d7ad3f4dc6837370de71ca9fb06fd0fc[m
+Author: CodingMakesMeHappy <75936119@qq.com>
+Date:   Mon May 15 23:02:50 2017 +0800
+
+    test
+
+[33mcommit e16da3ee7bb0591d3f18c769d827d16425e25d04[m
+Merge: 3b93d47 22d165c
+Author: Dillon <bdpqchen@gmail.com>
+Date:   Mon May 15 22:31:26 2017 +0800
+
+    Merge pull request #1 from bdpqchen/dev_whm
+    
+    添加分支
+
+[33mcommit c69571c71577101482161fb7d5e764aadc11e21d[m
+Author: CodeChild <zhangyulong@tju.edu.cn>
+Date:   Mon May 15 21:32:46 2017 +0800
+
+    添加时间戳处理
+
+[33mcommit 42101cc365980c342d5d17d1b1e129369c649a2f[m
+Author: Arsener <1769879278@qq.com>
+Date:   Mon May 15 17:29:15 2017 +0800
+
+    优化UI
+
+[33mcommit e25ee1dc07154705cdc57cf26993edfe8dd2c76e[m
+Author: CodeChild <zhangyulong@tju.edu.cn>
+Date:   Sun May 14 16:00:15 2017 +0800
+
+    接入最新动态api
+
+[33mcommit ca18102a967b0d0493bf3a4fb5b6a6ac82f6baa5[m
+Merge: dff3c5f e3882c0
+Author: CodeChild <zhangyulong@tju.edu.cn>
+Date:   Sun May 14 11:56:51 2017 +0800
+
+    修改了tab和toolbar的样式
+
+[33mcommit dff3c5f991d5379e58be3709d81b962afbd89fdc[m
+Author: CodeChild <zhangyulong@tju.edu.cn>
+Date:   Sun May 14 11:53:41 2017 +0800
+
+    修改了toolbar和tab的样式
+
+[33mcommit 6333a2fc0275e736da74355716dfdd44dc4a6bee[m
+Author: Arsener <1769879278@qq.com>
+Date:   Sun May 14 10:57:02 2017 +0800
+
+    优化布局，显示iconfont
+
+[33mcommit 22d165c555195075993b72dc8599fc3a507be498[m
+Merge: 81e89cc 3b93d47
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sun May 14 00:58:19 2017 +0800
+
+    考试前Merge，备份
+
+[33mcommit e3882c000025967bd9b94f720b4bd3fc38106ef6[m
+Author: CodeChild <zhangyulong@tju.edu.cn>
+Date:   Sat May 13 23:07:15 2017 +0800
+
+    *
+
+[33mcommit cdfdb5cfcce6c41bc5c12f0f0eb25d76e11e73dd[m
+Author: CodeChild <zhangyulong@tju.edu.cn>
+Date:   Sat May 13 22:14:21 2017 +0800
+
+    *
+
+[33mcommit 94cd5f532d8a7ae40da4b9f94b8555292e462f95[m
+Author: Arsener <1769879278@qq.com>
+Date:   Sat May 13 18:13:52 2017 +0800
+
+    布局完成，只差网络请求
+
+[33mcommit 858a1f2d7dd64ee4d2035b461e049e39b9b9f285[m
+Author: CodeChild <zhangyulong@tju.edu.cn>
+Date:   Sat May 13 16:57:22 2017 +0800
+
+    稍作修改
+
+[33mcommit 78e469acfb035f8e7e78278dc1b8939c353ecb80[m
+Author: Arsener <1769879278@qq.com>
+Date:   Sat May 13 12:21:23 2017 +0800
+
+    假数据
+
+[33mcommit 77bfa6e5d51be85d1d334bdbc6cb8d1333196136[m
+Merge: 358c9de 3b93d47
+Author: zhangyulong <zhangyulong@tju.edu.cn>
+Date:   Fri May 12 23:49:51 2017 +0800
+
+    尝试合并分支
+
+[33mcommit 358c9de5107d54061253668da0823b24c1102109[m
+Author: zhangyulong <zhangyulong@tju.edu.cn>
+Date:   Fri May 12 23:46:53 2017 +0800
+
+    搭建最新动态基本框架
+
+[33mcommit b33a7c1ae8c3ba72e334a45083980e3643f66d03[m
+Author: Arsener <1769879278@qq.com>
+Date:   Fri May 12 23:44:44 2017 +0800
+
+    添加我的发布的布局
+
+[33mcommit 7740ebdf38be7b3d75f2f4d5db2de2250aae3730[m
+Author: zhangyulong <zhangyulong@tju.edu.cn>
+Date:   Fri May 12 23:24:39 2017 +0800
+
+    搭建了最新动态的基本框架
+
+[33mcommit 363191522a694a76c79600895b1d64cee7a33a65[m
+Author: zhangyulong <zhangyulong@tju.edu.cn>
+Date:   Fri May 12 20:59:15 2017 +0800
+
+    为首页添加tablayout
+
+[33mcommit 3b93d472c78e2a089f78298f9bc572f59c8939aa[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri May 12 19:22:14 2017 +0800
+
+    添加子模块-帖子列表
+
+[33mcommit b45133c1ade3d415b8a92619263a7aba9fc96e55[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri May 12 17:14:08 2017 +0800
+
+    解决网络连接Https时证书问题
+
+[33mcommit 97eb7888ab2cf364e99dc9d472699d0fa4d5ad96[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri May 12 02:52:18 2017 +0800
+
+    添加论坛区点击后的列表获取，使用flatmaap
+
+[33mcommit 953c4828b720cf19f1ceccc551354e9319b746d5[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu May 11 20:42:44 2017 +0800
+
+    添加板块区
+
+[33mcommit af862fbf0f78fd7bcda32a28827cd058236e35e3[m
+Merge: 21bf6f5 81e89cc
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu May 11 03:05:30 2017 +0800
+
+    完成个人中心的显示、修改工作，准备做板块(模块)
+
+[33mcommit 81e89cc3a59689a1c6d50d43c87a0b002d72c806[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu May 11 03:00:46 2017 +0800
+
+    添加最新帖子模块（开头，添加板块模块的开头，准备实现GridLayoutRecyclerView
+
+[33mcommit 3f903a11124f3ab0115f34aeb6ebd4b3976dadd1[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu May 11 01:55:12 2017 +0800
+
+    解决两次才能点击BUg
+
+[33mcommit bcb741a9c60df0247058733cd62f36a1afbb8325[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu May 11 01:38:45 2017 +0800
+
+    增加上传加载，增加DialogUtil
+
+[33mcommit 2629d40f4fc547c37e4d32853ecb62e9fbf53241[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu May 11 01:26:14 2017 +0800
+
+    头像上传成功
+
+[33mcommit ba7a3b2bdd1a3ab17e206371733a618840b99494[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed May 10 21:46:05 2017 +0800
+
+    完成修改资料，准备上传头像
+
+[33mcommit 21bf6f565f22c598c4589b7e169b22554a960b69[m
+Merge: c3a7a98 53d9fa3
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed May 10 19:39:27 2017 +0800
+
+    合并到master
+
+[33mcommit 53d9fa3f448ae39630f5fb7c312027d5c157a0ff[m[33m ([m[1;31morigin/v1.0[m[33m, [m[1;31morigin/dev_cdc[m[33m)[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed May 10 19:31:07 2017 +0800
+
+    新建分支cdc
+
+[33mcommit c3a7a9851dbf46f5ae7256c8ea80f72aab4e6260[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed May 10 17:30:32 2017 +0800
+
+    个人信息页信息的获取，与绘制，添加SnackUtil的action
+
+[33mcommit 677dca61a1114808b9d0cf7043a5757a16d35f93[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed May 10 02:48:21 2017 +0800
+
+    完善个人信息以及未读消息提示
+
+[33mcommit 0eb5639758f2d9657ba179492289cef50751178c[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed May 10 02:02:26 2017 +0800
+
+    获取个人信息在Home页
+
+[33mcommit b344b0cc6ab8eaa64458193c7e5e83e7500cc9e6[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 9 22:54:25 2017 +0800
+
+    完成登录逻辑
+
+[33mcommit 45ace54ba4e569bf6128d6721dd15a6c521e8780[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 9 22:35:09 2017 +0800
+
+    完成注册网络层
+
+[33mcommit 492998a9cad24fd0017ae7f5ff523dc1057873ef[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 9 18:49:20 2017 +0800
+
+    添加Transformer模板
+
+[33mcommit 4c4c66796a8068607f7f9d70fac41beebedf16f8[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 9 18:42:58 2017 +0800
+
+    为HttpClient提供单例模式（准备阶段）
+
+[33mcommit 99ef0feb509289b883d784b6aff1488aba8a2e98[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 9 00:07:58 2017 +0800
+
+    解决坑跌返回的Json字符串，data为空时，未返回{}
+
+[33mcommit 3c196a9e19aba0e6f3dcdcb220f7c6d6af896929[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Mon May 8 21:41:10 2017 +0800
+
+    封装错误提示，准备多抛异常：因为后台给的错误提示并不能直接显示，而且状态码也不返回200
+
+[33mcommit acd3d1aac1c6f7141764d25263f6416388f39ecc[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Mon May 8 20:39:39 2017 +0800
+
+    完成对Rxjava2的封装
+
+[33mcommit 748297f326ac16fbc33bc8fe0ea89fd7049664b0[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Mon May 8 02:04:18 2017 +0800
+
+    解决上一版本网络请求的错误封装
+
+[33mcommit afa6071fe6711c4b74c218a753299795f931ece7[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 6 22:27:08 2017 +0800
+
+    添加编辑资料模块+修改密码（已知）
+
+[33mcommit 1d47c3a2d8542977bd21769160629a6f3faf7f2d[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 6 20:04:30 2017 +0800
+
+    修改包结构，3个模块移动到auth
+
+[33mcommit 45b0699a6b0045e61afb64eee979bab759466316[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 6 19:56:29 2017 +0800
+
+    添加全局返回键监听
+
+[33mcommit b25813a9f7c99faa83aea43a6cf11925b75843ab[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 6 19:46:38 2017 +0800
+
+    取除自动夜间模式，增加是否滑动返回选项
+
+[33mcommit 9725c57ef05f484cc890bf613307f475f8722815[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 6 19:04:11 2017 +0800
+
+    自动夜间模式修复-但是需要位置权限
+
+[33mcommit ad014b00f94e31bc364d7bc609cb915ca136eeaf[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 6 18:45:07 2017 +0800
+
+    删除settingsFragment对应模块
+
+[33mcommit 07cd3e302b3937c06cee2217dea05fe386a3c4b2[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 6 18:39:42 2017 +0800
+
+    更改settingsUI实现，去除fragment
+
+[33mcommit 7785f785f44442fb02b5163d383e599a084c9301[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 6 11:34:53 2017 +0800
+
+    解决夜间模式切换问题，但是所在Activity不能支持滑动返回
+
+[33mcommit 472ec71f5a30e51e11781ec6c41d3bf139a23ca8[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 6 02:33:11 2017 +0800
+
+    修复夜间模式切换，卡顿原因为众多activity一起recreate，此时滑动返回受影响，下一步解决办法：丢车保帅
+
+[33mcommit f50892c2a6ba49a2e2f253bd594c269ada10bc87[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat May 6 00:30:38 2017 +0800
+
+    完成通用设置模块的添加，待解决夜间模式-自动夜间模式问题
+
+[33mcommit d1aaae2e7a2271f6cd99d0a799116e568a52ab64[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri May 5 17:19:16 2017 +0800
+
+    更新readme
+
+[33mcommit 42fe9fb5196b4c2139a7be10b8881c4ede86deeb[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri May 5 02:46:34 2017 +0800
+
+    添加通用设置
+
+[33mcommit 2878a21d1707d012cc22a2fba5419d150fd33a33[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri May 5 02:40:33 2017 +0800
+
+    添加通用设置item点击效果
+
+[33mcommit 27ddea89ede58daa69f02380af031e2c63a69ce2[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri May 5 02:14:24 2017 +0800
+
+    修复登录页UI问题
+
+[33mcommit 16efd47f45f2c45fb8cede589844f0da0ac2c22c[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri May 5 01:55:35 2017 +0800
+
+    添加老用户重置密码
+
+[33mcommit 8e9d9ecbc21f56397ee9ff684483406ae20bac3e[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri May 5 01:21:29 2017 +0800
+
+    个人中心一些微调
+
+[33mcommit 25739e4d448e98d981cd5563d803c67dbf577b09[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri May 5 01:11:47 2017 +0800
+
+    完成个人中心UI
+
+[33mcommit fb8fd1d68279bc70749315b1ca3c7b5a7ecdb283[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu May 4 01:34:49 2017 +0800
+
+    添加个人中心-头像
+
+[33mcommit bce4d74ae92e5d9273ede83ee427c8bacbdb8aca[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu May 4 00:55:42 2017 +0800
+
+    Fragment格式化step2+添加渐变个人中心banner
+
+[33mcommit ff0cd2500d09e444494ca451e1c452180cf5f104[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu May 4 00:23:48 2017 +0800
+
+    Fragment格式化step1
+
+[33mcommit 79a34cf67847d4bfdf87b45bb3858b8c0b352732[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed May 3 17:56:30 2017 +0800
+
+    替换老用户实现方式
+
+[33mcommit 3df2a39fa364614ae02e376d327293bf3ae7852d[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed May 3 17:52:53 2017 +0800
+
+    替换注册按钮实现方式
+
+[33mcommit fefb85be2312158d4e46a2deeac3dd3b4eafbc00[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed May 3 17:47:59 2017 +0800
+
+    替换登录按钮实现方式
+
+[33mcommit b8acae815e5bf19191ca8285e6d5925d737afb3c[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 2 22:54:16 2017 +0800
+
+    更新readme，删除多余文件
+
+[33mcommit d31f6c5097fc05231f43d9d8157e973cbe5873cd[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 2 21:10:03 2017 +0800
+
+    添加启动页面
+
+[33mcommit 329b881c53272b6953f83471b9a557face99c487[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 2 20:27:42 2017 +0800
+
+    添加老用户认证模块完成1
+
+[33mcommit fea3999bfe71ec64a9d86eb6d08713fa315431e4[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 2 20:05:14 2017 +0800
+
+    替换滑动返回实现方式-完成
+
+[33mcommit cd2b09308a1c7ba278c968c66bd19bee85eb6019[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 2 19:48:21 2017 +0800
+
+    修改滑动返回实现方式，加入老用户模块
+
+[33mcommit 775be6b5262c76c55cb12ac1040c56f76913749b[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 2 18:29:13 2017 +0800
+
+    添加登录模块-UI,添加materialcolors-dimens
+
+[33mcommit cf357e265d0f8ce3ed00cf6f9b72899b7e003f79[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 2 04:01:05 2017 +0800
+
+    添加注册模块-UI
+
+[33mcommit 14250c32c7cad575843bbdfbc7050df3e45d6196[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 2 02:12:02 2017 +0800
+
+    添加BottomBar-step1
+
+[33mcommit 4001f6598960a2cfefbb669b93a08bb47d942b50[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 2 00:24:29 2017 +0800
+
+    添加Fragment-Dagger-inject
+
+[33mcommit f9497ac022fde901a88258124093161bf41cde07[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue May 2 00:05:54 2017 +0800
+
+    加入Fragmentation-step2
+
+[33mcommit b688f75562bc20b604f7f12867b5f31e7454f3af[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Mon May 1 23:30:09 2017 +0800
+
+    加入Fragmentation-step1
+
+[33mcommit 56131e087fc0a2072f007754958dfc61629d2692[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri Apr 28 16:55:53 2017 +0800
+
+    添加Presenter的注入依赖module
+
+[33mcommit a20a5a0e6ab38bce3cd12d300e5780ef44c476c1[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri Apr 28 12:20:47 2017 +0800
+
+    添加夜间模式values-night
+
+[33mcommit 85d3db52529d8f1c2b1b06a7df7b4ebe9bbba386[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu Apr 27 21:45:02 2017 +0800
+
+    添加基础网络层，考虑Subcribe位置
+
+[33mcommit 067d4e91a5a50c7618b041584207d871bfd9a3c1[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu Apr 27 17:47:55 2017 +0800
+
+    添加BaseAdapter
+
+[33mcommit d0b91db80debfe3477474505c42a0a6f816cb280[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed Apr 26 23:48:12 2017 +0800
+
+    Dagger优化完成
+
+[33mcommit a46726da7726321b6d8994ed440954ffb5f9aecc[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed Apr 26 23:10:48 2017 +0800
+
+    Dagger提供Application
+
+[33mcommit 7aceb5e666acead16d94653bf581e1f2ba196f47[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed Apr 26 22:57:48 2017 +0800
+
+    Dagger基类实现
+
+[33mcommit 2b0e0e8d58fe74ce3331b896000918c9f826811e[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed Apr 26 22:55:02 2017 +0800
+
+    添加Dagger
+
+[33mcommit 9e7ad1e74a5d43780135fe4566d7ff78022895e4[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue Apr 25 23:08:31 2017 +0800
+
+    添加自动夜间模式
+
+[33mcommit 22d204fac6a95aa1c3447e8236ec47e830dbda94[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue Apr 25 00:02:54 2017 +0800
+
+    更新readme第一版
+
+[33mcommit 6b1ec4c52e4436be0304a8a7a36c0d8ab88b01f4[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Mon Apr 24 23:46:02 2017 +0800
+
+    更新readme
+
+[33mcommit 9754d5238b20887a2fc563cffb26263a9f237616[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Sat Apr 22 16:53:09 2017 +0800
+
+    ToastUtils更名为SnackBarUtils,优化statusBar的颜色同样渲染以及重复出现问题
+
+[33mcommit 5b4df39c1818912860bf785604713f992b41224d[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri Apr 21 21:49:43 2017 +0800
+
+    添加基础类V-P,基础接口
+
+[33mcommit d5e8f4fcc58aa3556b1ed58ab225b425e069e55e[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Fri Apr 21 03:00:48 2017 +0800
+
+    添加topSnackBar并进行封装
+
+[33mcommit 392d6adbc24aa0d63a923242a62b5a6961f1d8fe[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu Apr 20 23:14:23 2017 +0800
+
+    夜间模式第三种方式切换
+
+[33mcommit 3d262e0860b5e950f9c7b2c11d9dc356b0a8aa1b[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu Apr 20 22:47:55 2017 +0800
+
+    夜间模式切换效果移除
+
+[33mcommit e5edbe68c13f67f6642e7a73511e9124a736e056[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu Apr 20 00:32:03 2017 +0800
+
+    添加commonToolbar阴影效果（
+
+[33mcommit 785b722723d394e8d10367a75da42986f8596950[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Thu Apr 20 00:22:49 2017 +0800
+
+    夜间模式+滑动返回+沉浸式完成
+
+[33mcommit acce4e191099c1cf072fee5bff4589ffe3b43732[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed Apr 19 23:41:56 2017 +0800
+
+    滑动返回
+
+[33mcommit 4dab2089fe8d1b481d0e124182f0c598df33c0c5[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed Apr 19 20:46:43 2017 +0800
+
+    移除上一版本内容
+
+[33mcommit 26349136df943cc35b63b2dbd6378372964f8b08[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed Apr 19 20:38:01 2017 +0800
+
+    放弃现有沉浸式状态栏+滑动返回解决方案
+
+[33mcommit b06fbfcf270dae415610b6c12102d188688ae3be[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Wed Apr 19 02:36:38 2017 +0800
+
+    添加夜间模式，滑动返回，待优化，待封装
+
+[33mcommit 07c7f118beb7df0fe5954c89cf8c009eb50c9b2b[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Tue Apr 18 23:44:34 2017 +0800
+
+    添加基础Utils
+
+[33mcommit 50f2276781f369d7cff0115bffa5a0924c73956c[m
+Author: bdpqchen <bdpqchen@gmail.com>
+Date:   Mon Apr 17 18:46:26 2017 +0800
+
+    twtBBS-Android端仓库初始化
