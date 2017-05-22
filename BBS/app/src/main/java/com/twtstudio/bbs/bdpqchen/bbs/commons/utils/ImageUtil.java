@@ -12,10 +12,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 
 public final class ImageUtil {
 
+
     private static String getAvatarUrl(int uid){
         return RxDoHttpClient.BASE_URL + "user/" + uid + "/avatar";
     }
-
     public static void loadAsBitmap(Context context, int resourceId, ImageView view) {
         Glide.with(context).load(resourceId).asBitmap().centerCrop().dontAnimate().into(view);
     }
@@ -28,10 +28,12 @@ public final class ImageUtil {
         Glide.with(context).load(url).centerCrop().into(view);
     }
 
+
     public static void loadAvatarByUid(Context context, int uid, ImageView view) {
         Glide.with(context).load(getAvatarUrl(uid)).centerCrop()
     //               .placeholder(R.drawable.avatar2)
                 .into(view);
+
     }
 
     public static void loadAvatarAsBitmapByUid(Context context, int uid, ImageView view){

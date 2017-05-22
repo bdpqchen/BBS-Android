@@ -22,6 +22,7 @@ public final class StampUtil {
         return days + 1;    //不能从零天开始计算
     }
 
+
     private static String convert(String formatMode, int oldStamp){
 
         oldStamp -= diff;
@@ -39,4 +40,5 @@ public final class StampUtil {
         String dateMode = "yyyy-MM-dd";
         return convert(dateMode, t_create);
     }
+
 }

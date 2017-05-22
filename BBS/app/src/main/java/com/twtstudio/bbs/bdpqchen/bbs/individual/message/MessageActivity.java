@@ -2,11 +2,14 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.message;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,13 +18,15 @@ import butterknife.ButterKnife;
  * Created by Ricky on 2017/5/13.
  */
 
-public class MessageActivity extends BaseActivity<MessagePresenter> {
+public class MessageActivity extends BaseActivity<MessagePresenter> implements MessageContract.View {
 
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.rv_message_list)
     RecyclerView rvMessageList;
+
+    private MessageAdapter mAdapter;
 
     @Override
     protected int getLayoutResourceId() {
@@ -58,6 +63,14 @@ public class MessageActivity extends BaseActivity<MessagePresenter> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_message);
         ButterKnife.bind(this);
-        mPresenter.getMessageList(1);
+        mAdapter = new MessageAdapter(this);
+        rvMessageList.setAdapter(mAdapter);
+        rvMessageList.setLayoutManager(new LinearLayoutManager(this));
+        mPresenter.getMessageList(0);
+    }
+
+    @Override
+    public void showMessageList(List<MessageModel> messageList) {
+        mAdapter.addList(messageList);
     }
 }
