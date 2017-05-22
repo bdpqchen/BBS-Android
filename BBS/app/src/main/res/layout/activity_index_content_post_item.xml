@@ -7,7 +7,7 @@
     >
 
     <RelativeLayout
-        android:layout_width="368dp"
+        android:layout_width="match_parent"
         android:layout_height="144dp"
         android:background="@color/colorMainBgLight"
         tools:layout_editor_absoluteY="0dp"
@@ -17,7 +17,7 @@
             android:id="@+id/item_civ_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="10dp"
             app:civ_border_color="@color/material_light_white"
             app:civ_border_width="2dp" />
@@ -41,7 +41,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/author"
             android:gravity="left"
-            android:text="发布"
+            android:text="回复"
             android:textSize="14sp" />
 
         <ImageView

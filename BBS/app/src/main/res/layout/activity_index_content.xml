@@ -102,28 +102,28 @@
         android:layout_below="@+id/content"
         android:layout_marginTop="30dp"
         android:background="@color/colorMainBg">
-        <TextView
-            android:id="@+id/post"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:gravity="left"
-            android:text="评论"
-            android:textSize="20sp" />
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/post"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:textSize="14sp"
-            tools:text="status" />
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/layout_swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:gravity="left"
+                android:text="评论"
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/post"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:textSize="14sp"
+                tools:text="status" />
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/id_recyclerview"
                 android:layout_width="0dp"
