@@ -2,6 +2,10 @@ package com.twtstudio.bbs.bdpqchen.bbs.main;
 
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by zhangyulong on 5/15/17.
  */
@@ -26,7 +30,13 @@ public class TimeUtils {
         long day = (long) Math.ceil(time/24/60/60/1000.0f);// 天前
 
         if (day - 1 > 0) {
-            sb.append(day + "天");
+            SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd");
+            Calendar rightNow = Calendar.getInstance();
+            Date date=new Date(t*1000);
+            rightNow.setTime(date);
+            rightNow.add(Calendar.HOUR_OF_DAY,-8);
+            date=rightNow.getTime();
+            return dateformat.format(date);
         } else if (hour - 1 > 0) {
             if (hour >= 24) {
                 sb.append("1天");

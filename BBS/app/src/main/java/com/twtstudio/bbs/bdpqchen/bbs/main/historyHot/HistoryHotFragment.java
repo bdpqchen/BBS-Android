@@ -7,11 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -29,15 +29,18 @@ public class HistoryHotFragment extends BaseFragment<HistoryHotPresenter> implem
     SwipeRefreshLayout layoutSwipeRefresh;
     Unbinder unbinder;
     com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotAdapter HistoryHotAdapter;
+    @BindView(R.id.empty)
+    TextView empty;
     private LinearLayoutManager linearLayoutManager;
 
     public static HistoryHotFragment newInstance() {
         HistoryHotFragment fragment = new HistoryHotFragment();
         return fragment;
     }
+
     @Override
     protected int getFragmentLayoutId() {
-        return R.layout.fragment_latest_post;
+        return R.layout.fragment_history_hot;
     }
 
     @Override
@@ -47,13 +50,26 @@ public class HistoryHotFragment extends BaseFragment<HistoryHotPresenter> implem
 
     @Override
     protected void initFragment() {
-        HistoryHotAdapter=new HistoryHotAdapter(getActivity());
+        HistoryHotAdapter = new HistoryHotAdapter(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(linearLayoutManager);
-        initData();
+        //layoutSwipeRefresh.setRefreshing(true);
+        empty.setText("暂无历史热门");
         mPresenter.refreshAnnounce();
         recyclerview.setAdapter(HistoryHotAdapter);
+        layoutSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(
+
+        ) {
+            @Override
+            public void onRefresh() {
+
+                mPresenter.refreshAnnounce();
+                layoutSwipeRefresh.setRefreshing(false);
+
+            }
+        });
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,29 +87,23 @@ public class HistoryHotFragment extends BaseFragment<HistoryHotPresenter> implem
 
 
     @Override
-    public void addAnnounce(List<HistoryHotModel.DataBean.LatestBean> announceBeen) {
+    public void addAnnounce(List<HistoryHotModel.DataBean.HistoryhotBean> announceBeen) {
         HistoryHotAdapter.addList(announceBeen);
     }
 
     @Override
-    public void refreshAnnounce(List<HistoryHotModel.DataBean.LatestBean> announceBeen) {
-        HistoryHotAdapter.refreshList(announceBeen);
+    public void refreshAnnounce(List<HistoryHotModel.DataBean.HistoryhotBean> announceBeen) {
+        if (announceBeen.toString() != "[]")
+            HistoryHotAdapter.refreshList(announceBeen);
+        else
+            empty.setText("暂无评论");
+        layoutSwipeRefresh.setRefreshing(false);
     }
 
     @Override
     public void failedToGetHistoryHot(String msg) {
 
     }
-   
-    void initData(){
-        List<HistoryHotModel.DataBean.LatestBean> announceBeens= new ArrayList<>();
-        for(int i=1;i<=10;i++){
-            HistoryHotModel.DataBean.LatestBean announceBean = new HistoryHotModel.DataBean.LatestBean();
-            announceBean.setTitle("历史热门这是标题" +i);
-            //announceBean.setContent("历史热门这是内容"+i);
-            announceBeens.add(announceBean);
-        }
-        HistoryHotAdapter.addList(announceBeens);
-    }
+
 }
 

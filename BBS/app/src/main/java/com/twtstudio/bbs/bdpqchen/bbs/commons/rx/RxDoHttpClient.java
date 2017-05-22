@@ -185,7 +185,7 @@ public class RxDoHttpClient<T> {
         return mApi.getTopTen();
     }
 
-    public Observable<BaseResponse<HistoryHotModel>> getHistoryHot() {
+    public Observable<BaseResponse<HistoryHotModel.DataBean>> getHistoryHot() {
         return mApi.getHistoryHot();
     }
 

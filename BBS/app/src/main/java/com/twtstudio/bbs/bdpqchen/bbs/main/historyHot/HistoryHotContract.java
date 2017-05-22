@@ -11,8 +11,8 @@ import java.util.List;
 
 public class HistoryHotContract {
     public interface View extends BaseView {
-        void addAnnounce(List<HistoryHotModel.DataBean.LatestBean> announceBeen);
-        void refreshAnnounce(List<HistoryHotModel.DataBean.LatestBean> announceBeen);
+        void addAnnounce(List<HistoryHotModel.DataBean.HistoryhotBean> announceBeen);
+        void refreshAnnounce(List<HistoryHotModel.DataBean.HistoryhotBean> announceBeen);
         void failedToGetHistoryHot(String msg);
     }
     interface Presenter extends BasePresenter<HistoryHotContract.View> {
