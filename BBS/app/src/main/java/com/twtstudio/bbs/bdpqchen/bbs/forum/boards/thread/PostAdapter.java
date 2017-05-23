@@ -2,7 +2,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,12 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.retrox.bbcode.BBCodeParse;
+import com.twtstudio.retrox.bbcode.NaiveHtmlUtils;
 
+import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import butterknife.BindView;
@@ -24,6 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class PostAdapter extends BaseAdapter<ThreadModel.PostBean> {
+
 
 
     private Context mContext;
@@ -46,9 +50,18 @@ public class PostAdapter extends BaseAdapter<ThreadModel.PostBean> {
             ViewHolder h = (ViewHolder) holder;
             ImageUtil.loadAvatarByUid(mContext, p.getAuthor_id(), h.mCivAvatarPost);
             h.mTvNicknamePost.setText(p.getAuthor_nickname());
-            h.mTvPostDatetime.setText(p.getT_modify());
-            String bbCodeParse = BBCodeParse.bbcode2Html(p.getContent());
-            h.mTvPostContent.setHtml(bbCodeParse);
+            h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
+            h.mTvFloorPost.setText(p.getFloor() + "楼");
+
+            String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
+            NaiveHtmlUtils.GetHtmlImageSrcList(htmlStr).forEach(imgUrl ->{
+                LogUtil.dd("image url ", imgUrl);
+            } );
+
+            LogUtil.dd(htmlStr);
+            h.mTvPostContent.setHtml(htmlStr, new HtmlHttpImageGetter(h.mTvPostContent));
+
+            // TODO: 17-5-23 是否收藏的判定
 
         }
     }
@@ -62,6 +75,8 @@ public class PostAdapter extends BaseAdapter<ThreadModel.PostBean> {
         TextView mTvPostDatetime;
         @BindView(R.id.tv_post_content)
         HtmlTextView mTvPostContent;
+        @BindView(R.id.tv_floor_post)
+        TextView mTvFloorPost;
         ViewHolder(View view) {
             super(view);
         }

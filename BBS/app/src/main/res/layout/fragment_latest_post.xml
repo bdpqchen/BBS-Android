@@ -1,10 +1,9 @@
-<FrameLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorMainBg"
-    tools:context="com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostFragment">
+    >
 
 
     <ProgressBar
@@ -14,19 +13,20 @@
         android:id="@+id/pb_loading"
         />
 
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/layout_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/id_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-</FrameLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

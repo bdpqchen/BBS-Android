@@ -56,7 +56,7 @@ public class LatestPostModel {
              * board_name : 这是一个子版块
              */
 
-            private String id;
+            private int id;
             private String title;
             private int author_id;
             private int board_id;
@@ -69,13 +69,6 @@ public class LatestPostModel {
             private long t_modify;
             private String board_name;
 
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
 
             public String getTitle() {
                 return title;
@@ -163,6 +156,14 @@ public class LatestPostModel {
 
             public void setBoard_name(String board_name) {
                 this.board_name = board_name;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
             }
         }
     }

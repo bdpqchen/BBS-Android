@@ -11,17 +11,12 @@ import android.support.v7.widget.Toolbar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
-
-import java.util.List;
 
 import butterknife.BindView;
 
-import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity.INTENT_THREAD_ID;
 
 /**
  * Created by bdpqchen on 17-5-20.

@@ -54,7 +54,7 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
         //initData();
         mPresenter.refreshAnnounce();
         recyclerview.setAdapter(latestPostAdapter);
-        recyclerview.addItemDecoration(new RecyclerViewItemDecoration(10));
+//        recyclerview.addItemDecoration(new RecyclerViewItemDecoration(10));
         layoutSwipeRefresh.setOnRefreshListener(() -> {
             mPresenter.refreshAnnounce();
             layoutSwipeRefresh.setRefreshing(false);

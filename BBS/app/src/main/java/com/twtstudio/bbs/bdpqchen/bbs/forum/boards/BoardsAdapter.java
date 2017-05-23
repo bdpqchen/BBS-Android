@@ -23,8 +23,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivit
 import butterknife.BindView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity.INTENT_BOARD_TITLE;
-import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity.INTENT_THREAD_ID;
-import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity.INTENT_THREAD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity.INTENT_THREAD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity.INTENT_THREAD_TITLE;
 
 /**
  * Created by bdpqchen on 17-5-11.
@@ -99,7 +99,7 @@ public class BoardsAdapter extends BaseAdapter<PreviewThreadModel> implements Vi
                 mContext.startActivity(intent);
             });
             holder.mLlBoardContainedThread2.setOnClickListener(v -> {
-                intent.putExtra(INTENT_THREAD_ID, thread1.getId());
+                intent.putExtra(INTENT_THREAD_ID, thread2.getId());
                 intent.putExtra(INTENT_THREAD_TITLE, thread2.getTitle());
                 mContext.startActivity(intent);
             });

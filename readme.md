@@ -42,7 +42,7 @@
 ### Debugging
 - 夜间模式下的网络请求问题
 - fragment的懒加载模式
--
+- 帖子详情页的滑动和Behavior
 
 ## 项目结构
 
