@@ -134,9 +134,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         ImageUtil.loadAvatarByUid(mContext, thread.getAuthor_id(), mCivAvatarThread);
 
         String htmlStr = BBCodeParse.bbcode2Html(thread.getContent());
-        NaiveHtmlUtils.GetHtmlImageSrcList(htmlStr).forEach(imgUrl -> {
+        /*NaiveHtmlUtils.GetHtmlImageSrcList(htmlStr).forEach(imgUrl -> {
             LogUtil.dd("image url ", imgUrl);
-        });
+        });*/
 
         mHtvContent.setHtml(htmlStr, new HtmlHttpImageGetter(mHtvContent));
 

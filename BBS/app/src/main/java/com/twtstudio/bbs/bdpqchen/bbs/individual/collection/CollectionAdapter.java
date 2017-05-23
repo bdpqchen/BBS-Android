@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.collection;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentActivity;
 
@@ -73,13 +75,10 @@ class CollectionAdapter extends RecyclerView.Adapter {
         collectionViewHolder.collection_time.setText(date);
         collectionViewHolder.collection_delete.setOnClickListener(view -> collectionPresenter.deleteCollection(data.id));
         ImageUtil.loadAvatarAsBitmapByUid(context, data.author_id, collectionViewHolder.collection_avatar);
-        collectionViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ContentActivity.class);
-                intent.putExtra("threadid", String.valueOf(data.id));
-                context.startActivity(intent);
-            }
+        collectionViewHolder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, ContentActivity.class);
+            intent.putExtra("threadid", String.valueOf(data.id));
+            context.startActivity(intent);
         });
     }
 

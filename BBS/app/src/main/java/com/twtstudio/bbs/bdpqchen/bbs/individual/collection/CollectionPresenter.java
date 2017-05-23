@@ -35,7 +35,6 @@ class CollectionPresenter extends RxPresenter<CollectionContract.View> implement
 
     @Override
     public void loadCollections() {
-        System.out.println("CollectionPresenter.loadCollections"+tempUidToken);
         collectionClient.loadCollection(tempUidToken);
     }
 

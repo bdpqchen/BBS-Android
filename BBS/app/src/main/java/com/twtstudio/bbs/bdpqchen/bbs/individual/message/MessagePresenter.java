@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MessagePresenter extends RxPresenter<MessageContract.View> implements MessageContract.Presenter {
 
-    private RxDoHttpClient<BaseModel> mRxDoHttpClient;
+    private RxDoHttpClient<MessageModel> mRxDoHttpClient;
 
     @Inject
     MessagePresenter(RxDoHttpClient client) {
@@ -31,5 +31,6 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mView::showMessageList);
+
     }
 }

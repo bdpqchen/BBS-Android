@@ -54,9 +54,9 @@ public class PostAdapter extends BaseAdapter<ThreadModel.PostBean> {
             h.mTvFloorPost.setText(p.getFloor() + "楼");
 
             String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
-            NaiveHtmlUtils.GetHtmlImageSrcList(htmlStr).forEach(imgUrl ->{
+            /*NaiveHtmlUtils.GetHtmlImageSrcList(htmlStr).forEach(imgUrl ->{
                 LogUtil.dd("image url ", imgUrl);
-            } );
+            } );*/
 
             LogUtil.dd(htmlStr);
             h.mTvPostContent.setHtml(htmlStr, new HtmlHttpImageGetter(h.mTvPostContent));
