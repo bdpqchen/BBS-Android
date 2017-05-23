@@ -63,6 +63,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_message);
         ButterKnife.bind(this);
+        toolbar.setTitle("我的消息");
         mAdapter = new MessageAdapter(this);
         rvMessageList.setAdapter(mAdapter);
         rvMessageList.setLayoutManager(new LinearLayoutManager(this));
