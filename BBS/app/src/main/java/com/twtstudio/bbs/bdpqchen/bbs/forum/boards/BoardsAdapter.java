@@ -40,7 +40,7 @@ public class BoardsAdapter extends BaseAdapter<PreviewThreadModel> implements Vi
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取position
-            mOnItemClickListener.onItemClick(v, (int) v.getTag());
+            mOnItemClickListener.onItemClick(v, (int) v.getTag(), String.valueOf(v.getTag(1)));
         }
     }
 

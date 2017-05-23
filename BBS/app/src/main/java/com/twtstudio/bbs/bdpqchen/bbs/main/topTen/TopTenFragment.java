@@ -1,25 +1,20 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.topTen;
 
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
@@ -35,6 +30,8 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
     @BindView(R.id.pb_loading)
     ProgressBar mPbLoading;
     Unbinder unbinder;
+    @BindView(R.id.topten_empty)
+    TextView toptenEmpty;
     private LinearLayoutManager linearLayoutManager;
 
     public static TopTenFragment newInstance() {
@@ -44,7 +41,7 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
 
     @Override
     protected int getFragmentLayoutId() {
-        return R.layout.fragment_latest_post;
+        return R.layout.fragmetn_topten;
     }
 
     @Override
@@ -59,10 +56,17 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
         recyclerview.setLayoutManager(linearLayoutManager);
         recyclerview.addItemDecoration(new RecyclerViewItemDecoration(16));
         recyclerview.setAdapter(TopTenAdapter);
+        layoutSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
 
+                mPresenter.refreshAnnounce();
+                layoutSwipeRefresh.setRefreshing(false);
+
+            }
+        });
         layoutSwipeRefresh.setRefreshing(true);
         mPresenter.refreshAnnounce();
-
     }
 
     @Override
@@ -73,7 +77,10 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
 
     @Override
     public void refreshAnnounce(List<TopTenModel.DataBean.HotBean> announceBeen) {
-        TopTenAdapter.refreshList(announceBeen);
+        if (announceBeen.toString() != "[]")
+            TopTenAdapter.refreshList(announceBeen);
+        else
+            toptenEmpty.setText("暂无全站十大");
         layoutSwipeRefresh.setRefreshing(false);
     }
 

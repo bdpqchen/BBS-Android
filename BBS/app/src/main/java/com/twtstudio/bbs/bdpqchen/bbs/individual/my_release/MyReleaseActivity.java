@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.test;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.my_release;
 
 import android.app.Activity;
 import android.os.Bundle;

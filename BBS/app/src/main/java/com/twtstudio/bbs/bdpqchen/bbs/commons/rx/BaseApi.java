@@ -9,6 +9,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
@@ -118,7 +119,7 @@ public interface BaseApi {
     Observable<BaseResponse<TopTenModel.DataBean>> getTopTen();
 
     @GET("historyhot")
-    Observable<BaseResponse<HistoryHotModel>> getHistoryHot();
+    Observable<BaseResponse<HistoryHotModel.DataBean>> getHistoryHot();
 
     @GET("thread/{threadid}/page/0")
     Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(@Path("threadid") String threadid);
@@ -148,6 +149,12 @@ public interface BaseApi {
     @FormUrlEncoded
     @POST("passport/appeal")
     Observable<BaseResponse<BaseModel>> appealPassport(String string, String string1, String string2, String string3, String string4, String string5, String string6, String string7);
+
+    @GET("thread/{thread}/page/{page}")
+    Observable<BaseResponse<ThreadModel>> getThread(@Path("thread") String threadId,
+                                                    @Path("page") String postPage);
+
+
 
 }
 

@@ -11,13 +11,17 @@ import android.support.v7.widget.Toolbar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 
 import java.util.List;
 
 import butterknife.BindView;
+
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity.INTENT_THREAD_ID;
 
 /**
  * Created by bdpqchen on 17-5-20.
@@ -83,9 +87,12 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(16));
-        mRecyclerView.setOnClickListener(v -> {
-
-        });
+//        mAdapter.setOnItemClickListener(((view, id, title) -> {
+//            Intent in = new Intent(mContext, ThreadActivity.class);
+//            in.putExtra(Constants.INTENT_THREAD_ID, id);
+//            in.putExtra(Constants.INTENT_THREAD_TITLE, title);
+//            startActivity(in);
+//        }));
 
 
 

@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.test;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.my_release;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
