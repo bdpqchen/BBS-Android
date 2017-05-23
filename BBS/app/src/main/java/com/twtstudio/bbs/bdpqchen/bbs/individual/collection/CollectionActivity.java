@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
 
 import butterknife.BindView;
@@ -86,7 +87,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
 
     @Override
     public void makeDeleteSuccessToast() {
-        Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
+        SnackBarUtil.normal(this,"删除成功");
     }
 
     @Override

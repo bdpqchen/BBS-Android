@@ -1,6 +1,7 @@
-package com.twtstudio.bbs.bdpqchen.bbs.individual.collection;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword;
 
-import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.model.UpdatePasswordBean;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,7 +12,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,12 +20,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by whm on 2017/5/14.
- **/
+ * Created by HP on 2017/5/23.
+ */
 
-class CollectionClient {
+public class UpdatePasswordClient {
 
-    private CollectionPresenter collectionPresenter;
+    UpdatePasswordPresenter updatePasswordPresenter;
     private OkHttpClient client;
 
     private static OkHttpClient.Builder getUnSaveBuilder() {
@@ -66,14 +66,10 @@ class CollectionClient {
         }
     }
 
-    CollectionClient(CollectionPresenter collectionPresenter) {
-        this.collectionPresenter = collectionPresenter;
-
-
+    public UpdatePasswordClient(UpdatePasswordPresenter updatePasswordPresenter) {
+        this.updatePasswordPresenter = updatePasswordPresenter;
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-
         client = getUnSaveBuilder()
                 .addInterceptor(interceptor)
                 .retryOnConnectionFailure(true)
@@ -81,53 +77,23 @@ class CollectionClient {
                 .build();
     }
 
-    void loadCollection(String uidToken) {
+    void sendUpdatePasswordInfo(String uidToken, String oldPassword, String newPassword) {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://bbs.twtstudio.com/api/home/")
+                .baseUrl("https://bbs.twtstudio.com/api/")
                 .build();
-        CollectionApi collectionApi = retrofit.create(CollectionApi.class);
+        UpdatePasswordApi updatePasswordApi = retrofit.create(UpdatePasswordApi.class);
 
-
-        Call<CollectionBean> call = collectionApi.getCollection(uidToken);
-        call.enqueue(new Callback<CollectionBean>() {
+        Call<UpdatePasswordBean> call = updatePasswordApi.sentUpdatePasswordInfo(uidToken, oldPassword, newPassword);
+        call.enqueue(new Callback<UpdatePasswordBean>() {
             @Override
-            public void onResponse(Call<CollectionBean> call, Response<CollectionBean> response) {
-                collectionPresenter.setCollectionDate(response.body());
+            public void onResponse(Call<UpdatePasswordBean> call, Response<UpdatePasswordBean> response) {
+                updatePasswordPresenter.dealFeedbackInfo(response.body());
             }
 
             @Override
-            public void onFailure(Call<CollectionBean> call, Throwable t) {
-            }
-        });
-    }
-
-
-    void deleteCollection(String uidToken, int tid) {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://bbs.twtstudio.com/api/home/")
-                .build();
-
-        CollectionApi collectionApi = retrofit.create(CollectionApi.class);
-
-        Call<ResponseBody> call = collectionApi.deleteCollection(uidToken, String.valueOf(tid));
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                collectionPresenter.makeDeleteSuccessToast();
-                loadCollection(uidToken);
-                System.out.println("CollectionClient.onResponse"+response.body());
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+            public void onFailure(Call<UpdatePasswordBean> call, Throwable t) {
             }
         });
     }

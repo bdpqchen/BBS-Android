@@ -96,6 +96,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         super.onCreate(savedInstanceState);
         StatusBarUtil.setTranslucentForImageView(this, 38, mNeedOffset);
 
+        //自动填写用户名
+        Intent intent = getIntent();
+        String usernameToSet = intent.getStringExtra("username");
+        mEtAccount.setText(usernameToSet);
+
     }
 
     @OnClick({R.id.tx_forgot_password, R.id.tv_goto_register,
@@ -129,6 +134,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 } else {
                     mCircularProgressButton.startAnimation();
                     mPresenter.doLogin(username, password);
+                    PrefUtil.setAuthUsername(username);
                 }
                 break;
         }
