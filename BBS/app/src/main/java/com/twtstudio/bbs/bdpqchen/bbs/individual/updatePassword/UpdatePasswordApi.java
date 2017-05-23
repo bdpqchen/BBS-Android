@@ -1,6 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword;
 
-import com.twtstudio.bbs.bdpqchen.bbs.individual.model.UpdatePasswordBean;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.model.SimpleBean;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -15,7 +15,7 @@ import retrofit2.http.PUT;
 public interface UpdatePasswordApi {
     @FormUrlEncoded
     @PUT("home")
-    Call<UpdatePasswordBean> sentUpdatePasswordInfo(@Header("authentication") String uidToken,
-                                                    @Field("old_password") String oldPassword,
-                                                    @Field("password") String newPassword);
+    Call<SimpleBean> sentUpdatePasswordInfo(@Header("authentication") String uidToken,
+                                            @Field("old_password") String oldPassword,
+                                            @Field("password") String newPassword);
 }

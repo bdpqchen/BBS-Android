@@ -1,17 +1,15 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.collection;
 
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.model.UpdatePasswordBean;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.model.SimpleBean;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.PUT;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 /**
@@ -22,8 +20,11 @@ interface CollectionApi {
     @GET("collection")
     Call<CollectionBean> getCollection(@Header("authentication") String uidToken);
 
-    @GET("collection/{tid}")
-    Call<ResponseBody> deleteCollection(@Header("authentication") String uidToken, @Path("tid") String tid);
 
+    @DELETE("collection/{tid}")
+    Call<SimpleBean> deleteCollection(@Header("authentication") String uidToken, @Path("tid") String tid);
 
+    @FormUrlEncoded
+    @POST("collection")
+    Call<SimpleBean> collectByTid(@Header("authentication") String uidToken, @Field("tid") String tid);
 }

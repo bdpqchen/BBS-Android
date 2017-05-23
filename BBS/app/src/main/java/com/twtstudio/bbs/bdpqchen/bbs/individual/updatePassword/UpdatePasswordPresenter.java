@@ -2,7 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.model.UpdatePasswordBean;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.model.SimpleBean;
 
 import javax.inject.Inject;
 
@@ -33,7 +33,7 @@ class UpdatePasswordPresenter extends RxPresenter<UpdatePasswordContract.View> i
     }
 
     @Override
-    public void dealFeedbackInfo(UpdatePasswordBean updatePasswordBean) {
+    public void dealFeedbackInfo(SimpleBean updatePasswordBean) {
         if (updatePasswordBean.err == 0) {
             view.updatePasswordSuccess();
         } else {

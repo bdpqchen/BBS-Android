@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -87,7 +86,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
 
     @Override
     public void makeDeleteSuccessToast() {
-        SnackBarUtil.normal(this,"删除成功");
+        SnackBarUtil.normal(this, "删除成功");
     }
 
     @Override
@@ -98,5 +97,25 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
     @Override
     public void setNoCollectionInvisible() {
         collection_no_collection.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void deleteCollectionSuccess() {
+        SnackBarUtil.normal(this, "取消收藏成功");
+    }
+
+    @Override
+    public void deleteCollectionFail(String msg) {
+        SnackBarUtil.error(this, msg);
+    }
+
+    @Override
+    public void collectSuccess() {
+        SnackBarUtil.normal(this, "收藏成功");
+    }
+
+    @Override
+    public void collectFail(String msg) {
+        SnackBarUtil.error(this, msg);
     }
 }

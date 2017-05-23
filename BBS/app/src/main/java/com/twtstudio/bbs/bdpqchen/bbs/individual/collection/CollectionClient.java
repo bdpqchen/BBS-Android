@@ -1,6 +1,8 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.collection;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.model.SimpleBean;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,7 +13,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,6 +28,7 @@ class CollectionClient {
 
     private CollectionPresenter collectionPresenter;
     private OkHttpClient client;
+    private String uidToken = PrefUtil.getAuthUid() + "|" + PrefUtil.getAuthToken();
 
     private static OkHttpClient.Builder getUnSaveBuilder() {
         try {
@@ -81,7 +83,7 @@ class CollectionClient {
                 .build();
     }
 
-    void loadCollection(String uidToken) {
+    void loadCollection() {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -104,7 +106,7 @@ class CollectionClient {
     }
 
 
-    void deleteCollection(String uidToken, int tid) {
+    void deleteCollection(int tid) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
@@ -114,19 +116,40 @@ class CollectionClient {
 
         CollectionApi collectionApi = retrofit.create(CollectionApi.class);
 
-        Call<ResponseBody> call = collectionApi.deleteCollection(uidToken, String.valueOf(tid));
+        Call<SimpleBean> call = collectionApi.deleteCollection(uidToken, String.valueOf(tid));
 
-        call.enqueue(new Callback<ResponseBody>() {
+        call.enqueue(new Callback<SimpleBean>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                collectionPresenter.makeDeleteSuccessToast();
-                loadCollection(uidToken);
-                System.out.println("CollectionClient.onResponse"+response.body());
+            public void onResponse(Call<SimpleBean> call, Response<SimpleBean> response) {
+                collectionPresenter.dealDeleteData(response.body());
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<SimpleBean> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    // TODO: 2017/5/23 传入Prenster来处理返回数据
+    void collectByTid(String tid) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("https://bbs.twtstudio.com/api/home/")
+                .build();
+        CollectionApi collectionApi = retrofit.create(CollectionApi.class);
+        Call<SimpleBean> call = collectionApi.collectByTid(uidToken, tid);
+
+        call.enqueue(new Callback<SimpleBean>() {
+            @Override
+            public void onResponse(Call<SimpleBean> call, Response<SimpleBean> response) {
+                collectionPresenter.dealCollectData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<SimpleBean> call, Throwable t) {
 
             }
         });
