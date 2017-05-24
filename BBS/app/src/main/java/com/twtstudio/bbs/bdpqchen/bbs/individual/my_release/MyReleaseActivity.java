@@ -90,7 +90,7 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
             @Override
             public void onLoadMore() {
 
-                //loadMoreData();
+                loadMoreData();
             }
         };
         rv.addOnScrollListener(eros);
@@ -107,10 +107,7 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
 //        }
 //
 //        page = page + 1;
-        data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
-        data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
-        data.add(new MyReleaseBean("厉害了word天大！4项成果获得了2016年国家级别的奖项！", 2324, "2017年2月21日"));
-        data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
+        /*data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
         data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
         data.add(new MyReleaseBean("厉害了word天大！4项成果获得了2016年国家级别的奖项！", 2324, "2017年2月21日"));
         data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
@@ -122,6 +119,9 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
         data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
         data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
         data.add(new MyReleaseBean("厉害了word天大！4项成果获得了2016年国家级别的奖项！", 2324, "2017年2月21日"));
+        data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
+        data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
+        data.add(new MyReleaseBean("厉害了word天大！4项成果获得了2016年国家级别的奖项！", 2324, "2017年2月21日"));*/
     }
 
     @Override
