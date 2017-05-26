@@ -9,29 +9,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
-import com.twtstudio.retrox.bbcode.BBCodeParse;
-import com.twtstudio.retrox.bbcode.NaiveHtmlUtils;
-
-import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
-import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.List;
 
 import butterknife.BindView;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -41,31 +29,31 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ThreadActivity extends BaseActivity<ThreadPresenter> implements ThreadContract.View {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.civ_avatar_thread)
-    CircleImageView mCivAvatarThread;
-    @BindView(R.id.tv_username_thread)
-    TextView mTvUsernameThread;
-    @BindView(R.id.tv_level_thread)
-    TextView mTvLevelThread;
-    @BindView(R.id.tv_datetime_thread)
-    TextView mTvDatetimeThread;
-    @BindView(R.id.iv_star_thread)
-    ImageView mIvStarThread;
-    @BindView(R.id.iv_stared_thread)
-    ImageView mIvStaredThread;
-    @BindView(R.id.tv_title)
-    TextView mTvTitle;
+//    @BindView(R.id.civ_avatar_thread)
+//    CircleImageView mCivAvatarThread;
+//    @BindView(R.id.tv_username_thread)
+//    TextView mTvUsernameThread;
+//    @BindView(R.id.tv_level_thread)
+//    TextView mTvLevelThread;
+//    @BindView(R.id.tv_datetime_thread)
+//    TextView mTvDatetimeThread;
+//    @BindView(R.id.iv_star_thread)
+//    ImageView mIvStarThread;
+//    @BindView(R.id.iv_stared_thread)
+//    ImageView mIvStaredThread;
+//    @BindView(R.id.tv_title)
+//    TextView mTvTitle;
     @BindView(R.id.rv_thread_post)
     RecyclerView mRvThreadPost;
-    @BindView(R.id.htv_content)
-    HtmlTextView mHtvContent;
+//    @BindView(R.id.htv_content)
+//    HtmlTextView mHtvContent;
 
     public static final String INTENT_THREAD_ID = "intent_thread_id";
     public static final String INTENT_THREAD_TITLE = "intent_thread_title";
     @BindView(R.id.pb_thread_loading)
     ProgressBar mPbThreadLoading;
-    @BindView(R.id.scroll_view)
-    ScrollView mScrollView;
+//    @BindView(R.id.scroll_view)
+//    ScrollView mScrollView;
 
 
     private String mThreadTitle = "";
@@ -128,24 +116,34 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     public void showThread(ThreadModel model) {
         hideProgressBar();
         ThreadModel.ThreadBean thread = model.getThread();
-        mTvUsernameThread.setText(thread.getAuthor_nickname());
+       /* mTvUsernameThread.setText(thread.getAuthor_nickname());
         mTvDatetimeThread.setText(StampUtil.getDateByStamp(thread.getT_create()));
         mTvTitle.setText(thread.getTitle());
         ImageUtil.loadAvatarByUid(mContext, thread.getAuthor_id(), mCivAvatarThread);
 
         String htmlStr = BBCodeParse.bbcode2Html(thread.getContent());
-        /*NaiveHtmlUtils.GetHtmlImageSrcList(htmlStr).forEach(imgUrl -> {
+        *//*NaiveHtmlUtils.GetHtmlImageSrcList(htmlStr).forEach(imgUrl -> {
             LogUtil.dd("image url ", imgUrl);
         });*/
 
+        /*
         mHtvContent.setHtml(htmlStr, new HtmlHttpImageGetter(mHtvContent));
+        */
 
+        updateThread(model.getThread());
         updatePostList(model.getPost());
+    }
+
+    private void updateThread(ThreadModel.ThreadBean thread) {
+//        mAdapter.setShowHeader(true);
+        mAdapter.setThreadData(thread);
+
     }
 
     private void updatePostList(List<ThreadModel.PostBean> postList) {
         hideProgressBar();
         mAdapter.addList(postList);
+
     }
 
     @Override

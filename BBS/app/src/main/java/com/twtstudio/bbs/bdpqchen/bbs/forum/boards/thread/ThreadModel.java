@@ -188,7 +188,7 @@ public class ThreadModel {
         }
     }
 
-    public static class PostBean {
+    public static class PostBean{
         /**
          * id : 7
          * author_id : 21146
@@ -208,6 +208,7 @@ public class ThreadModel {
         private int floor;
         private int t_create;
         private int t_modify;
+
 
         public int getId() {
             return id;

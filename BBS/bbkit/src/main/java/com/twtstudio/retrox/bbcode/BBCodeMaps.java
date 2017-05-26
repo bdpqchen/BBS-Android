@@ -71,6 +71,7 @@ public class BBCodeMaps {
         htmlMap.put("<font color=\"(.+?);\" face=\"(.+?)\">(.+?)</span>", "\\[color=$1\\]$3\\[/color\\]");
         htmlMap.put("<font color='(.+?);' face='(.+?);'>(.+?)</span>", "\\[color=$1\\]$3\\[/color\\]");
 
+
         // images
         htmlMap.put("<img src='(.+?)' />", "\\[img\\]$1\\[/img\\]");
         htmlMap.put("<img src=\"(.+?)\" />", "\\[img\\]$1\\[/img\\]");
@@ -211,6 +212,8 @@ public class BBCodeMaps {
         bbMap.put("\\[color=(.+?)\\](.+?)\\[/color\\]", "<font color='$1'>$2</font>");
         bbMap.put("\\[size=(.+?)\\](.+?)\\[/size\\]", "<font size=\"$1\">$2</span>");
         bbMap.put("\\[img\\](.+?)\\[/img\\]", "<img src=\"$1\" />");
+//        bbMap.put("<img src=\"https://bbs.twtstudio.com/api/attach/(.+?)\" />", "\\[attimg\\]$1\\[/attimg\\]");
+        bbMap.put("\\[attimg\\](.+?)\\[/attimg\\]", "<img src=\"https://bbs.twtstudio.com/api/attach/$1\" />");
         bbMap.put("\\[img=(.+?),(.+?)\\](.+?)\\[/img\\]", "<img width=\"$1\" height=\"$2\" src=\"$3\" />");
         bbMap.put("\\[email\\](.+?)\\[/email\\]", "<a href=\"mailto:$1\">$1</a>");
         bbMap.put("\\[email=(.+?)\\](.+?)\\[/email\\]", "<a href=\"mailto:$1\">$2</a>");
