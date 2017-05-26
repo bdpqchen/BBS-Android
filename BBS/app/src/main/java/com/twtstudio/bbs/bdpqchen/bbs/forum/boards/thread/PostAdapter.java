@@ -15,7 +15,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.retrox.bbcode.BBCodeParse;
 
-import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
+import org.sufficientlysecure.htmltextview.GlideImageGeter;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
@@ -62,38 +62,34 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (mThreadData != null) {
-            LogUtil.dd("thread data is not null");
+//            LogUtil.dd("thread data is not null");
             if (holder instanceof HeaderHolder) {
-                LogUtil.dd("holder instance of header");
+//                LogUtil.dd("holder instance of header");
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 headerHolder.mTvUsernameThread.setText(mThreadData.getAuthor_nickname());
-//                String str = BBCodeParse.bbcode2Html(mThreadData.getContent());
-//                headerHolder.mHtvContent.setHtml(str, new HtmlHttpImageGetter(headerHolder.mHtvContent));
+                headerHolder.mTvTitle.setText(mThreadData.getTitle());
+                headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(mThreadData.getT_create()));
+//                headerHolder.mTvLevelThread.setText(mThreadData.);
+                // TODO: 17-5-26 Level is not set
 
-
-
-                // TODO: 17-5-26 jjjjjj
+                String str = BBCodeParse.bbcode2Html(mThreadData.getContent());
+                headerHolder.mHtvContent.setHtml(str, new GlideImageGeter(headerHolder.mHtvContent.getContext(),headerHolder.mHtvContent));
             }
 
             if (mPostData != null && mPostData.size() > 0) {
-                LogUtil.dd("post data is not null");
+//                LogUtil.dd("post data is not null");
                 if (holder instanceof ViewHolder) {
-                    LogUtil.dd("holder instance of normal");
-                    position -= 1;
+//                    LogUtil.dd("holder instance of normal");
                     ThreadModel.PostBean p = mPostData.get(position - 1);
                     ViewHolder h = (ViewHolder) holder;
                     ImageUtil.loadAvatarByUid(mContext, p.getAuthor_id(), h.mCivAvatarPost);
                     h.mTvNicknamePost.setText(p.getAuthor_nickname());
                     h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
+
                     h.mTvFloorPost.setText(p.getFloor() + "楼");
-
                     String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
-                    /*NaiveHtmlUtils.GetHtmlImageSrcList(htmlStr).forEach(imgUrl ->{
-                        LogUtil.dd("image url ", imgUrl);
-                    } );*/
-
                     LogUtil.dd(htmlStr);
-                    h.mTvPostContent.setHtml(htmlStr, new HtmlHttpImageGetter(h.mTvPostContent));
+                    h.mTvPostContent.setHtml(htmlStr, new GlideImageGeter(h.mTvPostContent.getContext(),h.mTvPostContent));
 
                     // TODO: 17-5-23 是否收藏的判定
                 }
@@ -104,7 +100,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        LogUtil.dd("position", String.valueOf(position));
+//        LogUtil.dd("position", String.valueOf(position));
         if (position > 0) {
             return TYPE_POST;
         } else {
