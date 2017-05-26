@@ -12,7 +12,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorMainBgLight">
 
 
@@ -55,19 +55,20 @@
             android:layout_below="@+id/author"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="15dp"
+            android:layout_marginEnd="12dp"
             android:ellipsize="end"
-            android:lines="2"
             android:textColor="@color/colorTvBlackMain"
             android:textSize="18sp"
             tools:text="2"/>
 
         <TextView
             android:id="@+id/create_time"
+            android:layout_below="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="13dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="12dp"
             android:layout_marginRight="10dp"
             android:gravity="left"
