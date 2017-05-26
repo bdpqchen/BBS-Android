@@ -3,6 +3,8 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +14,6 @@ import android.widget.ProgressBar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 
@@ -33,15 +34,20 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     RecyclerView mRvBoardList;
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
+    @BindView(R.id.srl_board_list)
+    SwipeRefreshLayout mSrlBoardList;
+    @BindView(R.id.fab)
+    FloatingActionButton mFab;
 
-    public static final String  INTENT_BOARD_TITLE = "intent_board_title";
-    public static final String  INTENT_BOARD_ID = "intent_board_id";
+    public static final String INTENT_BOARD_TITLE = "intent_board_title";
+    public static final String INTENT_BOARD_ID = "intent_board_id";
 
     int mForumId;
     Context mContext;
     Activity mActivity;
     BoardsAdapter mAdapter;
     LinearLayoutManager mLayoutManager;
+
 
     private String mForumTitle = "";
 
@@ -91,6 +97,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
         mRvBoardList.setLayoutManager(mLayoutManager);
         mRvBoardList.setAdapter(mAdapter);
 
+        mSrlBoardList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
     }
 
     @Override
@@ -107,7 +114,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     }
 
 
-    private void hideProgressBar(){
+    private void hideProgressBar() {
         mProgressBar.setVisibility(View.GONE);
     }
 
