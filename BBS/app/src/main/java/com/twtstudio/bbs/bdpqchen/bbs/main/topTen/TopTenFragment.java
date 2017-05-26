@@ -65,7 +65,7 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
 
             }
         });
-        layoutSwipeRefresh.setRefreshing(true);
+       // layoutSwipeRefresh.setRefreshing(true);
         mPresenter.refreshAnnounce();
     }
 
@@ -82,6 +82,7 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
         else
             toptenEmpty.setText("暂无全站十大");
         layoutSwipeRefresh.setRefreshing(false);
+        hideLoading();
     }
 
     @Override
