@@ -44,7 +44,7 @@ class BoardsPresenter extends RxPresenter<BoardsContract.View> implements Boards
 
             @Override
             public void _onError(String msg) {
-//                mView.failedToGetForum(msg);
+                mView.failedToGetBoardList(msg);
                 LogUtil.dd("error_message", msg);
             }
 
@@ -78,17 +78,17 @@ class BoardsPresenter extends RxPresenter<BoardsContract.View> implements Boards
                     List<PreviewThreadModel> previewThreadList = new ArrayList<>();
                     int listSize = threadListModel.getBoard().getC_thread();
                     LogUtil.dd(String.valueOf(listSize));
+                    PreviewThreadModel model = new PreviewThreadModel();
+                    model.setBoard(threadListModel.getBoard());
                     if (listSize > 2) {
-                        PreviewThreadModel model = new PreviewThreadModel();
-                        model.setBoard(threadListModel.getBoard());
                         List<ThreadListModel.ThreadBean> threadBeanList = new ArrayList<>();
                         ThreadListModel.ThreadBean threadBean0 = threadListModel.getThread().get(0);
                         ThreadListModel.ThreadBean threadBean1 = threadListModel.getThread().get(1);
                         threadBeanList.add(threadBean0);
                         threadBeanList.add(threadBean1);
                         model.setThreadList(threadBeanList);
-                        previewThreadList.add(model);
                     }
+                    previewThreadList.add(model);
                     return previewThreadList;
                 })
                 .subscribeOn(Schedulers.io())

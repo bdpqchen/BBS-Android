@@ -67,16 +67,19 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 LogUtil.dd("holder instance of header");
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 headerHolder.mTvUsernameThread.setText(mThreadData.getAuthor_nickname());
-                String str = BBCodeParse.bbcode2Html(mThreadData.getContent());
-                headerHolder.mHtvContent.setHtml(str, new HtmlHttpImageGetter(headerHolder.mHtvContent));
+//                String str = BBCodeParse.bbcode2Html(mThreadData.getContent());
+//                headerHolder.mHtvContent.setHtml(str, new HtmlHttpImageGetter(headerHolder.mHtvContent));
+
+
+
                 // TODO: 17-5-26 jjjjjj
-//                headerHolder.mco.setText(mThreadData.getAuthor_nickname());
             }
 
             if (mPostData != null && mPostData.size() > 0) {
                 LogUtil.dd("post data is not null");
                 if (holder instanceof ViewHolder) {
                     LogUtil.dd("holder instance of normal");
+                    position -= 1;
                     ThreadModel.PostBean p = mPostData.get(position - 1);
                     ViewHolder h = (ViewHolder) holder;
                     ImageUtil.loadAvatarByUid(mContext, p.getAuthor_id(), h.mCivAvatarPost);

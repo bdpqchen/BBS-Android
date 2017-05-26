@@ -110,6 +110,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
     @Override
     public void failedToGetForum(String msg) {
         SnackBarUtil.error(this.getActivity(), msg);
+
     }
 
     @Override
@@ -117,6 +118,10 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
         super.onLazyInitView(savedInstanceState);
         mPresenter.getForumList();
 //        initFragment();
+
+    }
+
+    private void hideProgressBar(){
 
     }
 }

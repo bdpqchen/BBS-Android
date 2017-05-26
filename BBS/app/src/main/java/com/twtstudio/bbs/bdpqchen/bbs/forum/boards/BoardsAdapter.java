@@ -69,21 +69,11 @@ public class BoardsAdapter extends BaseAdapter<PreviewThreadModel> implements Vi
     @Override
     public void onBindViewHolder(BaseViewHolder viewHolder, int position) {
 
+        LogUtil.dd("onBindViewHolder BoardList", String.valueOf(position));
         if (mDataSet != null && mDataSet.size() > 0) {
             ViewHolder holder = (ViewHolder) viewHolder;
             PreviewThreadModel previewThread = mDataSet.get(position);
-            ThreadListModel.ThreadBean thread1 = previewThread.getThreadList().get(0);
-            ThreadListModel.ThreadBean thread2 = previewThread.getThreadList().get(1);
             holder.mTvPreviewBoardTitle.setText(previewThread.getBoard().getName());
-            holder.mTvPreviewThreadTitle1.setText(thread1.getTitle());
-            holder.mTvPreviewThreadTitle2.setText(thread2.getTitle());
-            holder.mTvPreviewThreadAuthor1.setText(AUTHOR_PRE + thread1.getAuthor_nickname());
-            holder.mTvPreviewThreadAuthor2.setText(AUTHOR_PRE + thread2.getAuthor_nickname());
-            holder.mTvPreviewThreadTime1.setText(StampUtil.getDatetimeByStamp(thread1.getT_create()));
-            holder.mTvPreviewThreadTime2.setText(StampUtil.getDatetimeByStamp(thread2.getT_create()));
-            holder.mTvPreviewThreadContent1.setText(thread1.getContent());
-            holder.mTvPreviewThreadContent2.setText(thread2.getContent());
-
             holder.mRlBoardTitle.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, ThreadListActivity.class);
                 LogUtil.dd(previewThread.getBoard().getName());
@@ -92,18 +82,33 @@ public class BoardsAdapter extends BaseAdapter<PreviewThreadModel> implements Vi
                 intent.putExtra(BoardsActivity.INTENT_BOARD_ID, previewThread.getBoard().getId());
                 mContext.startActivity(intent);
             });
-            Intent intent = new Intent(mContext, ThreadActivity.class);
-            holder.mLlBoardContainedThread1.setOnClickListener(v -> {
-                intent.putExtra(INTENT_THREAD_ID, thread1.getId());
-                intent.putExtra(INTENT_THREAD_TITLE, thread1.getTitle());
-                mContext.startActivity(intent);
-            });
-            holder.mLlBoardContainedThread2.setOnClickListener(v -> {
-                intent.putExtra(INTENT_THREAD_ID, thread2.getId());
-                intent.putExtra(INTENT_THREAD_TITLE, thread2.getTitle());
-                mContext.startActivity(intent);
-            });
-
+            if (mDataSet.get(position).getThreadList() != null) {
+                Intent intent = new Intent(mContext, ThreadActivity.class);
+                if (mDataSet.get(position).getThreadList().size() == 1) {
+                    ThreadListModel.ThreadBean thread1 = previewThread.getThreadList().get(0);
+                    holder.mTvPreviewThreadTitle1.setText(thread1.getTitle());
+                    holder.mTvPreviewThreadAuthor1.setText(AUTHOR_PRE + thread1.getAuthor_nickname());
+                    holder.mTvPreviewThreadTime1.setText(StampUtil.getDatetimeByStamp(thread1.getT_create()));
+                    holder.mTvPreviewThreadContent1.setText(thread1.getContent());
+                    holder.mLlBoardContainedThread1.setOnClickListener(v -> {
+                        intent.putExtra(INTENT_THREAD_ID, thread1.getId());
+                        intent.putExtra(INTENT_THREAD_TITLE, thread1.getTitle());
+                        mContext.startActivity(intent);
+                    });
+                }
+                if (mDataSet.get(position).getThreadList().size() == 2) {
+                    ThreadListModel.ThreadBean thread2 = previewThread.getThreadList().get(1);
+                    holder.mTvPreviewThreadTitle2.setText(thread2.getTitle());
+                    holder.mTvPreviewThreadAuthor2.setText(AUTHOR_PRE + thread2.getAuthor_nickname());
+                    holder.mTvPreviewThreadTime2.setText(StampUtil.getDatetimeByStamp(thread2.getT_create()));
+                    holder.mTvPreviewThreadContent2.setText(thread2.getContent());
+                    holder.mLlBoardContainedThread2.setOnClickListener(v -> {
+                        intent.putExtra(INTENT_THREAD_ID, thread2.getId());
+                        intent.putExtra(INTENT_THREAD_TITLE, thread2.getTitle());
+                        mContext.startActivity(intent);
+                    });
+                }
+            }
         }
 
     }

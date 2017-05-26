@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 
 import java.util.List;
@@ -27,8 +31,8 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     Toolbar mToolbar;
     @BindView(R.id.rv_board_list)
     RecyclerView mRvBoardList;
-//    @BindView(R.id.progress_bar)
-//    ProgressBar mProgressBar;
+    @BindView(R.id.progress_bar)
+    ProgressBar mProgressBar;
 
     public static final String  INTENT_BOARD_TITLE = "intent_board_title";
     public static final String  INTENT_BOARD_ID = "intent_board_id";
@@ -74,7 +78,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mContext = this;
+//        mContext = this;
         mForumId = getIntent().getIntExtra(ForumFragment.INTENT_FORUM_ID, 0);
         mForumTitle = getIntent().getStringExtra(ForumFragment.INTENT_FORUM_TITLE);
         super.onCreate(savedInstanceState);
@@ -87,17 +91,24 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
         mRvBoardList.setLayoutManager(mLayoutManager);
         mRvBoardList.setAdapter(mAdapter);
 
-        /*mAdapter.setOnItemClickListener(((view, position) -> {
-            startActivity(new Intent(mContext, ThreadActivity.class));
-        }));*/
-
-
     }
 
     @Override
     public void setBoardList(List<PreviewThreadModel> previewThreadList) {
-
+//        LogUtil.dd("pre thread list size", String.valueOf(previewThreadList.size()));
         mAdapter.addList(previewThreadList);
-
+        hideProgressBar();
     }
+
+    @Override
+    public void failedToGetBoardList(String msg) {
+        SnackBarUtil.error(this, msg, true);
+        hideProgressBar();
+    }
+
+
+    private void hideProgressBar(){
+        mProgressBar.setVisibility(View.GONE);
+    }
+
 }

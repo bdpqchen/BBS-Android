@@ -13,6 +13,8 @@ interface BoardsContract {
 
     interface View extends BaseView{
         void setBoardList(List<PreviewThreadModel> previewThreadList);
+
+        void failedToGetBoardList(String msg);
     }
 
     interface Presenter extends BasePresenter<View>{
