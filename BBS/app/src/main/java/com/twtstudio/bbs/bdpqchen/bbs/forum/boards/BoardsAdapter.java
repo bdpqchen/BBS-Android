@@ -69,15 +69,15 @@ public class BoardsAdapter extends BaseAdapter<PreviewThreadModel> implements Vi
     @Override
     public void onBindViewHolder(BaseViewHolder viewHolder, int position) {
 
-        LogUtil.dd("onBindViewHolder BoardList", String.valueOf(position));
+//        LogUtil.dd("onBindViewHolder BoardList", String.valueOf(position));
         if (mDataSet != null && mDataSet.size() > 0) {
             ViewHolder holder = (ViewHolder) viewHolder;
             PreviewThreadModel previewThread = mDataSet.get(position);
             holder.mTvPreviewBoardTitle.setText(previewThread.getBoard().getName());
             holder.mRlBoardTitle.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, ThreadListActivity.class);
-                LogUtil.dd(previewThread.getBoard().getName());
-                LogUtil.dd(String.valueOf(previewThread.getBoard().getId()));
+//                LogUtil.dd(previewThread.getBoard().getName());
+//                LogUtil.dd(String.valueOf(previewThread.getBoard().getId()));
                 intent.putExtra(INTENT_BOARD_TITLE, previewThread.getBoard().getName());
                 intent.putExtra(BoardsActivity.INTENT_BOARD_ID, previewThread.getBoard().getId());
                 mContext.startActivity(intent);

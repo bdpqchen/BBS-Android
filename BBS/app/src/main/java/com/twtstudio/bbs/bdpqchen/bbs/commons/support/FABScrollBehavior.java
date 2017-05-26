@@ -22,11 +22,19 @@ public class FABScrollBehavior extends FloatingActionButton.Behavior {
     @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-        LogUtil.dd("onNestedScroll");
+//        LogUtil.dd("onNestedScroll");
+//        LogUtil.dd("dyConsumed", String.valueOf(dyConsumed));
         if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
             LogUtil.dd("clide hide");
-            child.hide();
-        } else if (dyConsumed < 0 && child.getVisibility() == View.GONE){
+            child.hide(new FloatingActionButton.OnVisibilityChangedListener() {
+                @Override
+                public void onHidden(FloatingActionButton fab) {
+                    super.onHidden(fab);
+                    fab.setVisibility(View.INVISIBLE);
+                }
+            });
+
+        } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE){
             LogUtil.dd("clide show");
             child.show();
         }
