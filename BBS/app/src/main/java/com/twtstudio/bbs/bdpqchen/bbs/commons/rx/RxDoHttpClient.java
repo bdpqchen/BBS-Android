@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
@@ -22,13 +21,13 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.content.post.IndexPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 
 import java.io.File;
 import java.security.cert.CertificateException;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -183,9 +182,9 @@ public class RxDoHttpClient<T> {
         return mApi.getTopTen();
     }
 
-    public Observable<BaseResponse<HistoryHotModel.DataBean>> getHistoryHot() {
+   /* public Observable<BaseResponse<HistoryHotModel.DataBean>> getHistoryHot() {
         return mApi.getHistoryHot();
-    }
+    }*/
 
     public Observable<BaseResponse<RegisterModel>> doRegister(Bundle bundle) {
         return mApi.doRegister(
@@ -276,4 +275,10 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<ThreadModel>> getThread(int threadId, int postPage) {
         return mApi.getThread(threadId + "", postPage + "");
     }
+
+    public Observable<BaseResponse<List<MyReleaseModel>>> getMyReleaseList(int page) {
+        return mApi.getMyReleaseList(getLatestAuthentication(), String.valueOf(page));
+    }
+
+
 }

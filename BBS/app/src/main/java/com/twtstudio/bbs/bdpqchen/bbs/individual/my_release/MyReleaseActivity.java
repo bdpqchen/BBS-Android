@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -33,7 +34,7 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
     Toolbar toolbar;
 
     private LinearLayoutManager layoutManager;
-    private List<MyReleaseBean> data = new ArrayList<>();
+    private List<MyReleaseModel> data = new ArrayList<>();
     private MyRecyclerAdapter myRecyclerAdapter;
     private EndlessRecyclerOnScrollListener eros;
     private int page = 0;
@@ -73,12 +74,8 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_release);
-
-        ButterKnife.bind(this);
 
         myRecyclerAdapter = new MyRecyclerAdapter(this, data);
-        init();
 
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -89,39 +86,20 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
         eros = new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore() {
-
-                loadMoreData();
+                mPresenter.getMyReleaseList();
             }
         };
         rv.addOnScrollListener(eros);
+//
+//        View footer = LayoutInflater.from(MyReleaseActivity.this).inflate(R.layout.footer_view, rv, false);
+//        myRecyclerAdapter.setFooterView(footer);
 
+        mPresenter.initMyReleaseList();
     }
 
-    public void init() {
-//        for (int i = 0; i < 10; i++) {
-//            MyReleaseBean rb = new MyReleaseBean();
-//            rb.title = "this is " + (page * 10 + i) + " hahaha";
-//            rb.visit = page * 10 + i;
-//            rb.time = "YY/MM/DD";
-//            data.add(rb);
-//        }
-//
-//        page = page + 1;
-        /*data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
-        data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
-        data.add(new MyReleaseBean("厉害了word天大！4项成果获得了2016年国家级别的奖项！", 2324, "2017年2月21日"));
-        data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
-        data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
-        data.add(new MyReleaseBean("厉害了word天大！4项成果获得了2016年国家级别的奖项！", 2324, "2017年2月21日"));
-        data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
-        data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
-        data.add(new MyReleaseBean("厉害了word天大！4项成果获得了2016年国家级别的奖项！", 2324, "2017年2月21日"));
-        data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
-        data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
-        data.add(new MyReleaseBean("厉害了word天大！4项成果获得了2016年国家级别的奖项！", 2324, "2017年2月21日"));
-        data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
-        data.add(new MyReleaseBean("校友向回学校想在食堂吃个饭，没卡咋办？", 23, "2017年2月21日"));
-        data.add(new MyReleaseBean("厉害了word天大！4项成果获得了2016年国家级别的奖项！", 2324, "2017年2月21日"));*/
+    @Override
+    public void onError (Throwable throwable){
+        Toast.makeText(this, throwable.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -129,12 +107,12 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
         data.clear();
         page = 0;
         eros.restart();
-        init();
+        mPresenter.initMyReleaseList();
         srl.setRefreshing(false);
         myRecyclerAdapter.notifyDataSetChanged();
     }
 
-    public void loadMoreData(){
+    /*public void loadMoreData() {
         List<MyReleaseBean> moreList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             MyReleaseBean rb = new MyReleaseBean();
@@ -148,6 +126,20 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
         View footer = LayoutInflater.from(this).inflate(R.layout.footer_view, rv, false);
         myRecyclerAdapter.setFooterView(footer);
         myRecyclerAdapter.notifyDataSetChanged();
+    }*/
+
+    @Override
+    public void clearMyReleaseList() {
+        myRecyclerAdapter.clear();
     }
 
+    @Override
+    public void showMyReleaseList(List<MyReleaseModel> data) {
+        myRecyclerAdapter.addItems(data);
+//        View footer = LayoutInflater.from(MyReleaseActivity.this).inflate(R.layout.footer_view, rv, false);
+//        myRecyclerAdapter.setFooterView(footer);
+        myRecyclerAdapter.notifyDataSetChanged();
+//        myRecyclerAdapter.removeFooterView();
+//        myRecyclerAdapter.notifyDataSetChanged();
+    }
 }

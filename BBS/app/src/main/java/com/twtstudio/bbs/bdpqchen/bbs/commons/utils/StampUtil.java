@@ -22,7 +22,6 @@ public final class StampUtil {
         return days + 1;    //不能从零天开始计算
     }
 
-
     private static String convert(String formatMode, int oldStamp){
 
         oldStamp -= diff;
@@ -41,4 +40,9 @@ public final class StampUtil {
         return convert(dateMode, t_create);
     }
 
+    public static String TimeStamp2Date(long timestampString){
+        Long timestamp = timestampString*1000;
+        String date = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(timestamp));
+        return date;
+    }
 }
