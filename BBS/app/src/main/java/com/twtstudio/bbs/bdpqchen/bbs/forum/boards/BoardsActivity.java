@@ -31,9 +31,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
 //    ProgressBar mProgressBar;
 
     public static final String  INTENT_BOARD_TITLE = "intent_board_title";
-    public static final String  INTENT_THREAD_TITLE = "intent_thread_title";
     public static final String  INTENT_BOARD_ID = "intent_board_id";
-    public static final String  INTENT_THREAD_ID = "intent_thread_id";
 
     int mForumId;
     Context mContext;

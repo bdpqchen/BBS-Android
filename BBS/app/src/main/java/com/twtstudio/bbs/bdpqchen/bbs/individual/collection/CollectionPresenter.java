@@ -5,18 +5,18 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
 
 /**
- * Created by HP on 2017/5/12.
- */
+ * Created by whm on 2017/5/12.
+ **/
 
 class CollectionPresenter extends RxPresenter<CollectionContract.View> implements CollectionContract.Presenter {
 
-    CollectionContract.View collectionView;
-    CollectionClient collectionClient = new CollectionClient(this);
+    private CollectionContract.View collectionView;
+    private CollectionClient collectionClient = new CollectionClient(this);
 
 
-    String tempUidToken = PrefUtil.getAuthUid() + "|" +PrefUtil.getAuthToken();
+    private String tempUidToken = PrefUtil.getAuthUid() + "|" +PrefUtil.getAuthToken();
 
-    public CollectionPresenter(CollectionContract.View collectionView) {
+    CollectionPresenter(CollectionContract.View collectionView) {
         this.collectionView = collectionView;
     }
 
@@ -35,7 +35,6 @@ class CollectionPresenter extends RxPresenter<CollectionContract.View> implement
 
     @Override
     public void loadCollections() {
-        System.out.println("CollectionPresenter.loadCollections"+tempUidToken);
         collectionClient.loadCollection(tempUidToken);
     }
 

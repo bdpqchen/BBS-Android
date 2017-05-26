@@ -61,11 +61,16 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
             }
         } else {
             // TODO: 17-5-4 if (!isSupportHidden()) {
-
+            onLazyInitView(savedInstanceState);
+            isInited = true;
         }
         initFragment();
+    }
 
-
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        initFragment();
     }
 
     @Override

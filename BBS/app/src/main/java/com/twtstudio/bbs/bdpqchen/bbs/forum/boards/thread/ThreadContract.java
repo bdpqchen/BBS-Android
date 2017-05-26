@@ -9,9 +9,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 
 interface ThreadContract {
     interface View extends BaseView{
-
+        void showThread(ThreadModel model);
+        void showFailed(String m);
     }
     interface Presenter extends BasePresenter<View>{
-
+        void getThread(int threadId, int postPage);
     }
 }

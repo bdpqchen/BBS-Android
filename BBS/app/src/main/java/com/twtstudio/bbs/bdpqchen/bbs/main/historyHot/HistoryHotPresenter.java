@@ -35,12 +35,12 @@ public class HistoryHotPresenter extends RxPresenter<HistoryHotContract.View> im
             }
 
         };
-        addSubscribe(mHttpClient.getHistoryHot()
+        /*addSubscribe(mHttpClient.getHistoryHot()
                 .map(mHttpClient.mTransformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
-        );
+        );*/
     }
 
     public void addAnnounce(){
@@ -57,11 +57,11 @@ public class HistoryHotPresenter extends RxPresenter<HistoryHotContract.View> im
             }
 
         };
-        addSubscribe(mHttpClient.getHistoryHot()
+     /*   addSubscribe(mHttpClient.getHistoryHot()
                 .map(mHttpClient.mTransformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
-        );
+        );*/
     }
 }

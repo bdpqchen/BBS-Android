@@ -20,13 +20,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by HP on 2017/5/14.
- */
+ * Created by whm on 2017/5/14.
+ **/
 
-public class CollectionClient {
+class CollectionClient {
 
-    CollectionPresenter collectionPresenter;
-    OkHttpClient client;
+    private CollectionPresenter collectionPresenter;
+    private OkHttpClient client;
 
     private static OkHttpClient.Builder getUnSaveBuilder() {
         try {
@@ -66,7 +66,7 @@ public class CollectionClient {
         }
     }
 
-    public CollectionClient(CollectionPresenter collectionPresenter) {
+    CollectionClient(CollectionPresenter collectionPresenter) {
         this.collectionPresenter = collectionPresenter;
 
 
@@ -81,7 +81,7 @@ public class CollectionClient {
                 .build();
     }
 
-    public void loadCollection(String uidToken) {
+    void loadCollection(String uidToken) {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -104,7 +104,7 @@ public class CollectionClient {
     }
 
 
-    public void deleteCollection(String uidToken, int tid) {
+    void deleteCollection(String uidToken, int tid) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
@@ -122,6 +122,7 @@ public class CollectionClient {
 
                 collectionPresenter.makeDeleteSuccessToast();
                 loadCollection(uidToken);
+                System.out.println("CollectionClient.onResponse"+response.body());
             }
 
             @Override

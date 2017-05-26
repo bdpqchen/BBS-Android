@@ -24,6 +24,7 @@ public class TopTenPresenter extends RxPresenter<TopTenContract.View> implements
 
     @Override
     public void refreshAnnounce() {
+
         SimpleObserver<TopTenModel.DataBean> observer = new SimpleObserver<TopTenModel.DataBean>() {
             @Override
             public void _onError(String msg) {

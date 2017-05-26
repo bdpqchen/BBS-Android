@@ -4,13 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorMainBgLight"
+    android:background="@color/colorMainBg"
     >
 
 
     <include
-        layout="@layout/common_toolbar"/>
+        layout="@layout/common_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="Nothing"
+        android:textSize="18sp"
+        android:textColor="@color/colorTvBlackMain"
+        android:id="@+id/tv_no_message"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

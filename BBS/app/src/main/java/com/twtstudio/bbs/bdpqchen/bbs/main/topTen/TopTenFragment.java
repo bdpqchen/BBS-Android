@@ -1,22 +1,20 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.topTen;
 
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
@@ -24,12 +22,14 @@ import butterknife.Unbinder;
  */
 
 public class TopTenFragment extends BaseFragment<TopTenPresenter> implements TopTenContract.View {
-    Unbinder unbinder;
     TopTenAdapter TopTenAdapter;
     @BindView(R.id.id_recyclerview)
     RecyclerView recyclerview;
     @BindView(R.id.layout_swipe_refresh)
     SwipeRefreshLayout layoutSwipeRefresh;
+    @BindView(R.id.pb_loading)
+    ProgressBar mPbLoading;
+    Unbinder unbinder;
     @BindView(R.id.topten_empty)
     TextView toptenEmpty;
     private LinearLayoutManager linearLayoutManager;
@@ -54,12 +54,9 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
         TopTenAdapter = new TopTenAdapter(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(linearLayoutManager);
-        mPresenter.refreshAnnounce();
-        layoutSwipeRefresh.setRefreshing(true);
+        recyclerview.addItemDecoration(new RecyclerViewItemDecoration(16));
         recyclerview.setAdapter(TopTenAdapter);
-        layoutSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(
-
-        ) {
+        layoutSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
@@ -68,26 +65,14 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
 
             }
         });
+       // layoutSwipeRefresh.setRefreshing(true);
+        mPresenter.refreshAnnounce();
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
 
     @Override
     public void addAnnounce(List<TopTenModel.DataBean.HotBean> announceBeen) {
         TopTenAdapter.addList(announceBeen);
+        hideLoading();
     }
 
     @Override
@@ -97,12 +82,19 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
         else
             toptenEmpty.setText("暂无全站十大");
         layoutSwipeRefresh.setRefreshing(false);
+        hideLoading();
     }
 
     @Override
     public void failedToGetTopTen(String msg) {
-
+        hideLoading();
+        SnackBarUtil.notice(this.getActivity(), "刷新试试～");
     }
+
+    private void hideLoading(){
+        mPbLoading.setVisibility(View.GONE);
+    }
+
 
 
 }

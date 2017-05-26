@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -29,7 +32,8 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> i
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取position
-            mOnItemClickListener.onItemClick(v, (int) v.getTag());
+            mOnItemClickListener.onItemClick(v, (int) v.getTag(0), String.valueOf(v.getTag(1)));
+
         }
     }
 
@@ -46,7 +50,7 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> i
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_list, parent, false);
-        view.setOnClickListener(this);
+//        view.setOnClickListener(this);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -61,6 +65,14 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> i
             holder.mTvThreadDate.setText(StampUtil.getDateByStamp(thread.getT_create()));
             holder.mTvThreadTitle.setText(thread.getTitle());
             holder.mTvThreadPostCount.setText(thread.getC_post() + " 回复");
+//            holder.itemView.setTag(0, thread.getId());
+//            holder.itemView.setTag(1, thread.getTitle());
+            holder.itemView.setOnClickListener(v -> {
+                Intent in = new Intent(mContext, ThreadActivity.class);
+                in.putExtra(Constants.INTENT_THREAD_ID, thread.getId());
+                in.putExtra(Constants.INTENT_THREAD_TITLE, thread.getTitle());
+                mContext.startActivity(in);
+            });
             ImageUtil.loadAvatarByUid(mContext, thread.getAuthor_id(), holder.mCivThreadAvatar);
         }
     }
@@ -81,6 +93,7 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> i
         TextView mTvThreadPostCount;
         @BindView(R.id.tv_thread_date)
         TextView mTvThreadDate;
+
         ViewHolder(View view) {
             super(view);
         }

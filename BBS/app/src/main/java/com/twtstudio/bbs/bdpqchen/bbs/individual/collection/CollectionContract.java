@@ -6,8 +6,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 
 /**
- * Created by HP on 2017/5/12.
- */
+ * Created by whm on 2017/5/12.
+ **/
 
 interface CollectionContract  {
     interface View extends BaseView{
