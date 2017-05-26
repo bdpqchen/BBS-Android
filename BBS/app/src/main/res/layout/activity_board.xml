@@ -57,8 +57,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/margin_fab"
-        android:src="@android:drawable/ic_dialog_email"
+        android:src="@drawable/ic_add_white_24dp"
+        android:clickable="true"
+        app:backgroundTint="@color/material_teal_500"
         app:layout_behavior="com.twtstudio.bbs.bdpqchen.bbs.commons.support.FABScrollBehavior"
+
         />
 
 
