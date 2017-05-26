@@ -10,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
@@ -20,60 +18,66 @@ import com.twtstudio.retrox.bbcode.BBCodeParse;
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by bdpqchen on 17-5-23.
  */
 
-public class PostAdapter extends BaseAdapter<ThreadModel.PostBean> {
+public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int TYPE_NORMAL = 0;
-    private static final int TYPE_HEADER = 1;
+    private static final int TYPE_POST = 0;
+    private static final int TYPE_THREAD = 1;
 
     private Context mContext;
     private ThreadModel.ThreadBean mThreadData = new ThreadModel.ThreadBean();
+    private List<ThreadModel.PostBean> mPostData = new ArrayList<>();
 
 
     public PostAdapter(Context context) {
-        super(context);
         mContext = context;
     }
 
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
-        if (viewType == TYPE_NORMAL) {
+        if (viewType == TYPE_POST) {
             LogUtil.dd("view = normal");
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_post, parent, false);
             return new ViewHolder(view);
-        } else if (viewType == TYPE_HEADER) {
+        } else if (viewType == TYPE_THREAD) {
             LogUtil.dd("view = header");
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_thread, parent, false);
             return new HeaderHolder(view);
         }
         view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_thread, parent, false);
         return new HeaderHolder(view);
-//        return null;
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (mThreadData != null) {
             LogUtil.dd("thread data is not null");
             if (holder instanceof HeaderHolder) {
                 LogUtil.dd("holder instance of header");
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 headerHolder.mTvUsernameThread.setText(mThreadData.getAuthor_nickname());
+                String str = BBCodeParse.bbcode2Html(mThreadData.getContent());
+                headerHolder.mHtvContent.setHtml(str, new HtmlHttpImageGetter(headerHolder.mHtvContent));
+                // TODO: 17-5-26 jjjjjj
 //                headerHolder.mco.setText(mThreadData.getAuthor_nickname());
             }
 
-            if (mDataSet != null && mDataSet.size() > 0) {
+            if (mPostData != null && mPostData.size() > 0) {
                 LogUtil.dd("post data is not null");
                 if (holder instanceof ViewHolder) {
                     LogUtil.dd("holder instance of normal");
-                    ThreadModel.PostBean p = mDataSet.get(position);
+                    ThreadModel.PostBean p = mPostData.get(position - 1);
                     ViewHolder h = (ViewHolder) holder;
                     ImageUtil.loadAvatarByUid(mContext, p.getAuthor_id(), h.mCivAvatarPost);
                     h.mTvNicknamePost.setText(p.getAuthor_nickname());
@@ -93,31 +97,41 @@ public class PostAdapter extends BaseAdapter<ThreadModel.PostBean> {
             }
 
         }
-
     }
 
     @Override
     public int getItemViewType(int position) {
-
         LogUtil.dd("position", String.valueOf(position));
         if (position > 0) {
-            return TYPE_NORMAL;
+            return TYPE_POST;
         } else {
-            return TYPE_HEADER;
+            return TYPE_THREAD;
         }
     }
 
-    /*@Override
+    @Override
     public int getItemCount() {
-        return mDataSet.size();
+        int count = 0;
+        if (mThreadData != null){
+            count++;
+        }
+        if (mPostData != null && mPostData.size() != 0){
+            count += mPostData.size();
+        }
+        return count;
     }
-*/
+
+    public void setPostData(List<ThreadModel.PostBean> postData){
+        mPostData = postData;
+        notifyDataSetChanged();
+    }
+
     public void setThreadData(ThreadModel.ThreadBean threadData) {
         mThreadData = threadData;
         notifyDataSetChanged();
     }
 
-    static class ViewHolder extends BaseViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.civ_avatar_post)
         CircleImageView mCivAvatarPost;
         @BindView(R.id.tv_nickname_post)
@@ -131,10 +145,12 @@ public class PostAdapter extends BaseAdapter<ThreadModel.PostBean> {
 
         ViewHolder(View view) {
             super(view);
+            ButterKnife.bind(this, view);
+
         }
     }
 
-    static class HeaderHolder extends BaseViewHolder {
+    static class HeaderHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.civ_avatar_thread)
         CircleImageView mCivAvatarThread;
         @BindView(R.id.tv_username_thread)
@@ -152,8 +168,9 @@ public class PostAdapter extends BaseAdapter<ThreadModel.PostBean> {
         @BindView(R.id.htv_content)
         HtmlTextView mHtvContent;
 
-        public HeaderHolder(View itemView) {
+        HeaderHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 

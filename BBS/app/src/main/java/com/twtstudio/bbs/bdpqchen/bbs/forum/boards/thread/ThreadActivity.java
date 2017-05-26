@@ -142,7 +142,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     private void updatePostList(List<ThreadModel.PostBean> postList) {
         hideProgressBar();
-        mAdapter.addList(postList);
+        mAdapter.setPostData(postList);
+//        mAdapter.addList(postList);
 
     }
 
