@@ -78,7 +78,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        mContext = this;
+        mContext = this;
         mForumId = getIntent().getIntExtra(ForumFragment.INTENT_FORUM_ID, 0);
         mForumTitle = getIntent().getStringExtra(ForumFragment.INTENT_FORUM_TITLE);
         super.onCreate(savedInstanceState);
