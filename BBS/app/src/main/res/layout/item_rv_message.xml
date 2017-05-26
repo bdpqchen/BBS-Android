@@ -9,8 +9,7 @@
     <ImageView
         android:id="@+id/iv_avatar"
         android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@mipmap/ic_launcher_round" />
+        android:layout_height="60dp" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
