@@ -25,6 +25,7 @@ public class BBCodeParse {
             html = html.replaceAll(entry.getKey().toString(), entry.getValue().toString());
         }
 
+
         return html;
     }
 
@@ -41,6 +42,9 @@ public class BBCodeParse {
         String asteriskTag2 = "*";
 
         int pos = 0;
+        if (html == null){
+            return "";
+        }
         // Only replace * which contains in [list]...[/list]
         while (html.indexOf(listTagStart, pos) != -1) {
             int sPos = html.indexOf(listTagStart, pos);

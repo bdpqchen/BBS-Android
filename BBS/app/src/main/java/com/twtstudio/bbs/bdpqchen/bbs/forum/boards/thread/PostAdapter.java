@@ -15,6 +15,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.retrox.bbcode.BBCodeParse;
 
+import org.sufficientlysecure.htmltextview.GlideImageGeter;
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
@@ -68,7 +69,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 headerHolder.mTvUsernameThread.setText(mThreadData.getAuthor_nickname());
                 String str = BBCodeParse.bbcode2Html(mThreadData.getContent());
-                headerHolder.mHtvContent.setHtml(str, new HtmlHttpImageGetter(headerHolder.mHtvContent));
+                headerHolder.mHtvContent.setHtml(str, new GlideImageGeter(headerHolder.mHtvContent.getContext(),headerHolder.mHtvContent));
                 // TODO: 17-5-26 jjjjjj
 //                headerHolder.mco.setText(mThreadData.getAuthor_nickname());
             }
@@ -90,7 +91,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     } );*/
 
                     LogUtil.dd(htmlStr);
-                    h.mTvPostContent.setHtml(htmlStr, new HtmlHttpImageGetter(h.mTvPostContent));
+                    h.mTvPostContent.setHtml(htmlStr, new GlideImageGeter(h.mTvPostContent.getContext(),h.mTvPostContent));
 
                     // TODO: 17-5-23 是否收藏的判定
                 }

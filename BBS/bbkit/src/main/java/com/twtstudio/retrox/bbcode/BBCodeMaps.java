@@ -9,6 +9,10 @@ import java.util.Map;
 
 public class BBCodeMaps {
 
+    /**
+     * @deprecated
+     * @return
+     */
     public static Map<String, String> getHTMLMap() {
         Map<String, String> htmlMap = new HashMap<String, String>();
 
@@ -190,6 +194,12 @@ public class BBCodeMaps {
     public static Map<String, String> getBBcodeMap() {
         Map<String, String> bbMap = new HashMap<String, String>();
 
+        //迷之转义
+        bbMap.put("&amp;rsquo;", "'");
+        bbMap.put("&lt","<");
+        bbMap.put("&gt",">");
+        bbMap.put("&rsquo;","'");
+
 	    /* lowercase */
 
         bbMap.put("\n", "<br />");
@@ -212,8 +222,8 @@ public class BBCodeMaps {
         bbMap.put("\\[color=(.+?)\\](.+?)\\[/color\\]", "<font color='$1'>$2</font>");
         bbMap.put("\\[size=(.+?)\\](.+?)\\[/size\\]", "<font size=\"$1\">$2</span>");
         bbMap.put("\\[img\\](.+?)\\[/img\\]", "<img src=\"$1\" />");
-//        bbMap.put("<img src=\"https://bbs.twtstudio.com/api/attach/(.+?)\" />", "\\[attimg\\]$1\\[/attimg\\]");
-        bbMap.put("\\[attimg\\](.+?)\\[/attimg\\]", "<img src=\"https://bbs.twtstudio.com/api/attach/$1\" />");
+        //乔成骚改的
+        bbMap.put("\\[attimg\\](.+?)\\[/attimg\\]", "<img src=\"http://bbs.twtstudio.com/api/attach/$1\" />");
         bbMap.put("\\[img=(.+?),(.+?)\\](.+?)\\[/img\\]", "<img width=\"$1\" height=\"$2\" src=\"$3\" />");
         bbMap.put("\\[email\\](.+?)\\[/email\\]", "<a href=\"mailto:$1\">$1</a>");
         bbMap.put("\\[email=(.+?)\\](.+?)\\[/email\\]", "<a href=\"mailto:$1\">$2</a>");
