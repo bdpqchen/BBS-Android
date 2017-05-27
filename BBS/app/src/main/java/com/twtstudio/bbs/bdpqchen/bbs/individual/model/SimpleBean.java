@@ -4,7 +4,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.model;
  * Created by HP on 2017/5/23.
  */
 
-public class UpdatePasswordBean {
+public class SimpleBean {
     /**
      * err : 2610
      * data : 取消收藏失败

@@ -1,7 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword;
 
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.model.UpdatePasswordBean;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.model.SimpleBean;
 
 import java.util.concurrent.TimeUnit;
 
@@ -85,15 +84,15 @@ public class UpdatePasswordClient {
                 .build();
         UpdatePasswordApi updatePasswordApi = retrofit.create(UpdatePasswordApi.class);
 
-        Call<UpdatePasswordBean> call = updatePasswordApi.sentUpdatePasswordInfo(uidToken, oldPassword, newPassword);
-        call.enqueue(new Callback<UpdatePasswordBean>() {
+        Call<SimpleBean> call = updatePasswordApi.sentUpdatePasswordInfo(uidToken, oldPassword, newPassword);
+        call.enqueue(new Callback<SimpleBean>() {
             @Override
-            public void onResponse(Call<UpdatePasswordBean> call, Response<UpdatePasswordBean> response) {
+            public void onResponse(Call<SimpleBean> call, Response<SimpleBean> response) {
                 updatePasswordPresenter.dealFeedbackInfo(response.body());
             }
 
             @Override
-            public void onFailure(Call<UpdatePasswordBean> call, Throwable t) {
+            public void onFailure(Call<SimpleBean> call, Throwable t) {
             }
         });
     }
