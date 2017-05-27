@@ -1,19 +1,12 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.di.module;
 
-import android.content.Context;
-import android.support.v4.app.FragmentManager;
-
 import com.twtstudio.bbs.bdpqchen.bbs.App;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.ContextLife;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerApp;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Created by bdpqchen on 17-4-26.
@@ -33,13 +26,12 @@ public class AppModule {
     }
 
 
-    //已经为HttpClient提供了但里模式，无需在RxDoHttpClient里自作多情
+    //已经为HttpClient提供了但里模式，无需在RxDoHttpClient里
     @Provides
     @Singleton
     RxDoHttpClient provideRxDoHttpClient(){
         return new RxDoHttpClient<>();
     }
-
 
 
 

@@ -32,7 +32,7 @@ public class ForumAdapter extends BaseAdapter<ForumModel> implements View.OnClic
 
     private OnItemClickListener mOnItemClickListener = null;
 
-    public static interface OnItemClickListener {
+    public interface OnItemClickListener {
         void onItemClick(View view , int position);
     }
 

@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
@@ -7,6 +8,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 
+import java.net.SocketImpl;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,14 +20,14 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-5-12.
  */
 
-class ThreadPresenter extends RxPresenter<ThreadContract.View> implements ThreadContract.Presenter{
+class ThreadPresenter extends RxPresenter<ThreadContract.View> implements ThreadContract.Presenter {
 
     private RxDoHttpClient<ThreadModel> mHttpClient;
     private ResponseTransformer<PostModel> mTransformerPost = new ResponseTransformer<>();
 
 
     @Inject
-    ThreadPresenter(RxDoHttpClient client){
+    ThreadPresenter(RxDoHttpClient client) {
         mHttpClient = client;
     }
 
@@ -73,4 +75,49 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
                 .subscribeWith(observer)
         );
     }
+
+    @Override
+    public void starThread(int id) {
+        ResponseTransformer<BaseModel> transformer = new ResponseTransformer<>();
+        SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
+            @Override
+            public void _onError(String msg) {
+                mView.onStarFailed(msg);
+            }
+
+            @Override
+            public void _onNext(BaseModel baseModel) {
+                mView.onStarred();
+            }
+        };
+        addSubscribe(mHttpClient.starThread(id)
+                .map(transformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer)
+        );
+    }
+
+    @Override
+    public void unStarThread(int id) {
+        ResponseTransformer<BaseModel> transformer = new ResponseTransformer<>();
+        SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
+            @Override
+            public void _onError(String msg) {
+                mView.onUnStarFailed(msg);
+            }
+
+            @Override
+            public void _onNext(BaseModel baseModel) {
+                mView.onUnStarred();
+            }
+        };
+        addSubscribe(mHttpClient.unStarThread(id)
+                .map(transformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer)
+        );
+    }
+
 }

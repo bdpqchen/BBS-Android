@@ -2,7 +2,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 
 import android.content.Context;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
@@ -37,12 +35,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_THREAD = 1;
 
     private Context mContext;
+    private ThreadPresenter mPresenter;
     private ThreadModel.ThreadBean mThreadData = new ThreadModel.ThreadBean();
     private List<ThreadModel.PostBean> mPostData = new ArrayList<>();
 
-
-    public PostAdapter(Context context) {
+    public PostAdapter(Context context, ThreadPresenter presenter) {
         mContext = context;
+        mPresenter = presenter;
     }
 
     @Override
@@ -71,9 +70,27 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(mThreadData.getT_create()));
                 ImageUtil.loadAvatarAsBitmapByUid(mContext, mThreadData.getAuthor_id(), headerHolder.mCivAvatarThread);
                 // TODO: 17-5-26 Level is not set
-
                 String str = BBCodeParse.bbcode2Html(mThreadData.getContent());
-                headerHolder.mHtvContent.setHtml(str, new GlideImageGeter(headerHolder.mHtvContent.getContext(),headerHolder.mHtvContent));
+                headerHolder.mHtvContent.setHtml(str, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
+                int id = mThreadData.getId();
+                LogUtil.d(String.valueOf(mThreadData.getIn_collection()));
+                if (mThreadData.getIn_collection() == 0) {
+
+                    headerHolder.mIvStarThread.setVisibility(View.VISIBLE);
+                    headerHolder.mIvStaredThread.setVisibility(View.GONE);
+                }
+                if (mThreadData.getIn_collection() == 1) {
+                    headerHolder.mIvStaredThread.setVisibility(View.VISIBLE);
+                    headerHolder.mIvStarThread.setVisibility(View.GONE);
+                }
+
+                headerHolder.mIvStaredThread.setOnClickListener(v -> {
+                    mPresenter.unStarThread(id);
+
+                });
+                headerHolder.mIvStarThread.setOnClickListener(v -> mPresenter.starThread(id));
+
+
             }
 
             if (mPostData != null && mPostData.size() > 0) {
@@ -86,13 +103,22 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     h.mTvFloorPost.setText(p.getFloor() + "楼");
                     String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
                     LogUtil.dd(htmlStr);
-                    h.mTvPostContent.setHtml(htmlStr, new GlideImageGeter(h.mTvPostContent.getContext(),h.mTvPostContent));
+                    h.mTvPostContent.setHtml(htmlStr, new GlideImageGeter(h.mTvPostContent.getContext(), h.mTvPostContent));
 
                     // TODO: 17-5-23 是否收藏的判定
                 }
             }
 
         }
+    }
+
+    private void unStarThread(int id) {
+
+
+    }
+
+    private void starThread(int id) {
+
     }
 
     @Override
@@ -108,16 +134,16 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         int count = 0;
-        if (mThreadData != null){
+        if (mThreadData != null) {
             count++;
         }
-        if (mPostData != null && mPostData.size() != 0){
+        if (mPostData != null && mPostData.size() != 0) {
             count += mPostData.size();
         }
         return count;
     }
 
-    public void setPostData(List<ThreadModel.PostBean> postData){
+    public void setPostData(List<ThreadModel.PostBean> postData) {
         mPostData = postData;
         notifyDataSetChanged();
     }
@@ -146,7 +172,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    static class HeaderHolder extends RecyclerView.ViewHolder{
+    static class HeaderHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.civ_avatar_thread)
         CircleImageView mCivAvatarThread;
         @BindView(R.id.tv_username_thread)
@@ -155,8 +181,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView mTvLevelThread;
         @BindView(R.id.tv_datetime_thread)
         TextView mTvDatetimeThread;
-//        @BindView(R.id.iv_star_thread)
-//        ImageView mIvStarThread;
+        @BindView(R.id.iv_star_thread)
+        ImageView mIvStarThread;
         @BindView(R.id.iv_stared_thread)
         ImageView mIvStaredThread;
         @BindView(R.id.tv_title)

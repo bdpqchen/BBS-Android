@@ -1,5 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
+import android.support.v4.content.ContextCompat;
+
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
@@ -27,6 +29,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -42,6 +45,8 @@ import retrofit2.http.Path;
  */
 
 public interface BaseApi {
+
+    String header = Constants.NET_RETROFIT_HEADER_TITLE;
 
     @FormUrlEncoded
     @POST("passport/login")
@@ -121,9 +126,9 @@ public interface BaseApi {
     @GET("index")
     Observable<BaseResponse<TopTenModel.DataBean>> getTopTen();
 
-   /* @GET("historyhot")
-    Observable<BaseResponse<HistoryHotModel.DataBean>> getHistoryHot();
-*/
+    /* @GET("historyhot")
+     Observable<BaseResponse<HistoryHotModel.DataBean>> getHistoryHot();
+ */
     @GET("thread/{threadid}/page/0")
     Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(@Path("threadid") String threadid);
 
@@ -177,5 +182,17 @@ public interface BaseApi {
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Path("tid") int threadId,
             @Field(Constants.CONTENT) String comment);
+
+    @FormUrlEncoded
+    @POST("home/collection")
+    Observable<BaseResponse<BaseModel>> starThread(
+            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String head,
+            @Field(Constants.TID) int id);
+
+
+    @DELETE("home/collection/{tid}")
+    Observable<BaseResponse<BaseModel>> unStarThread(
+            @Header(header) String latestAuthentication,
+            @Path(Constants.TID) int id);
 }
 

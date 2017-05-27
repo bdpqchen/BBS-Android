@@ -118,7 +118,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mContext = this;
         mPresenter.getThread(mThreadId, 0);
         // TODO: 17-5-27 多页加载
-        mAdapter = new PostAdapter(mContext);
+        mAdapter = new PostAdapter(mContext, mPresenter);
         mRvThreadPost.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(5));
         mRvThreadPost.setAdapter(mAdapter);
@@ -200,6 +200,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         // TODO: 17-5-27 自动显示软键盘
     }
 
+    public void starThread(int id){
+
+    }
+
     @Override
     public void showThread(ThreadModel model) {
         hideProgressBar();
@@ -225,6 +229,26 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         SnackBarUtil.normal(this, "评论成功");
         showFab();
         // TODO: 17-5-27 刷新列表
+    }
+
+    @Override
+    public void onStarFailed(String m) {
+        SnackBarUtil.error(this, m);
+    }
+
+    @Override
+    public void onUnStarFailed(String m) {
+        SnackBarUtil.error(this, m);
+    }
+
+    @Override
+    public void onStarred() {
+        SnackBarUtil.normal(this, "收藏成功");
+    }
+
+    @Override
+    public void onUnStarred() {
+        SnackBarUtil.normal(this, "已取消收藏");
     }
 
     @Override

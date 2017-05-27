@@ -17,14 +17,14 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.AppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerAppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
 
+import org.litepal.LitePal;
+
 /**
  * Created by bdpqchen on 17-4-17.
  */
 
-// 支持lambda
 // TODO: 17-4-27 尚未搞定的事
 
-// login/logOut
 // APP Intro
 
 public class App extends Application {
@@ -45,7 +45,6 @@ public class App extends Application {
 
         initLogUtils();
         initSlideBack();
-
         HandlerThread workerThread = new HandlerThread("global_worker_thread");
         workerThread.start();
         initImageLoader(this);

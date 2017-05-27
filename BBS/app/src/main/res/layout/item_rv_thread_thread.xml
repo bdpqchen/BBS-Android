@@ -69,25 +69,24 @@
             android:layout_gravity="end"
             >
 
-<!--
-            <ImageView
-                android:id="@+id/iv_star_thread"
-                android:layout_width="@dimen/icon_size_normal"
-                android:layout_height="@dimen/icon_size_normal"
-                android:layout_gravity="end"
-                android:src="@drawable/ic_star_border_white_24dp"
-                />
--->
-
             <ImageView
                 android:id="@+id/iv_stared_thread"
                 android:layout_width="@dimen/icon_size_normal"
                 android:layout_height="@dimen/icon_size_normal"
                 android:layout_alignParentEnd="true"
-                android:layout_gravity="end"
                 android:src="@drawable/ic_star_white_24dp"
-                android:visibility="visible"
                 />
+
+            <ImageView
+                android:id="@+id/iv_star_thread"
+                android:layout_width="@dimen/icon_size_normal"
+                android:layout_height="@dimen/icon_size_normal"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_star_border_white_24dp"
+
+                />
+
+
         </RelativeLayout>
 
     </LinearLayout>

@@ -65,7 +65,9 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
         mAdapter = new ForumAdapter(this.getContext());
         mRvForumList.setLayoutManager(mGridLayoutManager);
         mRvForumList.setAdapter(mAdapter);
+
         mAdapter.setOnItemClickListener((view, position) -> {
+
             if (mAdapter.getItemForumId(position) == 0){
                 SnackBarUtil.notice(this.getActivity(), "都说了敬请期待..");
                 return;

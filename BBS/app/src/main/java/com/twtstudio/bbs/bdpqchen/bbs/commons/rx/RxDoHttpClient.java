@@ -291,4 +291,12 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<PostModel>> doComment(int threadId, String comment) {
         return mApi.doComment(getLatestAuthentication(), threadId, comment);
     }
+
+    public Observable<BaseResponse<BaseModel>> starThread(int id) {
+        return mApi.starThread(getLatestAuthentication(), id);
+    }
+
+    public Observable<BaseResponse<BaseModel>> unStarThread(int id) {
+        return mApi.unStarThread(getLatestAuthentication(), id);
+    }
 }
