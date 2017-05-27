@@ -238,7 +238,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
         switch (item.getItemId()){
             case R.id.action_thread_share:
-                String url = "https://bbs.twtstudio.com/forum/thread" + mThreadId;
+                String url = "https://bbs.twtstudio.com/forum/thread/" + mThreadId;
                 shareText(url);
 //                shareToAnyone();
                 break;
