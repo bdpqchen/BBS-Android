@@ -77,6 +77,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
             mAdapter.getItemForumId(position);
         });
 
+        // TODO: 17-5-27 到底要不要支持本页面刷新
     }
 
     @Override
