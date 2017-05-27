@@ -33,139 +33,13 @@ public class LatestPostModel {
 
     public static class DataBean {
         private List<LatestBean> latest;
-        private List<HotBean> hot;
         public List<LatestBean> getLatest() {
             return latest;
         }
-        public List<HotBean> getHot(){return hot;}
         public void setLatest(List<LatestBean> latest) {
             this.latest = latest;
         }
-        public static class HotBean{
-            /**
-             * id : 2
-             * title : 再次控制台发帖
-             * author_id : 21142
-             * board_id : 1
-             * author_name : zhyupe12
-             * author_nickname : zhyupe12
-             * b_top : 0
-             * b_elite : 0
-             * visibility : 0
-             * t_create : 1494720361
-             * t_modify : 1494720361
-             * board_name : 这是一个子版块
-             */
 
-            private String id;
-            private String title;
-            private String author_id;
-            private int board_id;
-            private String author_name;
-            private String author_nickname;
-            private int b_top;
-            private int b_elite;
-            private int visibility;
-            private long t_create;
-            private long t_modify;
-            private String board_name;
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public void setTitle(String title) {
-                this.title = title;
-            }
-
-            public String getAuthor_id() {
-                return author_id;
-            }
-
-            public void setAuthor_id(String author_id) {
-                this.author_id = author_id;
-            }
-
-            public int getBoard_id() {
-                return board_id;
-            }
-
-            public void setBoard_id(int board_id) {
-                this.board_id = board_id;
-            }
-
-            public String getAuthor_name() {
-                return author_name;
-            }
-
-            public void setAuthor_name(String author_name) {
-                this.author_name = author_name;
-            }
-
-            public String getAuthor_nickname() {
-                return author_nickname;
-            }
-
-            public void setAuthor_nickname(String author_nickname) {
-                this.author_nickname = author_nickname;
-            }
-
-            public int getB_top() {
-                return b_top;
-            }
-
-            public void setB_top(int b_top) {
-                this.b_top = b_top;
-            }
-
-            public int getB_elite() {
-                return b_elite;
-            }
-
-            public void setB_elite(int b_elite) {
-                this.b_elite = b_elite;
-            }
-
-            public int getVisibility() {
-                return visibility;
-            }
-
-            public void setVisibility(int visibility) {
-                this.visibility = visibility;
-            }
-
-            public long getT_create() {
-                return t_create;
-            }
-
-            public void setT_create(long t_create) {
-                this.t_create = t_create;
-            }
-
-            public long getT_modify() {
-                return t_modify;
-            }
-
-            public void setT_modify(long t_modify) {
-                this.t_modify = t_modify;
-            }
-
-            public String getBoard_name() {
-                return board_name;
-            }
-
-            public void setBoard_name(String board_name) {
-                this.board_name = board_name;
-            }
-        }
         public static class LatestBean {
             /**
              * id : 2
@@ -182,7 +56,7 @@ public class LatestPostModel {
              * board_name : 这是一个子版块
              */
 
-            private String id;
+            private int id;
             private String title;
             private int author_id;
             private int board_id;
@@ -195,13 +69,6 @@ public class LatestPostModel {
             private long t_modify;
             private String board_name;
 
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
 
             public String getTitle() {
                 return title;
@@ -289,6 +156,14 @@ public class LatestPostModel {
 
             public void setBoard_name(String board_name) {
                 this.board_name = board_name;
+            }
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
             }
         }
     }

@@ -9,9 +9,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.WindowUtil;
@@ -46,7 +48,6 @@ public class ForumAdapter extends BaseAdapter<ForumModel> implements View.OnClic
         return mDataSet.get(position).getName();
     }
 
-
     public ForumAdapter(Context context)
     {
         super(context);
@@ -54,15 +55,12 @@ public class ForumAdapter extends BaseAdapter<ForumModel> implements View.OnClic
 
     }
 
-
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder holder = null;
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_forum, parent, false);
         view.setOnClickListener(this);
-
         holder = new ViewHolder(view);
-
         return holder;
     }
 
@@ -77,13 +75,10 @@ public class ForumAdapter extends BaseAdapter<ForumModel> implements View.OnClic
             ViewHolder viewHolder = (ViewHolder) holder;
             LogUtil.dd(model.getName());
             viewHolder.mTvName.setText(model.getName());
-            ViewGroup.LayoutParams params = viewHolder.mIvBgImage.getLayoutParams();
-            params.width = WindowUtil.getWindowWidth(mContext) / 2;
-            viewHolder.mIvBgImage.setLayoutParams(params);
-            ImageUtil.loadWithHeight(mContext, R.drawable.forum_banner_1, viewHolder.mIvBgImage);
+            String coverUrl = RxDoHttpClient.BASE_URL + "/forum/" + model.getName() + "cover";
+            ImageUtil.loadForumCover(mContext, coverUrl, viewHolder.mIvBgImage);
             viewHolder.itemView.setTag(position);
         }
-
 
     }
 

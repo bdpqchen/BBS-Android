@@ -4,6 +4,8 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 
 /**
@@ -15,13 +17,19 @@ public final class ImageUtil {
     private static String getAvatarUrl(int uid){
         return RxDoHttpClient.BASE_URL + "user/" + uid + "/avatar";
     }
-
-    public static void loadAsBitmap(Context context, int resourceId, ImageView view) {
+    public static void loadIconAsBitmap(Context context, int resourceId, ImageView view) {
         Glide.with(context).load(resourceId).asBitmap().centerCrop().dontAnimate().into(view);
     }
 
-    public static void loadWithHeight(Context context, int resourceId, ImageView view) {
-        Glide.with(context).load(resourceId).centerCrop().dontAnimate().into(view);
+    public static void loadForumCover(Context context, String url, ImageView view){
+        Glide.with(context)
+                .load(url)
+                .placeholder(R.drawable.forum_banner_1)
+                .centerCrop()
+                .dontAnimate()
+                .error(R.drawable.forum_banner_1)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(view);
     }
 
     public static void loadFromUrl(Context context, String url, ImageView view) {
@@ -29,15 +37,21 @@ public final class ImageUtil {
     }
 
     public static void loadAvatarByUid(Context context, int uid, ImageView view) {
-        Glide.with(context).load(getAvatarUrl(uid)).centerCrop()
+        Glide.with(context)
+                .load(getAvatarUrl(uid))
+                .centerCrop()
     //               .placeholder(R.drawable.avatar2)
+                .dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
+
     }
 
     public static void loadAvatarAsBitmapByUid(Context context, int uid, ImageView view){
         Glide.with(context).load(getAvatarUrl(uid))
                 .asBitmap()
                 .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
  //               .placeholder(R.drawable.avatar2)
                 .into(view);
     }

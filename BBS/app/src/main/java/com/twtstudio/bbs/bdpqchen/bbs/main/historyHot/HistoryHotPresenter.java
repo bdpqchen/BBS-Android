@@ -14,7 +14,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class HistoryHotPresenter extends RxPresenter<HistoryHotContract.View> implements HistoryHotContract.Presenter{
-    public RxDoHttpClient<HistoryHotModel> mHttpClient;
+    public RxDoHttpClient<HistoryHotModel.DataBean> mHttpClient;
 
     @Inject
     HistoryHotPresenter(RxDoHttpClient client){
@@ -23,45 +23,45 @@ public class HistoryHotPresenter extends RxPresenter<HistoryHotContract.View> im
 
     @Override
     public void refreshAnnounce() {
-        SimpleObserver<HistoryHotModel> observer = new SimpleObserver<HistoryHotModel>() {
+        SimpleObserver<HistoryHotModel.DataBean> observer = new SimpleObserver<HistoryHotModel.DataBean>() {
             @Override
             public void _onError(String msg) {
                 mView.failedToGetHistoryHot(msg);
             }
 
             @Override
-            public void _onNext(HistoryHotModel HistoryHotModel) {
-                mView.refreshAnnounce(HistoryHotModel.getData().getLatest());
+            public void _onNext(HistoryHotModel.DataBean HistoryHotModel) {
+                mView.refreshAnnounce(HistoryHotModel.historyhot);
             }
 
         };
-        addSubscribe(mHttpClient.getHistoryHot()
+        /*addSubscribe(mHttpClient.getHistoryHot()
                 .map(mHttpClient.mTransformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
-        );
+        );*/
     }
 
     public void addAnnounce(){
 
-        SimpleObserver<HistoryHotModel> observer = new SimpleObserver<HistoryHotModel>() {
+        SimpleObserver<HistoryHotModel.DataBean> observer = new SimpleObserver<HistoryHotModel.DataBean>() {
             @Override
             public void _onError(String msg) {
                 mView.failedToGetHistoryHot(msg);
             }
 
             @Override
-            public void _onNext(HistoryHotModel HistoryHotModel) {
-                mView.refreshAnnounce(HistoryHotModel.getData().getLatest());
+            public void _onNext(HistoryHotModel.DataBean historyHotModel) {
+                mView.refreshAnnounce(historyHotModel.historyhot);
             }
 
         };
-        addSubscribe(mHttpClient.getHistoryHot()
+     /*   addSubscribe(mHttpClient.getHistoryHot()
                 .map(mHttpClient.mTransformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
-        );
+        );*/
     }
 }

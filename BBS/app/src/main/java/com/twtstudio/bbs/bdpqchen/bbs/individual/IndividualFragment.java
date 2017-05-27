@@ -1,13 +1,10 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,12 +16,12 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.collection.CollectionActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.test.MyReleaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -127,9 +124,11 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
 
     private void startItemActivity(int index) {
-//        Class clazz = MessageActivity.class;
-        Class clazz = CollectionActivity.class;
-        switch (index) {
+        Class clazz;
+        switch (index){
+            case 1:
+                clazz = MessageActivity.class;
+                break;
             case 2:
                 clazz = CollectionActivity.class;
                 break;
@@ -142,6 +141,8 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
             case 5:
                 clazz = SettingsActivity.class;
                 break;
+            default:
+                return;
         }
         Intent intent = new Intent(mContext, clazz);
         startActivity(intent);

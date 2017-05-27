@@ -27,6 +27,7 @@ public class ResponseException extends RuntimeException{
     }
 
     public ResponseException(BaseResponse baseResponse){
+        LogUtil.dd("throw a response exception");
         this.mResponse = baseResponse;
     }
 

@@ -6,11 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -70,7 +66,10 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
         mRvForumList.setLayoutManager(mGridLayoutManager);
         mRvForumList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((view, position) -> {
-
+            if (mAdapter.getItemForumId(position) == 0){
+                SnackBarUtil.notice(this.getActivity(), "都说了敬请期待..");
+                return;
+            }
             Intent intent = new Intent(mActivity, BoardsActivity.class);
             intent.putExtra(INTENT_FORUM_ID, mAdapter.getItemForumId(position));
             intent.putExtra(INTENT_FORUM_TITLE, mAdapter.getItemForumTitle(position));
@@ -78,11 +77,11 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
             mAdapter.getItemForumId(position);
         });
 
+        // TODO: 17-5-27 到底要不要支持本页面刷新
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);
         return rootView;
@@ -110,6 +109,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
     @Override
     public void failedToGetForum(String msg) {
         SnackBarUtil.error(this.getActivity(), msg);
+
     }
 
     @Override
@@ -117,6 +117,10 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
         super.onLazyInitView(savedInstanceState);
         mPresenter.getForumList();
 //        initFragment();
+
+    }
+
+    private void hideProgressBar(){
 
     }
 }

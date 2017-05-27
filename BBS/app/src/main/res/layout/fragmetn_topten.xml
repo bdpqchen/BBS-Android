@@ -11,17 +11,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/id_topten_recyclerview"
+            android:id="@+id/id_recyclerview"
             android:divider="#ffff0000"
             android:dividerHeight="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/pb_loading"
+        />
+
     <TextView
         android:id="@+id/topten_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:visibility="gone"
+        />
 
 </FrameLayout>

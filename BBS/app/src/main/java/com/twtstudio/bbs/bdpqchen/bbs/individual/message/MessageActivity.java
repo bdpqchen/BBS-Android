@@ -2,26 +2,35 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.message;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+
+import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by Ricky on 2017/5/13.
  */
 
-public class MessageActivity extends BaseActivity<MessagePresenter> {
+public class MessageActivity extends BaseActivity<MessagePresenter> implements MessageContract.View {
 
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.rv_message_list)
     RecyclerView rvMessageList;
+    @BindView(R.id.tv_no_message)
+    TextView mTvNoMessage;
+
+    private MessageAdapter mAdapter;
 
     @Override
     protected int getLayoutResourceId() {
@@ -30,6 +39,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> {
 
     @Override
     protected Toolbar getToolbarView() {
+        toolbar.setTitle("我的消息");
         return toolbar;
     }
 
@@ -56,8 +66,20 @@ public class MessageActivity extends BaseActivity<MessagePresenter> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_message);
-        ButterKnife.bind(this);
-        mPresenter.getMessageList(1);
+        toolbar.setTitle("我的消息");
+        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
+        mAdapter = new MessageAdapter(this);
+        rvMessageList.setAdapter(mAdapter);
+        rvMessageList.setLayoutManager(new LinearLayoutManager(this));
+        mPresenter.getMessageList(0);
+    }
+
+    @Override
+    public void showMessageList(List<MessageModel> messageList) {
+        if (messageList != null && messageList.size() > 0) {
+            mAdapter.addList(messageList);
+        } else {
+            mTvNoMessage.setVisibility(View.VISIBLE);
+        }
     }
 }

@@ -14,11 +14,11 @@ public class ResponseTransformer<T> implements Function<BaseResponse<T>, T> {
 
     @Override
     public T apply(@NonNull BaseResponse<T> tBaseResponse) throws ResponseException{
-//        LogUtil.d("RxBaseTransformer", tBaseResponse.getErr());
+//        LogUtil.dd("RxBaseTransformer", tBaseResponse.getErr());
         if (tBaseResponse.getErr() == 0){
             return tBaseResponse.getData();
         }else{
-//            LogUtil.d(tBaseResponse.getErr());
+//            LogUtil.dd(tBaseResponse.getErr());
             throw new ResponseException(tBaseResponse);
         }
     }

@@ -13,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.replacePassword.ReplacePa
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
@@ -20,7 +21,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePassword;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.test.MyReleaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
 
 import dagger.Component;
 
@@ -67,4 +68,7 @@ public interface ActivityComponent {
     void inject(RetrieveActivity retrieveActivity);
 
     void inject(ResetPasswordActivity resetPasswordActivity);
+
+    void inject(CreateThreadActivity createThreadActivity);
+
 }

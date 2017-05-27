@@ -15,9 +15,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity;
 
-import java.util.List;
-
 import butterknife.BindView;
+
 
 /**
  * Created by bdpqchen on 17-5-20.
@@ -83,9 +82,12 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(16));
-        mRecyclerView.setOnClickListener(v -> {
-
-        });
+//        mAdapter.setOnItemClickListener(((view, id, title) -> {
+//            Intent in = new Intent(mContext, ThreadActivity.class);
+//            in.putExtra(Constants.INTENT_THREAD_ID, id);
+//            in.putExtra(Constants.INTENT_THREAD_TITLE, title);
+//            startActivity(in);
+//        }));
 
 
 

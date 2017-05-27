@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
@@ -13,6 +12,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.PostModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
@@ -21,13 +23,13 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.content.post.IndexPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 
 import java.io.File;
 import java.security.cert.CertificateException;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -35,6 +37,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -120,11 +123,8 @@ public class RxDoHttpClient<T> {
             // Install the all-trusting trust manager
             final SSLContext sslContext = SSLContext.getInstance("SSL");
             sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-
             // Create an ssl socket factory with our all-trusting manager
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-            OkHttpClient client = new OkHttpClient();
-
             OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
             okHttpClient.sslSocketFactory(sslSocketFactory);
             okHttpClient.protocols(Collections.singletonList(Protocol.HTTP_1_1));
@@ -185,9 +185,9 @@ public class RxDoHttpClient<T> {
         return mApi.getTopTen();
     }
 
-    public Observable<BaseResponse<HistoryHotModel>> getHistoryHot() {
+   /* public Observable<BaseResponse<HistoryHotModel.DataBean>> getHistoryHot() {
         return mApi.getHistoryHot();
-    }
+    }*/
 
     public Observable<BaseResponse<RegisterModel>> doRegister(Bundle bundle) {
         return mApi.doRegister(
@@ -273,5 +273,22 @@ public class RxDoHttpClient<T> {
                 bundle.getString(Constants.BUNDLE_MESSAGE),
                 bundle.getString(Constants.CAPTCHA_ID),
                 bundle.getString(Constants.CAPTCHA_VALUE));
+    }
+
+    public Observable<BaseResponse<ThreadModel>> getThread(int threadId, int postPage) {
+        return mApi.getThread(threadId + "", postPage + "");
+    }
+
+    public Observable<BaseResponse<List<MyReleaseModel>>> getMyReleaseList(int page) {
+        return mApi.getMyReleaseList(getLatestAuthentication(), String.valueOf(page));
+    }
+
+
+    public Observable<BaseResponse<CreateThreadModel>> doPublishThread(Bundle bundle) {
+        return mApi.doPublishThread(getLatestAuthentication(), bundle.getInt(Constants.BID), bundle.getString(Constants.TITLE), bundle.getString(Constants.CONTENT));
+    }
+
+    public Observable<BaseResponse<PostModel>> doComment(int threadId, String comment) {
+        return mApi.doComment(getLatestAuthentication(), threadId, comment);
     }
 }

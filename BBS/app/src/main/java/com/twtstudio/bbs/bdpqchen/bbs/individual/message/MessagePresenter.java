@@ -5,9 +5,13 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.BaseResponse;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Ricky on 2017/5/13.
@@ -15,7 +19,7 @@ import io.reactivex.Observable;
 
 public class MessagePresenter extends RxPresenter<MessageContract.View> implements MessageContract.Presenter {
 
-    private RxDoHttpClient<BaseModel> mRxDoHttpClient;
+    private RxDoHttpClient<List<MessageModel>> mRxDoHttpClient;
 
     @Inject
     MessagePresenter(RxDoHttpClient client) {
@@ -24,8 +28,12 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
 
     @Override
     public void getMessageList(int page) {
-        mRxDoHttpClient.getMessageList(1)
-                .map(BaseResponse::getData)
-                .subscribe(mView::showMessageList);
+        addSubscribe(mRxDoHttpClient.getMessageList(page)
+                .map(mRxDoHttpClient.mTransformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mView::showMessageList)
+        );
+
     }
 }

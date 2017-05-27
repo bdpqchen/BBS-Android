@@ -13,6 +13,7 @@
     <color name="colorTvBlackMain">#e5f4f0f0</color>
 
     <color name="colorSnackNormalBg">#fcfc37</color>
+    <color name="colorThreadContentBg">#2c222222</color>
 
 
 </resources>

@@ -8,6 +8,7 @@
         <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
         <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     -->
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -42,8 +43,8 @@
         <activity android:name=".auth.replaceUser.replacePassword.ReplacePasswordActivity" />
         <activity
             android:name=".auth.login.LoginActivity"
-
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+
         <activity android:name=".individual.settings.SettingsActivity" />
         <activity android:name=".individual.updateInfo.UpdateInfoActivity" />
         <activity android:name=".individual.updatePassword.UpdatePassword" />
@@ -56,12 +57,13 @@
         <activity android:name=".individual.collection.CollectionActivity"/>
         <activity android:name=".forum.boards.thread_list.ThreadListActivity"/>
         <activity android:name=".main.content.ContentActivity" />
-        <activity android:name=".test.MyReleaseActivity"/>
+        <activity android:name=".individual.my_release.MyReleaseActivity"/>
         <activity android:name=".welcome.WelcomeActivity"/>
         <activity android:name=".auth.renew.identify.IdentifyActivity"/>
         <activity android:name=".auth.renew.appeal.AppealPassportActivity"/>
         <activity android:name=".auth.renew.identify.retrieve.RetrieveActivity"/>
         <activity android:name=".auth.renew.identify.retrieve.reset_password.ResetPasswordActivity"/>
+        <activity android:name=".forum.boards.create_thread.CreateThreadActivity"/>
 
 
     </application>

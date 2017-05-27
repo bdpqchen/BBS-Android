@@ -87,6 +87,17 @@ public class ContentActivity extends BaseActivity<ContentPresenter> implements C
         layoutSwipeRefresh.setRefreshing(true);
         mPresenter.getData(threadid);
         idRecyclerview.setAdapter(contentAdapter);
+        layoutSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(
+
+        ) {
+            @Override
+            public void onRefresh() {
+
+                mPresenter.getData(threadid);
+                layoutSwipeRefresh.setRefreshing(false);
+
+            }
+        });
     }
 
     @Override
@@ -96,7 +107,6 @@ public class ContentActivity extends BaseActivity<ContentPresenter> implements C
         else
             status.setText("暂无评论");
         layoutSwipeRefresh.setRefreshing(false);
-        Log.d("post",post.toString());
     }
 
     @Override

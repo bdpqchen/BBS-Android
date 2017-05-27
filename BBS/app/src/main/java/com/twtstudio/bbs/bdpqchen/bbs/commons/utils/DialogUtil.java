@@ -2,7 +2,10 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 /**
@@ -11,7 +14,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 public final class DialogUtil {
 
-    public static MaterialDialog showProgressDialog(Context context, String title, String content){
+    public static MaterialDialog showProgressDialog(Context context, String title, String content) {
         return new MaterialDialog.Builder(context)
                 .title(title)
                 .content(content)
@@ -19,5 +22,27 @@ public final class DialogUtil {
                 .show();
     }
 
+    public static MaterialDialog alertDialog(
+            Context context,
+            @Nullable String title,
+            String content,
+            String positiveText,
+            @Nullable String negativeText,
+            @Nullable MaterialDialog.SingleButtonCallback positiveCallback,
+            @Nullable MaterialDialog.SingleButtonCallback negativeCallback) {
+
+        assert positiveCallback != null;
+        assert title != null;
+        assert negativeText != null;
+        assert negativeCallback != null;
+        return new MaterialDialog.Builder(context)
+                .title(title)
+                .content(content)
+                .positiveText(positiveText)
+                .onPositive(positiveCallback)
+                .negativeText(negativeText)
+                .onNegative(negativeCallback)
+                .show();
+    }
 
 }

@@ -38,7 +38,12 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
     public void onError(Throwable throwable) {
         LogUtil.dd("onError()");
         // TODO: 17-4-27 无网络请求监听，扼杀在请求阶段
-        String msg = "网络错误";
+        String msg = throwable.getMessage();
+
+        if (msg.length() == 0){
+            msg = "网络错误";
+        }
+
         if (throwable instanceof SocketTimeoutException) {
             msg = "网络请求超时...请重试";
         } else if (throwable instanceof UnknownHostException) {
@@ -47,7 +52,7 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
             msg = throwable.getMessage();
         } else if (throwable instanceof HttpException) {
 
-            msg = "网络连接错误";
+            msg = "页面找不到了..";
 
         }
 //        LogUtil.dd("error type", String.valueOf(throwable.getCause()));
