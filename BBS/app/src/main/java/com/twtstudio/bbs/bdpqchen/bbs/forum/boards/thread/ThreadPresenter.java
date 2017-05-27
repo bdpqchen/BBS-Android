@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
@@ -20,6 +21,8 @@ import io.reactivex.schedulers.Schedulers;
 class ThreadPresenter extends RxPresenter<ThreadContract.View> implements ThreadContract.Presenter{
 
     private RxDoHttpClient<ThreadModel> mHttpClient;
+    private ResponseTransformer<PostModel> mTransformerPost = new ResponseTransformer<>();
+
 
     @Inject
     ThreadPresenter(RxDoHttpClient client){
@@ -43,6 +46,28 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
         };
         addSubscribe(mHttpClient.getThread(threadId, postPage)
                 .map(mHttpClient.mTransformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer)
+        );
+    }
+
+    @Override
+    public void doComment(int threadId, String comment) {
+        SimpleObserver<PostModel> observer = new SimpleObserver<PostModel>() {
+            @Override
+            public void _onError(String msg) {
+                mView.onCommentFailed(msg);
+            }
+
+            @Override
+            public void _onNext(PostModel model) {
+                mView.onCommented(model);
+            }
+
+        };
+        addSubscribe(mHttpClient.doComment(threadId, comment)
+                .map(mTransformerPost)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)

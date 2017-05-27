@@ -5,4 +5,5 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread;
  */
 
 public class CreateThreadModel {
+    public int id;
 }

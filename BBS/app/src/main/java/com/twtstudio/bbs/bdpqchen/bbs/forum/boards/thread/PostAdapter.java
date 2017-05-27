@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 
 import android.content.Context;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
@@ -62,14 +64,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (mThreadData != null) {
-//            LogUtil.dd("thread data is not null");
             if (holder instanceof HeaderHolder) {
-//                LogUtil.dd("holder instance of header");
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 headerHolder.mTvUsernameThread.setText(mThreadData.getAuthor_nickname());
                 headerHolder.mTvTitle.setText(mThreadData.getTitle());
                 headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(mThreadData.getT_create()));
-//                headerHolder.mTvLevelThread.setText(mThreadData.);
+                ImageUtil.loadAvatarAsBitmapByUid(mContext, mThreadData.getAuthor_id(), headerHolder.mCivAvatarThread);
                 // TODO: 17-5-26 Level is not set
 
                 String str = BBCodeParse.bbcode2Html(mThreadData.getContent());
@@ -77,15 +77,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
 
             if (mPostData != null && mPostData.size() > 0) {
-//                LogUtil.dd("post data is not null");
                 if (holder instanceof ViewHolder) {
-//                    LogUtil.dd("holder instance of normal");
                     ThreadModel.PostBean p = mPostData.get(position - 1);
                     ViewHolder h = (ViewHolder) holder;
-                    ImageUtil.loadAvatarByUid(mContext, p.getAuthor_id(), h.mCivAvatarPost);
+                    ImageUtil.loadAvatarAsBitmapByUid(mContext, p.getAuthor_id(), h.mCivAvatarPost);
                     h.mTvNicknamePost.setText(p.getAuthor_nickname());
                     h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
-
                     h.mTvFloorPost.setText(p.getFloor() + "楼");
                     String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
                     LogUtil.dd(htmlStr);

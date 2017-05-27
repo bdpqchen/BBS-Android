@@ -176,6 +176,8 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         if (mTitle.length() > 0 || mContent.length() > 0){
             mAlertDialog = DialogUtil.alertDialog(this, "提示", "确定放弃所写的内容吗？？", "放弃", "就不放弃",
                     (materialDialog, dialogAction) -> finishMe(), null);
+        }else{
+            finishMe();
         }
     }
 

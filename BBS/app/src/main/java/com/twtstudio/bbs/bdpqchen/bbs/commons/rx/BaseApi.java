@@ -10,6 +10,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.PostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
@@ -169,5 +170,12 @@ public interface BaseApi {
             @Path("bid") int anInt,
             @Field(Constants.TITLE) String string,
             @Field(Constants.CONTENT) String string1);
+
+    @FormUrlEncoded
+    @POST("thread/{tid}")
+    Observable<BaseResponse<PostModel>> doComment(
+            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
+            @Path("tid") int threadId,
+            @Field(Constants.CONTENT) String comment);
 }
 

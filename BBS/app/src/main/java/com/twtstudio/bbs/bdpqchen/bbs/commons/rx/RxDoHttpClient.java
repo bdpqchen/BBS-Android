@@ -13,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.PostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
@@ -285,5 +286,9 @@ public class RxDoHttpClient<T> {
 
     public Observable<BaseResponse<CreateThreadModel>> doPublishThread(Bundle bundle) {
         return mApi.doPublishThread(getLatestAuthentication(), bundle.getInt(Constants.BID), bundle.getString(Constants.TITLE), bundle.getString(Constants.CONTENT));
+    }
+
+    public Observable<BaseResponse<PostModel>> doComment(int threadId, String comment) {
+        return mApi.doComment(getLatestAuthentication(), threadId, comment);
     }
 }

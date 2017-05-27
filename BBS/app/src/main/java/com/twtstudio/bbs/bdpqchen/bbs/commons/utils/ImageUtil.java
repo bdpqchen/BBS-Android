@@ -30,8 +30,11 @@ public final class ImageUtil {
 
 
     public static void loadAvatarByUid(Context context, int uid, ImageView view) {
-        Glide.with(context).load(getAvatarUrl(uid)).centerCrop()
+        Glide.with(context)
+                .load(getAvatarUrl(uid))
+                .centerCrop()
     //               .placeholder(R.drawable.avatar2)
+                .dontAnimate()
                 .into(view);
 
     }
