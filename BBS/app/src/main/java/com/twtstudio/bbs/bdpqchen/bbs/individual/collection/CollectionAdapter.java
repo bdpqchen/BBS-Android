@@ -43,8 +43,10 @@ class CollectionAdapter extends RecyclerView.Adapter {
         CircleImageView collection_avatar;
         @BindView(R.id.collection_author_name)
         TextView collection_author_name;
-        @BindView(R.id.collection_delete)
+        @BindView(R.id.collection_delete_collected)
         ImageView collection_delete;
+        @BindView(R.id.collection_delete_collect)
+        ImageView collection_collect;
         @BindView(R.id.collection_summary)
         TextView collection_summary;
         @BindView(R.id.collection_time)
@@ -68,10 +70,18 @@ class CollectionAdapter extends RecyclerView.Adapter {
         CollectionBean.DataBean data = collectionBean.data.get(position);
         String date = timeFromEpoch(data.t_create);
         CollectionViewHolder collectionViewHolder = (CollectionViewHolder) holder;
+        collectionViewHolder.collection_collect.setVisibility(View.GONE);
         collectionViewHolder.collection_author_name.setText(data.author_nickname);
         collectionViewHolder.collection_summary.setText(data.title);
         collectionViewHolder.collection_time.setText(date);
-        collectionViewHolder.collection_delete.setOnClickListener(view -> collectionPresenter.deleteCollection(data.id));
+        collectionViewHolder.collection_delete.setOnClickListener(view -> {
+            collectionPresenter.deleteCollection(this,collectionViewHolder,data.id);
+          //  collectionViewHolder.collection_delete.setVisibility(View.GONE);
+          //  collectionViewHolder.collection_collect.setVisibility(View.VISIBLE);
+        });
+        collectionViewHolder.collection_collect.setOnClickListener(view -> {
+            collectionPresenter.collectByTid(this, collectionViewHolder, String.valueOf(data.id));
+        });
         ImageUtil.loadAvatarAsBitmapByUid(context, data.author_id, collectionViewHolder.collection_avatar);
         collectionViewHolder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, ContentActivity.class);
@@ -92,4 +102,20 @@ class CollectionAdapter extends RecyclerView.Adapter {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date(epoch * 1000L - 8L * 3600L));
     }
+
+    void setCollectedStar(CollectionViewHolder collectionViewHolder) {
+        collectionViewHolder.collection_delete.setVisibility(View.VISIBLE);
+    }
+    void goneCollectedStar(CollectionViewHolder collectionViewHolder){
+        collectionViewHolder.collection_delete.setVisibility(View.GONE);
+    }
+
+    void setCollectStar(CollectionViewHolder collectionViewHolder) {
+        collectionViewHolder.collection_collect.setVisibility(View.VISIBLE);
+    }
+
+    void goneCollectStar(CollectionViewHolder collectionViewHolder){
+        collectionViewHolder.collection_collect.setVisibility(View.GONE);
+    }
+
 }
