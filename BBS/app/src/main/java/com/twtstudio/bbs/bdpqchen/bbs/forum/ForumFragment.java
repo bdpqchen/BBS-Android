@@ -101,7 +101,6 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
                 model.setInfo("为了对称");
                 forumModel.add(model);
             }
-//        mGridLayoutManager.setSpanCount(forumModel.size() / 2);
             mAdapter.addList(forumModel);
             mAdapter.notifyDataSetChanged();
         }
