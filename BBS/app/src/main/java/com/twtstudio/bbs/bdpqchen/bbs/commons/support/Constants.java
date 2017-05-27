@@ -37,4 +37,8 @@ public final class Constants {
     public static final String INTENT_THREAD_ID = "intent_thread_id";
     public static final String INTENT_THREAD_TITLE = "intent_thread_title";
 
+    public static final String CONTENT = "content";
+    public static final String TITLE = "title";
+    public static final String BID = "bid";
+
 }

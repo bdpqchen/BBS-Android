@@ -9,6 +9,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
@@ -161,5 +162,12 @@ public interface BaseApi {
     @GET("home/publish/thread/page/{page}")
     Observable<BaseResponse<List<MyReleaseModel>>> getMyReleaseList(@Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken, @Path("page") String page);
 
+    @FormUrlEncoded
+    @POST("board/{bid}")
+    Observable<BaseResponse<CreateThreadModel>> doPublishThread(
+            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
+            @Path("bid") int anInt,
+            @Field(Constants.TITLE) String string,
+            @Field(Constants.CONTENT) String string1);
 }
 

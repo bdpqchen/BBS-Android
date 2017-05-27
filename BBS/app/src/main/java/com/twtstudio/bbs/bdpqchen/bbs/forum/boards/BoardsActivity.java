@@ -113,11 +113,13 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
 
         mFab.setOnClickListener(v -> {
             Intent intent = new Intent(this, CreateThreadActivity.class);
-
             intent.putStringArrayListExtra(INTENT_BOARD_NAMES, getBoardNames());
             intent.putIntegerArrayListExtra(INTENT_BOARD_IDS, getBoardIds());
             startActivity(intent);
         });
+        mBoardIds.add(0);
+        mBoardNames.add("...");
+
     }
 
     @Override

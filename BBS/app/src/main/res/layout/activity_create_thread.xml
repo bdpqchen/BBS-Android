@@ -45,7 +45,10 @@
                 android:layout_marginBottom="2dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="2dp"
+                android:focusable="true"
+
                 />
+
 
         </LinearLayout>
 
