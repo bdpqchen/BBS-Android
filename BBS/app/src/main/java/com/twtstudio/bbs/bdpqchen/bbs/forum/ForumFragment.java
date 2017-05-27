@@ -66,7 +66,10 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
         mRvForumList.setLayoutManager(mGridLayoutManager);
         mRvForumList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((view, position) -> {
-
+            if (mAdapter.getItemForumId(position) == 0){
+                SnackBarUtil.notice(this.getActivity(), "都说了敬请期待..");
+                return;
+            }
             Intent intent = new Intent(mActivity, BoardsActivity.class);
             intent.putExtra(INTENT_FORUM_ID, mAdapter.getItemForumId(position));
             intent.putExtra(INTENT_FORUM_TITLE, mAdapter.getItemForumTitle(position));
@@ -78,7 +81,6 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);
         return rootView;

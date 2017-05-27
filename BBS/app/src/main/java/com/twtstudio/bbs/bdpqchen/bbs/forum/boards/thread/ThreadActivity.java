@@ -178,12 +178,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 .playOn(mLlComment);
         mLlComment.setVisibility(View.GONE);
 
-/*
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mEtComment.setShowSoftInputOnFocus(true);
-        }
-*/
-
     }
 
     private void showCommentInput() {
