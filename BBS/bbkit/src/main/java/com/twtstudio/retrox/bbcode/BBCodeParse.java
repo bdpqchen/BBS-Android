@@ -11,6 +11,7 @@ public class BBCodeParse {
 
     /**
      * BBcode转html
+     *
      * @param text bbcode
      * @return
      */
@@ -24,6 +25,8 @@ public class BBCodeParse {
             }
             html = html.replaceAll(entry.getKey().toString(), entry.getValue().toString());
         }
+//        html = html.replace("[quote]", "<blockquote>")
+//                        .replace("[/quote]", "</blockquote>");
 
 
         return html;
@@ -32,6 +35,7 @@ public class BBCodeParse {
 
     /**
      * Parse List Tag: [list] [*]Entry 1 [*]Entry 2 [/list] or [list] *Entry 1 *Entry 2 [/list]
+     *
      * @param html html text
      * @return htmla
      */
@@ -42,7 +46,7 @@ public class BBCodeParse {
         String asteriskTag2 = "*";
 
         int pos = 0;
-        if (html == null){
+        if (html == null) {
             return "";
         }
         // Only replace * which contains in [list]...[/list]
@@ -74,6 +78,6 @@ public class BBCodeParse {
                 html = html.substring(0, html.indexOf(str2)) + str1 + html.substring(html.indexOf(str2) + str2.length(), html.length());
             }
         }
-        return  html;
+        return html;
     }
 }

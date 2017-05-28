@@ -40,7 +40,8 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
         // TODO: 17-4-27 无网络请求监听，扼杀在请求阶段
         String msg = throwable.getMessage();
 
-        if (msg.length() == 0){
+
+        if (msg!=null && msg.length() == 0){
             msg = "网络错误";
         }
 

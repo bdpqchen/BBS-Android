@@ -21,8 +21,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RawRes;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.Spanned;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+
+import org.sufficientlysecure.htmltextview.quote.QuoteReplaceUtil;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -97,15 +101,21 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
 
         html = htmlTagHandler.overrideTags(html);
 
+        Spanned spanned = Html.fromHtml(html, imageGetter, htmlTagHandler);
+        QuoteReplaceUtil.replaceQuoteSpans((Spannable) spanned);
+
         if (removeFromHtmlSpace) {
-            setText(removeHtmlBottomPadding(Html.fromHtml(html, imageGetter, htmlTagHandler)));
+            setText(removeHtmlBottomPadding(spanned));
         } else {
-            setText(Html.fromHtml(html, imageGetter, htmlTagHandler));
+            setText(spanned);
         }
 
         // make links work
         setMovementMethod(LocalLinkMovementMethod.getInstance());
     }
+
+
+
 
     /**
      * Note that this must be called before setting text for it to work
