@@ -12,7 +12,7 @@ import java.util.List;
 interface BoardsContract {
 
     interface View extends BaseView{
-        void setBoardList(List<PreviewThreadModel> previewThreadList);
+        void setBoardList(PreviewThreadModel previewThreadModel);
 
         void failedToGetBoardList(String msg);
     }

@@ -27,20 +27,17 @@ class BoardsPresenter extends RxPresenter<BoardsContract.View> implements Boards
 
     private RxDoHttpClient<BoardsModel> mHttpClient;
     public ResponseTransformer<BoardsModel> mTransformer = new ResponseTransformer<>();
-    public ResponseTransformer<ThreadListModel> mTransformerThread = new ResponseTransformer<>();
+    private ResponseTransformer<ThreadListModel> mTransformerThread = new ResponseTransformer<>();
 
 
     @Inject
     BoardsPresenter(RxDoHttpClient httpClient) {
         mHttpClient = httpClient;
-
     }
-
 
     @Override
     public void getBoardList(final int boardId) {
-
-        SimpleObserver<List<PreviewThreadModel>> observer = new SimpleObserver<List<PreviewThreadModel>>() {
+        SimpleObserver<PreviewThreadModel> observer = new SimpleObserver<PreviewThreadModel>() {
 
             @Override
             public void _onError(String msg) {
@@ -49,13 +46,12 @@ class BoardsPresenter extends RxPresenter<BoardsContract.View> implements Boards
             }
 
             @Override
-            public void _onNext(List<PreviewThreadModel> previewThreadModels) {
+            public void _onNext(PreviewThreadModel previewThreadModels) {
                 mView.setBoardList(previewThreadModels);
                 LogUtil.dd("OnNext()");
             }
 
         };
-
 
         addSubscribe(mHttpClient.getBoardList(boardId)
                 .map(mTransformer)
@@ -64,7 +60,6 @@ class BoardsPresenter extends RxPresenter<BoardsContract.View> implements Boards
                     public Observable<BoardsModel.BoardsBean> apply(@NonNull BoardsModel boardsModel) throws Exception {
                         LogUtil.dd("apply()", String.valueOf(boardsModel.getBoards().size()));
                         return Observable.fromIterable(boardsModel.getBoards());
-
                     }
                 })
                 .flatMap(new Function<BoardsModel.BoardsBean, Observable<BaseResponse<ThreadListModel>>>() {
@@ -75,21 +70,23 @@ class BoardsPresenter extends RxPresenter<BoardsContract.View> implements Boards
                 })
                 .map(mTransformerThread)
                 .map(threadListModel -> {
-                    List<PreviewThreadModel> previewThreadList = new ArrayList<>();
-                    int listSize = threadListModel.getBoard().getC_thread();
-                    LogUtil.dd(String.valueOf(listSize));
                     PreviewThreadModel model = new PreviewThreadModel();
                     model.setBoard(threadListModel.getBoard());
-                    if (listSize > 2) {
+                    if (threadListModel.getThread() != null) {
+                        int listSize = threadListModel.getThread().size();
+                        LogUtil.dd("threadListSize", String.valueOf(listSize));
                         List<ThreadListModel.ThreadBean> threadBeanList = new ArrayList<>();
-                        ThreadListModel.ThreadBean threadBean0 = threadListModel.getThread().get(0);
-                        ThreadListModel.ThreadBean threadBean1 = threadListModel.getThread().get(1);
-                        threadBeanList.add(threadBean0);
-                        threadBeanList.add(threadBean1);
+                        if (listSize >= 1) {
+                            ThreadListModel.ThreadBean threadBean0 = threadListModel.getThread().get(0);
+                            threadBeanList.add(threadBean0);
+                        }
+                        if (listSize >= 2) {
+                            ThreadListModel.ThreadBean threadBean1 = threadListModel.getThread().get(1);
+                            threadBeanList.add(threadBean1);
+                        }
                         model.setThreadList(threadBeanList);
                     }
-                    previewThreadList.add(model);
-                    return previewThreadList;
+                    return model;
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

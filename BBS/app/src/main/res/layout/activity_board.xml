@@ -60,9 +60,7 @@
         android:clickable="true"
         app:backgroundTint="@color/material_teal_500"
         app:layout_behavior="com.twtstudio.bbs.bdpqchen.bbs.commons.support.FABScrollBehavior"
-
         />
-
 
     <ProgressBar
         android:id="@+id/progress_bar"

@@ -6,7 +6,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorMainBgLight"
     android:orientation="vertical"
-
     >
 
     <RelativeLayout
@@ -56,6 +55,7 @@
         android:paddingEnd="@dimen/margin_thread_content"
         android:paddingStart="@dimen/margin_thread_content"
         android:orientation="vertical"
+        android:id="@+id/ll_thread_list"
         >
 
         <LinearLayout
@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:text="国际人文交流盛宴：天津大学第十届“国际文化节”成功举办"
+                tools:text="国际人文交流盛宴：天津大学第十届“国际文化节”成功举办"
                 android:textColor="@color/colorTvBlackMain"
                 android:textSize="@dimen/text_size_thread_title"
                 android:id="@+id/tv_preview_thread_title_1"
@@ -85,6 +85,7 @@
                 android:orientation="horizontal"
 
                 >
+<!--
 
                 <ImageView
                     android:id="@+id/iv_content_1"
@@ -94,13 +95,14 @@
                     android:src="@drawable/avatar2"
                     android:visibility="gone"
                     />
+-->
 
                 <TextView
                     android:id="@+id/tv_preview_thread_content_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_thread_content_content_text"
-                    android:layout_toEndOf="@id/iv_content_1"
+                    android:layout_alignParentStart="true"
                     android:maxLines="6"
                     tools:text="5月6日上午10时，“留学天大，情系中华——天津大学第十届‘国际文化节’”于卫津路校区北洋广场正式开幕。本届国际文化节旨在增进中外大学生的了解和友谊，为世界各地多元文化搭建相互交流的舞台，最终推动我校中外人文交流品牌项目的建设。来自不同国家和地区的留学生以歌舞形式展示世界不同民族的文化特色，通过丰富的图片、各国工艺品、风味美食等形式传播各国文化，每年吸引数千名校内外人士参观和交流。"
                     android:textColor="@color/colorTvBlackMain"
@@ -121,7 +123,7 @@
                         android:id="@+id/tv_preview_thread_time_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2017-5-5"
+                        tools:text="2017-5-5"
                         />
 
                     <TextView
@@ -129,7 +131,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
-                        android:text="作者：2123123"
+                        tools:text="作者：2123123"
                         />
 
                 </LinearLayout>
@@ -138,9 +140,10 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/divider_line"
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/material_grey_300"
+            android:background="@color/material_grey_500"
             />
 
         <LinearLayout
@@ -158,9 +161,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:text="国际人文交流盛宴：天津大学第十届“国际文化节”成功举办"
-                android:textColor="@color/colorTvBlackMain"
-                android:textSize="@dimen/text_size_thread_title"
+                tools:text="国际人文交流盛宴：天津大学第十届“国际文化节”成功举办"
+                tools:textColor="@color/colorTvBlackMain"
+                tools:textSize="@dimen/text_size_thread_title"
                 android:id="@+id/tv_preview_thread_title_2"
                 android:layout_gravity="center"
                 />
@@ -172,7 +175,7 @@
                 android:orientation="horizontal"
 
                 >
-
+<!--
                 <ImageView
                     android:id="@+id/iv_content_2"
                     android:layout_width="@dimen/size_image_thread_content_width"
@@ -180,17 +183,17 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/avatar1"
                     android:visibility="gone"
-                    />
+                    />-->
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_thread_content_content_text"
-                    android:layout_toEndOf="@id/iv_content_2"
+                    android:layout_alignParentStart="true"
                     android:maxLines="6"
-                    android:text="5月6日上午10时，“留学天大，情系中华——天津大学第十届‘国际文化节’”于卫津路校区北洋广场正式开幕。本届国际文化节旨在增进中外大学生的了解和友谊，为世界各地多元文化搭建相互交流的舞台，最终推动我校中外人文交流品牌项目的建设。来自不同国家和地区的留学生以歌舞形式展示世界不同民族的文化特色，通过丰富的图片、各国工艺品、风味美食等形式传播各国文化，每年吸引数千名校内外人士参观和交流。"
-                    android:textColor="@color/colorTvBlackMain"
-                    android:textSize="@dimen/text_size_thread_content"
+                    tools:text="5月6日上午10时，“留学天大，情系中华——天津大学第十届‘国际文化节’”于卫津路校区北洋广场正式开幕。本届国际文化节旨在增进中外大学生的了解和友谊，为世界各地多元文化搭建相互交流的舞台，最终推动我校中外人文交流品牌项目的建设。来自不同国家和地区的留学生以歌舞形式展示世界不同民族的文化特色，通过丰富的图片、各国工艺品、风味美食等形式传播各国文化，每年吸引数千名校内外人士参观和交流。"
+                    tools:textColor="@color/colorTvBlackMain"
+                    tools:textSize="@dimen/text_size_thread_content"
                     android:id="@+id/tv_preview_thread_content_2"
                     />
 
@@ -203,11 +206,10 @@
                     android:layout_below="@id/tv_preview_thread_content_2"
                     >
 
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2017-5-5"
+                        tools:text="2017-5-5"
                         android:id="@+id/tv_preview_thread_time_2"
                         />
 
@@ -215,7 +217,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
-                        android:text="作者：2123123"
+                        tools:text="作者：2123123"
                         android:id="@+id/tv_preview_thread_author_2"
                         />
 

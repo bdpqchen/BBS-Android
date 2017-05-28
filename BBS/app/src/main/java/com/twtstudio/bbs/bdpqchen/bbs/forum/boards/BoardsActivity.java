@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadActivity;
@@ -123,21 +124,18 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     }
 
     @Override
-    public void setBoardList(List<PreviewThreadModel> previewThreadList) {
-//        LogUtil.dd("pre thread list size", String.valueOf(previewThreadList.size()));
+    public void setBoardList(PreviewThreadModel previewThreadList) {
         if (mRefreshing) {
             mAdapter.clearAll();
+            mSrlBoardList.setRefreshing(false);
+            mRefreshing = false;
         }
-        mAdapter.addList(previewThreadList);
+        if (previewThreadList != null) {
+            mAdapter.addData(previewThreadList);
+            mBoardNames.add(previewThreadList.getBoard().getName());
+            mBoardIds.add(previewThreadList.getBoard().getId());
+        }
         hideProgressBar();
-        if (previewThreadList != null && previewThreadList.size() > 0) {
-            int size = previewThreadList.size();
-            for (int i = 0; i < size; i++) {
-                mBoardNames.add(previewThreadList.get(i).getBoard().getName());
-                mBoardIds.add(previewThreadList.get(i).getBoard().getId());
-            }
-        }
-
     }
 
     @Override

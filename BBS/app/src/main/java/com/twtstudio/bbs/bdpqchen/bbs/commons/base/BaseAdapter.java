@@ -67,4 +67,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     public void clearAll(){
         mDataSet.clear();
     }
+
+    public void addData(T model){
+        mDataSet.add(model);
+        notifyDataSetChanged();
+    }
 }
