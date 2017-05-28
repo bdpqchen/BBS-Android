@@ -75,7 +75,7 @@ public class ForumAdapter extends BaseAdapter<ForumModel> implements View.OnClic
             ViewHolder viewHolder = (ViewHolder) holder;
             LogUtil.dd(model.getName());
             viewHolder.mTvName.setText(model.getName());
-            String coverUrl = RxDoHttpClient.BASE_URL + "/forum/" + model.getName() + "cover";
+            String coverUrl = RxDoHttpClient.BASE_URL + "forum/" + model.getId() + "/cover";
             ImageUtil.loadForumCover(mContext, coverUrl, viewHolder.mIvBgImage);
             viewHolder.itemView.setTag(position);
         }

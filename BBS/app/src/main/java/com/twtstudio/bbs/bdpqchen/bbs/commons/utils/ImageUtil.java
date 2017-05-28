@@ -24,9 +24,9 @@ public final class ImageUtil {
     public static void loadForumCover(Context context, String url, ImageView view){
         Glide.with(context)
                 .load(url)
+                .crossFade()
                 .placeholder(R.drawable.forum_banner_1)
                 .centerCrop()
-                .dontAnimate()
                 .error(R.drawable.forum_banner_1)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);

@@ -66,7 +66,6 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        toolbar.setTitle("我的消息");
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mAdapter = new MessageAdapter(this);
         rvMessageList.setAdapter(mAdapter);
