@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -40,6 +41,8 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
     ForumAdapter mAdapter;
     Unbinder unbinder;
     Activity mActivity;
+    @BindView(R.id.pb_loading_forum)
+    ProgressBar mPbLoadingForum;
 
     @Override
     protected int getFragmentLayoutId() {
@@ -51,7 +54,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
         getFragmentComponent().inject(this);
     }
 
-    public static ForumFragment newInstance(){
+    public static ForumFragment newInstance() {
         return new ForumFragment();
     }
 
@@ -68,7 +71,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
 
         mAdapter.setOnItemClickListener((view, position) -> {
 
-            if (mAdapter.getItemForumId(position) == 0){
+            if (mAdapter.getItemForumId(position) == 0) {
                 SnackBarUtil.notice(this.getActivity(), "都说了敬请期待..");
                 return;
             }
@@ -92,7 +95,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
 
     @Override
     public void showForumList(List<ForumModel> forumModel) {
-        if (forumModel != null && forumModel.size() != 0){
+        if (forumModel != null && forumModel.size() != 0) {
             mAdapter.clearAll();
             if (forumModel.size() % 2 != 0) {
                 ForumModel model = new ForumModel();
@@ -104,13 +107,13 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
             mAdapter.addList(forumModel);
             mAdapter.notifyDataSetChanged();
         }
-
+        hideProgressBar();
     }
 
     @Override
     public void failedToGetForum(String msg) {
         SnackBarUtil.error(this.getActivity(), msg);
-
+        hideProgressBar();
     }
 
     @Override
@@ -121,7 +124,8 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
 
     }
 
-    private void hideProgressBar(){
-
+    private void hideProgressBar() {
+        mPbLoadingForum.setVisibility(View.GONE);
     }
+
 }
