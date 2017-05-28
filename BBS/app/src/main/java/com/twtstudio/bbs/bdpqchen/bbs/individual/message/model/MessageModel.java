@@ -1,30 +1,30 @@
-package com.twtstudio.bbs.bdpqchen.bbs.individual.message;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.message.model;
 
 /**
  * Created by Ricky on 2017/5/16.
  */
 
-public class MessageModel {
+public class MessageModel<T> {
 
     /**
-     * id : 34
-     * content : Hello, world!
-     * author_id : 21143
-     * author_name : rickygao
-     * author_nickname : rickygao
-     * tag : 1
+     * id : 165
+     * content : {"id":210,"thread_id":194,"thread_title":"正经测试帖","content":"正经测试回复","floor":3,"t_create":1495958800,"t_modify":0}
+     * author_id : 39535
+     * author_name : Arsener
+     * author_nickname : Arsener
+     * tag : 2
      * read : 0
-     * t_create : 1495189939
+     * t_create : 1495958800
      */
 
     private int id;
-    private String content;
     private int author_id;
     private String author_name;
     private String author_nickname;
     private int tag;
     private int read;
     private int t_create;
+    public T content;
 
     public int getId() {
         return id;
@@ -34,13 +34,7 @@ public class MessageModel {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
-    }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
 
     public int getAuthor_id() {
         return author_id;
@@ -89,4 +83,6 @@ public class MessageModel {
     public void setT_create(int t_create) {
         this.t_create = t_create;
     }
+
+
 }

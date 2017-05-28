@@ -1,7 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
-import android.support.v4.content.ContextCompat;
-
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldModel;
@@ -16,7 +14,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadMod
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.PostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.post.IndexPostModel;
@@ -100,7 +98,7 @@ public interface BaseApi {
 
 
     @Multipart
-    @PUT("user/avatar")
+    @PUT("home/avatar")
     Observable<BaseResponse<BaseModel>> doUpdateAvatar(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Part List<MultipartBody.Part> partList);
@@ -119,15 +117,6 @@ public interface BaseApi {
             @Path("boardId") String boardId,
             @Path("page") String page);
 
-/*
-    @GET("board/{boardId}/page/{page}")
-    Observable<BaseResponse<ThreadListModel>> getThreadListMore(
-            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
-            @Header(Constants.NET_RETROFIT_HEADER_REQUEST)String requestedWith,
-            @Path("boardId") String boardId,
-            @Path("page") String page);
-*/
-
     @GET("home/message/page/{page}")
     Observable<BaseResponse<List<MessageModel>>> getMessageList(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
@@ -136,9 +125,6 @@ public interface BaseApi {
     @GET("index")
     Observable<BaseResponse<TopTenModel.DataBean>> getTopTen();
 
-    /* @GET("historyhot")
-     Observable<BaseResponse<HistoryHotModel.DataBean>> getHistoryHot();
- */
     @GET("thread/{threadid}/page/0")
     Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(@Path("threadid") String threadid);
 

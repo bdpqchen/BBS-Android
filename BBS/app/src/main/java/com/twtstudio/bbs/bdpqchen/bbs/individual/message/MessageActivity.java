@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.message;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
 import java.util.List;
 
@@ -29,6 +32,8 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     RecyclerView rvMessageList;
     @BindView(R.id.tv_no_message)
     TextView mTvNoMessage;
+    @BindView(R.id.srl_message)
+    SwipeRefreshLayout mSrlMessage;
 
     private MessageAdapter mAdapter;
 
@@ -71,10 +76,18 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
         rvMessageList.setAdapter(mAdapter);
         rvMessageList.setLayoutManager(new LinearLayoutManager(this));
         mPresenter.getMessageList(0);
+        mSrlMessage.setRefreshing(true);
+    }
+
+    @Override
+    public void onGetMessageFailed(String m) {
+        SnackBarUtil.error(this, m);
+        mSrlMessage.setRefreshing(false);
     }
 
     @Override
     public void showMessageList(List<MessageModel> messageList) {
+        mSrlMessage.setRefreshing(false);
         if (messageList != null && messageList.size() > 0) {
             mAdapter.addList(messageList);
         } else {

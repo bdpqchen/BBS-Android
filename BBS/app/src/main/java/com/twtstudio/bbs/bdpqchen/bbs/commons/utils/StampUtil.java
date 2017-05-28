@@ -37,7 +37,7 @@ public final class StampUtil {
 
     public static String getDatetimeByStamp(int postTime){
         String datetimeMode = "yyyy-MM-dd HH:mm";
-        return convert(datetimeMode, postTime);
+        return convert(datetimeMode, postTime + diff);
     }
 
     public static String getDateByStamp(int t_create) {

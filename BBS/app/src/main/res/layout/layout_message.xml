@@ -3,10 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorMainBg"
+    android:orientation="vertical"
     >
-
 
     <include
         layout="@layout/common_toolbar"
@@ -15,22 +14,29 @@
         />
 
     <TextView
+        android:id="@+id/tv_no_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:visibility="gone"
         android:text="Nothing"
-        android:textSize="18sp"
         android:textColor="@color/colorTvBlackMain"
-        android:id="@+id/tv_no_message"
+        android:textSize="18sp"
+        android:visibility="gone"
         />
 
-    <android.support.v7.widget.RecyclerView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_message"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rv_message_list"
-        android:background="@color/colorMainBgLight"
-        />
+        android:layout_height="match_parent"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_message_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorMainBgLight"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

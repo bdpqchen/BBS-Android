@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -12,6 +11,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.CommentModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
 import butterknife.BindView;
 
@@ -21,8 +22,9 @@ import butterknife.BindView;
 
 public class MessageAdapter extends BaseAdapter<MessageModel> {
 
-    LayoutInflater inflater;
 
+
+    LayoutInflater inflater;
     public MessageAdapter(Context context) {
         super(context);
         inflater = LayoutInflater.from(context);
@@ -30,36 +32,44 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MessageItemViewHolder(inflater.inflate(R.layout.item_rv_message, parent, false));
+        return new MessageItemViewHolder(inflater.inflate(R.layout.item_rv_message_comment, parent, false));
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
 
         MessageModel item = mDataSet.get(position);
+        CommentModel comment = (CommentModel) mDataSet.get(position).content;
         MessageItemViewHolder holderConverted = (MessageItemViewHolder) holder;
-
-        ImageUtil.loadAvatarByUid(mContext, item.getAuthor_id(), holderConverted.ivAvatar);
-        holderConverted.tvFrom.setText(item.getAuthor_nickname());
-        holderConverted.tvTime.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
-        holderConverted.tvSummary.setText(item.getContent());
+        holderConverted.mTvThreadTitle.setText(comment.getThread_title());
+        holderConverted.mTvDatetimeMessage.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
+        holderConverted.mTvSummary.setText(comment.getContent());
+        if (item.getRead() == 1){
+            holderConverted.mTvRedDot.setVisibility(View.VISIBLE);
+        }
     }
 
     static class MessageItemViewHolder extends BaseViewHolder {
 
-
-        @BindView(R.id.iv_avatar)
-        public ImageView ivAvatar;
-        @BindView(R.id.tv_from)
-        TextView tvFrom;
-        @BindView(R.id.tv_time)
-        TextView tvTime;
+        @BindView(R.id.tv_thread_title)
+        TextView mTvThreadTitle;
         @BindView(R.id.tv_summary)
-        TextView tvSummary;
+        TextView mTvSummary;
+        @BindView(R.id.tv_datetime_message)
+        TextView mTvDatetimeMessage;
+        @BindView(R.id.red_dot)
+        View mTvRedDot;
 
         public MessageItemViewHolder(View itemView) {
             super(itemView);
         }
     }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        return super.getItemViewType(position);
+    }
+
 
 }

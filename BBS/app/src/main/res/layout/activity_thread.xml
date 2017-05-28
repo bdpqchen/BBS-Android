@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -88,6 +89,7 @@
         android:clickable="true"
         android:src="@drawable/ic_insert_comment_white_24dp"
         android:visibility="visible"
+        tools:visibility="gone"
         app:backgroundTint="@color/material_cyan_800"
         app:layout_behavior="com.twtstudio.bbs.bdpqchen.bbs.commons.support.FABScrollBehavior"
         />
@@ -99,13 +101,14 @@
         android:layout_gravity="end|bottom"
         android:background="@drawable/shape_ll_shade"
         android:orientation="horizontal"
-        android:paddingTop="4dp"
-        android:visibility="gone"
+        android:paddingTop="16dp"
+        android:visibility="visible"
         app:elevation="8dp"
         >
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/et_comment"
+            android:hint="你在评论帖主"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

@@ -4,37 +4,43 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorMainBgLight"
-    android:padding="10dp">
+    android:padding="8dp"
+    >
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_avatar"
-        android:layout_width="60dp"
-        android:layout_height="60dp" />
+        android:layout_width="@dimen/size_avatar_normal"
+        android:layout_height="@dimen/size_avatar_normal"
+        android:layout_centerVertical="true"
+        />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
-        android:layout_toEndOf="@id/iv_avatar">
+        android:layout_toEndOf="@id/iv_avatar"
+        android:layout_centerVertical="true"
+        >
 
         <TextView
             android:id="@+id/tv_from"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
-            android:textColor="#4E4E4E"
+            android:textColor="@color/colorTvBlackMain"
             android:textSize="18sp"
-            tool:text="这是标题" />
+            tool:text="这是标题"
+            />
 
         <TextView
-            android:id="@+id/tv_time"
+            android:id="@+id/tv_datetime_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignBaseline="@id/tv_from"
             android:paddingBottom="4dp"
-            android:textColor="#4E4E4E"
+            android:textColor="@color/colorTvBlackMainTint"
             android:textSize="14sp"
             tool:text="17:20" />
 
@@ -45,7 +51,7 @@
             android:layout_below="@id/tv_from"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textColor="#7C7C7C"
+            android:textColor="@color/colorTvBlackMainTint"
             android:textSize="16sp"
             tool:text="这是一条消息" />
 
