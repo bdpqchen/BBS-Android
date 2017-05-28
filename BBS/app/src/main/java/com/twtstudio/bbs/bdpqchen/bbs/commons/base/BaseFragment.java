@@ -45,7 +45,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(getFragmentLayoutId(), null);
+        mView = inflater.inflate(getFragmentLayoutId(), container, false);
         injectFragment();
         return mView;
     }
