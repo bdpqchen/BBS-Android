@@ -12,7 +12,9 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -35,9 +37,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     MainFragment mMainFragment;
     ForumFragment mForumFragment;
-    IndividualFragment mIndividualFragment;
+    IndividualFragment mIndividualFragment = null;
     BottomBarTab mNearBy;
-
 
 
     private int mShowingFragment = Constants.FRAGMENT_MAIN;
@@ -83,45 +84,55 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
         // TODO: 17-5-3 非登录后跳转到这里，是否渐变
         // 登录后的渐变,
-        if (!PrefUtil.hadLogin()) {
-            mMask.setVisibility(View.VISIBLE);
-            PrefUtil.setHadLogin(true);
-            ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home),
-                    "alpha", 0f).setDuration(600);
-            animator.setStartDelay(400);
-            animator.start();
-        }
+//        if (!PrefUtil.hadLogin()) {
+        mMask.setVisibility(View.VISIBLE);
+//            PrefUtil.setHadLogin(true);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home),
+                "alpha", 0f).setDuration(600);
+        animator.setStartDelay(400);
+        animator.start();
+//            ActivityManager.getActivityManager().finishNamedActivity(LoginActivity.class);
+//        }
 
         mMainFragment = MainFragment.newInstance();
         mForumFragment = ForumFragment.newInstance();
+//        if (PrefUtil.hadLogin()){
         mIndividualFragment = IndividualFragment.newInstance();
+//        }
         loadMultipleRootFragment(R.id.fl_main_container, 0, mMainFragment, mForumFragment, mIndividualFragment);
         mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
 
         mBottomBar.setOnTabSelectListener(i -> {
             LogUtil.dd("onTabSelected()");
-            if (i == R.id.bottom_bar_tab_main) {
-
-                mShowingFragment = Constants.FRAGMENT_MAIN;
-            } else if (i == R.id.bottom_bar_tab_forum) {
-                mShowingFragment = Constants.FRAGMENT_FORUM;
-            } else if (i == R.id.bottom_bar_tab_individual) {
-//                    LogUtil.dd("selected the individual ");
-                mShowingFragment = Constants.FRAGMENT_INDIVIDUAL;
+            LogUtil.dd(String.valueOf(i));
+            if (PrefUtil.hadLogin()) {
+                if (i == R.id.bottom_bar_tab_main) {
+                    mShowingFragment = Constants.FRAGMENT_MAIN;
+                } else if (i == R.id.bottom_bar_tab_forum) {
+                    mShowingFragment = Constants.FRAGMENT_FORUM;
+                } else if (i == R.id.bottom_bar_tab_individual) {
+                    mShowingFragment = Constants.FRAGMENT_INDIVIDUAL;
+                }
+                loadFragment();
+            }else if (i == R.id.bottom_bar_tab_individual && !PrefUtil.hadLogin()){
+                startActivity(new Intent(this, LoginActivity.class));
+                LogUtil.dd("start login");
             }
-            loadFragment();
         });
 
 //        if (mIndividualFragment.isVisible()){
         // TODO: 17-5-22 解决夜间模式View的空指针问题
+        if (PrefUtil.hadLogin()) {
             mPresenter.initIndividualInfo();
-            LogUtil.d("send a net request");
+        }
+        LogUtil.dd("send a net request");
 //        }
         mPresenter.checkUpdate(1);
 
     }
 
     private void loadFragment() {
+
         showHideFragment(getTargetFragment(mShowingFragment), getTargetFragment(mHidingFragment));
         mHidingFragment = mShowingFragment;
     }
@@ -147,7 +158,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     public void showIndividualInfo(IndividualInfoModel info) {
         LogUtil.d("receive a response");
         if (info != null) {
-
             //设置个人信息，在IndividualFragment 里可直接获取，需判断是否为最新getIsLatestInfo()
             PrefUtil.setInfoNickname(info.getNickname());
             PrefUtil.setInfoSignature(info.getSignature());
@@ -175,7 +185,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         }
 
     }
-
 
 
 }

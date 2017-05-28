@@ -1,5 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
+import android.support.v7.widget.RecyclerView;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,6 +14,9 @@ public final class StampUtil {
     private static final int diff = 28800;
 
     public static int getDaysFromCreateToNow(int createTimeStamp){
+        if (createTimeStamp < 12721691){
+            return 0;
+        }
         //由于创建时间要多8小时
         createTimeStamp -= diff;
         int currentTime = (int) (System.currentTimeMillis()/1000);

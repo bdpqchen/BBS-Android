@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual;
 
 import android.content.Intent;
+import android.test.PerformanceTestCase;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -124,28 +126,34 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
 
     private void startItemActivity(int index) {
-        Class clazz;
-        switch (index){
-            case 1:
-                clazz = MessageActivity.class;
-                break;
-            case 2:
-                clazz = CollectionActivity.class;
-                break;
-            case 3:
-                clazz = MyReleaseActivity.class;
-                break;
-            case 4:
-                clazz = UpdateInfoActivity.class;
-                break;
-            case 5:
-                clazz = SettingsActivity.class;
-                break;
-            default:
-                return;
+        if (!PrefUtil.hadLogin()){
+            mContext.startActivity(new Intent(mContext, LoginActivity.class));
+        }else {
+
+
+            Class clazz;
+            switch (index) {
+                case 1:
+                    clazz = MessageActivity.class;
+                    break;
+                case 2:
+                    clazz = CollectionActivity.class;
+                    break;
+                case 3:
+                    clazz = MyReleaseActivity.class;
+                    break;
+                case 4:
+                    clazz = UpdateInfoActivity.class;
+                    break;
+                case 5:
+                    clazz = SettingsActivity.class;
+                    break;
+                default:
+                    return;
+            }
+            Intent intent = new Intent(mContext, clazz);
+            startActivity(intent);
         }
-        Intent intent = new Intent(mContext, clazz);
-        startActivity(intent);
     }
 
     private void setUnread() {

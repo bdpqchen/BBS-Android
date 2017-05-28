@@ -40,7 +40,7 @@ public final class ImageUtil {
         Glide.with(context)
                 .load(getAvatarUrl(uid))
                 .centerCrop()
-    //               .placeholder(R.drawable.avatar2)
+                   .placeholder(R.drawable.avatar2)
                 .dontAnimate()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
@@ -52,7 +52,7 @@ public final class ImageUtil {
                 .asBitmap()
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
- //               .placeholder(R.drawable.avatar2)
+                .placeholder(R.drawable.avatar2)
                 .into(view);
     }
 

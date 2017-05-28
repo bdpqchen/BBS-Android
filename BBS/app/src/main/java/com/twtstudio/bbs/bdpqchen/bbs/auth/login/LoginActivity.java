@@ -144,6 +144,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         PrefUtil.setIsNoAccountUser(true);
         PrefUtil.setHadLogin(false);
         startActivity(new Intent(this, HomeActivity.class));
+        finishMe();
     }
 
     @Override
@@ -163,7 +164,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             startActivity(intent, activityOptions.toBundle());
 //            LogUtil.d("start activity with options");
         } else {
-            HandlerUtil.postDelay(() -> startActivity(intent), 500);
+            HandlerUtil.postDelay(() -> {
+//                finishMe();
+                startActivity(intent);
+            }, 500);
         }
         finishMe();
     }

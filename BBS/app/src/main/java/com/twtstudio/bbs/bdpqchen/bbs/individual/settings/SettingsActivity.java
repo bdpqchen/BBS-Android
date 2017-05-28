@@ -123,25 +123,13 @@ public class SettingsActivity extends BaseActivity {
     public void startMySelf() {
         //方案1
         //要延迟更新，否则会很很卡顿，而且不能新开线程。暂行方案
-        HandlerUtil.postDelay(new Runnable() {
-            @Override
-            public void run() {
-                ActivityManager.getActivityManager().recreateAllActivity(SettingsActivity.class);
-            }
-        }, 100);
+        HandlerUtil.postDelay(() -> ActivityManager.getActivityManager().recreateAllActivity(SettingsActivity.class), 100);
 
         ActivityManager.getActivityManager().finishActivity(this);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         Intent intent = getIntent();
         intent.putExtra(IS_SWITCH_NIGHT_MODE_LOCK, true);
         startActivity(intent);
-    }
-
-    @OnClick(R.id.tv_logout)
-    public void onViewClicked() {
-        PrefUtil.setHadLogin(false);
-        // TODO: 17-5-6 清除一些数据
-        startActivity(new Intent(this, LoginActivity.class));
     }
 
     @OnClick({R.id.switch_no_network_message, R.id.switch_stranger_message, R.id.switch_night_mode, R.id.switch_auto_night_mode, R.id.switch_slide_back, R.id.tv_logout})
@@ -158,6 +146,20 @@ public class SettingsActivity extends BaseActivity {
             case R.id.switch_slide_back:
                 break;
             case R.id.tv_logout:
+                PrefUtil.setHadLogin(false);
+                PrefUtil.setAuthToken("");
+                PrefUtil.setAuthUsername("");
+                PrefUtil.setAuthGroup(0);
+                PrefUtil.setAuthUid(0);
+                PrefUtil.setInfoNickname("");
+                PrefUtil.setInfoSignature("");
+                PrefUtil.setInfoCreate(0);
+                PrefUtil.setInfoPoints(0);
+                PrefUtil.setInfoUnread(0);
+                PrefUtil.setHasUnSyncInfo(false);
+                // TODO: 17-5-6 清除一些数据
+                startActivity(new Intent(this, LoginActivity.class));
+                finishMe();
                 break;
         }
     }
