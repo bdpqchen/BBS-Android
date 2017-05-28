@@ -37,6 +37,7 @@
                     android:layout_width="@dimen/icon_size_normal"
                     android:layout_height="@dimen/icon_size_normal"
                     android:src="@drawable/ic_star_white_24dp"
+                    android:visibility="gone"
                     />
 
                 <ImageView

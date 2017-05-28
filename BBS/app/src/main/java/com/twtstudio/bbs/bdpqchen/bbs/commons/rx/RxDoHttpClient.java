@@ -27,6 +27,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.util.Collections;
 import java.util.List;
@@ -39,11 +40,14 @@ import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
+import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -138,12 +142,21 @@ public class RxDoHttpClient<T> {
 
     public RxDoHttpClient() {
 
+        Interceptor mTokenInterceptor = chain -> {
+            Request originalRequest = chain.request();
+            Request authorised = originalRequest.newBuilder()
+                    .header(Constants.NET_RETROFIT_HEADER_TITLE, getLatestAuthentication())
+                    .build();
+            return chain.proceed(authorised);
+        };
+
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
 //        OkHttpClient client = new OkHttpClient.Builder()
         OkHttpClient client = getUnsafeBuilder()
                 .addInterceptor(interceptor)
+                .addInterceptor(mTokenInterceptor)
                 .retryOnConnectionFailure(true)
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .build();
@@ -186,10 +199,6 @@ public class RxDoHttpClient<T> {
         return mApi.getTopTen();
     }
 
-   /* public Observable<BaseResponse<HistoryHotModel.DataBean>> getHistoryHot() {
-        return mApi.getHistoryHot();
-    }*/
-
     public Observable<BaseResponse<RegisterModel>> doRegister(Bundle bundle) {
         return mApi.doRegister(
                 bundle.getString(Constants.BUNDLE_REGISTER_USERNAME),
@@ -214,7 +223,6 @@ public class RxDoHttpClient<T> {
         return mApi.doUpdateInfoAll(getLatestAuthentication(), bundle.getString(Constants.BUNDLE_NICKNAME, ""), bundle.getString(Constants.BUNDLE_SIGNATURE, ""));
 
     }
-
 
     public Observable<BaseResponse<BaseModel>> doUpdateAvatar(String imagePath) {
         File file = new File(imagePath);//filePath 图片地址

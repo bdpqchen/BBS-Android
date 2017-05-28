@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -35,13 +34,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_THREAD = 1;
 
     private Context mContext;
-    private ThreadPresenter mPresenter;
     private ThreadModel.ThreadBean mThreadData = new ThreadModel.ThreadBean();
     private List<ThreadModel.PostBean> mPostData = new ArrayList<>();
 
-    public PostAdapter(Context context, ThreadPresenter presenter) {
+    public PostAdapter(Context context) {
         mContext = context;
-        mPresenter = presenter;
     }
 
     @Override
@@ -72,24 +69,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 // TODO: 17-5-26 Level is not set
                 String str = BBCodeParse.bbcode2Html(mThreadData.getContent());
                 headerHolder.mHtvContent.setHtml(str, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
-                int id = mThreadData.getId();
-                LogUtil.d(String.valueOf(mThreadData.getIn_collection()));
-                if (mThreadData.getIn_collection() == 0) {
-                    headerHolder.mIvStarThread.setVisibility(View.VISIBLE);
-                    headerHolder.mIvStaredThread.setVisibility(View.GONE);
-                }
-                if (mThreadData.getIn_collection() == 1) {
-                    headerHolder.mIvStaredThread.setVisibility(View.VISIBLE);
-                    headerHolder.mIvStarThread.setVisibility(View.GONE);
-                }
-
-                headerHolder.mIvStaredThread.setOnClickListener(v -> {
-                    mPresenter.unStarThread(id);
-
-                });
-                headerHolder.mIvStarThread.setOnClickListener(v -> mPresenter.starThread(id));
-
-
             }
 
             if (mPostData != null && mPostData.size() > 0) {
@@ -109,15 +88,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
 
         }
-    }
-
-    private void unStarThread(int id) {
-
-
-    }
-
-    private void starThread(int id) {
-
     }
 
     @Override
@@ -152,6 +122,15 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void clearData(ThreadModel model){
+        mThreadData = null;
+        mPostData.clear();
+//        mPostData.removeAll(mPostData);
+//        mPostData.addAll(model.getPost());
+//        mThreadData = model.getThread();
+//        notifyDataSetChanged();
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.civ_avatar_post)
         CircleImageView mCivAvatarPost;
@@ -180,10 +159,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView mTvLevelThread;
         @BindView(R.id.tv_datetime_thread)
         TextView mTvDatetimeThread;
-        @BindView(R.id.iv_star_thread)
-        ImageView mIvStarThread;
-        @BindView(R.id.iv_stared_thread)
-        ImageView mIvStaredThread;
         @BindView(R.id.tv_title)
         TextView mTvTitle;
         @BindView(R.id.htv_content)

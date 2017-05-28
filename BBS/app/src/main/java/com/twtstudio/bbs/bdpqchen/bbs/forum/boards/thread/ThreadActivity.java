@@ -75,6 +75,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private PostAdapter mAdapter;
     private String mComment = "";
     private MaterialDialog mProgress;
+    private boolean mRefreshing = false;
 
 
     @Override
@@ -118,7 +119,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mContext = this;
         mPresenter.getThread(mThreadId, 0);
         // TODO: 17-5-27 多页加载
-        mAdapter = new PostAdapter(mContext, mPresenter);
+        mAdapter = new PostAdapter(mContext);
         mRvThreadPost.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(5));
         mRvThreadPost.setAdapter(mAdapter);
@@ -151,12 +152,16 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         });
         mIvCommentOut.setOnClickListener(v -> showFab());
         mIvCommentSend.setOnClickListener(v -> sendComment());
-
         mIvStaredThread.setOnClickListener(v -> {
             mPresenter.unStarThread(mThreadId);
         });
         mIvStarThread.setOnClickListener(v -> {
             mPresenter.starThread(mThreadId);
+        });
+        mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
+        mSrlThreadList.setOnRefreshListener(()->{
+            mRefreshing = true;
+            mPresenter.getThread(mThreadId, 0);
         });
 
 
@@ -206,21 +211,35 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         // TODO: 17-5-27 自动显示软键盘
     }
 
-    public void starThread(int id) {
-
+    private void showStarOrNot(int in_collection){
+        if (in_collection == 1){
+            mIvStaredThread.setVisibility(View.VISIBLE);
+            mIvStarThread.setVisibility(View.GONE);
+        }else{
+            mIvStarThread.setVisibility(View.VISIBLE);
+            mIvStaredThread.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void showThread(ThreadModel model) {
+        if (mRefreshing){
+            mAdapter.clearData(model);
+            mRefreshing = false;
+            mSrlThreadList.setRefreshing(false);
+        }
         hideProgressBar();
         mAdapter.setThreadData(model.getThread());
         mAdapter.setPostData(model.getPost());
+        showStarOrNot(model.getThread().getIn_collection());
+
     }
 
     @Override
     public void showFailed(String m) {
         SnackBarUtil.error(this, m);
         hideProgressBar();
+        mRefreshing = false;
     }
 
     @Override
@@ -234,7 +253,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         hideProgress();
         SnackBarUtil.normal(this, "评论成功");
         showFab();
-        // TODO: 17-5-27 刷新列表
+        mPresenter.getThread(mThreadId, 0);
+
     }
 
     @Override
@@ -250,11 +270,13 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     @Override
     public void onStarred() {
         SnackBarUtil.normal(this, "收藏成功");
+        showStarOrNot(1);
     }
 
     @Override
     public void onUnStarred() {
         SnackBarUtil.normal(this, "已取消收藏");
+        showStarOrNot(0);
     }
 
     @Override
@@ -270,42 +292,13 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             case R.id.action_thread_share:
                 String url = "https://bbs.twtstudio.com/forum/thread/" + mThreadId;
                 shareText(url);
-//                shareToAnyone();
+                break;
+            case android.R.id.home:
+                finishMe();
                 break;
         }
 
         return false;
-    }
-
-    private void shareToAnyone() {
-//        Uri uri = new Uri();
-        String url = "https://bbs.twtstudio.com/api/img/63";
-        Uri path = Uri.parse("android.resource://com.twtstudio.bbs.bdpqchen/bbs/" + R.drawable.forum_banner_1);
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
-        startActivity(intent);
-
-//        shareText(resourceToUri(mContext, R.drawable.forum_banner_1));
-//        shareUrl(getPackageName(), getLocalClassName(), "内容", "标题", "subject");
-    }
-
-    public static Uri resourceToUri(Context context, int resID) {
-        Resources resources = context.getResources();
-        Uri uri = new Uri.Builder()
-                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-                .authority(resources.getResourcePackageName(resID))
-                .appendPath(resources.getResourceTypeName(resID))
-                .appendPath(resources.getResourceEntryName(resID))
-                .build();
-
-        return uri;
-        /*
-        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
-                context.getResources().getResourcePackageName(resID) + '/' +
-                context.getResources().getResourceTypeName(resID) + '/' +
-                context.getResources().getResourceEntryName(resID) );
-*/
     }
 
     //分享文字
@@ -323,13 +316,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         startActivity(Intent.createChooser(shareIntent, "分享到"));
     }
 
-    public static boolean stringCheck(String str) {
-        if (null != str && !TextUtils.isEmpty(str)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     private void hideProgressBar() {
         mPbThreadLoading.setVisibility(View.GONE);

@@ -118,7 +118,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
             startActivity(intent);
         });
         mBoardIds.add(0);
-        mBoardNames.add("...");
+        mBoardNames.add(".....");
 
     }
 
