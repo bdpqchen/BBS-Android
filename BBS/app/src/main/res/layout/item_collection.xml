@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorMainBgLight"
@@ -19,7 +20,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/avatar1" />
+            android:src="@drawable/avatar1"/>
 
         <TextView
             android:id="@+id/collection_author_name"
@@ -29,7 +30,7 @@
             android:layout_toEndOf="@+id/collection_avatar"
             android:gravity="center"
             android:text="username"
-            android:textSize="20sp" />
+            android:textSize="20sp"/>
 
         <ImageView
             android:id="@+id/collection_delete_collected"
@@ -38,7 +39,8 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/ic_star_yellow_24dp" />
+            android:src="@drawable/ic_star_yellow_24dp"/>
+
         <ImageView
             android:id="@+id/collection_delete_collect"
             android:layout_width="30dp"
@@ -56,9 +58,9 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:maxLines="1"
-        android:text="收藏帖子的标题"
         android:textColor="@color/colorTvBlackMain"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        tools:text="收藏帖子的标题"/>
 
     <TextView
         android:id="@+id/collection_time"
@@ -66,11 +68,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:layout_marginEnd="20dp"
-        android:text="距当前时间" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#f2f2f2" />
+        android:text="距当前时间"/>
 
 </LinearLayout>

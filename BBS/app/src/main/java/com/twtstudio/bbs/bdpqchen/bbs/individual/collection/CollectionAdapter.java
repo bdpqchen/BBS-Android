@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentActivity;
 
@@ -64,11 +66,12 @@ class CollectionAdapter extends RecyclerView.Adapter {
         return new CollectionViewHolder(view);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        LogUtil.dd("onBindViewHolder");
         CollectionBean.DataBean data = collectionBean.data.get(position);
-        String date = timeFromEpoch(data.t_create);
+//        String date = timeFromEpoch(data.t_create);
+        String date = StampUtil.getDatetimeByStamp(data.t_create);
         CollectionViewHolder collectionViewHolder = (CollectionViewHolder) holder;
         collectionViewHolder.collection_collect.setVisibility(View.GONE);
         collectionViewHolder.collection_author_name.setText(data.author_nickname);

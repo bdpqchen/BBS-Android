@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
@@ -73,10 +75,11 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         collection_recyclerView.setLayoutManager(linearLayoutManager);
         collectionAdapter = new CollectionAdapter(this, collectionBean, collectionPresenter);
         collection_recyclerView.setAdapter(collectionAdapter);
+        collection_recyclerView.addItemDecoration(new RecyclerViewItemDecoration(10));
         collectionPresenter.loadCollections();
     }
 
@@ -99,7 +102,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
 
     @Override
     public void setNoCollectionInvisible() {
-        collection_no_collection.setVisibility(View.INVISIBLE);
+        collection_no_collection.setVisibility(View.GONE);
     }
 
     @Override
