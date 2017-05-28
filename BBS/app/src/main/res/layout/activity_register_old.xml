@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+
+    <include
+        layout="@layout/common_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="欢迎老用户回归，我们需要以下信息，认证用户的真实使用权，以便同步之前的数据"
+        android:textColor="@color/colorPrimary"
+        />
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:layout_marginBottom="16dp"
+            >
+
+            <LinearLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/margin_top_text_input_layout_register"
+                android:layout_marginLeft="@dimen/margin_side_text_input_layout_register"
+                android:layout_marginRight="@dimen/margin_side_text_input_layout_register"
+                android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
+                android:orientation="vertical"
+                >
+
+                <EditText
+                    android:id="@+id/et_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="用户名"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLength="30"
+                    android:maxLines="1"
+                    android:focusable="false"
+                    />
+                <EditText
+                    android:id="@+id/et_real_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="姓名"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+
+                    />
+
+                <EditText
+                    android:id="@+id/et_cid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="身份证号"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLength="18"
+                    android:maxLines="1"
+                    />
+
+               <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="20"
+                    app:errorEnabled="true"
+                    app:passwordToggleEnabled="true"
+                    app:theme="@style/AppTheme.EditText.Register"
+                    >
+
+                    <EditText
+                        android:id="@+id/et_password_again"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="密码"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPassword"
+                        android:maxLength="18"
+                        android:maxLines="1"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                    android:id="@+id/cp_btn_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/circular_border_shape"
+                    android:text="认证"
+                    android:textColor="@color/material_light_white"
+                    app:spinning_bar_color="@color/colorMainBgLight"
+                    app:spinning_bar_padding="8dp"
+                    app:spinning_bar_width="3dp"
+                    />
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </ScrollView>
+</LinearLayout>

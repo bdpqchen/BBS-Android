@@ -1,13 +1,11 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
@@ -22,7 +20,6 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -34,7 +31,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
@@ -68,6 +64,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     ImageView mIvCommentSend;
     @BindView(R.id.iv_comment_out)
     ImageView mIvCommentOut;
+    @BindView(R.id.iv_stared_thread)
+    ImageView mIvStaredThread;
+    @BindView(R.id.iv_star_thread)
+    ImageView mIvStarThread;
 
     private String mThreadTitle = "";
     private int mThreadId = 0;
@@ -127,7 +127,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mFbThreadWritePost.setOnClickListener(v -> {
             showCommentInput();
         });
-
         mEtComment.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -150,10 +149,17 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
             }
         });
-
         mIvCommentOut.setOnClickListener(v -> showFab());
-
         mIvCommentSend.setOnClickListener(v -> sendComment());
+
+        mIvStaredThread.setOnClickListener(v -> {
+            mPresenter.unStarThread(mThreadId);
+        });
+        mIvStarThread.setOnClickListener(v -> {
+            mPresenter.starThread(mThreadId);
+        });
+
+
     }
 
     private void sendComment() {
@@ -200,7 +206,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         // TODO: 17-5-27 自动显示软键盘
     }
 
-    public void starThread(int id){
+    public void starThread(int id) {
 
     }
 
@@ -260,7 +266,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_thread_share:
                 String url = "https://bbs.twtstudio.com/forum/thread/" + mThreadId;
                 shareText(url);
@@ -317,10 +323,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         startActivity(Intent.createChooser(shareIntent, "分享到"));
     }
 
-    public static boolean stringCheck(String str){
-        if(null != str && !TextUtils.isEmpty(str)){
+    public static boolean stringCheck(String str) {
+        if (null != str && !TextUtils.isEmpty(str)) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

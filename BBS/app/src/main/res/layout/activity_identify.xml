@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/material_blue_600"
-            android:text="忘记了用户名？"
+            android:text="忘记了？"
             android:layout_gravity="end"
             android:gravity="center"
             android:clickable="true"
@@ -62,7 +62,7 @@
             android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
             android:hint="当年的密码"
             android:imeOptions="actionNext"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:maxLines="1"
             />
 

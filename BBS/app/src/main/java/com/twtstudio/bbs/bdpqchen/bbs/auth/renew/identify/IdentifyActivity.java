@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterOldActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.appeal.AppealPassportActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
@@ -37,6 +39,11 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
     CircularProgressButton mCpBtnIdentify;
     @BindView(R.id.tv_find_username)
     TextView mTvFindUsername;
+
+    public static final String INTENT_USERNAME = "intent_username";
+    public static final String INTENT_TOKEN = "intent_token";
+
+    private String mUsername = "";
 
     @Override
     protected int getLayoutResourceId() {
@@ -74,18 +81,7 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
-
-
     }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
-
-    }
-
 
     @OnClick({R.id.old_account, R.id.old_password, R.id.cp_btn_identify, R.id.tv_find_username})
     public void onViewClicked(View view) {
@@ -98,17 +94,16 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
                 inputCheck();
                 break;
             case R.id.tv_find_username:
-
-                startActivity(new Intent(this, RetrieveActivity.class));
+                startActivity(new Intent(this, AppealPassportActivity.class));
                 break;
         }
     }
 
     private void inputCheck() {
         String err = "长度不符合规范";
-        String username = String.valueOf(mOldAccount.getText());
+        mUsername = String.valueOf(mOldAccount.getText());
         String password = String.valueOf(mOldPassword.getText());
-        if (username.length() < 5) {
+        if (mUsername.length() < 5) {
             mOldAccount.setError(err);
             return;
         }
@@ -116,8 +111,9 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
             mOldPassword.setError(err);
             return;
         }
+
         mCpBtnIdentify.startAnimation();
-        mPresenter.doIdentify(username, password);
+        mPresenter.doIdentify(mUsername, password);
     }
 
 
@@ -135,7 +131,11 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
 
     @Override
     public void identifySuccess(IdentifyModel model) {
-
+        mCpBtnIdentify.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
+        Intent intent = new Intent(this, RegisterOldActivity.class);
+        intent.putExtra(INTENT_USERNAME, mUsername);
+        intent.putExtra(INTENT_TOKEN, model.token);
+        startActivity(intent);
         // TODO: 17-5-21 认证成功后
     }
 

@@ -4,6 +4,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveModel;
@@ -56,12 +57,21 @@ public interface BaseApi {
     Observable<BaseResponse<List<ForumModel>>> getForums();
 
     @FormUrlEncoded
-    @POST("register/new")
+    @POST("passport/register/new")
     Observable<BaseResponse<RegisterModel>> doRegister(@Field(Constants.BUNDLE_REGISTER_USERNAME) String string,
                                                        @Field(Constants.BUNDLE_REGISTER_CID) String string1,
                                                        @Field(Constants.BUNDLE_REGISTER_PASSWORD) String string2,
                                                        @Field(Constants.BUNDLE_REGISTER_STU_NUM) String string3,
                                                        @Field(Constants.BUNDLE_REGISTER_REAL_NAME) String string4);
+
+    @FormUrlEncoded
+    @POST("passport/register/old")
+    Observable<BaseResponse<RegisterOldModel>> doRegisterOld(
+            @Field(Constants.TOKEN) String token,
+            @Field(Constants.BUNDLE_REGISTER_USERNAME) String string,
+            @Field(Constants.BUNDLE_REGISTER_PASSWORD) String string2,
+            @Field(Constants.BUNDLE_REGISTER_CID) String string1,
+            @Field(Constants.BUNDLE_REGISTER_REAL_NAME) String string4);
 
     @GET("home")
     Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(@Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken);

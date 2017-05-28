@@ -75,7 +75,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 int id = mThreadData.getId();
                 LogUtil.d(String.valueOf(mThreadData.getIn_collection()));
                 if (mThreadData.getIn_collection() == 0) {
-
                     headerHolder.mIvStarThread.setVisibility(View.VISIBLE);
                     headerHolder.mIvStaredThread.setVisibility(View.GONE);
                 }

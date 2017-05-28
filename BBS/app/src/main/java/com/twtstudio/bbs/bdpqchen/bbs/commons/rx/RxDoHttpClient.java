@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveModel;
@@ -298,5 +299,14 @@ public class RxDoHttpClient<T> {
 
     public Observable<BaseResponse<BaseModel>> unStarThread(int id) {
         return mApi.unStarThread(getLatestAuthentication(), id);
+    }
+
+    public Observable<BaseResponse<RegisterOldModel>> doRegisterOld(Bundle bundle) {
+        return mApi.doRegisterOld(bundle.getString(Constants.TOKEN),
+                bundle.getString(Constants.BUNDLE_REGISTER_USERNAME),
+                bundle.getString(Constants.PASSWORD),
+                bundle.getString(Constants.BUNDLE_REGISTER_CID),
+                bundle.getString(Constants.BUNDLE_REGISTER_REAL_NAME)
+                );
     }
 }

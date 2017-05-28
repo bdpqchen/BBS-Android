@@ -5,4 +5,5 @@ package com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify;
  */
 
 public class IdentifyModel {
+    public String token;
 }

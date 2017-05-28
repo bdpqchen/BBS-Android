@@ -64,8 +64,9 @@
         <activity android:name=".auth.renew.identify.retrieve.RetrieveActivity"/>
         <activity android:name=".auth.renew.identify.retrieve.reset_password.ResetPasswordActivity"/>
         <activity android:name=".forum.boards.create_thread.CreateThreadActivity"/>
+        <activity android:name=".auth.register.RegisterOldActivity"/>
 
-
+陈丁辰
     </application>
 
 </manifest>

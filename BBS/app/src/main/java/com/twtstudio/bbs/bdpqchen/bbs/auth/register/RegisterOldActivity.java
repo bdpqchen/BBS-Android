@@ -2,12 +2,16 @@ package com.twtstudio.bbs.bdpqchen.bbs.auth.register;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.EditText;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldContract;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldPresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
@@ -19,48 +23,47 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyActivity.INTENT_TOKEN;
+
 /**
  * Created by bdpqchen on 17-5-2.
  */
 
-public class RegisterActivity extends BaseActivity<RegisterPresenter> implements RegisterContract.View {
+public class RegisterOldActivity extends BaseActivity<RegisterOldPresenter> implements RegisterOldContract.View {
 
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.et_real_name)
-    EditText mEtRealName;
-    @BindView(R.id.et_stu_num)
-    EditText mEtStuNum;
-    @BindView(R.id.et_cid)
-    EditText mEtCid;
     @BindView(R.id.et_username)
     EditText mEtUsername;
-    @BindView(R.id.et_password)
-    EditText mEtPassword;
-    @BindView(R.id.cp_btn_register)
-    CircularProgressButton mCpBtnRegister;
+    @BindView(R.id.et_real_name)
+    EditText mEtRealName;
+    @BindView(R.id.et_cid)
+    EditText mEtCid;
     @BindView(R.id.et_password_again)
     EditText mEtPasswordAgain;
+    @BindView(R.id.cp_btn_register)
+    CircularProgressButton mCpBtnRegister;
 
     private String mRealName;
-    private String mStuNum;
     private String mCid;
-    private String mUsername;
-    private String mPassword;
+    private String mUsername = "";
     private String mPasswordAgain;
 
     private Context mContext;
     private Activity mActivity;
 
+    private String mToken = "";
+    public static final String INTENT_USERNAME = "intent_username";
+
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_register;
+        return R.layout.activity_register_old;
     }
 
     @Override
     protected Toolbar getToolbarView() {
-        mToolbar.setTitle("新用户注册");
+        mToolbar.setTitle("个人信息认证");
         return mToolbar;
     }
 
@@ -91,25 +94,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
         mActivity = this;
+        Intent intent = getIntent();
+        mUsername = intent.getStringExtra(INTENT_USERNAME);
+        mToken = intent.getStringExtra(INTENT_TOKEN);
+        mEtUsername.setText(mUsername);
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
-    }
-
-
-    @OnClick({R.id.et_password, R.id.cp_btn_register})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.et_password:
-                break;
-            case R.id.cp_btn_register:
-                doRegister();
-                break;
-        }
     }
 
     private void doRegister() {
@@ -117,18 +106,23 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
             Bundle bundle = new Bundle();
             bundle.putString(Constants.BUNDLE_REGISTER_CID, mCid);
             bundle.putString(Constants.BUNDLE_REGISTER_REAL_NAME, mRealName);
-            bundle.putString(Constants.BUNDLE_REGISTER_STU_NUM, mStuNum);
-            bundle.putString(Constants.BUNDLE_REGISTER_PASSWORD, mPassword);
+            bundle.putString(Constants.BUNDLE_REGISTER_PASSWORD, mPasswordAgain);
             bundle.putString(Constants.BUNDLE_REGISTER_USERNAME, mUsername);
-            mPresenter.doRegister(bundle);
+            bundle.putString(Constants.TOKEN, mToken);
+            mPresenter.doRegisterOld(bundle);
         }
     }
 
     @Override
     public void registerSuccess() {
-        SnackBarUtil.normal(this, "注册成功，请登录");
-        HandlerUtil.postDelay(() -> ActivityManager.getActivityManager().finishActivity(mActivity), 2000);
-
+        SnackBarUtil.normal(this, "认证成功，请登录");
+        HandlerUtil.postDelay(() -> {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.putExtra(INTENT_USERNAME, mUsername);
+            startActivity(intent);
+            finishMe();
+            ActivityManager.getActivityManager().finishNamedActivity(IdentifyActivity.class);
+        }, 2000);
     }
 
     @Override
@@ -142,37 +136,26 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         String error = "输入不正确";
         mCid = mEtCid.getText().toString();
         mRealName = mEtRealName.getText().toString();
-        mStuNum =  mEtStuNum.getText().toString();
-        mPassword = mEtPassword.getText().toString();
         mPasswordAgain = mEtPasswordAgain.getText().toString();
         mUsername = mEtUsername.getText().toString();
-        if (mRealName.length() == 0) {
-            mEtStuNum.setError(error);
-            isPerfect = false;
-        }
-        if (mStuNum.length() != 10) {
-            mEtStuNum.setError(error);
-            isPerfect = false;
-        }
         if (mCid.length() != 18) {
             mEtCid.setError(error);
             isPerfect = false;
         }
-        if (!mPassword.equals(mPasswordAgain)){
-            isPerfect = false;
-            String err = "两次密码输入不一致";
-            mEtPasswordAgain.setError(err);
-            mEtPassword.setError(err);
-        }
-        if (mPassword.length() < 6){
-            mEtPassword.setError(errorPwd);
+        if (mRealName.length() < 1) {
+            mEtRealName.setError(error);
             isPerfect = false;
         }
-        if (mPassword.length() < 6){
-            isPerfect = false;
+        if (mPasswordAgain.length() < 6) {
             mEtPasswordAgain.setError(errorPwd);
+            isPerfect = false;
         }
         return isPerfect;
     }
 
+
+    @OnClick(R.id.cp_btn_register)
+    public void onViewClicked() {
+        doRegister();
+    }
 }

@@ -11,11 +11,44 @@
         android:layout_height="wrap_content"
         >
 
-        <include
-            layout="@layout/common_toolbar"
+        <android.support.v7.widget.Toolbar
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="8dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            tools:targetApi="lollipop"
+
+            >
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="8dp"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_stared_thread"
+                    android:layout_width="@dimen/icon_size_normal"
+                    android:layout_height="@dimen/icon_size_normal"
+                    android:src="@drawable/ic_star_white_24dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_star_thread"
+                    android:layout_width="@dimen/icon_size_normal"
+                    android:layout_height="@dimen/icon_size_normal"
+                    android:src="@drawable/ic_star_border_white_24dp"
+                    />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -41,7 +74,6 @@
             android:layout_height="wrap_content"
             android:background="@color/colorThreadContentBg"
             android:paddingTop="2dp"
-
             />
 
     </android.support.v4.widget.SwipeRefreshLayout>
@@ -66,9 +98,9 @@
         android:layout_gravity="end|bottom"
         android:background="@color/colorMainBgLightHeight"
         android:orientation="horizontal"
-        app:elevation="8dp"
-        android:visibility="gone"
         android:paddingTop="4dp"
+        android:visibility="gone"
+        app:elevation="8dp"
         >
 
         <android.support.design.widget.TextInputEditText
@@ -84,29 +116,29 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginEnd="4dp"
             android:paddingEnd="4dp"
-            android:layout_gravity="center_vertical"
             >
 
             <ImageView
+                android:id="@+id/iv_comment_send"
                 android:layout_width="@dimen/icon_size_normal"
                 android:layout_height="@dimen/icon_size_normal"
+                android:clickable="true"
                 android:src="@drawable/ic_send_white_24dp"
                 android:tint="@color/colorPrimary"
                 android:visibility="gone"
-                android:clickable="true"
-                android:id="@+id/iv_comment_send"
                 />
 
             <ImageView
+                android:id="@+id/iv_comment_out"
                 android:layout_width="@dimen/icon_size_normal"
                 android:layout_height="@dimen/icon_size_normal"
+                android:clickable="true"
                 android:src="@drawable/ic_clear_white_24dp"
                 android:tint="@color/colorTvBlackMainTint"
                 android:visibility="visible"
-                android:clickable="true"
-                android:id="@+id/iv_comment_out"
                 />
 
         </RelativeLayout>
