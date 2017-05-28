@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -33,6 +35,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 
@@ -76,7 +81,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private String mComment = "";
     private MaterialDialog mProgress;
     private boolean mRefreshing = false;
-
 
     @Override
     protected int getLayoutResourceId() {
@@ -195,7 +199,11 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 .duration(d)
                 .playOn(mLlComment);
         mLlComment.setVisibility(View.GONE);
-
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     private void showCommentInput() {
@@ -209,6 +217,18 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 .playOn(mLlComment);
         mLlComment.setVisibility(View.VISIBLE);
         // TODO: 17-5-27 自动显示软键盘
+
+        mLlComment.setFocusable(true);
+        mLlComment.setFocusableInTouchMode(true);
+        mLlComment.requestFocus();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                InputMethodManager inputMethodManager = (InputMethodManager) mLlComment.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.showSoftInput(mLlComment, 0);
+            }
+        }, 500);
     }
 
     private void showStarOrNot(int in_collection){

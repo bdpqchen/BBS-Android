@@ -97,10 +97,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:background="@color/colorMainBgLightHeight"
+        android:background="@drawable/shape_ll_shade"
         android:orientation="horizontal"
         android:paddingTop="4dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:elevation="8dp"
         >
 
