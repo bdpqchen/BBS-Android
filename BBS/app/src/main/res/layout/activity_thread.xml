@@ -100,7 +100,7 @@
         android:background="@drawable/shape_ll_shade"
         android:orientation="horizontal"
         android:paddingTop="4dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:elevation="8dp"
         >
 

@@ -55,7 +55,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @BindView(R.id.view_need_offset)
     LinearLayout mNeedOffset;
 
-
     private static final String LOGIN_ERROR_TEXT = "没有输入如何登录？";
 
 
@@ -166,6 +165,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         } else {
             HandlerUtil.postDelay(() -> startActivity(intent), 500);
         }
+        finishMe();
     }
 
     @Override
