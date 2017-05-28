@@ -200,6 +200,8 @@ public class BBCodeMaps {
         bbMap.put("&gt",">");
         bbMap.put("&rsquo;","'");
 
+
+
 	    /* lowercase */
 
         bbMap.put("\n", "<br />");
@@ -213,7 +215,7 @@ public class BBCodeMaps {
         bbMap.put("\\[h4\\](.+?)\\[/h4\\]", "<h4>$1</h4>");
         bbMap.put("\\[h5\\](.+?)\\[/h5\\]", "<h5>$1</h5>");
         bbMap.put("\\[h6\\](.+?)\\[/h6\\]", "<h6>$1</h6>");
-        bbMap.put("\\[quote\\](.+?)\\[/quote\\]", "<blockquote>$1</blockquote>");
+        bbMap.put("\\[quote\\]([\\s\\S]+?)\\[/quote\\]", "<blockquote>$1</blockquote>");
         bbMap.put("\\[quote=(.+?)\\](.+?)\\[/quote\\]", "<blockquote>$2</blockquote>");
         bbMap.put("\\[p\\](.+?)\\[/p\\]", "<p>$1</p>");
         bbMap.put("\\[p=(.+?),(.+?)\\](.+?)\\[/p\\]", "<p style=\"text-indent:$1px;line-height:$2%;\">$3</p>");
