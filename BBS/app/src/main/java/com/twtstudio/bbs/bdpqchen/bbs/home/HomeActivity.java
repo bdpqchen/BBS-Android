@@ -84,27 +84,24 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
         // TODO: 17-5-3 非登录后跳转到这里，是否渐变
         // 登录后的渐变,
-//        if (!PrefUtil.hadLogin()) {
+        if (!PrefUtil.isNoAccountUser()) {
+            PrefUtil.setHadLogin(true);
+        }
         mMask.setVisibility(View.VISIBLE);
-//            PrefUtil.setHadLogin(true);
         ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home),
                 "alpha", 0f).setDuration(600);
         animator.setStartDelay(400);
         animator.start();
-//            ActivityManager.getActivityManager().finishNamedActivity(LoginActivity.class);
 //        }
 
         mMainFragment = MainFragment.newInstance();
         mForumFragment = ForumFragment.newInstance();
-//        if (PrefUtil.hadLogin()){
         mIndividualFragment = IndividualFragment.newInstance();
-//        }
         loadMultipleRootFragment(R.id.fl_main_container, 0, mMainFragment, mForumFragment, mIndividualFragment);
         mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
 
         mBottomBar.setOnTabSelectListener(i -> {
             LogUtil.dd("onTabSelected()");
-            LogUtil.dd(String.valueOf(i));
             if (PrefUtil.hadLogin()) {
                 if (i == R.id.bottom_bar_tab_main) {
                     mShowingFragment = Constants.FRAGMENT_MAIN;
@@ -114,9 +111,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                     mShowingFragment = Constants.FRAGMENT_INDIVIDUAL;
                 }
                 loadFragment();
-            }else if (i == R.id.bottom_bar_tab_individual && !PrefUtil.hadLogin()){
+            } else if (i == R.id.bottom_bar_tab_individual && !PrefUtil.hadLogin()) {
                 startActivity(new Intent(this, LoginActivity.class));
-                LogUtil.dd("start login");
             }
         });
 

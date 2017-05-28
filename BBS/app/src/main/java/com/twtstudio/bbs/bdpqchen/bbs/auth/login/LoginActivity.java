@@ -155,19 +155,20 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         PrefUtil.setAuthUid(loginModel.getUid());
         ActivityOptions activityOptions = null;
         Intent intent = new Intent(this, HomeActivity.class);
-
+        PrefUtil.setIsNoAccountUser(false);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             activityOptions = ActivityOptions.makeSceneTransitionAnimation(this, new Pair<>(findViewById(R.id.cp_btn_login), "transition"));
         }
 
         if (activityOptions != null) {
+
             startActivity(intent, activityOptions.toBundle());
 //            LogUtil.d("start activity with options");
         } else {
             HandlerUtil.postDelay(() -> {
 //                finishMe();
                 startActivity(intent);
-            }, 500);
+            }, 1000);
         }
         finishMe();
     }
