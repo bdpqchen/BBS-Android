@@ -67,6 +67,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
         mGridLayoutManager.generateDefaultLayoutParams();
         mAdapter = new ForumAdapter(this.getContext());
         mRvForumList.setLayoutManager(mGridLayoutManager);
+//        mRvForumList.setRecycledViewPool();
         mRvForumList.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener((view, position) -> {

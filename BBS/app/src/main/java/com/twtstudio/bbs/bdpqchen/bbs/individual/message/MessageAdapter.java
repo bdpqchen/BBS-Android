@@ -9,9 +9,7 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.CommentModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
 import butterknife.BindView;
@@ -23,7 +21,6 @@ import butterknife.BindView;
 public class MessageAdapter extends BaseAdapter<MessageModel> {
 
 
-
     LayoutInflater inflater;
     public MessageAdapter(Context context) {
         super(context);
@@ -32,24 +29,26 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MessageItemViewHolder(inflater.inflate(R.layout.item_rv_message_comment, parent, false));
+        return new CommentView(inflater.inflate(R.layout.item_rv_message_comment, parent, false));
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-
         MessageModel item = mDataSet.get(position);
-        CommentModel comment = (CommentModel) mDataSet.get(position).content;
-        MessageItemViewHolder holderConverted = (MessageItemViewHolder) holder;
-        holderConverted.mTvThreadTitle.setText(comment.getThread_title());
-        holderConverted.mTvDatetimeMessage.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
-        holderConverted.mTvSummary.setText(comment.getContent());
-        if (item.getRead() == 1){
-            holderConverted.mTvRedDot.setVisibility(View.VISIBLE);
+        CommentView holderConverted = (CommentView) holder;
+        int tag = mDataSet.get(position).getTag();
+        if (tag == 2){
+            MessageModel.ContentBean model = item.getContent_model();
+//            holderConverted.mTvThreadTitle.setText(model.getThread_title());
+            holderConverted.mTvDatetimeMessage.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
+//            holderConverted.mTvSummary.setText(comment.getContent());
+            if (item.getRead() == 0){
+                holderConverted.mTvRedDot.setVisibility(View.VISIBLE);
+            }
         }
     }
 
-    static class MessageItemViewHolder extends BaseViewHolder {
+    static class CommentView extends BaseViewHolder {
 
         @BindView(R.id.tv_thread_title)
         TextView mTvThreadTitle;
@@ -60,7 +59,7 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
         @BindView(R.id.red_dot)
         View mTvRedDot;
 
-        public MessageItemViewHolder(View itemView) {
+        public CommentView(View itemView) {
             super(itemView);
         }
     }

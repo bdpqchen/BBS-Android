@@ -80,8 +80,8 @@
 
         <View
             android:id="@+id/red_dot"
-            android:layout_width="4dp"
-            android:layout_height="4dp"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
             android:layout_gravity="center"
             android:background="@drawable/shape_red_dot"
             android:visibility="gone"

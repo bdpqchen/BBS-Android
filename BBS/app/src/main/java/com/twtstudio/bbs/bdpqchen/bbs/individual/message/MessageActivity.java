@@ -36,6 +36,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     SwipeRefreshLayout mSrlMessage;
 
     private MessageAdapter mAdapter;
+    private boolean mRefreshing = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -77,6 +78,10 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
         rvMessageList.setLayoutManager(new LinearLayoutManager(this));
         mPresenter.getMessageList(0);
         mSrlMessage.setRefreshing(true);
+        mSrlMessage.setOnRefreshListener(()->{
+            mPresenter.getMessageList(0);
+            mRefreshing = true;
+        });
     }
 
     @Override
@@ -87,11 +92,28 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
 
     @Override
     public void showMessageList(List<MessageModel> messageList) {
-        mSrlMessage.setRefreshing(false);
-        if (messageList != null && messageList.size() > 0) {
-            mAdapter.addList(messageList);
-        } else {
-            mTvNoMessage.setVisibility(View.VISIBLE);
+        if (mRefreshing){
+            mAdapter.clearAll();
         }
+        if (messageList != null) {
+            int size = messageList.size();
+            if (size != 0) {
+                for (int i = 0; i < size; i++) {
+                    int tag = messageList.get(i).getTag();
+                    if (tag != 2 && tag != 3) {
+                        messageList.remove(i);
+                        size--;
+                    }
+                }
+                if (messageList.size() > 0) {
+                    mAdapter.addList(messageList);
+                } else {
+                    mTvNoMessage.setVisibility(View.VISIBLE);
+                }
+
+            }
+        }
+        mRefreshing = false;
+        mSrlMessage.setRefreshing(false);
     }
 }

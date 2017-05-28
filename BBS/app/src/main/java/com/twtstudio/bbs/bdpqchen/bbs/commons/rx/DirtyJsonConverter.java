@@ -94,15 +94,17 @@ public class DirtyJsonConverter extends Converter.Factory {
             String dirty = value.string();
             String clean = dirty;
             if (dirty.endsWith(keyEnd) && dirty.contains(keyStart)){
-
                 clean = dirty.replace(keyStart, "\"message\":\"").replace(keyEnd, "\",\"data\":{}}");
 //                clean = dirty.replace(keyStart, "\"data\":{\"message\":\"").replace(keyEnd, "\"}}");
-                LogUtil.d("new Json -->", clean);
-
             }
-
+            String keyStart0 = "\"content\":{";
+            String clean0 = clean;
+            if (clean.contains(keyStart0)){
+                clean0 = dirty.replace(keyStart0, "\"content_model\":{");
+            }
+            LogUtil.dd(clean0);
             try {
-                return adapter.fromJson(clean);
+                return adapter.fromJson(clean0);
             } finally {
                 value.close();
             }
