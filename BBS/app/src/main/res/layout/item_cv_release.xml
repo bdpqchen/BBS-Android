@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/tv_title"
                 android:layout_below="@+id/tv_title"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="14dp"
                 android:text="@string/icon" />
 
             <TextView

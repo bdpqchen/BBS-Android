@@ -2,14 +2,17 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.my_release;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
+import android.view.ViewGroup;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -24,21 +27,16 @@ import butterknife.ButterKnife;
  * Created by Arsener on 2017/5/13.
  */
 
-public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implements MyReleaseContract.View, SwipeRefreshLayout.OnRefreshListener{
+public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implements MyReleaseContract.View {
 
-    @BindView(R.id.rv)
-    RecyclerView rv;
-    @BindView(R.id.srl)
-    SwipeRefreshLayout srl;
+    @BindView(R.id.tl_release)
+    TabLayout mTabLayout;
+    @BindView(R.id.vp_release)
+    ViewPager mViewpager;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
-    private LinearLayoutManager layoutManager;
-    private List<MyReleaseModel> data = new ArrayList<>();
-    private MyRecyclerAdapter myRecyclerAdapter;
-    private EndlessRecyclerOnScrollListener eros;
-    private int page = 0;
-    private boolean ready = true;
+//    private ArrayList<View> mList;
+//    private String[] mTitle;
 
     @Override
     protected int getLayoutResourceId() {
@@ -74,72 +72,84 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_release);
+        ButterKnife.bind(this);
 
-        myRecyclerAdapter = new MyRecyclerAdapter(this, data);
+        MyReleaseFragmentAdapter myReleaseFragmentAdapter = new MyReleaseFragmentAdapter(getSupportFragmentManager());
 
-        layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        rv.setHasFixedSize(true);rv.setLayoutManager(layoutManager);
-        rv.setAdapter(myRecyclerAdapter);
-        srl.setOnRefreshListener(this);
-        eros = new EndlessRecyclerOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore() {
-                mPresenter.getMyReleaseList();
-            }
-        };
-        rv.addOnScrollListener(eros);
-//
-//        View footer = LayoutInflater.from(MyReleaseActivity.this).inflate(R.layout.footer_view, rv, false);
-//        myRecyclerAdapter.setFooterView(footer);
-
-        mPresenter.initMyReleaseList();
+        mViewpager.setAdapter(myReleaseFragmentAdapter);
+        mViewpager.setOffscreenPageLimit(2);
+        mTabLayout.setupWithViewPager(mViewpager);
     }
 
     @Override
-    public void onError (Throwable throwable){
-        Toast.makeText(this, throwable.toString(), Toast.LENGTH_SHORT).show();
+    public void onError(Throwable throwable) {
     }
-
-    @Override
-    public void onRefresh() {
-        data.clear();
-        page = 0;
-        eros.restart();
-        mPresenter.initMyReleaseList();
-        srl.setRefreshing(false);
-        myRecyclerAdapter.notifyDataSetChanged();
-    }
-
-    /*public void loadMoreData() {
-        List<MyReleaseBean> moreList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            MyReleaseBean rb = new MyReleaseBean();
-            rb.title = "this is " + (page * 10 + i) + " hahaha";
-            rb.visit = page * 10 + i;
-            rb.time = "YY/MM/DD";
-            data.add(rb);
-        }
-        page++;
-        data.addAll(moreList);
-        View footer = LayoutInflater.from(this).inflate(R.layout.footer_view, rv, false);
-        myRecyclerAdapter.setFooterView(footer);
-        myRecyclerAdapter.notifyDataSetChanged();
-    }*/
 
     @Override
     public void clearMyReleaseList() {
-        myRecyclerAdapter.clear();
     }
 
     @Override
     public void showMyReleaseList(List<MyReleaseModel> data) {
-        myRecyclerAdapter.addItems(data);
-//        View footer = LayoutInflater.from(MyReleaseActivity.this).inflate(R.layout.footer_view, rv, false);
-//        myRecyclerAdapter.setFooterView(footer);
-        myRecyclerAdapter.notifyDataSetChanged();
-//        myRecyclerAdapter.removeFooterView();
-//        myRecyclerAdapter.notifyDataSetChanged();
     }
 }
+
+
+//        initData();
+//
+//        mViewpager.setAdapter(new PagerAdapter() {
+//            @Override
+//            public int getCount() {
+//                return mList.size();
+//            }
+//
+//            @Override
+//            public boolean isViewFromObject(View view, Object object) {
+//                return view == object;
+//            }
+//
+////            @Override
+////            public Fragment getItem(int position) {
+////                switch (position) {
+////                    case 0:
+////                        return MyReleaseFragment.newInstance();
+////                    case 1:
+////                        return MyReleaseFragment.newInstance();
+//////            case 2:
+//////                return HistoryHotFragment.newInstance();
+////                    default:
+////                        return null;
+////                }
+////            }
+//
+//            @Override
+//            public Object instantiateItem(ViewGroup container, int position) {
+//                View view = mList.get(position);
+//                container.addView(view);
+//                return view;
+//            }
+//
+//            @Override
+//            public void destroyItem(ViewGroup container, int position, Object object) {
+//                container.removeView((View) object);
+//            }
+//
+//            @Override
+//            public CharSequence getPageTitle(int position) {
+//                return mTitle[position];
+//            }
+//        });
+
+//    private void initData() {
+////        MyReleaseFragment myReleaseFragmenta = new MyReleaseFragment();
+////        MyReleaseFragment myReleaseFragmentb = new MyReleaseFragment();
+//        View viewpagerA = getLayoutInflater().inflate(R.layout.fragment_release, null);
+//        View viewpagerB = getLayoutInflater().inflate(R.layout.fragment_release, null);
+//
+//        mList = new ArrayList<>();
+//        mList.add(viewpagerA);
+//        mList.add(viewpagerB);
+//
+//        mTitle = new String[]{"首页", "分类"};
+//    }
