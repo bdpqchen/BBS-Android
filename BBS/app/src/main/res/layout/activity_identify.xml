@@ -14,72 +14,83 @@
         android:layout_height="wrap_content"
         />
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margin_side_text_input_layout_register"
-        android:orientation="vertical"
-        android:background="@color/colorMainBgLight"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="16dp"
         >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:text="老用户(即已拥有BBS帐号)请登录认证新版BBS"
-            android:textColor="@color/material_cyan_400"
-            />
-
-        <EditText
-            android:id="@+id/old_account"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
-            android:hint="当年的用户名"
-            android:imeOptions="actionNext"
-            android:inputType="text"
-            android:maxLines="1"
-            />
+            android:background="@color/colorMainBgLight"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_side_text_input_layout_register"
+            >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/material_blue_600"
-            android:text="忘记了？"
-            android:layout_gravity="end"
-            android:gravity="center"
-            android:clickable="true"
-            android:id="@+id/tv_find_username"
-            android:padding="5dp"
-            android:foreground="@drawable/selector_foreground_settings"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我们需要一些个人信息认证老用户，并同步之前的数据"
+                android:textColor="@color/colorPrimary"
+                />
 
-            />
+            <EditText
+                android:id="@+id/old_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
+                android:digits="abcdefghigklmnopqrstuvwxyz"
+                android:hint="当年的用户名"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:maxLength="12"
+                android:maxLines="1"
+                android:minLines="2"
+                />
 
-        <EditText
-            android:id="@+id/old_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
-            android:hint="当年的密码"
-            android:imeOptions="actionNext"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            />
+            <TextView
+                android:id="@+id/tv_find_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:clickable="true"
+                android:foreground="@drawable/selector_foreground_settings"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="忘记了？"
+                android:textColor="@color/material_blue_600"
+                />
 
-        <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-            android:id="@+id/cp_btn_identify"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_gravity="center"
-            android:background="@drawable/circular_border_shape"
-            app:spinning_bar_color="@color/material_light_white"
-            android:textColor="@color/material_light_white"
-            app:spinning_bar_padding="6dp"
-            app:spinning_bar_width="4dp"
-            android:text="验证"
-            />
+            <EditText
+                android:id="@+id/old_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
+                android:hint="当年的密码"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:digits="0123456789abcdefghigklmnopqrstuvwxyz_"
+                />
 
-    </LinearLayout>
+            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                android:id="@+id/cp_btn_identify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:background="@drawable/circular_border_shape"
+                android:text="验证"
+                android:textColor="@color/material_light_white"
+                app:spinning_bar_color="@color/material_light_white"
+                app:spinning_bar_padding="6dp"
+                app:spinning_bar_width="4dp"
+                />
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

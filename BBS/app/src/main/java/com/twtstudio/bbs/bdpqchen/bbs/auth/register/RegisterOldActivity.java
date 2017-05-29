@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.method.HideReturnsTransformationMethod;
 import android.widget.EditText;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -98,7 +99,6 @@ public class RegisterOldActivity extends BaseActivity<RegisterOldPresenter> impl
         mUsername = intent.getStringExtra(INTENT_USERNAME);
         mToken = intent.getStringExtra(INTENT_TOKEN);
         mEtUsername.setText(mUsername);
-
     }
 
     private void doRegister() {

@@ -14,13 +14,6 @@
         android:layout_height="wrap_content"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="欢迎老用户回归，我们需要以下信息，认证用户的真实使用权，以便同步之前的数据"
-        android:textColor="@color/colorPrimary"
-        />
 
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -45,6 +38,14 @@
                 android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
                 android:orientation="vertical"
                 >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="欢迎老用户回归，我们需要以下信息，认证用户的真实使用权，以便同步之前的数据"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginBottom="8dp"
+                    />
 
                 <EditText
                     android:id="@+id/et_username"
@@ -77,6 +78,7 @@
                     android:inputType="text"
                     android:maxLength="18"
                     android:maxLines="1"
+                    android:digits="0123456789Xx"
                     />
 
                <android.support.design.widget.TextInputLayout
@@ -85,6 +87,7 @@
                     app:counterEnabled="true"
                     app:counterMaxLength="20"
                     app:errorEnabled="true"
+                    app:passwordToggleContentDescription="只能是数字字母和下划线"
                     app:passwordToggleEnabled="true"
                     app:theme="@style/AppTheme.EditText.Register"
                     >
@@ -98,6 +101,7 @@
                         android:inputType="textPassword"
                         android:maxLength="18"
                         android:maxLines="1"
+                        android:digits="0123456789abcdefghigklmnopqrstuvwxyz_"
                         />
 
                 </android.support.design.widget.TextInputLayout>

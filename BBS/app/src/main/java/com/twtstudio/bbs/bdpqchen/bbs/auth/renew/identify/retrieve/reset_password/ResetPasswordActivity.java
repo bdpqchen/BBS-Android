@@ -35,6 +35,7 @@ public class ResetPasswordActivity extends BaseActivity<ResetPasswordPresenter> 
     private String mPassword = "";
     private String mUid = "";
     private String mToken = "";
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_reset_password;

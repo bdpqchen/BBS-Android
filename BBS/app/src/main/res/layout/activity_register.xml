@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
     >
 
     <include
@@ -98,6 +97,7 @@
                     android:inputType="text"
                     android:maxLength="18"
                     android:maxLines="1"
+                    android:digits="0123456789Xx"
                     android:id="@+id/et_cid"
                     />
 
@@ -114,12 +114,14 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="帐号"
+                    android:hint="用户名 (2 - 12位英文字母)"
                     android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:maxLength="16"
+                    android:inputType=""
+                    android:minLines="2"
+                    android:maxLength="12"
                     android:maxLines="1"
                     android:id="@+id/et_username"
+                    android:digits="abcdefghigklmnopqrstuvwxyz"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -143,6 +145,7 @@
                     android:maxLength="18"
                     android:maxLines="1"
                     android:id="@+id/et_password_again"
+                    android:digits="0123456789abcdefghigklmnopqrstuvwxyz_"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -165,6 +168,7 @@
                     android:maxLength="18"
                     android:maxLines="1"
                     android:imeOptions="actionDone"
+                    android:digits="0123456789abcdefghigklmnopqrstuvwxyz_"
                     android:id="@+id/et_password"
                     />
 

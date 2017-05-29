@@ -136,6 +136,7 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
         intent.putExtra(INTENT_USERNAME, mUsername);
         intent.putExtra(INTENT_TOKEN, model.token);
         startActivity(intent);
+        finishMe();
         // TODO: 17-5-21 认证成功后
     }
 
