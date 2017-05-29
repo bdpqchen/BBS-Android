@@ -19,6 +19,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.post.IndexPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
@@ -292,6 +293,9 @@ public class RxDoHttpClient<T> {
         return mApi.getMyReleaseList(getLatestAuthentication(), String.valueOf(page));
     }
 
+    public Observable<BaseResponse<List<MyReplyModel>>> getMyReplyList(int page){
+        return mApi.getMyReplyList(getLatestAuthentication(), String.valueOf(page));
+    }
 
     public Observable<BaseResponse<CreateThreadModel>> doPublishThread(Bundle bundle) {
         return mApi.doPublishThread(getLatestAuthentication(), bundle.getInt(Constants.BID), bundle.getString(Constants.TITLE), bundle.getString(Constants.CONTENT));
