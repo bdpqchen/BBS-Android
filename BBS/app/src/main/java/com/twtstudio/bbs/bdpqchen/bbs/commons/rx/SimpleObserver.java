@@ -40,7 +40,6 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
         // TODO: 17-4-27 无网络请求监听，扼杀在请求阶段
         String msg = throwable.getMessage();
 
-
         if (msg!=null && msg.length() == 0){
             msg = "网络错误";
         }
@@ -53,7 +52,7 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
             msg = throwable.getMessage();
         } else if (throwable instanceof HttpException) {
 
-            msg = "页面找不到了..";
+//            msg = "页面找不到了..";
 
         }
 //        LogUtil.dd("error type", String.valueOf(throwable.getCause()));

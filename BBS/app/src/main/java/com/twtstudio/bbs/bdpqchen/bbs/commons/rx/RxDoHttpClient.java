@@ -38,6 +38,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -312,5 +313,9 @@ public class RxDoHttpClient<T> {
                 bundle.getString(Constants.BUNDLE_REGISTER_CID),
                 bundle.getString(Constants.BUNDLE_REGISTER_REAL_NAME)
                 );
+    }
+
+    public Observable<BaseResponse<BaseModel>> doClearUnreadMessage() {
+        return mApi.doClearUnreadMessage();
     }
 }

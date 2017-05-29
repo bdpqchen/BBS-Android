@@ -18,7 +18,7 @@ public class MessageModel {
      */
 
     private int id;
-    private ContentBean content_model;
+    private ContentModel content_model;
     private String content;
     private int author_id;
     private String author_name;
@@ -83,11 +83,11 @@ public class MessageModel {
         this.t_create = t_create;
     }
 
-    public ContentBean getContent_model() {
+    public ContentModel getContent_model() {
         return content_model;
     }
 
-    public void setContent_model(ContentBean content_model) {
+    public void setContent_model(ContentModel content_model) {
         this.content_model = content_model;
     }
 
@@ -99,7 +99,7 @@ public class MessageModel {
         this.content = content;
     }
 
-    public static class ContentBean {
+    public static class ContentModel {
         /**
          * id : 223
          * thread_id : 194
@@ -121,6 +121,8 @@ public class MessageModel {
         private int t_create;
         private int t_modify;
         private String message;
+        private int reply_id;
+        private String reply_content;
 
 
         public int getId() {
@@ -185,6 +187,22 @@ public class MessageModel {
 
         public void setMessage(String message) {
             this.message = message;
+        }
+
+        public int getReply_id() {
+            return reply_id;
+        }
+
+        public void setReply_id(int reply_id) {
+            this.reply_id = reply_id;
+        }
+
+        public String getReply_content() {
+            return reply_content;
+        }
+
+        public void setReply_content(String reply_content) {
+            this.reply_content = reply_content;
         }
     }
 }

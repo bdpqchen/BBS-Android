@@ -1,6 +1,8 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.message;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
@@ -44,6 +46,28 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
 
         addSubscribe(mRxDoHttpClient.getMessageList(page)
                 .map(mRxDoHttpClient.mTransformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer)
+        );
+
+    }
+
+    public void doClearUnreadMessage() {
+        ResponseTransformer<BaseModel> transformer = new ResponseTransformer<>();
+        SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
+            @Override
+            public void _onError(String msg) {
+                mView.onClearFailed(msg);
+            }
+
+            @Override
+            public void _onNext(BaseModel baseModel) {
+                mView.onCleared();
+            }
+        };
+        addSubscribe(mRxDoHttpClient.doClearUnreadMessage()
+                .map(transformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)

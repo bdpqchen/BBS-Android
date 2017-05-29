@@ -25,6 +25,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 
 import java.util.List;
 
+import dagger.Provides;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
@@ -192,5 +193,10 @@ public interface BaseApi {
     Observable<BaseResponse<BaseModel>> unStarThread(
             @Header(header) String latestAuthentication,
             @Path(Constants.TID) int id);
+
+    @POST("home/message/read")
+    Observable<BaseResponse<BaseModel>> doClearUnreadMessage();
+
+
 }
 

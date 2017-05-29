@@ -9,12 +9,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -76,6 +80,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
         mAdapter = new MessageAdapter(this);
         rvMessageList.setAdapter(mAdapter);
         rvMessageList.setLayoutManager(new LinearLayoutManager(this));
+        rvMessageList.addItemDecoration(new RecyclerViewItemDecoration(10));
         mPresenter.getMessageList(0);
         mSrlMessage.setRefreshing(true);
         mSrlMessage.setOnRefreshListener(()->{
@@ -92,21 +97,26 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
 
     @Override
     public void showMessageList(List<MessageModel> messageList) {
+        // TODO: 17-5-29 设定为已读消息
+//        mPresenter.doClearUnreadMessage();
         if (mRefreshing){
             mAdapter.clearAll();
         }
         if (messageList != null) {
             int size = messageList.size();
             if (size != 0) {
+                List<MessageModel> listNew = new ArrayList<>();
                 for (int i = 0; i < size; i++) {
-                    int tag = messageList.get(i).getTag();
-                    if (tag != 2 && tag != 3) {
-                        messageList.remove(i);
-                        size--;
+                    if (messageList.get(i).getContent_model() != null){
+                        int tag = messageList.get(i).getTag();
+                        if (tag == 2 || tag == 3) {
+                            listNew.add(messageList.get(i));
+                        }
                     }
                 }
-                if (messageList.size() > 0) {
-                    mAdapter.addList(messageList);
+                if (listNew.size() > 0) {
+                    LogUtil.dd("messagelistsize", String.valueOf(listNew.size()));
+                    mAdapter.addList(listNew);
                 } else {
                     mTvNoMessage.setVisibility(View.VISIBLE);
                 }
@@ -115,5 +125,18 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
         }
         mRefreshing = false;
         mSrlMessage.setRefreshing(false);
+    }
+
+    @Override
+    public void onCleared() {
+        SnackBarUtil.normal(this, "已清空未读消息");
+        mPresenter.getMessageList(0);
+        mRefreshing = true;
+        mSrlMessage.setRefreshing(true);
+    }
+
+    @Override
+    public void onClearFailed(String msg) {
+        SnackBarUtil.error(this, "失败 " + msg);
     }
 }

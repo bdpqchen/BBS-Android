@@ -16,9 +16,12 @@ interface MessageContract {
     interface View extends BaseView {
         void onGetMessageFailed(String m);
         void showMessageList(List<MessageModel> messageList);
+        void onCleared();
+        void onClearFailed(String msg);
     }
 
     interface Presenter extends BasePresenter<MessageContract.View> {
         void getMessageList(int page);
+        void doClearUnreadMessage();
     }
 }

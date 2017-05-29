@@ -108,7 +108,8 @@
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/et_comment"
-            android:hint="你在评论帖主"
+            android:hint="写下你的评论"
+            android:gravity="center_horizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

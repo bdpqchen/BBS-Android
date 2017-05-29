@@ -49,10 +49,10 @@ import butterknife.BindView;
 public class ThreadActivity extends BaseActivity<ThreadPresenter> implements ThreadContract.View {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-
     @BindView(R.id.rv_thread_post)
     RecyclerView mRvThreadPost;
 
+    public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
     public static final String INTENT_THREAD_ID = "intent_thread_id";
     public static final String INTENT_THREAD_TITLE = "intent_thread_title";
     @BindView(R.id.pb_thread_loading)
