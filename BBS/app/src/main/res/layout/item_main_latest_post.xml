@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
     android:background="@color/colorMainBgLight"
     android:foreground="@drawable/selector_foreground_settings"
     >
@@ -13,17 +11,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorMainBgLight">
-
+        >
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/item_civ_avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/size_avatar_normal"
+            android:layout_height="@dimen/size_avatar_normal"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
-            app:civ_border_color="@color/colorMainBgLight"
-            app:civ_border_width="2dp" />
+            />
 
         <TextView
             android:id="@+id/author"
@@ -54,8 +50,8 @@
             android:layout_alignStart="@+id/author"
             android:layout_below="@+id/author"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="15dp"
             android:layout_marginEnd="12dp"
+            android:layout_marginTop="15dp"
             android:ellipsize="end"
             android:textColor="@color/colorTvBlackMain"
             android:textSize="18sp"
@@ -63,14 +59,14 @@
 
         <TextView
             android:id="@+id/create_time"
-            android:layout_below="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="8dp"
+            android:layout_below="@+id/title"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="12dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="8dp"
             android:gravity="left"
             android:textSize="14sp"
             tools:text="time"/>

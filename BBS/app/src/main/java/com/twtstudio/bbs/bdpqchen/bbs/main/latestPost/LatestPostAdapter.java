@@ -14,7 +14,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.TimeUtils;
-import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -34,7 +35,7 @@ public class LatestPostAdapter extends BaseAdapter<LatestPostModel.DataBean.Late
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LatestPostViewHolder holder = new LatestPostViewHolder(LayoutInflater.from(
-                parent.getContext()).inflate(R.layout.activity_latest_post_item, parent,
+                parent.getContext()).inflate(R.layout.item_main_latest_post, parent,
                 false));
         return holder;
     }

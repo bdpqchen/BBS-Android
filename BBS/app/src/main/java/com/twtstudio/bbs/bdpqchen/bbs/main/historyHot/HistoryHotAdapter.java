@@ -25,7 +25,7 @@ public class HistoryHotAdapter extends BaseAdapter<HistoryHotModel.DataBean.Hist
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
        HistoryHotViewHolder holder = new HistoryHotViewHolder(LayoutInflater.from(
-                parent.getContext()).inflate(R.layout.activity_latest_post_item, parent,
+                parent.getContext()).inflate(R.layout.item_main_latest_post, parent,
                 false));
         return holder;
     }

@@ -3,7 +3,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.main.latestPost;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-
+import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
 
 
 import javax.inject.Inject;

@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.main.latestPost;
+package com.twtstudio.bbs.bdpqchen.bbs.main.model;
 
 import java.util.List;
 

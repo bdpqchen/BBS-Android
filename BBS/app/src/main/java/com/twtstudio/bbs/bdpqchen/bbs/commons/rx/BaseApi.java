@@ -18,9 +18,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.post.IndexPostModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.model.MainModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.model.TopTenModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 
 import java.util.List;
@@ -123,7 +123,7 @@ public interface BaseApi {
             @Path("page") String page);
 
     @GET("index")
-    Observable<BaseResponse<TopTenModel.DataBean>> getTopTen();
+    Observable<BaseResponse<MainModel>> getTopTen();
 
     @GET("thread/{threadid}/page/0")
     Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(@Path("threadid") String threadid);
@@ -158,8 +158,10 @@ public interface BaseApi {
     Observable<BaseResponse<ThreadModel>> getThread(@Path("thread") String threadId,
                                                     @Path("page") String postPage);
 
-
+/*
+    @GET("index")
     Observable<BaseResponse<HistoryHotModel>> getHistoryHot();
+*/
 
     @GET("home/publish/thread/page/{page}")
     Observable<BaseResponse<List<MyReleaseModel>>> getMyReleaseList(@Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken, @Path("page") String page);

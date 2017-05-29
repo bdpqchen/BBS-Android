@@ -11,8 +11,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-
-import java.util.List;
+import com.twtstudio.bbs.bdpqchen.bbs.main.model.MainModel;
 
 import butterknife.BindView;
 import butterknife.Unbinder;
@@ -21,8 +20,8 @@ import butterknife.Unbinder;
  * Created by bdpqchen on 17-5-11.
  */
 
-public class TopTenFragment extends BaseFragment<TopTenPresenter> implements TopTenContract.View {
-    TopTenAdapter TopTenAdapter;
+public class TopTenFragment extends BaseFragment<TopTenPresenter> implements MainContract.View {
+    TopTenAdapter mAdapter;
     @BindView(R.id.id_recyclerview)
     RecyclerView recyclerview;
     @BindView(R.id.layout_swipe_refresh)
@@ -33,6 +32,7 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
     @BindView(R.id.topten_empty)
     TextView toptenEmpty;
     private LinearLayoutManager linearLayoutManager;
+    private boolean mRefreshing = false;
 
     public static TopTenFragment newInstance() {
         TopTenFragment fragment = new TopTenFragment();
@@ -51,51 +51,44 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Top
 
     @Override
     protected void initFragment() {
-        TopTenAdapter = new TopTenAdapter(getActivity());
+        mAdapter = new TopTenAdapter(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(linearLayoutManager);
-        recyclerview.addItemDecoration(new RecyclerViewItemDecoration(16));
-        recyclerview.setAdapter(TopTenAdapter);
-        layoutSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-                mPresenter.refreshAnnounce();
-                layoutSwipeRefresh.setRefreshing(false);
-
-            }
+        recyclerview.addItemDecoration(new RecyclerViewItemDecoration(10));
+        recyclerview.setAdapter(mAdapter);
+        layoutSwipeRefresh.setOnRefreshListener(() -> {
+            mPresenter.getHomeDataList();
+            mRefreshing = true;
+            layoutSwipeRefresh.setRefreshing(true);
         });
-       // layoutSwipeRefresh.setRefreshing(true);
-        mPresenter.refreshAnnounce();
+        mPresenter.getHomeDataList();
     }
 
     @Override
-    public void addAnnounce(List<TopTenModel.DataBean.HotBean> announceBeen) {
-        TopTenAdapter.addList(announceBeen);
-        hideLoading();
-    }
-
-    @Override
-    public void refreshAnnounce(List<TopTenModel.DataBean.HotBean> announceBeen) {
-        if (announceBeen.toString() != "[]")
-            TopTenAdapter.refreshList(announceBeen);
-        else
+    public void onGotHomeData(MainModel mainModel) {
+        if (mainModel.getHot() != null && mainModel.getHot().size() > 0){
+            if (mRefreshing) {
+                mAdapter.refreshList(mainModel.getHot());
+            }else{
+                mAdapter.addList(mainModel.getHot());
+            }
+        }else{
             toptenEmpty.setText("暂无全站十大");
+            toptenEmpty.setVisibility(View.VISIBLE);
+        }
+        mRefreshing = false;
         layoutSwipeRefresh.setRefreshing(false);
         hideLoading();
     }
 
     @Override
-    public void failedToGetTopTen(String msg) {
+    public void onFailedGetHomeData(String msg) {
         hideLoading();
-        SnackBarUtil.notice(this.getActivity(), "刷新试试～");
+        SnackBarUtil.notice(this.getActivity(), msg + "\n刷新试试～");
     }
 
-    private void hideLoading(){
+    private void hideLoading() {
         mPbLoading.setVisibility(View.GONE);
     }
-
-
-
 }
 

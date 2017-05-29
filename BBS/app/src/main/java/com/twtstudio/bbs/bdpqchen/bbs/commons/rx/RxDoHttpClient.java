@@ -21,8 +21,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.post.IndexPostModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.model.MainModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.model.TopTenModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 
 import java.io.File;
@@ -190,8 +191,7 @@ public class RxDoHttpClient<T> {
         return mApi.getLatestPost();
     }
 
-    public Observable<BaseResponse<TopTenModel.DataBean>> getTopTen() {
-
+    public Observable<BaseResponse<MainModel>> getTopTen() {
         return mApi.getTopTen();
     }
 

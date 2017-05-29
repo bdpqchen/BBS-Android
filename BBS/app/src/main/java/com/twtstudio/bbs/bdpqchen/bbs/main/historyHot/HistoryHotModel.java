@@ -1,6 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.historyHot;
 
-import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
 
 import java.util.List;
 

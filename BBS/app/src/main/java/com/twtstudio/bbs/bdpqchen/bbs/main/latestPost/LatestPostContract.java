@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.main.latestPost;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
+import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
 
 import java.util.List;
 

@@ -11,6 +11,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +52,9 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
         latestPostAdapter = new LatestPostAdapter(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(linearLayoutManager);
-        //initData();
         mPresenter.refreshAnnounce();
         recyclerview.setAdapter(latestPostAdapter);
-//        recyclerview.addItemDecoration(new RecyclerViewItemDecoration(10));
+        recyclerview.addItemDecoration(new RecyclerViewItemDecoration(10));
         layoutSwipeRefresh.setOnRefreshListener(() -> {
             mPresenter.refreshAnnounce();
             layoutSwipeRefresh.setRefreshing(false);
@@ -78,19 +78,6 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
     public void failedToGetLatestPost(String msg) {
         hideLoading();
         SnackBarUtil.notice(this.getActivity(), "加载失败，刷新试试～");
-    }
-
-    void initData() {
-        List<LatestPostModel.DataBean.LatestBean> announceBeens = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
-            LatestPostModel.DataBean.LatestBean announceBean = new LatestPostModel.DataBean.LatestBean();
-            announceBean.setTitle("这是标题" + i);
-            announceBean.setAuthor_nickname("这是内容" + i);
-            announceBeens.add(announceBean);
-        }
-        latestPostAdapter.addList(announceBeens);
-
-        List<LatestPostModel> latestPostModels = new ArrayList<>();
     }
 
     private void hideLoading(){

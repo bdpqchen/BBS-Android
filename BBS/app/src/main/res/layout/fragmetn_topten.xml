@@ -5,7 +5,6 @@
     android:background="@color/colorMainBg"
     tools:context="com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/layout_swipe_refresh"
         android:layout_width="match_parent"
@@ -30,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:layout_gravity="center"
         android:visibility="gone"
         />
 
