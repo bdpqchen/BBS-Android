@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
@@ -19,17 +20,18 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         // TODO: 17-5-2 first open app
 //        if (isFirstOpen)
-
-
 //        if (PrefUtil.hadLogin() || PrefUtil.isNoAccountUser()){
-        if (PrefUtil.hadLogin()){
+
+        if (PrefUtil.hadLogin()) {
             startActivity(new Intent(this, HomeActivity.class));
-        }else{
-            startActivity(new Intent(this, WelcomeActivity.class));
+        } else {
+            if (PrefUtil.isFirstOpen()) {
+                startActivity(new Intent(this, LoginActivity.class));
+            } else {
+                startActivity(new Intent(this, WelcomeActivity.class));
+            }
         }
         finish();
 

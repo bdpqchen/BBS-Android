@@ -30,6 +30,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
@@ -77,7 +78,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private String mComment = "";
     private MaterialDialog mProgress;
     private boolean mRefreshing = false;
-    private boolean replying = false;
     private int postPosition = 0;
     private int mReplyId = 0;
 
@@ -132,8 +132,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
         mFbThreadWritePost.setOnClickListener(v -> {
             showCommentInput();
-            replying = false;
-            postPosition = 0;
+            resetReply();
         });
         mEtComment.addTextChangedListener(new TextWatcher() {
             @Override
@@ -172,10 +171,11 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         });
 
         mAdapter.setOnItemClickListener((view, position) -> {
-            showCommentInput();
-            replying = true;
             postPosition = position;
+            LogUtil.dd("postPosition", String.valueOf(postPosition));
             mReplyId = mAdapter.getPostId(position);
+            LogUtil.dd("postReplyId", String.valueOf(mReplyId));
+            showCommentInput();
         });
 
     }
@@ -183,7 +183,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private void sendComment(int replyId) {
         mComment = mEtComment.getText().toString();
         if (mEtComment != null && mComment.length() > 0) {
-            if (replyId != 0 && replying) {
+            if (replyId != 0) {
                 mComment = mAdapter.comment2reply(postPosition, mComment);
             }
             mPresenter.doComment(mThreadId, mComment, replyId);
@@ -202,7 +202,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void showFab() {
-        replying = false;
+        resetReply();
         int d = 500;
         YoYo.with(Techniques.SlideInRight)
                 .duration(d)
@@ -217,6 +217,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+
     }
 
     private void showCommentInput() {
@@ -291,8 +292,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private void clearCommentData(){
         mComment = "";
         mEtComment.setText("");
-        postPosition = 0;
-        replying = false;
+        resetReply();
+    }
+
+    private void resetReply(){
         postPosition = 0;
         mReplyId = 0;
     }

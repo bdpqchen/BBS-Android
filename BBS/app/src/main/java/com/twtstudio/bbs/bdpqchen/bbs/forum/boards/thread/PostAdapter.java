@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumAdapter;
 import com.twtstudio.retrox.bbcode.BBCodeParse;
@@ -50,13 +51,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     public int getPostId(int position) {
-        return mPostData.get(position).getId();
+        return mPostData.get(position - 1).getId();
     }
 
     public String comment2reply(int postPosition, String content) {
         //帖主不算
         postPosition--;
-        if (postPosition > 0) {
+        if (postPosition >= 0) {
             ThreadModel.PostBean post = mPostData.get(postPosition);
             content = "[quote]引用 #"
                     + post.getFloor() + " "
@@ -68,14 +69,22 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         return content;
     }
 
-    public String getDynamicHint(int postPosition) {
+    public String getName(int postPosition) {
+        if (PrefUtil.getAuthUid() == mPostData.get(postPosition).getAuthor_id()) {
+            return "我自己";
+        } else {
+            return mPostData.get(postPosition).getAuthor_name();
+        }
+    }
 
+    String getDynamicHint(int postPosition) {
         String hint;
         if (postPosition == 0) {
             hint = "评论帖主 " + mThreadData.getAuthor_name();
         } else {
-            ThreadModel.PostBean post = mPostData.get(postPosition - 1);
-            hint = "回复 " + post.getFloor() + "楼 " + post.getAuthor_name();
+            int p = postPosition - 1;
+            ThreadModel.PostBean post = mPostData.get(p);
+            hint = "回复 " + post.getFloor() + "楼 " + getName(p);
         }
         return hint;
 
@@ -88,12 +97,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }
         return former;
     }
-/*
-
-    public interface OnItemClickListener {
-        void onItemClick(View view , int position);
-    }
-*/
 
     public void setOnItemClickListener(ForumAdapter.OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
@@ -117,8 +120,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_thread, parent, false);
             return new HeaderHolder(view);
         }
-//        view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_thread, parent, false);
-//        return new HeaderHolder(view);
         return null;
     }
 
@@ -148,7 +149,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     LogUtil.dd(htmlStr);
                     h.mTvPostContent.setHtml(htmlStr, new GlideImageGeter(h.mTvPostContent.getContext(), h.mTvPostContent));
                     h.itemView.setTag(position);
-
                 }
             }
 

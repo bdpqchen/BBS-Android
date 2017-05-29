@@ -74,7 +74,6 @@
                         android:id="@+id/et_account"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:digits="abcdefghigklmnopqrstuvwxyz"
                         android:hint="用户名"
                         android:imeOptions="actionNext"
                         android:inputType="text"

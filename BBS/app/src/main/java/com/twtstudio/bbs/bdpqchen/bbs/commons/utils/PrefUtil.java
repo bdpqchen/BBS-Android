@@ -38,6 +38,7 @@ public final class PrefUtil {
     private static final String INFO_POST = "info_post";
     private static final String INFO_GROUP = "info_group";
     private static final String HAS_UN_SYNC_INFO = "has_un_sync_info";
+    private static final String IS_FIRST_OPEN = "is_first_open";
 
     public static void setInfoGroup(int infoGroup) {
         Hawk.put(INFO_GROUP, infoGroup);
@@ -201,5 +202,10 @@ public final class PrefUtil {
         Hawk.get(HAS_UN_SYNC_INFO, b);
     }
 
-
+    public static boolean isFirstOpen() {
+        return Hawk.get(IS_FIRST_OPEN, true);
+    }
+    public static void setFirstOpen(boolean b){
+        Hawk.put(IS_FIRST_OPEN, b);
+    }
 }

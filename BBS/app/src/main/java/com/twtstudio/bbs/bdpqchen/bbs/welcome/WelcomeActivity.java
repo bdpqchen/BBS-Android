@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.github.paolorotolo.appintro.AppIntro;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
@@ -23,7 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by bdpqchen on 17-5-20.
  */
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppIntro {
 
     @BindView(R.id.tv_jump_login)
     TextView mTvJumpLogin;
@@ -35,12 +37,16 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
-        ButterKnife.bind(this);
+//        setContentView(R.layout.activity_welcome);
+//        ButterKnife.bind(this);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
 
 
     }
 
+/*
     @OnClick({R.id.tv_jump_login, R.id.civ_old_user, R.id.civ_new_user})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -56,4 +62,5 @@ public class WelcomeActivity extends AppCompatActivity {
                 break;
         }
     }
+*/
 }
