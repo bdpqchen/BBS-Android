@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
         if (PrefUtil.hadLogin()) {
             startActivity(new Intent(this, HomeActivity.class));
         } else {
-            if (PrefUtil.isFirstOpen()) {
+            if (!PrefUtil.isFirstOpen()) {
                 startActivity(new Intent(this, LoginActivity.class));
             } else {
                 startActivity(new Intent(this, WelcomeActivity.class));

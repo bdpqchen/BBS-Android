@@ -1,24 +1,16 @@
 package com.twtstudio.bbs.bdpqchen.bbs.welcome;
 
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.paolorotolo.appintro.AppIntro;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -41,26 +33,33 @@ public class WelcomeActivity extends AppIntro {
 //        ButterKnife.bind(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        addSlide(IntroFragment.newInstance(R.layout.fragment_intro_1));
+        addSlide(IntroFragment.newInstance(R.layout.fragment_intro_2));
+        addSlide(IntroFragment.newInstance(R.layout.fragment_intro_3));
 
 
+//        setBarColor(Color.LTGRAY);
+//        showSeparator(true);
+//        showStatusBar(false);
+//        showStatusBar(true);
+//        showSkipButton(false);
+//        setProgressButtonEnabled(true);
+//        setVisible(false);
+//        setVibrateIntensity(30);
+
+        setBarColor(Color.parseColor("#ffffff"));
+
+//        setSeparatorColor(Color.parseColor("#2196F3"));
+
+        // Hide Skip/Done button.
+        showSkipButton(false);
+        setProgressButtonEnabled(false);
+
+        // Turn vibration on and set intensity.
+        // NOTE: you will probably need to ask VIBRATE permission in Manifest.
+//        setVibrate(true);
+//        setVibrateIntensity(30);
 
     }
 
-/*
-    @OnClick({R.id.tv_jump_login, R.id.civ_old_user, R.id.civ_new_user})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.tv_jump_login:
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
-                break;
-            case R.id.civ_old_user:
-                startActivity(new Intent(this, IdentifyActivity.class));
-                break;
-            case R.id.civ_new_user:
-                startActivity(new Intent(this, RegisterActivity.class));
-                break;
-        }
-    }
-*/
 }
