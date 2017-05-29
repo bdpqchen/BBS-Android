@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.topTen;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,14 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.model.MainModel;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity.INTENT_THREAD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity.INTENT_THREAD_TITLE;
 
 /**
  * Created by zhangyulong on 5/13/17.
@@ -42,6 +47,12 @@ public class TopTenAdapter extends BaseAdapter<MainModel.HotBean> {
             mHolder.mAuthor.setText(hotList.getAuthor_name());
             mHolder.mCreateTime.setText(StampUtil.getDateByStamp(hotList.getT_create()));
             ImageUtil.loadAvatarAsBitmapByUid(mContext, hotList.getAuthor_id(), mHolder.mItemCivAvatar);
+            mHolder.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, ThreadActivity.class);
+                intent.putExtra(INTENT_THREAD_ID, hotList.getId());
+                intent.putExtra(INTENT_THREAD_TITLE, hotList.getTitle());
+                mContext.startActivity(intent);
+            });
         }
     }
 
