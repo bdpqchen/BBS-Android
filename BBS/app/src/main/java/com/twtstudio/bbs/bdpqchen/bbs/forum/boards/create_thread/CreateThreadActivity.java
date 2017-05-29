@@ -93,6 +93,10 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mSelectedBoardId = mBoardIds.get(position);
+                if (mSelectedBoardId == 193){
+                    //匿名板块 anonymous
+                    //// TODO: 17-5-29 匿名板块逻辑
+                }
                 LogUtil.dd("you have selected the id", String.valueOf(mSelectedBoardId));
             }
 
