@@ -45,7 +45,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取position
-            mOnItemClickListener.onItemClick(v, (int)v.getTag());
+            mOnItemClickListener.onItemClick(v, (int) v.getTag());
         }
     }
 
@@ -56,21 +56,34 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public String comment2reply(int postPosition, String content) {
         //帖主不算
         postPosition--;
-        if (postPosition > 0){
+        if (postPosition > 0) {
             ThreadModel.PostBean post = mPostData.get(postPosition);
             content = "[quote]引用 #"
-            + post.getFloor() + " "
-            + post.getAuthor_name() + "的评论：\n"
-            + cutRedundancy(post.getContent())
-            + "[/quote]\n"
-            + content + "\n";
+                    + post.getFloor() + " "
+                    + post.getAuthor_name() + "的评论：\n"
+                    + cutRedundancy(post.getContent())
+                    + "[/quote]\n"
+                    + content + "\n";
         }
         return content;
     }
 
-    private String cutRedundancy(String former){
+    public String getDynamicHint(int postPosition) {
+
+        String hint;
+        if (postPosition == 0) {
+            hint = "评论帖主 " + mThreadData.getAuthor_name();
+        } else {
+            ThreadModel.PostBean post = mPostData.get(postPosition - 1);
+            hint = "回复 " + post.getFloor() + "楼 " + post.getAuthor_name();
+        }
+        return hint;
+
+    }
+
+    private String cutRedundancy(String former) {
         int wantLen = 40;
-        if (former.length() > wantLen){
+        if (former.length() > wantLen) {
             former = former.substring(wantLen);
         }
         return former;
@@ -157,7 +170,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         int count = 0;
         if (mThreadData != null) {
             count++;
-        }else{
+        } else {
             return 0;
         }
         if (mPostData != null && mPostData.size() != 0) {
@@ -176,7 +189,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         notifyDataSetChanged();
     }
 
-    public void clearData(ThreadModel model){
+    public void clearData(ThreadModel model) {
         mThreadData = null;
         mPostData.clear();
     }

@@ -1,30 +1,26 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputEditText;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.androidanimations.library.Techniques;
@@ -33,12 +29,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumAdapter;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 
@@ -59,7 +52,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     @BindView(R.id.fb_thread_write_post)
     FloatingActionButton mFbThreadWritePost;
     @BindView(R.id.et_comment)
-    TextInputEditText mEtComment;
+    EditText mEtComment;
     @BindView(R.id.ll_comment)
     LinearLayout mLlComment;
     @BindView(R.id.iv_comment_send)
@@ -73,6 +66,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
     public static final String INTENT_THREAD_ID = "intent_thread_id";
     public static final String INTENT_THREAD_TITLE = "intent_thread_title";
+    @BindView(R.id.tv_dynamic_hint)
+    TextView mTvDynamicHint;
 
     private String mThreadTitle = "";
     private int mThreadId = 0;
@@ -137,6 +132,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
         mFbThreadWritePost.setOnClickListener(v -> {
             showCommentInput();
+            replying = false;
+            postPosition = 0;
         });
         mEtComment.addTextChangedListener(new TextWatcher() {
             @Override
@@ -223,26 +220,26 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void showCommentInput() {
-        int d = 500;
+        int d = 300;
         YoYo.with(Techniques.SlideOutLeft)
                 .duration(d)
                 .playOn(mFbThreadWritePost);
         mFbThreadWritePost.setVisibility(View.GONE);
-        YoYo.with(Techniques.SlideInRight)
+        YoYo.with(Techniques.SlideInUp)
                 .duration(d)
                 .playOn(mLlComment);
         mLlComment.setVisibility(View.VISIBLE);
         mLlComment.setFocusable(true);
         mLlComment.setFocusableInTouchMode(true);
         mLlComment.requestFocus();
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                InputMethodManager inputMethodManager = (InputMethodManager) mLlComment.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.showSoftInput(mLlComment, 0);
+        mTvDynamicHint.setText(mAdapter.getDynamicHint(postPosition));
+        InputMethodManager imm = (InputMethodManager) mLlComment
+                .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        HandlerUtil.postDelay(() -> {
+            if (imm != null) {
+                imm.showSoftInput(mLlComment, 0);
             }
-        }, 400);
+        }, 500);
     }
 
     private void showStarOrNot(int in_collection) {
@@ -288,7 +285,16 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         SnackBarUtil.normal(this, "评论成功");
         showFab();
         mPresenter.getThread(mThreadId, 0);
+        clearCommentData();
+    }
 
+    private void clearCommentData(){
+        mComment = "";
+        mEtComment.setText("");
+        postPosition = 0;
+        replying = false;
+        postPosition = 0;
+        mReplyId = 0;
     }
 
     @Override

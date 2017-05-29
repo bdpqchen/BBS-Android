@@ -22,6 +22,9 @@
     <style name="AppTheme.EditText.Register" parent="AppTheme">
         <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
+    <style name="AppTheme.EditText.Comment" parent="AppTheme">
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+    </style>
 
     <style name="AppTheme.Splash" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_logo_bg</item>
