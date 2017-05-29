@@ -96,7 +96,7 @@ public final class SnackBarUtil {
 
         if (listener != null) {
             snackBar.setAction(actionTitle, listener);
-            snackBar.setActionTextColor(Color.GREEN);
+            snackBar.setActionTextColor(0xFF2385df);
         }
 
         snackBarView.setOnClickListener(v -> {

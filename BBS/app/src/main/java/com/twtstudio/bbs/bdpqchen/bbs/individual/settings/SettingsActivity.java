@@ -98,15 +98,7 @@ public class SettingsActivity extends BaseActivity {
                 startMySelf();
             }
         });
-/*
-        mSwitchAutoNightMode.setChecked(PrefUtil.isAutoNightMode());
-        mSwitchAutoNightMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PrefUtil.setIsAutoNightMode(isChecked);
-            }
-        });
-*/
+
         mSwitchSlideBack.setChecked(PrefUtil.isSlideBackMode());
         mSwitchSlideBack.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -158,8 +150,8 @@ public class SettingsActivity extends BaseActivity {
                 PrefUtil.setInfoUnread(0);
                 PrefUtil.setHasUnSyncInfo(false);
                 // TODO: 17-5-6 清除一些数据
+                this.finishMe();
                 startActivity(new Intent(this, LoginActivity.class));
-                finishMe();
                 break;
         }
     }

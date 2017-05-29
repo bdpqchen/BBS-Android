@@ -103,11 +103,11 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
         String err = "长度不符合规范";
         mUsername = String.valueOf(mOldAccount.getText());
         String password = String.valueOf(mOldPassword.getText());
-        if (mUsername.length() < 5) {
+        if (mUsername.length() < 1) {
             mOldAccount.setError(err);
             return;
         }
-        if (password.length() < 5) {
+        if (password.length() < 3) {
             mOldPassword.setError(err);
             return;
         }
@@ -121,8 +121,8 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
     public void identifyFailed(String m) {
         mCpBtnIdentify.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
         HandlerUtil.postDelay(() -> mCpBtnIdentify.revertAnimation(), 3000);
-        SnackBarUtil.error(this, m, "找回密码", v -> {
-            Intent intent = new Intent(this, IdentifyActivity.class);
+        SnackBarUtil.error(this, m, "账户申诉", v -> {
+            Intent intent = new Intent(this, AppealPassportActivity.class);
             intent.putExtra(INTENT_ENTERING_USERNAME, mOldAccount.getText());
             startActivity(intent);
         });

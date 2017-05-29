@@ -3,8 +3,11 @@ package com.twtstudio.bbs.bdpqchen.bbs.auth.login;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.View;
@@ -16,15 +19,14 @@ import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
@@ -55,8 +57,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @BindView(R.id.view_need_offset)
     LinearLayout mNeedOffset;
 
-    private static final String LOGIN_ERROR_TEXT = "没有输入如何登录？";
+    @BindView(R.id.cl_container)
+    CoordinatorLayout mClContainer;
 
+
+    private static final String LOGIN_ERROR_TEXT = "哈哈？搞笑。";
 
     @Override
     protected int getLayoutResourceId() {
@@ -93,7 +98,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         //键盘挡住输入框
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState);
-        StatusBarUtil.setTranslucentForImageView(this, 38, mNeedOffset);
+        StatusBarUtil.setTranslucentForImageView(this, 0, mNeedOffset);
 
         //自动填写用户名
         Intent intent = getIntent();
@@ -106,7 +111,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             R.id.et_account, R.id.et_password, R.id.tv_goto_replace_user, R.id.tv_no_account_user, R.id.cp_btn_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-
             case R.id.tx_forgot_password:
                 mCircularProgressButton.revertAnimation();
                 break;
@@ -156,7 +160,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         ActivityOptions activityOptions = null;
         Intent intent = new Intent(this, HomeActivity.class);
         PrefUtil.setIsNoAccountUser(false);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activityOptions = ActivityOptions.makeSceneTransitionAnimation(this, new Pair<>(findViewById(R.id.cp_btn_login), "transition"));
         }
 
@@ -178,8 +182,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         LogUtil.d("loginFailed()");
         mCircularProgressButton.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
         HandlerUtil.postDelay(() -> mCircularProgressButton.revertAnimation(), 3000);
-        // TODO: 17-5-20 不使用顶部snackbar
-        SnackBarUtil.error(this, msg);
+        Snackbar.make(mClContainer, msg, 3000).show();
+
     }
 
     // TODO: 17-5-10 登录成功后跳转优化，主线程太多任务了

@@ -41,13 +41,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
-                android:digits="abcdefghigklmnopqrstuvwxyz"
                 android:hint="当年的用户名"
+                android:digits="abcdefghigklmnopqrstuvwxyz"
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:maxLength="12"
                 android:maxLines="1"
-                android:minLines="2"
                 />
 
             <TextView
@@ -60,7 +59,7 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="忘记了？"
-                android:textColor="@color/material_blue_600"
+                android:textColor="@color/colorAccent"
                 />
 
             <EditText

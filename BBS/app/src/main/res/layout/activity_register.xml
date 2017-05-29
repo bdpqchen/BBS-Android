@@ -94,10 +94,11 @@
                     android:layout_height="wrap_content"
                     android:hint="身份证号"
                     android:imeOptions="actionNext"
+                    android:maxLines="1"
                     android:inputType="text"
                     android:maxLength="18"
-                    android:maxLines="1"
                     android:digits="0123456789Xx"
+                    android:singleLine="true"
                     android:id="@+id/et_cid"
                     />
 
@@ -122,6 +123,7 @@
                     android:maxLines="1"
                     android:id="@+id/et_username"
                     android:digits="abcdefghigklmnopqrstuvwxyz"
+                    android:singleLine="true"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -146,6 +148,8 @@
                     android:maxLines="1"
                     android:id="@+id/et_password_again"
                     android:digits="0123456789abcdefghigklmnopqrstuvwxyz_"
+                    android:singleLine="true"
+
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -170,6 +174,8 @@
                     android:imeOptions="actionDone"
                     android:digits="0123456789abcdefghigklmnopqrstuvwxyz_"
                     android:id="@+id/et_password"
+                    android:singleLine="true"
+
                     />
 
             </android.support.design.widget.TextInputLayout>
