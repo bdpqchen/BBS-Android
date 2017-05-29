@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyFragment;
+
 import javax.inject.Inject;
 
 /**
@@ -28,7 +30,7 @@ public class MyReleaseFragmentAdapter extends FragmentPagerAdapter {
             case 0:
                 return MyReleaseFragment.newInstance();
             case 1:
-                return MyReleaseFragment.newInstance();
+                return MyReplyFragment.newInstance();
             default:
                 return null;
         }
