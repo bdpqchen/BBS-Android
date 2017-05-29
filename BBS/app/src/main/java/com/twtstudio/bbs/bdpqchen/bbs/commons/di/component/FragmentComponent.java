@@ -7,6 +7,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.historyHot.HistoryHotFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenFragment;
@@ -31,4 +32,5 @@ public interface FragmentComponent {
     void inject(TopTenFragment topTenFragment);
     void inject(HistoryHotFragment historyHotFragment);
     void inject(MyReleaseFragment myReleaseFragment);
+    void inject(MyReplyFragment myReplyFragment);
 }

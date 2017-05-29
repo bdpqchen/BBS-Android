@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.individual.my_release;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,29 +16,29 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyRecyclerAdapter;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 
 import java.util.List;
 
 import butterknife.BindView;
 
-
 /**
- * Created by Arsener on 2017/5/13.
+ * Created by Arsener on 2017/5/28.
  */
-
-public class MyRecyclerAdapter extends BaseAdapter<MyReleaseModel> {
+public class MyReplyAdapter  extends BaseAdapter<MyReplyModel> {
 
     private View mFooterView;
-    private List<MyReleaseModel> data;
-    private Context mContext;
+    private List<MyReplyModel> data;
+    private Context context;
 
     public static int NORMAL_TYPE = 0;//without footer
     public static int FOOTER_TYPE = 1;//with footer
 
-    public MyRecyclerAdapter(Context context, List<MyReleaseModel> data) {
+    public MyReplyAdapter(Context context, List<MyReplyModel> data) {
 
         super(context);
-        mContext = context;
+        this.context = context;
         this.data = data;
     }
 
@@ -60,7 +60,7 @@ public class MyRecyclerAdapter extends BaseAdapter<MyReleaseModel> {
         data.clear();
     }
 
-    public void addItems(List<MyReleaseModel> newData) {
+    public void addItems(List<MyReplyModel> newData) {
         data.addAll(newData);
         notifyDataSetChanged();
     }
@@ -93,21 +93,21 @@ public class MyRecyclerAdapter extends BaseAdapter<MyReleaseModel> {
         // TODO Auto-generated method stub
         //holder.tv.setText(data.get(position));
         if (getItemViewType(position) == NORMAL_TYPE) {
-            MyHolder holder = (MyHolder) mholder;
-            holder.tv_title.setText(data.get(position).title);
+            MyReplyAdapter.MyHolder holder = (MyReplyAdapter.MyHolder) mholder;
+            holder.tv_title.setText(data.get(position).thread_title);
             holder.tv_title.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
-            Typeface iconfont = Typeface.createFromAsset(mContext.getAssets(), "iconfont/iconfont.ttf");
-            holder.tv_icon.setTypeface(iconfont);
-            holder.tv_visit.setText(String.valueOf(data.get(position).c_post));
+            holder.tv_reply.setText(data.get(position).content);
+            holder.tv_reply.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
             holder.tv_time.setText(StampUtil.TimeStamp2Date(data.get(position).t_create));
 
             holder.cdv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, ThreadActivity.class);
-                    intent.putExtra("intent_thread_id", data.get(position).id);
-                    intent.putExtra("intent_thread_title", data.get(position).title);
-                    mContext.startActivity(intent);//注意这里的context！！！
+                    Intent intent = new Intent(context, ThreadActivity.class);
+                    intent.putExtra("intent_thread_id", data.get(position).thread_id);
+                    intent.putExtra("intent_thread_title", data.get(position).thread_title);
+                    intent.putExtra("intent_thread_floor", data.get(position).floor);
+                    context.startActivity(intent);//注意这里的context！！！
                 }
             });
         }
@@ -118,10 +118,10 @@ public class MyRecyclerAdapter extends BaseAdapter<MyReleaseModel> {
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // 填充布局
         if (mFooterView != null && viewType == FOOTER_TYPE) {
-            return new FooterViewHolder(mFooterView);
+            return new MyReplyAdapter.FooterViewHolder(mFooterView);
         }
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_cv_release, parent, false);
-        MyHolder holder = new MyHolder(view);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_cv_reply, parent, false);
+        MyReplyAdapter.MyHolder holder = new MyReplyAdapter.MyHolder(view);
         return holder;
     }
 
@@ -135,10 +135,8 @@ public class MyRecyclerAdapter extends BaseAdapter<MyReleaseModel> {
 
         @BindView(R.id.tv_title)
         TextView tv_title;
-        @BindView(R.id.tv_icon)
-        TextView tv_icon;
-        @BindView(R.id.tv_visit)
-        TextView tv_visit;
+        @BindView(R.id.tv_reply)
+        TextView tv_reply;
         @BindView(R.id.tv_time)
         TextView tv_time;
         @BindView(R.id.cdv)

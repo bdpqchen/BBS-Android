@@ -45,13 +45,14 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
 
     @Override
     protected Toolbar getToolbarView() {
-        toolbar.setTitle("我的发布");
-        return toolbar;
+//        toolbar.setTitle("我的发布");
+//        return toolbar;
+        return null;
     }
 
     @Override
     protected boolean isShowBackArrow() {
-        return true;
+        return false;
     }
 
     @Override
@@ -72,13 +73,16 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_release);
-        ButterKnife.bind(this);
 
         MyReleaseFragmentAdapter myReleaseFragmentAdapter = new MyReleaseFragmentAdapter(getSupportFragmentManager());
 
+        toolbar.setTitle("我的发布");
+        setSupportActionBar(toolbar);
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         mViewpager.setAdapter(myReleaseFragmentAdapter);
-        mViewpager.setOffscreenPageLimit(2);
+//        mViewpager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewpager);
     }
 
@@ -94,62 +98,3 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
     public void showMyReleaseList(List<MyReleaseModel> data) {
     }
 }
-
-
-//        initData();
-//
-//        mViewpager.setAdapter(new PagerAdapter() {
-//            @Override
-//            public int getCount() {
-//                return mList.size();
-//            }
-//
-//            @Override
-//            public boolean isViewFromObject(View view, Object object) {
-//                return view == object;
-//            }
-//
-////            @Override
-////            public Fragment getItem(int position) {
-////                switch (position) {
-////                    case 0:
-////                        return MyReleaseFragment.newInstance();
-////                    case 1:
-////                        return MyReleaseFragment.newInstance();
-//////            case 2:
-//////                return HistoryHotFragment.newInstance();
-////                    default:
-////                        return null;
-////                }
-////            }
-//
-//            @Override
-//            public Object instantiateItem(ViewGroup container, int position) {
-//                View view = mList.get(position);
-//                container.addView(view);
-//                return view;
-//            }
-//
-//            @Override
-//            public void destroyItem(ViewGroup container, int position, Object object) {
-//                container.removeView((View) object);
-//            }
-//
-//            @Override
-//            public CharSequence getPageTitle(int position) {
-//                return mTitle[position];
-//            }
-//        });
-
-//    private void initData() {
-////        MyReleaseFragment myReleaseFragmenta = new MyReleaseFragment();
-////        MyReleaseFragment myReleaseFragmentb = new MyReleaseFragment();
-//        View viewpagerA = getLayoutInflater().inflate(R.layout.fragment_release, null);
-//        View viewpagerB = getLayoutInflater().inflate(R.layout.fragment_release, null);
-//
-//        mList = new ArrayList<>();
-//        mList.add(viewpagerA);
-//        mList.add(viewpagerB);
-//
-//        mTitle = new String[]{"首页", "分类"};
-//    }
