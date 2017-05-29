@@ -20,7 +20,6 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: 17-5-2 first open app
 //        if (isFirstOpen)
 //        if (PrefUtil.hadLogin() || PrefUtil.isNoAccountUser()){
 
