@@ -184,7 +184,9 @@ public interface BaseApi {
     Observable<BaseResponse<PostModel>> doComment(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Path("tid") int threadId,
-            @Field(Constants.CONTENT) String comment);
+            @Field(Constants.CONTENT) String comment,
+            @Field(Constants.REPLY_ID) int reply
+    );
 
     @FormUrlEncoded
     @POST("home/collection")

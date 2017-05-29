@@ -35,6 +35,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumAdapter;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -51,10 +52,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     Toolbar mToolbar;
     @BindView(R.id.rv_thread_post)
     RecyclerView mRvThreadPost;
-
-    public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
-    public static final String INTENT_THREAD_ID = "intent_thread_id";
-    public static final String INTENT_THREAD_TITLE = "intent_thread_title";
     @BindView(R.id.pb_thread_loading)
     ProgressBar mPbThreadLoading;
     @BindView(R.id.srl_thread_list)
@@ -73,14 +70,21 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     ImageView mIvStaredThread;
     @BindView(R.id.iv_star_thread)
     ImageView mIvStarThread;
+    public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
+    public static final String INTENT_THREAD_ID = "intent_thread_id";
+    public static final String INTENT_THREAD_TITLE = "intent_thread_title";
 
     private String mThreadTitle = "";
     private int mThreadId = 0;
+    private int mThreadFloor = 1;
     private Context mContext;
     private PostAdapter mAdapter;
     private String mComment = "";
     private MaterialDialog mProgress;
     private boolean mRefreshing = false;
+    private boolean replying = false;
+    private int postPosition = 0;
+    private int mReplyId = 0;
 
     @Override
     protected int getLayoutResourceId() {
@@ -117,7 +121,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         mThreadId = intent.getIntExtra(INTENT_THREAD_ID, 0);
+        mThreadFloor = intent.getIntExtra(INTENT_THREAD_FLOOR, 1);
         mThreadTitle = intent.getStringExtra(INTENT_THREAD_TITLE);
+
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
@@ -155,7 +161,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }
         });
         mIvCommentOut.setOnClickListener(v -> showFab());
-        mIvCommentSend.setOnClickListener(v -> sendComment());
+        mIvCommentSend.setOnClickListener(v -> sendComment(mReplyId));
         mIvStaredThread.setOnClickListener(v -> {
             mPresenter.unStarThread(mThreadId);
         });
@@ -163,18 +169,27 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mPresenter.starThread(mThreadId);
         });
         mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
-        mSrlThreadList.setOnRefreshListener(()->{
+        mSrlThreadList.setOnRefreshListener(() -> {
             mRefreshing = true;
             mPresenter.getThread(mThreadId, 0);
         });
 
+        mAdapter.setOnItemClickListener((view, position) -> {
+            showCommentInput();
+            replying = true;
+            postPosition = position;
+            mReplyId = mAdapter.getPostId(position);
+        });
 
     }
 
-    private void sendComment() {
+    private void sendComment(int replyId) {
         mComment = mEtComment.getText().toString();
         if (mEtComment != null && mComment.length() > 0) {
-            mPresenter.doComment(mThreadId, mComment);
+            if (replyId != 0 && replying) {
+                mComment = mAdapter.comment2reply(postPosition, mComment);
+            }
+            mPresenter.doComment(mThreadId, mComment, replyId);
             startProgress();
         }
     }
@@ -190,6 +205,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void showFab() {
+        replying = false;
         int d = 500;
         YoYo.with(Techniques.SlideInRight)
                 .duration(d)
@@ -216,8 +232,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 .duration(d)
                 .playOn(mLlComment);
         mLlComment.setVisibility(View.VISIBLE);
-        // TODO: 17-5-27 自动显示软键盘
-
         mLlComment.setFocusable(true);
         mLlComment.setFocusableInTouchMode(true);
         mLlComment.requestFocus();
@@ -228,14 +242,14 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 InputMethodManager inputMethodManager = (InputMethodManager) mLlComment.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.showSoftInput(mLlComment, 0);
             }
-        }, 500);
+        }, 400);
     }
 
-    private void showStarOrNot(int in_collection){
-        if (in_collection == 1){
+    private void showStarOrNot(int in_collection) {
+        if (in_collection == 1) {
             mIvStaredThread.setVisibility(View.VISIBLE);
             mIvStarThread.setVisibility(View.GONE);
-        }else{
+        } else {
             mIvStarThread.setVisibility(View.VISIBLE);
             mIvStaredThread.setVisibility(View.GONE);
         }
@@ -243,7 +257,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     @Override
     public void showThread(ThreadModel model) {
-        if (mRefreshing){
+        if (mRefreshing) {
             mAdapter.clearData(model);
             mRefreshing = false;
             mSrlThreadList.setRefreshing(false);

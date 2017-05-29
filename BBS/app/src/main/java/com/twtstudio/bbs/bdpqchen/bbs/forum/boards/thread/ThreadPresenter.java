@@ -55,7 +55,7 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
     }
 
     @Override
-    public void doComment(int threadId, String comment) {
+    public void doComment(int threadId, String comment, int replyId) {
         SimpleObserver<PostModel> observer = new SimpleObserver<PostModel>() {
             @Override
             public void _onError(String msg) {
@@ -68,7 +68,7 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
             }
 
         };
-        addSubscribe(mHttpClient.doComment(threadId, comment)
+        addSubscribe(mHttpClient.doComment(threadId, comment, replyId)
                 .map(mTransformerPost)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

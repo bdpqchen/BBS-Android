@@ -298,8 +298,8 @@ public class RxDoHttpClient<T> {
         return mApi.doPublishThread(getLatestAuthentication(), bundle.getInt(Constants.BID), bundle.getString(Constants.TITLE), bundle.getString(Constants.CONTENT));
     }
 
-    public Observable<BaseResponse<PostModel>> doComment(int threadId, String comment) {
-        return mApi.doComment(getLatestAuthentication(), threadId, comment);
+    public Observable<BaseResponse<PostModel>> doComment(int threadId, String comment, int replyId) {
+        return mApi.doComment(getLatestAuthentication(), threadId, comment, replyId);
     }
 
     public Observable<BaseResponse<BaseModel>> starThread(int id) {

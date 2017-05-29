@@ -42,5 +42,6 @@ public final class Constants {
     public static final String BID = "bid";
     public static final String TID = "tid";
     public static final String TOKEN = "token";
+    public static final String REPLY_ID = "reply";
 
 }
