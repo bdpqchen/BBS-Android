@@ -50,6 +50,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
+                android:layout_marginTop="16dp"
                 android:orientation="vertical"
                 android:padding="@dimen/padding_login_input"
                 >
@@ -143,7 +144,7 @@
                         android:clickable="true"
                         android:text="忘记密码?"
                         android:textColor="@color/material_red_300"
-                        android:textSize="12sp"
+                        android:textSize="15sp"
                         />
 
                 </RelativeLayout>

@@ -91,21 +91,15 @@ public class SettingsActivity extends BaseActivity {
         mActivity = this;
 
         mSwitchNightMode.setChecked(PrefUtil.isNightMode());
-        mSwitchNightMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PrefUtil.setIsNightMode(isChecked);
-                startMySelf();
-            }
+        mSwitchNightMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            PrefUtil.setIsNightMode(isChecked);
+            startMySelf();
         });
 
         mSwitchSlideBack.setChecked(PrefUtil.isSlideBackMode());
-        mSwitchSlideBack.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PrefUtil.setIsSlideBackMode(isChecked);
-                mSlideBackLayout.lock(!isChecked);
-            }
+        mSwitchSlideBack.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            PrefUtil.setIsSlideBackMode(isChecked);
+            mSlideBackLayout.lock(!isChecked);
         });
 
 
@@ -150,7 +144,8 @@ public class SettingsActivity extends BaseActivity {
                 PrefUtil.setInfoUnread(0);
                 PrefUtil.setHasUnSyncInfo(false);
                 // TODO: 17-5-6 清除一些数据
-                this.finishMe();
+//                this.finishMe();
+                ActivityManager.getActivityManager().finishAllActivity();
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
         }

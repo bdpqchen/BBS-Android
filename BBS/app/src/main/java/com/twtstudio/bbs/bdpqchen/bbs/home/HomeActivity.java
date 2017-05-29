@@ -29,7 +29,6 @@ import me.yokeyword.fragmentation.SupportFragment;
 
 public class HomeActivity extends BaseActivity<HomePresenter> implements HomeContract.View {
 
-
     @BindView(R.id.bottom_bar)
     BottomBar mBottomBar;
     @BindView(R.id.mask_home)
@@ -39,7 +38,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     ForumFragment mForumFragment;
     IndividualFragment mIndividualFragment = null;
     BottomBarTab mNearBy;
-
 
     private int mShowingFragment = Constants.FRAGMENT_MAIN;
     private int mHidingFragment = Constants.FRAGMENT_MAIN;
@@ -51,9 +49,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     protected Toolbar getToolbarView() {
-//        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-//        mToolbar.setTitle("main");
-//        return mToolbar;
         return null;
     }
 
@@ -81,7 +76,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtil.dd("token", PrefUtil.getAuthToken());
-
         // TODO: 17-5-3 非登录后跳转到这里，是否渐变
         // 登录后的渐变,
         if (!PrefUtil.isNoAccountUser()) {
@@ -168,7 +162,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             PrefUtil.setInfoUnread(unRead);
             LogUtil.dd(String.valueOf(unRead));
             // TODO: 17-5-10 为了测试
-            mNearBy.setBadgeCount(unRead + 1);
+//            mNearBy.setBadgeCount(unRead);
         }
     }
 
@@ -177,7 +171,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         super.onResume();
         int count = PrefUtil.getInfoUnread();
         if (count > 0) {
-            mNearBy.setBadgeCount(count);
+//            mNearBy.setBadgeCount(count);
         }
 
     }

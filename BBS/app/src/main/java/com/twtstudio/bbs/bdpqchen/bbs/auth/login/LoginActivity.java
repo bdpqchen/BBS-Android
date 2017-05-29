@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.View;
@@ -16,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -163,18 +163,19 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activityOptions = ActivityOptions.makeSceneTransitionAnimation(this, new Pair<>(findViewById(R.id.cp_btn_login), "transition"));
         }
-
         if (activityOptions != null) {
-
-            startActivity(intent, activityOptions.toBundle());
+            ActivityOptions finalActivityOptions = activityOptions;
+            HandlerUtil.postDelay(() -> {
+                startActivity(intent, finalActivityOptions.toBundle());
+            }, 600);
 //            LogUtil.d("start activity with options");
         } else {
+//            LogUtil.d("start activity with none");
             HandlerUtil.postDelay(() -> {
-//                finishMe();
                 startActivity(intent);
-            }, 1000);
+            }, 600);
         }
-        finishMe();
+        HandlerUtil.postDelay(this::finishMe, 2000);
     }
 
     @Override
@@ -182,7 +183,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         LogUtil.d("loginFailed()");
         mCircularProgressButton.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
         HandlerUtil.postDelay(() -> mCircularProgressButton.revertAnimation(), 3000);
-        Snackbar.make(mClContainer, msg, 3000).show();
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
     }
 

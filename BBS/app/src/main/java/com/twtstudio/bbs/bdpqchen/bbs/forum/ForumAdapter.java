@@ -78,10 +78,11 @@ public class ForumAdapter extends BaseAdapter<ForumModel> implements View.OnClic
             viewHolder.mTvName.setText(model.getName());
             String coverUrl = RxDoHttpClient.BASE_URL + "forum/" + model.getId() + "/cover";
 //            String coverUrl = "http://bbs.twtstudio.com/api/" + "forum/" + model.getId() + "/cover";
-            HandlerUtil.postDelay(()->{
-                ImageUtil.loadForumCover(mContext, coverUrl, viewHolder.mIvBgImage);
-            }, position * 100);
+            ImageUtil.loadForumCover(mContext, coverUrl, viewHolder.mIvBgImage);
+            /*HandlerUtil.postDelay(()->{
 
+            }, position * 0);
+*/
             viewHolder.itemView.setTag(position);
 
         }
