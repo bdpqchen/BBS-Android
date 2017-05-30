@@ -134,7 +134,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
         mPresenter.getThread(mThreadId, 0);
-        // TODO: 17-5-27 多页加载
         mAdapter = new PostAdapter(mContext);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRvThreadPost.setLayoutManager(mLayoutManager);
@@ -183,9 +182,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
         mAdapter.setOnItemClickListener((view, position) -> {
             postPosition = position;
-            LogUtil.dd("postPosition", String.valueOf(postPosition));
             mReplyId = mAdapter.getPostId(position);
-            LogUtil.dd("postReplyId", String.valueOf(mReplyId));
             showCommentInput();
         });
 
@@ -194,11 +191,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()){
-                    mPresenter.getThread(mThreadId, mPage + 1);
+                    mPage++;
+                    mPresenter.getThread(mThreadId, mPage);
                     mLoadingMore = true;
-                    LogUtil.dd("lastposition", String.valueOf(lastVisibleItemPosition));
-                    LogUtil.dd("itemcount", String.valueOf(mAdapter.getItemCount()));
-                    LogUtil.dd("newstate", String.valueOf(newState));
                 }
             }
             @Override
@@ -297,8 +292,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         if (mLoadingMore){
             mLoadingMore = false;
             if (model.getPost() != null && model.getPost().size() > 0){
-                mAdapter.addData(model.getPost());
-//                mAdapter.notifyDataSetChanged();
+                mAdapter.addData(model.getPost(), mPage);
             }
         }else{
             mBoardId =  model.getBoard().getId();

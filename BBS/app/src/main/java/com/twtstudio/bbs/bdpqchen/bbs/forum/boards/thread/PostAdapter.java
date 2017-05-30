@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
@@ -74,7 +73,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     private String getAuthorName(boolean is1floor, int position) {
         int uid = 0;
-        if (mPostData != null && mPostData.size() > 0){
+        if (mPostData != null && mPostData.size() > 0) {
             uid = mPostData.get(position).getAuthor_id();
         }
         if (is1floor) {
@@ -132,7 +131,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             LogUtil.dd("view = header");
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_thread, parent, false);
             return new HeaderHolder(view);
-        }else if (viewType == TYPE_FOOTER){
+        } else if (viewType == TYPE_FOOTER) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_footer_common, parent, false);
             return new BaseFooterViewHolder(view);
         }
@@ -173,9 +172,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
                     h.mTvPostContent.setHtml(htmlStr, new GlideImageGeter(h.mTvPostContent.getContext(), h.mTvPostContent));
                     h.itemView.setTag(position);
-                }else if (holder instanceof BaseFooterViewHolder){
+                } else if (holder instanceof BaseFooterViewHolder) {
                     LogUtil.d("base footer view");
-//                    if ()
                 }
             }
 
@@ -196,7 +194,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         } else {
             return TYPE_THREAD;
         }
-//        return 0;
     }
 
     @Override
@@ -213,7 +210,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         if (count == 0) {
             return count;
         } else {
-            if (count >= onePage){
+            if (count >= onePage) {
                 count++;
             }
             return count;
@@ -236,11 +233,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         mPostData.clear();
     }
 
-    public void addData(List<ThreadModel.PostBean> post) {
+    public void addData(List<ThreadModel.PostBean> post, int page) {
         mPostData.addAll(post);
-        HandlerUtil.postDelay(()->{
-            notifyDataSetChanged();
-        }, 2000);
+        onePage *= page + 1;
+
+        notifyDataSetChanged();
     }
 
     static class PostHolder extends RecyclerView.ViewHolder {
