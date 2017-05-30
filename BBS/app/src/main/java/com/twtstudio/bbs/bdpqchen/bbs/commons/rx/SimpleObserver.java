@@ -1,11 +1,13 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
@@ -39,11 +41,9 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
         LogUtil.dd("onError()");
         // TODO: 17-4-27 无网络请求监听，扼杀在请求阶段
         String msg = throwable.getMessage();
-
-        if (msg!=null && msg.length() == 0){
+        if (msg != null && msg.length() == 0) {
             msg = "网络错误";
         }
-
         if (throwable instanceof SocketTimeoutException) {
             msg = "网络请求超时...请重试";
         } else if (throwable instanceof UnknownHostException) {
@@ -51,9 +51,15 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
         } else if (throwable instanceof ResponseException) {
             msg = throwable.getMessage();
         } else if (throwable instanceof HttpException) {
-
-//            msg = "页面找不到了..";
-
+            HttpException exception = (HttpException) throwable;
+            try {
+                String errorBody = exception.response().errorBody().string();
+                JSONObject errorJsonObject = new JSONObject(errorBody);
+//                int errCode = errorJsonObject.getInt("err");
+                msg = errorJsonObject.getString("data");
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
         }
 //        LogUtil.dd("error type", String.valueOf(throwable.getCause()));
 //        LogUtil.dd("error message", String.valueOf(throwable.getMessage()));
@@ -62,9 +68,7 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
 
         _onError(msg);
 
-        // TODO: 17-5-8 定义各种网络请求错误
     }
-
 
 
     @Override
