@@ -14,8 +14,9 @@
 
         <ImageView
             android:id="@+id/iv_cover_1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:layout_centerInParent="true"
             android:scaleType="centerCrop"
             />
 
@@ -40,9 +41,10 @@
 
         <ImageView
             android:id="@+id/iv_cover_2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
+            android:layout_centerInParent="true"
             />
 
         <TextView

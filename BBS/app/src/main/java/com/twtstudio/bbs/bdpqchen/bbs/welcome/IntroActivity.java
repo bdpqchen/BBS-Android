@@ -38,8 +38,8 @@ public class IntroActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_intro);
         ButterKnife.bind(this);
 
@@ -51,18 +51,12 @@ public class IntroActivity extends AppCompatActivity {
         mVpIntro.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                LogUtil.dd("onPageScrolled", String.valueOf(position));
-                if (position == 0) {
-//                    updateDotStatus(0);
-                }
             }
 
             @Override
             public void onPageSelected(int position) {
-                LogUtil.dd("onPageSelected", String.valueOf(position));
                 updateDotStatus(position);
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
             }

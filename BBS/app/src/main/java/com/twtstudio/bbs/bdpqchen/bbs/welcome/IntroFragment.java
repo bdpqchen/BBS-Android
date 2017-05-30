@@ -79,6 +79,7 @@ public class IntroFragment extends Fragment {
                 });
                 buttonJump.setOnClickListener(v -> {
                     startActivity(new Intent(context, LoginActivity.class));
+
                 });
                 break;
         }

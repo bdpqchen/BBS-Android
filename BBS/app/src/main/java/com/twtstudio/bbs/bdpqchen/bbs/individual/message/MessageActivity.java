@@ -70,13 +70,13 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
 
     @Override
     protected Activity supportSlideBack() {
-        return null;
+        return this;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
+        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mAdapter = new MessageAdapter(this);
         rvMessageList.setAdapter(mAdapter);
         rvMessageList.setLayoutManager(new LinearLayoutManager(this));

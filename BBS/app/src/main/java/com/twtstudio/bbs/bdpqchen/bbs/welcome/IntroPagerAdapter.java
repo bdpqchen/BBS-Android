@@ -14,8 +14,6 @@ public class IntroPagerAdapter extends FragmentStatePagerAdapter {
 
     public IntroPagerAdapter(FragmentManager fm) {
         super(fm);
-
-
     }
 
     @Override

@@ -71,8 +71,7 @@ public class ForumAdapter extends BaseAdapter<TwoForumModel> {
                     return;
                 }
                 Intent intent = new Intent(mContext, BoardsActivity.class);
-                intent.putExtra(INTENT_FORUM_ID, 0);
-//                intent.putExtra(INTENT_FORUM_ID, model.model2.getId());
+                intent.putExtra(INTENT_FORUM_ID, model.model2.getId());
                 intent.putExtra(INTENT_FORUM_TITLE, model.model2.getName());
                 LogUtil.dd("forum2----", model.model1.getName());
                 mContext.startActivity(intent);

@@ -113,6 +113,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         ImageUtil.loadDrawable(this, R.drawable.forum_banner_1, mIvBanner);
         ImageUtil.loadDrawable(this, R.drawable.avatar3, mCivAvatar);
 
+
+        ActivityManager.getActivityManager().finishNamedActivity(IntroActivity.class);
     }
 
     @OnClick({R.id.tx_forgot_password, R.id.tv_goto_register,
@@ -162,7 +164,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void loginSuccess(LoginModel loginModel) {
         PrefUtil.setFirstOpen(false);
-        ActivityManager.getActivityManager().finishNamedActivity(IntroActivity.class);
         mCircularProgressButton.doneLoadingAnimation(R.color.material_green_600, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
         PrefUtil.setAuthToken(loginModel.getToken());
         PrefUtil.setAuthGroup(loginModel.getGroup());
@@ -177,13 +178,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             ActivityOptions finalActivityOptions = activityOptions;
             HandlerUtil.postDelay(() -> {
                 startActivity(intent, finalActivityOptions.toBundle());
-            }, 200);
+            }, 300);
 //            LogUtil.d("start activity with options");
         } else {
 //            LogUtil.d("start activity with none");
             HandlerUtil.postDelay(() -> {
                 startActivity(intent);
-            }, 200);
+            }, 300);
         }
         HandlerUtil.postDelay(this::finishMe, 2000);
     }

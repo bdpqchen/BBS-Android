@@ -70,8 +70,6 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     private String mOldNickname = PrefUtil.getInfoNickname();
     private String mOldSignature = PrefUtil.getInfoSignature();
     private MaterialDialog mMaterialDialog;
-    private int screenWidth;
-    private final int REQ_IMAGE = 1433;
 
     @Override
     protected int getLayoutResourceId() {
@@ -96,7 +94,6 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
     @Override
     protected void inject() {
-
         getActivityComponent().inject(this);
     }
 
@@ -128,16 +125,13 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
                     String s = charSequence.toString();
                     mNickname = s;
                     mTvNicknameUpdate.setText(s);
-                    PrefUtil.setInfoNickname(s);
-
                 });
                 break;
             case R.id.rl_signature_update_info:
-                showInputDialog("更改签名", "最大汉字长度为100", 100, (materialDialog, charSequence) -> {
+                showInputDialog("更改签名", "最大汉字长度为", 100, (materialDialog, charSequence) -> {
                     String s = charSequence.toString();
                     mSignature = s;
                     mTvSignatureUpdate.setText(s);
-                    PrefUtil.setInfoSignature(s);
                 });
 
                 break;
@@ -148,11 +142,9 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     }
 
     private void showInputDialog(String title, String hint, int range, MaterialDialog.InputCallback callback) {
-
         new MaterialDialog.Builder(this)
                 .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE)
                 .title(title)
-                .inputRange(6, range)
                 .input(hint, "", callback)
                 .negativeText("取消")
                 .show();
@@ -169,13 +161,12 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         switch (item.getItemId()) {
             case android.R.id.home:
                 hasUpdate();
-                // TODO: 17-5-20 提醒是否保存
                 break;
             case R.id.action_update_done:
                 updateInfo();
                 break;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
 
@@ -184,13 +175,10 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         hasUpdate();
     }
 
-    private void finishActivity(){
-        ActivityManager.getActivityManager().finishActivity(this);
-    }
 
     private void hasUpdate() {
         if (mNickname.equals(mOldNickname) && mSignature.equals(mOldSignature)) {
-            finishActivity();
+            finishMe();
         } else {
             new MaterialDialog.Builder(this)
                     .title("提示")
@@ -201,7 +189,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
                     })
                     .negativeText("放弃")
                     .onNegative(((materialDialog, dialogAction) -> {
-                        finishActivity();
+                        finishMe();
                     }))
                     .show();
         }
@@ -209,34 +197,33 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
     private void updateInfo() {
         if (mNickname.equals(mOldNickname) && mSignature.equals(mOldSignature)) {
-            finishActivity();
+            finishMe();
         } else {
             doUpdateInfo();
         }
     }
 
-    private void doUpdateInfo(){
+    private void doUpdateInfo() {
         showProgressBar("正在更新, 稍后..");
         Bundle bundle = new Bundle();
         int type = 0;
-        if (mSignature.equals(mOldSignature)){
+        if (mSignature.equals(mOldSignature)) {
             type = 1;
         }
-        if (mNickname.equals(mOldNickname)){
+        if (mNickname.equals(mOldNickname)) {
             type = 2;
         }
         bundle.putString(Constants.BUNDLE_SIGNATURE, mSignature);
         bundle.putString(Constants.BUNDLE_NICKNAME, mNickname);
         mPresenter.doUpdateInfo(bundle, type);
     }
+
     private void showImageList() {
-        screenWidth = getWindowManager().getDefaultDisplay().getWidth();
         AndroidImagePicker.getInstance().pickAndCrop(this, true, 120, (bmp, ratio, imagePath) -> {
             showProgressBar("正在上传，请稍后..");
             mPresenter.doUpdateAvatar(imagePath);
             mCivAvatar.setVisibility(View.VISIBLE);
             mCivAvatar.setImageBitmap(bmp);
-
         });
     }
 
@@ -272,7 +259,6 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
                     @Override
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-//                        LogUtil.dd("onPermissionRationaleShouldBeShown");
                     }
                 })
                 .check();
@@ -282,6 +268,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
+            int REQ_IMAGE = 1433;
             if (requestCode == REQ_IMAGE) {
                 mCivAvatar.setVisibility(View.GONE);
             }
@@ -304,6 +291,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     public void updateAvatarSuccess(BaseModel baseModel) {
         hideProgressBar();
         SnackBarUtil.normal(this, "头像上传成功");
+        ImageUtil.loadMyAvatar(mActivity, mCivAvatar);
     }
 
     @Override
@@ -314,10 +302,12 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
     @Override
     public void updateInfoSuccess() {
+        PrefUtil.setInfoNickname(mNickname);
+        PrefUtil.setInfoSignature(mSignature);
         PrefUtil.setHasUnSyncInfo(false);
         hideProgressBar();
         SnackBarUtil.normal(this, "个人信息同步成功");
-        HandlerUtil.postDelay(this::finishActivity, 2000);
+//        HandlerUtil.postDelay(this::finishMe, 2000);
     }
 
     @Override
