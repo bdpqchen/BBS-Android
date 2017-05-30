@@ -2,12 +2,14 @@ package com.twtstudio.bbs.bdpqchen.bbs.auth.register;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
@@ -127,7 +129,10 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     @Override
     public void registerSuccess() {
         SnackBarUtil.normal(this, "注册成功，请登录");
-        HandlerUtil.postDelay(() -> ActivityManager.getActivityManager().finishActivity(mActivity), 2000);
+        HandlerUtil.postDelay(() -> {
+            finishMe();
+            startActivity(new Intent(this, LoginActivity.class));
+        }, 2000);
 
     }
 
