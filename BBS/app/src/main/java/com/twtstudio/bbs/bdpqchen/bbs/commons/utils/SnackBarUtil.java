@@ -10,6 +10,7 @@ import android.view.View;
 import android.webkit.WebHistoryItem;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidadvance.topsnackbar.TSnackbar;
 import com.jaeger.library.StatusBarUtil;
@@ -85,6 +86,13 @@ public final class SnackBarUtil {
     }
 
     private static void show(final Activity act, String m, int duration, final int color, String actionTitle, View.OnClickListener listener) {
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            Toast.makeText(act, m, Toast.LENGTH_SHORT).show();
+            sIsShowing = false;
+            return;
+        }
+
         FrameLayout view = (FrameLayout) act.findViewById(android.R.id.content);
         final TSnackbar snackBar = TSnackbar.make(view, m, duration);
         View snackBarView = snackBar.getView();
