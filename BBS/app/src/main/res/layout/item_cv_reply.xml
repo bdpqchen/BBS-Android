@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#e4e4e4">
+    android:background="@color/colorMainBgLight"
+    android:foreground="@drawable/selector_foreground_settings"
+    >
 
     <android.support.v7.widget.CardView
         android:id="@+id/cdv"
@@ -27,7 +30,7 @@
                 android:maxLines="1"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
-                tools:text="here is title here is title here is title here is title here is title " />
+                tools:text="here is title here is title here is title here is title here is title "/>
 
             <TextView
                 android:id="@+id/tv_time"
@@ -38,7 +41,7 @@
                 android:layout_toEndOf="@+id/tv_title"
                 android:textColor="#9f9f9f"
                 android:textSize="15sp"
-                tools:text="2017年5月12日" />
+                tools:text="2017年5月12日"/>
 
             <TextView
                 android:id="@+id/tv_reply"
@@ -53,9 +56,9 @@
                 android:maxLines="2"
                 android:textColor="#7b7b7b"
                 android:textSize="20sp"
-                tools:text="1895ddddddddddd" />
+                tools:text="1895ddddddddddd"/>
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
-</LinearLayout>
+</FrameLayout>

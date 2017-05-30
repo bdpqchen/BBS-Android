@@ -87,6 +87,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean mIsAnonymous = false;
     private boolean mCanAnonymous = false;
     private int mBoardId = 0;
+    private LinearLayoutManager mLayoutManager;
+    private int lastVisibleItemPosition = 0;
+    private int mPage = 0;
+    private boolean mLoadingMore;
 
     @Override
     protected int getLayoutResourceId() {
@@ -132,7 +136,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mPresenter.getThread(mThreadId, 0);
         // TODO: 17-5-27 多页加载
         mAdapter = new PostAdapter(mContext);
-        mRvThreadPost.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        mRvThreadPost.setLayoutManager(mLayoutManager);
         mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(5));
         mRvThreadPost.setAdapter(mAdapter);
         mRvThreadPost.setItemAnimator(new DefaultItemAnimator());
@@ -184,11 +189,27 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             showCommentInput();
         });
 
-        mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            mIsAnonymous = isChecked;
+        mRvThreadPost.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()){
+                    mPresenter.getThread(mThreadId, mPage + 1);
+                    mLoadingMore = true;
+                    LogUtil.dd("lastposition", String.valueOf(lastVisibleItemPosition));
+                    LogUtil.dd("itemcount", String.valueOf(mAdapter.getItemCount()));
+                    LogUtil.dd("newstate", String.valueOf(newState));
+                }
+            }
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
+            }
         });
 
     }
+
 
     private void showAnonymousOrNot() {
         if (mBoardId == 193){
@@ -273,18 +294,28 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     @Override
     public void showThread(ThreadModel model) {
+        if (mLoadingMore){
+            mLoadingMore = false;
+            if (model.getPost() != null && model.getPost().size() > 0){
+                mAdapter.addData(model.getPost());
+//                mAdapter.notifyDataSetChanged();
+            }
+        }else{
+            mBoardId =  model.getBoard().getId();
+            showStarOrNot(model.getThread().getIn_collection());
+            mAdapter.setThreadData(model.getThread());
+            if (model.getPost() != null && model.getPost().size() > 0){
+                mAdapter.setPostData(model.getPost());
+            }
+        }
+        mCbAnonymousComment.setChecked(false);
+        showAnonymousOrNot();
         if (mRefreshing) {
             mAdapter.clearData(model);
             mRefreshing = false;
             mSrlThreadList.setRefreshing(false);
         }
         hideProgressBar();
-        mAdapter.setThreadData(model.getThread());
-        mAdapter.setPostData(model.getPost());
-        showStarOrNot(model.getThread().getIn_collection());
-        mBoardId =  model.getBoard().getId();
-        showAnonymousOrNot();
-        mCbAnonymousComment.setChecked(false);
     }
 
     @Override

@@ -13,12 +13,8 @@ import butterknife.BindView;
 
 public class BaseFooterViewHolder extends BaseViewHolder {
 
-    @BindView(R.id.iv_content)
-    ImageView mIvContent;
-
     public BaseFooterViewHolder(View itemView) {
         super(itemView);
-
 
     }
 }

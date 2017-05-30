@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
@@ -33,12 +35,15 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     private static final int TYPE_POST = 0;
     private static final int TYPE_THREAD = 1;
+    private static final int TYPE_FOOTER = 2;
+
 
     private Context mContext;
     private ThreadModel.ThreadBean mThreadData = new ThreadModel.ThreadBean();
-    private List<ThreadModel.PostBean> mPostData = new ArrayList<>();
 
+    private List<ThreadModel.PostBean> mPostData = new ArrayList<>();
     private OnItemClickListener mOnItemClickListener = null;
+    private int onePage = 50;
 
     @Override
     public void onClick(View v) {
@@ -67,17 +72,20 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         return content;
     }
 
-    private String getAuthorName(boolean is1floor, int position){
-        int uid = mPostData.get(position).getAuthor_id();
-        if (is1floor){
+    private String getAuthorName(boolean is1floor, int position) {
+        int uid = 0;
+        if (mPostData != null && mPostData.size() > 0){
+            uid = mPostData.get(position).getAuthor_id();
+        }
+        if (is1floor) {
             uid = mThreadData.getAuthor_id();
         }
-        if (uid == 0){
+        if (uid == 0) {
             return "匿名用户";
-        }else{
-            if (is1floor){
+        } else {
+            if (is1floor) {
                 return mThreadData.getAuthor_name();
-            }else {
+            } else {
                 return mPostData.get(position).getAuthor_name();
             }
         }
@@ -124,6 +132,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             LogUtil.dd("view = header");
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_thread, parent, false);
             return new HeaderHolder(view);
+        }else if (viewType == TYPE_FOOTER){
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_footer_common, parent, false);
+            return new BaseFooterViewHolder(view);
         }
         return null;
     }
@@ -137,15 +148,15 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     mThreadData.setAuthor_name("匿名用户");
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar2, headerHolder.mCivAvatarThread);
                 } else {
-                    headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(mThreadData.getT_create()));
+                    ImageUtil.loadAvatarAsBitmapByUid(mContext, mThreadData.getAuthor_id(), headerHolder.mCivAvatarThread);
                 }
+                headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(mThreadData.getT_create()));
                 headerHolder.mTvUsernameThread.setText(mThreadData.getAuthor_name());
                 headerHolder.mTvTitle.setText(mThreadData.getTitle());
                 // TODO: 17-5-26 Level is not set
                 String str = BBCodeParse.bbcode2Html(mThreadData.getContent());
                 headerHolder.mHtvContent.setHtml(str, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
             }
-
             if (mPostData != null && mPostData.size() > 0) {
                 if (holder instanceof PostHolder) {
                     ThreadModel.PostBean p = mPostData.get(position - 1);
@@ -162,8 +173,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
                     h.mTvPostContent.setHtml(htmlStr, new GlideImageGeter(h.mTvPostContent.getContext(), h.mTvPostContent));
                     h.itemView.setTag(position);
+                }else if (holder instanceof BaseFooterViewHolder){
+                    LogUtil.d("base footer view");
+//                    if ()
                 }
             }
+
 
         }
     }
@@ -171,11 +186,17 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     @Override
     public int getItemViewType(int position) {
 //        LogUtil.dd("position", String.valueOf(position));
+        if (mThreadData != null && mPostData != null) {
+            if (position >= onePage) {
+                return TYPE_FOOTER;
+            }
+        }
         if (position > 0) {
             return TYPE_POST;
         } else {
             return TYPE_THREAD;
         }
+//        return 0;
     }
 
     @Override
@@ -189,7 +210,15 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         if (mPostData != null && mPostData.size() != 0) {
             count += mPostData.size();
         }
-        return count;
+        if (count == 0) {
+            return count;
+        } else {
+            if (count >= onePage){
+                count++;
+            }
+            return count;
+        }
+
     }
 
     public void setPostData(List<ThreadModel.PostBean> postData) {
@@ -205,6 +234,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public void clearData(ThreadModel model) {
         mThreadData = null;
         mPostData.clear();
+    }
+
+    public void addData(List<ThreadModel.PostBean> post) {
+        mPostData.addAll(post);
+        HandlerUtil.postDelay(()->{
+            notifyDataSetChanged();
+        }, 2000);
     }
 
     static class PostHolder extends RecyclerView.ViewHolder {

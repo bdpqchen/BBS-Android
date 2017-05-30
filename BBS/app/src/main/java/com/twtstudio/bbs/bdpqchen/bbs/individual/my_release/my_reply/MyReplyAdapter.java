@@ -118,10 +118,10 @@ public class MyReplyAdapter  extends BaseAdapter<MyReplyModel> {
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // 填充布局
         if (mFooterView != null && viewType == FOOTER_TYPE) {
-            return new MyReplyAdapter.FooterViewHolder(mFooterView);
+            return new FooterViewHolder(mFooterView);
         }
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_cv_reply, parent, false);
-        MyReplyAdapter.MyHolder holder = new MyReplyAdapter.MyHolder(view);
+        MyHolder holder = new MyHolder(view);
         return holder;
     }
 
