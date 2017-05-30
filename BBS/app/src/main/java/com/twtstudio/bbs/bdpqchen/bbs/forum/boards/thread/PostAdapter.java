@@ -133,6 +133,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(mThreadData.getT_create()));
                 ImageUtil.loadAvatarAsBitmapByUid(mContext, mThreadData.getAuthor_id(), headerHolder.mCivAvatarThread);
                 // TODO: 17-5-26 Level is not set
+
+                /*if (mThreadData.getContent().length() > 0){
+
+                }
+                LogUtil.dd(mThreadData.getContent());*/
                 String str = BBCodeParse.bbcode2Html(mThreadData.getContent());
                 headerHolder.mHtvContent.setHtml(str, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
             }
@@ -140,6 +145,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             if (mPostData != null && mPostData.size() > 0) {
                 if (holder instanceof PostHolder) {
                     ThreadModel.PostBean p = mPostData.get(position - 1);
+                    LogUtil.dd(p.getContent());
                     PostHolder h = (PostHolder) holder;
                     ImageUtil.loadAvatarAsBitmapByUid(mContext, p.getAuthor_id(), h.mCivAvatarPost);
                     h.mTvUsernamePost.setText(p.getAuthor_name());

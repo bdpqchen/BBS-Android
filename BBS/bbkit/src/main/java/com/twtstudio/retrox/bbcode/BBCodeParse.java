@@ -1,5 +1,7 @@
 package com.twtstudio.retrox.bbcode;
 
+import android.util.Log;
+
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +19,9 @@ public class BBCodeParse {
      */
     public static String bbcode2Html(String text) {
         String html = text;
+        if (html == null || html.length() == 0){
+            return "";
+        }
         Map<String, String> bbMap = BBCodeMaps.getBBcodeMap();
 
         for (Map.Entry entry : bbMap.entrySet()) {

@@ -99,11 +99,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        android:visibility="gone"
         android:background="@drawable/shape_ll_shade"
         android:orientation="vertical"
-        android:visibility="gone"
-        app:elevation="8dp"
-        tools:visibility="visible"
         >
 
         <TextView
@@ -112,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
-            android:text="评论 1 楼 谁谁是"
+            tools:text="评论 1 楼 谁谁是"
             android:textColor="@color/colorPrimary"
             android:textSize="12sp"
             />

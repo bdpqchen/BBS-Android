@@ -100,8 +100,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         //键盘挡住输入框
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState);
-        StatusBarUtil.setTranslucentForImageView(this, 0, mNeedOffset);
 
+        StatusBarUtil.setTranslucentForImageView(this, 0, mNeedOffset);
         //自动填写用户名
         Intent intent = getIntent();
         String usernameToSet = intent.getStringExtra("username");
