@@ -34,8 +34,17 @@ public final class Constants {
     public static final String BUNDLE_MESSAGE = "message";
     public static final String CAPTCHA_ID = "captcha_id";
     public static final String CAPTCHA_VALUE = "captcha_value";
+
+    /*intent*/
     public static final String INTENT_THREAD_ID = "intent_thread_id";
     public static final String INTENT_THREAD_TITLE = "intent_thread_title";
+    public static final String INTENT_BOARD_ID = "intent_board_id";
+    public static final String INTENT_BOARD_TITLE = "intent_board_title";
+    public static final String INTENT_FORUM_ID = "intent_forum_id";
+    public static final String INTENT_FORUM_TITLE = "intent_forum_title";
+    public static final String INTENT_BOARD_NAMES = "intent_board_names";
+    public static final String INTENT_BOARD_IDS = "intent_board_ids";
+
 
     public static final String CONTENT = "content";
     public static final String TITLE = "title";
@@ -43,5 +52,7 @@ public final class Constants {
     public static final String TID = "tid";
     public static final String TOKEN = "token";
     public static final String REPLY_ID = "reply";
+
+
 
 }

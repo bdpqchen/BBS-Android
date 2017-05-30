@@ -32,8 +32,6 @@ import butterknife.Unbinder;
 public class ForumFragment extends BaseFragment<ForumPresenter> implements ForumContract.View {
 
 
-    public static final String INTENT_FORUM_ID = "intent_forum_id";
-    public static final String INTENT_FORUM_TITLE = "intent_forum_title";
     @BindView(R.id.tv_title_toolbar)
     TextView mTvTitleToolbar;
     @BindView(R.id.rv_forum_list)
@@ -64,29 +62,10 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
 
         mActivity = this.getActivity();
         mTvTitleToolbar.setText("论坛区");
-//        mGridLayoutManager = new GridLayoutManager(this.getActivity(), 2, GridLayoutManager.VERTICAL, false);
-//        mGridLayoutManager.generateDefaultLayoutParams();
-        mAdapter = new ForumAdapter(this.getContext());
+        mAdapter = new ForumAdapter(mContext, this.getActivity());
         LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRvForumList.setLayoutManager(manager);
-//        mRvForumList.setRecycledViewPool();
         mRvForumList.setAdapter(mAdapter);
-
-        mAdapter.setOnItemClickListener((view, position) -> {
-
-            /*if (mAdapter.getItemForumId(position) == 0) {
-                SnackBarUtil.notice(this.getActivity(), "都说了敬请期待..");
-                return;
-            }*/
-/*
-            Intent intent = new Intent(mActivity, BoardsActivity.class);
-            intent.putExtra(INTENT_FORUM_ID, mAdapter.getItemForumId(position));
-            intent.putExtra(INTENT_FORUM_TITLE, mAdapter.getItemForumTitle(position));
-            startActivity(intent);
-            mAdapter.getItemForumId(position);
-*/
-        });
-
         // TODO: 17-5-27 到底要不要支持本页面刷新
     }
 
@@ -110,7 +89,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
             }
             List<TwoForumModel> modelList = new ArrayList<>();
             int twoSize = forumModel.size() / 2;
-            for (int i = 0; i < twoSize; i++){
+            for (int i = 0; i < twoSize; i++) {
                 TwoForumModel model = new TwoForumModel();
                 model.model1 = forumModel.get(i * 2);
                 model.model2 = forumModel.get(i * 2 + 1);

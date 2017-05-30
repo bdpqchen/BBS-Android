@@ -18,6 +18,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity.INTENT_THREAD_FLOOR;
+
 /**
  * Created by Ricky on 2017/5/19.
  */
@@ -51,9 +55,9 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                 ImageUtil.loadAvatarAsBitmapByUid(mContext, item.getAuthor_id(), iHolder.mCivMessage);
                 iHolder.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, ThreadActivity.class);
-                    intent.putExtra(ThreadActivity.INTENT_THREAD_ID, model.getThread_id());
-                    intent.putExtra(ThreadActivity.INTENT_THREAD_TITLE, model.getThread_title());
-                    intent.putExtra(ThreadActivity.INTENT_THREAD_FLOOR, model.getFloor());
+                    intent.putExtra(INTENT_THREAD_ID, model.getThread_id());
+                    intent.putExtra(INTENT_THREAD_TITLE, model.getThread_title());
+                    intent.putExtra(INTENT_THREAD_FLOOR, model.getFloor());
                     mContext.startActivity(intent);
                 });
                 if (item.getRead() == 0) {

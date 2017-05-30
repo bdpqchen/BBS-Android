@@ -36,6 +36,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import butterknife.BindView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
+
 
 /**
  * Created by bdpqchen on 17-5-12.
@@ -65,8 +68,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     @BindView(R.id.iv_star_thread)
     ImageView mIvStarThread;
     public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
-    public static final String INTENT_THREAD_ID = "intent_thread_id";
-    public static final String INTENT_THREAD_TITLE = "intent_thread_title";
     @BindView(R.id.tv_dynamic_hint)
     TextView mTvDynamicHint;
 

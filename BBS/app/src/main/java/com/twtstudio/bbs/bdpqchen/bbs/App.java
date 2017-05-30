@@ -17,7 +17,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.AppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerAppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
 
-import org.litepal.LitePal;
 
 /**
  * Created by bdpqchen on 17-4-17.

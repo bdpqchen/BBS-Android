@@ -11,11 +11,14 @@ import android.support.v7.widget.Toolbar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity;
 
 import butterknife.BindView;
+
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
 
 
 /**
@@ -70,10 +73,11 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        mBoardId = intent.getIntExtra(BoardsActivity.INTENT_BOARD_ID, 0);
-        mThreadTitle = intent.getStringExtra(BoardsActivity.INTENT_BOARD_TITLE);
-//        LogUtil.dd(mThreadTitle);
+        mBoardId = intent.getIntExtra(INTENT_BOARD_ID, 0);
+        mThreadTitle = intent.getStringExtra(INTENT_BOARD_TITLE);
+        LogUtil.dd(mThreadTitle);
         super.onCreate(savedInstanceState);
+        mToolbar.setTitle(mThreadTitle);
         mContext = this;
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mPresenter.getThreadList(mBoardId, mPage);

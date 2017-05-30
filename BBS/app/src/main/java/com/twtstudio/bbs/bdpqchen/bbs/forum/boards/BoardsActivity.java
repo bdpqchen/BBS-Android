@@ -15,15 +15,19 @@ import android.widget.ProgressBar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
+
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_IDS;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_NAMES;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_TITLE;
 
 /**
  * Created by bdpqchen on 17-5-11.
@@ -42,12 +46,6 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     SwipeRefreshLayout mSrlBoardList;
     @BindView(R.id.fab)
     FloatingActionButton mFab;
-
-    public static final String INTENT_BOARD_TITLE = "intent_board_title";
-    public static final String INTENT_BOARD_ID = "intent_board_id";
-    public static final String INTENT_BOARD_NAMES = "intent_board_names";
-    public static final String INTENT_BOARD_IDS = "intent_board_ids";
-
     int mForumId;
     boolean mRefreshing = false;
     Context mContext;
@@ -94,8 +92,9 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mContext = this;
-        mForumId = getIntent().getIntExtra(ForumFragment.INTENT_FORUM_ID, 0);
-        mForumTitle = getIntent().getStringExtra(ForumFragment.INTENT_FORUM_TITLE);
+        mForumId = getIntent().getIntExtra(INTENT_FORUM_ID, 0);
+        mForumTitle = getIntent().getStringExtra(INTENT_FORUM_TITLE);
+//        LogUtil.dd("board----", mForumTitle);
         super.onCreate(savedInstanceState);
 
         mPresenter.getBoardList(mForumId);

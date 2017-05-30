@@ -20,11 +20,13 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
+
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_IDS;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_NAMES;
 
 /**
  * Created by bdpqchen on 17-5-27.
@@ -85,8 +87,8 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        mBoardNames = intent.getStringArrayListExtra(BoardsActivity.INTENT_BOARD_NAMES);
-        mBoardIds = intent.getIntegerArrayListExtra(BoardsActivity.INTENT_BOARD_IDS);
+        mBoardNames = intent.getStringArrayListExtra(INTENT_BOARD_NAMES);
+        mBoardIds = intent.getIntegerArrayListExtra(INTENT_BOARD_IDS);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mBoardNames);
         mSpinnerSelectBoard.setAdapter(adapter);
         mSpinnerSelectBoard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

@@ -24,9 +24,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by bdpqchen on 17-5-20.
  */
 
-public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> implements View.OnClickListener {
+public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
 
     private OnItemClickListener mOnItemClickListener = null;
+/*
 
     @Override
     public void onClick(View v) {
@@ -36,16 +37,17 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> i
 
         }
     }
+*/
 
     public ThreadListAdapter(Context context) {
         super(context);
         mContext = context;
 
     }
-
+/*
     void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
-    }
+    }*/
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
