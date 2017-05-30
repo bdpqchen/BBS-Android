@@ -13,9 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentActivity;
 
@@ -87,8 +89,9 @@ class CollectionAdapter extends RecyclerView.Adapter {
         });
         ImageUtil.loadAvatarAsBitmapByUid(context, data.author_id, collectionViewHolder.collection_avatar);
         collectionViewHolder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, ContentActivity.class);
-            intent.putExtra("threadid", String.valueOf(data.id));
+            Intent intent = new Intent(context, ThreadActivity.class);
+            intent.putExtra(Constants.INTENT_THREAD_ID, String.valueOf(data.id));
+            intent.putExtra(Constants.INTENT_THREAD_TITLE, data.title);
             context.startActivity(intent);
         });
     }

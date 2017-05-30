@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.TimeUtils;
 
 import java.util.List;
@@ -114,7 +115,7 @@ public class ContentActivity extends BaseActivity<ContentPresenter> implements C
         ImageUtil.loadAvatarAsBitmapByUid(this,thread.getAuthor_id(),itemCivAvatar);
         author.setText(thread.getAuthor_nickname());
         title.setText(thread.getTitle());
-        createTime.setText(TimeUtils.getStandardDate(thread.getT_create()));
+        createTime.setText(StampUtil.getTimeFromNow(thread.getT_create()));
         content.setText(thread.getContent());
 
     }

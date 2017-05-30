@@ -38,6 +38,9 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
     LinearLayoutManager mLayoutManager;
     private Context mContext;
     private int mPage = 0;
+    private boolean mIsLoadingMore = false;
+    private int lastVisibleItemPosition = 0;
+
 
     @Override
     protected int getLayoutResourceId() {
@@ -82,29 +85,50 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mPresenter.getThreadList(mBoardId, mPage);
         mAdapter = new ThreadListAdapter(this);
+        mAdapter.setShowFooter(true);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(16));
-//        mAdapter.setOnItemClickListener(((view, id, title) -> {
-//            Intent in = new Intent(mContext, ThreadActivity.class);
-//            in.putExtra(Constants.INTENT_THREAD_ID, id);
-//            in.putExtra(Constants.INTENT_THREAD_TITLE, title);
-//            startActivity(in);
-//        }));
-
+        mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(10));
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
+                    mPage++;
+                    mPresenter.getThreadList(mBoardId, mPage);
+                    mIsLoadingMore = true;
+                }
+            }
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
+            }
+        });
 
 
     }
 
     @Override
     public void setThreadList(ThreadListModel threadListModel) {
-        mAdapter.addList(threadListModel.getThread());
+        if (mIsLoadingMore){
+            mAdapter.addDataList(threadListModel.getThread(), mPage);
+
+        }else{
+            mAdapter.addList(threadListModel.getThread());
+        }
+
+
 
     }
 
     @Override
     public void showErrorMessage(String msg) {
         SnackBarUtil.error(this, msg);
+        if (mIsLoadingMore){
+            mIsLoadingMore = false;
+            mPage--;
+        }
     }
 }

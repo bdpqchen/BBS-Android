@@ -12,6 +12,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.TimeUtils;
 import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
@@ -49,7 +50,7 @@ public class LatestPostAdapter extends BaseAdapter<LatestPostModel.DataBean.Late
             LatestPostModel.DataBean.LatestBean model = mDataSet.get(position);
             mholder.title.setText(model.getTitle());
             mholder.author.setText(model.getAuthor_name());
-            mholder.create_time.setText(TimeUtils.getStandardDate(model.getT_create()));
+            mholder.create_time.setText(StampUtil.getTimeFromNow(model.getT_create()));
             ImageUtil.loadAvatarAsBitmapByUid(mContext, model.getAuthor_id(), mholder.avatar);
             LogUtil.dd("thread id", String.valueOf(model.getId()));
             mholder.itemView.setOnClickListener(v -> {

@@ -2,6 +2,9 @@ package com.twtstudio.bbs.bdpqchen.bbs.main;
 
 import android.util.Log;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.SystemModel;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,11 +21,18 @@ public class TimeUtils {
      */
     public static String getStandardDate(long t) {
 
-        StringBuffer sb = new StringBuffer();
-        long time = System.currentTimeMillis()-(t*1000)+(8*60*60*1000);
-        Log.d("currentTime",Long.toString(time));
-        long mill = (long) Math.ceil(time /1000);//秒前
+        LogUtil.dd("send time", String.valueOf(t));
+        LogUtil.dd("send time", String.valueOf(System.currentTimeMillis()));
 
+        StringBuffer sb = new StringBuffer();
+        long time = System.currentTimeMillis() - (t * 1000) + (8*60*60*1000);
+
+
+
+
+        Log.d("currentTime", Long.toString(time));
+
+        long mill = (long) Math.ceil(time /1000);//秒前
         long minute = (long) Math.ceil(time/60/1000.0f);// 分钟前
 
         long hour = (long) Math.ceil(time/60/60/1000.0f);// 小时

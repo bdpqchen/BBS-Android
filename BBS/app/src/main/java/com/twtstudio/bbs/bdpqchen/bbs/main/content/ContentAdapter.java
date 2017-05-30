@@ -12,6 +12,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.TimeUtils;
 
 import org.w3c.dom.Text;
@@ -44,7 +45,7 @@ public class ContentAdapter extends BaseAdapter<ContentModel.DataBean.PostBean> 
         mholder.data = mDataSet.get(position);
         mholder.title.setText(mholder.data.getContent());
         mholder.author.setText(mholder.data.getAuthor_name());
-        mholder.create_time.setText(TimeUtils.getStandardDate(mholder.data.getT_create()));
+        mholder.create_time.setText(StampUtil.getTimeFromNow(mDataSet.get(position).getT_create()));
         ImageUtil.loadAvatarAsBitmapByUid(mContext, mholder.data.getAuthor_id(), mholder.avatar);
     }
 

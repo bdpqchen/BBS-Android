@@ -12,6 +12,10 @@ import java.util.List;
 
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
+    public static final int T_NORMAL = 0;
+    public static final int T_FOOTER = 1;
+    public static final int T_HEADER = 2;
+
     protected Context mContext;
     protected List<T> mDataSet = new ArrayList<>();
     private boolean isShowFooter = false;
@@ -23,7 +27,6 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
 
     @Override
     public int getItemCount() {
-
         if (isShowFooter || isShowHeader){
 
             if (mDataSet == null || mDataSet.size() == 0){
@@ -47,6 +50,17 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         notifyDataSetChanged();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (mDataSet != null && mDataSet.size() > 0){
+            if (position + 1 == getItemCount()){
+                return T_FOOTER;
+            }else {
+                return T_NORMAL;
+            }
+        }
+        return 0;
+    }
 
     public boolean isShowFooter() {
         return isShowFooter;

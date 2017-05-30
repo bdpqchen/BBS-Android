@@ -90,7 +90,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private LinearLayoutManager mLayoutManager;
     private int lastVisibleItemPosition = 0;
     private int mPage = 0;
-    private boolean mLoadingMore;
+    private boolean mIsLoadingMore;
 
     @Override
     protected int getLayoutResourceId() {
@@ -193,7 +193,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()){
                     mPage++;
                     mPresenter.getThread(mThreadId, mPage);
-                    mLoadingMore = true;
+                    mIsLoadingMore = true;
                 }
             }
             @Override
@@ -289,8 +289,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     @Override
     public void showThread(ThreadModel model) {
-        if (mLoadingMore){
-            mLoadingMore = false;
+        if (mIsLoadingMore){
+            mIsLoadingMore = false;
             if (model.getPost() != null && model.getPost().size() > 0){
                 mAdapter.addData(model.getPost(), mPage);
             }
@@ -317,8 +317,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         SnackBarUtil.error(this, m);
         hideProgressBar();
         mRefreshing = false;
-        if (mLoadingMore){
-            mLoadingMore = false;
+        if (mIsLoadingMore){
+            mIsLoadingMore = false;
             mPage--;
         }
     }
