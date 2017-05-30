@@ -1,7 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual;
 
 import android.content.Intent;
-import android.test.PerformanceTestCase;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
@@ -19,12 +18,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.collection.CollectionActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -45,7 +43,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     TextView mTvPoints;
     @BindView(R.id.tv_post_count)
     TextView mTvPostCount;
-    Unbinder unbinder;
     @BindView(R.id.civ_avatar)
     CircleImageView mCivAvatar;
     @BindView(R.id.rl_avatar)
@@ -121,16 +118,15 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mRlIndividualItemCollection.setOnClickListener(v -> startItemActivity(2));
         mRlIndividualItemPublish.setOnClickListener(v -> startItemActivity(3));
         mRlIndividualItemUpdateInfo.setOnClickListener(v -> startItemActivity(4));
+        mCivAvatar.setOnClickListener(v -> startItemActivity(4));
+        mTvPostCount.setOnClickListener(v -> startItemActivity(3));
         mRlSettings.setOnClickListener(v -> startItemActivity(5));
     }
 
-
     private void startItemActivity(int index) {
-        if (!PrefUtil.hadLogin()){
+        if (!PrefUtil.hadLogin()) {
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
-        }else {
-
-
+        } else {
             Class clazz;
             switch (index) {
                 case 1:

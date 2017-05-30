@@ -52,6 +52,10 @@ public final class Constants {
     public static final String TID = "tid";
     public static final String TOKEN = "token";
     public static final String REPLY_ID = "reply";
+    public static final String IS_ANONYMOUS = "is_anonymous";
+    public static final String ANONYMOUS = "anonymous";
+
+
 
 
 

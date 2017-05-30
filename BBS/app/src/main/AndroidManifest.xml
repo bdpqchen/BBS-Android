@@ -16,10 +16,10 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/bbs_logo"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/bbs_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
@@ -56,18 +56,18 @@
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
         <activity android:name=".forum.boards.BoardsActivity"/>
         <activity android:name=".forum.boards.thread.ThreadActivity"/>
-        <activity android:name=".test.SecondActivity"/>
         <activity android:name=".individual.message.MessageActivity"/>
         <activity android:name=".individual.collection.CollectionActivity"/>
         <activity android:name=".forum.boards.thread_list.ThreadListActivity"/>
         <activity android:name=".main.content.ContentActivity"/>
         <activity android:name=".individual.my_release.MyReleaseActivity"/>
-        <activity android:name=".welcome.WelcomeActivity"/>
         <activity android:name=".auth.renew.identify.IdentifyActivity"/>
         <activity android:name=".auth.renew.appeal.AppealPassportActivity"/>
         <activity android:name=".auth.renew.identify.retrieve.RetrieveActivity"/>
         <activity android:name=".auth.renew.identify.retrieve.reset_password.ResetPasswordActivity"/>
-        <activity android:name=".forum.boards.create_thread.CreateThreadActivity"/>
+        <activity
+            android:name=".forum.boards.create_thread.CreateThreadActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
         <activity android:name=".auth.register.RegisterOldActivity"/>
         <activity
             android:name=".welcome.IntroActivity"

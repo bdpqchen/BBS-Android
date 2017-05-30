@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorMainBg"
     android:orientation="vertical"
 
@@ -22,7 +22,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:background="@color/colorMainBgLight"
             android:paddingEnd="@dimen/padding_start_create_thread"
             android:paddingStart="@dimen/padding_start_create_thread"
@@ -34,7 +34,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="选择板块："
                 android:textColor="@color/colorPrimary"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 />
 
             <android.support.v7.widget.AppCompatSpinner
@@ -46,17 +46,33 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="2dp"
                 android:focusable="true"
-
                 />
 
-
         </LinearLayout>
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="匿名发帖"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:button="@null"
+            android:background="@color/colorMainBgLight"
+            android:layout_marginTop="4dp"
+            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+            tools:ignore="RtlHardcoded"
+            android:paddingStart="4dp"
+            android:paddingEnd="16dp"
+            android:id="@+id/cb_anonymous"
+            />
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/et_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:background="@color/colorMainBgLight"
             android:hint="帖子的标题"
             android:maxLines="5"
@@ -64,16 +80,14 @@
             android:paddingEnd="@dimen/padding_start_create_thread"
             android:paddingStart="@dimen/padding_start_create_thread"
             android:textColorHint="@color/colorPrimary"
-
             />
-
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/et_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start|top"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:background="@color/colorMainBgLight"
             android:hint="帖子的内容"
             android:inputType="textMultiLine"

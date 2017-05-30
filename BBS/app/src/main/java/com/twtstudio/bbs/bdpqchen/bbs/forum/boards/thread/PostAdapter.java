@@ -12,7 +12,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.retrox.bbcode.BBCodeParse;
 
@@ -60,7 +59,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             ThreadModel.PostBean post = mPostData.get(postPosition);
             content = "[quote]引用 #"
                     + post.getFloor() + " "
-                    + post.getAuthor_name() + "的评论：\n"
+                    + getAuthorName(false, postPosition) + "的评论：\n"
                     + cutRedundancy(post.getContent())
                     + "[/quote]\n"
                     + content + "\n";
@@ -68,22 +67,30 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         return content;
     }
 
-    public String getName(int postPosition) {
-        if (PrefUtil.getAuthUid() == mPostData.get(postPosition).getAuthor_id()) {
-            return "我自己";
-        } else {
-            return mPostData.get(postPosition).getAuthor_name();
+    private String getAuthorName(boolean is1floor, int position){
+        int uid = mPostData.get(position).getAuthor_id();
+        if (is1floor){
+            uid = mThreadData.getAuthor_id();
+        }
+        if (uid == 0){
+            return "匿名用户";
+        }else{
+            if (is1floor){
+                return mThreadData.getAuthor_name();
+            }else {
+                return mPostData.get(position).getAuthor_name();
+            }
         }
     }
 
     String getDynamicHint(int postPosition) {
         String hint;
         if (postPosition == 0) {
-            hint = "评论帖主 " + mThreadData.getAuthor_name();
+            hint = "评论帖主 " + getAuthorName(true, 0);
         } else {
             int p = postPosition - 1;
             ThreadModel.PostBean post = mPostData.get(p);
-            hint = "回复 " + post.getFloor() + "楼 " + getName(p);
+            hint = "回复 " + post.getFloor() + "楼 " + getAuthorName(false, p);
         }
         return hint;
 
@@ -100,7 +107,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
-
 
     public PostAdapter(Context context) {
         mContext = context;
@@ -127,16 +133,15 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         if (mThreadData != null) {
             if (holder instanceof HeaderHolder) {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
+                if (mThreadData.getAuthor_id() == 0) {
+                    mThreadData.setAuthor_name("匿名用户");
+                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar2, headerHolder.mCivAvatarThread);
+                } else {
+                    headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(mThreadData.getT_create()));
+                }
                 headerHolder.mTvUsernameThread.setText(mThreadData.getAuthor_name());
                 headerHolder.mTvTitle.setText(mThreadData.getTitle());
-                headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(mThreadData.getT_create()));
-                ImageUtil.loadAvatarAsBitmapByUid(mContext, mThreadData.getAuthor_id(), headerHolder.mCivAvatarThread);
                 // TODO: 17-5-26 Level is not set
-
-                /*if (mThreadData.getContent().length() > 0){
-
-                }
-                LogUtil.dd(mThreadData.getContent());*/
                 String str = BBCodeParse.bbcode2Html(mThreadData.getContent());
                 headerHolder.mHtvContent.setHtml(str, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
             }
@@ -144,14 +149,17 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             if (mPostData != null && mPostData.size() > 0) {
                 if (holder instanceof PostHolder) {
                     ThreadModel.PostBean p = mPostData.get(position - 1);
-                    LogUtil.dd(p.getContent());
                     PostHolder h = (PostHolder) holder;
-                    ImageUtil.loadAvatarAsBitmapByUid(mContext, p.getAuthor_id(), h.mCivAvatarPost);
+                    if (p.getAuthor_id() == 0) {
+                        p.setAuthor_name("匿名用户");
+                        ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar2, h.mCivAvatarPost);
+                    } else {
+                        ImageUtil.loadAvatarAsBitmapByUid(mContext, p.getAuthor_id(), h.mCivAvatarPost);
+                    }
                     h.mTvUsernamePost.setText(p.getAuthor_name());
                     h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                     h.mTvFloorPost.setText(p.getFloor() + "楼");
                     String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
-                    LogUtil.dd(htmlStr);
                     h.mTvPostContent.setHtml(htmlStr, new GlideImageGeter(h.mTvPostContent.getContext(), h.mTvPostContent));
                     h.itemView.setTag(position);
                 }

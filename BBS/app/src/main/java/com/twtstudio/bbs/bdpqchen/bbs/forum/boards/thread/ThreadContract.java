@@ -21,7 +21,7 @@ interface ThreadContract {
     }
     interface Presenter extends BasePresenter<View>{
         void getThread(int threadId, int postPage);
-        void doComment(int threadId, String comment, int replyId);
+        void doComment(int threadId, String comment, int replyId, boolean isAnonymous);
         void starThread(int id);
         void unStarThread(int id);
     }

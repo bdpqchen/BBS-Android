@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -70,6 +71,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
     @BindView(R.id.tv_dynamic_hint)
     TextView mTvDynamicHint;
+    @BindView(R.id.cb_anonymous_comment)
+    AppCompatCheckBox mCbAnonymousComment;
 
     private String mThreadTitle = "";
     private int mThreadId = 0;
@@ -81,6 +84,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean mRefreshing = false;
     private int postPosition = 0;
     private int mReplyId = 0;
+    private boolean mIsAnonymous = false;
+    private boolean mCanAnonymous = false;
+    private int mBoardId = 0;
 
     @Override
     protected int getLayoutResourceId() {
@@ -138,7 +144,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mEtComment.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -179,6 +184,18 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             showCommentInput();
         });
 
+        mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            mIsAnonymous = isChecked;
+        });
+
+    }
+
+    private void showAnonymousOrNot() {
+        if (mBoardId == 193){
+            mCbAnonymousComment.setVisibility(View.VISIBLE);
+        }else{
+            mCbAnonymousComment.setVisibility(View.GONE);
+        }
     }
 
     private void sendComment(int replyId) {
@@ -187,7 +204,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             if (replyId != 0) {
                 mComment = mAdapter.comment2reply(postPosition, mComment);
             }
-            mPresenter.doComment(mThreadId, mComment, replyId);
+            mPresenter.doComment(mThreadId, mComment, replyId, mIsAnonymous);
             startProgress();
         }
     }
@@ -265,7 +282,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mAdapter.setThreadData(model.getThread());
         mAdapter.setPostData(model.getPost());
         showStarOrNot(model.getThread().getIn_collection());
-
+        mBoardId =  model.getBoard().getId();
+        showAnonymousOrNot();
+        mCbAnonymousComment.setChecked(false);
     }
 
     @Override
@@ -290,13 +309,13 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         clearCommentData();
     }
 
-    private void clearCommentData(){
+    private void clearCommentData() {
         mComment = "";
         mEtComment.setText("");
         resetReply();
     }
 
-    private void resetReply(){
+    private void resetReply() {
         postPosition = 0;
         mReplyId = 0;
     }

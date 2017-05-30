@@ -290,15 +290,23 @@ public class RxDoHttpClient<T> {
         return mApi.getMyReleaseList(getLatestAuthentication(), String.valueOf(page));
     }
 
-    public Observable<BaseResponse<List<MyReplyModel>>> getMyReplyList(int page){
+    public Observable<BaseResponse<List<MyReplyModel>>> getMyReplyList(int page) {
         return mApi.getMyReplyList(getLatestAuthentication(), String.valueOf(page));
     }
 
     public Observable<BaseResponse<CreateThreadModel>> doPublishThread(Bundle bundle) {
+        if (bundle.getBoolean(Constants.IS_ANONYMOUS, false)) {
+            return mApi.doPublishThreadAnonymous(bundle.getInt(Constants.BID),
+                    bundle.getString(Constants.TITLE),
+                    bundle.getString(Constants.CONTENT), 1);
+        }
         return mApi.doPublishThread(getLatestAuthentication(), bundle.getInt(Constants.BID), bundle.getString(Constants.TITLE), bundle.getString(Constants.CONTENT));
     }
 
-    public Observable<BaseResponse<PostModel>> doComment(int threadId, String comment, int replyId) {
+    public Observable<BaseResponse<PostModel>> doComment(int threadId, String comment, int replyId, boolean isAno) {
+        if (isAno){
+            return mApi.doCommentAnonymous(threadId, comment, replyId, 1);
+        }
         return mApi.doComment(getLatestAuthentication(), threadId, comment, replyId);
     }
 
@@ -316,7 +324,7 @@ public class RxDoHttpClient<T> {
                 bundle.getString(Constants.PASSWORD),
                 bundle.getString(Constants.BUNDLE_REGISTER_CID),
                 bundle.getString(Constants.BUNDLE_REGISTER_REAL_NAME)
-                );
+        );
     }
 
     public Observable<BaseResponse<BaseModel>> doClearUnreadMessage() {

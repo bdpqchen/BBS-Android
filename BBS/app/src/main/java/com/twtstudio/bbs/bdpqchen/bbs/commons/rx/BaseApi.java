@@ -21,12 +21,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.content.post.IndexPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.model.MainModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.model.TopTenModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 
 import java.util.List;
 
-import dagger.Provides;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
@@ -40,6 +38,11 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CONTENT;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REPLY_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TITLE;
 
 /**
  * Created by bdpqchen on 17-4-27.
@@ -160,11 +163,6 @@ public interface BaseApi {
     Observable<BaseResponse<ThreadModel>> getThread(@Path("thread") String threadId,
                                                     @Path("page") String postPage);
 
-/*
-    @GET("index")
-    Observable<BaseResponse<HistoryHotModel>> getHistoryHot();
-*/
-
     @GET("home/publish/thread/page/{page}")
     Observable<BaseResponse<List<MyReleaseModel>>> getMyReleaseList(@Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken, @Path("page") String page);
 
@@ -176,7 +174,7 @@ public interface BaseApi {
     Observable<BaseResponse<CreateThreadModel>> doPublishThread(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Path("bid") int anInt,
-            @Field(Constants.TITLE) String string,
+            @Field(TITLE) String string,
             @Field(Constants.CONTENT) String string1);
 
     @FormUrlEncoded
@@ -184,16 +182,22 @@ public interface BaseApi {
     Observable<BaseResponse<PostModel>> doComment(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Path("tid") int threadId,
-            @Field(Constants.CONTENT) String comment,
-            @Field(Constants.REPLY_ID) int reply
-    );
+            @Field(CONTENT) String comment,
+            @Field(REPLY_ID) int reply);
+
+    @FormUrlEncoded
+    @POST("thread/{tid}")
+    Observable<BaseResponse<PostModel>> doCommentAnonymous(
+            @Path("tid") int threadId,
+            @Field(CONTENT) String comment,
+            @Field(REPLY_ID) int reply,
+            @Field(ANONYMOUS) int is);
 
     @FormUrlEncoded
     @POST("home/collection")
     Observable<BaseResponse<BaseModel>> starThread(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String head,
             @Field(Constants.TID) int id);
-
 
     @DELETE("home/collection/{tid}")
     Observable<BaseResponse<BaseModel>> unStarThread(
@@ -202,6 +206,14 @@ public interface BaseApi {
 
     @POST("home/message/read")
     Observable<BaseResponse<BaseModel>> doClearUnreadMessage();
+
+    @FormUrlEncoded
+    @POST("board/{bid}")
+    Observable<BaseResponse<CreateThreadModel>> doPublishThreadAnonymous(
+            @Path("bid") int anInt,
+            @Field(TITLE) String string,
+            @Field(CONTENT) String string1,
+            @Field(ANONYMOUS) int is);
 
 
 }

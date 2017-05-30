@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_IDS;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_NAMES;
 
@@ -43,12 +46,15 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     TextInputEditText mEtContent;
     MaterialDialog mAlertDialog;
     MaterialDialog mProgressDialog;
+    @BindView(R.id.cb_anonymous)
+    AppCompatCheckBox mCbAnonymous;
     private ArrayList<String> mBoardNames;
     private ArrayList<Integer> mBoardIds;
 
     private int mSelectedBoardId = 0;
     private String mTitle = "";
     private String mContent = "";
+    private boolean mIsAnonymous = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -95,9 +101,12 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mSelectedBoardId = mBoardIds.get(position);
-                if (mSelectedBoardId == 193){
+                if (mSelectedBoardId == 193) {
                     //匿名板块 anonymous
                     //// TODO: 17-5-29 匿名板块逻辑
+                    mCbAnonymous.setVisibility(View.VISIBLE);
+                }else{
+                    mCbAnonymous.setVisibility(View.GONE);
                 }
                 LogUtil.dd("you have selected the id", String.valueOf(mSelectedBoardId));
             }
@@ -106,6 +115,9 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
+        });
+        mCbAnonymous.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            mIsAnonymous = isChecked;
         });
     }
 
@@ -118,7 +130,7 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_create_thread:
                 checkInput();
                 break;
@@ -129,7 +141,7 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         return false;
     }
 
-    private void setupData(){
+    private void setupData() {
         mTitle = mEtTitle.getText().toString();
         mContent = mEtContent.getText().toString();
     }
@@ -137,15 +149,15 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     private void checkInput() {
         String err = "不能为空啊大哥";
         setupData();
-        if (mTitle.length() == 0){
+        if (mTitle.length() == 0) {
             mEtTitle.setError(err);
             return;
-        }else if (mContent.length() == 0){
+        } else if (mContent.length() == 0) {
             mEtContent.setError(err);
             return;
         }
 
-        if (mSelectedBoardId == 0){
+        if (mSelectedBoardId == 0) {
             SnackBarUtil.error(this, "你还没有选择板块");
             return;
         }
@@ -153,6 +165,7 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         bundle.putString(Constants.TITLE, mTitle);
         bundle.putString(Constants.CONTENT, mContent);
         bundle.putInt(Constants.BID, mSelectedBoardId);
+        bundle.putBoolean(Constants.IS_ANONYMOUS, mIsAnonymous);
         mPresenter.doPublishThread(bundle);
         mProgressDialog = DialogUtil.showProgressDialog(this, "提示", "正在发布，请稍后..");
     }
@@ -179,14 +192,13 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     private void isDangerExit() {
         LogUtil.dd("isDangerExit()");
         setupData();
-        if (mTitle.length() > 0 || mContent.length() > 0){
+        if (mTitle.length() > 0 || mContent.length() > 0) {
             mAlertDialog = DialogUtil.alertDialog(this, "提示", "确定放弃所写的内容吗？？", "放弃", "就不放弃",
                     (materialDialog, dialogAction) -> finishMe(), null);
-        }else{
+        } else {
             finishMe();
         }
     }
-
 
 
 }

@@ -122,7 +122,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tx_forgot_password:
-                mCircularProgressButton.revertAnimation();
+//                mCircularProgressButton.revertAnimation();
+
                 break;
             case R.id.tv_goto_register:
                 startActivity(new Intent(this, RegisterActivity.class));

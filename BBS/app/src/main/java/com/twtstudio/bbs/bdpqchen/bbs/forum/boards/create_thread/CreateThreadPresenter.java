@@ -24,7 +24,6 @@ class CreateThreadPresenter extends RxPresenter<CreateThreadContract.View> imple
         mHttpClient = client;
     }
 
-
     @Override
     public void doPublishThread(Bundle bundle) {
         SimpleObserver<CreateThreadModel> observer = new SimpleObserver<CreateThreadModel>() {
