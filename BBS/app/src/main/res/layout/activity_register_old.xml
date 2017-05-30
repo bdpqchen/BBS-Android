@@ -101,7 +101,7 @@
                         android:inputType="textPassword"
                         android:maxLength="18"
                         android:maxLines="1"
-                        android:digits="0123456789abcdefghigklmnopqrstuvwxyz_"
+                        android:digits="0123456789abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         />
 
                 </android.support.design.widget.TextInputLayout>

@@ -27,7 +27,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity.
  * Created by zhangyulong on 5/12/17.
  */
 
-public class LatestPostAdapter extends BaseAdapter<LatestPostModel.DataBean.LatestBean>{
+public class LatestPostAdapter extends BaseAdapter<LatestPostModel.DataBean.LatestBean> {
     public LatestPostAdapter(Context context) {
         super(context);
     }
@@ -42,23 +42,24 @@ public class LatestPostAdapter extends BaseAdapter<LatestPostModel.DataBean.Late
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-        LatestPostViewHolder mholder=(LatestPostViewHolder) holder;
         //Date date=new Date(mholder.data.getT_create());
-        mholder.data= mDataSet.get(position);
-        LatestPostModel.DataBean.LatestBean model = mDataSet.get(position);
-        mholder.title.setText(model.getTitle());
-        mholder.author.setText(model.getAuthor_name());
-        mholder.create_time.setText(TimeUtils.getStandardDate(model.getT_create()));
-        ImageUtil.loadAvatarAsBitmapByUid(mContext,model.getAuthor_id(),mholder.avatar);
-        LogUtil.dd("thread id", String.valueOf(model.getId()));
-        mholder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, ThreadActivity.class);
-            intent.putExtra(INTENT_THREAD_ID, model.getId());
-            LogUtil.dd("click id ", String.valueOf(model.getId()));
-            intent.putExtra(INTENT_THREAD_TITLE, model.getTitle());
-            mContext.startActivity(intent);
-        });
-
+        if (mDataSet != null && mDataSet.size() > 0) {
+            LatestPostViewHolder mholder = (LatestPostViewHolder) holder;
+            mholder.data = mDataSet.get(position);
+            LatestPostModel.DataBean.LatestBean model = mDataSet.get(position);
+            mholder.title.setText(model.getTitle());
+            mholder.author.setText(model.getAuthor_name());
+            mholder.create_time.setText(TimeUtils.getStandardDate(model.getT_create()));
+            ImageUtil.loadAvatarAsBitmapByUid(mContext, model.getAuthor_id(), mholder.avatar);
+            LogUtil.dd("thread id", String.valueOf(model.getId()));
+            mholder.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, ThreadActivity.class);
+                intent.putExtra(INTENT_THREAD_ID, model.getId());
+                LogUtil.dd("click id ", String.valueOf(model.getId()));
+                intent.putExtra(INTENT_THREAD_TITLE, model.getTitle());
+                mContext.startActivity(intent);
+            });
+        }
     }
 
     class LatestPostViewHolder extends BaseViewHolder implements View.OnClickListener {
@@ -71,9 +72,10 @@ public class LatestPostAdapter extends BaseAdapter<LatestPostModel.DataBean.Late
         @BindView(R.id.item_civ_avatar)
         CircleImageView avatar;
         LatestPostModel.DataBean.LatestBean data;
+
         public LatestPostViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 

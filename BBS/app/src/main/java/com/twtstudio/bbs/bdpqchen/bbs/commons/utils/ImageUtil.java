@@ -27,7 +27,7 @@ public final class ImageUtil {
                 .crossFade()
                 .placeholder(R.drawable.forum_banner_1)
                 .centerCrop()
-                .override(300, 150)
+//                .override(300, 150)
 //                .error(R.drawable.forum_banner_1)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);

@@ -11,6 +11,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
@@ -69,11 +70,9 @@ public class ForumAdapter extends BaseAdapter<ForumModel> implements View.OnClic
             viewHolder.mTvName.setText(model.getName());
             String coverUrl = RxDoHttpClient.BASE_URL + "forum/" + model.getId() + "/cover";
 //            String coverUrl = "http://bbs.twtstudio.com/api/" + "forum/" + model.getId() + "/cover";
-            ImageUtil.loadForumCover(mContext, coverUrl, viewHolder.mIvBgImage);
-            /*HandlerUtil.postDelay(()->{
-
-            }, position * 0);
-*/
+            HandlerUtil.postDelay(()->{
+                ImageUtil.loadForumCover(mContext, coverUrl, viewHolder.mIvBgImage);
+            }, position * 100);
             viewHolder.itemView.setTag(position);
 
         }

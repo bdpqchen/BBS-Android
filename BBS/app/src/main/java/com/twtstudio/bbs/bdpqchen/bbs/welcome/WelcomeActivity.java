@@ -38,16 +38,18 @@ public class WelcomeActivity extends AppIntro {
         addSlide(IntroFragment.newInstance(R.layout.fragment_intro_3));
 
 
-//        setBarColor(Color.LTGRAY);
-//        showSeparator(true);
-//        showStatusBar(false);
+        showSeparator(true);
+//        showStatusBar(true);
+        setProgressButtonEnabled(true);
+        setBarColor(Color.parseColor("#2196F3"));
+        setSeparatorColor(Color.parseColor("#2196F3"));
+
 //        showStatusBar(true);
 //        showSkipButton(false);
-//        setProgressButtonEnabled(true);
 //        setVisible(false);
 //        setVibrateIntensity(30);
 
-        setBarColor(Color.parseColor("#ffffff"));
+//        setBarColor(Color.parseColor("#ffffff"));
 
 //        setSeparatorColor(Color.parseColor("#2196F3"));
 

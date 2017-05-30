@@ -11,7 +11,7 @@ import java.util.Date;
 
 public final class StampUtil {
 
-    private static final int diff = 28800;
+    private static final int diff = 0;
 
     public static int getDaysFromCreateToNow(int createTimeStamp){
         if (createTimeStamp < 12721691){

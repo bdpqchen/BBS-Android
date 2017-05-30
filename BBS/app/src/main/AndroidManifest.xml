@@ -68,8 +68,11 @@
         <activity android:name=".auth.renew.identify.retrieve.reset_password.ResetPasswordActivity"/>
         <activity android:name=".forum.boards.create_thread.CreateThreadActivity"/>
         <activity android:name=".auth.register.RegisterOldActivity"/>
+        <activity
+            android:name=".welcome.IntroActivity"
+            android:theme="@style/Theme.Intro" />
 
-陈丁辰
+
     </application>
 
 </manifest>

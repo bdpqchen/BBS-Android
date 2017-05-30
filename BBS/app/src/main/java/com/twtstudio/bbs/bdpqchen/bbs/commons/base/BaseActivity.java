@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.base;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
@@ -66,15 +67,30 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
             }
 */
         }
-
         setContentView(getLayoutResourceId());
 
-        mUnBinder = ButterKnife.bind(this);
+        Activity activity = supportSlideBack();
+        if (activity != null) {
+            // TODO: 17-4-26 one hand mode
+            SlideConfig slideConfig = new SlideConfig.Builder()
+                    .rotateScreen(false)
+                    .edgeOnly(true)
+                    .edgePercent(0.2f)
+                    .slideOutPercent(0.3f)
+                    .create();
+            mSlideBackLayout = SlideBackHelper.attach(activity, App.getActivityHelper(), slideConfig, null);
+
+        }
         ActivityManager.getActivityManager().addActivity(this);
 
-        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimary), 0);
+        mUnBinder = ButterKnife.bind(this);
+
+        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimary));
+
+//        if(Build.VERSION_CODES)
 
         inject();
+
         if (mPresenter != null) {
             mPresenter.attachView(this);
         }
@@ -91,16 +107,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
             }
         }
 
-        Activity activity = supportSlideBack();
-        if (activity != null) {
-            // TODO: 17-4-26 one hand mode
-            SlideConfig slideConfig = new SlideConfig.Builder()
-                    .rotateScreen(false)
-                    .edgeOnly(true)
-                    .edgePercent(0.2f).slideOutPercent(0.3f).create();
-            mSlideBackLayout = SlideBackHelper.attach(activity, App.getActivityHelper(), slideConfig, null);
 
-        }
 
 
     }
