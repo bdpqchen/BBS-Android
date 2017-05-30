@@ -33,12 +33,14 @@ public class IntroFragment extends Fragment {
     private static final String ARG_LAYOUT_RES_ID = "layout_resId";
     Unbinder unbinder;
     private int layoutResId;
+    private static IntroActivity sActivity;
 
-    public static IntroFragment newInstance(int layoutId) {
+    public static IntroFragment newInstance(int layoutId, IntroActivity introActivity) {
         IntroFragment sampleSlide = new IntroFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_LAYOUT_RES_ID, layoutId);
         sampleSlide.setArguments(args);
+        sActivity = introActivity;
         return sampleSlide;
     }
 
@@ -73,13 +75,15 @@ public class IntroFragment extends Fragment {
                 Context context = this.getContext();
                 buttonOld.setOnClickListener(v -> {
                     startActivity(new Intent(context, IdentifyActivity.class));
+                    sActivity.finish();
                 });
                 buttonNew.setOnClickListener(v -> {
                     startActivity(new Intent(context, RegisterActivity.class));
+                    sActivity.finish();
                 });
                 buttonJump.setOnClickListener(v -> {
                     startActivity(new Intent(context, LoginActivity.class));
-
+                    sActivity.finish();
                 });
                 break;
         }

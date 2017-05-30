@@ -113,8 +113,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         ImageUtil.loadDrawable(this, R.drawable.forum_banner_1, mIvBanner);
         ImageUtil.loadDrawable(this, R.drawable.avatar3, mCivAvatar);
 
-
-        ActivityManager.getActivityManager().finishNamedActivity(IntroActivity.class);
     }
 
     @OnClick({R.id.tx_forgot_password, R.id.tv_goto_register,
@@ -122,8 +120,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tx_forgot_password:
-//                mCircularProgressButton.revertAnimation();
-
+                // TODO: 17-5-31 忘记密码
                 break;
             case R.id.tv_goto_register:
                 startActivity(new Intent(this, RegisterActivity.class));

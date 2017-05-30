@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 
@@ -43,16 +44,14 @@ public class IntroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_intro);
         ButterKnife.bind(this);
 
-        mPagerAdapter = new IntroPagerAdapter(getSupportFragmentManager());
+        mPagerAdapter = new IntroPagerAdapter(getSupportFragmentManager(), this);
         mVpIntro.setAdapter(mPagerAdapter);
         mVpIntro.setPageTransformer(true, new ZoomOutPageTransformer());
         mIntroDot1.setBackground(ResourceUtil.getDrawable(this, R.drawable.shape_intro_dot_curr));
 
         mVpIntro.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
             @Override
             public void onPageSelected(int position) {
                 updateDotStatus(position);
@@ -61,12 +60,12 @@ public class IntroActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
-
+        ActivityManager.getActivityManager().addActivity(this);
 
     }
 
     private void updateDotStatus(int p){
-        int d = 1000;
+        int d = 500;
         switch (p){
             case 0:
                 mIntroDot1.setBackground(ResourceUtil.getDrawable(this, R.drawable.shape_intro_dot_curr));

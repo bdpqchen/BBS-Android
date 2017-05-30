@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorMainBg"
     android:orientation="vertical"
-
     >
 
     <android.support.v7.widget.Toolbar
@@ -23,20 +23,20 @@
         >
 
         <TextView
+            android:id="@+id/tv_title_toolbar"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:layout_gravity="start|center_vertical"
             tools:text="sssss"
-            android:id="@+id/tv_title_toolbar"
             />
 
     </android.support.v7.widget.Toolbar>
 
     <ProgressBar
+        android:id="@+id/pb_loading_forum"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/pb_loading_forum"
         android:layout_gravity="center"
         tools:visibility="gone"
         />

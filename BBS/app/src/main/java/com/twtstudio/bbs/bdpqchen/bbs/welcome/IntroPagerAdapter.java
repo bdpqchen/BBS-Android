@@ -12,14 +12,17 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 
 public class IntroPagerAdapter extends FragmentStatePagerAdapter {
 
-    public IntroPagerAdapter(FragmentManager fm) {
+    IntroActivity mIntroActivity;
+
+    public IntroPagerAdapter(FragmentManager fm, IntroActivity introActivity) {
         super(fm);
+        mIntroActivity = introActivity;
     }
 
     @Override
     public Fragment getItem(int position) {
 
-        return IntroFragment.newInstance(getFragment(position));
+        return IntroFragment.newInstance(getFragment(position), mIntroActivity);
     }
 
     private int getFragment(int position) {

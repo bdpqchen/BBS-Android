@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
@@ -83,7 +82,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
         rvMessageList.addItemDecoration(new RecyclerViewItemDecoration(10));
         mPresenter.getMessageList(0);
         mSrlMessage.setRefreshing(true);
-        mSrlMessage.setOnRefreshListener(()->{
+        mSrlMessage.setOnRefreshListener(() -> {
             mPresenter.getMessageList(0);
             mRefreshing = true;
         });
@@ -99,7 +98,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     public void showMessageList(List<MessageModel> messageList) {
         // TODO: 17-5-29 设定为已读消息
 //        mPresenter.doClearUnreadMessage();
-        if (mRefreshing){
+        if (mRefreshing) {
             mAdapter.clearAll();
         }
         if (messageList != null) {
@@ -107,7 +106,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
             if (size != 0) {
                 List<MessageModel> listNew = new ArrayList<>();
                 for (int i = 0; i < size; i++) {
-                    if (messageList.get(i).getContent_model() != null){
+                    if (messageList.get(i).getContent_model() != null) {
                         int tag = messageList.get(i).getTag();
                         if (tag == 2 || tag == 3) {
                             listNew.add(messageList.get(i));
@@ -121,16 +120,21 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
                     mTvNoMessage.setVisibility(View.VISIBLE);
                 }
 
+            } else {
+                mTvNoMessage.setVisibility(View.VISIBLE);
             }
         }
-        mRefreshing = false;
-        mSrlMessage.setRefreshing(false);
+        stopRefresh();
     }
 
     @Override
     public void onCleared() {
         SnackBarUtil.normal(this, "已清空未读消息");
         mPresenter.getMessageList(0);
+        stopRefresh();
+    }
+
+    private void stopRefresh() {
         mRefreshing = true;
         mSrlMessage.setRefreshing(true);
     }
@@ -138,5 +142,6 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     @Override
     public void onClearFailed(String msg) {
         SnackBarUtil.error(this, "失败 " + msg);
+        stopRefresh();
     }
 }

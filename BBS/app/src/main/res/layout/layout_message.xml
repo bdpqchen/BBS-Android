@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:text="Nothing"
+        android:text="暂时没有任何消息"
         android:textColor="@color/colorTvBlackMain"
         android:textSize="18sp"
         android:visibility="gone"
