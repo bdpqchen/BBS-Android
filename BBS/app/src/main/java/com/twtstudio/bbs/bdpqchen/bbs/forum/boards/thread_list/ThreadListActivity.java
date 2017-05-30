@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -31,6 +33,8 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
     Toolbar mToolbar;
     @BindView(R.id.rv_thread_list)
     RecyclerView mRecyclerView;
+    @BindView(R.id.srl_thread_list)
+    SwipeRefreshLayout mSrlThreadList;
 
     private String mThreadTitle = "";
     private int mBoardId = 0;
@@ -40,6 +44,7 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
     private int mPage = 0;
     private boolean mIsLoadingMore = false;
     private int lastVisibleItemPosition = 0;
+    private boolean mRefreshing = false;
 
 
     @Override
@@ -90,6 +95,13 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(10));
+        mSrlThreadList.setRefreshing(true);
+        mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
+        mSrlThreadList.setOnRefreshListener(() -> {
+            mRefreshing = true;
+            mPresenter.getThreadList(mBoardId, 0);
+        });
+
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -112,21 +124,26 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
 
     @Override
     public void setThreadList(ThreadListModel threadListModel) {
-        if (mIsLoadingMore){
+        if (mIsLoadingMore) {
             mAdapter.addDataList(threadListModel.getThread(), mPage);
-
-        }else{
-            mAdapter.addList(threadListModel.getThread());
+        } else {
+            if (mRefreshing){
+                mAdapter.refreshList(threadListModel.getThread());
+                mRefreshing = false;
+            }else{
+                mAdapter.addList(threadListModel.getThread());
+            }
         }
-
-
+        mSrlThreadList.setRefreshing(false);
 
     }
 
     @Override
     public void showErrorMessage(String msg) {
+        mSrlThreadList.setRefreshing(false);
+        mRefreshing = false;
         SnackBarUtil.error(this, msg);
-        if (mIsLoadingMore){
+        if (mIsLoadingMore) {
             mIsLoadingMore = false;
             mPage--;
         }

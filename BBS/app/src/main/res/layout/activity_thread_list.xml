@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorMainBg"
     android:foreground="@drawable/selector_foreground_settings"
+    android:orientation="vertical"
     >
 
     <include
@@ -13,13 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_thread_list"
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/srl_thread_list"
+        >
 
-        />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_thread_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </LinearLayout>

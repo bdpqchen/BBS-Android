@@ -41,7 +41,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     public void refreshList(List<T> items){
         mDataSet.clear();
         mDataSet.addAll(items);
-        setShowFooter(false);
+//        setShowFooter(false);
         notifyDataSetChanged();
     }
 
