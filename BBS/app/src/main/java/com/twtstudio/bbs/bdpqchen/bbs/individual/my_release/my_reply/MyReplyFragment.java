@@ -1,18 +1,26 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply;
 
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by Arsener on 2017/5/28.
@@ -23,6 +31,9 @@ public class MyReplyFragment extends BaseFragment<MyReplyPresenter> implements M
     RecyclerView rv;
     @BindView(R.id.srl)
     SwipeRefreshLayout srl;
+    @BindView(R.id.tv_none_reply)
+    TextView mTvNoneReply;
+    Unbinder unbinder;
 
     private LinearLayoutManager layoutManager;
     private List<MyReplyModel> data = new ArrayList<>();
@@ -45,7 +56,9 @@ public class MyReplyFragment extends BaseFragment<MyReplyPresenter> implements M
         rv.setHasFixedSize(true);
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(myReplyAdapter);
+        rv.addItemDecoration(new RecyclerViewItemDecoration(5));
         srl.setOnRefreshListener(this);
+        srl.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         eros = new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore() {
@@ -81,12 +94,13 @@ public class MyReplyFragment extends BaseFragment<MyReplyPresenter> implements M
 
     @Override
     public void showMyReplyList(List<MyReplyModel> data) {
-        myReplyAdapter.addItems(data);
-//        View footer = LayoutInflater.from(MyReleaseActivity.this).inflate(R.layout.footer_view, rv, false);
-//        myRecyclerAdapter.setFooterView(footer);
-        myReplyAdapter.notifyDataSetChanged();
-//        myRecyclerAdapter.removeFooterView();
-//        myRecyclerAdapter.notifyDataSetChanged();
+        if (data != null && data.size() != 0){
+            myReplyAdapter.addItems(data);
+            myReplyAdapter.notifyDataSetChanged();
+            mTvNoneReply.setVisibility(View.GONE);
+        }else {
+            mTvNoneReply.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -97,5 +111,17 @@ public class MyReplyFragment extends BaseFragment<MyReplyPresenter> implements M
     @Override
     protected void injectFragment() {
         getFragmentComponent().inject(this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }

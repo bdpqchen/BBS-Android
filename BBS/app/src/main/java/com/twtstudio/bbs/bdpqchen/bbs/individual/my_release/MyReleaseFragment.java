@@ -1,18 +1,25 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.my_release;
 
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by Arsener on 2017/5/28.
@@ -23,6 +30,9 @@ public class MyReleaseFragment extends BaseFragment<MyReleasePresenter> implemen
     RecyclerView rv;
     @BindView(R.id.srl)
     SwipeRefreshLayout srl;
+    @BindView(R.id.tv_none_publish)
+    TextView mTvNonePublish;
+    Unbinder unbinder;
 
     private LinearLayoutManager layoutManager;
     private List<MyReleaseModel> data = new ArrayList<>();
@@ -46,6 +56,7 @@ public class MyReleaseFragment extends BaseFragment<MyReleasePresenter> implemen
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(myRecyclerAdapter);
         srl.setOnRefreshListener(this);
+        srl.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         eros = new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore() {
@@ -53,11 +64,8 @@ public class MyReleaseFragment extends BaseFragment<MyReleasePresenter> implemen
             }
         };
         rv.addOnScrollListener(eros);
-//
-//        View footer = LayoutInflater.from(MyReleaseActivity.this).inflate(R.layout.footer_view, rv, false);
-//        myRecyclerAdapter.setFooterView(footer);
-
         mPresenter.initMyReleaseList();
+        rv.addItemDecoration(new RecyclerViewItemDecoration(5));
     }
 
     @Override
@@ -81,12 +89,13 @@ public class MyReleaseFragment extends BaseFragment<MyReleasePresenter> implemen
 
     @Override
     public void showMyReleaseList(List<MyReleaseModel> data) {
-        myRecyclerAdapter.addItems(data);
-//        View footer = LayoutInflater.from(MyReleaseActivity.this).inflate(R.layout.footer_view, rv, false);
-//        myRecyclerAdapter.setFooterView(footer);
-        myRecyclerAdapter.notifyDataSetChanged();
-//        myRecyclerAdapter.removeFooterView();
-//        myRecyclerAdapter.notifyDataSetChanged();
+        if (data != null && data.size() != 0) {
+            myRecyclerAdapter.addItems(data);
+            myRecyclerAdapter.notifyDataSetChanged();
+            mTvNonePublish.setVisibility(View.GONE);
+        }else{
+            mTvNonePublish.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -98,4 +107,12 @@ public class MyReleaseFragment extends BaseFragment<MyReleasePresenter> implemen
     protected void injectFragment() {
         getFragmentComponent().inject(this);
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
+    }
+
 }

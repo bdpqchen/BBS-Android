@@ -9,11 +9,9 @@ import android.widget.ProgressBar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,7 +31,6 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
     private LinearLayoutManager linearLayoutManager;
 
     public static LatestPostFragment newInstance() {
-        LogUtil.dd("new instance latest fragment");
         return new LatestPostFragment();
     }
 
@@ -54,7 +51,8 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
         recyclerview.setLayoutManager(linearLayoutManager);
         mPresenter.refreshAnnounce();
         recyclerview.setAdapter(latestPostAdapter);
-        recyclerview.addItemDecoration(new RecyclerViewItemDecoration(10));
+        recyclerview.addItemDecoration(new RecyclerViewItemDecoration(5));
+        layoutSwipeRefresh.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         layoutSwipeRefresh.setOnRefreshListener(() -> {
             mPresenter.refreshAnnounce();
             layoutSwipeRefresh.setRefreshing(false);

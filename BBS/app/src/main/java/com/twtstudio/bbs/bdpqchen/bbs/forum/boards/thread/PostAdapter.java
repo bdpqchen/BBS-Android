@@ -228,7 +228,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         notifyDataSetChanged();
     }
 
-    public void clearData(ThreadModel model) {
+    public void clearData() {
         mThreadData = null;
         mPostData.clear();
     }
@@ -238,6 +238,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         onePage *= page + 1;
 
         notifyDataSetChanged();
+    }
+
+    public void refreshList(ThreadModel model) {
+        if (model != null && model.getThread() != null){
+            clearData();
+            mPostData.addAll(model.getPost());
+            mThreadData = model.getThread();
+        }
     }
 
     static class PostHolder extends RecyclerView.ViewHolder {

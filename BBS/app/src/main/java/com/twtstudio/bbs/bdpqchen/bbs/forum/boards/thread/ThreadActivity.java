@@ -139,8 +139,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mRvThreadPost.setLayoutManager(mLayoutManager);
         mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(5));
         mRvThreadPost.setAdapter(mAdapter);
-        mRvThreadPost.setItemAnimator(new DefaultItemAnimator());
-
         mFbThreadWritePost.setOnClickListener(v -> {
             showCommentInput();
             resetReply();
@@ -174,7 +172,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mIvStarThread.setOnClickListener(v -> {
             mPresenter.starThread(mThreadId);
         });
-        mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlThreadList.setOnRefreshListener(() -> {
             mRefreshing = true;
             mPresenter.getThread(mThreadId, 0);
@@ -190,12 +187,13 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
                     mPage++;
                     mPresenter.getThread(mThreadId, mPage);
                     mIsLoadingMore = true;
                 }
             }
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -207,9 +205,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
 
     private void showAnonymousOrNot() {
-        if (mBoardId == 193){
+        if (mBoardId == 193) {
             mCbAnonymousComment.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mCbAnonymousComment.setVisibility(View.GONE);
         }
     }
@@ -289,27 +287,30 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     @Override
     public void showThread(ThreadModel model) {
-        if (mIsLoadingMore){
-            mIsLoadingMore = false;
-            if (model.getPost() != null && model.getPost().size() > 0){
-                mAdapter.addData(model.getPost(), mPage);
+        if (mRefreshing) {
+            mAdapter.refreshList(model);
+            mRefreshing = false;
+
+        } else {
+            if (mIsLoadingMore) {
+                mIsLoadingMore = false;
+                if (model.getPost() != null && model.getPost().size() > 0) {
+                    mAdapter.addData(model.getPost(), mPage);
+                }
+            } else {
+                mBoardId = model.getBoard().getId();
+                showStarOrNot(model.getThread().getIn_collection());
+                mAdapter.setThreadData(model.getThread());
+                if (model.getPost() != null && model.getPost().size() > 0) {
+                    mAdapter.setPostData(model.getPost());
+                }
             }
-        }else{
-            mBoardId =  model.getBoard().getId();
-            showStarOrNot(model.getThread().getIn_collection());
-            mAdapter.setThreadData(model.getThread());
-            if (model.getPost() != null && model.getPost().size() > 0){
-                mAdapter.setPostData(model.getPost());
-            }
+
         }
         mCbAnonymousComment.setChecked(false);
         showAnonymousOrNot();
-        if (mRefreshing) {
-            mAdapter.clearData(model);
-            mRefreshing = false;
-            mSrlThreadList.setRefreshing(false);
-        }
         hideProgressBar();
+        mSrlThreadList.setRefreshing(false);
     }
 
     @Override
@@ -317,10 +318,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         SnackBarUtil.error(this, m);
         hideProgressBar();
         mRefreshing = false;
-        if (mIsLoadingMore){
+        if (mIsLoadingMore) {
             mIsLoadingMore = false;
             mPage--;
         }
+        mSrlThreadList.setRefreshing(false);
+
     }
 
     @Override

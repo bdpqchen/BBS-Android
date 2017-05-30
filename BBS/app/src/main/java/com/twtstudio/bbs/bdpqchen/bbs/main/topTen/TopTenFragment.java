@@ -54,8 +54,9 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Mai
         mAdapter = new TopTenAdapter(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(linearLayoutManager);
-        recyclerview.addItemDecoration(new RecyclerViewItemDecoration(10));
+        recyclerview.addItemDecoration(new RecyclerViewItemDecoration(5));
         recyclerview.setAdapter(mAdapter);
+        layoutSwipeRefresh.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         layoutSwipeRefresh.setOnRefreshListener(() -> {
             mPresenter.getHomeDataList();
             mRefreshing = true;
@@ -83,6 +84,7 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Mai
 
     @Override
     public void onFailedGetHomeData(String msg) {
+        mRefreshing = false;
         hideLoading();
         SnackBarUtil.notice(this.getActivity(), msg + "\n刷新试试～");
     }
