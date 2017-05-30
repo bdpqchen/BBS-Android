@@ -317,6 +317,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         SnackBarUtil.error(this, m);
         hideProgressBar();
         mRefreshing = false;
+        if (mLoadingMore){
+            mLoadingMore = false;
+            mPage--;
+        }
     }
 
     @Override
@@ -403,7 +407,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         //设置分享列表的标题，并且每次都显示分享列表
         startActivity(Intent.createChooser(shareIntent, "分享到"));
     }
-
 
     private void hideProgressBar() {
         mPbThreadLoading.setVisibility(View.GONE);
