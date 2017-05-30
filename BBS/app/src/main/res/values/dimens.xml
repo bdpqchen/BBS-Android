@@ -31,4 +31,5 @@
     <dimen name="red_point_radius_small">5dp</dimen>
     <dimen name="padding_thread_content">16dp</dimen>
     <dimen name="padding_start_create_thread">4dp</dimen>
+    <dimen name="size_dot_intro">6dp</dimen>
 </resources>

@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
@@ -65,7 +68,7 @@ public class IntroFragment extends Fragment {
                 ImageView view3 = (ImageView) view.findViewById(R.id.intro3);
                 Button buttonOld = (Button) view.findViewById(R.id.old_user);
                 Button buttonNew = (Button) view.findViewById(R.id.new_user);
-                Button buttonJump = (Button) view.findViewById(R.id.jump_to_login);
+                TextView buttonJump = (TextView) view.findViewById(R.id.jump_to_login);
                 Glide.with(this.getContext()).load(R.drawable.intro3).into(view3);
                 Context context = this.getContext();
                 buttonOld.setOnClickListener(v -> {

@@ -10,13 +10,13 @@
         <item name="windowNoTitle">true</item>
 
         <item name="colorControlActivated">@color/colorPrimary</item>
-        <!-- Inactive thumb color -->
-<!--
-        <item name="colorSwitchThumbNormal">@color/material_blue_grey_00</item>
--->
-        <!-- Inactive track color(30% transparency) -->
         <item name="android:colorForeground">@color/material_grey_500</item>
 
+    </style>
+
+    <style name="AppTheme.Intro" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.EditText.Register" parent="AppTheme">

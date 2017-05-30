@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_intro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="36dp"
+        android:gravity="center"
+        >
+
+        <View
+            android:layout_width="@dimen/size_dot_intro"
+            android:layout_height="@dimen/size_dot_intro"
+            android:background="@drawable/shape_intro_dot"
+            android:id="@+id/intro_dot_1"
+            />
+
+        <View
+            android:layout_width="@dimen/size_dot_intro"
+            android:layout_height="@dimen/size_dot_intro"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/shape_intro_dot"
+            android:id="@+id/intro_dot_2"
+            />
+
+        <View
+            android:layout_width="@dimen/size_dot_intro"
+            android:layout_height="@dimen/size_dot_intro"
+            android:background="@drawable/shape_intro_dot"
+            android:id="@+id/intro_dot_3"
+            />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

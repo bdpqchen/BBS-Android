@@ -18,13 +18,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class WelcomeActivity extends AppIntro {
-
+/*
     @BindView(R.id.tv_jump_login)
     TextView mTvJumpLogin;
     @BindView(R.id.civ_old_user)
     CircleImageView mCivOldUser;
     @BindView(R.id.civ_new_user)
-    CircleImageView mCivNewUser;
+    CircleImageView mCivNewUser;*/
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
