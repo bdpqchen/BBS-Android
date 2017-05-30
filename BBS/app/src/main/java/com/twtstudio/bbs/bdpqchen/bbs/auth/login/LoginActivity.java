@@ -24,15 +24,17 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.welcome.WelcomeActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.welcome.IntroActivity;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by bdpqchen on 17-5-2.
@@ -62,6 +64,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @BindView(R.id.cl_container)
     CoordinatorLayout mClContainer;
 
+    @BindView(R.id.civ_avatar)
+    CircleImageView mCivAvatar;
 
     private static final String LOGIN_ERROR_TEXT = "哈哈？搞笑。";
 
@@ -106,6 +110,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         Intent intent = getIntent();
         String usernameToSet = intent.getStringExtra("username");
         mEtAccount.setText(usernameToSet);
+        ImageUtil.loadDrawable(this, R.drawable.forum_banner_1, mIvBanner);
+        ImageUtil.loadDrawable(this, R.drawable.avatar3, mCivAvatar);
 
     }
 
@@ -156,7 +162,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void loginSuccess(LoginModel loginModel) {
         PrefUtil.setFirstOpen(false);
-        ActivityManager.getActivityManager().finishNamedActivity(WelcomeActivity.class);
+        ActivityManager.getActivityManager().finishNamedActivity(IntroActivity.class);
         mCircularProgressButton.doneLoadingAnimation(R.color.material_green_600, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
         PrefUtil.setAuthToken(loginModel.getToken());
         PrefUtil.setAuthGroup(loginModel.getGroup());

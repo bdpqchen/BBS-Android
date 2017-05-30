@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -14,14 +15,22 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 
 public final class ImageUtil {
 
-    private static String getAvatarUrl(int uid){
+    private static String getAvatarUrl(int uid) {
         return RxDoHttpClient.BASE_URL + "user/" + uid + "/avatar";
     }
+
     public static void loadIconAsBitmap(Context context, int resourceId, ImageView view) {
         Glide.with(context).load(resourceId).asBitmap().centerCrop().dontAnimate().into(view);
     }
 
-    public static void loadForumCover(Context context, String url, ImageView view){
+    public static void loadDrawable(Context context, int resource, ImageView view) {
+        Glide.with(context)
+                .load(resource)
+                .crossFade()
+                .into(view);
+    }
+
+    public static void loadForumCover(Context context, String url, ImageView view) {
         Glide.with(context)
                 .load(url)
                 .crossFade()
@@ -41,14 +50,14 @@ public final class ImageUtil {
         Glide.with(context)
                 .load(getAvatarUrl(uid))
                 .centerCrop()
-                   .placeholder(R.drawable.avatar2)
+                .placeholder(R.drawable.avatar2)
                 .dontAnimate()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
 
     }
 
-    public static void loadAvatarAsBitmapByUid(Context context, int uid, ImageView view){
+    public static void loadAvatarAsBitmapByUid(Context context, int uid, ImageView view) {
         Glide.with(context).load(getAvatarUrl(uid))
                 .asBitmap()
                 .centerCrop()

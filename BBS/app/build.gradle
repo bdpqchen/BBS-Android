@@ -105,11 +105,9 @@ android {
         testCompile 'junit:junit:4.12'
         annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
         annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
-        compile 'com.github.apl-devs:appintro:v4.2.0'
         compile 'com.daimajia.easing:library:2.0@aar'
         compile 'com.daimajia.androidanimations:library:2.2@aar'
 
-        compile 'agency.tango.android:material-intro-screen:0.0.5'
 
 
     }

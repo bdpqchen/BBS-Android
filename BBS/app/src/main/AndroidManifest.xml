@@ -73,9 +73,6 @@
             android:name=".welcome.IntroActivity"
             android:theme="@style/AppTheme.Intro"
             />
-        <activity
-            android:name=".welcome.WelcomeGuideActivity"
-            android:theme="@style/Theme.Intro"/>
 
 
     </application>
