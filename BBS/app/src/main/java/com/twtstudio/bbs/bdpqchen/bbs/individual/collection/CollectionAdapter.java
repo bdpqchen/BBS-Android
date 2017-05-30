@@ -72,7 +72,6 @@ class CollectionAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         LogUtil.dd("onBindViewHolder");
         CollectionBean.DataBean data = collectionBean.data.get(position);
-//        String date = timeFromEpoch(data.t_create);
         String date = StampUtil.getDatetimeByStamp(data.t_create);
         CollectionViewHolder collectionViewHolder = (CollectionViewHolder) holder;
         collectionViewHolder.collection_collect.setVisibility(View.GONE);
@@ -90,7 +89,7 @@ class CollectionAdapter extends RecyclerView.Adapter {
         ImageUtil.loadAvatarAsBitmapByUid(context, data.author_id, collectionViewHolder.collection_avatar);
         collectionViewHolder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, ThreadActivity.class);
-            intent.putExtra(Constants.INTENT_THREAD_ID, String.valueOf(data.id));
+            intent.putExtra(Constants.INTENT_THREAD_ID, data.id);
             intent.putExtra(Constants.INTENT_THREAD_TITLE, data.title);
             context.startActivity(intent);
         });
