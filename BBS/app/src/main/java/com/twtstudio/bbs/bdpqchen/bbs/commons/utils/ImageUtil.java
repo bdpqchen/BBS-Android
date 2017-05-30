@@ -25,11 +25,11 @@ public final class ImageUtil {
         Glide.with(context)
                 .load(url)
                 .crossFade()
-                .placeholder(R.drawable.forum_banner_1)
-                .centerCrop()
+//                .placeholder(R.drawable.forum_banner_1)
+//                .centerCrop()
 //                .override(300, 150)
 //                .error(R.drawable.forum_banner_1)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
     }
 

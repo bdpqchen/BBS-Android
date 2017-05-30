@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,7 +39,6 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
     @BindView(R.id.rv_forum_list)
     RecyclerView mRvForumList;
 
-    GridLayoutManager mGridLayoutManager;
     ForumAdapter mAdapter;
     Unbinder unbinder;
     Activity mActivity;
@@ -63,24 +64,27 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
 
         mActivity = this.getActivity();
         mTvTitleToolbar.setText("论坛区");
-        mGridLayoutManager = new GridLayoutManager(this.getActivity(), 2, GridLayoutManager.VERTICAL, false);
-        mGridLayoutManager.generateDefaultLayoutParams();
+//        mGridLayoutManager = new GridLayoutManager(this.getActivity(), 2, GridLayoutManager.VERTICAL, false);
+//        mGridLayoutManager.generateDefaultLayoutParams();
         mAdapter = new ForumAdapter(this.getContext());
-        mRvForumList.setLayoutManager(mGridLayoutManager);
+        LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        mRvForumList.setLayoutManager(manager);
 //        mRvForumList.setRecycledViewPool();
         mRvForumList.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener((view, position) -> {
 
-            if (mAdapter.getItemForumId(position) == 0) {
+            /*if (mAdapter.getItemForumId(position) == 0) {
                 SnackBarUtil.notice(this.getActivity(), "都说了敬请期待..");
                 return;
-            }
+            }*/
+/*
             Intent intent = new Intent(mActivity, BoardsActivity.class);
             intent.putExtra(INTENT_FORUM_ID, mAdapter.getItemForumId(position));
             intent.putExtra(INTENT_FORUM_TITLE, mAdapter.getItemForumTitle(position));
             startActivity(intent);
             mAdapter.getItemForumId(position);
+*/
         });
 
         // TODO: 17-5-27 到底要不要支持本页面刷新
@@ -89,7 +93,6 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
         return rootView;
     }
 
@@ -105,7 +108,16 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
                 model.setInfo("为了对称");
                 forumModel.add(model);
             }
-            mAdapter.addList(forumModel);
+            List<TwoForumModel> modelList = new ArrayList<>();
+            int twoSize = forumModel.size() / 2;
+            for (int i = 0; i < twoSize; i++){
+                TwoForumModel model = new TwoForumModel();
+                model.model1 = forumModel.get(i * 2);
+                model.model2 = forumModel.get(i * 2 + 1);
+                modelList.add(model);
+            }
+
+            mAdapter.addList(modelList);
             mAdapter.notifyDataSetChanged();
         }
         hideProgressBar();

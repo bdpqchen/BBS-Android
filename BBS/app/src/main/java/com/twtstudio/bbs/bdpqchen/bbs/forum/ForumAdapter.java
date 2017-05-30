@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
@@ -21,28 +22,27 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-5-11.
  */
 
-public class ForumAdapter extends BaseAdapter<ForumModel> implements View.OnClickListener {
+public class ForumAdapter extends BaseAdapter<TwoForumModel> implements View.OnClickListener {
 
     private OnItemClickListener mOnItemClickListener = null;
 
     public interface OnItemClickListener {
-        void onItemClick(View view , int position);
+        void onItemClick(View view, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
 
-    public int getItemForumId(int position){
-        return mDataSet.get(position).getId();
-    }
+    /* public int getItemForumId(int position) {
+         return mDataSet.get(position).getId();
+     }
 
-    public String getItemForumTitle(int position){
-        return mDataSet.get(position).getName();
-    }
-
-    public ForumAdapter(Context context)
-    {
+     public String getItemForumTitle(int position) {
+         return mDataSet.get(position).getName();
+     }
+ */
+    public ForumAdapter(Context context) {
         super(context);
         mContext = context;
 
@@ -61,19 +61,16 @@ public class ForumAdapter extends BaseAdapter<ForumModel> implements View.OnClic
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
 
-//        LogUtil.dd("onBindViewHolder", String.valueOf(position));
-//        LogUtil.dd("list.size", String.valueOf(mDataSet.size()));
-        if (mDataSet != null && mDataSet.size() > 0){
-            ForumModel model = mDataSet.get(position);
+        if (mDataSet != null && mDataSet.size() > 0) {
             ViewHolder viewHolder = (ViewHolder) holder;
-            LogUtil.dd(model.getName());
-            viewHolder.mTvName.setText(model.getName());
-            String coverUrl = RxDoHttpClient.BASE_URL + "forum/" + model.getId() + "/cover";
-//            String coverUrl = "http://bbs.twtstudio.com/api/" + "forum/" + model.getId() + "/cover";
-            HandlerUtil.postDelay(()->{
-                ImageUtil.loadForumCover(mContext, coverUrl, viewHolder.mIvBgImage);
-            }, position * 100);
-            viewHolder.itemView.setTag(position);
+            TwoForumModel model = mDataSet.get(position);
+            String coverUrl1 = RxDoHttpClient.BASE_URL + "forum/" + model.model1.getId() + "/cover";
+            String coverUrl2 = RxDoHttpClient.BASE_URL + "forum/" + model.model2.getId() + "/cover";
+            viewHolder.mTvName1.setText(model.model1.getName());
+            ImageUtil.loadForumCover(mContext, coverUrl1, viewHolder.mIvCover1);
+            viewHolder.mTvName2.setText(model.model1.getName());
+            ImageUtil.loadForumCover(mContext, coverUrl2, viewHolder.mIvCover2);
+//            viewHolder.itemView.setTag(position);
 
         }
 
@@ -83,15 +80,19 @@ public class ForumAdapter extends BaseAdapter<ForumModel> implements View.OnClic
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
             //注意这里使用getTag方法获取position
-            mOnItemClickListener.onItemClick(v,(int)v.getTag());
+            mOnItemClickListener.onItemClick(v, (int) v.getTag());
         }
     }
 
     static class ViewHolder extends BaseViewHolder {
-        @BindView(R.id.iv_bg_image)
-        ImageView mIvBgImage;
-        @BindView(R.id.tv_name)
-        TextView mTvName;
+        @BindView(R.id.iv_cover_1)
+        ImageView mIvCover1;
+        @BindView(R.id.tv_name_1)
+        TextView mTvName1;
+        @BindView(R.id.iv_cover_2)
+        ImageView mIvCover2;
+        @BindView(R.id.tv_name_2)
+        TextView mTvName2;
 
         ViewHolder(View view) {
             super(view);

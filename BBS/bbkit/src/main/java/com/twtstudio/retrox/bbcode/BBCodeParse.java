@@ -1,8 +1,5 @@
 package com.twtstudio.retrox.bbcode;
 
-import android.util.Log;
-
-import java.util.List;
 import java.util.Map;
 
 /**
