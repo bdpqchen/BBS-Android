@@ -8,6 +8,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by bdpqchen on 17-5-4.
  */
@@ -64,8 +66,16 @@ public final class ImageUtil {
         Glide.with(context).load(getAvatarUrl(uid))
                 .asBitmap()
                 .centerCrop()
-                .placeholder(R.drawable.avatar2)
+                .placeholder(R.drawable.avatar_default_left)
                 .into(view);
+    }
+    public static void loadAvatarAsBitmapByUidWithRight(Context context, int author_id, CircleImageView civAvatarPost) {
+        Glide.with(context).load(getAvatarUrl(author_id))
+                .asBitmap()
+                .centerCrop()
+                .placeholder(R.drawable.avatar_default_right)
+                .into(civAvatarPost);
+
     }
 
     public static void loadMyAvatar(Context context, ImageView civAvatar) {

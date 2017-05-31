@@ -27,7 +27,7 @@
             android:layout_height="240dp"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
-            android:src="@drawable/avatar1"
+            android:src="@drawable/avatar_default_left"
             />
     </android.support.v7.widget.CardView>
 

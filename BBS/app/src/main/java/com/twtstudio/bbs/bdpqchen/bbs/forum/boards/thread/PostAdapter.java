@@ -145,7 +145,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 if (mThreadData.getAuthor_id() == 0) {
                     mThreadData.setAuthor_name("匿名用户");
-                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar2, headerHolder.mCivAvatarThread);
+                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, headerHolder.mCivAvatarThread);
                 } else {
                     ImageUtil.loadAvatarAsBitmapByUid(mContext, mThreadData.getAuthor_id(), headerHolder.mCivAvatarThread);
                 }
@@ -162,9 +162,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     PostHolder h = (PostHolder) holder;
                     if (p.getAuthor_id() == 0) {
                         p.setAuthor_name("匿名用户");
-                        ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar2, h.mCivAvatarPost);
+                        ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_right, h.mCivAvatarPost);
                     } else {
-                        ImageUtil.loadAvatarAsBitmapByUid(mContext, p.getAuthor_id(), h.mCivAvatarPost);
+                        ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, p.getAuthor_id(), h.mCivAvatarPost);
                     }
                     h.mTvUsernamePost.setText(p.getAuthor_name());
                     h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));

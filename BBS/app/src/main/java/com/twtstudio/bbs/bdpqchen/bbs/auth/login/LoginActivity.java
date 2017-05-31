@@ -111,7 +111,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         String usernameToSet = intent.getStringExtra("username");
         mEtAccount.setText(usernameToSet);
         ImageUtil.loadDrawable(this, R.drawable.forum_banner_1, mIvBanner);
-        ImageUtil.loadDrawable(this, R.drawable.avatar3, mCivAvatar);
+        ImageUtil.loadDrawable(this, R.drawable.avatar_default_left, mCivAvatar);
 
     }
 

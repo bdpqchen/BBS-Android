@@ -21,7 +21,7 @@
             android:layout_width="@dimen/size_avatar_normal"
             android:layout_height="@dimen/size_avatar_normal"
             android:layout_gravity="center"
-            android:src="@drawable/avatar1"
+            android:src="@drawable/avatar_default_left"
             />
 
         <TextView
