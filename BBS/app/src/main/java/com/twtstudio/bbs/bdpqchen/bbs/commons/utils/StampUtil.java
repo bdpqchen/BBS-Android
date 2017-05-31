@@ -38,6 +38,10 @@ public final class StampUtil {
         String datetimeMode = "yyyy-MM-dd HH:mm";
         return convert(datetimeMode, postTime + diff);
     }
+    public static String getTimeFromNow(long time) {
+        String datetimeMode = "MM-dd HH:mm:ss";
+        return convert(datetimeMode, (int) (time + diff));
+    }
 
     public static String getDateByStamp(int t_create) {
         String dateMode = "yyyy-MM-dd";
@@ -50,10 +54,12 @@ public final class StampUtil {
         return date;
     }
 
-    public static String getTimeFromNow(long date) {
+  /*  public static String getTimeFromNow(long date) {
 //        date -= diff;
-//        Calendar calendar = Calendar.getInstance();
-        Calendar calendar = new GregorianCalendar();
+        Calendar calendar = Calendar.getInstance();
+//        Calendar calendar = new GregorianCalendar();
+
+//        LogUtil.dd("calendar");
 
         int years = calendar.get(Calendar.YEAR);
         int months = calendar.get(Calendar.MONTH);
@@ -62,7 +68,14 @@ public final class StampUtil {
         int minutes = calendar.get(Calendar.MINUTE);
         int seconds = calendar.get(Calendar.SECOND);
 
+        LogUtil.dd("years", String.valueOf(years));
+        LogUtil.dd("months", String.valueOf(months));
+        LogUtil.dd("days", String.valueOf(days));
+        LogUtil.dd("hours", String.valueOf(hours));
+
         calendar.setTimeInMillis(date * 1000);
+
+        LogUtil.dd("date", String.valueOf(date));
 
         years -= calendar.get(Calendar.YEAR);
         months -= calendar.get(Calendar.MONTH);
@@ -87,5 +100,5 @@ public final class StampUtil {
             return "刚刚";
         }
     }
-
+*/
 }

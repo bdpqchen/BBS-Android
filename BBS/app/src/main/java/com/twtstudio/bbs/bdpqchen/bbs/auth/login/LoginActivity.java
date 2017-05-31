@@ -122,6 +122,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         switch (view.getId()) {
             case R.id.tx_forgot_password:
                 // TODO: 17-5-31 忘记密码
+                Toast.makeText(this, "请到PC端找回密码，移动端暂不支持", Toast.LENGTH_LONG).show();
                 break;
             case R.id.tv_goto_register:
                 startActivity(new Intent(this, RegisterActivity.class));
@@ -163,7 +164,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void loginSuccess(LoginModel loginModel) {
         PrefUtil.setFirstOpen(false);
-        mCircularProgressButton.doneLoadingAnimation(R.color.material_green_600, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
+        if (mCircularProgressButton != null){
+            mCircularProgressButton.doneLoadingAnimation(R.color.material_green_600, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
+        }
         PrefUtil.setAuthToken(loginModel.getToken());
         PrefUtil.setAuthGroup(loginModel.getGroup());
         PrefUtil.setAuthUid(loginModel.getUid());
@@ -191,7 +194,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void loginFailed(String msg) {
         LogUtil.d("loginFailed()");
-        mCircularProgressButton.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
+        if (mCircularProgressButton != null){
+            mCircularProgressButton.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
+        }
         HandlerUtil.postDelay(() -> {
             if (mCircularProgressButton != null){
                 mCircularProgressButton.revertAnimation();

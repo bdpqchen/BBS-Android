@@ -1,19 +1,14 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply;
 
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
@@ -64,12 +59,6 @@ public class MyReplyFragment extends BaseFragment<MyReplyPresenter> implements M
         };
         rv.addOnScrollListener(eros);
         mPresenter.initMyReplyList();
-    }
-
-    @Override
-    public void onError(Throwable throwable) {
-//        SnackBarUtil.error();
-        Toast.makeText(getActivity(), throwable.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

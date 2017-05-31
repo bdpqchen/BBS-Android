@@ -22,13 +22,14 @@ class CollectionPresenter extends RxPresenter<CollectionContract.View> implement
 
     @Override
     public void setCollectionDate(CollectionBean collectionDate) {
-        collectionView.setCollectionAdapter(collectionDate);
-        System.out.println("CollectionPresenter.setCollectionDate" + collectionDate);
-        if (collectionDate.data == null || collectionDate.data.size() == 0) {
-
-            collectionView.setNoCollectionVisible();
-        } else {
-            collectionView.setNoCollectionInvisible();
+        if (collectionDate != null) {
+            collectionView.setCollectionAdapter(collectionDate);
+//            System.out.println("CollectionPresenter.setCollectionDate" + collectionDate);
+            if (collectionDate.data == null || collectionDate.data.size() == 0) {
+                collectionView.setNoCollectionVisible();
+            } else {
+                collectionView.setNoCollectionInvisible();
+            }
         }
     }
 
@@ -38,7 +39,7 @@ class CollectionPresenter extends RxPresenter<CollectionContract.View> implement
     }
 
     @Override
-    public void deleteCollection(CollectionAdapter collectionAdapter, CollectionAdapter.CollectionViewHolder collectionViewHolder,int tid) {
+    public void deleteCollection(CollectionAdapter collectionAdapter, CollectionAdapter.CollectionViewHolder collectionViewHolder, int tid) {
         this.collectionAdapter = collectionAdapter;
         this.collectionViewHolder = collectionViewHolder;
         collectionClient.deleteCollection(tid);

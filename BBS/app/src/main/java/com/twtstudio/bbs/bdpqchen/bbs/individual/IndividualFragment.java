@@ -112,8 +112,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mTvNickname.setText(PrefUtil.getInfoNickname());
         mTvSignature.setText(PrefUtil.getInfoSignature());
         mTvPoints.setText(PrefUtil.getInfoPoints() + "");
-        ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
-
+        ImageUtil.loadMyAvatar(mContext, mCivAvatar);
         mRlIndividualItemMessage.setOnClickListener(v -> startItemActivity(1));
         mRlIndividualItemCollection.setOnClickListener(v -> startItemActivity(2));
         mRlIndividualItemPublish.setOnClickListener(v -> startItemActivity(3));

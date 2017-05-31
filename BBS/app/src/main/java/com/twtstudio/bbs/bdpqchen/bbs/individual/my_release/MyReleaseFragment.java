@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
@@ -63,11 +62,6 @@ public class MyReleaseFragment extends BaseFragment<MyReleasePresenter> implemen
         rv.addOnScrollListener(eros);
         mPresenter.initMyReleaseList();
         rv.addItemDecoration(new RecyclerViewItemDecoration(5));
-    }
-
-    @Override
-    public void onError(Throwable throwable) {
-        Toast.makeText(getActivity(), throwable.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

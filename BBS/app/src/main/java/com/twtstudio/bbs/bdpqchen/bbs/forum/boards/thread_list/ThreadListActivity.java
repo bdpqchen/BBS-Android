@@ -124,8 +124,12 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
 
     @Override
     public void setThreadList(ThreadListModel threadListModel) {
+        mSrlThreadList.setRefreshing(false);
+        if (threadListModel == null || threadListModel.getThread() == null && threadListModel.getBoard() == null){
+            return;
+        }
         if (mIsLoadingMore) {
-            mAdapter.addDataList(threadListModel.getThread(), mPage);
+            mAdapter.addDataList(threadListModel.getThread());
         } else {
             if (mRefreshing){
                 mAdapter.refreshList(threadListModel.getThread());
@@ -134,7 +138,6 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
                 mAdapter.addList(threadListModel.getThread());
             }
         }
-        mSrlThreadList.setRefreshing(false);
 
     }
 

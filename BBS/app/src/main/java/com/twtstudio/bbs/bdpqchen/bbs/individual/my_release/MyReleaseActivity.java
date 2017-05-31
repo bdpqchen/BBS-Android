@@ -26,6 +26,8 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
     ViewPager mViewpager;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+//    private ArrayList<View> mList;
+//    private String[] mTitle;
 
     @Override
     protected int getLayoutResourceId() {
@@ -34,6 +36,8 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
 
     @Override
     protected Toolbar getToolbarView() {
+//        toolbar.setTitle("我的发布");
+//        return toolbar;
         return null;
     }
 
@@ -69,11 +73,8 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         mViewpager.setAdapter(myReleaseFragmentAdapter);
+//        mViewpager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewpager);
-    }
-
-    @Override
-    public void onError(Throwable throwable) {
     }
 
     @Override

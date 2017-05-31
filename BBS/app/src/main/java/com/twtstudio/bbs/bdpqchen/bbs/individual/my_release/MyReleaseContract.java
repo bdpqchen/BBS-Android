@@ -13,7 +13,6 @@ interface MyReleaseContract {
     interface View extends BaseView {
         void clearMyReleaseList();
         void showMyReleaseList(List<MyReleaseModel> data);
-        void onError(Throwable throwable);
     }
     interface Presenter extends BasePresenter<View> {
         void initMyReleaseList();

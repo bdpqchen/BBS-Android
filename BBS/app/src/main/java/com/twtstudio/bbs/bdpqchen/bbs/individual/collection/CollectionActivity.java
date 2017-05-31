@@ -57,9 +57,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
     }
 
     @Override
-    protected void inject() {
-
-    }
+    protected void inject() {}
 
     @Override
     protected Activity supportSlideBack() {
@@ -80,9 +78,11 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
 
     @Override
     public void setCollectionAdapter(CollectionBean collectionBean) {
-        this.collectionBean.err = collectionBean.err;
-        this.collectionBean.data = collectionBean.data;
-        collectionAdapter.notifyDataSetChanged();
+        if (collectionBean != null){
+            this.collectionBean.err = collectionBean.err;
+            this.collectionBean.data = collectionBean.data;
+            collectionAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

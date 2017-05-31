@@ -31,20 +31,19 @@ public class MyReplyPresenter extends RxPresenter<MyReplyContract.View> implemen
         if (ready) {
             ready = false;
             page = 0;
-            addSubscribe(
-                    mHttpClient.getMyReplyList(page)
-                            .map(BaseResponse::getData)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(bean -> {
-                                        mView.clearMyReplyList();
-                                        mView.showMyReplyList(bean);
-                                        ready = true;
-                                    },
-                                    throwable -> {
-                                        mView.onError(throwable);
-                                        ready = true;
-                                    }));
+            addSubscribe(mHttpClient.getMyReplyList(page)
+                    .map(BaseResponse::getData)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(bean -> {
+                        if (mView != null) {
+                            mView.clearMyReplyList();
+                            mView.showMyReplyList(bean);
+                        }
+                        ready = true;
+                    }, throwable -> {
+                        ready = true;
+                    }));
             page++;
         }
     }
@@ -53,19 +52,18 @@ public class MyReplyPresenter extends RxPresenter<MyReplyContract.View> implemen
     public void getMyReplyList() {
         if (ready) {
             ready = false;
-            addSubscribe(
-                    mHttpClient.getMyReplyList(page)
-                            .map(BaseResponse::getData)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(bean -> {
-                                        mView.showMyReplyList(bean);
-                                        ready = true;
-                                    },
-                                    throwable -> {
-                                        mView.onError(throwable);
-                                        ready = true;
-                                    }));
+            addSubscribe(mHttpClient.getMyReplyList(page)
+                    .map(BaseResponse::getData)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(bean -> {
+                        if (mView != null) {
+                            mView.showMyReplyList(bean);
+                        }
+                        ready = true;
+                    }, throwable -> {
+                        ready = true;
+                    }));
             page++;
         }
     }

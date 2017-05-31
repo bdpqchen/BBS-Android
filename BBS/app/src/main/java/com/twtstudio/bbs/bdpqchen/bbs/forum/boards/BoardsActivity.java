@@ -123,7 +123,6 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     public void setBoardList(PreviewThreadModel previewThreadList) {
         if (mRefreshing) {
             mAdapter.clearAll();
-            mSrlBoardList.setRefreshing(false);
             mRefreshing = false;
         }
         if (previewThreadList != null) {
@@ -131,6 +130,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
             mBoardNames.add(previewThreadList.getBoard().getName());
             mBoardIds.add(previewThreadList.getBoard().getId());
         }
+        mSrlBoardList.setRefreshing(false);
         hideProgressBar();
     }
 
@@ -138,6 +138,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     public void failedToGetBoardList(String msg) {
         SnackBarUtil.error(this, msg, true);
         hideProgressBar();
+        mSrlBoardList.setRefreshing(false);
     }
 
     private void hideProgressBar() {

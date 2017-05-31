@@ -28,7 +28,6 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     @Override
     public int getItemCount() {
         if (isShowFooter || isShowHeader){
-
             if (mDataSet == null || mDataSet.size() == 0){
                 return 0;
             }else{

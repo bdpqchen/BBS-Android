@@ -24,7 +24,7 @@ public final class ImageUtil {
     }
 
     public static void loadIconAsBitmap(Context context, int resourceId, ImageView view) {
-        Glide.with(context).load(resourceId).asBitmap().centerCrop().dontAnimate().into(view);
+        Glide.with(context).load(resourceId).asBitmap().centerCrop().into(view);
     }
 
     public static void loadDrawable(Context context, int resource, ImageView view) {
@@ -58,7 +58,7 @@ public final class ImageUtil {
         Glide.with(context)
                 .load(getAvatarUrl(uid))
                 .centerCrop()
-                .dontAnimate()
+                .crossFade()
                 .into(view);
 
     }
@@ -73,14 +73,16 @@ public final class ImageUtil {
         Glide.with(context).load(getAvatarUrl(uid))
                 .asBitmap()
                 .centerCrop()
-                .placeholder(R.drawable.avatar_default_left)
+                .crossFade()
+                .error(R.drawable.avatar_default_left)
                 .into(view);
     }
     public static void loadAvatarAsBitmapByUidWithRight(Context context, int author_id, CircleImageView civAvatarPost) {
         Glide.with(context).load(getAvatarUrl(author_id))
                 .asBitmap()
                 .centerCrop()
-                .placeholder(R.drawable.avatar_default_right)
+                .crossFade()
+                .error(R.drawable.avatar_default_right)
                 .into(civAvatarPost);
 
     }

@@ -61,7 +61,8 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                     mContext.startActivity(intent);
                 });
                 if (item.getRead() == 0) {
-                    iHolder.mTvRedDot.setVisibility(View.VISIBLE);
+                    // TODO: 17-6-1 未读消息
+//                    iHolder.mTvRedDot.setVisibility(View.VISIBLE);
                 }
 
                 String preCom = item.getAuthor_name() + "  在  " + model.getThread_title();

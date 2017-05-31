@@ -28,7 +28,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
 
-    private int mPage = 0;
 
     public ThreadListAdapter(Context context) {
         super(context);
@@ -58,7 +57,7 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
                     thread.setAuthor_name("匿名用户");
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivThreadAvatar);
                 }else{
-                    ImageUtil.loadAvatarByUid(mContext, thread.getAuthor_id(), holder.mCivThreadAvatar);
+                    ImageUtil.loadAvatarAsBitmapByUid(mContext, thread.getAuthor_id(), holder.mCivThreadAvatar);
                 }
                 holder.mTvThreadNickname.setText(thread.getAuthor_name());
 
@@ -78,8 +77,7 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
         }
     }
 
-    void addDataList(List<ThreadListModel.ThreadBean> thread, int page) {
-        mPage = page;
+    void addDataList(List<ThreadListModel.ThreadBean> thread) {
         mDataSet.addAll(thread);
         notifyDataSetChanged();
     }

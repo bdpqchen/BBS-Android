@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -90,6 +91,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private int lastVisibleItemPosition = 0;
     private int mPage = 0;
     private boolean mIsLoadingMore;
+    private boolean mIsAddingComment = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -205,8 +207,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }
         });
 
+        mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            mIsAnonymous = isChecked;
+        });
     }
-
 
     private void showAnonymousOrNot() {
         if (mBoardId == 193) {
@@ -298,9 +302,15 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     @Override
     public void showThread(ThreadModel model) {
-        if (model == null || model.getThread() == null && model.getPost() == null && model.getPost().size() > 0){
+        if (model == null || model.getThread() == null && model.getPost() == null && model.getPost().size() > 0) {
             return;
         }
+        if (mIsAddingComment) {
+            mIsAddingComment = false;
+            mAdapter.addMyComment(model, mPage);
+            return;
+        }
+
         if (mRefreshing) {
             mAdapter.refreshList(model);
             mRefreshing = false;
@@ -317,9 +327,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                     mAdapter.setPostData(model.getPost());
                 }
             }
-
         }
-        if (model.getThread() != null){
+        if (model.getThread() != null) {
             showStarOrNot(model.getThread().getIn_collection());
         }
 //        checkNotNull()
@@ -330,7 +339,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mSrlThreadList.setRefreshing(false);
     }
 
-    private void checkNotNull() {
+    private void addMyComment() {
 
     }
 
@@ -358,7 +367,14 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         hideProgress();
         SnackBarUtil.normal(this, "评论成功");
         showFab();
-        mPresenter.getThread(mThreadId, 0);
+        if (mPage == 0) {
+            mRefreshing = true;
+            mIsAddingComment = false;
+            mPresenter.getThread(mThreadId, 0);
+        } else {
+            mIsAddingComment = true;
+            mPresenter.getThread(mThreadId, mPage);
+        }
         clearCommentData();
     }
 
@@ -406,6 +422,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
         switch (item.getItemId()) {
             case R.id.action_thread_share:
+                // TODO: 17-6-1 API 对应修改
                 String url = "https://bbs.twtstudio.com/forum/thread/" + mThreadId;
                 shareText(url);
                 break;

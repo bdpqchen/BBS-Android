@@ -109,12 +109,8 @@ public class BoardsAdapter extends BaseAdapter<PreviewThreadModel> {
         View mViewTag;
         @BindView(R.id.rl_board_title)
         RelativeLayout mRlBoardTitle;
-        //        @BindView(R.id.iv_content_1)
-//        ImageView mIvContent1;
         @BindView(R.id.ll_board_contained_thread_1)
         LinearLayout mLlBoardContainedThread1;
-        //        @BindView(R.id.iv_content_2)
-//        ImageView mIvContent2;
         @BindView(R.id.ll_board_contained_thread_2)
         LinearLayout mLlBoardContainedThread2;
         @BindView(R.id.tv_preview_board_title)
@@ -139,7 +135,6 @@ public class BoardsAdapter extends BaseAdapter<PreviewThreadModel> {
         LinearLayout mLlThreadList;
         @BindView(R.id.divider_line)
         View mLine;
-
 
         ViewHolder(View view) {
             super(view);

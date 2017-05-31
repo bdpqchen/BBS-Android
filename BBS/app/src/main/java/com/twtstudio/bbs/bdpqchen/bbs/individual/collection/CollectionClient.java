@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.collection;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.SimpleBean;
@@ -87,7 +88,8 @@ class CollectionClient {
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://bbs.twtstudio.com/api/home/")
+//                .baseUrl("https://bbs.twtstudio.com/api/home/")
+                .baseUrl(RxDoHttpClient.BASE_URL + "home/")
                 .build();
         CollectionApi collectionApi = retrofit.create(CollectionApi.class);
 
@@ -96,7 +98,9 @@ class CollectionClient {
         call.enqueue(new Callback<CollectionBean>() {
             @Override
             public void onResponse(Call<CollectionBean> call, Response<CollectionBean> response) {
-                collectionPresenter.setCollectionDate(response.body());
+                if (response != null){
+                    collectionPresenter.setCollectionDate(response.body());
+                }
             }
 
             @Override

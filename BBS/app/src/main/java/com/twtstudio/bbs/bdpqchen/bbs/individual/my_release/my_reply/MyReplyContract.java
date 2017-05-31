@@ -13,7 +13,6 @@ public interface MyReplyContract {
     interface View extends BaseView {
         void clearMyReplyList();
         void showMyReplyList(List<MyReplyModel> data);
-        void onError(Throwable throwable);
     }
     interface Presenter extends BasePresenter<View> {
         void initMyReplyList();

@@ -138,7 +138,7 @@ public class RegisterOldActivity extends BaseActivity<RegisterOldPresenter> impl
         mRealName = mEtRealName.getText().toString();
         mPasswordAgain = mEtPasswordAgain.getText().toString();
         mUsername = mEtUsername.getText().toString();
-        if (mCid.length() != 18) {
+        if (mCid.length() < 10) {
             mEtCid.setError(error);
             isPerfect = false;
         }

@@ -46,7 +46,7 @@ public class HomePresenter extends RxPresenter<HomeContract.View> implements Hom
 
             @Override
             public void _onNext(IndividualInfoModel individualInfoModel) {
-                LogUtil.dd(individualInfoModel.getNickname());
+                LogUtil.dd(individualInfoModel.getNickname() + "1");
                 if (mView != null){
                     mView.showIndividualInfo(individualInfoModel);
                 }

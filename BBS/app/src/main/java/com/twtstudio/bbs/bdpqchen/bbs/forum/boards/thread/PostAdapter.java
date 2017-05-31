@@ -36,10 +36,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private static final int TYPE_THREAD = 1;
     private static final int TYPE_FOOTER = 2;
 
-
     private Context mContext;
     private ThreadModel.ThreadBean mThreadData = new ThreadModel.ThreadBean();
-
     private List<ThreadModel.PostBean> mPostData = new ArrayList<>();
     private OnItemClickListener mOnItemClickListener = null;
     private int onePage = 50;
@@ -247,6 +245,25 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             if (model.getPost() != null && model.getPost().size() > 0){
                 mPostData.addAll(model.getPost());
             }
+        }
+    }
+
+    public void addMyComment(ThreadModel model, int page) {
+        if (page == 0){
+            refreshList(model);
+        }else{
+            if (mPostData == null || mPostData.size() == 0){
+                return;
+            }
+            int size = mPostData.size();
+            LogUtil.dd("size is", String.valueOf(size));
+            LogUtil.dd("page is", String.valueOf(page));
+            for (int i = onePage * (page); i < size; i++){
+                LogUtil.dd("removed", String.valueOf(i));
+                mPostData.remove(i);
+            }
+            mPostData.addAll(model.getPost());
+            notifyDataSetChanged();
         }
     }
 

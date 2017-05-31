@@ -37,11 +37,12 @@ public class MyReleasePresenter extends RxPresenter<MyReleaseContract.View> impl
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(bean -> {
-                        mView.clearMyReleaseList();
-                        mView.showMyReleaseList(bean);
+                        if (mView != null) {
+                            mView.clearMyReleaseList();
+                            mView.showMyReleaseList(bean);
+                        }
                         ready = true;
                     }, throwable -> {
-                        mView.onError(throwable);
                         ready = true;
                     }));
             page++;
@@ -57,10 +58,11 @@ public class MyReleasePresenter extends RxPresenter<MyReleaseContract.View> impl
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(bean -> {
-                        mView.showMyReleaseList(bean);
+                        if (mView != null) {
+                            mView.showMyReleaseList(bean);
+                        }
                         ready = true;
                     }, throwable -> {
-                        mView.onError(throwable);
                         ready = true;
                     }));
             page++;

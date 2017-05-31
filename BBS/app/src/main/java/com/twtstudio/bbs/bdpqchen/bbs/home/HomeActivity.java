@@ -225,6 +225,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     public void showIndividualInfo(IndividualInfoModel info) {
         LogUtil.d("receive a response");
         if (info != null) {
+            LogUtil.dd("on");
             //设置个人信息，在IndividualFragment 里可直接获取，需判断是否为最新getIsLatestInfo()
             PrefUtil.setInfoNickname(info.getNickname());
             PrefUtil.setInfoSignature(info.getSignature());
@@ -237,7 +238,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             PrefUtil.setIsLatestInfo(true);
             int unRead = info.getC_unread();
             PrefUtil.setInfoUnread(unRead);
-            LogUtil.dd(String.valueOf(unRead));
+            LogUtil.dd("unread", String.valueOf(unRead));
             // TODO: 17-5-10 为了测试
 //            mNearBy.setBadgeCount(unRead);
         }
