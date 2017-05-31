@@ -46,7 +46,6 @@ android {
 
         //滑动返回
         compile project(':slidebacklibrary')
-        compile project(':imagepickerModule')
         compile project(':bbkit')
         //沉浸式状态栏
         //依赖注入

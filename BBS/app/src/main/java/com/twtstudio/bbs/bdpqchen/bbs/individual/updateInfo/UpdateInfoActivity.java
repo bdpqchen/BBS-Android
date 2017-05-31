@@ -259,7 +259,6 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Constants.RESULT_CODE_AVATAR) {
-            String imagePath = data.getStringExtra(Constants.INTENT_RESULT_IMAGE_PATH);
             mCivAvatar.setVisibility(View.VISIBLE);
             showProgressBar("正在上传，请稍后..");
             mPresenter.doUpdateAvatar(new File(getCacheDir(), "cropped"));

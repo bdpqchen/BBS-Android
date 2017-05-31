@@ -5,10 +5,6 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.HandlerThread;
 
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
@@ -22,9 +18,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
  * Created by bdpqchen on 17-4-17.
  */
 
-// TODO: 17-4-27 尚未搞定的事
-
-// APP Intro
 
 public class App extends Application {
 
@@ -46,7 +39,6 @@ public class App extends Application {
         initSlideBack();
         HandlerThread workerThread = new HandlerThread("global_worker_thread");
         workerThread.start();
-        initImageLoader(this);
     }
 
     private void initLogUtils() {
@@ -90,41 +82,5 @@ public class App extends Application {
         return sAppComponent;
     }
 
-    public static void initImageLoader(Context context){
-        if(!ImageLoader.getInstance().isInited()){
-            ImageLoaderConfiguration config = null;
-            if(BuildConfig.DEBUG){
-                config = new ImageLoaderConfiguration.Builder(context)
-						/*.threadPriority(Thread.NORM_PRIORITY - 2)
-						.memoryCacheSize((int) (Runtime.getRuntime().maxMemory() / 4))
-						.diskCacheSize(500 * 1024 * 1024)
-						.writeDebugLogs()
-						.diskCacheFileNameGenerator(new Md5FileNameGenerator())
-						.tasksProcessingOrder(QueueProcessingType.LIFO).build();*/
-
-                        //.memoryCacheExtraOptions(200, 200)
-                        //.diskCacheExtraOptions(200, 200, null).threadPoolSize(3)
-                        .threadPriority(Thread.NORM_PRIORITY - 1)
-                        .tasksProcessingOrder(QueueProcessingType.LIFO)
-                        //.denyCacheImageMultipleSizesInMemory().memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-						/*.memoryCacheSize(20 * 1024 * 1024)*/
-                        .memoryCacheSizePercentage(13)
-                        .diskCacheSize(500 * 1024 * 1024)
-                        //.imageDownloader(new BaseImageDownloader(A3App.getInstance().getApplicationContext()))
-                        //.imageDecoder(new BaseImageDecoder(true))
-                        //.defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-                        //.writeDebugLogs()
-                        .build();
-            }else{
-                config = new ImageLoaderConfiguration.Builder(context)
-                        .threadPriority(Thread.NORM_PRIORITY - 2)
-                        .diskCacheSize(500 * 1024 * 1024)
-                        .diskCacheFileNameGenerator(new Md5FileNameGenerator())
-                        .tasksProcessingOrder(QueueProcessingType.LIFO).build();
-            }
-            ImageLoader.getInstance().init(config);
-        }
-
-    }
 
 }

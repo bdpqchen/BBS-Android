@@ -1,1 +1,1 @@
-include ':app', ':slidebacklibrary', ':imagepickerModule', ':bbkit'
+include ':app', ':slidebacklibrary', ':bbkit'

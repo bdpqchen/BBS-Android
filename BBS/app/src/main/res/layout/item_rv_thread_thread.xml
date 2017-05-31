@@ -47,7 +47,7 @@
                 android:paddingEnd="2dp"
                 android:paddingStart="2dp"
                 android:text="LV 1"
-                android:textColor="@color/white"
+                android:textColor="@color/material_light_white"
                 />
 
             <TextView
