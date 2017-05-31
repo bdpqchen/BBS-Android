@@ -62,10 +62,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     ImageView mIvBanner;
     @BindView(R.id.view_need_offset)
     LinearLayout mNeedOffset;
-
-    @BindView(R.id.cl_container)
-    CoordinatorLayout mClContainer;
-
     @BindView(R.id.civ_avatar)
     CircleImageView mCivAvatar;
 
@@ -112,9 +108,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         Intent intent = getIntent();
         String usernameToSet = intent.getStringExtra("username");
         mEtAccount.setText(usernameToSet);
-        ImageUtil.loadDrawable(this, R.drawable.avatar_default_left, mCivAvatar);
+        if (PrefUtil.getAuthUid() == 0){
+            ImageUtil.loadDrawable(this, R.drawable.avatar_default_left, mCivAvatar);
+        }else{
+            ImageUtil.loadAvatarAsBitmapByUid(this, PrefUtil.getAuthUid(), mCivAvatar);
+        }
         ImageUtil.loadLoginCover(this, getForumIdRandom(), mIvBanner);
-
     }
 
     @OnClick({R.id.tx_forgot_password, R.id.tv_goto_register,

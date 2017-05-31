@@ -14,7 +14,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -107,6 +107,7 @@ android {
         compile 'com.daimajia.easing:library:2.0@aar'
         compile 'com.daimajia.androidanimations:library:2.2@aar'
         compile 'com.soundcloud.android:android-crop:1.0.1@aar'
+        compile 'com.pgyersdk:sdk:2.5.6'
 
 
 

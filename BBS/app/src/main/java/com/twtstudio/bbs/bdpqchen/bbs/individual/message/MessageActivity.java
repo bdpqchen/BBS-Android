@@ -125,6 +125,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
             }
         }
         stopRefresh();
+
     }
 
     @Override
@@ -135,7 +136,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     }
 
     private void stopRefresh() {
-        mRefreshing = true;
+        mRefreshing = false;
         mSrlMessage.setRefreshing(true);
     }
 

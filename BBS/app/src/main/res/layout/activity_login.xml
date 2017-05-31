@@ -2,197 +2,197 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/cl_container"
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         >
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <RelativeLayout
+            android:id="@+id/rl_cover"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_height="304dp"
             >
 
-            <RelativeLayout
+            <ImageView
+                android:id="@+id/iv_login_banner"
                 android:layout_width="match_parent"
                 android:layout_height="256dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/avatar_default_left"
+                />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civ_avatar"
+                android:layout_width="@dimen/size_avatar_large"
+                android:layout_height="@dimen/size_avatar_large"
+                app:civ_border_color="@color/material_light_white"
+                app:civ_border_width="2dp"
+                tools:src="@drawable/avatar_default_left"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/view_need_offset"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl_cover"
+            android:layout_gravity="top"
+            android:orientation="vertical"
+            android:paddingEnd="@dimen/padding_login_input"
+            android:paddingStart="@dimen/padding_login_input"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
                 >
 
                 <ImageView
-                    android:id="@+id/iv_login_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
+                    android:layout_width="@dimen/width_icon_login"
+                    android:layout_height="@dimen/width_icon_login"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/margin_icon_left"
+                    android:src="@drawable/icon_login_account"
                     />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/civ_avatar"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:layout_centerInParent="true"
-                    app:civ_border_color="@color/material_light_white"
-                    app:civ_border_width="1dp"
+                <EditText
+                    android:id="@+id/et_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="用户名"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/width_icon_login"
+                    android:layout_height="@dimen/width_icon_login"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/margin_icon_left"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/icon_login_password"
+                    />
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="密码"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_no_account_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:text="先看看>>"
+                    android:textColor="@color/material_grey_500"
+                    android:textSize="12sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tx_forgot_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    android:clickable="true"
+                    android:text="忘记密码?"
+                    android:textColor="@color/material_red_300"
+                    android:textSize="15sp"
                     />
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/view_need_offset"
+            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                android:id="@+id/cp_btn_login"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical"
-                android:padding="@dimen/padding_login_input"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:background="@drawable/circular_border_shape"
+                android:text="登\t\t录"
+                android:textColor="@color/material_light_white"
+                app:spinning_bar_color="@color/colorMainBgLight"
+                app:spinning_bar_padding="8dp"
+                app:spinning_bar_width="3dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:visibility="gone"
                 >
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_goto_register"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal"
-                    >
-
-                    <ImageView
-                        android:layout_width="@dimen/width_icon_login"
-                        android:layout_height="@dimen/width_icon_login"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/margin_icon_left"
-                        android:src="@drawable/icon_login_account"
-                        />
-
-                    <EditText
-                        android:id="@+id/et_account"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="用户名"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:singleLine="true"
-
-                        />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal"
-                    >
-
-                    <ImageView
-                        android:layout_width="@dimen/width_icon_login"
-                        android:layout_height="@dimen/width_icon_login"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/margin_icon_left"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/icon_login_password"
-                        />
-
-                    <EditText
-                        android:id="@+id/et_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="密码"
-                        android:imeOptions="actionDone"
-                        android:inputType="textPassword"
-                        android:maxLines="1"
-                        />
-
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    >
-
-                    <TextView
-                        android:id="@+id/tv_no_account_user"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:clickable="true"
-                        android:text="先看看>>"
-                        android:textColor="@color/material_grey_500"
-                        android:textSize="12sp"
-                        />
-
-                    <TextView
-                        android:id="@+id/tx_forgot_password"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="4dp"
-                        android:layout_marginTop="4dp"
-                        android:clickable="true"
-                        android:text="忘记密码?"
-                        android:textColor="@color/material_red_300"
-                        android:textSize="15sp"
-                        />
-
-                </RelativeLayout>
-
-                <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-                    android:id="@+id/cp_btn_login"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="16dp"
-                    android:background="@drawable/circular_border_shape"
-                    android:text="登\t\t录"
-                    android:textColor="@color/material_light_white"
-                    app:spinning_bar_color="@color/colorMainBgLight"
-                    app:spinning_bar_padding="8dp"
-                    app:spinning_bar_width="3dp"
+                    android:layout_alignParentStart="true"
+                    android:clickable="true"
+                    android:text="新用户注册>>"
+                    android:textColor="@color/material_blue_400"
+                    android:textSize="@dimen/text_size_16sp"
                     />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_goto_replace_user"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:visibility="gone"
-                    >
+                    android:layout_alignParentEnd="true"
+                    android:clickable="true"
+                    android:text="老用户认证>>"
+                    android:textColor="@color/material_blue_400"
+                    android:textSize="@dimen/text_size_16sp"
+                    />
 
-                    <TextView
-                        android:id="@+id/tv_goto_register"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:clickable="true"
-                        android:text="新用户注册>>"
-                        android:textColor="@color/material_blue_400"
-                        android:textSize="@dimen/text_size_16sp"
-                        />
-
-                    <TextView
-                        android:id="@+id/tv_goto_replace_user"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:clickable="true"
-                        android:text="老用户认证>>"
-                        android:textColor="@color/material_blue_400"
-                        android:textSize="@dimen/text_size_16sp"
-                        />
-
-                </RelativeLayout>
-
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
-    </android.support.design.widget.CoordinatorLayout>
+
+    </RelativeLayout>
 </ScrollView>

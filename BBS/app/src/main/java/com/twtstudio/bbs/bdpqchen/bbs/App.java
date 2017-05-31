@@ -9,6 +9,7 @@ import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.oubowu.slideback.ActivityHelper;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.AppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerAppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
@@ -34,6 +35,8 @@ public class App extends Application {
         super.onCreate();
         mContext = this;
         sApplication = this;
+
+        PgyCrashManager.register(this);
 
         initLogUtils();
         initSlideBack();

@@ -2,12 +2,17 @@ package com.twtstudio.bbs.bdpqchen.bbs.home;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -22,6 +27,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.main.model.MainModel;
 
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -75,6 +81,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PgyUpdateManager.register(this, "9981");
+
         LogUtil.dd("token", PrefUtil.getAuthToken());
         // TODO: 17-5-3 非登录后跳转到这里，是否渐变
         // 登录后的渐变,
@@ -119,8 +127,38 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 //        }
         mPresenter.checkUpdate(1);
 
-    }
+        new UpdateManagerListener() {
 
+            @Override
+            public void onNoUpdateAvailable() {
+
+            }
+
+            @Override
+            public void onUpdateAvailable(final String result) {
+
+                // 将新版本信息封装到AppBean中
+                final AppBean appBean = getAppBeanFromString(result);
+                new AlertDialog.Builder(HomeActivity.this)
+                        .setTitle("更新")
+                        .setMessage("")
+                        .setNegativeButton(
+                                "确定",
+                                new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(
+                                            DialogInterface dialog,
+                                            int which) {
+                                        startDownloadTask(
+                                                HomeActivity.this,
+                                                appBean.getDownloadURL());
+                                    }
+                                }).show();
+            }
+
+        };
+    }
     private void loadFragment() {
 
         showHideFragment(getTargetFragment(mShowingFragment), getTargetFragment(mHidingFragment));
@@ -137,6 +175,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 return mIndividualFragment;
         }
         return mMainFragment;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PgyUpdateManager.unregister();
     }
 
     @Override

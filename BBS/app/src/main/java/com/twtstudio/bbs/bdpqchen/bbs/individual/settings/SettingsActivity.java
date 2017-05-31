@@ -6,18 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
