@@ -160,6 +160,8 @@
                     android:layout_marginStart="8dp"
                     android:maxLines="10"
                     android:paddingTop="4dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     />
 
             </android.support.design.widget.TextInputLayout>
