@@ -72,6 +72,8 @@
             android:name=".welcome.IntroActivity"
             android:theme="@style/AppTheme.Intro"
             />
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+
 
 
     </application>
