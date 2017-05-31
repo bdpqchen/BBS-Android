@@ -1,6 +1,9 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
@@ -10,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActiv
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
@@ -222,14 +226,18 @@ public class RxDoHttpClient<T> {
 
     }
 
-    public Observable<BaseResponse<BaseModel>> doUpdateAvatar(String imagePath) {
-        File file = new File(imagePath);//filePath 图片地址
-        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);//表单类型
-        RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        builder.addFormDataPart("img_file", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
-        List<MultipartBody.Part> parts = builder.build().parts();
-        return mApi.doUpdateAvatar(getLatestAuthentication(), parts);
+    public Observable<BaseResponse<BaseModel>> doUpdateAvatar(File file) {
+        if (file != null) {
+            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);//表单类型
+            RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            builder.addFormDataPart("cropped", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
+            List<MultipartBody.Part> parts = builder.build().parts();
+            return mApi.doUpdateAvatar(getLatestAuthentication(), parts);
+        } else {
+            return null;
+        }
     }
+
 
     public Observable<BaseResponse<BoardsModel>> getBoardList(int forumId) {
         return mApi.getBoardList(String.valueOf(forumId));
@@ -304,7 +312,7 @@ public class RxDoHttpClient<T> {
     }
 
     public Observable<BaseResponse<PostModel>> doComment(int threadId, String comment, int replyId, boolean isAno) {
-        if (isAno){
+        if (isAno) {
             return mApi.doCommentAnonymous(threadId, comment, replyId, 1);
         }
         return mApi.doComment(getLatestAuthentication(), threadId, comment, replyId);

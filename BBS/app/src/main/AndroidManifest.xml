@@ -73,7 +73,7 @@
             android:theme="@style/AppTheme.Intro"
             />
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-
+        <activity android:name=".individual.avatar.UpdateAvatarActivity"/>
 
 
     </application>

@@ -3,9 +3,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.Menu;
@@ -14,8 +12,9 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -25,17 +24,18 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import com.pizidea.imagepicker.AndroidImagePicker;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.avatar.UpdateAvatarActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePassword;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -111,7 +111,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         mSignature = PrefUtil.getInfoSignature();
         mTvNicknameUpdate.setText(mNickname);
         mTvSignatureUpdate.setText(mSignature);
-        ImageUtil.loadMyAvatar(mActivity, mCivAvatar);
+        ImageUtil.refreshMyAvatar(mActivity, mCivAvatar);
     }
 
     @OnClick({R.id.rl_avatar_update_info, R.id.rl_nickname_update_info, R.id.rl_signature_update_info, R.id.rl_password_update_info})
@@ -219,12 +219,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     }
 
     private void showImageList() {
-        AndroidImagePicker.getInstance().pickAndCrop(this, true, 120, (bmp, ratio, imagePath) -> {
-            showProgressBar("正在上传，请稍后..");
-            mPresenter.doUpdateAvatar(imagePath);
-            mCivAvatar.setVisibility(View.VISIBLE);
-            mCivAvatar.setImageBitmap(bmp);
-        });
+        startActivityForResult(new Intent(this, UpdateAvatarActivity.class), Constants.RESULT_CODE_AVATAR);
     }
 
     private void showProgressBar(String content) {
@@ -267,31 +262,27 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            int REQ_IMAGE = 1433;
-            if (requestCode == REQ_IMAGE) {
-                mCivAvatar.setVisibility(View.GONE);
-            }
+        if (resultCode == Constants.RESULT_CODE_AVATAR) {
+            String imagePath = data.getStringExtra(Constants.INTENT_RESULT_IMAGE_PATH);
+            LogUtil.d("path is ", imagePath);
+            mCivAvatar.setVisibility(View.VISIBLE);
+            showProgressBar("正在上传，请稍后..");
+            mPresenter.doUpdateAvatar(new File(getCacheDir(), "cropped"));
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        AndroidImagePicker.getInstance().onDestroy();
-        super.onDestroy();
     }
 
     @Override
     public void updateAvatarFailed(String msg) {
         hideProgressBar();
-        SnackBarUtil.error(this, msg);
+        SnackBarUtil.error(this, msg, true);
+        ImageUtil.refreshMyAvatar(this, mCivAvatar);
     }
 
     @Override
     public void updateAvatarSuccess(BaseModel baseModel) {
         hideProgressBar();
-        SnackBarUtil.normal(this, "头像上传成功");
-        ImageUtil.loadMyAvatar(mActivity, mCivAvatar);
+        SnackBarUtil.normal(this, "头像上传成功, 嘿嘿嘿");
+        ImageUtil.refreshMyAvatar(this, mCivAvatar);
     }
 
     @Override

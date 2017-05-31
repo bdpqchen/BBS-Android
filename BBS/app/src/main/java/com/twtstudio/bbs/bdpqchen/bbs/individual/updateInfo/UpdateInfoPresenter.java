@@ -1,19 +1,18 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -31,8 +30,7 @@ class UpdateInfoPresenter extends RxPresenter<UpdateInfoContract.View> implement
 
 
     @Override
-    public void doUpdateAvatar(String imagePath) {
-
+    public void doUpdateAvatar(File file) {
         SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
             @Override
             public void _onError(String msg) {
@@ -45,7 +43,7 @@ class UpdateInfoPresenter extends RxPresenter<UpdateInfoContract.View> implement
             }
 
         };
-        addSubscribe(mRxDoHttpClient.doUpdateAvatar(imagePath)
+        addSubscribe(mRxDoHttpClient.doUpdateAvatar(file)
                 .map(mRxDoHttpClient.mTransformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

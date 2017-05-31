@@ -1,7 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -15,7 +14,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 
 public final class ImageUtil {
 
-    private static String getAvatarUrl(int uid) {
+    public static String getAvatarUrl(int uid) {
         return RxDoHttpClient.BASE_URL + "user/" + uid + "/avatar";
     }
 
@@ -50,25 +49,40 @@ public final class ImageUtil {
         Glide.with(context)
                 .load(getAvatarUrl(uid))
                 .centerCrop()
-                .placeholder(R.drawable.avatar2)
                 .dontAnimate()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
 
+    }
+    public static void loadAvatarByPath(Context context, String path, ImageView view) {
+        Glide.with(context)
+                .load(path)
+                .centerCrop()
+                .into(view);
     }
 
     public static void loadAvatarAsBitmapByUid(Context context, int uid, ImageView view) {
         Glide.with(context).load(getAvatarUrl(uid))
                 .asBitmap()
                 .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.avatar2)
                 .into(view);
     }
 
     public static void loadMyAvatar(Context context, ImageView civAvatar) {
-//        String url = RxDoHttpClient.BASE_URL + "user/19667/avatar";
         loadAvatarByUid(context, PrefUtil.getAuthUid(), civAvatar);
+    }
+
+    public static void refreshMyAvatar(Context context, ImageView civAvatar) {
+        refreshAvatar(context, PrefUtil.getAuthUid(), civAvatar);
+    }
+
+    private static void refreshAvatar(Context context, int uid, ImageView view){
+        Glide.with(context)
+                .load(getAvatarUrl(uid))
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .crossFade()
+                .into(view);
     }
 
 }

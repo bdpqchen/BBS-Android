@@ -101,13 +101,11 @@ public interface BaseApi {
             @Field(Constants.BUNDLE_NICKNAME) String nickname
     );
 
-
     @Multipart
     @PUT("home/avatar")
     Observable<BaseResponse<BaseModel>> doUpdateAvatar(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Part List<MultipartBody.Part> partList);
-
 
     @GET("index")
     Observable<BaseResponse<LatestPostModel.DataBean>> getLatestPost();

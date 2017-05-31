@@ -18,6 +18,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadAct
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.avatar.UpdateAvatarActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePassword;
@@ -73,4 +74,6 @@ public interface ActivityComponent {
     void inject(CreateThreadActivity createThreadActivity);
 
     void inject(RegisterOldActivity registerOldActivity);
+
+//    void inject(UpdateAvatarActivity updateAvatarActivity);
 }

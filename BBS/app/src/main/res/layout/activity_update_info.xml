@@ -28,7 +28,6 @@
             android:layout_height="64dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/margin_start_update_info"
-            android:src="@drawable/avatar2"
             android:id="@+id/civ_avatar"
             />
 

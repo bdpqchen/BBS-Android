@@ -177,6 +177,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         setUnread();
         mTvNickname.setText(PrefUtil.getInfoNickname());
         mTvSignature.setText(PrefUtil.getInfoSignature());
+        ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
     }
 
 

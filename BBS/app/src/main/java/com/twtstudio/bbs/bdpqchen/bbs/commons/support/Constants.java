@@ -44,6 +44,7 @@ public final class Constants {
     public static final String INTENT_FORUM_TITLE = "intent_forum_title";
     public static final String INTENT_BOARD_NAMES = "intent_board_names";
     public static final String INTENT_BOARD_IDS = "intent_board_ids";
+    public static final String INTENT_RESULT_IMAGE_PATH = "intent_result_image_path";
 
 
     public static final String CONTENT = "content";
@@ -56,7 +57,5 @@ public final class Constants {
     public static final String ANONYMOUS = "anonymous";
 
 
-
-
-
+    public static final int RESULT_CODE_AVATAR = 10;
 }
