@@ -262,17 +262,23 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 .duration(d)
                 .playOn(mLlComment);
         mLlComment.setVisibility(View.VISIBLE);
-        mLlComment.setFocusable(true);
-        mLlComment.setFocusableInTouchMode(true);
-        mLlComment.requestFocus();
+//        mLlComment.setFocusable(true);
+//        mLlComment.setFocusableInTouchMode(true);
+//        mLlComment.requestFocus();
         mTvDynamicHint.setText(mAdapter.getDynamicHint(postPosition));
+
+        mEtComment.setFocusable(true);
+        mEtComment.setFocusableInTouchMode(true);
+        mEtComment.requestFocus();
         InputMethodManager imm = (InputMethodManager) mLlComment
                 .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.showSoftInput(mEtComment,0);
         HandlerUtil.postDelay(() -> {
             if (imm != null) {
-                imm.showSoftInput(mLlComment, 0);
+                imm.showSoftInput(mEtComment, 0);
             }
         }, 500);
+//        mEtComment.setFocusable(true);
     }
 
     private void showStarOrNot(int in_collection) {
