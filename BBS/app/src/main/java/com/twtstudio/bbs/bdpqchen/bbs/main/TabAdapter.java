@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenFragment;
 
@@ -15,33 +16,27 @@ import javax.inject.Inject;
  */
 
 public class TabAdapter extends FragmentPagerAdapter {
-    private static final int PAGE_COUNT = 2;
+//    private static final int PAGE_COUNT = 2;
     private Context mContext;
-    private static String[] titles = {"最新动态", "全站十大", "历史热门"};
+    private static String[] titles = {"最新动态", "全站十大"};
+    private BaseFragment[] fragments = new BaseFragment[2];
 
 
     @Inject
     public TabAdapter(FragmentManager fm) {
         super(fm);
+        fragments[0] = LatestPostFragment.newInstance();
+        fragments[1] = TopTenFragment.newInstance();
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return LatestPostFragment.newInstance();
-            case 1:
-                return TopTenFragment.newInstance();
-//            case 2:
-//                return HistoryHotFragment.newInstance();
-            default:
-                return null;
-        }
+        return fragments[position];
     }
 
     @Override
     public int getCount() {
-        return PAGE_COUNT;
+        return titles.length;
     }
     @Override
     public CharSequence getPageTitle(int position) {
