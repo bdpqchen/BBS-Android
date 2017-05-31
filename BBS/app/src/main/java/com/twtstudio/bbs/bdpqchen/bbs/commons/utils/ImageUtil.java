@@ -19,6 +19,9 @@ public final class ImageUtil {
     public static String getAvatarUrl(int uid) {
         return RxDoHttpClient.BASE_URL + "user/" + uid + "/avatar";
     }
+    public static String getCoverUri(int fid){
+        return RxDoHttpClient.BASE_URL + "forum/" + fid + "/cover";
+    }
 
     public static void loadIconAsBitmap(Context context, int resourceId, ImageView view) {
         Glide.with(context).load(resourceId).asBitmap().centerCrop().dontAnimate().into(view);
@@ -35,11 +38,15 @@ public final class ImageUtil {
         Glide.with(context)
                 .load(url)
                 .crossFade()
-//                .placeholder(R.drawable.forum_banner_1)
-//                .centerCrop()
-//                .override(300, 150)
-//                .error(R.drawable.forum_banner_1)
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(view);
+    }
+
+    public static void loadLoginCover(Context context, int fid, ImageView view) {
+        Glide.with(context)
+                .load(getCoverUri(fid))
+                .crossFade()
+                .error(R.drawable.cover_login)
+//                .placeholder(R.drawable.cover_login)
                 .into(view);
     }
 

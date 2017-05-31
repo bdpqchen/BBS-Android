@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatCheckBox;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -27,11 +26,11 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
@@ -167,10 +166,14 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mIvCommentOut.setOnClickListener(v -> showFab());
         mIvCommentSend.setOnClickListener(v -> sendComment(mReplyId));
         mIvStaredThread.setOnClickListener(v -> {
-            mPresenter.unStarThread(mThreadId);
+            if (PrefUtil.hadLogin()) {
+                mPresenter.unStarThread(mThreadId);
+            }
         });
         mIvStarThread.setOnClickListener(v -> {
-            mPresenter.starThread(mThreadId);
+            if (PrefUtil.hadLogin()) {
+                mPresenter.starThread(mThreadId);
+            }
         });
         mSrlThreadList.setOnRefreshListener(() -> {
             mRefreshing = true;
@@ -253,28 +256,33 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void showCommentInput() {
-        int d = 300;
-        YoYo.with(Techniques.SlideOutLeft)
-                .duration(d)
-                .playOn(mFbThreadWritePost);
-        mFbThreadWritePost.setVisibility(View.GONE);
-        YoYo.with(Techniques.SlideInUp)
-                .duration(d)
-                .playOn(mLlComment);
-        mLlComment.setVisibility(View.VISIBLE);
-        mTvDynamicHint.setText(mAdapter.getDynamicHint(postPosition));
+        if (PrefUtil.hadLogin()) {
+            int d = 300;
+            YoYo.with(Techniques.SlideOutLeft)
+                    .duration(d)
+                    .playOn(mFbThreadWritePost);
+            mFbThreadWritePost.setVisibility(View.GONE);
+            YoYo.with(Techniques.SlideInUp)
+                    .duration(d)
+                    .playOn(mLlComment);
+            mLlComment.setVisibility(View.VISIBLE);
+            mTvDynamicHint.setText(mAdapter.getDynamicHint(postPosition));
 
-        mEtComment.setFocusable(true);
-        mEtComment.setFocusableInTouchMode(true);
-        mEtComment.requestFocus();
-        InputMethodManager imm = (InputMethodManager) mLlComment
-                .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            mEtComment.setFocusable(true);
+            mEtComment.setFocusableInTouchMode(true);
+            mEtComment.requestFocus();
+            InputMethodManager imm = (InputMethodManager) mLlComment
+                    .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 //        imm.showSoftInput(mEtComment,0);
-        HandlerUtil.postDelay(() -> {
-            if (imm != null) {
-                imm.showSoftInput(mEtComment, 0);
-            }
-        }, d);
+            HandlerUtil.postDelay(() -> {
+                if (imm != null) {
+                    imm.showSoftInput(mEtComment, 0);
+                }
+            }, d);
+        } else {
+            startActivity(new Intent(this, LoginActivity.class));
+
+        }
     }
 
     private void showStarOrNot(int in_collection) {

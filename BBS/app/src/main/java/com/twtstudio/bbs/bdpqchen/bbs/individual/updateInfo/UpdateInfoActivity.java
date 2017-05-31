@@ -250,6 +250,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
                     @Override
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                        SnackBarUtil.error(mActivity, "请赋予我读取存储器内容的权限");
                     }
                 })
                 .check();

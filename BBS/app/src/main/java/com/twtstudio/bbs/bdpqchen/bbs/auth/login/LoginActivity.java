@@ -31,6 +31,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.welcome.IntroActivity;
 
+import java.util.Random;
+
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -110,8 +112,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         Intent intent = getIntent();
         String usernameToSet = intent.getStringExtra("username");
         mEtAccount.setText(usernameToSet);
-        ImageUtil.loadDrawable(this, R.drawable.forum_banner_1, mIvBanner);
         ImageUtil.loadDrawable(this, R.drawable.avatar_default_left, mCivAvatar);
+        ImageUtil.loadLoginCover(this, getForumIdRandom(), mIvBanner);
 
     }
 
@@ -197,6 +199,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     // TODO: 17-5-10 登录成功后跳转优化，主线程太多任务了
+
+    private int getForumIdRandom() {
+        int max = 35;
+        int min = 28;
+        Random random = new Random();
+        int s = random.nextInt(max) % (max - min + 1) + min;
+        return s;
+    }
 
 }
 
