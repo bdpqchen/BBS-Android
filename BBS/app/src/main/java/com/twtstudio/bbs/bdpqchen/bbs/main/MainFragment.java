@@ -45,9 +45,9 @@ public class MainFragment extends SimpleFragment {
         mIvAnnounce.setOnClickListener(v -> {
             SnackBarUtil.notice(this.getActivity(), "还没有公告");
         });
-        TabAdapter tabAdapter = new TabAdapter(getChildFragmentManager());
+        TabAdapter tabAdapter = new TabAdapter(getFragmentManager());
         mViewpager.setAdapter(tabAdapter);
-        mViewpager.setOffscreenPageLimit(2);
+//        mViewpager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewpager);
 
     }

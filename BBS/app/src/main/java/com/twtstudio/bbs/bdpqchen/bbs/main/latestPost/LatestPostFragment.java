@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
 
@@ -56,8 +57,9 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
         layoutSwipeRefresh.setOnRefreshListener(() -> {
             mPresenter.refreshAnnounce();
             layoutSwipeRefresh.setRefreshing(false);
-
         });
+        LogUtil.d("latest inited ");
+
     }
 
     @Override

@@ -1,36 +1,43 @@
 package com.twtstudio.bbs.bdpqchen.bbs.home;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
-import com.roughike.bottombar.OnTabSelectListener;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.model.MainModel;
 
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
+
+import static com.pgyersdk.update.UpdateManagerListener.startDownloadTask;
 
 
 public class HomeActivity extends BaseActivity<HomePresenter> implements HomeContract.View {
@@ -47,6 +54,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     private int mShowingFragment = Constants.FRAGMENT_MAIN;
     private int mHidingFragment = Constants.FRAGMENT_MAIN;
+    private Context mContext;
+    private HomeActivity mHomeActivity;
 
     @Override
     protected int getLayoutResourceId() {
@@ -81,8 +90,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PgyUpdateManager.register(this, "9981");
-
+        mHomeActivity = this;
+        mContext = this;
         LogUtil.dd("token", PrefUtil.getAuthToken());
         // TODO: 17-5-3 非登录后跳转到这里，是否渐变
         // 登录后的渐变,
@@ -125,40 +134,67 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         }
         LogUtil.dd("send a net request");
 //        }
-        mPresenter.checkUpdate(1);
+//        mPresenter.checkUpdate(1);
 
-        new UpdateManagerListener() {
+        PgyUpdateManager.register(this, "9981",
+                new UpdateManagerListener() {
+                    @Override
+                    public void onNoUpdateAvailable() {
+                        LogUtil.dd("not update available");
+                    }
 
-            @Override
-            public void onNoUpdateAvailable() {
+                    @Override
+                    public void onUpdateAvailable(final String result) {
 
-            }
-
-            @Override
-            public void onUpdateAvailable(final String result) {
-
-                // 将新版本信息封装到AppBean中
-                final AppBean appBean = getAppBeanFromString(result);
-                new AlertDialog.Builder(HomeActivity.this)
-                        .setTitle("更新")
-                        .setMessage("")
-                        .setNegativeButton(
-                                "确定",
-                                new DialogInterface.OnClickListener() {
-
+                        // 将新版本信息封装到AppBean中
+                        final AppBean appBean = getAppBeanFromString(result);
+                        SnackBarUtil.notice(mHomeActivity, "这是一个新版本 22222", true);
+                        new AlertDialog.Builder(HomeActivity.this)
+                                .setTitle("新版本更新")
+                                .setMessage(appBean.getReleaseNote())
+                                .setNegativeButton("立即下载", new DialogInterface.OnClickListener() {
                                     @Override
-                                    public void onClick(
-                                            DialogInterface dialog,
-                                            int which) {
-                                        startDownloadTask(
-                                                HomeActivity.this,
-                                                appBean.getDownloadURL());
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        hasPermission(appBean);
+                                        LogUtil.d(appBean.getDownloadURL());
                                     }
-                                }).show();
-            }
+                                })
+                                .show();
+                    }
 
-        };
+                });
+
     }
+
+    private void startDownload(AppBean appBean) {
+        startDownloadTask(HomeActivity.this, appBean.getDownloadURL());
+    }
+
+    private void hasPermission(AppBean appBean) {
+        Dexter.withActivity(this)
+                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                        LogUtil.dd("onPermissionGranted");
+                        startDownload(appBean);
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                        LogUtil.dd("onPermissionDenied");
+                        SnackBarUtil.error(mHomeActivity, "请赋予我读取存储器内容的权限");
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                        SnackBarUtil.error(mHomeActivity, "请赋予我读取存储器内容的权限");
+                    }
+                })
+                .check();
+
+    }
+
     private void loadFragment() {
 
         showHideFragment(getTargetFragment(mShowingFragment), getTargetFragment(mHidingFragment));

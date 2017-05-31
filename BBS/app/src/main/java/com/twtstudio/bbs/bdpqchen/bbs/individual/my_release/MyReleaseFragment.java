@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by Arsener on 2017/5/28.
@@ -32,7 +30,6 @@ public class MyReleaseFragment extends BaseFragment<MyReleasePresenter> implemen
     SwipeRefreshLayout srl;
     @BindView(R.id.tv_none_publish)
     TextView mTvNonePublish;
-    Unbinder unbinder;
 
     private LinearLayoutManager layoutManager;
     private List<MyReleaseModel> data = new ArrayList<>();
@@ -89,7 +86,7 @@ public class MyReleaseFragment extends BaseFragment<MyReleasePresenter> implemen
 
     @Override
     public void showMyReleaseList(List<MyReleaseModel> data) {
-        if (data != null && data.size() != 0) {
+        if (data != null && data.size() >= 0) {
             myRecyclerAdapter.addItems(data);
             myRecyclerAdapter.notifyDataSetChanged();
             mTvNonePublish.setVisibility(View.GONE);

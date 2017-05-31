@@ -38,6 +38,7 @@ public class TabAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return titles.length;
     }
+
     @Override
     public CharSequence getPageTitle(int position) {
         return titles[position];

@@ -20,7 +20,7 @@ class LatestPostPresenter extends RxPresenter<LatestPostContract.View> implement
     public RxDoHttpClient<LatestPostModel.DataBean> mHttpClient;
 
     @Inject
-    LatestPostPresenter(RxDoHttpClient client){
+    LatestPostPresenter(RxDoHttpClient client) {
         mHttpClient = client;
     }
 
@@ -29,12 +29,16 @@ class LatestPostPresenter extends RxPresenter<LatestPostContract.View> implement
         SimpleObserver<LatestPostModel.DataBean> observer = new SimpleObserver<LatestPostModel.DataBean>() {
             @Override
             public void _onError(String msg) {
-                mView.failedToGetLatestPost(msg);
+                if (mView != null) {
+                    mView.failedToGetLatestPost(msg);
+                }
             }
 
             @Override
             public void _onNext(LatestPostModel.DataBean latestPostModel) {
-                mView.refreshAnnounce(latestPostModel.getLatest());
+                if (mView != null) {
+                    mView.refreshAnnounce(latestPostModel.getLatest());
+                }
             }
 
         };
@@ -46,7 +50,7 @@ class LatestPostPresenter extends RxPresenter<LatestPostContract.View> implement
         );
     }
 
-    public void addAnnounce(){
+    public void addAnnounce() {
 
         SimpleObserver<LatestPostModel.DataBean> observer = new SimpleObserver<LatestPostModel.DataBean>() {
             @Override

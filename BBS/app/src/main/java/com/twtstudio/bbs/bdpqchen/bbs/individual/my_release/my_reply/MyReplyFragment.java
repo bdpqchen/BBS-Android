@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by Arsener on 2017/5/28.
@@ -33,7 +31,6 @@ public class MyReplyFragment extends BaseFragment<MyReplyPresenter> implements M
     SwipeRefreshLayout srl;
     @BindView(R.id.tv_none_reply)
     TextView mTvNoneReply;
-    Unbinder unbinder;
 
     private LinearLayoutManager layoutManager;
     private List<MyReplyModel> data = new ArrayList<>();
@@ -94,11 +91,11 @@ public class MyReplyFragment extends BaseFragment<MyReplyPresenter> implements M
 
     @Override
     public void showMyReplyList(List<MyReplyModel> data) {
-        if (data != null && data.size() != 0){
+        if (data != null && data.size() > 0) {
             myReplyAdapter.addItems(data);
             myReplyAdapter.notifyDataSetChanged();
             mTvNoneReply.setVisibility(View.GONE);
-        }else {
+        } else {
             mTvNoneReply.setVisibility(View.VISIBLE);
         }
     }

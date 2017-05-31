@@ -10,12 +10,11 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.model.MainModel;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
-
 /**
  * Created by bdpqchen on 17-5-11.
  */
@@ -28,15 +27,13 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Mai
     SwipeRefreshLayout layoutSwipeRefresh;
     @BindView(R.id.pb_loading)
     ProgressBar mPbLoading;
-    Unbinder unbinder;
     @BindView(R.id.topten_empty)
     TextView toptenEmpty;
     private LinearLayoutManager linearLayoutManager;
     private boolean mRefreshing = false;
 
     public static TopTenFragment newInstance() {
-        TopTenFragment fragment = new TopTenFragment();
-        return fragment;
+        return new TopTenFragment();
     }
 
     @Override
@@ -63,6 +60,8 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Mai
             layoutSwipeRefresh.setRefreshing(true);
         });
         mPresenter.getHomeDataList();
+        LogUtil.d("top ten init ");
+
     }
 
     @Override
@@ -86,6 +85,7 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Mai
     public void onFailedGetHomeData(String msg) {
         mRefreshing = false;
         hideLoading();
+        layoutSwipeRefresh.setRefreshing(false);
         SnackBarUtil.notice(this.getActivity(), msg + "\n刷新试试～");
     }
 

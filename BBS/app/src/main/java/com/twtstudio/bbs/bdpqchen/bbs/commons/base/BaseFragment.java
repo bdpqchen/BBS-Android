@@ -35,6 +35,10 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
     protected Activity mActivity;
     protected Context mContext;
     private Unbinder mUnBinder;
+    protected boolean isInit = false;
+    protected boolean isLoad = false;
+    protected final String TAG = "LazyLoadFragment";
+    private View view;
 
     protected boolean isInited = false;
 
@@ -47,6 +51,8 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(getFragmentLayoutId(), container, false);
         injectFragment();
+        isCanLoadData();
+
         return mView;
     }
 
@@ -65,6 +71,29 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
             isInited = true;
         }
         initFragment();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        isCanLoadData();
+    }
+
+    private void isCanLoadData() {
+        if (!isInit) {
+            return;
+        }
+        if (getUserVisibleHint()) {
+            preInitView();
+            initView();
+            afterInitView();
+            isInit = false;
+            isLoad = true;
+        } else {
+            if (isLoad) {
+                stopLoad();
+            }
+        }
     }
 
     @Override

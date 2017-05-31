@@ -29,12 +29,16 @@ public class TopTenPresenter extends RxPresenter<MainContract.View> implements M
         SimpleObserver<MainModel> observer = new SimpleObserver<MainModel>() {
             @Override
             public void _onError(String msg) {
-                mView.onFailedGetHomeData(msg);
+                if (mView != null) {
+                    mView.onFailedGetHomeData(msg);
+                }
             }
 
             @Override
             public void _onNext(MainModel homeModel) {
-                mView.onGotHomeData(homeModel);
+                if (mView != null) {
+                    mView.onGotHomeData(homeModel);
+                }
             }
 
         };
