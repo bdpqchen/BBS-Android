@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
@@ -38,8 +39,7 @@ public class MyReplyFragment extends BaseFragment<MyReplyPresenter> implements M
     private EndlessRecyclerOnScrollListener eros;
 
     public static MyReplyFragment newInstance() {
-        MyReplyFragment fragment = new MyReplyFragment();
-        return fragment;
+        return new MyReplyFragment();
     }
 
     @Override
@@ -63,15 +63,12 @@ public class MyReplyFragment extends BaseFragment<MyReplyPresenter> implements M
             }
         };
         rv.addOnScrollListener(eros);
-//
-//        View footer = LayoutInflater.from(MyReleaseActivity.this).inflate(R.layout.footer_view, rv, false);
-//        myRecyclerAdapter.setFooterView(footer);
-
         mPresenter.initMyReplyList();
     }
 
     @Override
     public void onError(Throwable throwable) {
+//        SnackBarUtil.error();
         Toast.makeText(getActivity(), throwable.toString(), Toast.LENGTH_SHORT).show();
     }
 
@@ -110,15 +107,5 @@ public class MyReplyFragment extends BaseFragment<MyReplyPresenter> implements M
         getFragmentComponent().inject(this);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        return rootView;
-    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
 }

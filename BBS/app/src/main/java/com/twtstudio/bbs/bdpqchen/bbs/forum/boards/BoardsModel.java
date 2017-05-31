@@ -103,6 +103,7 @@ public class BoardsModel {
         private String info;
         private String admin;
         private int c_thread;
+        private int anonymous;
         private int visibility;
 
         public int getId() {
@@ -151,6 +152,14 @@ public class BoardsModel {
 
         public void setVisibility(int visibility) {
             this.visibility = visibility;
+        }
+
+        public int getAnonymous() {
+            return anonymous;
+        }
+
+        public void setAnonymous(int anonymous) {
+            this.anonymous = anonymous;
         }
     }
 }

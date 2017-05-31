@@ -32,7 +32,9 @@ public class RegisterPresenter extends RxPresenter<RegisterContract.View> implem
         SimpleObserver<RegisterModel> observer = new SimpleObserver<RegisterModel>() {
             @Override
             public void _onError(String msg) {
-                mView.registerFailed(msg);
+                if (mView != null){
+                    mView.registerFailed(msg);
+                }
             }
 
             @Override

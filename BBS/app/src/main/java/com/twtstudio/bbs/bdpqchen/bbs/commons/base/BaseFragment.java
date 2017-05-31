@@ -12,6 +12,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerFragmentComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.FragmentComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.FragmentModule;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import javax.inject.Inject;
 
@@ -51,16 +52,19 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(getFragmentLayoutId(), container, false);
         injectFragment();
-        isCanLoadData();
-
         return mView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter.attachView(this);
         mUnBinder = ButterKnife.bind(this, view);
+
+        if (mPresenter != null){
+            mPresenter.attachView(this);
+        }else{
+            LogUtil.d("mPresenter is null!!!");
+        }
         if (savedInstanceState == null) {
             if (!isHidden()) {
                 isInited = true;
@@ -74,45 +78,24 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        isCanLoadData();
-    }
-
-    private void isCanLoadData() {
-        if (!isInit) {
-            return;
-        }
-        if (getUserVisibleHint()) {
-            preInitView();
-            initView();
-            afterInitView();
-            isInit = false;
-            isLoad = true;
-        } else {
-            if (isLoad) {
-                stopLoad();
-            }
-        }
-    }
-
-    @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        initFragment();
+//        initFragment();
     }
 
     @Override
     public void onAttach(Context context) {
+        super.onAttach(context);
         mActivity = (Activity) context;
         mContext = context;
-        super.onAttach(context);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mUnBinder.unbind();
+        if (mUnBinder != null){
+            mUnBinder.unbind();
+        }
     }
 
     @Override
@@ -121,7 +104,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
         if (mPresenter != null){
             mPresenter.detachView();
         }
-
     }
 
     protected FragmentComponent getFragmentComponent(){

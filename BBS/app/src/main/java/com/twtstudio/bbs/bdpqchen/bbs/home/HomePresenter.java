@@ -11,7 +11,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -47,8 +46,10 @@ public class HomePresenter extends RxPresenter<HomeContract.View> implements Hom
 
             @Override
             public void _onNext(IndividualInfoModel individualInfoModel) {
-                LogUtil.d(individualInfoModel.getNickname());
-                mView.showIndividualInfo(individualInfoModel);
+                LogUtil.dd(individualInfoModel.getNickname());
+                if (mView != null){
+                    mView.showIndividualInfo(individualInfoModel);
+                }
             }
         };
         addSubscribe(mHttpClient.getIndividualInfo()

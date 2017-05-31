@@ -54,7 +54,14 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
             if (viewHolder instanceof ViewHolder) {
                 ThreadListModel.ThreadBean thread = mDataSet.get(position);
                 ViewHolder holder = (ViewHolder) viewHolder;
+                if (thread.getAnonymous() == 1){
+                    thread.setAuthor_name("匿名用户");
+                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivThreadAvatar);
+                }else{
+                    ImageUtil.loadAvatarByUid(mContext, thread.getAuthor_id(), holder.mCivThreadAvatar);
+                }
                 holder.mTvThreadNickname.setText(thread.getAuthor_name());
+
                 holder.mTvThreadContent.setText(thread.getContent());
                 holder.mTvThreadDate.setText(StampUtil.getDateByStamp(thread.getT_create()));
                 holder.mTvThreadTitle.setText(thread.getTitle());
@@ -65,7 +72,6 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
                     in.putExtra(Constants.INTENT_THREAD_TITLE, thread.getTitle());
                     mContext.startActivity(in);
                 });
-                ImageUtil.loadAvatarByUid(mContext, thread.getAuthor_id(), holder.mCivThreadAvatar);
             } else if (viewHolder instanceof BaseFooterViewHolder) {
 
             }

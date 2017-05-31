@@ -243,8 +243,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public void refreshList(ThreadModel model) {
         if (model != null && model.getThread() != null){
             clearData();
-            mPostData.addAll(model.getPost());
             mThreadData = model.getThread();
+            if (model.getPost() != null && model.getPost().size() > 0){
+                mPostData.addAll(model.getPost());
+            }
         }
     }
 

@@ -47,7 +47,6 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     int mForumId;
     boolean mRefreshing = false;
     Context mContext;
-    Activity mActivity;
     BoardsAdapter mAdapter;
     LinearLayoutManager mLayoutManager;
 
@@ -55,6 +54,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     private String mForumTitle = "";
     private ArrayList<String> mBoardNames = new ArrayList<>();
     private ArrayList<Integer> mBoardIds = new ArrayList<>();
+    private ArrayList<Integer> mAnonymous = new ArrayList<>();
 
     @Override
     protected int getLayoutResourceId() {
@@ -89,15 +89,11 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mContext = this;
         mForumId = getIntent().getIntExtra(INTENT_FORUM_ID, 0);
         mForumTitle = getIntent().getStringExtra(INTENT_FORUM_TITLE);
-//        LogUtil.dd("board----", mForumTitle);
         super.onCreate(savedInstanceState);
-
-        mPresenter.getBoardList(mForumId);
+        mContext = this;
         mAdapter = new BoardsAdapter(mContext);
-
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRvBoardList.addItemDecoration(new RecyclerViewItemDecoration(16));
         mRvBoardList.setLayoutManager(mLayoutManager);
@@ -113,10 +109,13 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
             Intent intent = new Intent(this, CreateThreadActivity.class);
             intent.putStringArrayListExtra(INTENT_BOARD_NAMES, getBoardNames());
             intent.putIntegerArrayListExtra(INTENT_BOARD_IDS, getBoardIds());
+//            intent.putIntegerArrayListExtra(INTENT_BOARD_IS_ANONY, getBoardIds());
+
             startActivity(intent);
         });
         mBoardIds.add(0);
         mBoardNames.add(".....");
+        mPresenter.getBoardList(mForumId);
 
     }
 
@@ -143,7 +142,9 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
 
     private void hideProgressBar() {
         mRefreshing = false;
-        mProgressBar.setVisibility(View.GONE);
+        if (mProgressBar != null){
+            mProgressBar.setVisibility(View.GONE);
+        }
     }
 
     public ArrayList<String> getBoardNames() {

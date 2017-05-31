@@ -298,10 +298,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     @Override
     public void showThread(ThreadModel model) {
+        if (model == null || model.getThread() == null && model.getPost() == null && model.getPost().size() > 0){
+            return;
+        }
         if (mRefreshing) {
             mAdapter.refreshList(model);
             mRefreshing = false;
-
         } else {
             if (mIsLoadingMore) {
                 mIsLoadingMore = false;
@@ -309,19 +311,27 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                     mAdapter.addData(model.getPost(), mPage);
                 }
             } else {
-                mBoardId = model.getBoard().getId();
-                showStarOrNot(model.getThread().getIn_collection());
                 mAdapter.setThreadData(model.getThread());
                 if (model.getPost() != null && model.getPost().size() > 0) {
+                    mBoardId = model.getBoard().getId();
                     mAdapter.setPostData(model.getPost());
                 }
             }
 
         }
+        if (model.getThread() != null){
+            showStarOrNot(model.getThread().getIn_collection());
+        }
+//        checkNotNull()
+
         mCbAnonymousComment.setChecked(false);
         showAnonymousOrNot();
         hideProgressBar();
         mSrlThreadList.setRefreshing(false);
+    }
+
+    private void checkNotNull() {
+
     }
 
     @Override

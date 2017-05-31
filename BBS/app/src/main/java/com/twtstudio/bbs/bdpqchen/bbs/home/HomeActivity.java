@@ -103,7 +103,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 "alpha", 0f).setDuration(600);
         animator.setStartDelay(400);
         animator.start();
-//        }
 
         mMainFragment = MainFragment.newInstance();
         mForumFragment = ForumFragment.newInstance();
@@ -133,8 +132,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             mPresenter.initIndividualInfo();
         }
         LogUtil.dd("send a net request");
-//        }
-//        mPresenter.checkUpdate(1);
 
         PgyUpdateManager.register(this, "9981",
                 new UpdateManagerListener() {

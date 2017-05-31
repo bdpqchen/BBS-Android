@@ -280,7 +280,8 @@ public class RxDoHttpClient<T> {
     }
 
     public Observable<BaseResponse<BaseModel>> appealPassport(Bundle bundle) {
-        return mApi.appealPassport(bundle.getString(Constants.BUNDLE_REGISTER_USERNAME),
+        return mApi.appealPassport(
+                bundle.getString(Constants.BUNDLE_REGISTER_USERNAME),
                 bundle.getString(Constants.BUNDLE_REGISTER_CID),
                 bundle.getString(Constants.BUNDLE_REGISTER_REAL_NAME),
                 bundle.getString(Constants.BUNDLE_REGISTER_STU_NUM),

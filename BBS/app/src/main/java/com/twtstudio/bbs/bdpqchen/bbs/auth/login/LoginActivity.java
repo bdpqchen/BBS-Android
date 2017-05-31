@@ -192,12 +192,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void loginFailed(String msg) {
         LogUtil.d("loginFailed()");
         mCircularProgressButton.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
-        HandlerUtil.postDelay(() -> mCircularProgressButton.revertAnimation(), 3000);
+        HandlerUtil.postDelay(() -> {
+            if (mCircularProgressButton != null){
+                mCircularProgressButton.revertAnimation();
+            }
+        }, 3000);
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
     }
-
-    // TODO: 17-5-10 登录成功后跳转优化，主线程太多任务了
 
     private int getForumIdRandom() {
         int max = 35;

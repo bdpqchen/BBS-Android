@@ -20,20 +20,22 @@ import retrofit2.HttpException;
 
 public abstract class SimpleObserver<T> extends DisposableObserver<T> {
 
-    private Context mContext;
+//    private Context mContext;
 
     public SimpleObserver() {
 
     }
 
     public SimpleObserver(Context context) {
-        mContext = context;
+//        mContext = context;
     }
 
     @Override
     public void onNext(T t) {
         LogUtil.dd("onNext()");
-        _onNext(t);
+        if (t != null) {
+            _onNext(t);
+        }
     }
 
     @Override
@@ -67,7 +69,6 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
 //        LogUtil.dd("error strackT", String.valueOf(throwable.getLocalizedMessage()));
 
         _onError(msg);
-
     }
 
 

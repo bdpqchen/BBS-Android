@@ -32,20 +32,18 @@ public class MyReleasePresenter extends RxPresenter<MyReleaseContract.View> impl
         if (ready) {
             ready = false;
             page = 0;
-            addSubscribe(
-                    mHttpClient.getMyReleaseList(page)
-                            .map(BaseResponse::getData)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(bean -> {
-                                        mView.clearMyReleaseList();
-                                        mView.showMyReleaseList(bean);
-                                        ready = true;
-                                    },
-                                    throwable -> {
-                                        mView.onError(throwable);
-                                        ready = true;
-                                    }));
+            addSubscribe(mHttpClient.getMyReleaseList(page)
+                    .map(BaseResponse::getData)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(bean -> {
+                        mView.clearMyReleaseList();
+                        mView.showMyReleaseList(bean);
+                        ready = true;
+                    }, throwable -> {
+                        mView.onError(throwable);
+                        ready = true;
+                    }));
             page++;
         }
     }
@@ -54,19 +52,17 @@ public class MyReleasePresenter extends RxPresenter<MyReleaseContract.View> impl
     public void getMyReleaseList() {
         if (ready) {
             ready = false;
-            addSubscribe(
-                    mHttpClient.getMyReleaseList(page)
-                            .map(BaseResponse::getData)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(bean -> {
-                                        mView.showMyReleaseList(bean);
-                                        ready = true;
-                                    },
-                                    throwable -> {
-                                        mView.onError(throwable);
-                                        ready = true;
-                                    }));
+            addSubscribe(mHttpClient.getMyReleaseList(page)
+                    .map(BaseResponse::getData)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(bean -> {
+                        mView.showMyReleaseList(bean);
+                        ready = true;
+                    }, throwable -> {
+                        mView.onError(throwable);
+                        ready = true;
+                    }));
             page++;
         }
     }

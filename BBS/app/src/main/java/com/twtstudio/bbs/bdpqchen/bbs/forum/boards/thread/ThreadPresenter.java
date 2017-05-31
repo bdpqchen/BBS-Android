@@ -5,11 +5,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
-
-import java.net.SocketImpl;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -37,12 +32,14 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
         SimpleObserver<ThreadModel> observer = new SimpleObserver<ThreadModel>() {
             @Override
             public void _onError(String msg) {
-                mView.showFailed(msg);
+                if (mView != null)
+                    mView.showFailed(msg);
             }
 
             @Override
             public void _onNext(ThreadModel model) {
-                mView.showThread(model);
+                if (mView != null)
+                    mView.showThread(model);
             }
 
         };

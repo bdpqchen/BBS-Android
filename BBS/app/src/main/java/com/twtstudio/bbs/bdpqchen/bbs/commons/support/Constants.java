@@ -29,11 +29,8 @@ public final class Constants {
 
 
     public static final String BUNDLE_UID = "uid";
-    public static final String PASSWORD = "password";
     public static final String BUNDLE_EMAIL = "email";
     public static final String BUNDLE_MESSAGE = "message";
-    public static final String CAPTCHA_ID = "captcha_id";
-    public static final String CAPTCHA_VALUE = "captcha_value";
 
     /*intent*/
     public static final String INTENT_THREAD_ID = "intent_thread_id";
@@ -51,10 +48,20 @@ public final class Constants {
     public static final String TITLE = "title";
     public static final String BID = "bid";
     public static final String TID = "tid";
-    public static final String TOKEN = "token";
     public static final String REPLY_ID = "reply";
     public static final String IS_ANONYMOUS = "is_anonymous";
     public static final String ANONYMOUS = "anonymous";
+    public static final String USERNAME = "username";
+    public static final String CID = "cid";
+    public static final String REAL_NAME = "real_name";
+    public static final String STUNUM = "stunum";
+    public static final String EMAIL = "email";
+    public static final String MESSAGE = "message";
+    public static final String CAPTCHA_ID = "captcha_id";
+    public static final String CAPTCHA_VALUE = "captcha_value";
+    public static final String PASSWORD = "password";
+    public static final String TOKEN = "token";
+
 
 
     public static final int RESULT_CODE_AVATAR = 10;

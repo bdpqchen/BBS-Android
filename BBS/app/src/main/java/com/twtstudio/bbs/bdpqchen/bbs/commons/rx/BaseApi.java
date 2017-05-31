@@ -40,9 +40,17 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CAPTCHA_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CAPTCHA_VALUE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CONTENT;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.EMAIL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MESSAGE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REAL_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REPLY_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.STUNUM;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
 /**
  * Created by bdpqchen on 17-4-27.
@@ -155,7 +163,15 @@ public interface BaseApi {
 
     @FormUrlEncoded
     @POST("passport/appeal")
-    Observable<BaseResponse<BaseModel>> appealPassport(String string, String string1, String string2, String string3, String string4, String string5, String string6, String string7);
+    Observable<BaseResponse<BaseModel>> appealPassport(
+            @Field(USERNAME) String string,
+            @Field(CID) String string1,
+            @Field(REAL_NAME) String string2,
+            @Field(STUNUM) String string3,
+            @Field(EMAIL) String string4,
+            @Field(MESSAGE) String string5,
+            @Field(CAPTCHA_ID) String string6,
+            @Field(CAPTCHA_VALUE) String string7);
 
     @GET("thread/{thread}/page/{page}")
     Observable<BaseResponse<ThreadModel>> getThread(@Path("thread") String threadId,

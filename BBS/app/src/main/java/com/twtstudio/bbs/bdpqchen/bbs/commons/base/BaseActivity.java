@@ -17,6 +17,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerActivityComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 
@@ -55,19 +56,17 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (isSupportNightMode()) {
-            // TODO: 17-5-6 将权限检查写一个Util 或使用第三方库 -- 已使用库 dexter
             AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-/*
-            if (PrefUtil.isAutoNightMode()) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-            } else {
-            }
-*/
         }
         setContentView(getLayoutResourceId());
-
+        mUnBinder = ButterKnife.bind(this);
+        inject();
+        if (mPresenter != null) {
+            mPresenter.attachView(this);
+        }else {
+            LogUtil.d("mPresenter is null!!!");
+        }
         Activity activity = supportSlideBack();
         if (activity != null) {
             // TODO: 17-4-26 one hand mode
@@ -78,19 +77,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
                     .slideOutPercent(0.3f)
                     .create();
             mSlideBackLayout = SlideBackHelper.attach(activity, App.getActivityHelper(), slideConfig, null);
-
         }
-        ActivityManager.getActivityManager().addActivity(this);
-
-        mUnBinder = ButterKnife.bind(this);
-
         StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimary), 0);
-
-        inject();
-
-        if (mPresenter != null) {
-            mPresenter.attachView(this);
-        }
 
         mToolbar = getToolbarView();
         if (null != mToolbar) {
@@ -104,8 +92,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
             }
         }
 
-
-
+        ActivityManager.getActivityManager().addActivity(this);
 
     }
 
@@ -127,7 +114,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         if (mPresenter != null) {
             mPresenter.detachView();
         }
-
         mUnBinder.unbind();
     }
 

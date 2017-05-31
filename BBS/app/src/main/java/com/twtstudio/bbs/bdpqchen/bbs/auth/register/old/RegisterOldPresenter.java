@@ -30,6 +30,7 @@ public class RegisterOldPresenter extends RxPresenter<RegisterOldContract.View> 
         SimpleObserver<RegisterOldModel> observer = new SimpleObserver<RegisterOldModel>() {
             @Override
             public void _onError(String msg) {
+                if (mView != null)
                 mView.registerFailed(msg);
             }
 

@@ -134,6 +134,7 @@ public class AppealPassportActivity extends BaseActivity<AppealPassportPresenter
         bundle.putString(Constants.CAPTCHA_ID, mCaptchaId);
         bundle.putString(Constants.CAPTCHA_VALUE, mCaptchaValue);
         mPresenter.appealPassport(bundle);
+        mCpBtnSubmitAppeal.startAnimation();
 
     }
 
@@ -145,6 +146,8 @@ public class AppealPassportActivity extends BaseActivity<AppealPassportPresenter
 
     @Override
     public void sendSuccess() {
+        mCpBtnSubmitAppeal.revertAnimation();
+        SnackBarUtil.normal(this, "提交成功，我们会尽快处理，结果会以邮件的形式通知", true);
         HandlerUtil.postDelay(() -> {
                     Intent intent = new Intent(this, LoginActivity.class);
                     startActivity(intent);

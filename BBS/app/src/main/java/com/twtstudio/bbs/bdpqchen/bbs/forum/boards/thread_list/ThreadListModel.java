@@ -117,6 +117,7 @@ public class ThreadListModel {
         public void setVisibility(int visibility) {
             this.visibility = visibility;
         }
+
     }
 
     public static class ThreadBean {
@@ -139,6 +140,7 @@ public class ThreadListModel {
         private int id;
         private String title;
         private int author_id;
+        private int anonymous;
         private int board_id;
         private String author_name;
         private String author_nickname;
@@ -261,6 +263,14 @@ public class ThreadListModel {
 
         public void setContent(String content) {
             this.content = content;
+        }
+
+        public int getAnonymous() {
+            return anonymous;
+        }
+
+        public void setAnonymous(int anonymous) {
+            this.anonymous = anonymous;
         }
     }
 }
