@@ -13,19 +13,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
-import com.pizidea.imagepicker.AndroidImagePicker;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
@@ -264,7 +260,6 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Constants.RESULT_CODE_AVATAR) {
             String imagePath = data.getStringExtra(Constants.INTENT_RESULT_IMAGE_PATH);
-            LogUtil.d("path is ", imagePath);
             mCivAvatar.setVisibility(View.VISIBLE);
             showProgressBar("正在上传，请稍后..");
             mPresenter.doUpdateAvatar(new File(getCacheDir(), "cropped"));

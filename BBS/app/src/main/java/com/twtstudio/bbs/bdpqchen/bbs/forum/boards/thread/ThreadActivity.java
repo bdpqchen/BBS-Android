@@ -262,9 +262,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 .duration(d)
                 .playOn(mLlComment);
         mLlComment.setVisibility(View.VISIBLE);
-//        mLlComment.setFocusable(true);
-//        mLlComment.setFocusableInTouchMode(true);
-//        mLlComment.requestFocus();
         mTvDynamicHint.setText(mAdapter.getDynamicHint(postPosition));
 
         mEtComment.setFocusable(true);
@@ -277,8 +274,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             if (imm != null) {
                 imm.showSoftInput(mEtComment, 0);
             }
-        }, 500);
-//        mEtComment.setFocusable(true);
+        }, d);
     }
 
     private void showStarOrNot(int in_collection) {

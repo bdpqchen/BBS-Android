@@ -7,14 +7,17 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.soundcloud.android.crop.Crop;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import java.io.File;
@@ -66,6 +69,8 @@ public class UpdateAvatarActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ImageUtil.refreshMyAvatar(this, resultView);
+
         mBtnFinish.setOnClickListener(v -> {
             if (mImagePath != null) {
                 Intent data = new Intent();
@@ -98,28 +103,21 @@ public class UpdateAvatarActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent result) {
         if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
             beginCrop(result.getData());
-            LogUtil.dd("begincrop send");
         } else if (requestCode == Crop.REQUEST_CROP) {
             handleCrop(resultCode, result);
-            LogUtil.dd("handlecrop");
         }
     }
 
     private void beginCrop(Uri source) {
-        LogUtil.dd("begincrop");
         Uri destination = Uri.fromFile(new File(getCacheDir(), "cropped"));
         Crop.of(source, destination).asSquare().start(this);
-        LogUtil.d("source", source);
-        LogUtil.d("destination", destination);
-
     }
 
     private void handleCrop(int resultCode, Intent result) {
-        LogUtil.dd("handlecrop");
         if (resultCode == RESULT_OK) {
             mImagePath = Crop.getOutput(result);
             resultView.setImageURI(mImagePath);
-            LogUtil.d("result", Crop.getOutput(result));
+            mBtnFinish.setVisibility(View.VISIBLE);
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
         }
