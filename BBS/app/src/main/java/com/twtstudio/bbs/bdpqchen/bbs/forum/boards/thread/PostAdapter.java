@@ -30,6 +30,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_POST;
 
 /**
  * Created by bdpqchen on 17-5-23.
@@ -45,7 +46,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private ThreadModel.ThreadBean mThreadData = new ThreadModel.ThreadBean();
     private List<ThreadModel.PostBean> mPostData = new ArrayList<>();
     private OnItemClickListener mOnItemClickListener = null;
-    private int onePage = 50;
+    private int onePage = MAX_LENGTH_POST;
     private int mPage = 0;
 
     @Override

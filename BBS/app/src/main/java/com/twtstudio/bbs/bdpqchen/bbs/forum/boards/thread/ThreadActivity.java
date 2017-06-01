@@ -51,6 +51,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_POST;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_QUOTE;
 
 
 /**
@@ -106,8 +108,11 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private LinearLayoutManager mLayoutManager;
     private int lastVisibleItemPosition = 0;
     private int mPage = 0;
+    private int mEndingPage = 0;
     private boolean mIsLoadingMore;
     private boolean mIsAddingComment = false;
+    private int mPostCount = 0;
+    private boolean mEnding = false;
 
 
     @Override
@@ -161,9 +166,11 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
-                    mPage++;
-                    mIsLoadingMore = true;
-                    mPresenter.getThread(mThreadId, mPage);
+                    if (!mEnding){
+                        mPage++;
+                        mIsLoadingMore = true;
+                        mPresenter.getThread(mThreadId, mPage);
+                    }
                 }
             }
 
@@ -297,7 +304,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mEtComment.requestFocus();
             InputMethodManager imm = (InputMethodManager) mLlComment
                     .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.showSoftInput(mEtComment,0);
             HandlerUtil.postDelay(() -> {
                 if (imm != null) {
                     imm.showSoftInput(mEtComment, 0);
@@ -329,7 +335,22 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     @Override
     public void onGotThread(ThreadModel model) {
-        if (model == null || model.getThread() == null && model.getPost() == null && model.getPost().size() > 0) {
+        if (model.getThread() != null) {
+            mPostCount = model.getThread().getC_post();
+        }
+        //只看最后一页
+        if (mEnding) {
+            if (model.getPost() == null || model.getPost().size() == 0) {
+                mEndingPage--;
+                mPresenter.getThread(mThreadId, mEndingPage);
+            }else{
+                mAdapter.refreshList(model.getPost());
+//                mEnding = false;
+                mEndingPage = 0;
+            }
+            return;
+        }
+        if (model.getThread() == null && model.getPost() == null && model.getPost().size() > 0) {
             pageSS();
             return;
         }
@@ -384,11 +405,24 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 pageSS();
             }
         }
-
         setRefreshing(false);
         showAnonymousOrNot();
         hideProgressBar();
         setCheckBox(false);
+    }
+
+    private void toTop() {
+        mRvThreadPost.smoothScrollToPosition(0);
+    }
+
+    private void toEnd() {
+        mEnding = true;
+        if (mPostCount > MAX_LENGTH_POST) {
+            mEndingPage = mPostCount / MAX_LENGTH_POST;
+        } else {
+            mEndingPage = 0;
+        }
+        mPresenter.getThread(mThreadId, mEndingPage);
     }
 
     private void pageSS() {
@@ -413,7 +447,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mPage--;
         }
         mSrlThreadList.setRefreshing(false);
-
+        pageSS();
+        mEnding = false;
     }
 
     @Override
@@ -489,6 +524,17 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             case android.R.id.home:
                 finishMe();
                 break;
+            case R.id.action_to_end:
+                toEnd();
+                break;
+            case R.id.action_to_top:
+                toTop();
+                break;
+            case R.id.action_refresh:
+                setRefreshing(true);
+                mEnding = false;
+                mPresenter.getThread(mThreadId, 0);
+                break;
         }
 
         return false;
@@ -517,6 +563,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     private void setRefreshing(boolean refreshing) {
         if (mSrlThreadList != null) {
+            mRefreshing = refreshing;
             mSrlThreadList.setRefreshing(refreshing);
         }
     }
