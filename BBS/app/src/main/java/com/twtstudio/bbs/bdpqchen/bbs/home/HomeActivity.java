@@ -222,7 +222,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public void showUpdateDialog(int versionCode) {
-
     }
 
     @Override

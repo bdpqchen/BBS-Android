@@ -1,10 +1,9 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual;
 
-import android.os.Bundle;
-
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 
@@ -26,5 +25,30 @@ public class IndividualPresenter extends RxPresenter<IndividualContract.View> im
         this.mHttpClient = httpClient;
     }
 
+    @Override
+    public void initIndividualInfo() {
+        SimpleObserver<IndividualInfoModel> observer = new SimpleObserver<IndividualInfoModel>() {
+            @Override
+            public void _onError(String msg) {
+                if (mView != null){
+                    PrefUtil.setIsLatestInfo(false);
+                    mView.getInfoFailed(msg);
+                }
+            }
 
+            @Override
+            public void _onNext(IndividualInfoModel individualInfoModel) {
+                LogUtil.dd(individualInfoModel.getNickname() + "1");
+                if (mView != null){
+                    mView.gotInfo(individualInfoModel);
+                }
+            }
+        };
+        addSubscribe(mHttpClient.getIndividualInfo()
+                .map(mHttpClient.mTransformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer)
+        );
+    }
 }

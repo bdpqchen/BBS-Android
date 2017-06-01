@@ -173,9 +173,14 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
 
     private void hasUpdate() {
+        LogUtil.dd("nickname", mNickname);
+        LogUtil.dd("mOldNickname", mOldNickname);
+        LogUtil.dd("mSignature", mSignature);
+        LogUtil.dd("mOldSignature", mOldSignature);
         if (mNickname.equals(mOldNickname) && mSignature.equals(mOldSignature)) {
             finishMe();
         } else {
+
             new MaterialDialog.Builder(this)
                     .title("提示")
                     .content("你刚刚修改的资料还没有保存")

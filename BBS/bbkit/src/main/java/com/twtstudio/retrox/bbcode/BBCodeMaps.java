@@ -228,7 +228,8 @@ public class BBCodeMaps {
         bbMap.put("\\[img\\](.+?)\\[/img\\]", "<img src=\"" + BASE_URL + "$1\" />");
         //乔成骚改的
         bbMap.put("\\[attimg\\](.+?)\\[/attimg\\]", "<img src=\"" + BASE_URL + "/api/attach/$1\" />");
-        bbMap.put("\\[attimg\\](.+?)\\[/attimg\\]", "<img src=\"" + BASE_URL + "attach/$1\" />");
+//        bbMap.put("\\[attimg\\](.+?)\\[/attimg\\]", "<img src=\"" + BASE_URL + "attach/$1\" />");
+//        bbMap.put("\\[attimg\\](.+?)\\[/attimg\\]", "<img src=\"http://bbs.twtstudio.com/api/attach/$1\" />");
         bbMap.put("\\[img=(.+?),(.+?)\\](.+?)\\[/img\\]", "<img width=\"$1\" height=\"$2\" src=\"$3\" />");
         bbMap.put("\\[email\\](.+?)\\[/email\\]", "<a href=\"mailto:$1\">$1</a>");
         bbMap.put("\\[email=(.+?)\\](.+?)\\[/email\\]", "<a href=\"mailto:$1\">$2</a>");

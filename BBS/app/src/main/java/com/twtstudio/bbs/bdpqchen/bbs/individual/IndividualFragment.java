@@ -14,10 +14,12 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.collection.CollectionActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
@@ -106,12 +108,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
     @Override
     protected void initFragment() {
-        setUnread();
-        setPastDays(PrefUtil.getInfoCreate());
-        mTvPostCount.setText(PrefUtil.getInfoPost() + "");
-        mTvNickname.setText(PrefUtil.getInfoNickname());
-        mTvSignature.setText(PrefUtil.getInfoSignature());
-        mTvPoints.setText(PrefUtil.getInfoPoints() + "");
         ImageUtil.loadMyAvatar(mContext, mCivAvatar);
         mRlIndividualItemMessage.setOnClickListener(v -> startItemActivity(1));
         mRlIndividualItemCollection.setOnClickListener(v -> startItemActivity(2));
@@ -120,6 +116,8 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mCivAvatar.setOnClickListener(v -> startItemActivity(4));
         mTvPostCount.setOnClickListener(v -> startItemActivity(3));
         mRlSettings.setOnClickListener(v -> startItemActivity(5));
+        mPresenter.initIndividualInfo();
+
     }
 
     private void startItemActivity(int index) {
@@ -179,5 +177,40 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
     }
 
+
+    @Override
+    public void gotInfo(IndividualInfoModel info) {
+        LogUtil.d("receive a response");
+        if (info != null) {
+            LogUtil.dd("on");
+            //设置个人信息，在IndividualFragment 里可直接获取，需判断是否为最新getIsLatestInfo()
+            PrefUtil.setInfoNickname(info.getNickname());
+            PrefUtil.setInfoSignature(info.getSignature());
+            PrefUtil.setInfoOnline(info.getC_online());
+            PrefUtil.setInfoPost(info.getC_post());
+            PrefUtil.setInfoPoints(info.getPoints());
+            PrefUtil.setInfoCreate(info.getT_create());
+            PrefUtil.setInfoGroup(info.getGroup());
+            PrefUtil.setInfoLevel(info.getLevel());
+            PrefUtil.setIsLatestInfo(true);
+            int unRead = info.getC_unread();
+            PrefUtil.setInfoUnread(unRead);
+            LogUtil.dd("unread", String.valueOf(unRead));
+            // TODO: 17-5-10 为了测试
+//            mNearBy.setBadgeCount(unRead);
+            setUnread();
+            setPastDays(PrefUtil.getInfoCreate());
+            mTvPostCount.setText(PrefUtil.getInfoPost() + "");
+            mTvNickname.setText(PrefUtil.getInfoNickname());
+            mTvSignature.setText(PrefUtil.getInfoSignature());
+            mTvPoints.setText(PrefUtil.getInfoPoints() + "");
+
+        }
+    }
+
+    @Override
+    public void getInfoFailed(String m) {
+
+    }
 
 }
