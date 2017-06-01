@@ -27,6 +27,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
+
 /**
  * Created by bdpqchen on 17-5-23.
  */
@@ -42,6 +46,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private List<ThreadModel.PostBean> mPostData = new ArrayList<>();
     private OnItemClickListener mOnItemClickListener = null;
     private int onePage = 50;
+    private int mPage = 0;
 
     @Override
     public void onClick(View v) {
@@ -52,67 +57,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     public int getPostId(int position) {
-        return mPostData.get(position - 1).getId();
-    }
-
-    public String comment2reply(int postPosition, String content) {
-        //帖主不算
-        postPosition--;
-        if (postPosition >= 0) {
-            ThreadModel.PostBean post = mPostData.get(postPosition);
-            content = "[quote]引用 #"
-                    + post.getFloor() + " "
-                    + getAuthorName(false, postPosition) + " 的评论："
-                    + cutRedundancy(post.getContent())
-                    + "[/quote]"
-                    + content + "";
-        }
-        return content;
-    }
-
-    private String getAuthorName(boolean is1floor, int position) {
-        int uid = 0;
-        if (mPostData != null && mPostData.size() > 0) {
-            uid = mPostData.get(position).getAuthor_id();
-        }
-        if (is1floor) {
-            if (mThreadData != null){
-                uid = mThreadData.getAuthor_id();
-            }
-        }
-        if (uid == 0) {
-            return "匿名用户";
-        } else {
-            if (is1floor) {
-                if (mThreadData != null) {
-                    return mThreadData.getAuthor_name();
-                }
-            } else {
-                if (mPostData.get(position) != null)
-                return mPostData.get(position).getAuthor_name();
-            }
-        }
-        return ".";
-    }
-
-    String getDynamicHint(int postPosition) {
-        String hint;
-        if (postPosition == 0) {
-            hint = "评论帖主 " + getAuthorName(true, 0);
-        } else {
-            int p = postPosition - 1;
-            ThreadModel.PostBean post = mPostData.get(p);
-            hint = "回复 " + post.getFloor() + "楼 " + getAuthorName(false, p);
-        }
-        return hint;
-    }
-
-    private String cutRedundancy(String former) {
-        /*int wantLen = Constants.MAX_LENGTH_QUOTE;
-        if (former.length() > wantLen) {
-            former = former.substring(wantLen);
-        }*/
-        return former;
+        return mPostData.get(position).getId();
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -126,149 +71,152 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
-        if (viewType == TYPE_POST) {
+        if (viewType == ITEM_NORMAL) {
             LogUtil.dd("view = normal");
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_post, parent, false);
             view.setOnClickListener(this);
             return new PostHolder(view);
-        } else if (viewType == TYPE_THREAD) {
-            LogUtil.dd("view = header");
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_thread, parent, false);
-            return new HeaderHolder(view);
-        } else if (viewType == TYPE_FOOTER) {
+        } else if (viewType == ITEM_FOOTER) {
+            LogUtil.dd("view == footer");
             view = LayoutInflater.from(mContext).inflate(R.layout.item_footer_common, parent, false);
             return new BaseFooterViewHolder(view);
+        } else if (viewType == ITEM_HEADER) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_thread, parent, false);
+            return new HeaderHolder(view);
         }
         return null;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (mThreadData != null) {
-            if (holder instanceof HeaderHolder) {
-                HeaderHolder headerHolder = (HeaderHolder) holder;
-                if (mThreadData.getAuthor_id() == 0) {
-                    mThreadData.setAuthor_name("匿名用户");
-                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, headerHolder.mCivAvatarThread);
+        if (mPostData != null && mPostData.size() > 0) {
+//            LogUtil.dd("position", String.valueOf(position));
+            if (holder instanceof PostHolder) {
+                ThreadModel.PostBean p = mPostData.get(position);
+                PostHolder h = (PostHolder) holder;
+                if (p.getAuthor_id() == 0) {
+                    p.setAuthor_name("匿名用户");
+                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_right, h.mCivAvatarPost);
                 } else {
-                    ImageUtil.loadAvatarAsBitmapByUid(mContext, mThreadData.getAuthor_id(), headerHolder.mCivAvatarThread);
+                    ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, p.getAuthor_id(), h.mCivAvatarPost);
                 }
-                headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(mThreadData.getT_create()));
-                headerHolder.mTvUsernameThread.setText(mThreadData.getAuthor_name());
-                headerHolder.mTvTitle.setText(mThreadData.getTitle());
-                // TODO: 17-5-26 Level is not set
-                String str = BBCodeParse.bbcode2Html(mThreadData.getContent());
-                headerHolder.mHtvContent.setHtml(str, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
-            }
-            if (mPostData != null && mPostData.size() > 0) {
-                if (holder instanceof PostHolder) {
-                    ThreadModel.PostBean p = mPostData.get(position - 1);
-                    PostHolder h = (PostHolder) holder;
-                    if (p.getAuthor_id() == 0) {
-                        p.setAuthor_name("匿名用户");
-                        ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_right, h.mCivAvatarPost);
-                    } else {
-                        ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, p.getAuthor_id(), h.mCivAvatarPost);
-                    }
-                    h.mTvUsernamePost.setText(p.getAuthor_name());
-                    h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
-                    h.mTvFloorPost.setText(p.getFloor() + "楼");
-                    String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
-                    h.mTvPostContent.setHtml(htmlStr, new GlideImageGeter(h.mTvPostContent.getContext(), h.mTvPostContent));
-                    h.itemView.setTag(position);
-                } else if (holder instanceof BaseFooterViewHolder) {
-                    LogUtil.d("base footer view");
-                }
-            }
-        }
-    }
+                h.mTvUsernamePost.setText(p.getAuthor_name());
+                h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
+                h.mTvFloorPost.setText(p.getFloor() + "楼");
+                String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
+                h.mTvPostContent.setHtml(htmlStr, new GlideImageGeter(h.mTvPostContent.getContext(), h.mTvPostContent));
+                h.itemView.setTag(position);
+//                h.itemView.setOnClickListener();
+            } else if (holder instanceof BaseFooterViewHolder) {
+                LogUtil.d("base footer view");
 
-    @Override
-    public int getItemViewType(int position) {
-//        LogUtil.dd("position", String.valueOf(position));
-        if (mThreadData != null && mPostData != null) {
-            if (position >= onePage) {
-                return TYPE_FOOTER;
+            } else if (holder instanceof HeaderHolder) {
+                HeaderHolder headerHolder = (HeaderHolder) holder;
+                ThreadModel.PostBean p = mPostData.get(position);
+                if (p.getAuthor_id() == 0) {
+                    p.setAuthor_name("匿名用户");
+                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_right, headerHolder.mCivAvatarThread);
+                } else {
+                    ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, p.getAuthor_id(), headerHolder.mCivAvatarThread);
+                }
+                headerHolder.mTvTitle.setText(p.getTitle());
+                headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
+                headerHolder.mTvUsernameThread.setText(p.getAuthor_name());
+                String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
+                headerHolder.mHtvContent.setHtml(htmlStr, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
             }
-        }
-        if (position > 0) {
-            return TYPE_POST;
-        } else {
-            return TYPE_THREAD;
         }
     }
 
     @Override
     public int getItemCount() {
-        int count = 0;
-        if (mThreadData != null) {
-            count++;
-        } else {
+        if (mPostData == null || mPostData.size() == 0) {
             return 0;
-        }
-        if (mPostData != null && mPostData.size() != 0) {
-            count += mPostData.size();
-        }
-        if (count == 0) {
-            return count;
         } else {
-            if (count >= onePage) {
-                count++;
+            if (mPostData.size() < onePage * (mPage + 1) + 1) {
+                return mPostData.size();
             }
-            return count;
-        }
-
-    }
-
-    public void setPostData(List<ThreadModel.PostBean> postData) {
-        mPostData = postData;
-        notifyDataSetChanged();
-    }
-
-    public void setThreadData(ThreadModel.ThreadBean threadData) {
-        mThreadData = threadData;
-        notifyDataSetChanged();
-    }
-
-    public void clearData() {
-        mThreadData = null;
-        mPostData.clear();
-    }
-
-    public void addData(List<ThreadModel.PostBean> post, int page) {
-        mPostData.addAll(post);
-        onePage *= page + 1;
-
-        notifyDataSetChanged();
-    }
-
-    public void refreshList(ThreadModel model) {
-        if (model != null && model.getThread() != null){
-            clearData();
-            mThreadData = model.getThread();
-            if (model.getPost() != null && model.getPost().size() > 0){
-                mPostData.addAll(model.getPost());
-            }
+            return mPostData.size() + 1;
         }
     }
 
-    public void addMyComment(ThreadModel model, int page) {
-        if (page == 0){
-            refreshList(model);
-        }else{
-            if (mPostData == null || mPostData.size() == 0){
-                return;
+    @Override
+    public int getItemViewType(int position) {
+//        LogUtil.dd("item position", String.valueOf(position));
+//        LogUtil.dd("itemCount", String.valueOf(getItemCount()));
+        if (mPostData != null && mPostData.size() > 0) {
+            if (position == 0) {
+                return ITEM_HEADER;
             }
-            int size = mPostData.size();
-            LogUtil.dd("size is", String.valueOf(size));
-            LogUtil.dd("page is", String.valueOf(page));
-            for (int i = onePage * (page); i < size; i++){
-                LogUtil.dd("removed", String.valueOf(i));
-                mPostData.remove(i);
+            if (position + 1 == getItemCount()) {
+                if (getItemCount() < (mPage + 1) * onePage + 1) {
+                    return ITEM_NORMAL;
+                }
+                return ITEM_FOOTER;
+            } else {
+                return ITEM_NORMAL;
             }
-            mPostData.addAll(model.getPost());
-            notifyDataSetChanged();
         }
+        return ITEM_NORMAL;
+    }
+
+    public void updateThreadPost(List<ThreadModel.PostBean> postList, int page) {
+        mPage = page;
+        mPostData.addAll(postList);
+        notifyDataSetChanged();
+
+    }
+
+    public void refreshList(List<ThreadModel.PostBean> model) {
+        mPostData.removeAll(mPostData);
+        mPostData.addAll(model);
+        notifyDataSetChanged();
+    }
+
+    public String comment2reply(int postPosition, String content) {
+        //帖主不算
+        ThreadModel.PostBean post = mPostData.get(postPosition);
+        content = "[quote]引用 #"
+                + post.getFloor() + " "
+                + getAuthorName(postPosition) + " 的评论："
+                + cutRedundancy(post.getContent())
+                + "[/quote]"
+                + content + "";
+        return content;
+    }
+
+    private String getAuthorName(int position) {
+        int uid = 0;
+        if (mPostData != null && mPostData.size() > 0) {
+            uid = mPostData.get(position).getAuthor_id();
+        }
+        if (uid == 0) {
+            return "匿名用户";
+        } else {
+            if (mPostData.get(position) != null) {
+                return mPostData.get(position).getAuthor_name();
+            }
+        }
+        return ".";
+    }
+
+    String getDynamicHint(int postPosition) {
+        String hint;
+        if (postPosition == 0) {
+            hint = "评论帖主 " + getAuthorName(0);
+        } else {
+            ThreadModel.PostBean post = mPostData.get(postPosition);
+            hint = "回复 " + post.getFloor() + "楼 " + getAuthorName(postPosition);
+        }
+        return hint;
+    }
+
+    private String cutRedundancy(String former) {
+        /*int wantLen = Constants.MAX_LENGTH_QUOTE;
+        if (former.length() > wantLen) {
+            former = former.substring(wantLen);
+        }*/
+        return former;
     }
 
     static class PostHolder extends RecyclerView.ViewHolder {

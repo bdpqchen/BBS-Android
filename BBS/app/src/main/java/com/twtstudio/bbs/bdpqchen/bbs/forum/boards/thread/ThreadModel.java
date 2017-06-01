@@ -8,12 +8,6 @@ import java.util.List;
 
 public class ThreadModel {
 
-    /**
-     * thread : {"id":179,"title":"I/O 2017 Recap","author_id":21141,"author_name":"naiveuser","author_nickname":"asdafff","c_post":13,"b_top":0,"b_elite":0,"visibility":0,"t_reply":1495891466,"t_create":1495808968,"t_modify":1495852844,"content":"[img]https://bbs.twtstudio.com/api/img/63[/img]\nExplore the grounds, check out this year&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;rsquo;s hands-on learning experiences, listen to featured technical talks, and see what people had to say in the social feed.\n","friend":0,"in_collection":0}
-     * board : {"id":24,"forum_id":14,"forum_name":"学术文艺","name":"互联网技术"}
-     * post : [{"id":118,"author_id":21146,"author_name":"EasonK","author_nickname":"等待AMS只有骨折","content":"哇塞，好大的图片诶","floor":2,"t_create":1495811823,"t_modify":0,"friend":0},{"id":119,"author_id":21149,"author_name":"testadmin","author_nickname":"testadmin","content":"&amp;#91;&amp;#93;&amp;#91;&amp;#93;&amp;#91;&amp;#93;&amp;#91;&amp;#93;&amp;#91;&amp;#93;&amp;#91;&amp;#93;&amp;#91;&amp;#93;\n","floor":3,"t_create":1495817671,"t_modify":0,"friend":0},{"id":120,"author_id":21141,"author_name":"naiveuser","author_nickname":"asdafff","content":"引用 #2 EasonK的评论：\n[quote]哇塞，好大的图片诶[/quote]\n是哈\n","floor":4,"t_create":1495851716,"t_modify":0,"friend":0},{"id":125,"author_id":19667,"author_name":"bdpqchen","author_nickname":"starter","content":"回复的回复烂了","floor":9,"t_create":1495867453,"t_modify":0,"friend":0},{"id":133,"author_id":21149,"author_name":"testadmin","author_nickname":"testadmin","content":"tg43quhy534qreu54e\n引用 #9 bdpqchen的评论：\n[quote]回复的回复烂了[/quote]\n","floor":10,"t_create":1495883604,"t_modify":0,"friend":0},{"id":135,"author_id":21148,"author_name":"Halcao","author_nickname":"Halcao","content":"你们才烂了呢哼！","floor":11,"t_create":1495885576,"t_modify":0,"friend":0},{"id":138,"author_id":21147,"author_name":"Arsener","author_nickname":"Arsener","content":"小哥哥","floor":12,"t_create":1495886530,"t_modify":0,"friend":0},{"id":139,"author_id":21147,"author_name":"Arsener","author_nickname":"Arsener","content":"小哥哥","floor":13,"t_create":1495886556,"t_modify":0,"friend":0},{"id":154,"author_id":21142,"author_name":"zhyupe12","author_nickname":"zhyupe12","content":"[list=1]\n[*]test&amp;#91;&amp;#93;\n[/list]\n","floor":14,"t_create":1495891466,"t_modify":0,"friend":0}]
-     */
-
     private ThreadBean thread;
     private BoardBean board;
     private List<PostBean> post;
@@ -43,29 +37,11 @@ public class ThreadModel {
     }
 
     public static class ThreadBean {
-        /**
-         * id : 179
-         * title : I/O 2017 Recap
-         * author_id : 21141
-         * author_name : naiveuser
-         * author_nickname : asdafff
-         * c_post : 13
-         * b_top : 0
-         * b_elite : 0
-         * visibility : 0
-         * t_reply : 1495891466
-         * t_create : 1495808968
-         * t_modify : 1495852844
-         * content : [img]https://bbs.twtstudio.com/api/img/63[/img]
-         * Explore the grounds, check out this year&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;rsquo;s hands-on learning experiences, listen to featured technical talks, and see what people had to say in the social feed.
-         * <p>
-         * friend : 0
-         * in_collection : 0
-         */
 
         private int id;
         private String title;
         private int author_id;
+        private int anonymous;
         private String author_name;
         private String author_nickname;
         private int c_post;
@@ -76,7 +52,6 @@ public class ThreadModel {
         private int t_create;
         private int t_modify;
         private String content;
-        private int friend;
         private int in_collection;
 
         public int getId() {
@@ -101,6 +76,14 @@ public class ThreadModel {
 
         public void setAuthor_id(int author_id) {
             this.author_id = author_id;
+        }
+
+        public int getAnonymous() {
+            return anonymous;
+        }
+
+        public void setAnonymous(int anonymous) {
+            this.anonymous = anonymous;
         }
 
         public String getAuthor_name() {
@@ -183,14 +166,6 @@ public class ThreadModel {
             this.content = content;
         }
 
-        public int getFriend() {
-            return friend;
-        }
-
-        public void setFriend(int friend) {
-            this.friend = friend;
-        }
-
         public int getIn_collection() {
             return in_collection;
         }
@@ -202,10 +177,10 @@ public class ThreadModel {
 
     public static class BoardBean {
         /**
-         * id : 24
-         * forum_id : 14
-         * forum_name : 学术文艺
-         * name : 互联网技术
+         * id : 159
+         * forum_id : 30
+         * forum_name : 知性感性
+         * name : 求实焦点
          */
 
         private int id;
@@ -248,15 +223,17 @@ public class ThreadModel {
 
     public static class PostBean {
         /**
-         * id : 118
-         * author_id : 21146
-         * author_name : EasonK
-         * author_nickname : 等待AMS只有骨折
-         * content : 哇塞，好大的图片诶
+         * id : 299394
+         * author_id : 13202
+         * author_name : lazierboy
+         * author_nickname : 哈哈
+         * content : 认识了好多人
+         * 你最熟悉的ID是啥？
+         * <p>
+         * anonymous : 0
          * floor : 2
-         * t_create : 1495811823
+         * t_create : 1496237957
          * t_modify : 0
-         * friend : 0
          */
 
         private int id;
@@ -264,10 +241,11 @@ public class ThreadModel {
         private String author_name;
         private String author_nickname;
         private String content;
+        private int anonymous;
         private int floor;
         private int t_create;
         private int t_modify;
-        private int friend;
+        private String title;
 
         public int getId() {
             return id;
@@ -309,6 +287,14 @@ public class ThreadModel {
             this.content = content;
         }
 
+        public int getAnonymous() {
+            return anonymous;
+        }
+
+        public void setAnonymous(int anonymous) {
+            this.anonymous = anonymous;
+        }
+
         public int getFloor() {
             return floor;
         }
@@ -333,12 +319,12 @@ public class ThreadModel {
             this.t_modify = t_modify;
         }
 
-        public int getFriend() {
-            return friend;
+        public String getTitle() {
+            return title;
         }
 
-        public void setFriend(int friend) {
-            this.friend = friend;
+        public void setTitle(String title) {
+            this.title = title;
         }
     }
 }

@@ -9,8 +9,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 
 interface ThreadContract {
     interface View extends BaseView{
-        void showThread(ThreadModel model);
-        void showFailed(String m);
+        void onGotThread(ThreadModel model);
+        void onGetThreadFailed(String m);
         void onCommentFailed(String m);
         void onCommented(PostModel model);
         void onStarFailed(String m);

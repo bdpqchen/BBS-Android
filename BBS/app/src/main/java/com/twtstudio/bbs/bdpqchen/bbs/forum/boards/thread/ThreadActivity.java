@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,11 +31,24 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.EndlessRecyclerOnScrollListener;
+import com.twtstudio.retrox.bbcode.BBCodeParse;
+
+import org.sufficientlysecure.htmltextview.GlideImageGeter;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 
@@ -68,11 +80,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     ImageView mIvStaredThread;
     @BindView(R.id.iv_star_thread)
     ImageView mIvStarThread;
-    public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
     @BindView(R.id.tv_dynamic_hint)
     TextView mTvDynamicHint;
     @BindView(R.id.cb_anonymous_comment)
     AppCompatCheckBox mCbAnonymousComment;
+
+    public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
 
     private String mThreadTitle = "";
     private int mThreadId = 0;
@@ -84,14 +97,18 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean mRefreshing = false;
     private int postPosition = 0;
     private int mReplyId = 0;
+    private int mAuthorId = 0;
+
     private boolean mIsAnonymous = false;
     private boolean mCanAnonymous = false;
+    // 用于判断是否可以匿名
     private int mBoardId = 0;
     private LinearLayoutManager mLayoutManager;
     private int lastVisibleItemPosition = 0;
     private int mPage = 0;
     private boolean mIsLoadingMore;
     private boolean mIsAddingComment = false;
+
 
     @Override
     protected int getLayoutResourceId() {
@@ -130,16 +147,32 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mThreadId = intent.getIntExtra(INTENT_THREAD_ID, 0);
         mThreadFloor = intent.getIntExtra(INTENT_THREAD_FLOOR, 1);
         mThreadTitle = intent.getStringExtra(INTENT_THREAD_TITLE);
-
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
         mPresenter.getThread(mThreadId, 0);
         mAdapter = new PostAdapter(mContext);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        mRvThreadPost.setLayoutManager(mLayoutManager);
         mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(5));
+        mRvThreadPost.setLayoutManager(mLayoutManager);
         mRvThreadPost.setAdapter(mAdapter);
+        mRvThreadPost.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
+                    mPage++;
+                    mIsLoadingMore = true;
+                    mPresenter.getThread(mThreadId, mPage);
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
+            }
+        });
         mFbThreadWritePost.setOnClickListener(v -> {
             showCommentInput();
             resetReply();
@@ -180,31 +213,14 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlThreadList.setOnRefreshListener(() -> {
             mRefreshing = true;
-            mPresenter.getThread(mThreadId, 0);
+            mPage = 0;
+            mPresenter.getThread(mThreadId, mPage);
         });
 
         mAdapter.setOnItemClickListener((view, position) -> {
             postPosition = position;
             mReplyId = mAdapter.getPostId(position);
             showCommentInput();
-        });
-
-        mRvThreadPost.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
-                    mPage++;
-                    mPresenter.getThread(mThreadId, mPage);
-                    mIsLoadingMore = true;
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
-            }
         });
 
         mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -312,53 +328,83 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     @Override
-    public void showThread(ThreadModel model) {
+    public void onGotThread(ThreadModel model) {
         if (model == null || model.getThread() == null && model.getPost() == null && model.getPost().size() > 0) {
+            pageSS();
             return;
         }
+        List<ThreadModel.PostBean> postList = new ArrayList<>();
+        if (model.getThread() != null) {
+            mAuthorId = model.getThread().getAuthor_id();
+            ThreadModel.ThreadBean thread = model.getThread();
+            showStarOrNot(thread.getIn_collection());
+            if (thread.getAnonymous() == 1) {
+                thread.setAuthor_name("匿名用户");
+            }
+            ThreadModel.PostBean post = new ThreadModel.PostBean();
+            post.setAnonymous(thread.getAnonymous());
+            post.setAuthor_name(thread.getAuthor_name());
+            post.setAuthor_nickname(thread.getAuthor_nickname());
+            post.setContent(thread.getContent());
+            post.setFloor(0);
+            post.setAuthor_id(thread.getAuthor_id());
+            post.setId(thread.getId());
+            post.setTitle(thread.getTitle());
+            post.setT_create(thread.getT_create());
+            post.setT_modify(thread.getT_modify());
+            postList.add(post);
+        }
+        // TODO: 17-6-2 评论后的刷新
         if (mIsAddingComment) {
             mIsAddingComment = false;
-            mAdapter.addMyComment(model, mPage);
+            if (mPage == 0) {
+                if (model.getPost() != null) {
+                    postList.addAll(model.getPost());
+                }
+                if (postList.size() > 0) {
+                    mAdapter.refreshList(postList);
+                }
+            }
             return;
         }
-
         if (mRefreshing) {
-            mAdapter.refreshList(model);
+            if (model.getPost() != null && model.getPost().size() > 0) {
+                postList.addAll(model.getPost());
+            }
+            mAdapter.refreshList(postList);
             mRefreshing = false;
         } else {
             if (model.getBoard() != null) {
                 mBoardId = model.getBoard().getId();
             }
-            if (mIsLoadingMore) {
-                mIsLoadingMore = false;
-                if (model.getPost() != null && model.getPost().size() > 0) {
-                    mAdapter.addData(model.getPost(), mPage);
-                }
+            if (model.getPost() != null && model.getPost().size() > 0) {
+                postList.addAll(model.getPost());
+                mAdapter.updateThreadPost(postList, mPage);
             } else {
-                mAdapter.setThreadData(model.getThread());
-                if (model.getPost() != null && model.getPost().size() > 0) {
-                    mAdapter.setPostData(model.getPost());
-                }
+                pageSS();
             }
         }
-        if (model.getThread() != null) {
-            showStarOrNot(model.getThread().getIn_collection());
-        }
 
+        setRefreshing(false);
         showAnonymousOrNot();
         hideProgressBar();
-        mSrlThreadList.setRefreshing(false);
         setCheckBox(false);
     }
 
-    void setCheckBox(boolean b) {
+    private void pageSS() {
+        if (mPage != 0) {
+            mPage--;
+        }
+    }
+
+    private void setCheckBox(boolean b) {
         if (mCbAnonymousComment != null) {
             mCbAnonymousComment.setChecked(b);
         }
     }
 
     @Override
-    public void showFailed(String m) {
+    public void onGetThreadFailed(String m) {
         SnackBarUtil.error(this, m);
         hideProgressBar();
         mRefreshing = false;
@@ -437,7 +483,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         switch (item.getItemId()) {
             case R.id.action_thread_share:
                 // TODO: 17-6-1 API 对应修改
-                String url = "https://bbs.twtstudio.com/forum/thread/" + mThreadId;
+                String url = BASE + "/forum/thread/" + mThreadId;
                 shareText(url);
                 break;
             case android.R.id.home:
@@ -469,5 +515,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         }
     }
 
-
+    private void setRefreshing(boolean refreshing) {
+        if (mSrlThreadList != null) {
+            mSrlThreadList.setRefreshing(refreshing);
+        }
+    }
 }

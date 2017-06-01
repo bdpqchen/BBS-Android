@@ -57,7 +57,8 @@ public class RxDoHttpClient<T> {
 
     //    public static final String BASE_URL = "http://202.113.13.162:8080/";
     //将会遇到证书 CA 问题
-    public static final String BASE_URL = "https://bbs.twtstudio.com/api/";
+    public static final String BASE = "https://bbs.twtstudio.com";
+    public static final String BASE_URL = BASE + "/api/";
     private Retrofit mRetrofit;
     public BaseApi mApi;
     public ResponseTransformer<T> mTransformer;

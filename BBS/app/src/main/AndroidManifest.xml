@@ -23,9 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-
         <provider android:name="android.support.v4.content.FileProvider"
                   android:authorities="9981"
+
                   android:exported="false"
                   android:grantUriPermissions="true">
             <meta-data

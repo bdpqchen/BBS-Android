@@ -33,13 +33,13 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
             @Override
             public void _onError(String msg) {
                 if (mView != null)
-                    mView.showFailed(msg);
+                    mView.onGetThreadFailed(msg);
             }
 
             @Override
             public void _onNext(ThreadModel model) {
                 if (mView != null)
-                    mView.showThread(model);
+                    mView.onGotThread(model);
             }
 
         };
