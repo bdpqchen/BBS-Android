@@ -26,12 +26,14 @@ class IdentifyPresenter extends RxPresenter<IdentifyContract.View> implements Id
         SimpleObserver<IdentifyModel> observer = new SimpleObserver<IdentifyModel>() {
             @Override
             public void _onError(String msg) {
-                mView.identifyFailed(msg);
+                if (mView != null)
+                    mView.identifyFailed(msg);
             }
 
             @Override
             public void _onNext(IdentifyModel identifyModel) {
-                mView.identifySuccess(identifyModel);
+                if (mView != null)
+                    mView.identifySuccess(identifyModel);
             }
         };
         addSubscribe(mHttpClient.doIdentifyOldUser(username, password)

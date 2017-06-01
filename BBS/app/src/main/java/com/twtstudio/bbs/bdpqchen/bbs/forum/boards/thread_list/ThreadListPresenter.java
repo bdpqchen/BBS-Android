@@ -35,12 +35,14 @@ class ThreadListPresenter extends RxPresenter<ThreadListContract.View> implement
         SimpleObserver<ThreadListModel> observer = new SimpleObserver<ThreadListModel>() {
             @Override
             public void _onError(String msg) {
-                mView.showErrorMessage(msg);
+                if (mView != null)
+                    mView.showErrorMessage(msg);
             }
 
             @Override
             public void _onNext(ThreadListModel threadListModels) {
-                mView.setThreadList(threadListModels);
+                if (mView != null)
+                    mView.setThreadList(threadListModels);
             }
         };
         addSubscribe(mHttpClient.getThreadList(boardId, page)

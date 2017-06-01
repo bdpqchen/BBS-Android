@@ -34,12 +34,14 @@ class UpdateInfoPresenter extends RxPresenter<UpdateInfoContract.View> implement
         SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
             @Override
             public void _onError(String msg) {
-                mView.updateAvatarFailed(msg);
+                if (mView != null)
+                    mView.updateAvatarFailed(msg);
             }
 
             @Override
             public void _onNext(BaseModel baseModel) {
-                mView.updateAvatarSuccess(baseModel);
+                if (mView != null)
+                    mView.updateAvatarSuccess(baseModel);
             }
 
         };
@@ -55,12 +57,14 @@ class UpdateInfoPresenter extends RxPresenter<UpdateInfoContract.View> implement
         SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
             @Override
             public void _onError(String msg) {
-                mView.updateInfoFailed(msg);
+                if (mView != null)
+                    mView.updateInfoFailed(msg);
             }
 
             @Override
             public void _onNext(BaseModel baseModel) {
-                mView.updateInfoSuccess();
+                if (mView != null)
+                    mView.updateInfoSuccess();
             }
         };
         addSubscribe(mRxDoHttpClient.doUpdateInfo(bundle, type)

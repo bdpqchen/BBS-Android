@@ -1,9 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
@@ -13,7 +10,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActiv
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
@@ -23,13 +19,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.content.post.IndexPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.model.MainModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.model.TopTenModel;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 
 import java.io.File;
 import java.security.cert.CertificateException;
@@ -251,17 +244,6 @@ public class RxDoHttpClient<T> {
         return mApi.getMessageList(getLatestAuthentication(), String.valueOf(page));
     }
 
-    public Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(String threadid) {
-        return mApi.getIndexContent(threadid);
-    }
-
-    public Observable<BaseResponse<IndexPostModel>> putComment(String threadid, String comment) {
-        IndexPostModel indexPostModel = new IndexPostModel();
-        indexPostModel.setContent(comment);
-        return mApi.postIndexPost(threadid, indexPostModel, PrefUtil.getAuthToken());
-
-    }
-
     public Observable<BaseResponse<IdentifyModel>> doIdentifyOldUser(String username, String password) {
         return mApi.getIdentifyContent(username, password);
 
@@ -339,4 +321,10 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<BaseModel>> doClearUnreadMessage() {
         return mApi.doClearUnreadMessage();
     }
+
+    public Observable<BaseResponse<BaseModel>> doUpdatePassword(String newPass, String oldPass) {
+        return mApi.doUpdatePassword(newPass, oldPass);
+    }
+
+
 }

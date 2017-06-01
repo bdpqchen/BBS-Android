@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.SimpleBean;
 
 /**
@@ -11,17 +12,13 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.model.SimpleBean;
 interface UpdatePasswordContract {
 
     interface View extends BaseView {
-        void updatePasswordSuccess();
+        void onUpdated(BaseModel model);
+        void onUpdateFailed(String errorMsg);
 
-        void updatePasswordError(String errorMsg);
-
-        boolean checkInput();
     }
 
     interface Presenter extends BasePresenter<View> {
-        void sendUpdatePasswordInfo(String oldPassword, String newPassword);
-
-        void dealFeedbackInfo(SimpleBean updatePasswordBean);
+        void doUpdatePass(String newPass, String oldPass);
     }
 
 }

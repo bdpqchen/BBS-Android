@@ -1,7 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword;
 
-import com.twtstudio.bbs.bdpqchen.bbs.individual.model.SimpleBean;
-
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -12,11 +10,6 @@ import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by HP on 2017/5/23.
@@ -76,24 +69,5 @@ public class UpdatePasswordClient {
                 .build();
     }
 
-    void sendUpdatePasswordInfo(String uidToken, String oldPassword, String newPassword) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://bbs.twtstudio.com/api/")
-                .build();
-        UpdatePasswordApi updatePasswordApi = retrofit.create(UpdatePasswordApi.class);
 
-        Call<SimpleBean> call = updatePasswordApi.sentUpdatePasswordInfo(uidToken, oldPassword, newPassword);
-        call.enqueue(new Callback<SimpleBean>() {
-            @Override
-            public void onResponse(Call<SimpleBean> call, Response<SimpleBean> response) {
-                updatePasswordPresenter.dealFeedbackInfo(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<SimpleBean> call, Throwable t) {
-            }
-        });
-    }
 }

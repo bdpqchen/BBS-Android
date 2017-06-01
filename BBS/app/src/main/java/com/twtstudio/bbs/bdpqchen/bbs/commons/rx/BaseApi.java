@@ -16,18 +16,15 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.content.post.IndexPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.model.MainModel;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 
 import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
-import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -109,6 +106,13 @@ public interface BaseApi {
             @Field(Constants.BUNDLE_NICKNAME) String nickname
     );
 
+
+    @FormUrlEncoded
+    @PUT("home")
+    Observable<BaseResponse<BaseModel>> doUpdatePassword(
+            @Field(Constants.PASSWORD) String newP,
+            @Field(Constants.OLD_PASSWORD) String old);
+
     @Multipart
     @PUT("home/avatar")
     Observable<BaseResponse<BaseModel>> doUpdateAvatar(
@@ -135,13 +139,6 @@ public interface BaseApi {
 
     @GET("index")
     Observable<BaseResponse<MainModel>> getTopTen();
-
-    @GET("thread/{threadid}/page/0")
-    Observable<BaseResponse<ContentModel.DataBean>> getIndexContent(@Path("threadid") String threadid);
-
-
-    @PUT("thread/{threadid}/page/0")
-    Observable<BaseResponse<IndexPostModel>> postIndexPost(@Path("threadid") String threadid, @Body IndexPostModel indexPostModel, @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken);
 
     @FormUrlEncoded
     @POST("passport/login/old")

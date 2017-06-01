@@ -213,6 +213,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void showAnonymousOrNot() {
+        if (mCbAnonymousComment == null) {
+            return;
+        }
         if (mBoardId == 193) {
             mCbAnonymousComment.setVisibility(View.VISIBLE);
         } else {
@@ -292,11 +295,19 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     private void showStarOrNot(int in_collection) {
         if (in_collection == 1) {
-            mIvStaredThread.setVisibility(View.VISIBLE);
-            mIvStarThread.setVisibility(View.GONE);
+            if (mIvStaredThread != null) {
+                mIvStaredThread.setVisibility(View.VISIBLE);
+            }
+            if (mIvStarThread != null) {
+                mIvStarThread.setVisibility(View.GONE);
+            }
         } else {
-            mIvStarThread.setVisibility(View.VISIBLE);
-            mIvStaredThread.setVisibility(View.GONE);
+            if (mIvStaredThread != null) {
+                mIvStaredThread.setVisibility(View.GONE);
+            }
+            if (mIvStarThread != null) {
+                mIvStarThread.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -315,6 +326,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mAdapter.refreshList(model);
             mRefreshing = false;
         } else {
+            if (model.getBoard() != null) {
+                mBoardId = model.getBoard().getId();
+            }
             if (mIsLoadingMore) {
                 mIsLoadingMore = false;
                 if (model.getPost() != null && model.getPost().size() > 0) {
@@ -323,7 +337,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             } else {
                 mAdapter.setThreadData(model.getThread());
                 if (model.getPost() != null && model.getPost().size() > 0) {
-                    mBoardId = model.getBoard().getId();
                     mAdapter.setPostData(model.getPost());
                 }
             }
@@ -331,16 +344,17 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         if (model.getThread() != null) {
             showStarOrNot(model.getThread().getIn_collection());
         }
-//        checkNotNull()
 
-        mCbAnonymousComment.setChecked(false);
         showAnonymousOrNot();
         hideProgressBar();
         mSrlThreadList.setRefreshing(false);
+        setCheckBox(false);
     }
 
-    private void addMyComment() {
-
+    void setCheckBox(boolean b) {
+        if (mCbAnonymousComment != null) {
+            mCbAnonymousComment.setChecked(b);
+        }
     }
 
     @Override
@@ -450,7 +464,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void hideProgressBar() {
-        mPbThreadLoading.setVisibility(View.GONE);
+        if (mPbThreadLoading != null) {
+            mPbThreadLoading.setVisibility(View.GONE);
+        }
     }
 
 

@@ -81,7 +81,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
         rvMessageList.setLayoutManager(new LinearLayoutManager(this));
         rvMessageList.addItemDecoration(new RecyclerViewItemDecoration(10));
         mPresenter.getMessageList(0);
-        mSrlMessage.setRefreshing(true);
+        setRefreshing(true);
         mSrlMessage.setOnRefreshListener(() -> {
             mPresenter.getMessageList(0);
             mRefreshing = true;
@@ -91,7 +91,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     @Override
     public void onGetMessageFailed(String m) {
         SnackBarUtil.error(this, m);
-        mSrlMessage.setRefreshing(false);
+        setRefreshing(false);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
 
     private void stopRefresh() {
         mRefreshing = false;
-        mSrlMessage.setRefreshing(false);
+        setRefreshing(false);
     }
 
     @Override
@@ -144,4 +144,12 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
         SnackBarUtil.error(this, "失败 " + msg);
         stopRefresh();
     }
+
+    void setRefreshing(boolean b){
+        if (mSrlMessage != null){
+            mSrlMessage.setRefreshing(b);
+            mRefreshing = b;
+        }
+    }
+
 }

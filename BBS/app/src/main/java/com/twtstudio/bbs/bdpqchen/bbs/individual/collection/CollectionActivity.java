@@ -92,12 +92,12 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
 
     @Override
     public void setNoCollectionVisible() {
-        collection_no_collection.setVisibility(View.VISIBLE);
+        updateStarStatus(View.VISIBLE);
     }
 
     @Override
     public void setNoCollectionInvisible() {
-        collection_no_collection.setVisibility(View.GONE);
+        updateStarStatus(View.GONE);
     }
 
     @Override
@@ -119,4 +119,11 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter> implem
     public void collectFail(String msg) {
         SnackBarUtil.error(this, msg);
     }
+
+    void updateStarStatus(int v){
+        if (collection_no_collection != null){
+            collection_no_collection.setVisibility(v);
+        }
+    }
+
 }

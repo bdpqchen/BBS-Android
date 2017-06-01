@@ -14,7 +14,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.main.TimeUtils;
 import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
 
 import butterknife.BindView;

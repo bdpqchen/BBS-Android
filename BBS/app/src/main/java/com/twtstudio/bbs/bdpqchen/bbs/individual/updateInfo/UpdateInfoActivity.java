@@ -29,7 +29,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.avatar.UpdateAvatarActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePassword;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePasswordActivity;
 
 import java.io.File;
 
@@ -132,7 +132,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
                 break;
             case R.id.rl_password_update_info:
-                startActivity(new Intent(this, UpdatePassword.class));
+                startActivity(new Intent(this, UpdatePasswordActivity.class));
                 break;
         }
     }

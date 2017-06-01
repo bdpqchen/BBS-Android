@@ -3,14 +3,15 @@ package com.twtstudio.bbs.bdpqchen.bbs.home;
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -26,8 +27,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
@@ -131,35 +134,36 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         if (PrefUtil.hadLogin()) {
             mPresenter.initIndividualInfo();
         }
-        LogUtil.dd("send a net request");
 
-        PgyUpdateManager.register(this, "9981",
-                new UpdateManagerListener() {
-                    @Override
-                    public void onNoUpdateAvailable() {
-                        LogUtil.dd("not update available");
-                    }
+        HandlerUtil.postDelay(() -> {
+            PgyUpdateManager.register(this, "9981",
+                    new UpdateManagerListener() {
+                        @Override
+                        public void onNoUpdateAvailable() {
+                            LogUtil.dd("not update available");
+                        }
 
-                    @Override
-                    public void onUpdateAvailable(final String result) {
-
-                        // 将新版本信息封装到AppBean中
-                        final AppBean appBean = getAppBeanFromString(result);
-                        SnackBarUtil.notice(mHomeActivity, "这是一个新版本 22222", true);
-                        new AlertDialog.Builder(HomeActivity.this)
-                                .setTitle("新版本更新")
-                                .setMessage(appBean.getReleaseNote())
-                                .setNegativeButton("立即下载", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        hasPermission(appBean);
-                                        LogUtil.d(appBean.getDownloadURL());
-                                    }
-                                })
-                                .show();
-                    }
-
-                });
+                        @Override
+                        public void onUpdateAvailable(final String result) {
+                            // 将新版本信息封装到AppBean中
+                            final AppBean appBean = getAppBeanFromString(result);
+                            new MaterialDialog.Builder(mContext)
+                                    .cancelable(false)
+                                    .title("最新版本更新")
+                                    .content(appBean.getReleaseNote())
+                                    .positiveText("立即下载")
+                                    .positiveColor(ResourceUtil.getColor(mContext, R.color.colorPrimary))
+                                    .onPositive((new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                                            hasPermission(appBean);
+                                        }
+                                    }))
+                                    .negativeText("再说吧")
+                                    .show();
+                        }
+                    });
+        }, 1000);
 
     }
 

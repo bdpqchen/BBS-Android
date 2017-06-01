@@ -29,11 +29,13 @@ class CreateThreadPresenter extends RxPresenter<CreateThreadContract.View> imple
         SimpleObserver<CreateThreadModel> observer = new SimpleObserver<CreateThreadModel>() {
             @Override
             public void _onError(String msg) {
+                if (mView != null)
                 mView.onPublishFailed(msg);
             }
             @Override
             public void _onNext(CreateThreadModel model) {
-                mView.onPublished();
+                if (mView != null)
+                    mView.onPublished();
             }
         };
         addSubscribe(mHttpClient.doPublishThread(bundle)

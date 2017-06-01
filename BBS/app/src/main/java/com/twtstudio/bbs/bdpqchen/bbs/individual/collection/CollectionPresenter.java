@@ -1,7 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.collection;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.SimpleBean;
 

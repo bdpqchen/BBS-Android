@@ -31,12 +31,14 @@ class AppealPassportPresenter extends RxPresenter<AppealPassportContract.View> i
         SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
             @Override
             public void _onError(String msg) {
-                mView.sendFailed(msg);
+                if (mView != null)
+                    mView.sendFailed(msg);
             }
 
             @Override
             public void _onNext(BaseModel model) {
-                mView.sendSuccess();
+                if (mView != null)
+                    mView.sendSuccess();
             }
         };
         addSubscribe(mHttpClient.appealPassport(bundle)

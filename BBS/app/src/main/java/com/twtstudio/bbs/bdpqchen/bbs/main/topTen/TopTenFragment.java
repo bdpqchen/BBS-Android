@@ -76,21 +76,29 @@ public class TopTenFragment extends BaseFragment<TopTenPresenter> implements Mai
             toptenEmpty.setText("暂无全站十大");
             toptenEmpty.setVisibility(View.VISIBLE);
         }
-        mRefreshing = false;
-        layoutSwipeRefresh.setRefreshing(false);
+        setRefreshing(false);
         hideLoading();
     }
 
     @Override
     public void onFailedGetHomeData(String msg) {
-        mRefreshing = false;
         hideLoading();
-        layoutSwipeRefresh.setRefreshing(false);
+        setRefreshing(false);
         SnackBarUtil.notice(this.getActivity(), msg + "\n刷新试试～");
     }
 
     private void hideLoading() {
-        mPbLoading.setVisibility(View.GONE);
+        if (mPbLoading != null){
+            mPbLoading.setVisibility(View.GONE);
+        }
     }
+
+    void setRefreshing(boolean b){
+        if (layoutSwipeRefresh != null){
+            mRefreshing = b;
+            layoutSwipeRefresh.setRefreshing(b);
+        }
+    }
+
 }
 

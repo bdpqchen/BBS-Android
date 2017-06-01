@@ -18,7 +18,7 @@ import butterknife.BindView;
  * Created by Arsener on 2017/5/13.
  */
 
-public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implements MyReleaseContract.View {
+public class MyReleaseActivity extends BaseActivity<MyReleasePresenter>{
 
     @BindView(R.id.tl_release)
     TabLayout mTabLayout;
@@ -26,8 +26,6 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
     ViewPager mViewpager;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-//    private ArrayList<View> mList;
-//    private String[] mTitle;
 
     @Override
     protected int getLayoutResourceId() {
@@ -36,8 +34,6 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
 
     @Override
     protected Toolbar getToolbarView() {
-//        toolbar.setTitle("我的发布");
-//        return toolbar;
         return null;
     }
 
@@ -67,21 +63,16 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter> implemen
 
         MyReleaseFragmentAdapter myReleaseFragmentAdapter = new MyReleaseFragmentAdapter(getSupportFragmentManager());
 
-        toolbar.setTitle("我的发布");
+        if (toolbar != null){
+            toolbar.setTitle("我的发布");
+        }
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         mViewpager.setAdapter(myReleaseFragmentAdapter);
-//        mViewpager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewpager);
     }
 
-    @Override
-    public void clearMyReleaseList() {
-    }
 
-    @Override
-    public void showMyReleaseList(List<MyReleaseModel> data) {
-    }
 }

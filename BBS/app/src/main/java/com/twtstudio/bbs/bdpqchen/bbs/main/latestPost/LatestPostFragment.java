@@ -9,7 +9,6 @@ import android.widget.ProgressBar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
 
@@ -29,7 +28,6 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
     LatestPostAdapter latestPostAdapter;
     @BindView(R.id.pb_loading)
     ProgressBar mPbLoading;
-    private LinearLayoutManager linearLayoutManager;
 
     public static LatestPostFragment newInstance() {
         return new LatestPostFragment();
@@ -48,7 +46,7 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
     @Override
     protected void initFragment() {
         latestPostAdapter = new LatestPostAdapter(getActivity());
-        linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerview.setLayoutManager(linearLayoutManager);
         mPresenter.refreshAnnounce();
         recyclerview.setAdapter(latestPostAdapter);
@@ -58,29 +56,42 @@ public class LatestPostFragment extends BaseFragment<LatestPostPresenter> implem
             mPresenter.refreshAnnounce();
             layoutSwipeRefresh.setRefreshing(false);
         });
-        LogUtil.d("latest inited ");
 
     }
 
     @Override
     public void addAnnounce(List<LatestPostModel.DataBean.LatestBean> announceBeen) {
-        latestPostAdapter.addList(announceBeen);
+        if (announceBeen != null) {
+            latestPostAdapter.addList(announceBeen);
+        }
         hideLoading();
     }
 
     @Override
     public void refreshAnnounce(List<LatestPostModel.DataBean.LatestBean> announceBeen) {
-        latestPostAdapter.refreshList(announceBeen);
+        if (announceBeen != null) {
+            latestPostAdapter.refreshList(announceBeen);
+        }
         hideLoading();
+        setRefreshing(false);
     }
 
     @Override
     public void failedToGetLatestPost(String msg) {
         hideLoading();
         SnackBarUtil.notice(this.getActivity(), "加载失败，刷新试试～");
+        setRefreshing(false);
     }
 
-    private void hideLoading(){
-        mPbLoading.setVisibility(View.GONE);
+    private void hideLoading() {
+        if (mPbLoading != null) {
+            mPbLoading.setVisibility(View.GONE);
+        }
+    }
+
+    void setRefreshing(boolean b) {
+        if (layoutSwipeRefresh != null) {
+            layoutSwipeRefresh.setRefreshing(b);
+        }
     }
 }

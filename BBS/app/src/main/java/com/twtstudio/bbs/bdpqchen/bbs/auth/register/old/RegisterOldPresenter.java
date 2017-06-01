@@ -31,12 +31,13 @@ public class RegisterOldPresenter extends RxPresenter<RegisterOldContract.View> 
             @Override
             public void _onError(String msg) {
                 if (mView != null)
-                mView.registerFailed(msg);
+                    mView.registerFailed(msg);
             }
 
             @Override
             public void _onNext(RegisterOldModel RegisterOldModel) {
-                mView.registerSuccess();
+                if (mView != null)
+                    mView.registerSuccess();
             }
         };
         addSubscribe(mHttpClient.doRegisterOld(bundle)

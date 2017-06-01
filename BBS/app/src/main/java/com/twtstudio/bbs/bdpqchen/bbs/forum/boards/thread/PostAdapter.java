@@ -75,17 +75,23 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             uid = mPostData.get(position).getAuthor_id();
         }
         if (is1floor) {
-            uid = mThreadData.getAuthor_id();
+            if (mThreadData != null){
+                uid = mThreadData.getAuthor_id();
+            }
         }
         if (uid == 0) {
             return "匿名用户";
         } else {
             if (is1floor) {
-                return mThreadData.getAuthor_name();
+                if (mThreadData != null) {
+                    return mThreadData.getAuthor_name();
+                }
             } else {
+                if (mPostData.get(position) != null)
                 return mPostData.get(position).getAuthor_name();
             }
         }
+        return ".";
     }
 
     String getDynamicHint(int postPosition) {
@@ -98,7 +104,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             hint = "回复 " + post.getFloor() + "楼 " + getAuthorName(false, p);
         }
         return hint;
-
     }
 
     private String cutRedundancy(String former) {
@@ -174,8 +179,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     LogUtil.d("base footer view");
                 }
             }
-
-
         }
     }
 

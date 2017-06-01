@@ -16,13 +16,13 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-5-11.
  */
 
-class ForumPresenter extends RxPresenter<ForumContract.View> implements ForumContract.Presenter{
+class ForumPresenter extends RxPresenter<ForumContract.View> implements ForumContract.Presenter {
 
 
     private RxDoHttpClient<List<ForumModel>> mHttpClient;
 
     @Inject
-    ForumPresenter(RxDoHttpClient client){
+    ForumPresenter(RxDoHttpClient client) {
         mHttpClient = client;
     }
 
@@ -33,14 +33,16 @@ class ForumPresenter extends RxPresenter<ForumContract.View> implements ForumCon
         SimpleObserver<List<ForumModel>> observer = new SimpleObserver<List<ForumModel>>() {
             @Override
             public void _onError(String msg) {
-                mView.failedToGetForum(msg);
+                if (mView != null)
+                    mView.failedToGetForum(msg);
             }
 
             @Override
             public void _onNext(List<ForumModel> forumModels) {
 //                LogUtil.d(forumModels.size());
 //                LogUtil.d(mView);
-                mView.showForumList(forumModels);
+                if (mView != null)
+                    mView.showForumList(forumModels);
             }
 
         };

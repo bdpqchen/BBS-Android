@@ -19,7 +19,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.CollectionBean;
-import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentActivity;
 
 import java.util.Date;
 

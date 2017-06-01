@@ -60,9 +60,10 @@ public final class Constants {
     public static final String CAPTCHA_ID = "captcha_id";
     public static final String CAPTCHA_VALUE = "captcha_value";
     public static final String PASSWORD = "password";
+    public static final String OLD_PASSWORD = "old_password";
+
+
+
     public static final String TOKEN = "token";
-
-
-
     public static final int RESULT_CODE_AVATAR = 10;
 }

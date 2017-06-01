@@ -41,12 +41,14 @@ class BoardsPresenter extends RxPresenter<BoardsContract.View> implements Boards
 
             @Override
             public void _onError(String msg) {
+                if (mView != null)
                 mView.failedToGetBoardList(msg);
                 LogUtil.dd("error_message", msg);
             }
 
             @Override
             public void _onNext(PreviewThreadModel previewThreadModels) {
+                if (mView != null)
                 mView.setBoardList(previewThreadModels);
                 LogUtil.dd("OnNext()");
             }

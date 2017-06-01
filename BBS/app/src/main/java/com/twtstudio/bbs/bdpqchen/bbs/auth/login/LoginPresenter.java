@@ -47,13 +47,15 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> {
                     @Override
                     public void _onError(String msg) {
                         LogUtil.d("_onError", msg);
-                        mView.loginFailed(msg);
+                        if (mView != null)
+                            mView.loginFailed(msg);
 
                     }
 
                     @Override
                     public void _onNext(LoginModel loginModel) {
                         LogUtil.d("_onNext()", loginModel);
+                        if (mView != null)
                         mView.loginSuccess(loginModel);
                     }
 

@@ -155,11 +155,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
             mEtStuNum.setError(error);
             isPerfect = false;
         }
-        if (mStuNum.length() != 10) {
+        if (mStuNum.length() < 2) {
             mEtStuNum.setError(error);
             isPerfect = false;
         }
-        if (mCid.length() != 18) {
+        if (mCid.length() < 1) {
             mEtCid.setError(error);
             isPerfect = false;
         }
@@ -169,11 +169,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
             mEtPasswordAgain.setError(err);
             mEtPassword.setError(err);
         }
-        if (mPassword.length() < 6){
+        if (mPassword.length() < 4){
             mEtPassword.setError(errorPwd);
             isPerfect = false;
         }
-        if (mPassword.length() < 6){
+        if (mPasswordAgain.length() < 4){
             isPerfect = false;
             mEtPasswordAgain.setError(errorPwd);
         }

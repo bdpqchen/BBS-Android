@@ -130,15 +130,21 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
             mBoardNames.add(previewThreadList.getBoard().getName());
             mBoardIds.add(previewThreadList.getBoard().getId());
         }
-        mSrlBoardList.setRefreshing(false);
         hideProgressBar();
+        setRefreshing(false);
     }
 
     @Override
     public void failedToGetBoardList(String msg) {
         SnackBarUtil.error(this, msg, true);
         hideProgressBar();
-        mSrlBoardList.setRefreshing(false);
+        setRefreshing(false);
+    }
+
+    void setRefreshing(boolean b){
+        if (mSrlBoardList != null){
+            mSrlBoardList.setRefreshing(b);
+        }
     }
 
     private void hideProgressBar() {

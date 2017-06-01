@@ -35,12 +35,14 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
         SimpleObserver<List<MessageModel>> observer = new SimpleObserver<List<MessageModel>>() {
             @Override
             public void _onError(String msg) {
-                mView.onGetMessageFailed(msg);
+                if (mView != null)
+                    mView.onGetMessageFailed(msg);
             }
 
             @Override
             public void _onNext(List<MessageModel> messageModels) {
-                mView.showMessageList(messageModels);
+                if (mView != null)
+                    mView.showMessageList(messageModels);
             }
         };
 

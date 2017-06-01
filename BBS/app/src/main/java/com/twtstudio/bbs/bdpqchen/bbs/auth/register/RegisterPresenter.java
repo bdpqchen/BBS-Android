@@ -39,7 +39,8 @@ public class RegisterPresenter extends RxPresenter<RegisterContract.View> implem
 
             @Override
             public void _onNext(RegisterModel registerModel) {
-                mView.registerSuccess();
+                if (mView != null)
+                    mView.registerSuccess();
             }
         };
         addSubscribe(mHttpClient.doRegister(bundle)

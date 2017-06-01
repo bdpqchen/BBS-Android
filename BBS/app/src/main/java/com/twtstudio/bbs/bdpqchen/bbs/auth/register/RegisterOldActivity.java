@@ -85,7 +85,6 @@ public class RegisterOldActivity extends BaseActivity<RegisterOldPresenter> impl
 
     @Override
     protected Activity supportSlideBack() {
-        if (!PrefUtil.isSlideBackMode()) return null;
         return this;
     }
 
@@ -146,7 +145,7 @@ public class RegisterOldActivity extends BaseActivity<RegisterOldPresenter> impl
             mEtRealName.setError(error);
             isPerfect = false;
         }
-        if (mPasswordAgain.length() < 6) {
+        if (mPasswordAgain.length() < 4) {
             mEtPasswordAgain.setError(errorPwd);
             isPerfect = false;
         }

@@ -18,12 +18,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadAct
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.avatar.UpdateAvatarActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePassword;
-import com.twtstudio.bbs.bdpqchen.bbs.main.content.ContentActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePasswordActivity;
 
 import dagger.Component;
 
@@ -49,7 +47,7 @@ public interface ActivityComponent {
 
     void inject(UpdateInfoActivity updateInfoActivity);
 
-    void inject(UpdatePassword updatePassword);
+    void inject(UpdatePasswordActivity updatePasswordActivity);
 
     void inject(BoardsActivity boardsActivity);
 
@@ -60,8 +58,6 @@ public interface ActivityComponent {
     void inject(MyReleaseActivity myReleaseActivity);
 
     void inject(ThreadListActivity threadListActivity);
-
-    void inject(ContentActivity contentActivity);
 
     void inject(AppealPassportActivity appealPassportActivity);
 
@@ -75,5 +71,4 @@ public interface ActivityComponent {
 
     void inject(RegisterOldActivity registerOldActivity);
 
-//    void inject(UpdateAvatarActivity updateAvatarActivity);
 }
