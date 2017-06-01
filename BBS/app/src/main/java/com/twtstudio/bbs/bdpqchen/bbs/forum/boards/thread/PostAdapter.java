@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
@@ -61,10 +62,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             ThreadModel.PostBean post = mPostData.get(postPosition);
             content = "[quote]引用 #"
                     + post.getFloor() + " "
-                    + getAuthorName(false, postPosition) + "的评论：\n"
+                    + getAuthorName(false, postPosition) + " 的评论："
                     + cutRedundancy(post.getContent())
-                    + "[/quote]\n"
-                    + content + "\n";
+                    + "[/quote]"
+                    + content + "";
         }
         return content;
     }
@@ -107,10 +108,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     private String cutRedundancy(String former) {
-        int wantLen = 40;
+        /*int wantLen = Constants.MAX_LENGTH_QUOTE;
         if (former.length() > wantLen) {
             former = former.substring(wantLen);
-        }
+        }*/
         return former;
     }
 

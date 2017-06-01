@@ -9,6 +9,8 @@ import java.util.Map;
 
 public class BBCodeMaps {
 
+    public static final String BASE_URL = "https://bbs.tju.edu.cn";
+
     /**
      * @deprecated
      * @return
@@ -223,9 +225,10 @@ public class BBCodeMaps {
         bbMap.put("\\[align=(.+?)\\](.+?)\\[/align\\]", "<div align=\"$1\">$2");
         bbMap.put("\\[color=(.+?)\\](.+?)\\[/color\\]", "<font color='$1'>$2</font>");
         bbMap.put("\\[size=(.+?)\\](.+?)\\[/size\\]", "<font size=\"$1\">$2</span>");
-        bbMap.put("\\[img\\](.+?)\\[/img\\]", "<img src=\"$1\" />");
+        bbMap.put("\\[img\\](.+?)\\[/img\\]", "<img src=\"" + BASE_URL + "$1\" />");
         //乔成骚改的
-        bbMap.put("\\[attimg\\](.+?)\\[/attimg\\]", "<img src=\"http://bbs.twtstudio.com/api/attach/$1\" />");
+        bbMap.put("\\[attimg\\](.+?)\\[/attimg\\]", "<img src=\"" + BASE_URL + "/api/attach/$1\" />");
+        bbMap.put("\\[attimg\\](.+?)\\[/attimg\\]", "<img src=\"" + BASE_URL + "attach/$1\" />");
         bbMap.put("\\[img=(.+?),(.+?)\\](.+?)\\[/img\\]", "<img width=\"$1\" height=\"$2\" src=\"$3\" />");
         bbMap.put("\\[email\\](.+?)\\[/email\\]", "<a href=\"mailto:$1\">$1</a>");
         bbMap.put("\\[email=(.+?)\\](.+?)\\[/email\\]", "<a href=\"mailto:$1\">$2</a>");

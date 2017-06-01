@@ -66,4 +66,5 @@ public final class Constants {
 
     public static final String TOKEN = "token";
     public static final int RESULT_CODE_AVATAR = 10;
+    public static final int MAX_LENGTH_QUOTE = 40;
 }

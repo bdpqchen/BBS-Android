@@ -32,6 +32,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
 
     @Inject
     protected T mPresenter;
+
     protected View mView;
     protected Activity mActivity;
     protected Context mContext;
@@ -91,16 +92,11 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        super.onDestroy();
         if (mUnBinder != null){
             mUnBinder.unbind();
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
         if (mPresenter != null){
             mPresenter.detachView();
         }

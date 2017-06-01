@@ -37,6 +37,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
     @Inject
     protected T mPresenter;
 
+    protected Activity mActivity;
     private Toolbar mToolbar;
     private Unbinder mUnBinder;
     public SlideBackLayout mSlideBackLayout;
@@ -61,6 +62,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         }
         setContentView(getLayoutResourceId());
         mUnBinder = ButterKnife.bind(this);
+        mActivity = this;
         inject();
         if (mPresenter != null) {
             mPresenter.attachView(this);
@@ -114,7 +116,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         if (mPresenter != null) {
             mPresenter.detachView();
         }
-        mUnBinder.unbind();
+        if (mUnBinder != null){
+            mUnBinder.unbind();
+        }
+        finishMe();
     }
 
     @Override
@@ -132,15 +137,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         }
         return super.onOptionsItemSelected(item);
     }
-/*    public void finish(){
-        // 重写默认的finish动作
-        // nothing
-    }*/
 
     public void finishMe(){
         finishThisActivity();
     }
-
 
 
 }
