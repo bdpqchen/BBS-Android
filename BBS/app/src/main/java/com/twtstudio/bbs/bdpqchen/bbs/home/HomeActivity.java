@@ -47,8 +47,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @BindView(R.id.bottom_bar)
     BottomBar mBottomBar;
-    @BindView(R.id.mask_home)
-    View mMask;
+//    @BindView(R.id.mask_home)
+//    View mMask;
 
     MainFragment mMainFragment;
     ForumFragment mForumFragment;
@@ -101,11 +101,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         if (!PrefUtil.isNoAccountUser()) {
             PrefUtil.setHadLogin(true);
         }
-        mMask.setVisibility(View.VISIBLE);
-        ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home),
-                "alpha", 0f).setDuration(600);
-        animator.setStartDelay(400);
-        animator.start();
+//        mMask.setVisibility(View.VISIBLE);
+//        ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home), "alpha", 0f).setDuration(600);
+//        ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home), "alpha", 0f).setDuration(600);
+//        animator.setStartDelay(400);
+//        animator.start();
 
         mMainFragment = MainFragment.newInstance();
         mForumFragment = ForumFragment.newInstance();
