@@ -1,17 +1,14 @@
-package com.twtstudio.bbs.bdpqchen.bbs.auth.register;
+package com.twtstudio.bbs.bdpqchen.bbs.auth.register.old;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.method.HideReturnsTransformationMethod;
 import android.widget.EditText;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldContract;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;

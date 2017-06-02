@@ -26,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_END;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
@@ -47,6 +48,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private OnItemClickListener mOnItemClickListener = null;
     private int onePage = MAX_LENGTH_POST;
     private int mPage = 0;
+    private boolean mIsEnding = false;
+    private boolean mIsNoMore = false;
 
     @Override
     public void onClick(View v) {
@@ -78,11 +81,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             return new PostHolder(view);
         } else if (viewType == ITEM_FOOTER) {
             LogUtil.dd("view == footer");
-            view = LayoutInflater.from(mContext).inflate(R.layout.item_footer_common, parent, false);
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_common_footer, parent, false);
             return new BaseFooterViewHolder(view);
         } else if (viewType == ITEM_HEADER) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_thread, parent, false);
             return new HeaderHolder(view);
+        } else if (viewType == ITEM_END) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_common_no_more, parent, false);
+            return new TheEndViewHolder(view);
         }
         return null;
     }
@@ -124,6 +130,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mTvUsernameThread.setText(p.getAuthor_name());
                 String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
                 headerHolder.mHtvContent.setHtml(htmlStr, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
+            } else if (holder instanceof TheEndViewHolder) {
+                LogUtil.dd("the end view");
             }
         }
     }
@@ -133,27 +141,38 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         if (mPostData == null || mPostData.size() == 0) {
             return 0;
         } else {
-            if (mPostData.size() < onePage * (mPage + 1) + 1) {
+           /* if (mPostData.size() < onePage * (mPage) + 1) {
                 return mPostData.size();
-            }
+            }*/
             return mPostData.size() + 1;
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-//        LogUtil.dd("item position", String.valueOf(position));
-//        LogUtil.dd("itemCount", String.valueOf(getItemCount()));
+        LogUtil.dd("item position", String.valueOf(position));
+        LogUtil.dd("itemCount", String.valueOf(getItemCount()));
+
         if (mPostData != null && mPostData.size() > 0) {
             if (position == 0) {
+                LogUtil.dd("return header");
                 return ITEM_HEADER;
             }
             if (position + 1 == getItemCount()) {
-                if (getItemCount() < (mPage + 1) * onePage + 1) {
-                    return ITEM_NORMAL;
+                LogUtil.dd("page=", String.valueOf(mPage));
+                if (getItemCount() < (mPage) * onePage + 1) {
+                    LogUtil.dd("return end before footer");
+                    return ITEM_END;
                 }
+                if (mIsNoMore) {
+                    mIsNoMore = false;
+                    LogUtil.dd(" no more return end");
+                    return ITEM_END;
+                }
+                LogUtil.dd("return footer");
                 return ITEM_FOOTER;
             } else {
+                LogUtil.dd("return normal");
                 return ITEM_NORMAL;
             }
         }
@@ -161,8 +180,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     public void updateThreadPost(List<ThreadModel.PostBean> postList, int page) {
-        mPage = page;
-        mPostData.addAll(postList);
+        mPage = page + 1;
+        if (postList == null || postList.size() == 0) {
+            mIsNoMore = true;
+        }
+        if (postList != null) {
+            mPostData.addAll(postList);
+        }
         notifyDataSetChanged();
 
     }
@@ -259,5 +283,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }
     }
 
-
+    static class TheEndViewHolder extends RecyclerView.ViewHolder {
+        TheEndViewHolder(View view) {
+            super(view);
+        }
+    }
 }

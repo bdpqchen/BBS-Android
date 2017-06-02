@@ -25,7 +25,7 @@ public class FABScrollBehavior extends FloatingActionButton.Behavior {
 //        LogUtil.dd("onNestedScroll");
 //        LogUtil.dd("dyConsumed", String.valueOf(dyConsumed));
         if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
-            LogUtil.dd("clide hide");
+//            LogUtil.dd("clide hide");
             child.hide(new FloatingActionButton.OnVisibilityChangedListener() {
                 @Override
                 public void onHidden(FloatingActionButton fab) {
@@ -35,7 +35,7 @@ public class FABScrollBehavior extends FloatingActionButton.Behavior {
             });
 
         } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE){
-            LogUtil.dd("clide show");
+//            LogUtil.dd("clide show");
             child.show();
         }
     }
@@ -43,7 +43,7 @@ public class FABScrollBehavior extends FloatingActionButton.Behavior {
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View directTargetChild, View target, int nestedScrollAxes) {
 //        return super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, nestedScrollAxes);
-        LogUtil.dd("onStartNestedScroll");
+//        LogUtil.dd("onStartNestedScroll");
         return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL;
     }
 

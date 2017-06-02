@@ -96,12 +96,10 @@
                         android:id="@+id/et_password_again"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="密码"
+                        android:hint="至少8位的密码"
                         android:imeOptions="actionNext"
                         android:inputType="textPassword"
-                        android:maxLength="18"
                         android:maxLines="1"
-                        android:digits="0123456789abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         />
 
                 </android.support.design.widget.TextInputLayout>
