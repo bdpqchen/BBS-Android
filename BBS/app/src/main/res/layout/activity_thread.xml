@@ -74,7 +74,6 @@
             android:id="@+id/rv_thread_post"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorThreadContentBg"
             android:paddingTop="2dp"
             />
 
@@ -85,13 +84,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:clickable="true"
         android:src="@drawable/ic_insert_comment_white_24dp"
         android:visibility="visible"
         app:backgroundTint="@color/material_cyan_800"
         app:layout_behavior="com.twtstudio.bbs.bdpqchen.bbs.commons.support.FABScrollBehavior"
-        tools:visibility="gone"
+        tools:visibility="visible"
         />
 
     <LinearLayout

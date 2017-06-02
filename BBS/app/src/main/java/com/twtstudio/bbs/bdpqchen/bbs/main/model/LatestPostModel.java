@@ -68,6 +68,7 @@ public class LatestPostModel {
             private long t_create;
             private long t_modify;
             private String board_name;
+            private int anonymous;
 
 
             public String getTitle() {
@@ -164,6 +165,14 @@ public class LatestPostModel {
 
             public void setId(int id) {
                 this.id = id;
+            }
+
+            public int getAnonymous() {
+                return anonymous;
+            }
+
+            public void setAnonymous(int anonymous) {
+                this.anonymous = anonymous;
             }
         }
     }

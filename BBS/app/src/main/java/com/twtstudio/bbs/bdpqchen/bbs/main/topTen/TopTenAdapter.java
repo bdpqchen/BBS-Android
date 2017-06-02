@@ -11,6 +11,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.model.MainModel;
@@ -43,15 +44,20 @@ public class TopTenAdapter extends BaseAdapter<MainModel.HotBean> {
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         if (mDataSet != null && mDataSet.size() > 0) {
             ViewHolder mHolder = (ViewHolder) holder;
-            MainModel.HotBean hotList = mDataSet.get(position);
-            mHolder.mTitle.setText(hotList.getTitle());
-            mHolder.mAuthor.setText(hotList.getAuthor_name());
-            mHolder.mCreateTime.setText(StampUtil.getDateByStamp(hotList.getT_create()));
-            ImageUtil.loadAvatarAsBitmapByUid(mContext, hotList.getAuthor_id(), mHolder.mItemCivAvatar);
+            MainModel.HotBean hot = mDataSet.get(position);
+            mHolder.mTitle.setText(hot.getTitle());
+            mHolder.mCreateTime.setText(StampUtil.getDateByStamp(hot.getT_create()));
+            if (hot.getAnonymous() == 1){
+                hot.setAuthor_name("匿名用户");
+                ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, mHolder.mItemCivAvatar);
+            }else{
+                ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, hot.getAuthor_id(), mHolder.mItemCivAvatar);
+            }
+            mHolder.mAuthor.setText(hot.getAuthor_name());
             mHolder.itemView.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, ThreadActivity.class);
-                intent.putExtra(INTENT_THREAD_ID, hotList.getId());
-                intent.putExtra(INTENT_THREAD_TITLE, hotList.getTitle());
+                intent.putExtra(INTENT_THREAD_ID, hot.getId());
+                intent.putExtra(INTENT_THREAD_TITLE, hot.getTitle());
                 mContext.startActivity(intent);
             });
         }

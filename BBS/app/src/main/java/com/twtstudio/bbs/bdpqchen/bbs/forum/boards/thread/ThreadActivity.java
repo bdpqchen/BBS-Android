@@ -218,6 +218,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }
         });
         mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
+        mSrlThreadList.setRefreshing(true);
         mSrlThreadList.setOnRefreshListener(() -> {
             if(!mEnding) {
                 mRefreshing = true;

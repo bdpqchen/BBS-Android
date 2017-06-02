@@ -59,6 +59,8 @@ public class MainModel {
         private int t_create;
         private int t_modify;
         private String board_name;
+        private int anonymous = 0;
+
 
         public int getId() {
             return id;
@@ -171,6 +173,14 @@ public class MainModel {
         public void setBoard_name(String board_name) {
             this.board_name = board_name;
         }
+
+        public int getAnonymous() {
+            return anonymous;
+        }
+
+        public void setAnonymous(int anonymous) {
+            this.anonymous = anonymous;
+        }
     }
 
     public static class HotBean {
@@ -209,6 +219,7 @@ public class MainModel {
         private int t_modify;
         private String content;
         private String board_name;
+        private int anonymous = 0;
 
         public int getId() {
             return id;
@@ -328,6 +339,14 @@ public class MainModel {
 
         public void setBoard_name(String board_name) {
             this.board_name = board_name;
+        }
+
+        public int getAnonymous() {
+            return anonymous;
+        }
+
+        public void setAnonymous(int anonymous) {
+            this.anonymous = anonymous;
         }
     }
 }

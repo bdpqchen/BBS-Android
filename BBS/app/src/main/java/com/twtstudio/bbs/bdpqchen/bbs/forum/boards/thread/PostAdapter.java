@@ -29,6 +29,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_END;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_JUST_HEADER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_POST;
 
@@ -89,6 +90,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         } else if (viewType == ITEM_END) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_common_no_more, parent, false);
             return new TheEndViewHolder(view);
+        }else if (viewType == ITEM_JUST_HEADER){
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_common_just_header, parent, false);
+            return new JustHeaderHolder(view);
         }
         return null;
     }
@@ -121,9 +125,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 ThreadModel.PostBean p = mPostData.get(position);
                 if (p.getAuthor_id() == 0) {
                     p.setAuthor_name("匿名用户");
-                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_right, headerHolder.mCivAvatarThread);
+                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, headerHolder.mCivAvatarThread);
                 } else {
-                    ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, p.getAuthor_id(), headerHolder.mCivAvatarThread);
+                    ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, p.getAuthor_id(), headerHolder.mCivAvatarThread);
                 }
                 headerHolder.mTvTitle.setText(p.getTitle());
                 headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
@@ -132,6 +136,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mHtvContent.setHtml(htmlStr, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
             } else if (holder instanceof TheEndViewHolder) {
                 LogUtil.dd("the end view");
+            }else if (holder instanceof JustHeaderHolder){
+                LogUtil.dd("just header view");
             }
         }
     }
@@ -141,38 +147,37 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         if (mPostData == null || mPostData.size() == 0) {
             return 0;
         } else {
-           /* if (mPostData.size() < onePage * (mPage) + 1) {
-                return mPostData.size();
-            }*/
             return mPostData.size() + 1;
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        LogUtil.dd("item position", String.valueOf(position));
-        LogUtil.dd("itemCount", String.valueOf(getItemCount()));
-
+//        LogUtil.dd("item position", String.valueOf(position));
+//        LogUtil.dd("itemCount", String.valueOf(getItemCount()));
         if (mPostData != null && mPostData.size() > 0) {
             if (position == 0) {
-                LogUtil.dd("return header");
+//                LogUtil.dd("return header");
                 return ITEM_HEADER;
             }
+            if (mPostData.size() == 1){
+                return ITEM_JUST_HEADER;
+            }
             if (position + 1 == getItemCount()) {
-                LogUtil.dd("page=", String.valueOf(mPage));
+//                LogUtil.dd("page=", String.valueOf(mPage));
                 if (getItemCount() < (mPage) * onePage + 1) {
-                    LogUtil.dd("return end before footer");
+//                    LogUtil.dd("return end before footer");
                     return ITEM_END;
                 }
                 if (mIsNoMore) {
                     mIsNoMore = false;
-                    LogUtil.dd(" no more return end");
+//                    LogUtil.dd(" no more return end");
                     return ITEM_END;
                 }
-                LogUtil.dd("return footer");
+//                LogUtil.dd("return footer");
                 return ITEM_FOOTER;
             } else {
-                LogUtil.dd("return normal");
+//                LogUtil.dd("return normal");
                 return ITEM_NORMAL;
             }
         }
@@ -285,6 +290,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     static class TheEndViewHolder extends RecyclerView.ViewHolder {
         TheEndViewHolder(View view) {
+            super(view);
+        }
+    }
+
+    static class JustHeaderHolder extends RecyclerView.ViewHolder {
+        JustHeaderHolder(View view) {
             super(view);
         }
     }
