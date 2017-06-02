@@ -24,6 +24,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -129,7 +130,6 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
                     mSignature = s;
                     mTvSignatureUpdate.setText(s);
                 });
-
                 break;
             case R.id.rl_password_update_info:
                 startActivity(new Intent(this, UpdatePasswordActivity.class));
@@ -180,19 +180,18 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         if (mNickname.equals(mOldNickname) && mSignature.equals(mOldSignature)) {
             finishMe();
         } else {
-
-            new MaterialDialog.Builder(this)
-                    .title("提示")
-                    .content("你刚刚修改的资料还没有保存")
-                    .positiveText("保存")
-                    .onPositive((materialDialog, dialogAction) -> {
-                        updateInfo();
-                    })
-                    .negativeText("放弃")
-                    .onNegative(((materialDialog, dialogAction) -> {
-                        finishMe();
-                    }))
-                    .show();
+                new MaterialDialog.Builder(this)
+                        .title("提示")
+                        .content("你刚刚修改的资料还没有保存")
+                        .positiveText("保存")
+                        .onPositive((materialDialog, dialogAction) -> {
+                            updateInfo();
+                        })
+                        .negativeText("放弃")
+                        .onNegative(((materialDialog, dialogAction) -> {
+                            finishMe();
+                        }))
+                        .show();
         }
     }
 
@@ -298,7 +297,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         PrefUtil.setHasUnSyncInfo(false);
         hideProgressBar();
         SnackBarUtil.normal(this, "个人信息同步成功");
-//        HandlerUtil.postDelay(this::finishMe, 2000);
+        HandlerUtil.postDelay(this::finishMe, 2000);
     }
 
     @Override
