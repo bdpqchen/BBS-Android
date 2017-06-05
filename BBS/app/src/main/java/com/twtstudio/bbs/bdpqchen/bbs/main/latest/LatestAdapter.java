@@ -61,11 +61,10 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
                 holder.mTvThreadTitle.setText(model.getTitle());
                 holder.mTvPostCount.setText(model.getC_post() + "");
                 if (model.getC_post() == 0) {
-                    holder.mTvLatestTime.setText("发布于 " + StampUtil.getDaysFromCreateToNow(model.getT_create()) + "分钟前");
+                    holder.mTvLatestTime.setText("发布于 " + StampUtil.getTimeFromNow(model.getT_create()));
                 } else {
-                    holder.mTvLatestTime.setText("新回复" + StampUtil.getDaysFromCreateToNow(model.getT_reply()) + "小时前");
+                    holder.mTvLatestTime.setText(StampUtil.getTimeFromNow(model.getT_reply()) + "有新动态");
                 }
-
                 holder.mTvBoardName.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, ThreadListActivity.class);
                     intent.putExtra(Constants.INTENT_BOARD_ID, model.getBoard_id());

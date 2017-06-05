@@ -43,7 +43,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.layout_message;
+        return R.layout.atcivity_message;
     }
 
     @Override
