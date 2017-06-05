@@ -18,8 +18,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.model.MainModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
 
 import java.util.List;
 
@@ -59,18 +58,21 @@ public interface BaseApi {
 
     @FormUrlEncoded
     @POST("passport/login")
-    Observable<BaseResponse<LoginModel>> doLogin(@Field("username") String username, @Field("password") String password);
+    Observable<BaseResponse<LoginModel>> doLogin(
+            @Field("username") String username,
+            @Field("password") String password);
 
     @GET("forum")
     Observable<BaseResponse<List<ForumModel>>> getForums();
 
     @FormUrlEncoded
     @POST("passport/register/new")
-    Observable<BaseResponse<RegisterModel>> doRegister(@Field(Constants.BUNDLE_REGISTER_USERNAME) String string,
-                                                       @Field(Constants.BUNDLE_REGISTER_CID) String string1,
-                                                       @Field(Constants.BUNDLE_REGISTER_PASSWORD) String string2,
-                                                       @Field(Constants.BUNDLE_REGISTER_STU_NUM) String string3,
-                                                       @Field(Constants.BUNDLE_REGISTER_REAL_NAME) String string4);
+    Observable<BaseResponse<RegisterModel>> doRegister(
+            @Field(Constants.BUNDLE_REGISTER_USERNAME) String string,
+            @Field(Constants.BUNDLE_REGISTER_CID) String string1,
+            @Field(Constants.BUNDLE_REGISTER_PASSWORD) String string2,
+            @Field(Constants.BUNDLE_REGISTER_STU_NUM) String string3,
+            @Field(Constants.BUNDLE_REGISTER_REAL_NAME) String string4);
 
     @FormUrlEncoded
     @POST("passport/register/old")
@@ -82,7 +84,8 @@ public interface BaseApi {
             @Field(Constants.BUNDLE_REGISTER_REAL_NAME) String string4);
 
     @GET("home")
-    Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(@Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken);
+    Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(
+            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken);
 
     @FormUrlEncoded
     @PUT("home")
@@ -119,9 +122,6 @@ public interface BaseApi {
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Part List<MultipartBody.Part> partList);
 
-    @GET("index")
-    Observable<BaseResponse<LatestPostModel.DataBean>> getLatestPost();
-
     @GET("forum/{forumId}")
     Observable<BaseResponse<BoardsModel>> getBoardList(@Path("forumId") String forumId);
 
@@ -138,25 +138,29 @@ public interface BaseApi {
             @Path("page") String page);
 
     @GET("index")
-    Observable<BaseResponse<MainModel>> getTopTen();
+    Observable<BaseResponse<MainModel>> getMainData(
+            @Header(Constants.NET_RETROFIT_HEADER_REQUEST) String requestedWith);
 
     @FormUrlEncoded
     @POST("passport/login/old")
-    Observable<BaseResponse<IdentifyModel>> getIdentifyContent(@Field(Constants.BUNDLE_REGISTER_USERNAME) String username,
-                                                               @Field(Constants.BUNDLE_REGISTER_PASSWORD) String password);
+    Observable<BaseResponse<IdentifyModel>> getIdentifyContent(
+            @Field(Constants.BUNDLE_REGISTER_USERNAME) String username,
+            @Field(Constants.BUNDLE_REGISTER_PASSWORD) String password);
 
     @FormUrlEncoded
     @POST("passport/retrieve")
-    Observable<BaseResponse<RetrieveModel>> doRetrieveUsername(@Field(RetrieveActivity.BUNDLE_STU_NUM) String string,
-                                                               @Field(RetrieveActivity.BUNDLE_USERNAME) String string1,
-                                                               @Field(RetrieveActivity.BUNDLE_REAL_NAME) String string2,
-                                                               @Field(RetrieveActivity.BUNDLE_CID) String string3);
+    Observable<BaseResponse<RetrieveModel>> doRetrieveUsername(
+            @Field(RetrieveActivity.BUNDLE_STU_NUM) String string,
+            @Field(RetrieveActivity.BUNDLE_USERNAME) String string1,
+            @Field(RetrieveActivity.BUNDLE_REAL_NAME) String string2,
+            @Field(RetrieveActivity.BUNDLE_CID) String string3);
 
     @FormUrlEncoded
     @POST("passport/reset-pass")
-    Observable<BaseResponse<BaseModel>> resetPassword(@Field(Constants.BUNDLE_UID) String uid,
-                                                      @Field(Constants.BUNDLE_TOKEN) String token,
-                                                      @Field(Constants.PASSWORD) String password);
+    Observable<BaseResponse<BaseModel>> resetPassword(
+            @Field(Constants.BUNDLE_UID) String uid,
+            @Field(Constants.BUNDLE_TOKEN) String token,
+            @Field(Constants.PASSWORD) String password);
 
     @FormUrlEncoded
     @POST("passport/appeal")
@@ -171,14 +175,19 @@ public interface BaseApi {
             @Field(CAPTCHA_VALUE) String string7);
 
     @GET("thread/{thread}/page/{page}")
-    Observable<BaseResponse<ThreadModel>> getThread(@Path("thread") String threadId,
-                                                    @Path("page") String postPage);
+    Observable<BaseResponse<ThreadModel>> getThread(
+            @Path("thread") String threadId,
+            @Path("page") String postPage);
 
     @GET("home/publish/thread/page/{page}")
-    Observable<BaseResponse<List<MyReleaseModel>>> getMyReleaseList(@Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken, @Path("page") String page);
+    Observable<BaseResponse<List<MyReleaseModel>>> getMyReleaseList(
+            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
+            @Path("page") String page);
 
     @GET("home/publish/post/page/{page}")
-    Observable<BaseResponse<List<MyReplyModel>>> getMyReplyList(@Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken, @Path("page") String page);
+    Observable<BaseResponse<List<MyReplyModel>>> getMyReplyList(
+            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
+            @Path("page") String page);
 
     @FormUrlEncoded
     @POST("board/{bid}")

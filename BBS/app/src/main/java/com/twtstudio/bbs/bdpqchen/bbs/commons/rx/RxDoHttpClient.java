@@ -21,8 +21,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.model.LatestPostModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.model.MainModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
 
 import java.io.File;
 import java.security.cert.CertificateException;
@@ -36,7 +35,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -185,14 +183,8 @@ public class RxDoHttpClient<T> {
         return mApi.getForums();
     }
 
-
-    public Observable<BaseResponse<LatestPostModel.DataBean>> getLatestPost() {
-
-        return mApi.getLatestPost();
-    }
-
-    public Observable<BaseResponse<MainModel>> getTopTen() {
-        return mApi.getTopTen();
+    public Observable<BaseResponse<MainModel>> getMainData() {
+        return mApi.getMainData("Mobile");
     }
 
     public Observable<BaseResponse<RegisterModel>> doRegister(Bundle bundle) {

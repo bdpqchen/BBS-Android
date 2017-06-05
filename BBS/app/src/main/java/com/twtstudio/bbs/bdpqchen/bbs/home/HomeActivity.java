@@ -1,14 +1,12 @@
 package com.twtstudio.bbs.bdpqchen.bbs.home;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -47,8 +45,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @BindView(R.id.bottom_bar)
     BottomBar mBottomBar;
-    @BindView(R.id.mask_home)
-    View mMask;
+//    @BindView(R.id.mask_home)
+//    View mMask;
 
     MainFragment mMainFragment;
     ForumFragment mForumFragment;
@@ -101,11 +99,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         if (!PrefUtil.isNoAccountUser()) {
             PrefUtil.setHadLogin(true);
         }
-        mMask.setVisibility(View.VISIBLE);
-        ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home),
-                "alpha", 0f).setDuration(600);
-        animator.setStartDelay(400);
-        animator.start();
+//        mMask.setVisibility(View.VISIBLE);
+//        ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home), "alpha", 0f).setDuration(600);
+//        ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home), "alpha", 0f).setDuration(600);
+//        animator.setStartDelay(400);
+//        animator.start();
 
         mMainFragment = MainFragment.newInstance();
         mForumFragment = ForumFragment.newInstance();

@@ -44,7 +44,6 @@ public class MyReleaseFragment extends BaseFragment<MyReleasePresenter> implemen
     protected void initFragment() {
 
         myRecyclerAdapter = new MyRecyclerAdapter(getActivity(), data);
-
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 

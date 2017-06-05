@@ -8,8 +8,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestFragment;
 
 import dagger.Component;
 
@@ -24,11 +24,11 @@ public interface FragmentComponent {
     Activity getActivity();
 
     void inject(IndividualFragment individualFragment);
-
-
     void inject(ForumFragment forumFragment);
-    void inject(LatestPostFragment latestPostFragment);
-    void inject(TopTenFragment topTenFragment);
+
     void inject(MyReleaseFragment myReleaseFragment);
     void inject(MyReplyFragment myReplyFragment);
+
+    void inject(LatestFragment latestFragment);
+    void inject(HotFragment hotFragment);
 }

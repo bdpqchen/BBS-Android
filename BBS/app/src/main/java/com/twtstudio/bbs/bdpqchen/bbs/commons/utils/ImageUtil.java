@@ -87,6 +87,15 @@ public final class ImageUtil {
 
     }
 
+    public static void loadAvatarAsBitmapByUidWithLeft(Context context, int author_id, CircleImageView civAvatarPost) {
+        Glide.with(context).load(getAvatarUrl(author_id))
+                .asBitmap()
+                .centerCrop()
+                .crossFade()
+                .error(R.drawable.avatar_default_left)
+                .into(civAvatarPost);
+    }
+
     public static void loadMyAvatar(Context context, ImageView civAvatar) {
         loadAvatarByUid(context, PrefUtil.getAuthUid(), civAvatar);
     }

@@ -36,7 +36,7 @@ public class App extends Application {
         mContext = this;
         sApplication = this;
 
-        PgyCrashManager.register(this);
+//        PgyCrashManager.register(this);
 
         initLogUtils();
         initSlideBack();

@@ -12,10 +12,12 @@ public final class Constants {
     public static final String TOKEN = "token";
     public static final int RESULT_CODE_AVATAR = 10;
     public static final int MAX_LENGTH_QUOTE = 40;
-    public static final int MAX_LENGTH_POST = 40;
+    public static final int MAX_LENGTH_POST = 50;
+    public static final int ITEM_HEADER = -1;
     public static final int ITEM_NORMAL = 0;
     public static final int ITEM_FOOTER = 1;
-    public static final int ITEM_HEADER = -1;
+    public static final int ITEM_END = 2;
+    public static final int ITEM_JUST_HEADER = 3;
 
 
     public static final String BUNDLE_REGISTER_CID = "cid";
@@ -32,6 +34,8 @@ public final class Constants {
 
     public static final String NET_RETROFIT_HEADER_REQUEST = "X-Requested_With";
     public static final String BUNDLE_TOKEN = "token";
+    public static final String ANONYMOUS_NAME = "匿名用户";
+
 
 
     public static final String BUNDLE_UID = "uid";

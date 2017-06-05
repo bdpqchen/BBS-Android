@@ -218,10 +218,15 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }
         });
         mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
+        mSrlThreadList.setRefreshing(true);
         mSrlThreadList.setOnRefreshListener(() -> {
-            mRefreshing = true;
-            mPage = 0;
-            mPresenter.getThread(mThreadId, mPage);
+            if(!mEnding) {
+                mRefreshing = true;
+                mPage = 0;
+                mPresenter.getThread(mThreadId, mPage);
+            }else{
+                mSrlThreadList.setRefreshing(false);
+            }
         });
 
         mAdapter.setOnItemClickListener((view, position) -> {
@@ -355,7 +360,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             return;
         }
         List<ThreadModel.PostBean> postList = new ArrayList<>();
-        if (model.getThread() != null) {
+        if (mPage == 0 && model.getThread() != null) {
             mAuthorId = model.getThread().getAuthor_id();
             ThreadModel.ThreadBean thread = model.getThread();
             showStarOrNot(thread.getIn_collection());
@@ -374,6 +379,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             post.setT_create(thread.getT_create());
             post.setT_modify(thread.getT_modify());
             postList.add(post);
+            mAdapter.notifyDataSetChanged();
         }
         // TODO: 17-6-2 评论后的刷新
         if (mIsAddingComment) {
@@ -400,10 +406,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }
             if (model.getPost() != null && model.getPost().size() > 0) {
                 postList.addAll(model.getPost());
-                mAdapter.updateThreadPost(postList, mPage);
             } else {
                 pageSS();
             }
+            mAdapter.updateThreadPost(postList, mPage);
         }
         setRefreshing(false);
         showAnonymousOrNot();
@@ -446,7 +452,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mIsLoadingMore = false;
             mPage--;
         }
-        mSrlThreadList.setRefreshing(false);
+        setRefreshing(false);
         pageSS();
         mEnding = false;
     }
@@ -525,7 +531,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 finishMe();
                 break;
             case R.id.action_to_end:
-                toEnd();
+                if (!mRefreshing){
+                    toEnd();
+                }
                 break;
             case R.id.action_to_top:
                 toTop();

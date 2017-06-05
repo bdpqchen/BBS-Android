@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:expanded="false"
         >
 
         <android.support.v7.widget.Toolbar
@@ -55,10 +56,10 @@
             android:id="@+id/main_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
             app:tabIndicatorColor="@color/material_yellow_accent_700"
             app:tabSelectedTextColor="@color/material_yellow_accent_700"
             app:tabTextColor="@color/material_light_white"
+            app:tabBackground="@color/colorPrimary"
             />
 
     </android.support.design.widget.AppBarLayout>
