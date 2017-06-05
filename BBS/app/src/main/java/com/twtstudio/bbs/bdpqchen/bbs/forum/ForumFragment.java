@@ -112,28 +112,35 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
             mAdapter.notifyDataSetChanged();
         }
         hideProgressBar();
-        mRefreshing = false;
-        mSrlForum.setRefreshing(false);
+        setRefreshing(false);
     }
 
     @Override
     public void failedToGetForum(String msg) {
         SnackBarUtil.error(this.getActivity(), msg);
         hideProgressBar();
-        mSrlForum.setRefreshing(false);
-        mRefreshing = false;
-
+        setRefreshing(false);
     }
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        mPresenter.getForumList();
+        if (mPresenter != null){
+            mPresenter.getForumList();
 
+        }
     }
 
+    void setRefreshing(boolean b){
+        if (mSrlForum != null){
+            mSrlForum.setRefreshing(b);
+        }
+        mRefreshing = b;
+    }
     private void hideProgressBar() {
-        mPbLoadingForum.setVisibility(View.GONE);
+        if (mPbLoadingForum != null){
+            mPbLoadingForum.setVisibility(View.GONE);
+        }
     }
 
 }

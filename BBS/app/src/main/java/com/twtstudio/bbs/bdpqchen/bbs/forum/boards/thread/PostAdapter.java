@@ -39,10 +39,6 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGT
 
 public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
-    private static final int TYPE_POST = 0;
-    private static final int TYPE_THREAD = 1;
-    private static final int TYPE_FOOTER = 2;
-
     private Context mContext;
     private ThreadModel.ThreadBean mThreadData = new ThreadModel.ThreadBean();
     private List<ThreadModel.PostBean> mPostData = new ArrayList<>();
@@ -135,8 +131,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mTvUsernameThread.setText(p.getAuthor_name());
                 String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
                 LogUtil.d(htmlStr);
-
-//                headerHolder.mHtvContent.setHtml(htmlStr, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
+                headerHolder.mHtvContent.setHtml(htmlStr, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
             } else if (holder instanceof TheEndViewHolder) {
                 LogUtil.dd("the end view");
             }else if (holder instanceof JustHeaderHolder){

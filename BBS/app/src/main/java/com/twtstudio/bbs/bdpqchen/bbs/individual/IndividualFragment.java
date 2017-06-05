@@ -1,6 +1,8 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
@@ -116,8 +118,16 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mCivAvatar.setOnClickListener(v -> startItemActivity(4));
         mTvPostCount.setOnClickListener(v -> startItemActivity(3));
         mRlSettings.setOnClickListener(v -> startItemActivity(5));
-        mPresenter.initIndividualInfo();
 
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        if (mPresenter != null){
+            mPresenter.initIndividualInfo();
+
+        }
     }
 
     private void startItemActivity(int index) {
@@ -176,7 +186,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mTvSignature.setText(PrefUtil.getInfoSignature());
         ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
     }
-
 
     @Override
     public void gotInfo(IndividualInfoModel info) {

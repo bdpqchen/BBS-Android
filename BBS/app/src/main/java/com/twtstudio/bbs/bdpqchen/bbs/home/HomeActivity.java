@@ -21,6 +21,7 @@ import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
+import com.roughike.bottombar.OnTabSelectListener;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -48,15 +49,17 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 //    @BindView(R.id.mask_home)
 //    View mMask;
 
-    MainFragment mMainFragment;
-    ForumFragment mForumFragment;
-    IndividualFragment mIndividualFragment = null;
     BottomBarTab mNearBy;
 
-    private int mShowingFragment = Constants.FRAGMENT_MAIN;
-    private int mHidingFragment = Constants.FRAGMENT_MAIN;
     private Context mContext;
     private HomeActivity mHomeActivity;
+    private SupportFragment[] mFragments = new SupportFragment[3];
+    private static final int FIRST = 0;
+    private static final int SECOND = 1;
+    private static final int THIRD = 2;
+    private int mShowingFragment = FIRST;
+    private int mHidingFragment = FIRST;
+
 
     @Override
     protected int getLayoutResourceId() {
@@ -105,21 +108,30 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 //        animator.setStartDelay(400);
 //        animator.start();
 
-        mMainFragment = MainFragment.newInstance();
-        mForumFragment = ForumFragment.newInstance();
-        mIndividualFragment = IndividualFragment.newInstance();
-        loadMultipleRootFragment(R.id.fl_main_container, 0, mMainFragment, mForumFragment, mIndividualFragment);
-        mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
+        if (savedInstanceState == null) {
+            mFragments[FIRST] = MainFragment.newInstance();
+            mFragments[SECOND] = ForumFragment.newInstance();
+            mFragments[THIRD] = IndividualFragment.newInstance();
+            loadMultipleRootFragment(R.id.fl_main_container, FIRST,
+                    mFragments[FIRST],
+                    mFragments[SECOND],
+                    mFragments[THIRD]);
+        } else {
+            mFragments[FIRST] = findFragment(MainFragment.class);
+            mFragments[SECOND] = findFragment(ForumFragment.class);
+            mFragments[THIRD] = findFragment(IndividualFragment.class);
+        }
 
+        mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
         mBottomBar.setOnTabSelectListener(i -> {
-            LogUtil.dd("onTabSelected()");
+            LogUtil.dd("onTabSelected()", String.valueOf(i));
             if (PrefUtil.hadLogin()) {
                 if (i == R.id.bottom_bar_tab_main) {
-                    mShowingFragment = Constants.FRAGMENT_MAIN;
+                    mShowingFragment = FIRST;
                 } else if (i == R.id.bottom_bar_tab_forum) {
-                    mShowingFragment = Constants.FRAGMENT_FORUM;
+                    mShowingFragment = SECOND;
                 } else if (i == R.id.bottom_bar_tab_individual) {
-                    mShowingFragment = Constants.FRAGMENT_INDIVIDUAL;
+                    mShowingFragment = THIRD;
                 }
                 loadFragment();
             } else if (i == R.id.bottom_bar_tab_individual && !PrefUtil.hadLogin()) {
@@ -127,11 +139,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             }
         });
 
-//        if (mIndividualFragment.isVisible()){
         // TODO: 17-5-22 解决夜间模式View的空指针问题
-        if (PrefUtil.hadLogin()) {
+        /*if (PrefUtil.hadLogin()) {
             mPresenter.initIndividualInfo();
-        }
+        }*/
 
         HandlerUtil.postDelay(() -> {
             PgyUpdateManager.register(this, "9981",
@@ -196,20 +207,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     private void loadFragment() {
 
-        showHideFragment(getTargetFragment(mShowingFragment), getTargetFragment(mHidingFragment));
+        showHideFragment(mFragments[mShowingFragment], mFragments[mHidingFragment]);
         mHidingFragment = mShowingFragment;
-    }
-
-    private SupportFragment getTargetFragment(int type) {
-        switch (type) {
-            case Constants.FRAGMENT_MAIN:
-                return mMainFragment;
-            case Constants.FRAGMENT_FORUM:
-                return mForumFragment;
-            case Constants.FRAGMENT_INDIVIDUAL:
-                return mIndividualFragment;
-        }
-        return mMainFragment;
     }
 
     @Override

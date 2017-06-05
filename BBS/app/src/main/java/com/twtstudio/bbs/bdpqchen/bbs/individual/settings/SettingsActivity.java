@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,7 +24,7 @@ import butterknife.OnClick;
  * Created by bdpqchen on 17-5-5.
  */
 
-public class SettingsActivity extends BaseActivity {
+public class SettingsActivity extends BaseActivity<SettingsPresenter> {
 
     private static final String IS_SWITCH_NIGHT_MODE_LOCK = "isSwitchNightModeLock";
     @BindView(R.id.toolbar)
@@ -67,7 +68,7 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void inject() {
-//        getActivityComponent().inject(this);
+        getActivityComponent().inject(this);
     }
 
     @Override
@@ -113,6 +114,7 @@ public class SettingsActivity extends BaseActivity {
         Intent intent = getIntent();
         intent.putExtra(IS_SWITCH_NIGHT_MODE_LOCK, true);
         startActivity(intent);
+//        finishMe();
     }
 
     @OnClick({R.id.switch_no_network_message, R.id.switch_stranger_message, R.id.switch_night_mode, R.id.switch_auto_night_mode, R.id.switch_slide_back, R.id.tv_logout})
@@ -147,5 +149,27 @@ public class SettingsActivity extends BaseActivity {
                 break;
         }
     }
+
+    @Override
+    public void onBackPressedSupport() {
+        super.onBackPressedSupport();
+        finishThisActivity();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finishThisActivity();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    void finishThisActivity(){
+        finishMe();
+    }
+
+
 
 }

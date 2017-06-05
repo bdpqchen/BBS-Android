@@ -64,25 +64,25 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
         if (mPresenter != null){
             mPresenter.attachView(this);
         }else{
-            LogUtil.d("mPresenter is null!!!");
+            LogUtil.d("mPresenter is null!!! in base fragment");
         }
-        if (savedInstanceState == null) {
+        /*if (savedInstanceState == null) {
             if (!isHidden()) {
                 isInited = true;
             }
         } else {
             // TODO: 17-5-4 if (!isSupportHidden()) {
-            onLazyInitView(savedInstanceState);
+//            onLazyInitView(savedInstanceState);
             isInited = true;
-        }
+        }*/
         initFragment();
     }
 
-    @Override
+  /*  @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
 //        initFragment();
-    }
+    }*/
 
     @Override
     public void onAttach(Context context) {
