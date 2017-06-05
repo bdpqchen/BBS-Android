@@ -6,32 +6,38 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.topTen.TopTenFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestFragment;
 
 import javax.inject.Inject;
 
 /**
- * Created by zhangyulong on 5/12/17.
+ * Created by bdpqchen on 17-6-5.
  */
 
-public class TabAdapter extends FragmentPagerAdapter {
-//    private static final int PAGE_COUNT = 2;
+public class MainTabAdapter extends FragmentPagerAdapter {
+    //    private static final int PAGE_COUNT = 2;
     private Context mContext;
     private static String[] titles = {"最新动态", "全站十大"};
     private BaseFragment[] fragments = new BaseFragment[2];
 
 
     @Inject
-    public TabAdapter(FragmentManager fm) {
+    public MainTabAdapter(FragmentManager fm, Context context) {
         super(fm);
-        fragments[0] = LatestPostFragment.newInstance();
-        fragments[1] = TopTenFragment.newInstance();
+        mContext = context;
+
     }
 
     @Override
     public Fragment getItem(int position) {
-        return fragments[position];
+        switch (position) {
+            case 0:
+                return LatestFragment.newInstance();
+            case 1:
+                return HotFragment.newInstance();
+        }
+        return LatestFragment.newInstance();
     }
 
     @Override

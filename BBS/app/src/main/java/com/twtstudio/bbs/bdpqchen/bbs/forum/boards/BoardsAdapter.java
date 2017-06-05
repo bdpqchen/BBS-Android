@@ -72,7 +72,7 @@ public class BoardsAdapter extends BaseAdapter<PreviewThreadModel> {
                     ThreadListModel.ThreadBean thread1 = previewThread.getThreadList().get(0);
 //                    LogUtil.dd("on create view 1", thread1.getAuthor_name());
                     holder.mTvPreviewThreadTitle1.setText(thread1.getTitle());
-                    holder.mTvPreviewThreadAuthor1.setText(AUTHOR_PRE + thread1.getAuthor_nickname());
+                    holder.mTvPreviewThreadAuthor1.setText(AUTHOR_PRE + thread1.getAuthor_name());
                     holder.mTvPreviewThreadTime1.setText(StampUtil.getDatetimeByStamp(thread1.getT_create()));
                     holder.mTvPreviewThreadContent1.setText(thread1.getContent());
                     holder.mLlBoardContainedThread1.setOnClickListener(v -> {
@@ -88,7 +88,7 @@ public class BoardsAdapter extends BaseAdapter<PreviewThreadModel> {
                     ThreadListModel.ThreadBean thread2 = previewThread.getThreadList().get(1);
 //                    LogUtil.dd("on create view 2", thread2.getAuthor_name());
                     holder.mTvPreviewThreadTitle2.setText(thread2.getTitle());
-                    holder.mTvPreviewThreadAuthor2.setText(AUTHOR_PRE + thread2.getAuthor_nickname());
+                    holder.mTvPreviewThreadAuthor2.setText(AUTHOR_PRE + thread2.getAuthor_name());
                     holder.mTvPreviewThreadTime2.setText(StampUtil.getDatetimeByStamp(thread2.getT_create()));
                     holder.mTvPreviewThreadContent2.setText(thread2.getContent());
                     holder.mLlBoardContainedThread2.setOnClickListener(v -> {

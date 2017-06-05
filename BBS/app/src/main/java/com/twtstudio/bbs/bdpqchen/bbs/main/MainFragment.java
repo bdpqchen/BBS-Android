@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main;
 
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -8,7 +9,6 @@ import android.widget.ImageView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.main.latestPost.LatestPostFragment;
 
 import butterknife.BindView;
 import butterknife.Unbinder;
@@ -18,9 +18,9 @@ import butterknife.Unbinder;
  */
 
 public class MainFragment extends SimpleFragment {
+    public static final String ARG_PAGE = "arg_page";
 
 
-    LatestPostFragment latestPostFragment;
     @BindView(R.id.main_tab_layout)
     TabLayout mTabLayout;
     @BindView(R.id.main_viewpager)
@@ -29,14 +29,18 @@ public class MainFragment extends SimpleFragment {
     Toolbar mToolbar;
     @BindView(R.id.iv_announce)
     ImageView mIvAnnounce;
+    @BindView(R.id.appbar)
+    AppBarLayout mAppbar;
+    Unbinder unbinder;
+
+    public static MainFragment newInstance() {
+        MainFragment fragment = new MainFragment();
+        return fragment;
+    }
 
     @Override
     protected int getPerMainFragmentLayoutId() {
         return R.layout.fragment_main;
-    }
-
-    public static MainFragment newInstance(){
-        return new MainFragment();
     }
 
     @Override
@@ -45,11 +49,11 @@ public class MainFragment extends SimpleFragment {
         mIvAnnounce.setOnClickListener(v -> {
             SnackBarUtil.notice(this.getActivity(), "还没有公告");
         });
-        TabAdapter tabAdapter = new TabAdapter(getFragmentManager());
+        MainTabAdapter tabAdapter = new MainTabAdapter(getFragmentManager(), mContext);
         mViewpager.setAdapter(tabAdapter);
-//        mViewpager.setOffscreenPageLimit(2);
         mTabLayout.setupWithViewPager(mViewpager);
 
+        mAppbar.setExpanded(false);
     }
 
 

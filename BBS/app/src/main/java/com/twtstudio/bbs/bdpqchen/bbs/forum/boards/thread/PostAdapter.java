@@ -100,7 +100,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (mPostData != null && mPostData.size() > 0) {
-//            LogUtil.dd("position", String.valueOf(position));
+            LogUtil.dd("position", String.valueOf(position));
             if (holder instanceof PostHolder) {
                 ThreadModel.PostBean p = mPostData.get(position);
                 PostHolder h = (PostHolder) holder;
@@ -114,6 +114,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
                 String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
+                LogUtil.d(htmlStr);
                 h.mTvPostContent.setHtml(htmlStr, new GlideImageGeter(h.mTvPostContent.getContext(), h.mTvPostContent));
                 h.itemView.setTag(position);
 //                h.itemView.setOnClickListener();
@@ -133,7 +134,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 headerHolder.mTvUsernameThread.setText(p.getAuthor_name());
                 String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
-                headerHolder.mHtvContent.setHtml(htmlStr, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
+                LogUtil.d(htmlStr);
+
+//                headerHolder.mHtvContent.setHtml(htmlStr, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
             } else if (holder instanceof TheEndViewHolder) {
                 LogUtil.dd("the end view");
             }else if (holder instanceof JustHeaderHolder){
