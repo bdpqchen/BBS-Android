@@ -39,6 +39,8 @@ public final class PrefUtil {
     private static final String INFO_GROUP = "info_group";
     private static final String HAS_UN_SYNC_INFO = "has_un_sync_info";
     private static final String IS_FIRST_OPEN = "is_first_open";
+    private static final String IS_ALWAYS_ANONYMOUS = "is_always_anonymous";
+    private static final String HABIT_HAND = "habit_hand";
 
     public static void setInfoGroup(int infoGroup) {
         Hawk.put(INFO_GROUP, infoGroup);
@@ -160,19 +162,6 @@ public final class PrefUtil {
         Hawk.put(IS_NO_ACCOUNT_USER, b);
     }
 
-    public static boolean isNoNetworkReceiveNewMessage() {
-        return Hawk.get(IS_NO_NETWORK_RECEIVE_MESSAGE, true);
-    }
-    public static void setIsNoNetworkReceiveNewMessage(boolean b){
-        Hawk.put(IS_NO_NETWORK_RECEIVE_MESSAGE, b);
-    }
-
-    public static void setIsReceiveUnknownMessage(boolean b){
-        Hawk.put(IS_RECEIVE_UNKNOWN_MESSAGE, b);
-    }
-    public static boolean isReceiveUnknownMessage(){
-        return  Hawk.get(IS_RECEIVE_UNKNOWN_MESSAGE, true);
-    }
     public static void setAuthGroup(int i){
         Hawk.put(AUTH_GROUP, i);
     }
@@ -208,4 +197,20 @@ public final class PrefUtil {
     public static void setFirstOpen(boolean b){
         Hawk.put(IS_FIRST_OPEN, b);
     }
+
+    public static boolean isAlwaysAnonymous(){
+        return Hawk.get(IS_ALWAYS_ANONYMOUS, false);
+    }
+    public static void setIsAlwaysAnonymous(boolean b){
+        Hawk.put(IS_ALWAYS_ANONYMOUS, b);
+    }
+
+    public static int getHabitHand(){
+        return Hawk.get(HABIT_HAND, 0);
+    }
+    public static void setHabitHand(int i){
+        Hawk.put(HABIT_HAND, i);
+    }
+
+
 }

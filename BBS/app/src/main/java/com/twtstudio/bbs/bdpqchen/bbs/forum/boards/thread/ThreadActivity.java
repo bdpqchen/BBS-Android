@@ -290,12 +290,17 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         });
     }
 
-    private void showAnonymousOrNot() {
+    private void showAnonymousOrNot(int canAnonymous) {
         if (mCbAnonymousComment == null) {
             return;
         }
-        if (mBoardId == 193) {
+        if (canAnonymous == 1) {
+            mCanAnonymous = true;
             mCbAnonymousComment.setVisibility(View.VISIBLE);
+
+            if (PrefUtil.isAlwaysAnonymous()){
+                mCbAnonymousComment.setChecked(true);
+            }
         } else {
             mCbAnonymousComment.setVisibility(View.GONE);
         }
@@ -390,8 +395,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     @Override
     public void onGotThread(ThreadModel model) {
+        int canAnonymous = 0;
         if (model.getThread() != null) {
             mPostCount = model.getThread().getC_post();
+            canAnonymous = model.getThread().getAnonymous();
         }
         //只看最后一页
         if (mEnding) {
@@ -432,6 +439,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mAdapter.notifyDataSetChanged();
         }
         // TODO: 17-6-2 评论后的刷新
+        // 目前只支持刷新第一页
         if (mIsAddingComment) {
             mIsAddingComment = false;
             if (mPage == 0) {
@@ -462,7 +470,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mAdapter.updateThreadPost(postList, mPage);
         }
         setRefreshing(false);
-        showAnonymousOrNot();
+        showAnonymousOrNot(canAnonymous);
         hideProgressBar();
         setCheckBox(false);
     }

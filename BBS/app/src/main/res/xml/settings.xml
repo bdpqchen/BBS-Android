@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?><!--最新栏目的新闻-->
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout="@layout/preference_item"
+    android:title="标题1">
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
+        android:title="基本设置">
+
+        <SwitchPreference
+            android:key="@string/key_night_mode"
+            android:layout="@layout/preference_item"
+            android:title="夜间模式"
+            android:defaultValue="false"
+            />
+
+        <SwitchPreference
+            android:key="@string/key_slide_back"
+            android:layout="@layout/preference_item"
+            android:title="滑动返回"
+            android:defaultValue="true"
+            />
+
+        <SwitchPreference
+            android:key="@string/key_always_anon"
+            android:layout="@layout/preference_item"
+            android:title="得匿名且匿名"
+            android:summary="可匿名回复帖子自动勾选匿名按钮"
+            android:defaultValue="false"
+            />
+
+        <ListPreference
+            android:key="@string/key_habit_hand"
+            android:layout="@layout/preference_item"
+            android:title="惯用手模式"
+            android:summary="%s"
+            android:defaultValue="0"
+            android:entries="@array/pref_list_habit_hand"
+            android:entryValues="@array/pref_list_habit_hand_entries"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
+        android:title="账户">
+        <Preference
+            android:layout="@layout/preference_item"
+            android:key="@string/key_logout"
+            android:title="退出登录"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
+        android:title="关于BBS">
+
+        <Preference
+            android:layout="@layout/preference_item"
+            android:summary="V1.0.4"
+            android:title="当前版本"/>
+        <Preference
+            android:layout="@layout/preference_item"
+            android:summary="bdpqchen@qq.com"
+            android:title="Contact"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
