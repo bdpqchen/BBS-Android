@@ -86,7 +86,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         } else if (viewType == ITEM_END) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_common_no_more, parent, false);
             return new TheEndViewHolder(view);
-        }else if (viewType == ITEM_JUST_HEADER){
+        } else if (viewType == ITEM_JUST_HEADER) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_common_just_header, parent, false);
             return new JustHeaderHolder(view);
         }
@@ -134,7 +134,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mHtvContent.setHtml(htmlStr, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
             } else if (holder instanceof TheEndViewHolder) {
                 LogUtil.dd("the end view");
-            }else if (holder instanceof JustHeaderHolder){
+            } else if (holder instanceof JustHeaderHolder) {
                 LogUtil.dd("just header view");
             }
         }
@@ -158,7 +158,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 //                LogUtil.dd("return header");
                 return ITEM_HEADER;
             }
-            if (mPostData.size() == 1){
+            if (mPostData.size() == 1) {
                 return ITEM_JUST_HEADER;
             }
             if (position + 1 == getItemCount()) {
@@ -203,15 +203,21 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public String comment2reply(int postPosition, String content) {
         //帖主不算
         ThreadModel.PostBean post = mPostData.get(postPosition);
-        content = "[quote]引用 #"
+        String beforeCommendContent = post.getContent();
+        int i =  beforeCommendContent.indexOf("[quote]");
+        String commentedStart = beforeCommendContent.substring(0, i);
+        String commentedEnd = beforeCommendContent.substring(i, beforeCommendContent.length());
+        String afterComment = commentedStart + "[/quote]" + commentedEnd;
+
+        content = content  +
+                "[quote]引用 #"
                 + post.getFloor() + " "
-                + getAuthorName(postPosition) + " 的评论："
-                + cutRedundancy(post.getContent())
-                + "[/quote]"
-                + content + "";
+                + getAuthorName(postPosition) + " 的评论：\n"
+                + afterComment;
+//                + cutRedundancy(post.getContent())
         return content;
     }
-
+//还可以匿名
     private String getAuthorName(int position) {
         int uid = 0;
         if (mPostData != null && mPostData.size() > 0) {

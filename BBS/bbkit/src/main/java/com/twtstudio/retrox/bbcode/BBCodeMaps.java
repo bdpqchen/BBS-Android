@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class BBCodeMaps {
 
-    public static final String BASE_URL = "https://bbs.tju.edu.cn";
+    private static final String BASE_URL = "https://bbs.tju.edu.cn";
 
     /**
      * @deprecated
