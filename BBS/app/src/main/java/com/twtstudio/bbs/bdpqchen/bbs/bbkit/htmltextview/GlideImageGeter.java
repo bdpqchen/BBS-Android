@@ -1,8 +1,9 @@
-package org.sufficientlysecure.htmltextview;
+package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
 
 /**
  * Created by Jesson_Yi on 2016/6/22.
  */
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -11,14 +12,14 @@ import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.widget.TextView;
 
+import com.bumptech.glide.GenericRequestBuilder;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 
-import com.bumptech.glide.GenericRequestBuilder;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
 import java.util.HashSet;
 
 

@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package org.sufficientlysecure.htmltextview;
+package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
 
 import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
-import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.method.Touch;
 import android.text.style.ClickableSpan;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.TextView;

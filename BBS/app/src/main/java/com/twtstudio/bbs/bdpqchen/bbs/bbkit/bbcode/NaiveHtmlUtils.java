@@ -1,4 +1,4 @@
-package com.twtstudio.retrox.bbcode;
+package com.twtstudio.bbs.bdpqchen.bbs.bbkit.bbcode;
 
 import java.util.ArrayList;
 import java.util.List;

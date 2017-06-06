@@ -1,11 +1,8 @@
-package org.sufficientlysecure.htmltextview;
+package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
 
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-
-
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 
 /**
  * Created by Jesson_Yi on 2016/6/23.

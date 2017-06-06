@@ -1,4 +1,4 @@
-package org.sufficientlysecure.htmltextview;
+package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
 
 import android.content.Context;
 import android.graphics.Point;

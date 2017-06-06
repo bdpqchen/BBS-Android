@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.sufficientlysecure.htmltextview;
+package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -26,7 +26,7 @@ import android.text.Spanned;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import org.sufficientlysecure.htmltextview.quote.QuoteReplaceUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.quote.QuoteReplaceUtil;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -58,14 +58,14 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
     }
 
     /**
-     * @see org.sufficientlysecure.htmltextview.HtmlTextView#setHtml(int)
+     * @see HtmlTextView#setHtml(int)
      */
     public void setHtml(@RawRes int resId) {
         setHtml(resId, null);
     }
 
     /**
-     * @see org.sufficientlysecure.htmltextview.HtmlTextView#setHtml(String)
+     * @see HtmlTextView#setHtml(String)
      */
     public void setHtml(@NonNull String html) {
         setHtml(html, null);

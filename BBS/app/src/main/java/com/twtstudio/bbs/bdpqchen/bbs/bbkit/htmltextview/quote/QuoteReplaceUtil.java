@@ -1,8 +1,10 @@
-package org.sufficientlysecure.htmltextview.quote;
+package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.quote;
 
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.style.QuoteSpan;
+
+import com.twtstudio.bbs.bdpqchen.bbs.R;
 
 /**
  * Created by retrox on 28/05/2017.
@@ -17,9 +19,10 @@ public class QuoteReplaceUtil {
             int flags = spannable.getSpanFlags(quoteSpan);
             spannable.removeSpan(quoteSpan);
             spannable.setSpan(new CustomQuoteSpan(
-                            Color.parseColor("#EFF0F1"),
-                            Color.parseColor("#EFF0F1"),
-                            16,
+//                            ResourceUtil.getColor()
+//                            Color.parseColor(R.color.colorPrimary + ""),
+//                            Color.parseColor(R.color.colorTvBlackMain + ""),
+                            4,
                             4),
                     start,
                     end,

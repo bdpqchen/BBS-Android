@@ -76,7 +76,7 @@
         tools:text="挑剔大家发多少"
         />
 
-    <org.sufficientlysecure.htmltextview.HtmlTextView
+    <com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView
         android:id="@+id/htv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

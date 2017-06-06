@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package org.sufficientlysecure.htmltextview;
+package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
 
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -305,7 +305,7 @@ public class HtmlTagHandler implements Html.TagHandler {
     }
 
     /**
-     * Modified from {@link android.text.Html}
+     * Modified from {@link Html}
      */
     private void end(Editable output, Class kind, boolean paragraphStyle, Object... replaces) {
         Object obj = getLast(output, kind);

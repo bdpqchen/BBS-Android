@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 
-package org.sufficientlysecure.htmltextview;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,9 +25,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p/>
- * A {@link android.widget.TextView} that insert spaces around its text spans where needed to prevent
+ * A {@link TextView} that insert spaces around its text spans where needed to prevent
  * {@link IndexOutOfBoundsException} in {@link #onMeasure(int, int)} on Jelly Bean.
  * <p/>
  * When {@link #onMeasure(int, int)} throws an exception, we try to fix the text by adding spaces
