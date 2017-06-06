@@ -12,7 +12,6 @@ import android.text.style.LeadingMarginSpan;
 import android.text.style.LineBackgroundSpan;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 
 /**
  * android.text.style.QuoteSpan hard-codes the strip color and gap. :(
@@ -26,8 +25,8 @@ public class CustomQuoteSpan implements LeadingMarginSpan, LineBackgroundSpan {
     public CustomQuoteSpan(float stripeWidth, float gap) {
         if (PrefUtil.isNightMode()){
             //夜间模式
-            this.backgroundColor = Color.parseColor("#645e5e");
-            this.stripeColor = Color.parseColor("#e5f4f0f0");
+            this.backgroundColor = Color.parseColor("#303b41");
+            this.stripeColor = Color.parseColor("#f4f0f0");
         }else{
             this.stripeColor = Color.parseColor("#f49979");
             this.backgroundColor = Color.parseColor("#f1f8ff");

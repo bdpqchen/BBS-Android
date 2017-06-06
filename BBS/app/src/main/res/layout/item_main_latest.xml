@@ -61,7 +61,7 @@
                 android:focusable="true"
                 android:foreground="@drawable/selector_foreground_settings"
                 android:gravity="end|center_vertical"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryCopy"
                 tools:text="[求实焦点]"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"

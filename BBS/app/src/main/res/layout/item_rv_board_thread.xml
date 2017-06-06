@@ -11,8 +11,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_thread_title"
+        android:padding="@dimen/margin_thread_title"
         android:clickable="true"
+        android:focusable="true"
         android:foreground="@drawable/selector_foreground_settings"
         android:id="@+id/rl_board_title"
         >
@@ -22,7 +23,7 @@
             android:layout_width="6dp"
             android:layout_height="20dp"
             android:layout_centerVertical="true"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryCopy"
             />
 
         <TextView
@@ -32,7 +33,7 @@
             android:layout_marginStart="@dimen/margin_start_thread_title"
             android:layout_toEndOf="@id/view_tag"
             android:text="休闲放松"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryCopy"
             android:textSize="@dimen/text_size_thread_title"
             android:id="@+id/tv_preview_board_title"
             />

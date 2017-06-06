@@ -7,12 +7,12 @@
     android:clickable="true"
     android:foreground="@drawable/selector_foreground_settings"
     android:orientation="vertical"
+    android:background="@color/colorMainBgLight"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorMainBg"
         android:orientation="vertical"
         >
 

@@ -9,8 +9,8 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="colorControlActivated">@color/colorPrimary</item>
-        <item name="android:colorForeground">@color/material_grey_500</item>
+        <item name="colorControlActivated">@color/colorPrimaryCopy</item>
+        <item name="android:lineSpacingExtra">3dp</item>
 
     </style>
 

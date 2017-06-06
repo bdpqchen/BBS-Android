@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.audiofx.LoudnessEnhancer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
@@ -22,11 +21,9 @@ import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
-import com.roughike.bottombar.OnTabSelectListener;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -97,17 +94,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         super.onCreate(savedInstanceState);
         mHomeActivity = this;
         mContext = this;
-
-        String ss = "12345[quote]56789[quote][/quote]";
-        int index = ss.indexOf("[quote]");
-        LogUtil.d("indexis", index);
-//        String beforeCommendContent = post.getContent();
-        String commentedStart = ss.substring(0, index);
-        String commentedEnd = ss.substring(index, ss.length());
-        String afterComment = "[quote]" + commentedStart + "[/quote]" + commentedEnd;
-
-        LogUtil.d("aftercomment", afterComment);
-
         LogUtil.dd("token", PrefUtil.getAuthToken());
         // TODO: 17-5-3 非登录后跳转到这里，是否渐变
         // 登录后的渐变,

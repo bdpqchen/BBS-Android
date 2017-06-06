@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#293134</color>
+    <color name="colorPrimaryDark">#2f3534</color>
     <color name="colorAccent">#FF4081</color>
     <color name="nightModeDim">#000000</color>
 
-    <color name="colorMainBgLight">#fb0e0e0e</color>
+    <color name="colorPrimaryCopy">#2385df</color>
+    <color name="colorPrimaryDarkCopy">#1c6bb4</color>
 
-    <color name="colorMainBg">#dc131212</color>
-    <color name="colorBottomBg">#111111</color>
+    <color name="colorTvBlackMain">#f4f0f0</color>
+    <color name="colorTvBlackMainTint">#adfaf7f7</color>
 
-    <color name="colorTvBlackMain">#e5f4f0f0</color>
+    <color name="colorMainBgLight">#273238</color>
+    <color name="colorMainBg">#21282d</color>
+    <color name="colorBottomBg">#293134</color>
 
     <color name="colorSnackNormalBg">#fcfc37</color>
     <color name="colorThreadContentBg">#2c222222</color>
@@ -22,10 +25,9 @@
     <color name="colorPrimaryLight">#1bbfe4</color>
     <color name="colorHonorTextView">#f49979</color>
     <color name="colorMainText">#FEFBF4</color>
-    <color name="colorTvBlackMainTint">#ad0c0c0c</color>
     <color name="colorIndividualTagNum">#F26428</color>
     <color name="colorTintIconBlack">#645e5e</color>
-    <color name="colorMainBgLightHeight">#ffffff</color>
+    <color name="colorMainBgLightHeight">#eeeeee</color>
 
 
 </resources>

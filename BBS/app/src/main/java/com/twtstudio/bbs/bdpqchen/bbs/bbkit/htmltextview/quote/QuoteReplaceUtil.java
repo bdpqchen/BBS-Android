@@ -1,10 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.quote;
 
-import android.graphics.Color;
 import android.text.Spannable;
 import android.text.style.QuoteSpan;
-
-import com.twtstudio.bbs.bdpqchen.bbs.R;
 
 /**
  * Created by retrox on 28/05/2017.
