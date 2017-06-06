@@ -23,6 +23,10 @@ import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS_NAME;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 
 
 /**
@@ -67,14 +71,16 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
                 }
                 holder.mTvBoardName.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, ThreadListActivity.class);
-                    intent.putExtra(Constants.INTENT_BOARD_ID, model.getBoard_id());
-                    intent.putExtra(Constants.INTENT_BOARD_TITLE, model.getBoard_name());
+                    intent.putExtra(INTENT_BOARD_ID, model.getBoard_id());
+                    intent.putExtra(INTENT_BOARD_TITLE, model.getBoard_name());
                     mContext.startActivity(intent);
                 });
                 holder.mLlLatestBody.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, ThreadActivity.class);
-                    intent.putExtra(Constants.INTENT_THREAD_ID, model.getId());
-                    intent.putExtra(Constants.INTENT_THREAD_TITLE, model.getTitle());
+                    intent.putExtra(INTENT_THREAD_ID, model.getId());
+                    intent.putExtra(INTENT_THREAD_TITLE, model.getTitle());
+                    intent.putExtra(INTENT_BOARD_TITLE, model.getBoard_name());
+                    intent.putExtra(INTENT_BOARD_ID, model.getBoard_id());
                     mContext.startActivity(intent);
                 });
 

@@ -153,7 +153,7 @@ public class RxDoHttpClient<T> {
                 .addInterceptor(interceptor)
                 .addInterceptor(mTokenInterceptor)
                 .retryOnConnectionFailure(true)
-                .connectTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
 
 

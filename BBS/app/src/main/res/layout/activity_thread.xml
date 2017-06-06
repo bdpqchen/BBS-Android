@@ -10,48 +10,103 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         >
 
-        <android.support.v7.widget.Toolbar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/toolbar"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="8dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            tools:targetApi="lollipop"
+            android:layout_height="match_parent"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             >
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="8dp"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_thread"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:elevation="8dp"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                tools:targetApi="lollipop"
                 >
 
-                <ImageView
-                    android:id="@+id/iv_stared_thread"
-                    android:layout_width="@dimen/icon_size_normal"
-                    android:layout_height="@dimen/icon_size_normal"
-                    android:src="@drawable/ic_star_white_24dp"
-                    android:visibility="gone"
-                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|start"
+                    >
 
-                <ImageView
-                    android:id="@+id/iv_star_thread"
-                    android:layout_width="@dimen/icon_size_normal"
-                    android:layout_height="@dimen/icon_size_normal"
-                    android:src="@drawable/ic_star_border_white_24dp"
-                    />
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|start"
+                        android:layout_weight="1"
+                        >
 
-            </RelativeLayout>
+                        <TextView
+                            android:id="@+id/toolbar_title_thread"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:ellipsize="end"
+                            android:focusable="true"
+                            android:foreground="@drawable/selector_foreground_settings"
+                            android:maxLines="1"
+                            android:textColor="#ffffff"
+                            android:textSize="12sp"
+                            android:layout_centerVertical="true"
+                            tools:text="帖子的标题标题帖子的标题标题帖子的标帖子的标题标题题标题帖子的标题标题"
+                            tools:visibility="gone"
+                            />
 
-        </android.support.v7.widget.Toolbar>
+                        <TextView
+                            android:id="@+id/toolbar_title_board"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="@drawable/selector_foreground_settings"
+                            android:maxLines="1"
+                            android:textColor="#ffffff"
+                            android:textSize="20sp"
+                            tools:text="求实焦点"
+                            />
+                    </RelativeLayout>
 
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:gravity="end"
+                        >
+
+                        <ImageView
+                            android:id="@+id/iv_stared_thread"
+                            android:layout_width="@dimen/icon_size_normal"
+                            android:layout_height="@dimen/icon_size_normal"
+                            android:src="@drawable/ic_star_white_24dp"
+                            android:visibility="gone"
+                            />
+
+                        <ImageView
+                            android:id="@+id/iv_star_thread"
+                            android:layout_width="@dimen/icon_size_normal"
+                            android:layout_height="@dimen/icon_size_normal"
+                            android:src="@drawable/ic_star_border_white_24dp"
+                            />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <ProgressBar
@@ -61,7 +116,6 @@
         android:layout_gravity="center"
         android:visibility="gone"
         />
-
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_thread_list"
@@ -99,11 +153,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:background="@drawable/shape_ll_shade"
+        android:clickable="true"
+        android:focusable="true"
         android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible"
-        android:clickable="true"
-        android:focusable="true"
         >
 
         <RelativeLayout
@@ -144,8 +198,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
@@ -159,10 +213,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
-                    android:maxLines="10"
-                    android:paddingTop="32dp"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
+                    android:maxLines="10"
+                    android:paddingTop="32dp"
                     />
 
             </android.support.design.widget.TextInputLayout>

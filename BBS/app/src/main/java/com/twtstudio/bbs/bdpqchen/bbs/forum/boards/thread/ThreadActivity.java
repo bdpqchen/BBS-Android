@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatCheckBox;
@@ -14,6 +15,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.TextureView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -31,8 +33,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +45,8 @@ import java.util.List;
 import butterknife.BindView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_POST;
@@ -50,7 +57,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGT
  */
 
 public class ThreadActivity extends BaseActivity<ThreadPresenter> implements ThreadContract.View {
-    @BindView(R.id.toolbar)
+    @BindView(R.id.toolbar_thread)
     Toolbar mToolbar;
     @BindView(R.id.rv_thread_post)
     RecyclerView mRvThreadPost;
@@ -78,6 +85,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     AppCompatCheckBox mCbAnonymousComment;
 
     public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @BindView(R.id.toolbar_title_thread)
+    TextView mToolbarTitleThread;
+    @BindView(R.id.toolbar_title_board)
+    TextView mToolbarTitleBoard;
 
     private String mThreadTitle = "";
     private int mThreadId = 0;
@@ -95,6 +108,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean mCanAnonymous = false;
     // 用于判断是否可以匿名
     private int mBoardId = 0;
+    private String mBoardName = "";
     private LinearLayoutManager mLayoutManager;
     private int lastVisibleItemPosition = 0;
     private int mPage = 0;
@@ -103,7 +117,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean mIsAddingComment = false;
     private int mPostCount = 0;
     private boolean mEnding = false;
-
+    private boolean showingThreadTitle = false;
+    private boolean showingBoardName = true;
 
     @Override
     protected int getLayoutResourceId() {
@@ -112,7 +127,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     @Override
     protected Toolbar getToolbarView() {
-        mToolbar.setTitle(mThreadTitle);
         return mToolbar;
     }
 
@@ -142,12 +156,19 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mThreadId = intent.getIntExtra(INTENT_THREAD_ID, 0);
         mThreadFloor = intent.getIntExtra(INTENT_THREAD_FLOOR, 1);
         mThreadTitle = intent.getStringExtra(INTENT_THREAD_TITLE);
+        mBoardName = intent.getStringExtra(INTENT_BOARD_TITLE);
+        mBoardId = intent.getIntExtra(INTENT_BOARD_ID, 0);
+
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
+
+        mToolbarTitleBoard.setText(TextUtil.getLinkHtml(mBoardName));
+
         mPresenter.getThread(mThreadId, 0);
         mAdapter = new PostAdapter(mContext);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+
         mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(5));
         mRvThreadPost.setLayoutManager(mLayoutManager);
         mRvThreadPost.setAdapter(mAdapter);
@@ -156,20 +177,59 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
-                    if (!mEnding){
+                    if (!mEnding) {
                         mPage++;
                         mIsLoadingMore = true;
                         mPresenter.getThread(mThreadId, mPage);
                     }
                 }
             }
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
+//                LogUtil.d("lastvisi", String.valueOf(lastVisibleItemPosition));
+                int d = 300;
+                if (lastVisibleItemPosition != 0 && mLayoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
+                    if (!showingThreadTitle){
+                        //出现标题
+                        if (mToolbarTitleBoard != null){
+                            YoYo.with(Techniques.SlideOutUp).duration(d).playOn(mToolbarTitleBoard);
+//                            mToolbarTitleBoard.setVisibility(View.GONE);
+                        }
+                        if (mToolbarTitleThread != null){
+                            mToolbarTitleThread.setVisibility(View.VISIBLE);
+                            YoYo.with(Techniques.SlideInUp).duration(d).playOn(mToolbarTitleThread);
+                            mToolbarTitleThread.setText(mThreadTitle);
+                        }
+                        showingThreadTitle = true;
+                        showingBoardName = false;
+                    }
+                } else {
+                    //出现板块名称
+                    if (!showingBoardName){
+                        if (mToolbarTitleThread != null){
+                            YoYo.with(Techniques.SlideOutUp).duration(d).playOn(mToolbarTitleThread);
+//                            mToolbarTitleThread.setVisibility(View.GONE);
+                        }
+                        if (mToolbarTitleBoard != null){
+                            mToolbarTitleBoard.setText(TextUtil.getLinkHtml(mBoardName));
+                            mToolbarTitleBoard.setVisibility(View.VISIBLE);
+                            YoYo.with(Techniques.SlideInUp).duration(d).playOn(mToolbarTitleBoard);
+                        }
+                        showingBoardName = true;
+                        showingThreadTitle = false;
+                    }
+                }
             }
         });
+        mToolbarTitleBoard.setOnClickListener(v -> {
+            Intent intent1 = new Intent(mContext, ThreadListActivity.class);
+            intent1.putExtra(INTENT_BOARD_ID, mBoardId);
+            intent1.putExtra(INTENT_BOARD_TITLE, mBoardName);
+            startActivity(intent1);
+        });
+
         mFbThreadWritePost.setOnClickListener(v -> {
             showCommentInput();
             resetReply();
@@ -210,11 +270,11 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlThreadList.setRefreshing(true);
         mSrlThreadList.setOnRefreshListener(() -> {
-            if(!mEnding) {
+            if (!mEnding) {
                 mRefreshing = true;
                 mPage = 0;
                 mPresenter.getThread(mThreadId, mPage);
-            }else{
+            } else {
                 mSrlThreadList.setRefreshing(false);
             }
         });
@@ -338,7 +398,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             if (model.getPost() == null || model.getPost().size() == 0) {
                 mEndingPage--;
                 mPresenter.getThread(mThreadId, mEndingPage);
-            }else{
+            } else {
                 mAdapter.refreshList(model.getPost());
 //                mEnding = false;
                 mEndingPage = 0;
@@ -521,7 +581,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 finishMe();
                 break;
             case R.id.action_to_end:
-                if (!mRefreshing){
+                if (!mRefreshing) {
                     toEnd();
                 }
                 break;
