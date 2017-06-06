@@ -9,14 +9,17 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity.IS_SWITCH_NIGHT_MODE_LOCK;
 
 
@@ -24,9 +27,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivit
  * Created by bdpqchen on 17-6-6.
  */
 
-public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
-
-    public static final String KEY_NIGHT_MODE = "key_night_mode";
+public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
 
     private Activity mActivity;
 
@@ -46,11 +47,22 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         }
 
         Preference preference = getPreferenceManager().findPreference(getString(R.string.key_logout));
-        if (preference != null){
+        if (preference != null) {
             preference.setSummary("当前账户: " + PrefUtil.getAuthUsername());
+            preference.setOnPreferenceClickListener(this);
         }
 
 
+    }
+
+    @Override
+    public boolean onPreferenceClick(Preference preference) {
+        String key = preference.getKey();
+        if (key.equals(getString(R.string.key_logout))) {
+            reallyLogout();
+
+        }
+        return false;
     }
 
     @Override
@@ -64,19 +76,19 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 startMySelf();
             } else if (key.equals(getString(R.string.key_always_anon))) {
                 PrefUtil.setIsAlwaysAnonymous(CastUtil.cast2boolean(obj));
-            } else if (key.equals(getString(R.string.key_slide_back))){
+            } else if (key.equals(getString(R.string.key_slide_back))) {
                 PrefUtil.setIsSlideBackMode(CastUtil.cast2boolean(obj));
-            }else if (key.equals(getString(R.string.key_habit_hand))){
+            } else if (key.equals(getString(R.string.key_habit_hand))) {
                 PrefUtil.setHabitHand(CastUtil.cast2int(obj));
-            }else if (key.equals(getString(R.string.key_logout))){
-                logout();
             }
 
-
         }
-
-
         return true;
+    }
+
+    private void reallyLogout() {
+        DialogUtil.alertDialog(mActivity, "温馨的提示", "真的要登出当前的账户吗？？", "真的", "假的",
+                ((materialDialog, dialogAction) -> logout()), null);
     }
 
     public void startMySelf() {
@@ -100,9 +112,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         PrefUtil.setInfoPoints(0);
         PrefUtil.setInfoUnread(0);
         PrefUtil.setHasUnSyncInfo(false);
-//                mActivity.finishMe();
         ActivityManager.getActivityManager().finishAllActivity();
-        startActivity(new Intent(mActivity, LoginActivity.class));
+        Intent intent = new Intent(mActivity, LoginActivity.class);
+        intent.putExtra(USERNAME, PrefUtil.getAuthUsername());
+        startActivity(intent);
 
     }
 
