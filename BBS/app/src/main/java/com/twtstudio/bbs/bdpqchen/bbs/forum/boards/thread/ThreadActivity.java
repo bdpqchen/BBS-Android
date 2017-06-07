@@ -169,7 +169,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mAdapter = new PostAdapter(mContext);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
 
-        mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(5));
+        mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(1));
         mRvThreadPost.setLayoutManager(mLayoutManager);
         mRvThreadPost.setAdapter(mAdapter);
         mRvThreadPost.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -229,7 +229,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             intent1.putExtra(INTENT_BOARD_TITLE, mBoardName);
             startActivity(intent1);
         });
-
+        mToolbarTitleThread.setOnClickListener(v -> {
+            toTop();
+        });
         mFbThreadWritePost.setOnClickListener(v -> {
             showCommentInput();
             resetReply();

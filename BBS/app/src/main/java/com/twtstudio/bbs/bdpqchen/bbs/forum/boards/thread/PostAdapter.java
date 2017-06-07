@@ -3,22 +3,20 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.bbcode.BBCodeParse;
-import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.GlideImageGeter;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
+import com.zzhoujay.glideimagegetter.GlideImageGetter;
 import com.zzhoujay.richtext.RichText;
 
 import java.util.ArrayList;
@@ -28,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE_URL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_END;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
@@ -114,17 +113,18 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
                 String contentBefore = p.getContent();
                 String contentAfter = contentBefore;
-                if (contentBefore.contains("[") && contentBefore.contains("]") && contentBefore.contains("[/")) {
+                if (contentBefore.contains("[/") && contentBefore.contains("[") && contentBefore.contains("]")) {
                     contentAfter = BBCodeParse.bbcode2Html(p.getContent());
                     RichText.fromHtml(contentAfter).into(h.mTvPostContent);
                 } else {
+                    contentAfter = contentAfter.replaceAll("attach:", BASE_URL + "img/");
+
                     RichText.fromMarkdown(contentAfter).into(h.mTvPostContent);
                 }
-                LogUtil.dd("after", contentAfter);
+//                LogUtil.dd("after", contentAfter);
                 h.itemView.setTag(position);
             } else if (holder instanceof BaseFooterViewHolder) {
                 LogUtil.d("base footer view");
-
             } else if (holder instanceof HeaderHolder) {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 ThreadModel.PostBean p = mPostData.get(position);
@@ -137,17 +137,17 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mTvTitle.setText(p.getTitle());
                 headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 headerHolder.mTvUsernameThread.setText(p.getAuthor_name());
-                LogUtil.dd("before", p.getContent());
+//                LogUtil.dd("before", p.getContent());
                 String contentBefore = p.getContent();
                 String contentAfter = contentBefore;
-                if (contentBefore.contains("[") && contentBefore.contains("]") && contentBefore.contains("[/")) {
+                if (contentBefore.contains("[/") && contentBefore.contains("[") && contentBefore.contains("]")) {
                     contentAfter = BBCodeParse.bbcode2Html(p.getContent());
                     RichText.fromHtml(contentAfter).into(headerHolder.mTvContent);
                 } else {
+                    contentAfter = contentAfter.replace("attach:", BASE_URL + "img/");
                     RichText.fromMarkdown(contentAfter).into(headerHolder.mTvContent);
                 }
-                LogUtil.dd("after", contentAfter);
-//                headerHolder.mHtvContent.setHtml(htmlStr, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
+//                LogUtil.dd("after", contentAfter);
             } else if (holder instanceof TheEndViewHolder) {
                 LogUtil.dd("the end view");
             } else if (holder instanceof JustHeaderHolder) {
@@ -219,18 +219,18 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public String comment2reply(int postPosition, String content) {
         ThreadModel.PostBean post = mPostData.get(postPosition);
         String beforeCommendContent = post.getContent();
-        LogUtil.dd("before comment", beforeCommendContent);
+//        LogUtil.dd("before comment", beforeCommendContent);
         String cut = cutTwoQuote(beforeCommendContent);
-        LogUtil.dd("cut", cut);
+//        LogUtil.dd("cut", cut);
         String added = addTwoQuote(cut);
-        LogUtil.dd("added", added);
+//        LogUtil.dd("added", added);
         content = content +
                 "\n > 回复 #" +
                 post.getFloor() + " " +
                 getAuthorName(postPosition) +
                 " :\n\n > " +
                 added;
-        LogUtil.dd("content final", content);
+//        LogUtil.dd("content final", content);
         return content;
     }
 
@@ -245,12 +245,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             strNew.append(cut).append("\n").append(key).append(key);
         }
         strNew.append(str0);
-        Log.d("str quote two add", strNew.toString());
+//        Log.d("str quote two add", strNew.toString());
         return cutIfTooLong(strNew.toString());
     }
 
     private String cutIfTooLong(String s) {
-        if (s.length() > MAX_LENGTH_QUOTE){
+        if (s.length() > MAX_LENGTH_QUOTE) {
             return s.substring(0, MAX_LENGTH_QUOTE - 1);
         }
         return s;
@@ -264,7 +264,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             str0 = str0.substring(0, i);
         }
         strNew.append(str0);
-        Log.d("str quote two cut", strNew.toString());
+//        Log.d("str quote two cut", strNew.toString());
         return strNew.toString();
     }
 
