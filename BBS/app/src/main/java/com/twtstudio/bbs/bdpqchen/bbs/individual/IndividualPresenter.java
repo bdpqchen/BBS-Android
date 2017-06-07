@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
@@ -19,6 +20,7 @@ import io.reactivex.schedulers.Schedulers;
 public class IndividualPresenter extends RxPresenter<IndividualContract.View> implements IndividualContract.Presenter {
 
     private RxDoHttpClient<IndividualInfoModel> mHttpClient;
+    private ResponseTransformer<Integer> mUnreadTrans = new ResponseTransformer<>();
 
     @Inject
     IndividualPresenter(RxDoHttpClient httpClient){
@@ -51,4 +53,33 @@ public class IndividualPresenter extends RxPresenter<IndividualContract.View> im
                 .subscribeWith(observer)
         );
     }
+
+
+    @Override
+    public void getUnreadMessageCount() {
+
+        SimpleObserver<Integer> observer = new SimpleObserver<Integer>() {
+            @Override
+            public void _onError(String msg) {
+//                LogUtil.d(msg);
+                if (mView != null){
+                    mView.onGetMessageFailed(msg);
+                }
+            }
+            @Override
+            public void _onNext(Integer integer) {
+//                LogUtil.d(integer);
+                if (mView != null){
+                    mView.onGotMessageCount(integer);
+                }
+            }
+        };
+        addSubscribe(mHttpClient.getUnreadCount()
+                .map(mUnreadTrans)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer));
+    }
+
+
 }

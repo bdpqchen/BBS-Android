@@ -21,10 +21,10 @@ import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
+import com.twtstudio.bbs.bdpqchen.bbs.BuildConfig;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -32,7 +32,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
 
 import butterknife.BindView;
@@ -48,15 +47,17 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 //    @BindView(R.id.mask_home)
 //    View mMask;
 
-    MainFragment mMainFragment;
-    ForumFragment mForumFragment;
-    IndividualFragment mIndividualFragment = null;
     BottomBarTab mNearBy;
 
-    private int mShowingFragment = Constants.FRAGMENT_MAIN;
-    private int mHidingFragment = Constants.FRAGMENT_MAIN;
     private Context mContext;
     private HomeActivity mHomeActivity;
+    private SupportFragment[] mFragments = new SupportFragment[3];
+    private static final int FIRST = 0;
+    private static final int SECOND = 1;
+    private static final int THIRD = 2;
+    private int mShowingFragment = FIRST;
+    private int mHidingFragment = FIRST;
+
 
     @Override
     protected int getLayoutResourceId() {
@@ -105,21 +106,30 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 //        animator.setStartDelay(400);
 //        animator.start();
 
-        mMainFragment = MainFragment.newInstance();
-        mForumFragment = ForumFragment.newInstance();
-        mIndividualFragment = IndividualFragment.newInstance();
-        loadMultipleRootFragment(R.id.fl_main_container, 0, mMainFragment, mForumFragment, mIndividualFragment);
-        mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
+        if (savedInstanceState == null) {
+            mFragments[FIRST] = MainFragment.newInstance();
+            mFragments[SECOND] = ForumFragment.newInstance();
+            mFragments[THIRD] = IndividualFragment.newInstance();
+            loadMultipleRootFragment(R.id.fl_main_container, FIRST,
+                    mFragments[FIRST],
+                    mFragments[SECOND],
+                    mFragments[THIRD]);
+        } else {
+            mFragments[FIRST] = findFragment(MainFragment.class);
+            mFragments[SECOND] = findFragment(ForumFragment.class);
+            mFragments[THIRD] = findFragment(IndividualFragment.class);
+        }
 
+        mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
         mBottomBar.setOnTabSelectListener(i -> {
-            LogUtil.dd("onTabSelected()");
+            LogUtil.dd("onTabSelected()", String.valueOf(i));
             if (PrefUtil.hadLogin()) {
                 if (i == R.id.bottom_bar_tab_main) {
-                    mShowingFragment = Constants.FRAGMENT_MAIN;
+                    mShowingFragment = FIRST;
                 } else if (i == R.id.bottom_bar_tab_forum) {
-                    mShowingFragment = Constants.FRAGMENT_FORUM;
+                    mShowingFragment = SECOND;
                 } else if (i == R.id.bottom_bar_tab_individual) {
-                    mShowingFragment = Constants.FRAGMENT_INDIVIDUAL;
+                    mShowingFragment = THIRD;
                 }
                 loadFragment();
             } else if (i == R.id.bottom_bar_tab_individual && !PrefUtil.hadLogin()) {
@@ -127,41 +137,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             }
         });
 
-//        if (mIndividualFragment.isVisible()){
-        // TODO: 17-5-22 解决夜间模式View的空指针问题
-        if (PrefUtil.hadLogin()) {
-            mPresenter.initIndividualInfo();
-        }
+        autoCheckUpdate();
 
-        HandlerUtil.postDelay(() -> {
-            PgyUpdateManager.register(this, "9981",
-                    new UpdateManagerListener() {
-                        @Override
-                        public void onNoUpdateAvailable() {
-                            LogUtil.dd("not update available");
-                        }
-
-                        @Override
-                        public void onUpdateAvailable(final String result) {
-                            // 将新版本信息封装到AppBean中
-                            final AppBean appBean = getAppBeanFromString(result);
-                            new MaterialDialog.Builder(mContext)
-                                    .cancelable(false)
-                                    .title("最新版本更新")
-                                    .content(appBean.getReleaseNote())
-                                    .positiveText("立即下载")
-                                    .positiveColor(ResourceUtil.getColor(mContext, R.color.colorPrimary))
-                                    .onPositive((new MaterialDialog.SingleButtonCallback() {
-                                        @Override
-                                        public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
-                                            hasPermission(appBean);
-                                        }
-                                    }))
-                                    .negativeText("再说吧")
-                                    .show();
-                        }
-                    });
-        }, 1000);
+        mPresenter.getUnreadMessageCount();
 
     }
 
@@ -196,20 +174,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     private void loadFragment() {
 
-        showHideFragment(getTargetFragment(mShowingFragment), getTargetFragment(mHidingFragment));
+        showHideFragment(mFragments[mShowingFragment], mFragments[mHidingFragment]);
         mHidingFragment = mShowingFragment;
-    }
-
-    private SupportFragment getTargetFragment(int type) {
-        switch (type) {
-            case Constants.FRAGMENT_MAIN:
-                return mMainFragment;
-            case Constants.FRAGMENT_FORUM:
-                return mForumFragment;
-            case Constants.FRAGMENT_INDIVIDUAL:
-                return mIndividualFragment;
-        }
-        return mMainFragment;
     }
 
     @Override
@@ -219,41 +185,57 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     }
 
     @Override
-    public void showUpdateDialog(int versionCode) {
+    public void onGotMessageCount(int count) {
+        if (count > 0) {
+            PrefUtil.setInfoUnread(count);
+            mNearBy.setBadgeCount(PrefUtil.getInfoUnread());
+        }
     }
 
     @Override
-    public void showIndividualInfo(IndividualInfoModel info) {
-        LogUtil.d("receive a response");
-        if (info != null) {
-            LogUtil.dd("on");
-            //设置个人信息，在IndividualFragment 里可直接获取，需判断是否为最新getIsLatestInfo()
-            PrefUtil.setInfoNickname(info.getNickname());
-            PrefUtil.setInfoSignature(info.getSignature());
-            PrefUtil.setInfoOnline(info.getC_online());
-            PrefUtil.setInfoPost(info.getC_post());
-            PrefUtil.setInfoPoints(info.getPoints());
-            PrefUtil.setInfoCreate(info.getT_create());
-            PrefUtil.setInfoGroup(info.getGroup());
-            PrefUtil.setInfoLevel(info.getLevel());
-            PrefUtil.setIsLatestInfo(true);
-            int unRead = info.getC_unread();
-            PrefUtil.setInfoUnread(unRead);
-            LogUtil.dd("unread", String.valueOf(unRead));
-            // TODO: 17-5-10 为了测试
-//            mNearBy.setBadgeCount(unRead);
-        }
+    public void onGetMessageFailed(String m) {
+        LogUtil.dd("onGetMessageFailed()");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        int count = PrefUtil.getInfoUnread();
-        if (count > 0) {
-//            mNearBy.setBadgeCount(count);
-        }
-
+        LogUtil.dd("home onResume", "getUnreadMessage");
+        mPresenter.getUnreadMessageCount();
     }
 
+    private void autoCheckUpdate() {
+        if (!BuildConfig.DEBUG) {
+            HandlerUtil.postDelay(() -> {
+                PgyUpdateManager.register(this, "9981",
+                        new UpdateManagerListener() {
+                            @Override
+                            public void onNoUpdateAvailable() {
+                                LogUtil.dd("not update available");
+                            }
+
+                            @Override
+                            public void onUpdateAvailable(final String result) {
+                                // 将新版本信息封装到AppBean中
+                                final AppBean appBean = getAppBeanFromString(result);
+                                new MaterialDialog.Builder(mContext)
+                                        .cancelable(false)
+                                        .title("最最最新版本更新")
+                                        .content(appBean.getReleaseNote())
+                                        .positiveText("下载(校园网免流)")
+                                        .positiveColor(ResourceUtil.getColor(mContext, R.color.colorPrimary))
+                                        .onPositive((new MaterialDialog.SingleButtonCallback() {
+                                            @Override
+                                            public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                                                hasPermission(appBean);
+                                            }
+                                        }))
+                                        .negativeText("立即不下载")
+                                        .show();
+                            }
+                        });
+            }, 2000);
+        }
+    }
 
 }

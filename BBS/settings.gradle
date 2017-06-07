@@ -1,1 +1,1 @@
-include ':app', ':slidebacklibrary', ':bbkit'
+include ':app', ':slidebacklibrary'

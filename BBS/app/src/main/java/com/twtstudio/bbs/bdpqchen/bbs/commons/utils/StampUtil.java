@@ -3,7 +3,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * Created by bdpqchen on 17-5-10.
@@ -11,7 +10,7 @@ import java.util.GregorianCalendar;
 
 public final class StampUtil {
 
-    private static final int diff = 28800;
+    private static final int diff = 0;
 
     public static int getDaysFromCreateToNow(int createTimeStamp) {
         if (createTimeStamp < 12721691) {
@@ -38,10 +37,10 @@ public final class StampUtil {
         String datetimeMode = "yyyy-MM-dd HH:mm";
         return convert(datetimeMode, postTime + diff);
     }
-    public static String getTimeFromNow(long time) {
+    /*public static String getTimeFromNow(long time) {
         String datetimeMode = "MM-dd HH:mm:ss";
         return convert(datetimeMode, (int) (time + diff));
-    }
+    }*/
 
     public static String getDateByStamp(int t_create) {
         String dateMode = "yyyy-MM-dd";
@@ -54,13 +53,8 @@ public final class StampUtil {
         return date;
     }
 
-  /*  public static String getTimeFromNow(long date) {
-//        date -= diff;
+    public static String getTimeFromNow(int date) {
         Calendar calendar = Calendar.getInstance();
-//        Calendar calendar = new GregorianCalendar();
-
-//        LogUtil.dd("calendar");
-
         int years = calendar.get(Calendar.YEAR);
         int months = calendar.get(Calendar.MONTH);
         int days = calendar.get(Calendar.DAY_OF_MONTH);
@@ -68,14 +62,18 @@ public final class StampUtil {
         int minutes = calendar.get(Calendar.MINUTE);
         int seconds = calendar.get(Calendar.SECOND);
 
+       /* LogUtil.dd("stamp formal", String.valueOf(calendar.getTimeInMillis()));
+        LogUtil.dd("zone", String.valueOf(calendar.getTimeZone()));
         LogUtil.dd("years", String.valueOf(years));
         LogUtil.dd("months", String.valueOf(months));
         LogUtil.dd("days", String.valueOf(days));
         LogUtil.dd("hours", String.valueOf(hours));
+        LogUtil.dd("minutes", String.valueOf(minutes));
+        LogUtil.dd("seconds", String.valueOf(seconds));*/
 
-        calendar.setTimeInMillis(date * 1000);
-
-        LogUtil.dd("date", String.valueOf(date));
+        Long dateLong = Long.valueOf((date + "000"));
+        calendar.setTimeInMillis(dateLong);
+//        LogUtil.dd("stamp after", String.valueOf(calendar.getTimeInMillis()));
 
         years -= calendar.get(Calendar.YEAR);
         months -= calendar.get(Calendar.MONTH);
@@ -84,21 +82,42 @@ public final class StampUtil {
         minutes -= calendar.get(Calendar.MINUTE);
         seconds -= calendar.get(Calendar.SECOND);
 
-        if (years > 0) {
-            return years + " " + "年前";
-        } else if (months > 0) {
-            return months + " " + "月前";
-        } else if (days > 0) {
-            return days + " " + "天前";
-        } else if (hours > 0) {
-            return hours + " " + "小时前";
-        } else if (minutes > 0) {
-            return minutes + " " + "分钟前";
+       /* LogUtil.dd("y", String.valueOf(years));
+        LogUtil.dd("M", String.valueOf(months));
+        LogUtil.dd("d", String.valueOf(days));
+        LogUtil.dd("h", String.valueOf(hours));
+        LogUtil.dd("m", String.valueOf(minutes));
+        LogUtil.dd("s", String.valueOf(seconds));
+*/
+        if (years == 1 && months >= 0 || years > 1) {
+            return years + "年前";
+        } else if (months == 1 && days >= 0 || months > 1) {
+            return months + "月前";
+        } else if (days > 1) {
+            return days + "天前";
+        } else if (days == 1) {
+            if (hours < 0) {
+                hours += 24;
+            }
+            return hours + "小时前";
+        } else if (hours > 1) {
+            return hours + "小时前";
+        } else if (hours == 1) {
+            if (minutes < 0) {
+                minutes += 60;
+            }
+            return minutes + "分钟前";
+        } else if (minutes > 1) {
+            return minutes + "分钟前";
+        } else if (minutes == 1) {
+            if (seconds < 0) {
+                seconds += 60;
+            }
+            return seconds + "秒前";
         } else if (seconds > 0) {
             return seconds + " " + "秒前";
         } else {
             return "刚刚";
         }
     }
-*/
 }

@@ -55,7 +55,8 @@ public class RxDoHttpClient<T> {
 
     //    public static final String BASE_URL = "http://202.113.13.162:8080/";
     //将会遇到证书 CA 问题
-    public static final String BASE = "https://bbs.twtstudio.com";
+//    public static final String BASE = "https://bbs.twtstudio.com";
+    public static final String BASE = "https://bbs.tju.edu.cn";
     public static final String BASE_URL = BASE + "/api/";
     private Retrofit mRetrofit;
     public BaseApi mApi;
@@ -153,7 +154,7 @@ public class RxDoHttpClient<T> {
                 .addInterceptor(interceptor)
                 .addInterceptor(mTokenInterceptor)
                 .retryOnConnectionFailure(true)
-                .connectTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
 
 
@@ -172,6 +173,7 @@ public class RxDoHttpClient<T> {
 
     private String getLatestAuthentication() {
         return PrefUtil.getAuthUid() + "|" + PrefUtil.getAuthToken();
+//        return PrefUtil.getAuthUid() + "" + PrefUtil.getAuthToken();
     }
 
 
@@ -320,4 +322,7 @@ public class RxDoHttpClient<T> {
     }
 
 
+    public Observable<BaseResponse<Integer>> getUnreadCount() {
+        return mApi.getUnreadCount();
+    }
 }

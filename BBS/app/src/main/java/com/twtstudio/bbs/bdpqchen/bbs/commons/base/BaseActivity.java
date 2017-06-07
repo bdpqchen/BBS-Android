@@ -64,9 +64,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         mUnBinder = ButterKnife.bind(this);
         mActivity = this;
         inject();
+
         if (mPresenter != null) {
             mPresenter.attachView(this);
         }else {
+
             LogUtil.d("mPresenter is null!!!");
         }
         Activity activity = supportSlideBack();
@@ -80,7 +82,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
                     .create();
             mSlideBackLayout = SlideBackHelper.attach(activity, App.getActivityHelper(), slideConfig, null);
         }
-        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimary), 0);
+        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark), 0);
 
         mToolbar = getToolbarView();
         if (null != mToolbar) {
@@ -119,7 +121,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         if (mUnBinder != null){
             mUnBinder.unbind();
         }
-        finishMe();
+//        finishMe();
     }
 
     @Override

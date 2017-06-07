@@ -38,6 +38,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
+
 /**
  * Created by bdpqchen on 17-5-2.
  */
@@ -102,11 +104,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         //键盘挡住输入框
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState);
-
         StatusBarUtil.setTranslucentForImageView(this, 0, mNeedOffset);
         //自动填写用户名
         Intent intent = getIntent();
-        String usernameToSet = intent.getStringExtra("username");
+        String usernameToSet = intent.getStringExtra(USERNAME);
         mEtAccount.setText(usernameToSet);
         if (PrefUtil.getAuthUid() == 0){
             ImageUtil.loadDrawable(this, R.drawable.avatar_default_left, mCivAvatar);
@@ -180,13 +181,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             ActivityOptions finalActivityOptions = activityOptions;
             HandlerUtil.postDelay(() -> {
                 startActivity(intent, finalActivityOptions.toBundle());
-            }, 300);
+            }, 400);
 //            LogUtil.d("start activity with options");
         } else {
 //            LogUtil.d("start activity with none");
             HandlerUtil.postDelay(() -> {
                 startActivity(intent);
-            }, 300);
+            }, 400);
         }
         HandlerUtil.postDelay(this::finishMe, 2000);
     }

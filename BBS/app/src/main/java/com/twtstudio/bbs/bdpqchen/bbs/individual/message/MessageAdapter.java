@@ -95,11 +95,6 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
         }
     }
 
-    // TODO: 17-5-29 不同类型的消息进行判断
-  /*  @Override
-    public int getItemViewType(int position) {
-        return super.getItemViewType(position);
-    }
-*/
+
 
 }

@@ -6,12 +6,12 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.support;
 
 public final class Constants {
 
-    public static final int FRAGMENT_MAIN  = 100;
-    public static final int FRAGMENT_FORUM = 101;
-    public static final int FRAGMENT_INDIVIDUAL = 103;
+    public static final int FRAGMENT_MAIN  = 0;
+    public static final int FRAGMENT_FORUM = 1;
+    public static final int FRAGMENT_INDIVIDUAL = 2;
     public static final String TOKEN = "token";
     public static final int RESULT_CODE_AVATAR = 10;
-    public static final int MAX_LENGTH_QUOTE = 40;
+    public static final int MAX_LENGTH_QUOTE = 60;
     public static final int MAX_LENGTH_POST = 50;
     public static final int ITEM_HEADER = -1;
     public static final int ITEM_NORMAL = 0;

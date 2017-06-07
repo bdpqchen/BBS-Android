@@ -34,8 +34,7 @@ public class MainFragment extends SimpleFragment {
     Unbinder unbinder;
 
     public static MainFragment newInstance() {
-        MainFragment fragment = new MainFragment();
-        return fragment;
+        return new MainFragment();
     }
 
     @Override

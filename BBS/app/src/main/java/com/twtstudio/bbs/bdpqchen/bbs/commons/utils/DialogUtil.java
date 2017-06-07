@@ -45,4 +45,12 @@ public final class DialogUtil {
                 .show();
     }
 
+    public static MaterialDialog noticeDialog(Context con, String title, String content){
+        return new MaterialDialog.Builder(con)
+                .title(title)
+                .content(content)
+                .show();
+    }
+
+
 }

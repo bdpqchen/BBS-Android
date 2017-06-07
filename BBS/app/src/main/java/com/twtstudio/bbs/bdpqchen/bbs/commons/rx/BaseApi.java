@@ -236,5 +236,7 @@ public interface BaseApi {
             @Field(ANONYMOUS) int is);
 
 
+    @GET("home/message/count")
+    Observable<BaseResponse<Integer>> getUnreadCount();
 }
 

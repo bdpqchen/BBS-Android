@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
@@ -28,15 +27,6 @@ import butterknife.Unbinder;
  */
 
 public class ForumFragment extends BaseFragment<ForumPresenter> implements ForumContract.View {
-
-
-    /*
-    **特别紧急重要更新\n
-    * 1. 修复大部分手机的闪退、停止运行情况\n
-    * 2. 修复无法匿名回复问题\n
-    * 3. 修复回帖后出现重复楼层问题\n
-    * 4. 修复刷新未加载问题
-    * */
 
     @BindView(R.id.tv_title_toolbar)
     TextView mTvTitleToolbar;
@@ -112,28 +102,35 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
             mAdapter.notifyDataSetChanged();
         }
         hideProgressBar();
-        mRefreshing = false;
-        mSrlForum.setRefreshing(false);
+        setRefreshing(false);
     }
 
     @Override
     public void failedToGetForum(String msg) {
         SnackBarUtil.error(this.getActivity(), msg);
         hideProgressBar();
-        mSrlForum.setRefreshing(false);
-        mRefreshing = false;
-
+        setRefreshing(false);
     }
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        mPresenter.getForumList();
+        if (mPresenter != null){
+            mPresenter.getForumList();
 
+        }
     }
 
+    void setRefreshing(boolean b){
+        if (mSrlForum != null){
+            mSrlForum.setRefreshing(b);
+        }
+        mRefreshing = b;
+    }
     private void hideProgressBar() {
-        mPbLoadingForum.setVisibility(View.GONE);
+        if (mPbLoadingForum != null){
+            mPbLoadingForum.setVisibility(View.GONE);
+        }
     }
 
 }

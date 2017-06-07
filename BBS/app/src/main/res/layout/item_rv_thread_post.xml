@@ -7,12 +7,12 @@
     android:clickable="true"
     android:foreground="@drawable/selector_foreground_settings"
     android:orientation="vertical"
+    android:background="@color/colorMainBgLight"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorMainBg"
         android:orientation="vertical"
         >
 
@@ -81,7 +81,18 @@
 
             </RelativeLayout>
 
-            <org.sufficientlysecure.htmltextview.HtmlTextView
+            <com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView
+                android:id="@+id/htv_post_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textColor="@color/colorTvBlackMainTint"
+                android:textSize="14sp"
+                tools:text="挑剔大家发多少aflsjlfsj大家来决定是否了解爱上了飞机来打扫房间2017年05月22日23:45:052017年05月22日23:45:07"
+                android:visibility="gone"
+                />
+
+            <TextView
                 android:id="@+id/tv_post_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

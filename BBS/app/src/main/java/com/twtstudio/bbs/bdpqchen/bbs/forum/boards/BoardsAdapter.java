@@ -64,6 +64,9 @@ public class BoardsAdapter extends BaseAdapter<PreviewThreadModel> {
             holder.mLlThreadList.setVisibility(View.VISIBLE);
             if (mDataSet.get(position).getThreadList() != null) {
                 Intent intent = new Intent(mContext, ThreadActivity.class);
+                intent.putExtra(INTENT_BOARD_ID, previewThread.getBoard().getId());
+                intent.putExtra(INTENT_BOARD_TITLE, previewThread.getBoard().getName());
+
                 int threadSize = mDataSet.get(position).getThreadList().size();
                 if (threadSize == 0) {
                     holder.mLlThreadList.setVisibility(View.GONE);

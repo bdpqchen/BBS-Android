@@ -1,48 +1,30 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.settings;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.TextView;
+import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by bdpqchen on 17-5-5.
  */
 
-public class SettingsActivity extends BaseActivity {
+public class SettingsActivity extends BaseActivity<SettingsPresenter> {
 
-    private static final String IS_SWITCH_NIGHT_MODE_LOCK = "isSwitchNightModeLock";
+    public static final String IS_SWITCH_NIGHT_MODE_LOCK = "isSwitchNightModeLock";
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.tv_logout)
-    TextView mTvLogout;
-    @BindView(R.id.switch_no_network_message)
-    SwitchCompat mSwitchNoNetworkMessage;
-    @BindView(R.id.switch_stranger_message)
-    SwitchCompat mSwitchStrangerMessage;
-    @BindView(R.id.switch_night_mode)
-    SwitchCompat mSwitchNightMode;
-    @BindView(R.id.switch_auto_night_mode)
-    SwitchCompat mSwitchAutoNightMode;
-    @BindView(R.id.switch_slide_back)
-    SwitchCompat mSwitchSlideBack;
-
-    private Activity mActivity;
-
+    @BindView(R.id.settings_container)
+    FrameLayout mSettingsContainer;
 
     @Override
     protected int getLayoutResourceId() {
@@ -67,7 +49,7 @@ public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void inject() {
-//        getActivityComponent().inject(this);
+        getActivityComponent().inject(this);
     }
 
     @Override
@@ -80,72 +62,36 @@ public class SettingsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         //本Activity不支持滑动返回，当前使用的滑动返回库不太友好
-        if (getIntent().getBooleanExtra(IS_SWITCH_NIGHT_MODE_LOCK, false)){
+        if (getIntent().getBooleanExtra(IS_SWITCH_NIGHT_MODE_LOCK, false)) {
             mSlideBackLayout.lock(true);
-        }else{
+        } else {
             mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         }
-        mActivity = this;
-
-        mSwitchNightMode.setChecked(PrefUtil.isNightMode());
-        mSwitchNightMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            PrefUtil.setIsNightMode(isChecked);
-            startMySelf();
-        });
-
-        mSwitchSlideBack.setChecked(PrefUtil.isSlideBackMode());
-        mSwitchSlideBack.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            PrefUtil.setIsSlideBackMode(isChecked);
-            mSlideBackLayout.lock(!isChecked);
-        });
-
+        SettingsFragment fragment = new SettingsFragment();
+        FragmentManager manager = getFragmentManager();
+        manager.beginTransaction().replace(R.id.settings_container, fragment).commit();
 
     }
 
-
-    public void startMySelf() {
-        //方案1
-        //要延迟更新，否则会很很卡顿，而且不能新开线程。暂行方案
-        HandlerUtil.postDelay(() -> ActivityManager.getActivityManager().recreateAllActivity(SettingsActivity.class), 100);
-
-        ActivityManager.getActivityManager().finishActivity(this);
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        Intent intent = getIntent();
-        intent.putExtra(IS_SWITCH_NIGHT_MODE_LOCK, true);
-        startActivity(intent);
+    @Override
+    public void onBackPressedSupport() {
+        super.onBackPressedSupport();
+        finishThisActivity();
     }
 
-    @OnClick({R.id.switch_no_network_message, R.id.switch_stranger_message, R.id.switch_night_mode, R.id.switch_auto_night_mode, R.id.switch_slide_back, R.id.tv_logout})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.switch_no_network_message:
-                break;
-            case R.id.switch_stranger_message:
-                break;
-            case R.id.switch_night_mode:
-                break;
-            case R.id.switch_auto_night_mode:
-                break;
-            case R.id.switch_slide_back:
-                break;
-            case R.id.tv_logout:
-                PrefUtil.setHadLogin(false);
-                PrefUtil.setAuthToken("");
-                PrefUtil.setAuthUsername("");
-                PrefUtil.setAuthGroup(0);
-                PrefUtil.setAuthUid(0);
-                PrefUtil.setInfoNickname("");
-                PrefUtil.setInfoSignature("");
-                PrefUtil.setInfoCreate(0);
-                PrefUtil.setInfoPoints(0);
-                PrefUtil.setInfoUnread(0);
-                PrefUtil.setHasUnSyncInfo(false);
-                // TODO: 17-5-6 清除一些数据
-//                this.finishMe();
-                ActivityManager.getActivityManager().finishAllActivity();
-                startActivity(new Intent(this, LoginActivity.class));
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finishThisActivity();
                 break;
         }
+        return super.onOptionsItemSelected(item);
     }
+
+    void finishThisActivity() {
+        finishMe();
+    }
+
 
 }

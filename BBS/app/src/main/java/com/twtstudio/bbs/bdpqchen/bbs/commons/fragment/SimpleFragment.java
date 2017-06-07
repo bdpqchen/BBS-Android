@@ -51,6 +51,8 @@ public abstract class SimpleFragment extends SupportFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnBinder = ButterKnife.bind(this, view);
+        initFragments();
+/*
         if (savedInstanceState == null) {
             if (!isHidden()) {
                 mInitialized = true;
@@ -64,22 +66,25 @@ public abstract class SimpleFragment extends SupportFragment {
                 mInitialized = true;
                 initFragments();
             }
+*/
 /*
             if (!isSupportHidden()) {
                 mInitialized = true;
                 initFragments();
             }
-*/
+*//*
+
         }
+*/
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (!mInitialized && !hidden) {
+       /* if (!mInitialized && !hidden) {
             mInitialized = true;
             initFragments();
-        }
+        }*/
     }
 
 

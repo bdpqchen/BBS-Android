@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">求实BBS</string>
     <string name="collection_no_collection">你还没有收藏的帖子哦~</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="icon">&#xe61f;</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="key_night_mode">key_switch_night_mode</string>
+    <string name="key_slide_back">key_slide_back</string>
+    <string name="key_always_anon">key_always_anon</string>
+    <string name="key_habit_hand">key_habit_hand</string>
+    <string name="key_logout">key_logout</string>
 
 </resources>

@@ -36,7 +36,7 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
     @BindView(R.id.srl_thread_list)
     SwipeRefreshLayout mSrlThreadList;
 
-    private String mThreadTitle = "";
+    private String mBoardTitle = "";
     private int mBoardId = 0;
     ThreadListAdapter mAdapter;
     LinearLayoutManager mLayoutManager;
@@ -54,7 +54,7 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
 
     @Override
     protected Toolbar getToolbarView() {
-        mToolbar.setTitle(mThreadTitle);
+        mToolbar.setTitle(mBoardTitle);
         return mToolbar;
     }
 
@@ -82,15 +82,15 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         mBoardId = intent.getIntExtra(INTENT_BOARD_ID, 0);
-        mThreadTitle = intent.getStringExtra(INTENT_BOARD_TITLE);
-        LogUtil.dd(mThreadTitle);
+        mBoardTitle = intent.getStringExtra(INTENT_BOARD_TITLE);
+        LogUtil.dd(mBoardTitle);
         super.onCreate(savedInstanceState);
-        mToolbar.setTitle(mThreadTitle);
         mContext = this;
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mPresenter.getThreadList(mBoardId, mPage);
         mAdapter = new ThreadListAdapter(this);
         mAdapter.setShowFooter(true);
+        mAdapter.setBoardTitle(mBoardTitle);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -151,4 +151,5 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
             mPage--;
         }
     }
+
 }

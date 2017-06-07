@@ -9,15 +9,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.bbkit.bbcode.BBCodeParse;
+import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
-import com.twtstudio.retrox.bbcode.BBCodeParse;
-
-import org.sufficientlysecure.htmltextview.GlideImageGeter;
-import org.sufficientlysecure.htmltextview.HtmlTextView;
+import com.zzhoujay.richtext.RichText;
+import com.zzhoujay.richtext.callback.OnImageClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,22 +26,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE_URL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_END;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_JUST_HEADER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_POST;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_QUOTE;
 
 /**
  * Created by bdpqchen on 17-5-23.
  */
 
 public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
-
-    private static final int TYPE_POST = 0;
-    private static final int TYPE_THREAD = 1;
-    private static final int TYPE_FOOTER = 2;
 
     private Context mContext;
     private ThreadModel.ThreadBean mThreadData = new ThreadModel.ThreadBean();
@@ -90,7 +88,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         } else if (viewType == ITEM_END) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_common_no_more, parent, false);
             return new TheEndViewHolder(view);
-        }else if (viewType == ITEM_JUST_HEADER){
+        } else if (viewType == ITEM_JUST_HEADER) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_common_just_header, parent, false);
             return new JustHeaderHolder(view);
         }
@@ -113,14 +111,25 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 h.mTvUsernamePost.setText(p.getAuthor_name());
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
-                String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
-                LogUtil.d(htmlStr);
-                h.mTvPostContent.setHtml(htmlStr, new GlideImageGeter(h.mTvPostContent.getContext(), h.mTvPostContent));
+                String contentBefore = p.getContent();
+                String contentAfter = contentBefore;
+                if (contentBefore.contains("[/") && contentBefore.contains("[") && contentBefore.contains("]")) {
+                    contentAfter = BBCodeParse.bbcode2Html(p.getContent());
+                    RichText.fromHtml(contentAfter).into(h.mTvPostContent);
+                } else {
+                    contentAfter = contentAfter.replaceAll("attach:", BASE_URL + "img/");
+                    RichText.fromMarkdown(contentAfter).clickable(true).imageClick(new OnImageClickListener() {
+                        @Override
+                        public void imageClicked(List<String> list, int i) {
+                            LogUtil.dd("list", list.get(i));
+
+                        }
+                    }).into(h.mTvPostContent);
+                }
+//                LogUtil.dd("after", contentAfter);
                 h.itemView.setTag(position);
-//                h.itemView.setOnClickListener();
             } else if (holder instanceof BaseFooterViewHolder) {
                 LogUtil.d("base footer view");
-
             } else if (holder instanceof HeaderHolder) {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 ThreadModel.PostBean p = mPostData.get(position);
@@ -133,13 +142,20 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mTvTitle.setText(p.getTitle());
                 headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 headerHolder.mTvUsernameThread.setText(p.getAuthor_name());
-                String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
-                LogUtil.d(htmlStr);
-
-//                headerHolder.mHtvContent.setHtml(htmlStr, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
+//                LogUtil.dd("before", p.getContent());
+                String contentBefore = p.getContent();
+                String contentAfter = contentBefore;
+                if (contentBefore.contains("[/") && contentBefore.contains("[") && contentBefore.contains("]")) {
+                    contentAfter = BBCodeParse.bbcode2Html(p.getContent());
+                    RichText.fromHtml(contentAfter).into(headerHolder.mTvContent);
+                } else {
+                    contentAfter = contentAfter.replace("attach:", BASE_URL + "img/");
+                    RichText.fromMarkdown(contentAfter).into(headerHolder.mTvContent);
+                }
+//                LogUtil.dd("after", contentAfter);
             } else if (holder instanceof TheEndViewHolder) {
                 LogUtil.dd("the end view");
-            }else if (holder instanceof JustHeaderHolder){
+            } else if (holder instanceof JustHeaderHolder) {
                 LogUtil.dd("just header view");
             }
         }
@@ -163,7 +179,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 //                LogUtil.dd("return header");
                 return ITEM_HEADER;
             }
-            if (mPostData.size() == 1){
+            if (mPostData.size() == 1) {
                 return ITEM_JUST_HEADER;
             }
             if (position + 1 == getItemCount()) {
@@ -206,15 +222,60 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     public String comment2reply(int postPosition, String content) {
-        //帖主不算
         ThreadModel.PostBean post = mPostData.get(postPosition);
-        content = "[quote]引用 #"
-                + post.getFloor() + " "
-                + getAuthorName(postPosition) + " 的评论："
-                + cutRedundancy(post.getContent())
-                + "[/quote]"
-                + content + "";
+        String beforeCommendContent = post.getContent();
+//        LogUtil.dd("before comment", beforeCommendContent);
+        String cut = cutTwoQuote(beforeCommendContent);
+//        LogUtil.dd("cut", cut);
+        String added = addTwoQuote(cut);
+//        LogUtil.dd("added", added);
+        content = content +
+                "\n> 回复 #" +
+                post.getFloor() + " " +
+                getAuthorName(postPosition) +
+                " :\n> \n> " +
+                added;
+//        LogUtil.dd("content final", content);
         return content;
+    }
+
+    private String addTwoQuote(String str0) {
+        StringBuilder strNew = new StringBuilder();
+        String key = "> ";
+        while (str0.contains(key)) {
+            int i = str0.indexOf(key);
+            String cut = str0.substring(0, i + 2);
+            cut = cutIfTooLong(cut);
+            str0 = str0.substring(i + 2, str0.length());
+            strNew.append(cut).append(key);
+        }
+        strNew.append(str0);
+        return cutIfTooLong(strNew.toString());
+    }
+
+    private String cutIfTooLong(String s) {
+        if (s.length() > MAX_LENGTH_QUOTE) {
+            return s.substring(0, MAX_LENGTH_QUOTE - 1);
+        }
+        return s + "...";
+    }
+
+    private String cutTwoQuote(String str0) {
+        StringBuilder strNew = new StringBuilder();
+        String key = "> > ";
+        if (str0.contains(key)) {
+            //去掉末尾的\n
+            int i = str0.indexOf(key);
+            str0 = str0.substring(0, i);
+            String strStart = str0.substring(0, i - 3);
+            String strEnd = str0.substring(str0.length() - 3, str0.length());
+//            LogUtil.dd("replace before", strEnd);
+            strEnd = strEnd.replace("\n", "");
+//            LogUtil.dd("replace after", strEnd);
+            str0 = strStart + strEnd;
+        }
+        strNew.append(str0);
+        return strNew.toString();
     }
 
     private String getAuthorName(int position) {
@@ -243,14 +304,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         return hint;
     }
 
-    private String cutRedundancy(String former) {
-        /*int wantLen = Constants.MAX_LENGTH_QUOTE;
-        if (former.length() > wantLen) {
-            former = former.substring(wantLen);
-        }*/
-        return former;
-    }
-
     static class PostHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.civ_avatar_post)
         CircleImageView mCivAvatarPost;
@@ -258,12 +311,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView mTvUsernamePost;
         @BindView(R.id.tv_post_datetime)
         TextView mTvPostDatetime;
-        @BindView(R.id.tv_post_content)
-        HtmlTextView mTvPostContent;
+        @BindView(R.id.htv_post_content)
+        HtmlTextView mHtvPostContent;
         @BindView(R.id.tv_floor_post)
         TextView mTvFloorPost;
         @BindView(R.id.tv_reply)
         TextView mTvReply;
+        @BindView(R.id.tv_post_content)
+        TextView mTvPostContent;
 
         PostHolder(View view) {
             super(view);
@@ -284,6 +339,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView mTvTitle;
         @BindView(R.id.htv_content)
         HtmlTextView mHtvContent;
+        @BindView(R.id.tv_content)
+        TextView mTvContent;
 
         HeaderHolder(View itemView) {
             super(itemView);

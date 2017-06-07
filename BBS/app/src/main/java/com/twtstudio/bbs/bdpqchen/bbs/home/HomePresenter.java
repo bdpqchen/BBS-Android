@@ -5,9 +5,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 
 import javax.inject.Inject;
 
@@ -21,42 +18,42 @@ import io.reactivex.schedulers.Schedulers;
 
 public class HomePresenter extends RxPresenter<HomeContract.View> implements HomeContract.Presenter {
 
-    private RxDoHttpClient<IndividualInfoModel> mHttpClient;
-    private ResponseTransformer<IndividualInfoModel> mTransformer = new ResponseTransformer<>();
+    private RxDoHttpClient<Integer> mUnreadClient;
+    //    private RxDoHttpClient<IndividualInfoModel> mHttpClient;
+//    private ResponseTransformer<IndividualInfoModel> mTransformer = new ResponseTransformer<>();
+    private ResponseTransformer<Integer> mUnreadTrans = new ResponseTransformer<>();
+
 
     @Inject
     public HomePresenter(RxDoHttpClient httpClient) {
-        this.mHttpClient = httpClient;
-
-    }
-
-    @Override
-    public void checkUpdate(int currentVersionCode) {
-//        LogUtil.d("show the method--> checkUpdate()");
+        this.mUnreadClient = httpClient;
+//        this.mHttpClient = httpClient;
     }
 
 
     @Override
-    public void initIndividualInfo() {
-        SimpleObserver<IndividualInfoModel> observer = new SimpleObserver<IndividualInfoModel>() {
+    public void getUnreadMessageCount() {
+
+        SimpleObserver<Integer> observer = new SimpleObserver<Integer>() {
             @Override
             public void _onError(String msg) {
-                PrefUtil.setIsLatestInfo(false);
-            }
-
-            @Override
-            public void _onNext(IndividualInfoModel individualInfoModel) {
-                LogUtil.dd(individualInfoModel.getNickname() + "1");
+//                LogUtil.d(msg);
                 if (mView != null){
-                    mView.showIndividualInfo(individualInfoModel);
+                    mView.onGetMessageFailed(msg);
+                }
+            }
+            @Override
+            public void _onNext(Integer integer) {
+//                LogUtil.d(integer);
+                if (mView != null){
+                    mView.onGotMessageCount(integer);
                 }
             }
         };
-        addSubscribe(mHttpClient.getIndividualInfo()
-                .map(mTransformer)
+        addSubscribe(mUnreadClient.getUnreadCount()
+                .map(mUnreadTrans)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(observer)
-        );
+                .subscribeWith(observer));
     }
 }

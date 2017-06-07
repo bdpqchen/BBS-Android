@@ -13,18 +13,6 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-    <!--
-    非常重要紧急更新
-    我们针对上一版本做了如下修复工作
-    1. 解决帖子详情下滑太快闪退，异常退出情况
-    2. 解决帖子回复后崩溃情况
-    3. 解决编辑资料无法保存情况
-    4. 解决首次登录个人信息页不显示数据情况
-    添加新功能：
-    1. 帖子详情可以直接到最后一页
-    2. 帖子详情返回顶部以及无条件刷新
-    -->
-
     <!--在这里稍微解决内存不够用的情况-->
     <application
         android:name=".App"
