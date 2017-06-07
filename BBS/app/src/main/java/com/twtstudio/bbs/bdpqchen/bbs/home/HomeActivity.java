@@ -21,6 +21,7 @@ import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
+import com.twtstudio.bbs.bdpqchen.bbs.BuildConfig;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -142,35 +143,37 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             mPresenter.initIndividualInfo();
         }*/
 
-        HandlerUtil.postDelay(() -> {
-            PgyUpdateManager.register(this, "9981",
-                    new UpdateManagerListener() {
-                        @Override
-                        public void onNoUpdateAvailable() {
-                            LogUtil.dd("not update available");
-                        }
+        if (!BuildConfig.DEBUG){
+            HandlerUtil.postDelay(() -> {
+                PgyUpdateManager.register(this, "9981",
+                        new UpdateManagerListener() {
+                            @Override
+                            public void onNoUpdateAvailable() {
+                                LogUtil.dd("not update available");
+                            }
 
-                        @Override
-                        public void onUpdateAvailable(final String result) {
-                            // 将新版本信息封装到AppBean中
-                            final AppBean appBean = getAppBeanFromString(result);
-                            new MaterialDialog.Builder(mContext)
-                                    .cancelable(false)
-                                    .title("最新版本更新")
-                                    .content(appBean.getReleaseNote())
-                                    .positiveText("立即下载")
-                                    .positiveColor(ResourceUtil.getColor(mContext, R.color.colorPrimary))
-                                    .onPositive((new MaterialDialog.SingleButtonCallback() {
-                                        @Override
-                                        public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
-                                            hasPermission(appBean);
-                                        }
-                                    }))
-                                    .negativeText("再说吧")
-                                    .show();
-                        }
-                    });
-        }, 1000);
+                            @Override
+                            public void onUpdateAvailable(final String result) {
+                                // 将新版本信息封装到AppBean中
+                                final AppBean appBean = getAppBeanFromString(result);
+                                new MaterialDialog.Builder(mContext)
+                                        .cancelable(false)
+                                        .title("最新版本更新")
+                                        .content(appBean.getReleaseNote())
+                                        .positiveText("立即下载")
+                                        .positiveColor(ResourceUtil.getColor(mContext, R.color.colorPrimary))
+                                        .onPositive((new MaterialDialog.SingleButtonCallback() {
+                                            @Override
+                                            public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                                                hasPermission(appBean);
+                                            }
+                                        }))
+                                        .negativeText("再说吧")
+                                        .show();
+                            }
+                        });
+            }, 1000);
+        }
 
     }
 

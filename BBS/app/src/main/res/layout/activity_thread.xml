@@ -56,7 +56,7 @@
                             android:foreground="@drawable/selector_foreground_settings"
                             android:maxLines="1"
                             android:textColor="#ffffff"
-                            android:textSize="12sp"
+                            android:textSize="18sp"
                             android:layout_centerVertical="true"
                             tools:text="帖子的标题标题帖子的标题标题帖子的标帖子的标题标题题标题帖子的标题标题"
                             tools:visibility="gone"
@@ -71,7 +71,7 @@
                             android:foreground="@drawable/selector_foreground_settings"
                             android:maxLines="1"
                             android:textColor="#ffffff"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             tools:text="求实焦点"
                             />
                     </RelativeLayout>

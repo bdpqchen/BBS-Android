@@ -34,7 +34,7 @@
     <dimen name="size_dot_intro">6dp</dimen>
     <dimen name="size_tv_username">14sp</dimen>
     <dimen name="size_tv_small">12sp</dimen>
-    <dimen name="size_tv_middle">18sp</dimen>
+    <dimen name="size_tv_middle">16sp</dimen>
     <dimen name="icon_size_small">12dp</dimen>
     <dimen name="margin_start_latest">42dp</dimen>
 </resources>
