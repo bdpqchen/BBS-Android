@@ -173,6 +173,7 @@ public class RxDoHttpClient<T> {
 
     private String getLatestAuthentication() {
         return PrefUtil.getAuthUid() + "|" + PrefUtil.getAuthToken();
+//        return PrefUtil.getAuthUid() + "" + PrefUtil.getAuthToken();
     }
 
 
@@ -321,4 +322,7 @@ public class RxDoHttpClient<T> {
     }
 
 
+    public Observable<BaseResponse<Integer>> getUnreadCount() {
+        return mApi.getUnreadCount();
+    }
 }

@@ -138,42 +138,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             }
         });
 
-        // TODO: 17-5-22 解决夜间模式View的空指针问题
-        /*if (PrefUtil.hadLogin()) {
-            mPresenter.initIndividualInfo();
-        }*/
+        autoCheckUpdate();
 
-        if (!BuildConfig.DEBUG){
-            HandlerUtil.postDelay(() -> {
-                PgyUpdateManager.register(this, "9981",
-                        new UpdateManagerListener() {
-                            @Override
-                            public void onNoUpdateAvailable() {
-                                LogUtil.dd("not update available");
-                            }
-
-                            @Override
-                            public void onUpdateAvailable(final String result) {
-                                // 将新版本信息封装到AppBean中
-                                final AppBean appBean = getAppBeanFromString(result);
-                                new MaterialDialog.Builder(mContext)
-                                        .cancelable(false)
-                                        .title("最新版本更新")
-                                        .content(appBean.getReleaseNote())
-                                        .positiveText("立即下载")
-                                        .positiveColor(ResourceUtil.getColor(mContext, R.color.colorPrimary))
-                                        .onPositive((new MaterialDialog.SingleButtonCallback() {
-                                            @Override
-                                            public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
-                                                hasPermission(appBean);
-                                            }
-                                        }))
-                                        .negativeText("再说吧")
-                                        .show();
-                            }
-                        });
-            }, 1000);
-        }
+        mPresenter.getUnreadMessageCount();
 
     }
 
@@ -219,41 +186,57 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     }
 
     @Override
-    public void showUpdateDialog(int versionCode) {
+    public void onGotMessageCount(int count) {
+        if (count > 0) {
+            mNearBy.setBadgeCount(count);
+            PrefUtil.setInfoUnread(count);
+        }
     }
 
     @Override
-    public void showIndividualInfo(IndividualInfoModel info) {
-        LogUtil.d("receive a response");
-        if (info != null) {
-            LogUtil.dd("on");
-            //设置个人信息，在IndividualFragment 里可直接获取，需判断是否为最新getIsLatestInfo()
-            PrefUtil.setInfoNickname(info.getNickname());
-            PrefUtil.setInfoSignature(info.getSignature());
-            PrefUtil.setInfoOnline(info.getC_online());
-            PrefUtil.setInfoPost(info.getC_post());
-            PrefUtil.setInfoPoints(info.getPoints());
-            PrefUtil.setInfoCreate(info.getT_create());
-            PrefUtil.setInfoGroup(info.getGroup());
-            PrefUtil.setInfoLevel(info.getLevel());
-            PrefUtil.setIsLatestInfo(true);
-            int unRead = info.getC_unread();
-            PrefUtil.setInfoUnread(unRead);
-            LogUtil.dd("unread", String.valueOf(unRead));
-            // TODO: 17-5-10 为了测试
-//            mNearBy.setBadgeCount(unRead);
-        }
+    public void onGetMessageFailed(String m) {
+        LogUtil.dd("onGetMessageFailed()");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        int count = PrefUtil.getInfoUnread();
-        if (count > 0) {
-//            mNearBy.setBadgeCount(count);
-        }
-
+        LogUtil.dd("home onResume", "getUnreadMessage");
+        mPresenter.getUnreadMessageCount();
     }
 
+    private void autoCheckUpdate() {
+        if (!BuildConfig.DEBUG) {
+            HandlerUtil.postDelay(() -> {
+                PgyUpdateManager.register(this, "9981",
+                        new UpdateManagerListener() {
+                            @Override
+                            public void onNoUpdateAvailable() {
+                                LogUtil.dd("not update available");
+                            }
+
+                            @Override
+                            public void onUpdateAvailable(final String result) {
+                                // 将新版本信息封装到AppBean中
+                                final AppBean appBean = getAppBeanFromString(result);
+                                new MaterialDialog.Builder(mContext)
+                                        .cancelable(false)
+                                        .title("最最最新版本更新")
+                                        .content(appBean.getReleaseNote())
+                                        .positiveText("下载(校园网免流)")
+                                        .positiveColor(ResourceUtil.getColor(mContext, R.color.colorPrimary))
+                                        .onPositive((new MaterialDialog.SingleButtonCallback() {
+                                            @Override
+                                            public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                                                hasPermission(appBean);
+                                            }
+                                        }))
+                                        .negativeText("立即不下载")
+                                        .show();
+                            }
+                        });
+            }, 2000);
+        }
+    }
 
 }
