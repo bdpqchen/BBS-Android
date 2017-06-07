@@ -38,8 +38,6 @@ public class App extends Application {
 
 //        PgyCrashManager.register(this);
 
-        JobManager.create(this).addJobCreator(new com.twtstudio.bbs.bdpqchen.bbs.commons.support.job.JobCreator());
-
         initLogUtils();
         initSlideBack();
         HandlerThread workerThread = new HandlerThread("global_worker_thread");

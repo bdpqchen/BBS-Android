@@ -84,7 +84,7 @@ android {
 
         compile 'com.zzhoujay.richtext:richtext:2.5.2'
 //        compile 'com.zzhoujay.glideimagegetter:glideimagegetter:1.0.5'
-        compile 'com.evernote:android-job:1.1.11'
+//        compile 'com.evernote:android-job:1.1.11'
 
 
 
