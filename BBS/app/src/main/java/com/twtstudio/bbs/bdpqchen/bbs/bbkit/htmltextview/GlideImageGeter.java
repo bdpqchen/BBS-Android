@@ -98,6 +98,7 @@ public class GlideImageGeter implements Html.ImageGetter{
     }
 
     private class BitmapTarget extends SimpleTarget<Bitmap> {
+
         private final UrlDrawable urlDrawable;
 
         public BitmapTarget(UrlDrawable urlDrawable) {

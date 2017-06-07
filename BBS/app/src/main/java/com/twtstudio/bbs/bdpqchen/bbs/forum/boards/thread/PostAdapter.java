@@ -3,9 +3,11 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -17,6 +19,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
+import com.zzhoujay.richtext.RichText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEAD
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_JUST_HEADER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_POST;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_QUOTE;
 
 /**
  * Created by bdpqchen on 17-5-23.
@@ -108,11 +112,16 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 h.mTvUsernamePost.setText(p.getAuthor_name());
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
-                String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
-                LogUtil.d(htmlStr);
-                h.mTvPostContent.setHtml(htmlStr, new GlideImageGeter(h.mTvPostContent.getContext(), h.mTvPostContent));
+                String contentBefore = p.getContent();
+                String contentAfter = contentBefore;
+                if (contentBefore.contains("[") && contentBefore.contains("]") && contentBefore.contains("[/")) {
+                    contentAfter = BBCodeParse.bbcode2Html(p.getContent());
+                    RichText.fromHtml(contentAfter).into(h.mTvPostContent);
+                } else {
+                    RichText.fromMarkdown(contentAfter).into(h.mTvPostContent);
+                }
+                LogUtil.dd("after", contentAfter);
                 h.itemView.setTag(position);
-//                h.itemView.setOnClickListener();
             } else if (holder instanceof BaseFooterViewHolder) {
                 LogUtil.d("base footer view");
 
@@ -128,9 +137,17 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mTvTitle.setText(p.getTitle());
                 headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 headerHolder.mTvUsernameThread.setText(p.getAuthor_name());
-                String htmlStr = BBCodeParse.bbcode2Html(p.getContent());
-                LogUtil.d(htmlStr);
-                headerHolder.mHtvContent.setHtml(htmlStr, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
+                LogUtil.dd("before", p.getContent());
+                String contentBefore = p.getContent();
+                String contentAfter = contentBefore;
+                if (contentBefore.contains("[") && contentBefore.contains("]") && contentBefore.contains("[/")) {
+                    contentAfter = BBCodeParse.bbcode2Html(p.getContent());
+                    RichText.fromHtml(contentAfter).into(headerHolder.mTvContent);
+                } else {
+                    RichText.fromMarkdown(contentAfter).into(headerHolder.mTvContent);
+                }
+                LogUtil.dd("after", contentAfter);
+//                headerHolder.mHtvContent.setHtml(htmlStr, new GlideImageGeter(headerHolder.mHtvContent.getContext(), headerHolder.mHtvContent));
             } else if (holder instanceof TheEndViewHolder) {
                 LogUtil.dd("the end view");
             } else if (holder instanceof JustHeaderHolder) {
@@ -200,23 +217,57 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     public String comment2reply(int postPosition, String content) {
-        //帖主不算
         ThreadModel.PostBean post = mPostData.get(postPosition);
         String beforeCommendContent = post.getContent();
-        int i =  beforeCommendContent.indexOf("[quote]");
-        String commentedStart = beforeCommendContent.substring(0, i);
-        String commentedEnd = beforeCommendContent.substring(i, beforeCommendContent.length());
-        String afterComment = commentedStart + "[/quote]" + commentedEnd;
-
-        content = content  +
-                "[quote]引用 #"
-                + post.getFloor() + " "
-                + getAuthorName(postPosition) + " 的评论：\n"
-                + afterComment;
-//                + cutRedundancy(post.getContent())
+        LogUtil.dd("before comment", beforeCommendContent);
+        String cut = cutTwoQuote(beforeCommendContent);
+        LogUtil.dd("cut", cut);
+        String added = addTwoQuote(cut);
+        LogUtil.dd("added", added);
+        content = content +
+                "\n > 回复 #" +
+                post.getFloor() + " " +
+                getAuthorName(postPosition) +
+                " :\n\n > " +
+                added;
+        LogUtil.dd("content final", content);
         return content;
     }
-//还可以匿名
+
+    private String addTwoQuote(String str0) {
+        StringBuilder strNew = new StringBuilder();
+        String key = "> ";
+        while (str0.contains(key)) {
+            int i = str0.indexOf(key);
+            String cut = str0.substring(0, i);
+            cut = cutIfTooLong(cut);
+            str0 = str0.substring(i + 2, str0.length());
+            strNew.append(cut).append("\n").append(key).append(key);
+        }
+        strNew.append(str0);
+        Log.d("str quote two add", strNew.toString());
+        return cutIfTooLong(strNew.toString());
+    }
+
+    private String cutIfTooLong(String s) {
+        if (s.length() > MAX_LENGTH_QUOTE){
+            return s.substring(0, MAX_LENGTH_QUOTE - 1);
+        }
+        return s;
+    }
+
+    private String cutTwoQuote(String str0) {
+        StringBuilder strNew = new StringBuilder();
+        String key = "> > ";
+        if (str0.contains(key)) {
+            int i = str0.indexOf(key);
+            str0 = str0.substring(0, i);
+        }
+        strNew.append(str0);
+        Log.d("str quote two cut", strNew.toString());
+        return strNew.toString();
+    }
+
     private String getAuthorName(int position) {
         int uid = 0;
         if (mPostData != null && mPostData.size() > 0) {
@@ -243,14 +294,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         return hint;
     }
 
-    private String cutRedundancy(String former) {
-        /*int wantLen = Constants.MAX_LENGTH_QUOTE;
-        if (former.length() > wantLen) {
-            former = former.substring(wantLen);
-        }*/
-        return former;
-    }
-
     static class PostHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.civ_avatar_post)
         CircleImageView mCivAvatarPost;
@@ -258,12 +301,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView mTvUsernamePost;
         @BindView(R.id.tv_post_datetime)
         TextView mTvPostDatetime;
-        @BindView(R.id.tv_post_content)
-        HtmlTextView mTvPostContent;
+        @BindView(R.id.htv_post_content)
+        HtmlTextView mHtvPostContent;
         @BindView(R.id.tv_floor_post)
         TextView mTvFloorPost;
         @BindView(R.id.tv_reply)
         TextView mTvReply;
+        @BindView(R.id.tv_post_content)
+        TextView mTvPostContent;
 
         PostHolder(View view) {
             super(view);
@@ -284,6 +329,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView mTvTitle;
         @BindView(R.id.htv_content)
         HtmlTextView mHtvContent;
+        @BindView(R.id.tv_content)
+        TextView mTvContent;
 
         HeaderHolder(View itemView) {
             super(itemView);
