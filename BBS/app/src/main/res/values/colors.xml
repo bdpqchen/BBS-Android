@@ -24,7 +24,7 @@
     <color name="colorMainText">#FEFBF4</color>
     <color name="colorTvBlackMain">#302c2c</color>
     <color name="colorTvBlackMainTint">#ad0d0c0c</color>
-    <color name="colorIndividualTagNum">#F26428</color>
+    <color name="colorIndividualTagNum">#FF0000</color>
     <color name="colorTintIconBlack">#645e5e</color>
     <color name="colorThreadContentBg">#ffffff</color>
     <color name="colorMainBgLightHeight">#ffffff</color>

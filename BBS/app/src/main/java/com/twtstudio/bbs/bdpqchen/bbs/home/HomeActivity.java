@@ -32,7 +32,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
 
 import butterknife.BindView;
@@ -188,8 +187,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     public void onGotMessageCount(int count) {
         if (count > 0) {
-            mNearBy.setBadgeCount(count);
             PrefUtil.setInfoUnread(count);
+            mNearBy.setBadgeCount(PrefUtil.getInfoUnread());
         }
     }
 

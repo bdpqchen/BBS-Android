@@ -16,7 +16,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.collection.CollectionActivity;
@@ -94,6 +93,8 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     @BindView(R.id.individual_item_iv_icon_end)
     ImageView mIndividualItemIvIconEnd;
 
+    private boolean isChangingInfo = false;
+
     @Override
     protected int getFragmentLayoutId() {
         return R.layout.fragment_individual;
@@ -124,9 +125,9 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        if (mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.initIndividualInfo();
-
+            setUnread(PrefUtil.getInfoUnread());
         }
     }
 
@@ -147,6 +148,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
                     break;
                 case 4:
                     clazz = UpdateInfoActivity.class;
+                    isChangingInfo = true;
                     break;
                 case 5:
                     clazz = SettingsActivity.class;
@@ -159,13 +161,14 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         }
     }
 
-    private void setUnread() {
-        int unread = PrefUtil.getInfoUnread();
-        if (unread != 0) {
-            mTvIndividualUnread.setText(unread + "");
-            mTvIndividualUnread.setVisibility(View.VISIBLE);
-        } else {
-            mTvIndividualUnread.setVisibility(View.GONE);
+    private void setUnread(int unread) {
+        if (mTvIndividualUnread != null) {
+            if (unread > 0) {
+                mTvIndividualUnread.setVisibility(View.VISIBLE);
+                mTvIndividualUnread.setText(unread + "");
+            } else {
+                mTvIndividualUnread.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -181,18 +184,18 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     @Override
     public void onResume() {
         super.onResume();
-        setUnread();
+        mPresenter.getUnreadMessageCount();
         mTvNickname.setText(PrefUtil.getInfoNickname());
         mTvSignature.setText(PrefUtil.getInfoSignature());
-        ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
+        if (isChangingInfo){
+            ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
+            isChangingInfo = false;
+        }
     }
 
     @Override
     public void gotInfo(IndividualInfoModel info) {
-        LogUtil.d("receive a response");
         if (info != null) {
-            LogUtil.dd("on");
-            //设置个人信息，在IndividualFragment 里可直接获取，需判断是否为最新getIsLatestInfo()
             PrefUtil.setInfoNickname(info.getNickname());
             PrefUtil.setInfoSignature(info.getSignature());
             PrefUtil.setInfoOnline(info.getC_online());
@@ -202,12 +205,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
             PrefUtil.setInfoGroup(info.getGroup());
             PrefUtil.setInfoLevel(info.getLevel());
             PrefUtil.setIsLatestInfo(true);
-            int unRead = info.getC_unread();
-            PrefUtil.setInfoUnread(unRead);
-            LogUtil.dd("unread", String.valueOf(unRead));
-            // TODO: 17-5-10 为了测试
-//            mNearBy.setBadgeCount(unRead);
-            setUnread();
             setPastDays(PrefUtil.getInfoCreate());
             mTvPostCount.setText(PrefUtil.getInfoPost() + "");
             mTvNickname.setText(PrefUtil.getInfoNickname());
@@ -219,6 +216,16 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
     @Override
     public void getInfoFailed(String m) {
+
+    }
+
+    @Override
+    public void onGotMessageCount(int unread) {
+        setUnread(unread);
+    }
+
+    @Override
+    public void onGetMessageFailed(String m) {
 
     }
 

@@ -1,7 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual;
 
-import android.os.Bundle;
-
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
@@ -13,13 +11,15 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 public interface IndividualContract {
 
     interface View extends BaseView {
-
         void gotInfo(IndividualInfoModel model);
         void getInfoFailed(String m);
+        void onGotMessageCount(int integer);
+        void onGetMessageFailed(String m);
+
     }
 
     interface Presenter extends BasePresenter<View>{
-
+        void getUnreadMessageCount();
         void initIndividualInfo();
     }
 }
