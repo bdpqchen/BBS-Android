@@ -16,8 +16,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
-import com.zzhoujay.glideimagegetter.GlideImageGetter;
 import com.zzhoujay.richtext.RichText;
+import com.zzhoujay.richtext.callback.OnImageClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,8 +118,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     RichText.fromHtml(contentAfter).into(h.mTvPostContent);
                 } else {
                     contentAfter = contentAfter.replaceAll("attach:", BASE_URL + "img/");
+                    RichText.fromMarkdown(contentAfter).clickable(true).imageClick(new OnImageClickListener() {
+                        @Override
+                        public void imageClicked(List<String> list, int i) {
+                            LogUtil.dd("list", list.get(i));
 
-                    RichText.fromMarkdown(contentAfter).into(h.mTvPostContent);
+                        }
+                    }).into(h.mTvPostContent);
                 }
 //                LogUtil.dd("after", contentAfter);
                 h.itemView.setTag(position);
@@ -225,10 +230,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         String added = addTwoQuote(cut);
 //        LogUtil.dd("added", added);
         content = content +
-                "\n > 回复 #" +
+                "\n> 回复 #" +
                 post.getFloor() + " " +
                 getAuthorName(postPosition) +
-                " :\n\n > " +
+                " :\n> \n> " +
                 added;
 //        LogUtil.dd("content final", content);
         return content;
@@ -239,13 +244,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         String key = "> ";
         while (str0.contains(key)) {
             int i = str0.indexOf(key);
-            String cut = str0.substring(0, i);
+            String cut = str0.substring(0, i + 2);
             cut = cutIfTooLong(cut);
             str0 = str0.substring(i + 2, str0.length());
-            strNew.append(cut).append("\n").append(key).append(key);
+            strNew.append(cut).append(key);
         }
         strNew.append(str0);
-//        Log.d("str quote two add", strNew.toString());
         return cutIfTooLong(strNew.toString());
     }
 
@@ -253,18 +257,24 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         if (s.length() > MAX_LENGTH_QUOTE) {
             return s.substring(0, MAX_LENGTH_QUOTE - 1);
         }
-        return s;
+        return s + "...";
     }
 
     private String cutTwoQuote(String str0) {
         StringBuilder strNew = new StringBuilder();
         String key = "> > ";
         if (str0.contains(key)) {
+            //去掉末尾的\n
             int i = str0.indexOf(key);
             str0 = str0.substring(0, i);
+            String strStart = str0.substring(0, i - 3);
+            String strEnd = str0.substring(str0.length() - 3, str0.length());
+//            LogUtil.dd("replace before", strEnd);
+            strEnd = strEnd.replace("\n", "");
+//            LogUtil.dd("replace after", strEnd);
+            str0 = strStart + strEnd;
         }
         strNew.append(str0);
-//        Log.d("str quote two cut", strNew.toString());
         return strNew.toString();
     }
 

@@ -12,7 +12,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
@@ -22,12 +21,18 @@ import java.util.List;
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
+
 /**
  * Created by bdpqchen on 17-5-20.
  */
 
 public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
 
+    private String mBoardTitle = "";
 
     public ThreadListAdapter(Context context) {
         super(context);
@@ -52,6 +57,7 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
         if (mDataSet != null && mDataSet.size() > 0) {
             if (viewHolder instanceof ViewHolder) {
                 ThreadListModel.ThreadBean thread = mDataSet.get(position);
+//                ThreadListModel.BoardBean board = mDataSet.get(position);
                 ViewHolder holder = (ViewHolder) viewHolder;
                 if (thread.getAnonymous() == 1){
                     thread.setAuthor_name("匿名用户");
@@ -67,8 +73,10 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
                 holder.mTvThreadPostCount.setText(thread.getC_post() + " 回复");
                 holder.itemView.setOnClickListener(v -> {
                     Intent in = new Intent(mContext, ThreadActivity.class);
-                    in.putExtra(Constants.INTENT_THREAD_ID, thread.getId());
-                    in.putExtra(Constants.INTENT_THREAD_TITLE, thread.getTitle());
+                    in.putExtra(INTENT_THREAD_ID, thread.getId());
+                    in.putExtra(INTENT_THREAD_TITLE, thread.getTitle());
+                    in.putExtra(INTENT_BOARD_TITLE, mBoardTitle);
+                    in.putExtra(INTENT_BOARD_ID, thread.getBoard_id());
                     mContext.startActivity(in);
                 });
             } else if (viewHolder instanceof BaseFooterViewHolder) {
@@ -80,6 +88,10 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
     void addDataList(List<ThreadListModel.ThreadBean> thread) {
         mDataSet.addAll(thread);
         notifyDataSetChanged();
+    }
+
+    void setBoardTitle(String s){
+        mBoardTitle = s;
     }
 
     static class ViewHolder extends BaseViewHolder {

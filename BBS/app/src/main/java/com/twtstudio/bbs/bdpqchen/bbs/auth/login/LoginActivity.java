@@ -181,13 +181,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             ActivityOptions finalActivityOptions = activityOptions;
             HandlerUtil.postDelay(() -> {
                 startActivity(intent, finalActivityOptions.toBundle());
-            }, 300);
+            }, 400);
 //            LogUtil.d("start activity with options");
         } else {
 //            LogUtil.d("start activity with none");
             HandlerUtil.postDelay(() -> {
                 startActivity(intent);
-            }, 300);
+            }, 400);
         }
         HandlerUtil.postDelay(this::finishMe, 2000);
     }
