@@ -91,7 +91,8 @@
                 android:layout_marginEnd="@dimen/margin_start_latest"
                 android:layout_marginStart="@dimen/margin_start_latest"
                 android:layout_marginTop="4dp"
-                android:textSize="18sp"
+                android:layout_marginBottom="4dp"
+                android:textSize="@dimen/size_tv_middle"
                 android:textColor="@color/colorTvBlackMain"
                 tools:text="帖子的标题帖子的标题帖子的标题帖子的标题帖子的标题帖子"
                 />
