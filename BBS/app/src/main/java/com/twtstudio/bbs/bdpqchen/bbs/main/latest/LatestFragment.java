@@ -23,7 +23,6 @@ import butterknife.BindView;
 
 public class LatestFragment extends BaseFragment<MainPresenter> implements MainContract.View {
 
-
     @BindView(R.id.pb_loading)
     ProgressBar mPbLoading;
     @BindView(R.id.rv_latest)
@@ -76,8 +75,6 @@ public class LatestFragment extends BaseFragment<MainPresenter> implements MainC
             } else {
                 mAdapter.addList(model.getLatest());
             }
-        } else {
-
         }
         setRefreshing(false);
         hideLoading();

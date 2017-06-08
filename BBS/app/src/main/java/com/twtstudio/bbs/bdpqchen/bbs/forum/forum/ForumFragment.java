@@ -62,9 +62,10 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
         mTvTitleToolbar.setText("论坛区");
         mAdapter = new ForumAdapter(mContext, this.getActivity());
         LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+
         mRvForumList.setLayoutManager(manager);
         mRvForumList.setAdapter(mAdapter);
-
+        mSrlForum.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlForum.setOnRefreshListener(() -> {
             mPresenter.getForumList();
             mRefreshing = true;
