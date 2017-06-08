@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.bbcode.BBCodeParse;
+import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.GlideImageGeter;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
@@ -17,9 +19,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.view_holder.TheEndViewHolder;
-import com.zzhoujay.richtext.ImageHolder;
-import com.zzhoujay.richtext.RichText;
-import com.zzhoujay.richtext.callback.OnImageClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,18 +116,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 String contentAfter = contentBefore;
                 if (contentBefore.contains("[/") && contentBefore.contains("[") && contentBefore.contains("]")) {
                     contentAfter = BBCodeParse.bbcode2Html(p.getContent());
-                    RichText.fromHtml(contentAfter).scaleType(ImageHolder.ScaleType.CENTER_CROP).into(h.mTvPostContent);
+                    h.mHtvPostContent.setHtml(contentAfter, new GlideImageGeter(mContext, h.mHtvPostContent));
                 } else {
                     contentAfter = contentAfter.replaceAll("attach:", BASE_URL + "img/");
-                    RichText.fromMarkdown(contentAfter).clickable(true).imageClick(new OnImageClickListener() {
-                        @Override
-                        public void imageClicked(List<String> list, int i) {
-                            LogUtil.dd("list", list.get(i));
-
-                        }
-                    }).into(h.mTvPostContent);
+                    String result = Processor.process(contentAfter);
+                    h.mHtvPostContent.setHtml(result, new GlideImageGeter(mContext, h.mHtvPostContent));
                 }
-//                LogUtil.dd("after", contentAfter);
                 h.itemView.setTag(position);
             } else if (holder instanceof BaseFooterViewHolder) {
                 LogUtil.d("base footer view");
@@ -149,12 +142,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 String contentAfter = contentBefore;
                 if (contentBefore.contains("[/") && contentBefore.contains("[") && contentBefore.contains("]")) {
                     contentAfter = BBCodeParse.bbcode2Html(p.getContent());
-                    RichText.fromHtml(contentAfter).into(headerHolder.mTvContent);
+                    headerHolder.mHtvContent.setHtml(contentAfter, new GlideImageGeter(mContext, headerHolder.mHtvContent));
                 } else {
                     contentAfter = contentAfter.replace("attach:", BASE_URL + "img/");
-                    RichText.fromMarkdown(contentAfter).into(headerHolder.mTvContent);
+                    String result = Processor.process(contentAfter);
+                    headerHolder.mHtvContent.setHtml(result, new GlideImageGeter(mContext, headerHolder.mHtvContent));
                 }
-//                LogUtil.dd("after", contentAfter);
             } else if (holder instanceof TheEndViewHolder) {
                 LogUtil.dd("the end view");
             } else if (holder instanceof JustHeaderHolder) {
@@ -257,9 +250,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     private String cutIfTooLong(String s) {
         if (s.length() > MAX_LENGTH_QUOTE) {
-            return s.substring(0, MAX_LENGTH_QUOTE - 1);
+            return s.substring(0, MAX_LENGTH_QUOTE - 1) + "...";
         }
-        return s + "...";
+        return s;
     }
 
     private String cutTwoQuote(String str0) {
@@ -313,14 +306,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView mTvUsernamePost;
         @BindView(R.id.tv_post_datetime)
         TextView mTvPostDatetime;
-        @BindView(R.id.htv_post_content)
-        HtmlTextView mHtvPostContent;
         @BindView(R.id.tv_floor_post)
         TextView mTvFloorPost;
         @BindView(R.id.tv_reply)
         TextView mTvReply;
-        @BindView(R.id.tv_post_content)
-        TextView mTvPostContent;
+        @BindView(R.id.htv_post_content)
+        HtmlTextView mHtvPostContent;
 
         PostHolder(View view) {
             super(view);
@@ -341,8 +332,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView mTvTitle;
         @BindView(R.id.htv_content)
         HtmlTextView mHtvContent;
-        @BindView(R.id.tv_content)
-        TextView mTvContent;
 
         HeaderHolder(View itemView) {
             super(itemView);

@@ -63,6 +63,8 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                             intent.putExtra(INTENT_THREAD_ID, model.getThread_id());
                             intent.putExtra(INTENT_THREAD_TITLE, model.getThread_title());
                             intent.putExtra(INTENT_THREAD_FLOOR, model.getFloor());
+
+//                            intent.putExtra(INTENT_BOARD_TITLE, )
                             mContext.startActivity(intent);
                         });
                         if (iHolder.mTvRedDot != null) {

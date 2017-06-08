@@ -147,13 +147,14 @@
         app:layout_behavior="com.twtstudio.bbs.bdpqchen.bbs.commons.support.FABScrollBehavior"
         tools:visibility="visible"
         />
-
+<!--        android:background="@drawable/shape_ll_shade"
+-->
     <LinearLayout
         android:id="@+id/ll_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:background="@drawable/shape_ll_shade"
+        android:background="@color/colorMainBgLight"
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical"
@@ -174,7 +175,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryCopy"
                 android:textSize="12sp"
                 tools:text="评论 1 楼 谁谁是"
                 />
@@ -188,7 +189,7 @@
                 android:scaleX="0.7"
                 android:scaleY="0.7"
                 android:text="匿名"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryCopy"
                 android:visibility="gone"
                 tools:visibility="visible"
                 />
@@ -200,7 +201,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"

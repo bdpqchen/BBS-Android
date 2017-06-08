@@ -61,7 +61,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private int mShowingFragment = FIRST;
     private int mHidingFragment = FIRST;
 
-
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_main;

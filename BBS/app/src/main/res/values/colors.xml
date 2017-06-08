@@ -11,7 +11,7 @@
 
     <color name="colorMainBgLight">#fefefe</color>
     <color name="colorMainBg">#EEEEEE</color>
-    <color name="colorMainBgTrans">#55607e7c</color>
+    <color name="colorMainBgTrans">#33607e7c</color>
     <color name="colorBottomBg">#ffffff</color>
 
     <color name="colorSnackNormalBg">#fcfc37</color>

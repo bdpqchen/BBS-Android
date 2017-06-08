@@ -8,5 +8,7 @@
     <string name="key_always_anon">key_always_anon</string>
     <string name="key_habit_hand">key_habit_hand</string>
     <string name="key_logout">key_logout</string>
+    <string name="version_name">1.1.0</string>
+    <string name="version_code">5</string>
 
 </resources>

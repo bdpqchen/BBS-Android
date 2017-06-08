@@ -28,8 +28,8 @@ public class CustomQuoteSpan implements LeadingMarginSpan, LineBackgroundSpan {
             this.backgroundColor = Color.parseColor("#303b41");
             this.stripeColor = Color.parseColor("#f4f0f0");
         }else{
-            this.stripeColor = Color.parseColor("#f49979");
-            this.backgroundColor = Color.parseColor("#f1f8ff");
+            this.stripeColor = Color.parseColor("#44f49979");
+            this.backgroundColor = Color.parseColor("#44EEEEEE");
         }
 
         this.stripeWidth = stripeWidth;

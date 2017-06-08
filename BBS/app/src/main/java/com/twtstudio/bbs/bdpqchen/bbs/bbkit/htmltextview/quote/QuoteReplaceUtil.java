@@ -19,8 +19,8 @@ public class QuoteReplaceUtil {
 //                            ResourceUtil.getColor()
 //                            Color.parseColor(R.color.colorPrimary + ""),
 //                            Color.parseColor(R.color.colorTvBlackMain + ""),
-                            4,
-                            4),
+                            8,
+                            16),
                     start,
                     end,
                     flags);

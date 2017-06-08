@@ -7,15 +7,13 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
-
 /**
  * Created by bdpqchen on 17-3-29.
  */
 
 public class FABScrollBehavior extends FloatingActionButton.Behavior {
 
-    public FABScrollBehavior(Context context, AttributeSet attributeSet){
+    public FABScrollBehavior(Context context, AttributeSet attributeSet) {
         super();
     }
 
@@ -34,7 +32,7 @@ public class FABScrollBehavior extends FloatingActionButton.Behavior {
                 }
             });
 
-        } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE){
+        } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) {
 //            LogUtil.dd("clide show");
             child.show();
         }

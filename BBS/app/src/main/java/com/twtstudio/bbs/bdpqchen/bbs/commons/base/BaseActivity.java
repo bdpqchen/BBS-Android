@@ -59,6 +59,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         super.onCreate(savedInstanceState);
         if (isSupportNightMode()) {
             AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+
         }
         setContentView(getLayoutResourceId());
         mUnBinder = ButterKnife.bind(this);
