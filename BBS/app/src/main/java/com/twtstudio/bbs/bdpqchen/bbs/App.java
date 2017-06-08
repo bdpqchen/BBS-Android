@@ -37,6 +37,8 @@ public class App extends Application {
 
 //        PgyCrashManager.register(this);
 
+//        RichText.initCacheDir(mContext);
+
         initLogUtils();
         initSlideBack();
         HandlerThread workerThread = new HandlerThread("global_worker_thread");

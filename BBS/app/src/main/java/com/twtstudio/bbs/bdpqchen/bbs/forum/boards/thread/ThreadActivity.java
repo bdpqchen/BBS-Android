@@ -81,8 +81,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     TextView mTvDynamicHint;
     @BindView(R.id.cb_anonymous_comment)
     AppCompatCheckBox mCbAnonymousComment;
-
-    public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
     @BindView(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.toolbar_title_thread)
@@ -90,6 +88,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     @BindView(R.id.toolbar_title_board)
     TextView mToolbarTitleBoard;
 
+    public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
     private String mThreadTitle = "";
     private int mThreadId = 0;
     private int mThreadFloor = 1;
@@ -166,7 +165,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mPresenter.getThread(mThreadId, 0);
         mAdapter = new PostAdapter(mContext);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-
+        mRvThreadPost.setAnimation(null);
+//        RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
+//        recycledViewPool.setMaxRecycledViews(4,50);
+//        mRvThreadPost.setRecycledViewPool(recycledViewPool);
         mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(1));
         mRvThreadPost.setLayoutManager(mLayoutManager);
         mRvThreadPost.setAdapter(mAdapter);

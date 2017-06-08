@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.home;
 
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
@@ -19,15 +20,13 @@ import io.reactivex.schedulers.Schedulers;
 public class HomePresenter extends RxPresenter<HomeContract.View> implements HomeContract.Presenter {
 
     private RxDoHttpClient<Integer> mUnreadClient;
-    //    private RxDoHttpClient<IndividualInfoModel> mHttpClient;
-//    private ResponseTransformer<IndividualInfoModel> mTransformer = new ResponseTransformer<>();
+    private ResponseTransformer<BaseModel> mTransformer = new ResponseTransformer<>();
     private ResponseTransformer<Integer> mUnreadTrans = new ResponseTransformer<>();
 
 
     @Inject
     public HomePresenter(RxDoHttpClient httpClient) {
         this.mUnreadClient = httpClient;
-//        this.mHttpClient = httpClient;
     }
 
 
@@ -37,7 +36,6 @@ public class HomePresenter extends RxPresenter<HomeContract.View> implements Hom
         SimpleObserver<Integer> observer = new SimpleObserver<Integer>() {
             @Override
             public void _onError(String msg) {
-//                LogUtil.d(msg);
                 if (mView != null){
                     mView.onGetMessageFailed(msg);
                 }
@@ -56,4 +54,5 @@ public class HomePresenter extends RxPresenter<HomeContract.View> implements Hom
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer));
     }
+
 }

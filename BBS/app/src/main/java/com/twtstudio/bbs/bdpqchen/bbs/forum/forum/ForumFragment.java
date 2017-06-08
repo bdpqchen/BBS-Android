@@ -74,13 +74,16 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        return rootView;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void showForumList(List<ForumModel> forumModel) {
         if (forumModel != null && forumModel.size() != 0) {
+            if (mRefreshing){
+                mRefreshing = false;
+                mAdapter.clearAll();
+            }
             mAdapter.addList(forumModel);
             mAdapter.notifyDataSetChanged();
         }

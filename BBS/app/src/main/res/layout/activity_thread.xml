@@ -127,7 +127,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_thread_post"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingTop="2dp"
             />
 
@@ -140,6 +140,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="8dp"
         android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/ic_insert_comment_white_24dp"
         android:visibility="visible"
         app:backgroundTint="@color/material_cyan_800"
@@ -250,9 +251,6 @@
                     />
 
             </RelativeLayout>
-
         </LinearLayout>
     </LinearLayout>
-
-
 </android.support.design.widget.CoordinatorLayout>

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.View;
@@ -22,14 +21,12 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.welcome.IntroActivity;
 
 import java.util.Random;
 
@@ -108,6 +105,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         //自动填写用户名
         Intent intent = getIntent();
         String usernameToSet = intent.getStringExtra(USERNAME);
+        if (usernameToSet == null || usernameToSet.length() == 0){
+            usernameToSet = PrefUtil.getAuthUsername();
+        }
         mEtAccount.setText(usernameToSet);
         if (PrefUtil.getAuthUid() == 0){
             ImageUtil.loadDrawable(this, R.drawable.avatar_default_left, mCivAvatar);

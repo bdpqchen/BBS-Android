@@ -25,6 +25,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.BuildConfig;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -38,6 +40,7 @@ import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
 
 import static com.pgyersdk.update.UpdateManagerListener.startDownloadTask;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
 
 public class HomeActivity extends BaseActivity<HomePresenter> implements HomeContract.View {
@@ -139,7 +142,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
         autoCheckUpdate();
 
-        mPresenter.getUnreadMessageCount();
+//        mPresenter.getUnreadMessageCount();
 
     }
 
@@ -173,7 +176,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     }
 
     private void loadFragment() {
-
         showHideFragment(mFragments[mShowingFragment], mFragments[mHidingFragment]);
         mHidingFragment = mShowingFragment;
     }
@@ -188,7 +190,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     public void onGotMessageCount(int count) {
         if (count > 0) {
             mNearBy.setBadgeCount(count);
-        }else{
+        } else {
             mNearBy.setBadgeCount(0);
         }
     }
@@ -196,13 +198,23 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     public void onGetMessageFailed(String m) {
         LogUtil.dd("onGetMessageFailed()");
+        if (m.contains("token") || m.contains("UID") || m.contains("过期") || m.contains("无效")) {
+            SnackBarUtil.error(mActivity, "当前账户的登录信息已过期，请重新登录", true);
+            HandlerUtil.postDelay(() -> {
+                AuthUtil.logout();
+                Intent intent = new Intent(mActivity, LoginActivity.class);
+                intent.putExtra(USERNAME, PrefUtil.getAuthUsername());
+                startActivity(intent);
+                ActivityManager.getActivityManager().finishAllActivity();
+            }, 3000);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         LogUtil.dd("home onResume", "getUnreadMessage");
-        if (mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.getUnreadMessageCount();
         }
     }

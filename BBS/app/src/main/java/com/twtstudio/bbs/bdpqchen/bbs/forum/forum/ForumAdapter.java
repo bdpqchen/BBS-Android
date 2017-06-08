@@ -53,7 +53,7 @@ public class ForumAdapter extends BaseAdapter<ForumModel> {
                 viewHolder.mForumInfo.setText(model.getInfo());
                 ImageUtil.loadForumCover(mContext, coverUrl, viewHolder.mForumCover);
                 viewHolder.mForumName.setText(model.getName());
-                viewHolder.mTvToBoard.setOnClickListener(v -> {
+                viewHolder.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, BoardsActivity.class);
                     intent.putExtra(INTENT_FORUM_ID, model.getId());
                     intent.putExtra(INTENT_FORUM_TITLE, model.getName());
@@ -71,11 +71,8 @@ public class ForumAdapter extends BaseAdapter<ForumModel> {
         TextView mForumName;
         @BindView(R.id.forum_cover)
         ImageView mForumCover;
-        @BindView(R.id.tv_to_board)
-        TextView mTvToBoard;
         @BindView(R.id.forum_info)
         TextView mForumInfo;
-
         ViewHolder(View view) {
             super(view);
         }

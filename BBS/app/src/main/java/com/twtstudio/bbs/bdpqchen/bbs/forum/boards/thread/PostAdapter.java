@@ -17,6 +17,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.view_holder.TheEndViewHolder;
+import com.zzhoujay.richtext.ImageHolder;
 import com.zzhoujay.richtext.RichText;
 import com.zzhoujay.richtext.callback.OnImageClickListener;
 
@@ -116,7 +117,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 String contentAfter = contentBefore;
                 if (contentBefore.contains("[/") && contentBefore.contains("[") && contentBefore.contains("]")) {
                     contentAfter = BBCodeParse.bbcode2Html(p.getContent());
-                    RichText.fromHtml(contentAfter).into(h.mTvPostContent);
+                    RichText.fromHtml(contentAfter).scaleType(ImageHolder.ScaleType.CENTER_CROP).into(h.mTvPostContent);
                 } else {
                     contentAfter = contentAfter.replaceAll("attach:", BASE_URL + "img/");
                     RichText.fromMarkdown(contentAfter).clickable(true).imageClick(new OnImageClickListener() {

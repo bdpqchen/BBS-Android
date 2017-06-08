@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
@@ -100,17 +101,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     public void logout() {
-        PrefUtil.setHadLogin(false);
-        PrefUtil.setAuthToken("");
-//        PrefUtil.setAuthUsername("");
-        PrefUtil.setAuthGroup(0);
-//        PrefUtil.setAuthUid(0);
-        PrefUtil.setInfoNickname("");
-        PrefUtil.setInfoSignature("");
-        PrefUtil.setInfoCreate(0);
-        PrefUtil.setInfoPoints(0);
-        PrefUtil.setInfoUnread(0);
-        PrefUtil.setHasUnSyncInfo(false);
+        AuthUtil.logout();
         ActivityManager.getActivityManager().finishAllActivity();
         Intent intent = new Intent(mActivity, LoginActivity.class);
         intent.putExtra(USERNAME, PrefUtil.getAuthUsername());
