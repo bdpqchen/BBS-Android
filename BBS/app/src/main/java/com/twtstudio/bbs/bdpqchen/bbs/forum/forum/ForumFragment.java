@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.forum;
+package com.twtstudio.bbs.bdpqchen.bbs.forum.forum;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,7 +16,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -78,27 +77,10 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
         return rootView;
     }
 
-
     @Override
     public void showForumList(List<ForumModel> forumModel) {
         if (forumModel != null && forumModel.size() != 0) {
-            mAdapter.clearAll();
-            if (forumModel.size() % 2 != 0) {
-                ForumModel model = new ForumModel();
-                model.setId(0);
-                model.setName("敬请期待");
-                model.setInfo("为了对称");
-                forumModel.add(model);
-            }
-            List<TwoForumModel> modelList = new ArrayList<>();
-            int twoSize = forumModel.size() / 2;
-            for (int i = 0; i < twoSize; i++) {
-                TwoForumModel model = new TwoForumModel();
-                model.model1 = forumModel.get(i * 2);
-                model.model2 = forumModel.get(i * 2 + 1);
-                modelList.add(model);
-            }
-            mAdapter.addList(modelList);
+            mAdapter.addList(forumModel);
             mAdapter.notifyDataSetChanged();
         }
         hideProgressBar();

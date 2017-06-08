@@ -37,4 +37,5 @@
     <dimen name="size_tv_middle">16sp</dimen>
     <dimen name="icon_size_small">12dp</dimen>
     <dimen name="margin_start_latest">42dp</dimen>
+    <dimen name="padding_forum_cover">12dp</dimen>
 </resources>

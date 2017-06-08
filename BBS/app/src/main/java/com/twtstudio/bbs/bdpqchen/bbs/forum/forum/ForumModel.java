@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.forum;
+package com.twtstudio.bbs.bdpqchen.bbs.forum.forum;
 
 /**
  * Created by bdpqchen on 17-5-8.

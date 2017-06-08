@@ -1,9 +1,8 @@
-package com.twtstudio.bbs.bdpqchen.bbs.forum;
+package com.twtstudio.bbs.bdpqchen.bbs.forum.forum;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import java.util.List;
 

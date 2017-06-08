@@ -25,7 +25,6 @@ import me.yokeyword.fragmentation.SupportFragment;
  * MVP-BaseFragment
  * provided Dagger injector
  * provided Presenter
- * provided Presenter
  */
 
 public abstract class BaseFragment<T extends BasePresenter> extends SupportFragment implements BaseView {
