@@ -16,6 +16,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.view_holder.TheEndViewHolder;
 import com.zzhoujay.richtext.RichText;
 import com.zzhoujay.richtext.callback.OnImageClickListener;
 
@@ -345,12 +346,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         HeaderHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-    }
-
-    static class TheEndViewHolder extends RecyclerView.ViewHolder {
-        TheEndViewHolder(View view) {
-            super(view);
         }
     }
 

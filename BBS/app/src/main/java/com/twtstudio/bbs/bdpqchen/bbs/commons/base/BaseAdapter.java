@@ -6,15 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
+
 /**
  * Created by bdpqchen on 17-4-27.
  */
 
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
-    public static final int T_NORMAL = 0;
-    public static final int T_FOOTER = 1;
-    public static final int T_HEADER = 2;
 
     protected Context mContext;
     protected List<T> mDataSet = new ArrayList<>();
@@ -53,9 +53,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     public int getItemViewType(int position) {
         if (mDataSet != null && mDataSet.size() > 0){
             if (position + 1 == getItemCount()){
-                return T_FOOTER;
+                return ITEM_FOOTER;
             }else {
-                return T_NORMAL;
+                return ITEM_NORMAL;
             }
         }
         return 0;
@@ -79,6 +79,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
 
     public void clearAll(){
         mDataSet.clear();
+//        notifyDataSetChanged();
     }
 
     public void addData(T model){

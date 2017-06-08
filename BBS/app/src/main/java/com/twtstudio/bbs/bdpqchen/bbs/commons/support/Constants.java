@@ -13,6 +13,7 @@ public final class Constants {
     public static final int RESULT_CODE_AVATAR = 10;
     public static final int MAX_LENGTH_QUOTE = 60;
     public static final int MAX_LENGTH_POST = 50;
+    public static final int MAX_LENGTH_MESSAGE = 10;
     public static final int ITEM_HEADER = -1;
     public static final int ITEM_NORMAL = 0;
     public static final int ITEM_FOOTER = 1;

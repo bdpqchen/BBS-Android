@@ -4,16 +4,18 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorMainBgLight"
+    android:foreground="@drawable/selector_foreground_settings"
     android:orientation="horizontal"
     android:padding="8dp"
     >
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civ_message"
         android:layout_width="@dimen/size_avatar_normal"
         android:layout_height="@dimen/size_avatar_normal"
-        android:id="@+id/civ_message"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         />
 
     <LinearLayout
@@ -23,11 +25,13 @@
         android:layout_weight="1"
         android:orientation="vertical"
         >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
             >
+
             <TextView
                 android:id="@+id/tv_compose_title"
                 android:layout_width="wrap_content"
@@ -45,9 +49,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="1"
+            android:maxLines="10"
             android:textColor="@color/colorTvBlackMainTint"
-            android:textSize="16sp"
+            android:textSize="14sp"
             tool:text="这是一条消息"/>
 
         <TextView
@@ -77,6 +81,7 @@
             android:background="@drawable/shape_red_dot"
             android:visibility="gone"
             />
+
     </RelativeLayout>
 
 </LinearLayout>

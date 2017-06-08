@@ -127,7 +127,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         super.onLazyInitView(savedInstanceState);
         if (mPresenter != null) {
             mPresenter.initIndividualInfo();
-            setUnread(PrefUtil.getInfoUnread());
+//            setUnread(PrefUtil.getInfoUnread());
         }
     }
 
@@ -185,9 +185,9 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     public void onResume() {
         super.onResume();
         mPresenter.getUnreadMessageCount();
-        mTvNickname.setText(PrefUtil.getInfoNickname());
-        mTvSignature.setText(PrefUtil.getInfoSignature());
         if (isChangingInfo){
+            mTvNickname.setText(PrefUtil.getInfoNickname());
+            mTvSignature.setText(PrefUtil.getInfoSignature());
             ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
             isChangingInfo = false;
         }
@@ -226,7 +226,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
     @Override
     public void onGetMessageFailed(String m) {
-
+        setUnread(0);
     }
 
 }

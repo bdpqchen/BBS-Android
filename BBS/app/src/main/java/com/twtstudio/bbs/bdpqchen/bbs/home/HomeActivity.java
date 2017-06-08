@@ -187,8 +187,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     public void onGotMessageCount(int count) {
         if (count > 0) {
-            PrefUtil.setInfoUnread(count);
-            mNearBy.setBadgeCount(PrefUtil.getInfoUnread());
+            mNearBy.setBadgeCount(count);
         }
     }
 
@@ -201,7 +200,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     protected void onResume() {
         super.onResume();
         LogUtil.dd("home onResume", "getUnreadMessage");
-        mPresenter.getUnreadMessageCount();
+        if (mPresenter != null){
+            mPresenter.getUnreadMessageCount();
+        }
     }
 
     private void autoCheckUpdate() {

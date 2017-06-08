@@ -25,6 +25,8 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BO
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
 
 /**
  * Created by bdpqchen on 17-5-20.
@@ -42,10 +44,10 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
-        if (viewType == T_NORMAL) {
+        if (viewType == ITEM_NORMAL) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_list, parent, false);
             return new ViewHolder(view);
-        } else if (viewType == T_FOOTER) {
+        } else if (viewType == ITEM_FOOTER) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_list, parent, false);
             return new BaseFooterViewHolder(view);
         }
