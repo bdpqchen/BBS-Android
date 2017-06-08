@@ -268,7 +268,6 @@
                         android:paddingStart="4dp"
                         android:paddingEnd="4dp"
                         tools:text="99+"
-                        tools:visibility="visible"
                         />
 
                     <ImageView

@@ -188,6 +188,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     public void onGotMessageCount(int count) {
         if (count > 0) {
             mNearBy.setBadgeCount(count);
+        }else{
+            mNearBy.setBadgeCount(0);
         }
     }
 

@@ -15,7 +15,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.TextureView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -33,7 +32,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
@@ -288,6 +286,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         });
 
         mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            LogUtil.dd("onChecked", String.valueOf(isChecked));
             mIsAnonymous = isChecked;
         });
     }
@@ -298,11 +297,14 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         }
         if (canAnonymous == 1) {
             mCanAnonymous = true;
-            mCbAnonymousComment.setVisibility(View.VISIBLE);
-
+//            LogUtil.dd("always anon", String.valueOf(PrefUtil.isAlwaysAnonymous()));
             if (PrefUtil.isAlwaysAnonymous()){
-                mCbAnonymousComment.setChecked(true);
+                HandlerUtil.postDelay(()->{
+                    mCbAnonymousComment.setChecked(true);
+                }, 600);
+//                LogUtil.dd("anon check", String.valueOf(mCbAnonymousComment.isChecked()));
             }
+            mCbAnonymousComment.setVisibility(View.VISIBLE);
         } else {
             mCbAnonymousComment.setVisibility(View.GONE);
         }
@@ -373,7 +375,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }, d);
         } else {
             startActivity(new Intent(this, LoginActivity.class));
-
         }
     }
 
@@ -583,7 +584,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
         switch (item.getItemId()) {
             case R.id.action_thread_share:
-                // TODO: 17-6-1 API 对应修改
                 String url = BASE + "/forum/thread/" + mThreadId;
                 shareText(url);
                 break;

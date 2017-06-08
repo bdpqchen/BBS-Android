@@ -127,7 +127,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         super.onLazyInitView(savedInstanceState);
         if (mPresenter != null) {
             mPresenter.initIndividualInfo();
-//            setUnread(PrefUtil.getInfoUnread());
         }
     }
 
