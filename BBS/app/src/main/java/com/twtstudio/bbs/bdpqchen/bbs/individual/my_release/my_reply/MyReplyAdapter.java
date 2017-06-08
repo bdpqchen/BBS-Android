@@ -2,7 +2,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,8 +15,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyRecyclerAdapter;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 
 import java.util.List;
 
@@ -26,7 +23,7 @@ import butterknife.BindView;
 /**
  * Created by Arsener on 2017/5/28.
  */
-public class MyReplyAdapter  extends BaseAdapter<MyReplyModel> {
+public class MyReplyAdapter extends BaseAdapter<MyReplyModel> {
 
     private View mFooterView;
     private List<MyReplyModel> data;
@@ -51,7 +48,7 @@ public class MyReplyAdapter  extends BaseAdapter<MyReplyModel> {
         notifyItemInserted(getItemCount() - 1);
     }
 
-    public void removeFooterView (){
+    public void removeFooterView() {
         Log.d("remove", "removeFooterView: ");
         notifyItemRemoved(2);
     }
@@ -92,24 +89,26 @@ public class MyReplyAdapter  extends BaseAdapter<MyReplyModel> {
     public void onBindViewHolder(BaseViewHolder mholder, int position) {
         // TODO Auto-generated method stub
         //holder.tv.setText(data.get(position));
-        if (getItemViewType(position) == NORMAL_TYPE) {
-            MyReplyAdapter.MyHolder holder = (MyReplyAdapter.MyHolder) mholder;
-            holder.tv_title.setText(data.get(position).thread_title);
-            holder.tv_title.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
-            holder.tv_reply.setText(data.get(position).content);
-            holder.tv_reply.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
-            holder.tv_time.setText(StampUtil.TimeStamp2Date(data.get(position).t_create));
+        if (data != null && data.size() > 0) {
+            if (getItemViewType(position) == NORMAL_TYPE) {
+                MyReplyAdapter.MyHolder holder = (MyReplyAdapter.MyHolder) mholder;
+                holder.tv_title.setText(data.get(position).thread_title);
+                holder.tv_title.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+                holder.tv_reply.setText(data.get(position).content);
+                holder.tv_reply.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+                holder.tv_time.setText(StampUtil.TimeStamp2Date(data.get(position).t_create));
 
-            holder.cdv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, ThreadActivity.class);
-                    intent.putExtra("intent_thread_id", data.get(position).thread_id);
-                    intent.putExtra("intent_thread_title", data.get(position).thread_title);
-                    intent.putExtra("intent_thread_floor", data.get(position).floor);
-                    context.startActivity(intent);//注意这里的context！！！
-                }
-            });
+                holder.cdv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, ThreadActivity.class);
+                        intent.putExtra("intent_thread_id", data.get(position).thread_id);
+                        intent.putExtra("intent_thread_title", data.get(position).thread_title);
+                        intent.putExtra("intent_thread_floor", data.get(position).floor);
+                        context.startActivity(intent);//注意这里的context！！！
+                    }
+                });
+            }
         }
     }
 

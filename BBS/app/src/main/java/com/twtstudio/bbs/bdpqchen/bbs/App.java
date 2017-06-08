@@ -12,7 +12,6 @@ import com.oubowu.slideback.ActivityHelper;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.AppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerAppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
-import com.zzhoujay.richtext.RichText;
 
 
 /**
@@ -37,8 +36,6 @@ public class App extends Application {
         sApplication = this;
 
 //        PgyCrashManager.register(this);
-
-        RichText.initCacheDir(mContext);
 
         initLogUtils();
         initSlideBack();

@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.bbkit.bbcode.BBCodeParse;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.GlideImageGeter;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
@@ -27,7 +25,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE_URL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_END;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
@@ -100,32 +97,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (mPostData != null && mPostData.size() > 0) {
             LogUtil.dd("position", String.valueOf(position));
-            if (holder instanceof PostHolder) {
-                ThreadModel.PostBean p = mPostData.get(position);
-                PostHolder h = (PostHolder) holder;
-                if (p.getAuthor_id() == 0) {
-                    p.setAuthor_name("匿名用户");
-                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_right, h.mCivAvatarPost);
-                } else {
-                    ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, p.getAuthor_id(), h.mCivAvatarPost);
-                }
-                h.mTvUsernamePost.setText(p.getAuthor_name());
-                h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
-                h.mTvFloorPost.setText(p.getFloor() + "楼");
-                String contentBefore = p.getContent();
-                String contentAfter = contentBefore;
-                if (contentBefore.contains("[/") && contentBefore.contains("[") && contentBefore.contains("]")) {
-                    contentAfter = BBCodeParse.bbcode2Html(p.getContent());
-                    h.mHtvPostContent.setHtml(contentAfter, new GlideImageGeter(mContext, h.mHtvPostContent));
-                } else {
-                    contentAfter = contentAfter.replaceAll("attach:", BASE_URL + "img/");
-                    String result = Processor.process(contentAfter);
-                    h.mHtvPostContent.setHtml(result, new GlideImageGeter(mContext, h.mHtvPostContent));
-                }
-                h.itemView.setTag(position);
-            } else if (holder instanceof BaseFooterViewHolder) {
-                LogUtil.d("base footer view");
-            } else if (holder instanceof HeaderHolder) {
+            if (holder instanceof HeaderHolder) {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 ThreadModel.PostBean p = mPostData.get(position);
                 if (p.getAuthor_id() == 0) {
@@ -137,17 +109,23 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mTvTitle.setText(p.getTitle());
                 headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 headerHolder.mTvUsernameThread.setText(p.getAuthor_name());
-//                LogUtil.dd("before", p.getContent());
-                String contentBefore = p.getContent();
-                String contentAfter = contentBefore;
-                if (contentBefore.contains("[/") && contentBefore.contains("[") && contentBefore.contains("]")) {
-                    contentAfter = BBCodeParse.bbcode2Html(p.getContent());
-                    headerHolder.mHtvContent.setHtml(contentAfter, new GlideImageGeter(mContext, headerHolder.mHtvContent));
+                headerHolder.mHtvContent.setHtml(p.getContent(), new GlideImageGeter(mContext, headerHolder.mHtvContent));
+            } else if (holder instanceof PostHolder) {
+                ThreadModel.PostBean p = mPostData.get(position);
+                PostHolder h = (PostHolder) holder;
+                if (p.getAuthor_id() == 0) {
+                    p.setAuthor_name("匿名用户");
+                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_right, h.mCivAvatarPost);
                 } else {
-                    contentAfter = contentAfter.replace("attach:", BASE_URL + "img/");
-                    String result = Processor.process(contentAfter);
-                    headerHolder.mHtvContent.setHtml(result, new GlideImageGeter(mContext, headerHolder.mHtvContent));
+                    ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, p.getAuthor_id(), h.mCivAvatarPost);
                 }
+                h.mTvUsernamePost.setText(p.getAuthor_name());
+                h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
+                h.mTvFloorPost.setText(p.getFloor() + "楼");
+                h.mHtvPostContent.setHtml(p.getContent(), new GlideImageGeter(mContext, h.mHtvPostContent));
+                h.itemView.setTag(position);
+            } else if (holder instanceof BaseFooterViewHolder) {
+                LogUtil.d("base footer view");
             } else if (holder instanceof TheEndViewHolder) {
                 LogUtil.dd("the end view");
             } else if (holder instanceof JustHeaderHolder) {
