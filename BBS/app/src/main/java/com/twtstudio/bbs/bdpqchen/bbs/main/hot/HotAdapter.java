@@ -2,12 +2,10 @@ package com.twtstudio.bbs.bdpqchen.bbs.main.hot;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -35,7 +33,6 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BO
 
 public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
 
-
     public HotAdapter(Context context) {
         super(context);
         mContext = context;
@@ -43,8 +40,7 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        HotViewHolder holder = new HotViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_hot, parent, false));
-        return holder;
+        return new HotViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_hot, parent, false));
     }
 
     @Override
@@ -65,14 +61,14 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
                 holder.mTvThreadTitle.setText(model.getTitle());
                 holder.mTvPostCount.setText(model.getC_post() + "");
                 holder.mTvHotTime.setText("发布于 " + StampUtil.getDatetimeByStamp(model.getT_create()));
-
+                holder.mTvHotContent.setText(model.getContent());
                 holder.mTvBoardName.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, ThreadListActivity.class);
                     intent.putExtra(Constants.INTENT_BOARD_ID, model.getBoard_id());
                     intent.putExtra(Constants.INTENT_BOARD_TITLE, model.getBoard_name());
                     mContext.startActivity(intent);
                 });
-                holder.mLlHotBody.setOnClickListener(v -> {
+                holder.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, ThreadActivity.class);
                     intent.putExtra(Constants.INTENT_THREAD_ID, model.getId());
                     intent.putExtra(Constants.INTENT_THREAD_TITLE, model.getTitle());
@@ -93,12 +89,12 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
         TextView mTvUsername;
         @BindView(R.id.tv_board_name)
         TextView mTvBoardName;
-        @BindView(R.id.ll_layer_header)
-        RelativeLayout mLlLayerHeader;
         @BindView(R.id.tv_thread_title)
         TextView mTvThreadTitle;
         @BindView(R.id.tv_post_count)
         TextView mTvPostCount;
+        @BindView(R.id.tv_hot_content)
+        TextView mTvHotContent;
         @BindView(R.id.tv_hot_time)
         TextView mTvHotTime;
         @BindView(R.id.ll_hot_body)

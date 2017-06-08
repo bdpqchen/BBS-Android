@@ -11,6 +11,7 @@
 
     <color name="colorMainBgLight">#fefefe</color>
     <color name="colorMainBg">#EEEEEE</color>
+    <color name="colorMainBgTrans">#eeEEEEEE</color>
     <color name="colorBottomBg">#ffffff</color>
 
     <color name="colorSnackNormalBg">#fcfc37</color>
@@ -29,6 +30,7 @@
     <color name="colorThreadContentBg">#ffffff</color>
     <color name="colorMainBgLightHeight">#ffffff</color>
     <color name="colorForumBg">#22ffffff</color>
+    <color name="colorDividerLine">#112233</color>
     <!--<color name="colorTintIconBlack">#3F51B5</color>-->
 
 

@@ -76,8 +76,6 @@ public class HotFragment extends BaseFragment<MainPresenter> implements MainCont
             } else {
                 mAdapter.addList(model.getHot());
             }
-        } else {
-
         }
         setRefreshing(false);
         hideLoading();
