@@ -3,7 +3,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -34,9 +33,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageFormatUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImagePickUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PathUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PermissionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
@@ -45,8 +45,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,8 +100,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     TextView mToolbarTitleBoard;
 
     public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
-    @BindView(R.id.iv_select_images)
-    ImageView mIvSelectImages;
+    @BindView(R.id.ll_select_image)
+    LinearLayout mIvSelectImage;
     private String mThreadTitle = "";
     private int mThreadId = 0;
     private int mThreadFloor = 1;
@@ -132,6 +130,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean showingThreadTitle = false;
     private boolean showingBoardName = true;
     private int mSelectedCount = 0;
+    private ImageFormatUtil mImageFormatUtil;
 
     @Override
     protected int getLayoutResourceId() {
@@ -171,10 +170,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mThreadTitle = intent.getStringExtra(INTENT_THREAD_TITLE);
         mBoardName = intent.getStringExtra(INTENT_BOARD_TITLE);
         mBoardId = intent.getIntExtra(INTENT_BOARD_ID, 0);
-
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
+        mImageFormatUtil = new ImageFormatUtil();
 
         if (mBoardId == 0 || mBoardName == null) {
 
@@ -210,7 +209,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                     }
                 }
             }
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -310,26 +308,11 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         });
 
         mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            LogUtil.dd("onChecked", String.valueOf(isChecked));
             mIsAnonymous = isChecked;
         });
-        mIvSelectImages.setOnClickListener(v -> {
-            selectImages();
+        mIvSelectImage.setOnClickListener(v -> {
+            ImagePickUtil.commonPickImage(this);
         });
-    }
-
-    private void selectImages() {
-        if (PermissionUtil.checkReadStorage(this)) {
-            Matisse.from(this)
-                    .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
-                    .countable(true)
-                    .maxSelectable(1)
-                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                    .thumbnailScale(0.85f)
-                    .imageEngine(new GlideEngine())
-                    .forResult(RESULT_CODE_IMAGE_SELECTED);
-        }
     }
 
     @Override
@@ -340,7 +323,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 List<Uri> mSelected = Matisse.obtainResult(data);
                 mPresenter.uploadImages(PathUtil.getRealPathFromURI(mContext, mSelected.get(0)));
                 startProgress("正在添加图片，请稍后..");
-
                 // TODO: 17-6-9  支持多张图片
 //                mSelectedCount = mSelected.size();
 //                for (int i = 0; i < mSelected.size(); i++) {
@@ -350,7 +332,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }
         }
     }
-
 
     private void showAnonymousOrNot(int canAnonymous) {
         if (mCbAnonymousComment == null) {
@@ -372,7 +353,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void sendComment(int replyId) {
-        mComment = mEtComment.getText().toString();
+        if (mEtComment == null){
+            return;
+        }
+        mComment = mImageFormatUtil.replaceImageFormat(mEtComment.getText().toString());
         if (mEtComment != null && mComment.length() > 0) {
             if (replyId != 0) {
                 mComment = mAdapter.comment2reply(postPosition, mComment);
@@ -650,7 +634,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     public void onUploaded(UploadImageModel model) {
         LogUtil.dd("loaded id ", String.valueOf(model.getId()));
         if (mEtComment != null){
-            String added = mEtComment.getText() + "![](attach:" + model.getId() + ")\n";
+            String added = mEtComment.getText() + mImageFormatUtil.getShowImageCode(model.getId());
             mEtComment.setText(added);
             mEtComment.setSelection(mEtComment.getText().length());
         }

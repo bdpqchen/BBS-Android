@@ -15,13 +15,16 @@ import android.widget.ProgressBar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_CAN_ANONS;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_IDS;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_NAMES;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_ID;
@@ -49,12 +52,13 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     Context mContext;
     BoardsAdapter mAdapter;
     LinearLayoutManager mLayoutManager;
-
-
     private String mForumTitle = "";
     private ArrayList<String> mBoardNames = new ArrayList<>();
     private ArrayList<Integer> mBoardIds = new ArrayList<>();
     private ArrayList<Integer> mAnonymous = new ArrayList<>();
+    private boolean isSimpleBoardList = PrefUtil.isSimpleBoardList();
+    private List<PreviewThreadModel> mPreviewThreadModel = new ArrayList<>();
+    private BoardsModel mBoardsModel = new BoardsModel();
 
     @Override
     protected int getLayoutResourceId() {
@@ -93,7 +97,11 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
         mForumTitle = getIntent().getStringExtra(INTENT_FORUM_TITLE);
         super.onCreate(savedInstanceState);
         mContext = this;
-        mAdapter = new BoardsAdapter(mContext);
+        if (isSimpleBoardList){
+            mAdapter = new BoardsAdapter(mContext, mBoardsModel);
+        }else{
+            mAdapter = new BoardsAdapter(mContext, mPreviewThreadModel);
+        }
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRvBoardList.addItemDecoration(new RecyclerViewItemDecoration(16));
         mRvBoardList.setLayoutManager(mLayoutManager);
@@ -109,13 +117,17 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
             Intent intent = new Intent(this, CreateThreadActivity.class);
             intent.putStringArrayListExtra(INTENT_BOARD_NAMES, getBoardNames());
             intent.putIntegerArrayListExtra(INTENT_BOARD_IDS, getBoardIds());
-//            intent.putIntegerArrayListExtra(INTENT_BOARD_IS_ANONY, getBoardIds());
-
+            intent.putIntegerArrayListExtra(INTENT_BOARD_CAN_ANONS, getAnonymous());
             startActivity(intent);
         });
         mBoardIds.add(0);
         mBoardNames.add(".....");
-        mPresenter.getBoardList(mForumId);
+        mAnonymous.add(0);
+        if (PrefUtil.isSimpleBoardList()){
+            mPresenter.getSimpleBoardList(mForumId);
+        }else{
+            mPresenter.getBoardList(mForumId);
+        }
 
     }
 
@@ -129,6 +141,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
             mAdapter.addData(previewThreadList);
             mBoardNames.add(previewThreadList.getBoard().getName());
             mBoardIds.add(previewThreadList.getBoard().getId());
+            mAnonymous.add(previewThreadList.getBoard().getAnonymous());
         }
         hideProgressBar();
         setRefreshing(false);
@@ -137,6 +150,24 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     @Override
     public void failedToGetBoardList(String msg) {
         SnackBarUtil.error(this, msg, true);
+        hideProgressBar();
+        setRefreshing(false);
+    }
+
+    @Override
+    public void onFailedGetSimpleList(String m) {
+        failedToGetBoardList(m);
+    }
+
+    @Override
+    public void onGotSimpleList(BoardsModel model) {
+        if (mRefreshing){
+            mAdapter.clearAllSimple();
+            mRefreshing = false;
+        }
+        if (model != null && model.getBoards().size() > 0){
+            mAdapter.addSimpleData(model);
+        }
         hideProgressBar();
         setRefreshing(false);
     }
@@ -152,6 +183,10 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
         if (mProgressBar != null){
             mProgressBar.setVisibility(View.GONE);
         }
+    }
+
+    public ArrayList<Integer> getAnonymous() {
+        return mAnonymous;
     }
 
     public ArrayList<String> getBoardNames() {

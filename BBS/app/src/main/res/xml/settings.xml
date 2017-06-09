@@ -32,7 +32,15 @@
             android:defaultValue="false"
             />
 
-        <ListPreference
+        <SwitchPreference
+            android:key="@string/key_simple_board_list"
+            android:layout="@layout/preference_item"
+            android:title="简版展示板块列表"
+            android:summary="快速浏览所有板块"
+            android:defaultValue="false"
+            />
+
+       <!-- <ListPreference
             android:key="@string/key_habit_hand"
             android:layout="@layout/preference_item"
             android:title="惯用手模式"
@@ -40,7 +48,7 @@
             android:defaultValue="0"
             android:entries="@array/pref_list_habit_hand"
             android:entryValues="@array/pref_list_habit_hand_entries"
-            />
+            />-->
 
     </PreferenceCategory>
 
@@ -60,12 +68,12 @@
 
         <Preference
             android:layout="@layout/preference_item"
-            android:summary="V1.0.4"
+            android:summary="@string/version_name"
             android:title="当前版本"/>
-        <Preference
+        <!--<Preference
             android:layout="@layout/preference_item"
             android:summary="bdpqchen@qq.com"
-            android:title="Contact"/>
+            android:title="Contact"/>-->
     </PreferenceCategory>
 
 </PreferenceScreen>

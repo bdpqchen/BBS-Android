@@ -4,12 +4,11 @@
           android:versionCode="@string/version_code"
           android:versionName="@string/version_name">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 获取网络状态 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />  <!-- 获取设备信息 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取MAC地址-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 读写sdcard，storage等等 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 允许程序录制音频 -->
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- 获取网络状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>  <!-- 获取设备信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/> <!-- 获取MAC地址-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- 读写sdcard，storage等等 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/> <!-- 允许程序录制音频 -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
@@ -23,10 +22,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <provider android:name="android.support.v4.content.FileProvider"
-                  android:authorities="9981"
-                  android:exported="false"
-                  android:grantUriPermissions="true">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="9981"
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
@@ -35,7 +35,7 @@
 
         <meta-data
             android:name="PGYER_APPID"
-            android:value="c138c6031c518af45409b28f81913b7e" >
+            android:value="c138c6031c518af45409b28f81913b7e">
         </meta-data>
 
         <meta-data
@@ -60,8 +60,8 @@
         <activity android:name=".auth.replaceUser.replacePassword.ReplacePasswordActivity"/>
         <activity
             android:name=".auth.login.LoginActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
-
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            />
         <activity android:name=".individual.settings.SettingsActivity"/>
         <activity android:name=".individual.updateInfo.UpdateInfoActivity"/>
         <activity android:name=".individual.updatePassword.UpdatePasswordActivity"/>
@@ -75,7 +75,10 @@
         <activity android:name=".auth.renew.appeal.AppealPassportActivity"/>
         <activity android:name=".auth.renew.identify.retrieve.RetrieveActivity"/>
         <activity android:name=".auth.renew.identify.retrieve.reset_password.ResetPasswordActivity"/>
-        <activity android:name=".forum.boards.create_thread.CreateThreadActivity"/>
+        <activity
+            android:name=".forum.boards.create_thread.CreateThreadActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            />
         <activity android:name=".auth.register.old.RegisterOldActivity"/>
         <activity
             android:name=".welcome.IntroActivity"

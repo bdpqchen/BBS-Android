@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorMainBgLight"
+    android:orientation="vertical"
+    android:layout_marginTop="4dp"
+    android:foreground="@drawable/selector_foreground_settings"
+    >
+
+    <RelativeLayout
+        android:id="@+id/rl_board_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_thread_title"
+        >
+        <View
+            android:id="@+id/view_tag"
+            android:layout_width="6dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:background="@color/colorPrimaryCopy"
+            />
+
+        <TextView
+            android:id="@+id/tv_preview_board_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_start_thread_title"
+            android:layout_toEndOf="@id/view_tag"
+            android:text="休闲放松"
+            android:textColor="@color/colorPrimaryCopy"
+            android:textSize="@dimen/text_size_thread_title"
+            />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:tint="@color/colorTintIconBlack"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>

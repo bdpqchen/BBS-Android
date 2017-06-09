@@ -10,5 +10,6 @@
     <string name="key_logout">key_logout</string>
     <string name="version_name">1.1.0</string>
     <string name="version_code">5</string>
+    <string name="key_simple_board_list">key_simple_board_list</string>
 
 </resources>

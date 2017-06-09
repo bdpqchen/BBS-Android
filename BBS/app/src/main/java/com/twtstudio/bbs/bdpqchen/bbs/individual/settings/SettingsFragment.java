@@ -41,7 +41,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             PreferenceCategory lol = (PreferenceCategory) getPreferenceScreen().getPreference(x);
             for (int y = 0; y < lol.getPreferenceCount(); y++) {
                 Preference pref = lol.getPreference(y);
-//                pref.setOnPreferenceClickListener(this);
                 pref.setOnPreferenceChangeListener(this);
             }
         }
@@ -51,7 +50,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             preference.setSummary("当前账户: " + PrefUtil.getAuthUsername());
             preference.setOnPreferenceClickListener(this);
         }
-
 
     }
 
@@ -80,8 +78,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 PrefUtil.setIsSlideBackMode(CastUtil.cast2boolean(obj));
             } else if (key.equals(getString(R.string.key_habit_hand))) {
                 PrefUtil.setHabitHand(CastUtil.cast2int(obj));
+            } else if (key.equals(getString(R.string.key_simple_board_list))){
+                PrefUtil.setIsSimpleBoardList(CastUtil.cast2boolean(obj));
             }
-
         }
         return true;
     }

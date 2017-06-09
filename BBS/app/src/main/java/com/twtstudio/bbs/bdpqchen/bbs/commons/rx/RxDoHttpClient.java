@@ -55,8 +55,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RxDoHttpClient<T> {
 
-    //    public static final String BASE_URL = "http://202.113.13.162:8080/";
-    //将会遇到证书 CA 问题
 //    public static final String BASE = "https://bbs.twtstudio.com";
     public static final String BASE = "https://bbs.tju.edu.cn";
     public static final String BASE_URL = BASE + "/api/";
@@ -147,18 +145,14 @@ public class RxDoHttpClient<T> {
                     .build();
             return chain.proceed(authorised);
         };
-
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-//        OkHttpClient client = new OkHttpClient.Builder()
         OkHttpClient client = getUnsafeBuilder()
                 .addInterceptor(interceptor)
                 .addInterceptor(mTokenInterceptor)
                 .retryOnConnectionFailure(true)
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
-
 
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -314,7 +308,6 @@ public class RxDoHttpClient<T> {
         return mApi.getUnreadCount();
     }
 
-
     public Observable<BaseResponse<BaseModel>> doUpdateAvatar(File file) {
         if (file != null) {
             MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);//表单类型
@@ -336,10 +329,11 @@ public class RxDoHttpClient<T> {
             RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             builder.addFormDataPart("file", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
             List<MultipartBody.Part> parts = builder.build().parts();
-            return mApi.uploadImage(getLatestAuthentication(), parts, "图片");
+            return mApi.uploadImage(getLatestAuthentication(), parts, "image_android");
         } else {
             LogUtil.dd("uri is null!!");
             return null;
         }
     }
+
 }

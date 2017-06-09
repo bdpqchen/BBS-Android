@@ -232,9 +232,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     private String cutIfTooLong(String s) {
         if (s.length() > MAX_LENGTH_QUOTE + 1) {
-//            if (s.contains("<img")){
-//                return s.substring(0, MAX_LENGTH_QUOTE + 20) + "...";
-//            }
             return s.substring(0, MAX_LENGTH_QUOTE) + "...";
         }
         return s;

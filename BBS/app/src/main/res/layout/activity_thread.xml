@@ -147,19 +147,18 @@
         app:layout_behavior="com.twtstudio.bbs.bdpqchen.bbs.commons.support.FABScrollBehavior"
         tools:visibility="visible"
         />
-    <!--        android:background="@drawable/shape_ll_shade"
-    -->
+
     <LinearLayout
         android:id="@+id/ll_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:background="@color/colorMainBg"
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible"
+        android:background="@color/colorMainBg"
         >
 
         <RelativeLayout
@@ -181,19 +180,32 @@
                 tools:text="评论 1 楼 谁谁是"
                 />
 
-            <ImageView
-                android:id="@+id/iv_select_images"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+            <LinearLayout
+                android:id="@+id/ll_select_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="28dp"
+                android:layout_marginEnd="8dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="@drawable/selector_foreground_settings"
-                android:padding="8dp"
-                android:src="@drawable/ic_image_white_24dp"
-                />
+                >
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_image_white_24dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="添加图片"
+                    android:textColor="@color/colorPrimaryCopy"
+                    android:textSize="11sp"
+                    />
+            </LinearLayout>
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/cb_anonymous_comment"
@@ -201,7 +213,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="4dp"
-                android:layout_toStartOf="@+id/iv_select_images"
+                android:layout_toStartOf="@+id/ll_select_image"
                 android:scaleX="0.7"
                 android:scaleY="0.7"
                 android:text="匿名"
@@ -210,6 +222,12 @@
                 tools:visibility="visible"
                 />
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colorPrimaryCopy"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"

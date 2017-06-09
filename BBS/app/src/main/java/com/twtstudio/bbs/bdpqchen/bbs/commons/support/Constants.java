@@ -20,6 +20,7 @@ public final class Constants {
     public static final int ITEM_FOOTER = 1;
     public static final int ITEM_END = 2;
     public static final int ITEM_JUST_HEADER = 3;
+    public static final int ITEM_SIMPLE = 4;
 
 
     public static final String BUNDLE_REGISTER_CID = "cid";
@@ -49,11 +50,14 @@ public final class Constants {
     public static final String INTENT_THREAD_TITLE = "intent_thread_title";
     public static final String INTENT_BOARD_ID = "intent_board_id";
     public static final String INTENT_BOARD_TITLE = "intent_board_title";
+    public static final String INTENT_BOARD_CAN_ANON = "intent_board_can_anons";
     public static final String INTENT_FORUM_ID = "intent_forum_id";
     public static final String INTENT_FORUM_TITLE = "intent_forum_title";
     public static final String INTENT_BOARD_NAMES = "intent_board_names";
     public static final String INTENT_BOARD_IDS = "intent_board_ids";
+    public static final String INTENT_BOARD_CAN_ANONS = "intent_board_can_anons";
     public static final String INTENT_RESULT_IMAGE_PATH = "intent_result_image_path";
+    public static final String INTENT_IS_SPECIFY_BOARD = "intent_is_specify_board";
 
 
     public static final String CONTENT = "content";

@@ -1,7 +1,9 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.AppCompatCheckBox;
@@ -12,24 +14,34 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageFormatUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImagePickUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PathUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
+import com.zhihu.matisse.Matisse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CONTENT;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_CAN_ANON;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_CAN_ANONS;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_IDS;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_NAMES;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_IS_SPECIFY_BOARD;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.RESULT_CODE_IMAGE_SELECTED;
 
 /**
  * Created by bdpqchen on 17-5-27.
@@ -48,13 +60,22 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     MaterialDialog mProgressDialog;
     @BindView(R.id.cb_anonymous)
     AppCompatCheckBox mCbAnonymous;
-    private ArrayList<String> mBoardNames;
-    private ArrayList<Integer> mBoardIds;
+    @BindView(R.id.ll_select_board)
+    LinearLayout mLlSelectBoard;
+    @BindView(R.id.ll_select_image)
+    LinearLayout mLlSelectImage;
+    private ArrayList<String> mBoardNames = new ArrayList<>();
+    private ArrayList<Integer> mBoardIds = new ArrayList<>();
+    private ArrayList<Integer> mBoardCanAnons = new ArrayList<>();
 
     private int mSelectedBoardId = 0;
     private String mTitle = "";
     private String mContent = "";
     private boolean mIsAnonymous = false;
+    private Context mContext;
+    private ImageFormatUtil mImageFormatUtil;
+    private boolean isPublished = false;
+    private int mCanAnon = 0;
 
     @Override
     protected int getLayoutResourceId() {
@@ -91,36 +112,89 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mContext = this;
+        mImageFormatUtil = new ImageFormatUtil();
         Intent intent = getIntent();
         mBoardNames = intent.getStringArrayListExtra(INTENT_BOARD_NAMES);
         mBoardIds = intent.getIntegerArrayListExtra(INTENT_BOARD_IDS);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mBoardNames);
-        mSpinnerSelectBoard.setAdapter(adapter);
-        mSpinnerSelectBoard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mSelectedBoardId = mBoardIds.get(position);
-                if (mSelectedBoardId == 193) {
-                    //匿名板块 anonymous
-                    //// TODO: 17-5-29 匿名板块逻辑
-                    mCbAnonymous.setVisibility(View.VISIBLE);
-                }else{
-                    mCbAnonymous.setVisibility(View.GONE);
+        mBoardCanAnons = intent.getIntegerArrayListExtra(INTENT_BOARD_CAN_ANONS);
+        //在帖子列表里直接跳进来的
+        boolean specifyBoard = intent.getBooleanExtra(INTENT_IS_SPECIFY_BOARD, false);
+        if (specifyBoard || mBoardIds == null || mBoardIds.size() == 0) {
+            mCanAnon = intent.getIntExtra(INTENT_BOARD_CAN_ANON, 0);
+            setCbAnonymous();
+            mSelectedBoardId = intent.getIntExtra(INTENT_BOARD_ID, 0);
+            mTitle = intent.getStringExtra(INTENT_BOARD_TITLE);
+            if (mToolbar != null){
+                mToolbar.setTitle("发布帖子|" + mTitle);
+            }
+            mLlSelectBoard.setVisibility(View.GONE);
+        }else{
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mBoardNames);
+            mSpinnerSelectBoard.setAdapter(adapter);
+            mSpinnerSelectBoard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mCanAnon = mBoardCanAnons.get(position);
+                    mSelectedBoardId = mBoardIds.get(position);
+                    setCbAnonymous();
+                    LogUtil.dd("you have selected the id", String.valueOf(mSelectedBoardId));
                 }
-                LogUtil.dd("you have selected the id", String.valueOf(mSelectedBoardId));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {}
+            });
+        }
         mCbAnonymous.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mIsAnonymous = isChecked;
         });
+        mLlSelectImage.setOnClickListener(v -> {
+            ImagePickUtil.commonPickImage(this);
+        });
     }
 
+    private void setCbAnonymous(){
+        if (mCanAnon == 1){
+            if (mCbAnonymous != null)
+            mCbAnonymous.setVisibility(View.VISIBLE);
+        }else{
+            if (mCbAnonymous != null)
+                mCbAnonymous.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_CODE_IMAGE_SELECTED && resultCode == RESULT_OK) {
+            if (data != null) {
+                List<Uri> mSelected = Matisse.obtainResult(data);
+                mPresenter.uploadImages(PathUtil.getRealPathFromURI(mContext, mSelected.get(0)));
+                showProgress("正在添加图片，请稍后..");
+                // TODO: 17-6-9  支持多张图片
+            }
+        }
+    }
+
+    @Override
+    public void onUploadFailed(String m) {
+        LogUtil.dd("error msg upload", m);
+        SnackBarUtil.error(this, "图片添加失败\n" + m);
+        hideProgress();
+    }
+
+    @Override
+    public void onUploaded(UploadImageModel model) {
+        if (mEtContent != null) {
+            if (model != null) {
+                mEtContent.setFocusable(true);
+                String added = mEtContent.getText() + mImageFormatUtil.getShowImageCode(model.getId());
+                mEtContent.setText(added);
+                mEtContent.setSelection(mEtContent.getText().length());
+            }
+        }
+        hideProgress();
+        SnackBarUtil.normal(this, "图片已添加");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -156,26 +230,40 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
             mEtContent.setError(err);
             return;
         }
-
         if (mSelectedBoardId == 0) {
             SnackBarUtil.error(this, "你还没有选择板块");
             return;
         }
+        mContent =  mImageFormatUtil.replaceImageFormat(mContent);
         Bundle bundle = new Bundle();
         bundle.putString(Constants.TITLE, mTitle);
         bundle.putString(Constants.CONTENT, mContent);
         bundle.putInt(Constants.BID, mSelectedBoardId);
         bundle.putBoolean(Constants.IS_ANONYMOUS, mIsAnonymous);
-        mPresenter.doPublishThread(bundle);
-        mProgressDialog = DialogUtil.showProgressDialog(this, "提示", "正在发布，请稍后..");
+//        mPresenter.doPublishThread(bundle);
+        showProgress("正在发布，请稍后..");
+        LogUtil.dd("send content", mContent);
     }
 
+    private void hideProgress() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    private void showProgress(String msg) {
+        if (mProgressDialog == null) {
+            mProgressDialog = DialogUtil.showProgressDialog(this, "提示", msg);
+        } else {
+            mProgressDialog.show();
+        }
+    }
 
     @Override
     public void onPublished() {
         SnackBarUtil.normal(this, "发布成功");
-        HandlerUtil.postDelay(this::finishMe, 2000);
         mProgressDialog.dismiss();
+        isPublished = true;
     }
 
     @Override
@@ -192,6 +280,10 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     private void isDangerExit() {
         LogUtil.dd("isDangerExit()");
         setupData();
+        if (isPublished){
+            finishMe();
+            return;
+        }
         if (mTitle.length() > 0 || mContent.length() > 0) {
             mAlertDialog = DialogUtil.alertDialog(this, "提示", "确定放弃所写的内容吗？？", "放弃", "就不放弃",
                     (materialDialog, dialogAction) -> finishMe(), null);
