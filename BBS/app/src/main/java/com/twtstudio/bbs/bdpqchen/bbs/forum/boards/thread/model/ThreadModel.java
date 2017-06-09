@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
+package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model;
 
 import java.util.List;
 

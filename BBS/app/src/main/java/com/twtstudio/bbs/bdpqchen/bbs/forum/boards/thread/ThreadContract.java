@@ -2,6 +2,9 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 
 /**
  * Created by bdpqchen on 17-5-12.
@@ -17,6 +20,8 @@ interface ThreadContract {
         void onUnStarFailed(String m);
         void onStarred();
         void onUnStarred();
+        void onUploadFailed(String m);
+        void onUploaded(UploadImageModel model);
 
     }
     interface Presenter extends BasePresenter<View>{
@@ -24,5 +29,6 @@ interface ThreadContract {
         void doComment(int threadId, String comment, int replyId, boolean isAnonymous);
         void starThread(int id);
         void unStarThread(int id);
+        void uploadImages(String uri);
     }
 }

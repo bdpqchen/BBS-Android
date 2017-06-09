@@ -11,6 +11,7 @@ public final class Constants {
     public static final int FRAGMENT_INDIVIDUAL = 2;
     public static final String TOKEN = "token";
     public static final int RESULT_CODE_AVATAR = 10;
+    public static final int RESULT_CODE_IMAGE_SELECTED = 11;
     public static final int MAX_LENGTH_QUOTE = 60;
     public static final int MAX_LENGTH_POST = 50;
     public static final int MAX_LENGTH_MESSAGE = 10;
@@ -72,6 +73,6 @@ public final class Constants {
     public static final String CAPTCHA_VALUE = "captcha_value";
     public static final String PASSWORD = "password";
     public static final String OLD_PASSWORD = "old_password";
-
-
+    public static final String NAME = "name";
+    public static final String FILE = "file";
 }

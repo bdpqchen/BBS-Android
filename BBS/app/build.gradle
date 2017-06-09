@@ -81,8 +81,8 @@ android {
         compile 'com.daimajia.androidanimations:library:2.2@aar'
         compile 'com.soundcloud.android:android-crop:1.0.1@aar'
         compile 'com.pgyersdk:sdk:2.5.6'
-
         compile 'jp.wasabeef:richeditor-android:1.2.2'
+        compile 'com.zhihu.android:matisse:0.4.3'
 
 
     }

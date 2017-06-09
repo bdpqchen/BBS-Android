@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.GlideImageGeter;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
@@ -17,6 +18,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.view_holder.TheEndViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +111,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mTvTitle.setText(p.getTitle());
                 headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 headerHolder.mTvUsernameThread.setText(p.getAuthor_name());
+                p.setContent(Processor.process(p.getContent()));
                 headerHolder.mHtvContent.setHtml(p.getContent(), new GlideImageGeter(mContext, headerHolder.mHtvContent));
             } else if (holder instanceof PostHolder) {
                 ThreadModel.PostBean p = mPostData.get(position);
@@ -122,6 +125,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 h.mTvUsernamePost.setText(p.getAuthor_name());
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
+                p.setContent(Processor.process(p.getContent()));
                 h.mHtvPostContent.setHtml(p.getContent(), new GlideImageGeter(mContext, h.mHtvPostContent));
                 h.itemView.setTag(position);
             } else if (holder instanceof BaseFooterViewHolder) {
@@ -227,8 +231,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     private String cutIfTooLong(String s) {
-        if (s.length() > MAX_LENGTH_QUOTE) {
-            return s.substring(0, MAX_LENGTH_QUOTE - 1) + "...";
+        if (s.length() > MAX_LENGTH_QUOTE + 1) {
+//            if (s.contains("<img")){
+//                return s.substring(0, MAX_LENGTH_QUOTE + 20) + "...";
+//            }
+            return s.substring(0, MAX_LENGTH_QUOTE) + "...";
         }
         return s;
     }

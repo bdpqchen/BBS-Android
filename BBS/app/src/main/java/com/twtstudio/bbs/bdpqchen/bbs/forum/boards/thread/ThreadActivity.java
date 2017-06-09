@@ -3,6 +3,8 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -32,10 +34,19 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PathUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PermissionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +60,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BO
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_POST;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.RESULT_CODE_IMAGE_SELECTED;
 
 
 /**
@@ -90,6 +102,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     TextView mToolbarTitleBoard;
 
     public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
+    @BindView(R.id.iv_select_images)
+    ImageView mIvSelectImages;
     private String mThreadTitle = "";
     private int mThreadId = 0;
     private int mThreadFloor = 1;
@@ -117,6 +131,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean mEnding = false;
     private boolean showingThreadTitle = false;
     private boolean showingBoardName = true;
+    private int mSelectedCount = 0;
 
     @Override
     protected int getLayoutResourceId() {
@@ -127,18 +142,22 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     protected Toolbar getToolbarView() {
         return mToolbar;
     }
+
     @Override
     protected boolean isShowBackArrow() {
         return true;
     }
+
     @Override
     protected boolean isSupportNightMode() {
         return true;
     }
+
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
+
     @Override
     protected Activity supportSlideBack() {
         return this;
@@ -159,7 +178,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
         if (mBoardId == 0 || mBoardName == null) {
 
-        }else{
+        } else {
             mToolbarTitleBoard.setText(TextUtil.getLinkHtml(mBoardName));
             mToolbarTitleBoard.setOnClickListener(v -> {
                 Intent intent1 = new Intent(mContext, ThreadListActivity.class);
@@ -174,7 +193,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRvThreadPost.setAnimation(null);
         RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
-        recycledViewPool.setMaxRecycledViews(4,50);
+        recycledViewPool.setMaxRecycledViews(4, 50);
         mRvThreadPost.setRecycledViewPool(recycledViewPool);
         mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(1));
         mRvThreadPost.setLayoutManager(mLayoutManager);
@@ -294,7 +313,44 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 //            LogUtil.dd("onChecked", String.valueOf(isChecked));
             mIsAnonymous = isChecked;
         });
+        mIvSelectImages.setOnClickListener(v -> {
+            selectImages();
+        });
     }
+
+    private void selectImages() {
+        if (PermissionUtil.checkReadStorage(this)) {
+            Matisse.from(this)
+                    .choose(MimeType.of(MimeType.JPEG, MimeType.PNG, MimeType.GIF))
+                    .countable(true)
+                    .maxSelectable(1)
+                    .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                    .thumbnailScale(0.85f)
+                    .imageEngine(new GlideEngine())
+                    .forResult(RESULT_CODE_IMAGE_SELECTED);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_CODE_IMAGE_SELECTED && resultCode == RESULT_OK) {
+            if (data != null) {
+                List<Uri> mSelected = Matisse.obtainResult(data);
+                mPresenter.uploadImages(PathUtil.getRealPathFromURI(mContext, mSelected.get(0)));
+                startProgress("正在添加图片，请稍后..");
+
+                // TODO: 17-6-9  支持多张图片
+//                mSelectedCount = mSelected.size();
+//                for (int i = 0; i < mSelected.size(); i++) {
+//                    LogUtil.dd("Matisse", "mSelected: " + mSelected.get(i));
+//                    mPresenter.uploadImages(PathUtil.getRealPathFromURI(mContext, mSelected.get(i)));
+//                }
+            }
+        }
+    }
+
 
     private void showAnonymousOrNot(int canAnonymous) {
         if (mCbAnonymousComment == null) {
@@ -322,12 +378,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 mComment = mAdapter.comment2reply(postPosition, mComment);
             }
             mPresenter.doComment(mThreadId, mComment, replyId, mIsAnonymous);
-            startProgress();
+            startProgress("正在发送，稍后..");
         }
     }
 
-    private void startProgress() {
-        mProgress = DialogUtil.showProgressDialog(this, "提示", "正在发送，稍后..");
+    private void startProgress(String msg) {
+        mProgress = DialogUtil.showProgressDialog(this, "提示", msg);
     }
 
     private void hideProgress() {
@@ -584,6 +640,25 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     @Override
+    public void onUploadFailed(String m) {
+        LogUtil.dd("error msg upload", m);
+        SnackBarUtil.error(this, "图片添加失败\n" + m);
+        hideProgress();
+    }
+
+    @Override
+    public void onUploaded(UploadImageModel model) {
+        LogUtil.dd("loaded id ", String.valueOf(model.getId()));
+        if (mEtComment != null){
+            String added = mEtComment.getText() + "![](attach:" + model.getId() + ")\n";
+            mEtComment.setText(added);
+            mEtComment.setSelection(mEtComment.getText().length());
+        }
+        hideProgress();
+        SnackBarUtil.normal(this, "图片已添加");
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_thread_share, menu);
         return super.onCreateOptionsMenu(menu);
@@ -645,4 +720,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mSrlThreadList.setRefreshing(refreshing);
         }
     }
+
+
 }

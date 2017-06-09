@@ -50,6 +50,7 @@
                             android:id="@+id/toolbar_title_thread"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
                             android:clickable="true"
                             android:ellipsize="end"
                             android:focusable="true"
@@ -57,7 +58,6 @@
                             android:maxLines="1"
                             android:textColor="#ffffff"
                             android:textSize="18sp"
-                            android:layout_centerVertical="true"
                             tools:text="帖子的标题标题帖子的标题标题帖子的标帖子的标题标题题标题帖子的标题标题"
                             tools:visibility="gone"
                             />
@@ -147,14 +147,14 @@
         app:layout_behavior="com.twtstudio.bbs.bdpqchen.bbs.commons.support.FABScrollBehavior"
         tools:visibility="visible"
         />
-<!--        android:background="@drawable/shape_ll_shade"
--->
+    <!--        android:background="@drawable/shape_ll_shade"
+    -->
     <LinearLayout
         android:id="@+id/ll_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:background="@color/colorMainBgLight"
+        android:background="@color/colorMainBg"
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical"
@@ -166,6 +166,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:paddingTop="8dp"
             >
 
             <TextView
@@ -180,12 +181,27 @@
                 tools:text="评论 1 楼 谁谁是"
                 />
 
+            <ImageView
+                android:id="@+id/iv_select_images"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="28dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/selector_foreground_settings"
+                android:padding="8dp"
+                android:src="@drawable/ic_image_white_24dp"
+                />
+
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/cb_anonymous_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:layout_marginEnd="4dp"
+                android:layout_toStartOf="@+id/iv_select_images"
                 android:scaleX="0.7"
                 android:scaleY="0.7"
                 android:text="匿名"
@@ -193,7 +209,6 @@
                 android:visibility="gone"
                 tools:visibility="visible"
                 />
-
         </RelativeLayout>
 
         <LinearLayout
