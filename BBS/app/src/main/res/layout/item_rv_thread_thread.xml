@@ -86,5 +86,14 @@
         tools:text="挑剔大家发多少aflsjlfsj大家来决定是否了解爱上了飞机来打扫房间2017年05月22日23:45:052017年05月22日23:45:07"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:id="@+id/tv_modify_time"
+        android:textColor="@color/colorTvBlackMainTint"
+        android:textSize="13sp"
+        tools:text="2015-1-1 23:23:33"
+        />
 
 </LinearLayout>

@@ -271,7 +271,7 @@
                     android:layout_height="@dimen/icon_size_normal"
                     android:clickable="true"
                     android:src="@drawable/ic_send_white_24dp"
-                    android:tint="@color/colorPrimary"
+                    android:tint="@color/colorPrimaryCopy"
                     android:visibility="gone"
                     />
 

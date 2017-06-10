@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
     android:foreground="@drawable/selector_foreground_settings"
     app:cardBackgroundColor="@color/colorMainBgLight"
     app:cardCornerRadius="2dp"
-    android:clickable="true"
-    android:focusable="true"
     >
 
     <LinearLayout
@@ -115,6 +115,7 @@
             android:orientation="vertical"
             android:padding="4dp"
             >
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -15,6 +15,7 @@
             android:layout="@layout/preference_item"
             android:title="夜间模式"
             android:defaultValue="false"
+            android:summary="拒绝亮瞎眼式应用"
             />
 
         <SwitchPreference
@@ -37,6 +38,19 @@
             android:layout="@layout/preference_item"
             android:title="简版展示板块列表"
             android:summary="快速浏览所有板块"
+            android:defaultValue="false"
+            />
+        <SwitchPreference
+            android:key="@string/key_simple_forum"
+            android:layout="@layout/preference_item"
+            android:title="简版展示论坛区"
+            android:defaultValue="false"
+            />
+        <SwitchPreference
+            android:key="@string/key_auto_clear_unread"
+            android:layout="@layout/preference_item"
+            android:title="自动清空未读消息"
+            android:summary="打开未读消息列表后,立即清空未读消息"
             android:defaultValue="false"
             />
 
@@ -65,15 +79,22 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
         android:title="关于BBS">
+<!--
 
         <Preference
             android:layout="@layout/preference_item"
             android:summary="@string/version_name"
-            android:title="当前版本"/>
-        <!--<Preference
+            android:title="当前版本"
+            />
+-->
+
+        <Preference
             android:layout="@layout/preference_item"
-            android:summary="bdpqchen@qq.com"
-            android:title="Contact"/>-->
+            android:key="@string/key_check_update"
+            android:title="检查更新"
+            android:summary="@string/current_version"
+            />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

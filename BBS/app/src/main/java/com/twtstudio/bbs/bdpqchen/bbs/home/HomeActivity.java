@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -54,6 +56,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private static final int THIRD = 2;
     private int mShowingFragment = FIRST;
     private int mHidingFragment = FIRST;
+    private boolean mIsExit = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -135,8 +138,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
         autoCheckUpdate();
 
-//        mPresenter.getUnreadMessageCount();
-
     }
 
     private void startDownload(AppBean appBean) {
@@ -144,7 +145,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     }
 
     private void hasPermission(AppBean appBean) {
-        if (PermissionUtil.checkWriteStorage(this)){
+        if (PermissionUtil.checkWriteStorage(this)) {
             startDownload(appBean);
         }
     }
@@ -167,6 +168,20 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         } else {
             mNearBy.setBadgeCount(0);
         }
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mIsExit) {
+                finishMe();
+            } else {
+                SnackBarUtil.notice(this, "再按一次退出");
+                mIsExit = true;
+                new Handler().postDelayed(() -> mIsExit = false, 2000);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

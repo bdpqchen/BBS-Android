@@ -17,6 +17,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.view_holder.TheEndViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 
@@ -27,6 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE_URL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_END;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
@@ -42,13 +44,14 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGT
 public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
     private Context mContext;
-    private ThreadModel.ThreadBean mThreadData = new ThreadModel.ThreadBean();
     private List<ThreadModel.PostBean> mPostData = new ArrayList<>();
     private OnItemClickListener mOnItemClickListener = null;
     private int onePage = MAX_LENGTH_POST;
     private int mPage = 0;
     private boolean mIsEnding = false;
     private boolean mIsNoMore = false;
+    private boolean mEnding;
+    private boolean mIsFinding = false;
 
     @Override
     public void onClick(View v) {
@@ -74,12 +77,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         if (viewType == ITEM_NORMAL) {
-            LogUtil.dd("view = normal");
+//            LogUtil.dd("view = normal");
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_post, parent, false);
-            view.setOnClickListener(this);
+//            view.setOnClickListener(this);
             return new PostHolder(view);
         } else if (viewType == ITEM_FOOTER) {
-            LogUtil.dd("view == footer");
+//            LogUtil.dd("view == footer");
             view = LayoutInflater.from(mContext).inflate(R.layout.item_common_footer, parent, false);
             return new BaseFooterViewHolder(view);
         } else if (viewType == ITEM_HEADER) {
@@ -98,7 +101,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (mPostData != null && mPostData.size() > 0) {
-            LogUtil.dd("position", String.valueOf(position));
+//            LogUtil.dd("position", String.valueOf(position));
             if (holder instanceof HeaderHolder) {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 ThreadModel.PostBean p = mPostData.get(position);
@@ -110,9 +113,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 }
                 headerHolder.mTvTitle.setText(p.getTitle());
                 headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
-                headerHolder.mTvUsernameThread.setText(p.getAuthor_name());
-                p.setContent(Processor.process(p.getContent()));
-                headerHolder.mHtvContent.setHtml(p.getContent(), new GlideImageGeter(mContext, headerHolder.mHtvContent));
+                headerHolder.mTvUsernameThread.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
+                String content = Processor.process(p.getContent());
+                content = content.replaceAll("attach:", BASE_URL + "img/");
+
+                headerHolder.mHtvContent.setHtml(content, new GlideImageGeter(mContext, headerHolder.mHtvContent));
+                if (p.getT_modify() > 0 && p.getT_modify() != p.getT_create()){
+                    headerHolder.mTvModifyTime.setText(TextUtil.getModifyTime(p.getT_modify()));
+                }
             } else if (holder instanceof PostHolder) {
                 ThreadModel.PostBean p = mPostData.get(position);
                 PostHolder h = (PostHolder) holder;
@@ -122,12 +130,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 } else {
                     ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, p.getAuthor_id(), h.mCivAvatarPost);
                 }
-                h.mTvUsernamePost.setText(p.getAuthor_name());
+                h.mTvUsernamePost.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
-                p.setContent(Processor.process(p.getContent()));
-                h.mHtvPostContent.setHtml(p.getContent(), new GlideImageGeter(mContext, h.mHtvPostContent));
-                h.itemView.setTag(position);
+                String content = Processor.process(p.getContent());
+                content = content.replaceAll("attach:", BASE_URL + "img/");
+                h.mHtvPostContent.setHtml(content, new GlideImageGeter(mContext, h.mHtvPostContent));
+                h.mTvReply.setTag(position);
+                h.mTvReply.setOnClickListener(this);
             } else if (holder instanceof BaseFooterViewHolder) {
                 LogUtil.d("base footer view");
             } else if (holder instanceof TheEndViewHolder) {
@@ -152,7 +162,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 //        LogUtil.dd("item position", String.valueOf(position));
 //        LogUtil.dd("itemCount", String.valueOf(getItemCount()));
         if (mPostData != null && mPostData.size() > 0) {
-            if (position == 0) {
+            if (position == 0 && mPage == 1 && !mIsEnding && !mIsFinding) {
 //                LogUtil.dd("return header");
                 return ITEM_HEADER;
             }
@@ -192,42 +202,56 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     }
 
+    public void findingFloor(List<ThreadModel.PostBean> model){
+        mIsFinding = true;
+        refreshList(model);
+    }
+
     public void refreshList(List<ThreadModel.PostBean> model) {
         mPostData.removeAll(mPostData);
         mPostData.addAll(model);
         notifyDataSetChanged();
     }
 
+    public void refreshToEnd(List<ThreadModel.PostBean> model){
+        mIsEnding = true;
+        refreshList(model);
+    }
+
     public String comment2reply(int postPosition, String content) {
         ThreadModel.PostBean post = mPostData.get(postPosition);
         String beforeCommendContent = post.getContent();
-//        LogUtil.dd("before comment", beforeCommendContent);
         String cut = cutTwoQuote(beforeCommendContent);
-//        LogUtil.dd("cut", cut);
         String added = addTwoQuote(cut);
-//        LogUtil.dd("added", added);
         content = content +
                 "\n> 回复 #" +
                 post.getFloor() + " " +
                 getAuthorName(postPosition) +
                 " :\n> \n> " +
                 added;
-//        LogUtil.dd("content final", content);
+        LogUtil.dd("content final", content);
         return content;
     }
 
+
+    //添加两层的引用并截断1层 和 2层太长的部分
     private String addTwoQuote(String str0) {
-        StringBuilder strNew = new StringBuilder();
         String key = "> ";
-        while (str0.contains(key)) {
-            int i = str0.indexOf(key);
-            String cut = str0.substring(0, i + 2);
-            cut = cutIfTooLong(cut);
-            str0 = str0.substring(i + 2, str0.length());
-            strNew.append(cut).append(key);
+        if (str0.contains(key)){
+            int p = str0.indexOf(key);
+            String start = str0.substring(0, p);
+            start = cutIfTooLong(start);
+            start = start.replaceAll("\\n", "\n> ");
+            String end  = str0.substring(p, str0.length());
+            end = cutIfTooLong(end);
+            end = "\n" + end;
+            end = end.replaceAll("> ", "\n> > ");
+            str0 = start + end;
+        }else{
+            str0 = cutIfTooLong(str0);
+            str0 = str0.replaceAll("\\n", "\n> ");
         }
-        strNew.append(str0);
-        return cutIfTooLong(strNew.toString());
+        return str0;
     }
 
     private String cutIfTooLong(String s) {
@@ -237,6 +261,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         return s;
     }
 
+    //去掉最后面的两层的引用
     private String cutTwoQuote(String str0) {
         StringBuilder strNew = new StringBuilder();
         String key = "> > ";
@@ -246,9 +271,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             str0 = str0.substring(0, i);
             String strStart = str0.substring(0, i - 3);
             String strEnd = str0.substring(str0.length() - 3, str0.length());
-//            LogUtil.dd("replace before", strEnd);
             strEnd = strEnd.replace("\n", "");
-//            LogUtil.dd("replace after", strEnd);
             str0 = strStart + strEnd;
         }
         strNew.append(str0);
@@ -281,6 +304,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         return hint;
     }
 
+    public void setEnding(boolean ending) {
+        mEnding = ending;
+    }
+
+    public void findIt() {
+        mIsFinding = false;
+    }
+
     static class PostHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.civ_avatar_post)
         CircleImageView mCivAvatarPost;
@@ -294,7 +325,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView mTvReply;
         @BindView(R.id.htv_post_content)
         HtmlTextView mHtvPostContent;
-
         PostHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
@@ -310,6 +340,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView mTvLevelThread;
         @BindView(R.id.tv_datetime_thread)
         TextView mTvDatetimeThread;
+        @BindView(R.id.tv_modify_time)
+        TextView mTvModifyTime;
         @BindView(R.id.tv_title)
         TextView mTvTitle;
         @BindView(R.id.htv_content)

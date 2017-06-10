@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import java.util.List;
@@ -40,6 +42,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
     @BindView(R.id.srl_forum)
     SwipeRefreshLayout mSrlForum;
     private boolean mRefreshing = false;
+    private boolean isSimple = PrefUtil.isSimpleForum();
 
     @Override
     protected int getFragmentLayoutId() {
@@ -61,9 +64,13 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
         mActivity = this.getActivity();
         mTvTitleToolbar.setText("论坛区");
         mAdapter = new ForumAdapter(mContext, this.getActivity());
-        LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-
-        mRvForumList.setLayoutManager(manager);
+        if (isSimple){
+            GridLayoutManager manager = new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false);
+            mRvForumList.setLayoutManager(manager);
+        }else{
+            LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+            mRvForumList.setLayoutManager(manager);
+        }
         mRvForumList.setAdapter(mAdapter);
         mSrlForum.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlForum.setOnRefreshListener(() -> {

@@ -113,10 +113,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private int postPosition = 0;
     private int mReplyId = 0;
     private int mAuthorId = 0;
-
     private boolean mIsAnonymous = false;
     private boolean mCanAnonymous = false;
-    // 用于判断是否可以匿名
     private int mBoardId = 0;
     private String mBoardName = "";
     private LinearLayoutManager mLayoutManager;
@@ -131,42 +129,39 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean showingBoardName = true;
     private int mSelectedCount = 0;
     private ImageFormatUtil mImageFormatUtil;
+    private boolean mIsFindingFloor = false;
+    private int mFindingPage = 0;
+    private int mFindingFloor = 0;
 
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_thread;
     }
-
     @Override
     protected Toolbar getToolbarView() {
         return mToolbar;
     }
-
     @Override
     protected boolean isShowBackArrow() {
         return true;
     }
-
     @Override
     protected boolean isSupportNightMode() {
         return true;
     }
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
-
     @Override
     protected Activity supportSlideBack() {
         return this;
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         mThreadId = intent.getIntExtra(INTENT_THREAD_ID, 0);
-        mThreadFloor = intent.getIntExtra(INTENT_THREAD_FLOOR, 1);
+        mFindingFloor = intent.getIntExtra(INTENT_THREAD_FLOOR, 0);
         mThreadTitle = intent.getStringExtra(INTENT_THREAD_TITLE);
         mBoardName = intent.getStringExtra(INTENT_BOARD_TITLE);
         mBoardId = intent.getIntExtra(INTENT_BOARD_ID, 0);
@@ -187,13 +182,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             });
         }
 
-        mPresenter.getThread(mThreadId, 0);
         mAdapter = new PostAdapter(mContext);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRvThreadPost.setAnimation(null);
-        RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
-        recycledViewPool.setMaxRecycledViews(4, 50);
-        mRvThreadPost.setRecycledViewPool(recycledViewPool);
+//        RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
+//        recycledViewPool.setMaxRecycledViews(4, 50);
+//        mRvThreadPost.setRecycledViewPool(recycledViewPool);
         mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(1));
         mRvThreadPost.setLayoutManager(mLayoutManager);
         mRvThreadPost.setAdapter(mAdapter);
@@ -313,6 +307,11 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mIvSelectImage.setOnClickListener(v -> {
             ImagePickUtil.commonPickImage(this);
         });
+        if (mFindingFloor == 0){
+            mPresenter.getThread(mThreadId, 0);
+        }else{
+            findFloor(mFindingFloor);
+        }
     }
 
     @Override
@@ -448,17 +447,58 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mPostCount = model.getThread().getC_post();
             canAnonymous = model.getThread().getAnonymous();
         }
+        //从我的消息中查看某一楼层
+        if (mIsFindingFloor){
+            if (model.getPost() == null || model.getPost().size() == 0){
+//                mFindingPage--;
+                if (mFindingPage == 0){
+                    mIsFindingFloor = false;
+                    cannotFindIt();
+                    return;
+                }
+                mPresenter.getThread(mThreadId, --mFindingPage);
+            }else{
+                List<ThreadModel.PostBean> postList = model.getPost();
+                boolean isFindIt = false;
+                int index = 0;
+                for (int i = 0; i < postList.size(); i++){
+                    if (postList.get(i).getFloor() == mFindingFloor){
+                        isFindIt = true;
+                        LogUtil.dd("find it", String.valueOf(i));
+                        index = i;
+                    }
+                }
+                if (isFindIt){
+                    mIsFindingFloor = false;
+                    mAdapter.findingFloor(model.getPost());
+                    mRvThreadPost.smoothScrollToPosition(index);
+                    setRefreshing(false);
+                    mAdapter.findIt();
+                }else{
+                    if (mFindingPage == 0){
+                        mIsFindingFloor = false;
+                        cannotFindIt();
+                        return;
+                    }
+                    mPresenter.getThread(mThreadId, --mFindingPage);
+                }
+            }
+            return;
+        }
+
         //只看最后一页
         if (mEnding) {
             if (model.getPost() == null || model.getPost().size() == 0) {
                 mEndingPage--;
                 mPresenter.getThread(mThreadId, mEndingPage);
             } else {
-                mAdapter.refreshList(model.getPost());
+                mAdapter.refreshToEnd(model.getPost());
 //                mEnding = false;
                 mEndingPage = 0;
             }
             return;
+        }else{
+            mAdapter.setEnding(false);
         }
         if (model.getThread() == null && model.getPost() == null && model.getPost().size() > 0) {
             pageSS();
@@ -501,6 +541,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             return;
         }
         if (mRefreshing) {
+            mAdapter.findIt();
             if (model.getPost() != null && model.getPost().size() > 0) {
                 postList.addAll(model.getPost());
             }
@@ -528,18 +569,36 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         setCheckBox(false);
     }
 
+    private void cannotFindIt() {
+        SnackBarUtil.notice(this, "该消息已不存在,可能已经被删除", true);
+        mPresenter.getThread(mThreadId, 0);
+        mAdapter.findIt();
+    }
+
     private void toTop() {
         mRvThreadPost.smoothScrollToPosition(0);
     }
 
     private void toEnd() {
         mEnding = true;
+        mAdapter.findIt();
         if (mPostCount > MAX_LENGTH_POST) {
             mEndingPage = mPostCount / MAX_LENGTH_POST;
         } else {
             mEndingPage = 0;
         }
         mPresenter.getThread(mThreadId, mEndingPage);
+    }
+
+    private void findFloor(int floor){
+        LogUtil.dd("finding floor", String.valueOf(floor));
+        mIsFindingFloor = true;
+        if (floor > MAX_LENGTH_POST){
+            mFindingPage = floor / MAX_LENGTH_POST;
+        }else{
+            mFindingPage = 0;
+        }
+        mPresenter.getThread(mThreadId, mFindingPage);
     }
 
     private void pageSS() {

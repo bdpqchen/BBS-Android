@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways">
+            >
 
         </android.support.v7.widget.Toolbar>
 
@@ -30,7 +30,10 @@
             android:background="@color/colorPrimary"
             app:tabIndicatorColor="@color/material_yellow_accent_700"
             app:tabSelectedTextColor="@color/material_yellow_accent_700"
-            app:tabTextColor="@color/material_light_white" />
+            app:tabTextColor="@color/material_light_white"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -39,7 +42,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-
         />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -105,6 +105,9 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
                 lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
             }
         });
+        if (PrefUtil.isAutoClearUnread()){
+            mPresenter.doClearUnreadMessage();
+        }
 
     }
 

@@ -14,12 +14,15 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity;
 
 import butterknife.BindView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_SIMPLE;
 
 
 /**
@@ -29,6 +32,8 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FO
 public class ForumAdapter extends BaseAdapter<ForumModel> {
     FragmentActivity mActivity;
 
+    boolean isSimple = PrefUtil.isSimpleForum();
+
     public ForumAdapter(Context context, FragmentActivity activity) {
         super(context);
         mContext = context;
@@ -37,10 +42,14 @@ public class ForumAdapter extends BaseAdapter<ForumModel> {
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ViewHolder holder = null;
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_forum, parent, false);
-        holder = new ViewHolder(view);
-        return holder;
+        if (viewType == ITEM_NORMAL) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_forum, parent, false);
+            return new ViewHolder(view);
+        } else if (viewType == ITEM_SIMPLE) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_forum_simple, parent, false);
+            return new SimpleViewHolder(view);
+        }
+        return null;
     }
 
     @Override
@@ -57,13 +66,31 @@ public class ForumAdapter extends BaseAdapter<ForumModel> {
                     Intent intent = new Intent(mContext, BoardsActivity.class);
                     intent.putExtra(INTENT_FORUM_ID, model.getId());
                     intent.putExtra(INTENT_FORUM_TITLE, model.getName());
-//                    LogUtil.dd("forum to board", model.getName());
                     mContext.startActivity(intent);
                 });
-
+            }else if (holder0 instanceof SimpleViewHolder){
+                SimpleViewHolder viewHolder = (SimpleViewHolder) holder0;
+                ForumModel model = mDataSet.get(position);
+                viewHolder.mForumInfo.setText(model.getInfo());
+                viewHolder.mForumName.setText(model.getName());
+                viewHolder.itemView.setOnClickListener(v -> {
+                    Intent intent = new Intent(mContext, BoardsActivity.class);
+                    intent.putExtra(INTENT_FORUM_ID, model.getId());
+                    intent.putExtra(INTENT_FORUM_TITLE, model.getName());
+                    mContext.startActivity(intent);
+                });
             }
         }
 
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (isSimple) {
+            return ITEM_SIMPLE;
+        } else {
+            return ITEM_NORMAL;
+        }
     }
 
     static class ViewHolder extends BaseViewHolder {
@@ -74,6 +101,16 @@ public class ForumAdapter extends BaseAdapter<ForumModel> {
         @BindView(R.id.forum_info)
         TextView mForumInfo;
         ViewHolder(View view) {
+            super(view);
+        }
+    }
+
+    static class SimpleViewHolder extends BaseViewHolder{
+        @BindView(R.id.forum_name)
+        TextView mForumName;
+        @BindView(R.id.forum_info)
+        TextView mForumInfo;
+        SimpleViewHolder(View view) {
             super(view);
         }
     }
