@@ -217,7 +217,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                             public void onNoUpdateAvailable() {
                                 LogUtil.dd("not update available");
                             }
-
                             @Override
                             public void onUpdateAvailable(final String result) {
                                 // 将新版本信息封装到AppBean中
