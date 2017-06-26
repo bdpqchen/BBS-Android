@@ -21,7 +21,6 @@ import java.util.List;
 
 import butterknife.BindView;
 
-
 /**
  * Created by Arsener on 2017/5/13.
  */
@@ -51,7 +50,7 @@ public class MyRecyclerAdapter extends BaseAdapter<MyReleaseModel> {
         notifyItemInserted(getItemCount() - 1);
     }
 
-    public void removeFooterView (){
+    public void removeFooterView() {
         Log.d("remove", "removeFooterView: ");
         notifyItemRemoved(2);
     }
@@ -92,24 +91,26 @@ public class MyRecyclerAdapter extends BaseAdapter<MyReleaseModel> {
     public void onBindViewHolder(BaseViewHolder mholder, int position) {
         // TODO Auto-generated method stub
         //holder.tv.setText(data.get(position));
-        if (getItemViewType(position) == NORMAL_TYPE) {
-            MyHolder holder = (MyHolder) mholder;
-            holder.tv_title.setText(data.get(position).title);
-            holder.tv_title.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
-            Typeface iconfont = Typeface.createFromAsset(mContext.getAssets(), "iconfont/iconfont.ttf");
-            holder.tv_icon.setTypeface(iconfont);
-            holder.tv_visit.setText(String.valueOf(data.get(position).c_post));
-            holder.tv_time.setText(StampUtil.TimeStamp2Date(data.get(position).t_create));
+        if (data != null && data.size() > 0) {
+            if (getItemViewType(position) == NORMAL_TYPE) {
+                MyHolder holder = (MyHolder) mholder;
+                holder.tv_title.setText(data.get(position).title);
+                holder.tv_title.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+                Typeface iconfont = Typeface.createFromAsset(mContext.getAssets(), "iconfont/iconfont.ttf");
+                holder.tv_icon.setTypeface(iconfont);
+                holder.tv_visit.setText(String.valueOf(data.get(position).c_post));
+                holder.tv_time.setText(StampUtil.TimeStamp2Date(data.get(position).t_create));
+                holder.cdv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, ThreadActivity.class);
+                        intent.putExtra("intent_thread_id", data.get(position).id);
+                        intent.putExtra("intent_thread_title", data.get(position).title);
 
-            holder.cdv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, ThreadActivity.class);
-                    intent.putExtra("intent_thread_id", data.get(position).id);
-                    intent.putExtra("intent_thread_title", data.get(position).title);
-                    mContext.startActivity(intent);//注意这里的context！！！
-                }
-            });
+                        mContext.startActivity(intent);//注意这里的context！！！
+                    }
+                });
+            }
         }
     }
 

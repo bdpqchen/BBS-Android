@@ -4,10 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:foreground="@drawable/selector_foreground_settings"
-    android:orientation="vertical"
     android:background="@color/colorMainBgLight"
+    android:orientation="vertical"
     >
 
     <LinearLayout
@@ -71,8 +69,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignStart="@+id/tv_username_post"
                         android:layout_below="@+id/tv_username_post"
-                        android:paddingTop="2dp"
                         android:paddingEnd="4dp"
+                        android:paddingTop="2dp"
                         android:textSize="12sp"
                         tools:text="2017-11-11"
                         />
@@ -82,35 +80,31 @@
             </RelativeLayout>
 
             <com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textColor="@color/colorTvBlackMainTint"
+                android:textSize="14sp"
+                tools:text="挑剔大家发多少aflsjlfsj大家来决定是否了解爱上了飞机来打扫房间2017年05月22日23:45:052017年05月22日23:45:07"
                 android:id="@+id/htv_post_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:textColor="@color/colorTvBlackMainTint"
-                android:textSize="14sp"
-                tools:text="挑剔大家发多少aflsjlfsj大家来决定是否了解爱上了飞机来打扫房间2017年05月22日23:45:052017年05月22日23:45:07"
-                android:visibility="gone"
                 />
 
             <TextView
-                android:id="@+id/tv_post_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:textColor="@color/colorTvBlackMainTint"
-                android:textSize="14sp"
-                tools:text="挑剔大家发多少aflsjlfsj大家来决定是否了解爱上了飞机来打扫房间2017年05月22日23:45:052017年05月22日23:45:07"
-                />
-
-            <TextView
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:id="@+id/tv_reply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
-                android:text="回复"
-                android:id="@+id/tv_reply"
-                android:textSize="12sp"
-                android:textColor="@color/colorTvBlackMain"
                 android:foreground="@drawable/selector_foreground_settings"
+                android:text="回复"
+                android:textColor="@color/colorPrimaryCopy"
+                android:textSize="12sp"
+                android:clickable="true"
+                android:focusable="true"
+
                 />
 
         </LinearLayout>
@@ -119,7 +113,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="1dp"
         android:background="?android:attr/listDivider"
         />
 

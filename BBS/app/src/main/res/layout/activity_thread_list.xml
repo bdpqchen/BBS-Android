@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorMainBg"
@@ -8,24 +9,46 @@
     android:orientation="vertical"
     >
 
-    <include
-        layout="@layout/common_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <android.support.v4.widget.SwipeRefreshLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        >
+
+        <include
+            layout="@layout/common_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            />
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_thread_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_thread_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             />
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fb_thread_list_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_add_white_24dp"
+        app:backgroundTint="@color/material_cyan_800"
+        app:layout_behavior="com.twtstudio.bbs.bdpqchen.bbs.commons.support.FABScrollBehavior"
+        />
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

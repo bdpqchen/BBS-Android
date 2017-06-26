@@ -61,14 +61,12 @@ public class IndividualPresenter extends RxPresenter<IndividualContract.View> im
         SimpleObserver<Integer> observer = new SimpleObserver<Integer>() {
             @Override
             public void _onError(String msg) {
-//                LogUtil.d(msg);
                 if (mView != null){
                     mView.onGetMessageFailed(msg);
                 }
             }
             @Override
             public void _onNext(Integer integer) {
-//                LogUtil.d(integer);
                 if (mView != null){
                     mView.onGotMessageCount(integer);
                 }

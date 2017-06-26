@@ -74,7 +74,7 @@ class CollectionAdapter extends RecyclerView.Adapter {
         String date = StampUtil.getDatetimeByStamp(data.t_create);
         CollectionViewHolder collectionViewHolder = (CollectionViewHolder) holder;
         collectionViewHolder.collection_collect.setVisibility(View.GONE);
-        collectionViewHolder.collection_author_name.setText(data.author_nickname);
+        collectionViewHolder.collection_author_name.setText(data.author_name);
         collectionViewHolder.collection_summary.setText(data.title);
         collectionViewHolder.collection_time.setText(date);
         collectionViewHolder.collection_delete.setOnClickListener(view -> {

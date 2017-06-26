@@ -53,6 +53,8 @@ public class ThreadListModel {
         private String admin;
         private int c_thread;
         private int visibility;
+        private int anonymous;
+
 
         public int getId() {
             return id;
@@ -118,6 +120,13 @@ public class ThreadListModel {
             this.visibility = visibility;
         }
 
+        public int getAnonymous() {
+            return anonymous;
+        }
+
+        public void setAnonymous(int anonymous) {
+            this.anonymous = anonymous;
+        }
     }
 
     public static class ThreadBean {

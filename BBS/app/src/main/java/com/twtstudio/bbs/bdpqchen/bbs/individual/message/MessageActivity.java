@@ -25,7 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * Created by Ricky on 2017/5/13.
+ * Created by bdpqchen on 2017/5/28.
  */
 
 public class MessageActivity extends BaseActivity<MessagePresenter> implements MessageContract.View {
@@ -78,7 +78,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mAdapter = new MessageAdapter(this);
-        mAdapter.setShowFooter(true);
+//        mAdapter.setShowFooter(true);
         mRecyclerView.setAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -93,7 +93,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 2 >= mAdapter.getItemCount()) {
                     mPage++;
                     mPresenter.getMessageList(mPage);
                     mIsLoadingMore = true;
@@ -105,6 +105,9 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
                 lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
             }
         });
+        if (PrefUtil.isAutoClearUnread()){
+            mPresenter.doClearUnreadMessage();
+        }
 
     }
 
@@ -151,10 +154,9 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
 
     @Override
     public void onCleared() {
-        SnackBarUtil.normal(this, "已清空未读消息");
-        stopRefresh();
         mRefreshing = true;
         mPresenter.getMessageList(0);
+        SnackBarUtil.normal(this, "已清空未读消息");
     }
 
     private void stopRefresh() {
@@ -176,7 +178,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     }
 
     void showNoMessage(){
-        if (mTvNoMessage != null){
+        if (mTvNoMessage != null && mPage == 0){
             mTvNoMessage.setVisibility(View.VISIBLE);
         }
     }

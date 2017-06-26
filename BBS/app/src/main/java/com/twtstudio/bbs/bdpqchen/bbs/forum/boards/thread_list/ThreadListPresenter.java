@@ -4,9 +4,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
-
-import java.util.List;
 
 import javax.inject.Inject;
 

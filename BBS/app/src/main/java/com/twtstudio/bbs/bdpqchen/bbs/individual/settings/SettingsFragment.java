@@ -7,17 +7,28 @@ import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PermissionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
+import static com.pgyersdk.update.UpdateManagerListener.startDownloadTask;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity.IS_SWITCH_NIGHT_MODE_LOCK;
 
@@ -40,7 +51,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             PreferenceCategory lol = (PreferenceCategory) getPreferenceScreen().getPreference(x);
             for (int y = 0; y < lol.getPreferenceCount(); y++) {
                 Preference pref = lol.getPreference(y);
-//                pref.setOnPreferenceClickListener(this);
+                pref.setOnPreferenceClickListener(this);
                 pref.setOnPreferenceChangeListener(this);
             }
         }
@@ -51,7 +62,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             preference.setOnPreferenceClickListener(this);
         }
 
-
     }
 
     @Override
@@ -59,8 +69,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         String key = preference.getKey();
         if (key.equals(getString(R.string.key_logout))) {
             reallyLogout();
-
+        } else if (key.equals(getString(R.string.key_check_update))) {
+            checkUpdate();
         }
+
         return false;
     }
 
@@ -77,12 +89,19 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 PrefUtil.setIsAlwaysAnonymous(CastUtil.cast2boolean(obj));
             } else if (key.equals(getString(R.string.key_slide_back))) {
                 PrefUtil.setIsSlideBackMode(CastUtil.cast2boolean(obj));
-            } else if (key.equals(getString(R.string.key_habit_hand))) {
-                PrefUtil.setHabitHand(CastUtil.cast2int(obj));
+            } else if (key.equals(getString(R.string.key_simple_board_list))) {
+                PrefUtil.setIsSimpleBoardList(CastUtil.cast2boolean(obj));
+            }else if (key.equals(getString(R.string.key_auto_clear_unread))){
+                PrefUtil.setIsAutoClearUnread(CastUtil.cast2boolean(obj));
+            }else if (key.equals(getString(R.string.key_simple_forum))){
+                PrefUtil.setIsSimpleForum(CastUtil.cast2boolean(obj));
+                HandlerUtil.postDelay(() -> ActivityManager.getActivityManager().recreateAllActivity(SettingsActivity.class), 10);
             }
-
         }
         return true;
+        /*else if (key.equals(getString(R.string.key_habit_hand))) {
+                PrefUtil.setHabitHand(CastUtil.cast2int(obj));
+            } */
     }
 
     private void reallyLogout() {
@@ -100,22 +119,48 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     public void logout() {
-        PrefUtil.setHadLogin(false);
-        PrefUtil.setAuthToken("");
-//        PrefUtil.setAuthUsername("");
-        PrefUtil.setAuthGroup(0);
-//        PrefUtil.setAuthUid(0);
-        PrefUtil.setInfoNickname("");
-        PrefUtil.setInfoSignature("");
-        PrefUtil.setInfoCreate(0);
-        PrefUtil.setInfoPoints(0);
-        PrefUtil.setInfoUnread(0);
-        PrefUtil.setHasUnSyncInfo(false);
+        AuthUtil.logout();
         ActivityManager.getActivityManager().finishAllActivity();
         Intent intent = new Intent(mActivity, LoginActivity.class);
         intent.putExtra(USERNAME, PrefUtil.getAuthUsername());
         startActivity(intent);
 
+    }
+
+    private void checkUpdate() {
+        PgyUpdateManager.register(mActivity, "9981",
+                new UpdateManagerListener() {
+                    @Override
+                    public void onNoUpdateAvailable() {
+                        LogUtil.dd("not update available");
+                        SnackBarUtil.normal(mActivity, "已是最新版本");
+                    }
+                    @Override
+                    public void onUpdateAvailable(final String result) {
+                        // 将新版本信息封装到AppBean中
+                        final AppBean appBean = getAppBeanFromString(result);
+                        new MaterialDialog.Builder(mActivity)
+                                .cancelable(false)
+                                .title("最最最新版本更新")
+                                .content(appBean.getReleaseNote())
+                                .positiveText("下载(校园网免流)")
+                                .positiveColor(ResourceUtil.getColor(mActivity, R.color.colorPrimary))
+                                .onPositive((new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                                        hasPermission(appBean);
+                                    }
+                                }))
+                                .negativeText("立即不下载")
+                                .show();
+                    }
+                });
+    }
+
+    private void hasPermission(AppBean appBean) {
+        if (PermissionUtil.checkWriteStorage(mActivity)) {
+            startDownloadTask(mActivity, appBean.getDownloadURL());
+        }
     }
 
 

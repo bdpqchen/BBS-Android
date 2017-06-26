@@ -14,6 +14,7 @@
     <color name="colorMainBgLight">#273238</color>
     <color name="colorMainBg">#21282d</color>
     <color name="colorBottomBg">#293134</color>
+    <color name="colorMainBgTrans">#4421282d</color>
 
     <color name="colorSnackNormalBg">#fcfc37</color>
     <color name="colorThreadContentBg">#2c222222</color>

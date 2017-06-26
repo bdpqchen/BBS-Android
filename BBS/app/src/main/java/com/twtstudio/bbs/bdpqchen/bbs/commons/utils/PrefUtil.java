@@ -2,10 +2,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import com.orhanobut.hawk.Hawk;
 
-import java.security.PublicKey;
-import java.security.Signature;
-import java.util.HashMap;
-
 /**
  * Created by bdpqchen on 17-4-18.
  */
@@ -41,6 +37,9 @@ public final class PrefUtil {
     private static final String IS_FIRST_OPEN = "is_first_open";
     private static final String IS_ALWAYS_ANONYMOUS = "is_always_anonymous";
     private static final String HABIT_HAND = "habit_hand";
+    private static final String IS_SIMPLE_BOARD_LIST = "is_simple_board_list";
+    private static final String IS_AUTO_CLEAR_UNREAD = "is_auto_clear_unread";
+    private static final String IS_SIMPLE_FORUM = "is_simple_forum";
 
     public static void setInfoGroup(int infoGroup) {
         Hawk.put(INFO_GROUP, infoGroup);
@@ -212,5 +211,24 @@ public final class PrefUtil {
         Hawk.put(HABIT_HAND, i);
     }
 
+    public static boolean isSimpleBoardList() {
+        return Hawk.get(IS_SIMPLE_BOARD_LIST, false);
+    }
+    public static void setIsSimpleBoardList(boolean b){
+        Hawk.put(IS_SIMPLE_BOARD_LIST, b);
+    }
 
+    public static void setIsAutoClearUnread(boolean b) {
+        Hawk.put(IS_AUTO_CLEAR_UNREAD, b);
+    }
+    public static boolean isAutoClearUnread(){
+        return Hawk.get(IS_AUTO_CLEAR_UNREAD, false);
+    }
+
+    public static boolean isSimpleForum() {
+        return Hawk.get(IS_SIMPLE_FORUM, false);
+    }
+    public static void setIsSimpleForum(boolean b){
+        Hawk.put(IS_SIMPLE_FORUM, b);
+    }
 }

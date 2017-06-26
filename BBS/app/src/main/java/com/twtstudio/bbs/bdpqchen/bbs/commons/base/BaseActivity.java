@@ -59,6 +59,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         super.onCreate(savedInstanceState);
         if (isSupportNightMode()) {
             AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+
         }
         setContentView(getLayoutResourceId());
         mUnBinder = ButterKnife.bind(this);
@@ -77,8 +78,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
             SlideConfig slideConfig = new SlideConfig.Builder()
                     .rotateScreen(false)
                     .edgeOnly(true)
-                    .edgePercent(0.2f)
-                    .slideOutPercent(0.3f)
+                    .edgePercent(0.8f)
+                    .slideOutPercent(0.2f)
                     .create();
             mSlideBackLayout = SlideBackHelper.attach(activity, App.getActivityHelper(), slideConfig, null);
         }

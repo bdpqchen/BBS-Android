@@ -1,21 +1,16 @@
 package com.twtstudio.bbs.bdpqchen.bbs.home;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
@@ -25,12 +20,15 @@ import com.twtstudio.bbs.bdpqchen.bbs.BuildConfig;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PermissionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
 
@@ -38,6 +36,7 @@ import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
 
 import static com.pgyersdk.update.UpdateManagerListener.startDownloadTask;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
 
 public class HomeActivity extends BaseActivity<HomePresenter> implements HomeContract.View {
@@ -57,7 +56,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private static final int THIRD = 2;
     private int mShowingFragment = FIRST;
     private int mHidingFragment = FIRST;
-
+    private boolean mIsExit = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -139,8 +138,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
         autoCheckUpdate();
 
-        mPresenter.getUnreadMessageCount();
-
     }
 
     private void startDownload(AppBean appBean) {
@@ -148,32 +145,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     }
 
     private void hasPermission(AppBean appBean) {
-        Dexter.withActivity(this)
-                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .withListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                        LogUtil.dd("onPermissionGranted");
-                        startDownload(appBean);
-                    }
-
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                        LogUtil.dd("onPermissionDenied");
-                        SnackBarUtil.error(mHomeActivity, "请赋予我读取存储器内容的权限");
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-                        SnackBarUtil.error(mHomeActivity, "请赋予我读取存储器内容的权限");
-                    }
-                })
-                .check();
-
+        if (PermissionUtil.checkWriteStorage(this)) {
+            startDownload(appBean);
+        }
     }
 
     private void loadFragment() {
-
         showHideFragment(mFragments[mShowingFragment], mFragments[mHidingFragment]);
         mHidingFragment = mShowingFragment;
     }
@@ -187,21 +164,48 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     public void onGotMessageCount(int count) {
         if (count > 0) {
-            PrefUtil.setInfoUnread(count);
-            mNearBy.setBadgeCount(PrefUtil.getInfoUnread());
+            mNearBy.setBadgeCount(count);
+        } else {
+            mNearBy.setBadgeCount(0);
         }
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mIsExit) {
+                finishMe();
+            } else {
+                SnackBarUtil.notice(this, "再按一次退出");
+                mIsExit = true;
+                new Handler().postDelayed(() -> mIsExit = false, 2000);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
     public void onGetMessageFailed(String m) {
         LogUtil.dd("onGetMessageFailed()");
+        if (m.contains("token") || m.contains("UID") || m.contains("过期") || m.contains("无效")) {
+            SnackBarUtil.error(mActivity, "当前账户的登录信息已过期，请重新登录", true);
+            HandlerUtil.postDelay(() -> {
+                AuthUtil.logout();
+                Intent intent = new Intent(mActivity, LoginActivity.class);
+                intent.putExtra(USERNAME, PrefUtil.getAuthUsername());
+                startActivity(intent);
+                ActivityManager.getActivityManager().finishAllActivity();
+            }, 3000);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         LogUtil.dd("home onResume", "getUnreadMessage");
-        mPresenter.getUnreadMessageCount();
+        if (mPresenter != null) {
+            mPresenter.getUnreadMessageCount();
+        }
     }
 
     private void autoCheckUpdate() {
@@ -213,7 +217,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                             public void onNoUpdateAvailable() {
                                 LogUtil.dd("not update available");
                             }
-
                             @Override
                             public void onUpdateAvailable(final String result) {
                                 // 将新版本信息封装到AppBean中

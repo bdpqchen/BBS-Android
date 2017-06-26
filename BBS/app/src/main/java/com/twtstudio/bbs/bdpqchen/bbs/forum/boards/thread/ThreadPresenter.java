@@ -5,6 +5,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 
 import javax.inject.Inject;
 
@@ -41,10 +44,42 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
                 if (mView != null)
                     mView.onGotThread(model);
             }
-
         };
         addSubscribe(mHttpClient.getThread(threadId, postPage)
                 .map(mHttpClient.mTransformer)
+/*
+                .map(threadModel -> {
+                    if (threadModel != null) {
+                        // TODO: 17-6-9 取消对bbcode的支持
+                        if (threadModel.getThread() != null) {
+                            ThreadModel.ThreadBean thread = threadModel.getThread();
+                            String content = thread.getContent();
+                            if (content != null && content.length() > 0) {
+                                if (content.contains("[/") && content.contains("[") && content.contains("]")) {
+                                    content = BBCodeParse.bbcode2Html(content);
+                                }
+                                content = content.replaceAll("attach:", BASE_URL + "img/");
+                                thread.setContent(content);
+                            }
+                        }
+                        if (threadModel.getPost() != null && threadModel.getPost().size() > 0) {
+                            List<ThreadModel.PostBean> postList = threadModel.getPost();
+                            for (int i = 0; i < postList.size(); i++) {
+                                String content = postList.get(i).getContent();
+                                if (content != null && content.length() > 0) {
+                                    if (content.contains("[/") && content.contains("[") && content.contains("]")) {
+                                        content = BBCodeParse.bbcode2Html(content);
+                                    }
+                                    content = content.replaceAll("attach:", BASE_URL + "img/");
+                                    content = content.replaceAll("!\\[]", "\n![]");
+                                    postList.get(i).setContent(content);
+                                }
+                            }
+                        }
+                    }
+                    return threadModel;
+                })
+*/
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
@@ -115,6 +150,30 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
         );
+    }
+
+    public void uploadImages(String uri) {
+        ResponseTransformer<UploadImageModel> transformer = new ResponseTransformer<>();
+        SimpleObserver<UploadImageModel> observer = new SimpleObserver<UploadImageModel>() {
+            @Override
+            public void _onError(String msg) {
+                if (mView != null) {
+                    mView.onUploadFailed(msg);
+                }
+            }
+
+            @Override
+            public void _onNext(UploadImageModel o) {
+                if (mView != null) {
+                    mView.onUploaded(o);
+                }
+            }
+        };
+        addSubscribe(mHttpClient.uploadImage(uri)
+                .map(transformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer));
     }
 
 }

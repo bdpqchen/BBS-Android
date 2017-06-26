@@ -10,13 +10,15 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActiv
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadModel;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.PostModel;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
@@ -53,8 +55,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RxDoHttpClient<T> {
 
-    //    public static final String BASE_URL = "http://202.113.13.162:8080/";
-    //将会遇到证书 CA 问题
 //    public static final String BASE = "https://bbs.twtstudio.com";
     public static final String BASE = "https://bbs.tju.edu.cn";
     public static final String BASE_URL = BASE + "/api/";
@@ -145,18 +145,14 @@ public class RxDoHttpClient<T> {
                     .build();
             return chain.proceed(authorised);
         };
-
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-//        OkHttpClient client = new OkHttpClient.Builder()
         OkHttpClient client = getUnsafeBuilder()
                 .addInterceptor(interceptor)
                 .addInterceptor(mTokenInterceptor)
                 .retryOnConnectionFailure(true)
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
-
 
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -213,19 +209,6 @@ public class RxDoHttpClient<T> {
         return mApi.doUpdateInfoAll(getLatestAuthentication(), bundle.getString(Constants.BUNDLE_NICKNAME, ""), bundle.getString(Constants.BUNDLE_SIGNATURE, ""));
 
     }
-
-    public Observable<BaseResponse<BaseModel>> doUpdateAvatar(File file) {
-        if (file != null) {
-            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);//表单类型
-            RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            builder.addFormDataPart("cropped", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
-            List<MultipartBody.Part> parts = builder.build().parts();
-            return mApi.doUpdateAvatar(getLatestAuthentication(), parts);
-        } else {
-            return null;
-        }
-    }
-
 
     public Observable<BaseResponse<BoardsModel>> getBoardList(int forumId) {
         return mApi.getBoardList(String.valueOf(forumId));
@@ -321,8 +304,36 @@ public class RxDoHttpClient<T> {
         return mApi.doUpdatePassword(newPass, oldPass);
     }
 
-
     public Observable<BaseResponse<Integer>> getUnreadCount() {
         return mApi.getUnreadCount();
     }
+
+    public Observable<BaseResponse<BaseModel>> doUpdateAvatar(File file) {
+        if (file != null) {
+            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);//表单类型
+            RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            builder.addFormDataPart("cropped", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
+            List<MultipartBody.Part> parts = builder.build().parts();
+            return mApi.doUpdateAvatar(getLatestAuthentication(), parts);
+        } else {
+            return null;
+        }
+    }
+
+    public Observable<BaseResponse<UploadImageModel>> uploadImage(String uri) {
+        if (uri != null) {
+            File file = new File(uri);
+            file = new File(file.getAbsolutePath());
+//            LogUtil.d("file converted", file);
+            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);//表单类型
+            RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            builder.addFormDataPart("file", file.getName(), imageBody);//imgfile 后台接收图片流的参数名
+            List<MultipartBody.Part> parts = builder.build().parts();
+            return mApi.uploadImage(getLatestAuthentication(), parts, "image_android");
+        } else {
+            LogUtil.dd("uri is null!!");
+            return null;
+        }
+    }
+
 }

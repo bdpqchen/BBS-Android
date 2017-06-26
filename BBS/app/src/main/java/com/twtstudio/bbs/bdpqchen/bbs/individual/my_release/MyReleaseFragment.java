@@ -60,7 +60,7 @@ public class MyReleaseFragment extends BaseFragment<MyReleasePresenter> implemen
         };
         rv.addOnScrollListener(eros);
         mPresenter.initMyReleaseList();
-        rv.addItemDecoration(new RecyclerViewItemDecoration(5));
+        rv.addItemDecoration(new RecyclerViewItemDecoration(1));
     }
 
     @Override

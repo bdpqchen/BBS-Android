@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.FragmentModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyFragment;
@@ -31,4 +31,5 @@ public interface FragmentComponent {
 
     void inject(LatestFragment latestFragment);
     void inject(HotFragment hotFragment);
+
 }

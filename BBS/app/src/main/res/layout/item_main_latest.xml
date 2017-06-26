@@ -30,12 +30,14 @@
                 android:focusable="true"
                 android:foreground="@drawable/selector_foreground_settings"
                 >
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/civ_latest_avatar"
                     android:layout_width="@dimen/size_avatar_normal"
                     android:layout_height="@dimen/size_avatar_normal"
                     android:layout_gravity="center_vertical"
                     tools:src="@drawable/avatar_default_left"
+                    android:layout_marginStart="6dp"
                     />
 
                 <TextView

@@ -6,13 +6,14 @@
     android:layout_height="wrap_content"
     android:background="@color/colorMainBgLight"
     android:foreground="@drawable/selector_foreground_settings"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -25,31 +26,46 @@
         <TextView
             android:id="@+id/collection_author_name"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/collection_avatar"
             android:gravity="center"
             android:text="username"
-            android:textSize="20sp"/>
-
-        <ImageView
-            android:id="@+id/collection_delete_collected"
-            android:layout_width="@dimen/icon_size_normal"
-            android:layout_height="@dimen/icon_size_normal"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_star_yellow_24dp"
+            android:textSize="14sp"
             />
 
-        <ImageView
-            android:id="@+id/collection_delete_collect"
-            android:layout_width="@dimen/icon_size_normal"
-            android:layout_height="@dimen/icon_size_normal"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_star_border_yellow_24dp"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            >
+
+            <ImageView
+                android:id="@+id/collection_delete_collected"
+                android:layout_width="@dimen/icon_size_normal"
+                android:layout_height="@dimen/icon_size_normal"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/selector_foreground_settings"
+                android:src="@drawable/ic_star_yellow_24dp"
+                />
+
+            <ImageView
+                android:id="@+id/collection_delete_collect"
+                android:layout_width="@dimen/icon_size_normal"
+                android:layout_height="@dimen/icon_size_normal"
+                android:layout_alignParentEnd="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/selector_foreground_settings"
+                android:src="@drawable/ic_star_border_yellow_24dp"
+                />
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <TextView

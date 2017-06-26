@@ -29,12 +29,15 @@
     <dimen name="margin_thread_top">4dp</dimen>
     <dimen name="margin_top_retrieve_et">8dp</dimen>
     <dimen name="red_point_radius_small">5dp</dimen>
-    <dimen name="padding_thread_content">16dp</dimen>
+    <dimen name="padding_thread_content">8dp</dimen>
     <dimen name="padding_start_create_thread">4dp</dimen>
     <dimen name="size_dot_intro">6dp</dimen>
-    <dimen name="size_tv_username">14sp</dimen>
+    <dimen name="size_tv_username">12sp</dimen>
     <dimen name="size_tv_small">12sp</dimen>
     <dimen name="size_tv_middle">16sp</dimen>
     <dimen name="icon_size_small">12dp</dimen>
-    <dimen name="margin_start_latest">42dp</dimen>
+    <dimen name="margin_start_latest">12dp</dimen>
+    <dimen name="padding_forum_cover">12dp</dimen>
+    <dimen name="grid_expected_size">100dp</dimen>
+    <dimen name="margin_top_create_thread">2dp</dimen>
 </resources>

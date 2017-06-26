@@ -3,6 +3,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -15,7 +16,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.TextureView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -33,23 +33,32 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageFormatUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImagePickUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PathUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
+import com.zhihu.matisse.Matisse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_POST;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.RESULT_CODE_IMAGE_SELECTED;
 
 
 /**
@@ -83,8 +92,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     TextView mTvDynamicHint;
     @BindView(R.id.cb_anonymous_comment)
     AppCompatCheckBox mCbAnonymousComment;
-
-    public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
     @BindView(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.toolbar_title_thread)
@@ -92,6 +99,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     @BindView(R.id.toolbar_title_board)
     TextView mToolbarTitleBoard;
 
+    public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
+    @BindView(R.id.ll_select_image)
+    LinearLayout mIvSelectImage;
     private String mThreadTitle = "";
     private int mThreadId = 0;
     private int mThreadFloor = 1;
@@ -103,10 +113,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private int postPosition = 0;
     private int mReplyId = 0;
     private int mAuthorId = 0;
-
     private boolean mIsAnonymous = false;
     private boolean mCanAnonymous = false;
-    // 用于判断是否可以匿名
     private int mBoardId = 0;
     private String mBoardName = "";
     private LinearLayoutManager mLayoutManager;
@@ -119,56 +127,67 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean mEnding = false;
     private boolean showingThreadTitle = false;
     private boolean showingBoardName = true;
+    private int mSelectedCount = 0;
+    private ImageFormatUtil mImageFormatUtil;
+    private boolean mIsFindingFloor = false;
+    private int mFindingPage = 0;
+    private int mFindingFloor = 0;
 
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_thread;
     }
-
     @Override
     protected Toolbar getToolbarView() {
         return mToolbar;
     }
-
     @Override
     protected boolean isShowBackArrow() {
         return true;
     }
-
     @Override
     protected boolean isSupportNightMode() {
         return true;
     }
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
-
     @Override
     protected Activity supportSlideBack() {
         return this;
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         mThreadId = intent.getIntExtra(INTENT_THREAD_ID, 0);
-        mThreadFloor = intent.getIntExtra(INTENT_THREAD_FLOOR, 1);
+        mFindingFloor = intent.getIntExtra(INTENT_THREAD_FLOOR, 0);
         mThreadTitle = intent.getStringExtra(INTENT_THREAD_TITLE);
         mBoardName = intent.getStringExtra(INTENT_BOARD_TITLE);
         mBoardId = intent.getIntExtra(INTENT_BOARD_ID, 0);
-
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
+        mImageFormatUtil = new ImageFormatUtil();
 
-        mToolbarTitleBoard.setText(TextUtil.getLinkHtml(mBoardName));
+        if (mBoardId == 0 || mBoardName == null) {
 
-        mPresenter.getThread(mThreadId, 0);
+        } else {
+            mToolbarTitleBoard.setText(TextUtil.getLinkHtml(mBoardName));
+            mToolbarTitleBoard.setOnClickListener(v -> {
+                Intent intent1 = new Intent(mContext, ThreadListActivity.class);
+                intent1.putExtra(INTENT_BOARD_ID, mBoardId);
+                intent1.putExtra(INTENT_BOARD_TITLE, mBoardName);
+                startActivity(intent1);
+            });
+        }
+
         mAdapter = new PostAdapter(mContext);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-
+        mRvThreadPost.setAnimation(null);
+//        RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
+//        recycledViewPool.setMaxRecycledViews(4, 50);
+//        mRvThreadPost.setRecycledViewPool(recycledViewPool);
         mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(1));
         mRvThreadPost.setLayoutManager(mLayoutManager);
         mRvThreadPost.setAdapter(mAdapter);
@@ -176,7 +195,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
+                if (newState == SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
                     if (!mEnding) {
                         mPage++;
                         mIsLoadingMore = true;
@@ -191,13 +210,13 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 //                LogUtil.d("lastvisi", String.valueOf(lastVisibleItemPosition));
                 int d = 300;
                 if (lastVisibleItemPosition != 0 && mLayoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
-                    if (!showingThreadTitle){
+                    if (!showingThreadTitle) {
                         //出现标题
-                        if (mToolbarTitleBoard != null){
+                        if (mToolbarTitleBoard != null) {
                             YoYo.with(Techniques.SlideOutUp).duration(d).playOn(mToolbarTitleBoard);
 //                            mToolbarTitleBoard.setVisibility(View.GONE);
                         }
-                        if (mToolbarTitleThread != null){
+                        if (mToolbarTitleThread != null) {
                             mToolbarTitleThread.setVisibility(View.VISIBLE);
                             YoYo.with(Techniques.SlideInUp).duration(d).playOn(mToolbarTitleThread);
                             mToolbarTitleThread.setText(mThreadTitle);
@@ -207,12 +226,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                     }
                 } else {
                     //出现板块名称
-                    if (!showingBoardName){
-                        if (mToolbarTitleThread != null){
+                    if (!showingBoardName) {
+                        if (mToolbarTitleThread != null) {
                             YoYo.with(Techniques.SlideOutUp).duration(d).playOn(mToolbarTitleThread);
 //                            mToolbarTitleThread.setVisibility(View.GONE);
                         }
-                        if (mToolbarTitleBoard != null){
+                        if (mToolbarTitleBoard != null) {
                             mToolbarTitleBoard.setText(TextUtil.getLinkHtml(mBoardName));
                             mToolbarTitleBoard.setVisibility(View.VISIBLE);
                             YoYo.with(Techniques.SlideInUp).duration(d).playOn(mToolbarTitleBoard);
@@ -223,12 +242,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 }
             }
         });
-        mToolbarTitleBoard.setOnClickListener(v -> {
-            Intent intent1 = new Intent(mContext, ThreadListActivity.class);
-            intent1.putExtra(INTENT_BOARD_ID, mBoardId);
-            intent1.putExtra(INTENT_BOARD_TITLE, mBoardName);
-            startActivity(intent1);
-        });
+
         mToolbarTitleThread.setOnClickListener(v -> {
             toTop();
         });
@@ -290,6 +304,32 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mIsAnonymous = isChecked;
         });
+        mIvSelectImage.setOnClickListener(v -> {
+            ImagePickUtil.commonPickImage(this);
+        });
+        if (mFindingFloor == 0){
+            mPresenter.getThread(mThreadId, 0);
+        }else{
+            findFloor(mFindingFloor);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_CODE_IMAGE_SELECTED && resultCode == RESULT_OK) {
+            if (data != null) {
+                List<Uri> mSelected = Matisse.obtainResult(data);
+                mPresenter.uploadImages(PathUtil.getRealPathFromURI(mContext, mSelected.get(0)));
+                startProgress("正在添加图片，请稍后..");
+                // TODO: 17-6-9  支持多张图片
+//                mSelectedCount = mSelected.size();
+//                for (int i = 0; i < mSelected.size(); i++) {
+//                    LogUtil.dd("Matisse", "mSelected: " + mSelected.get(i));
+//                    mPresenter.uploadImages(PathUtil.getRealPathFromURI(mContext, mSelected.get(i)));
+//                }
+            }
+        }
     }
 
     private void showAnonymousOrNot(int canAnonymous) {
@@ -298,29 +338,35 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         }
         if (canAnonymous == 1) {
             mCanAnonymous = true;
-            mCbAnonymousComment.setVisibility(View.VISIBLE);
-
-            if (PrefUtil.isAlwaysAnonymous()){
-                mCbAnonymousComment.setChecked(true);
+//            LogUtil.dd("always anon", String.valueOf(PrefUtil.isAlwaysAnonymous()));
+            if (PrefUtil.isAlwaysAnonymous()) {
+                HandlerUtil.postDelay(() -> {
+                    mCbAnonymousComment.setChecked(true);
+                }, 600);
+//                LogUtil.dd("anon check", String.valueOf(mCbAnonymousComment.isChecked()));
             }
+            mCbAnonymousComment.setVisibility(View.VISIBLE);
         } else {
             mCbAnonymousComment.setVisibility(View.GONE);
         }
     }
 
     private void sendComment(int replyId) {
-        mComment = mEtComment.getText().toString();
+        if (mEtComment == null){
+            return;
+        }
+        mComment = mImageFormatUtil.replaceImageFormat(mEtComment.getText().toString());
         if (mEtComment != null && mComment.length() > 0) {
             if (replyId != 0) {
                 mComment = mAdapter.comment2reply(postPosition, mComment);
             }
             mPresenter.doComment(mThreadId, mComment, replyId, mIsAnonymous);
-            startProgress();
+            startProgress("正在发送，稍后..");
         }
     }
 
-    private void startProgress() {
-        mProgress = DialogUtil.showProgressDialog(this, "提示", "正在发送，稍后..");
+    private void startProgress(String msg) {
+        mProgress = DialogUtil.showProgressDialog(this, "提示", msg);
     }
 
     private void hideProgress() {
@@ -373,7 +419,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }, d);
         } else {
             startActivity(new Intent(this, LoginActivity.class));
-
         }
     }
 
@@ -402,17 +447,58 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mPostCount = model.getThread().getC_post();
             canAnonymous = model.getThread().getAnonymous();
         }
+        //从我的消息中查看某一楼层
+        if (mIsFindingFloor){
+            if (model.getPost() == null || model.getPost().size() == 0){
+//                mFindingPage--;
+                if (mFindingPage == 0){
+                    mIsFindingFloor = false;
+                    cannotFindIt();
+                    return;
+                }
+                mPresenter.getThread(mThreadId, --mFindingPage);
+            }else{
+                List<ThreadModel.PostBean> postList = model.getPost();
+                boolean isFindIt = false;
+                int index = 0;
+                for (int i = 0; i < postList.size(); i++){
+                    if (postList.get(i).getFloor() == mFindingFloor){
+                        isFindIt = true;
+                        LogUtil.dd("find it", String.valueOf(i));
+                        index = i;
+                    }
+                }
+                if (isFindIt){
+                    mIsFindingFloor = false;
+                    mAdapter.findingFloor(model.getPost());
+                    mRvThreadPost.smoothScrollToPosition(index);
+                    setRefreshing(false);
+                    mAdapter.findIt();
+                }else{
+                    if (mFindingPage == 0){
+                        mIsFindingFloor = false;
+                        cannotFindIt();
+                        return;
+                    }
+                    mPresenter.getThread(mThreadId, --mFindingPage);
+                }
+            }
+            return;
+        }
+
         //只看最后一页
         if (mEnding) {
             if (model.getPost() == null || model.getPost().size() == 0) {
                 mEndingPage--;
                 mPresenter.getThread(mThreadId, mEndingPage);
             } else {
-                mAdapter.refreshList(model.getPost());
+                mAdapter.refreshToEnd(model.getPost());
 //                mEnding = false;
                 mEndingPage = 0;
             }
             return;
+        }else{
+            mAdapter.setEnding(false);
         }
         if (model.getThread() == null && model.getPost() == null && model.getPost().size() > 0) {
             pageSS();
@@ -455,6 +541,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             return;
         }
         if (mRefreshing) {
+            mAdapter.findIt();
             if (model.getPost() != null && model.getPost().size() > 0) {
                 postList.addAll(model.getPost());
             }
@@ -463,6 +550,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         } else {
             if (model.getBoard() != null) {
                 mBoardId = model.getBoard().getId();
+                mBoardName = model.getBoard().getName();
             }
             if (model.getPost() != null && model.getPost().size() > 0) {
                 postList.addAll(model.getPost());
@@ -471,10 +559,20 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }
             mAdapter.updateThreadPost(postList, mPage);
         }
+        if (model.getBoard() != null) {
+            mBoardId = model.getBoard().getId();
+            mBoardName = model.getBoard().getName();
+        }
         setRefreshing(false);
         showAnonymousOrNot(canAnonymous);
         hideProgressBar();
         setCheckBox(false);
+    }
+
+    private void cannotFindIt() {
+        SnackBarUtil.notice(this, "该消息已不存在,可能已经被删除", true);
+        mPresenter.getThread(mThreadId, 0);
+        mAdapter.findIt();
     }
 
     private void toTop() {
@@ -483,12 +581,24 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     private void toEnd() {
         mEnding = true;
+        mAdapter.findIt();
         if (mPostCount > MAX_LENGTH_POST) {
             mEndingPage = mPostCount / MAX_LENGTH_POST;
         } else {
             mEndingPage = 0;
         }
         mPresenter.getThread(mThreadId, mEndingPage);
+    }
+
+    private void findFloor(int floor){
+        LogUtil.dd("finding floor", String.valueOf(floor));
+        mIsFindingFloor = true;
+        if (floor > MAX_LENGTH_POST){
+            mFindingPage = floor / MAX_LENGTH_POST;
+        }else{
+            mFindingPage = 0;
+        }
+        mPresenter.getThread(mThreadId, mFindingPage);
     }
 
     private void pageSS() {
@@ -573,6 +683,25 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     @Override
+    public void onUploadFailed(String m) {
+        LogUtil.dd("error msg upload", m);
+        SnackBarUtil.error(this, "图片添加失败\n" + m);
+        hideProgress();
+    }
+
+    @Override
+    public void onUploaded(UploadImageModel model) {
+        LogUtil.dd("loaded id ", String.valueOf(model.getId()));
+        if (mEtComment != null){
+            String added = mEtComment.getText() + mImageFormatUtil.getShowImageCode(model.getId());
+            mEtComment.setText(added);
+            mEtComment.setSelection(mEtComment.getText().length());
+        }
+        hideProgress();
+        SnackBarUtil.normal(this, "图片已添加");
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_thread_share, menu);
         return super.onCreateOptionsMenu(menu);
@@ -583,7 +712,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
         switch (item.getItemId()) {
             case R.id.action_thread_share:
-                // TODO: 17-6-1 API 对应修改
                 String url = BASE + "/forum/thread/" + mThreadId;
                 shareText(url);
                 break;
@@ -635,4 +763,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mSrlThreadList.setRefreshing(refreshing);
         }
     }
+
+
 }

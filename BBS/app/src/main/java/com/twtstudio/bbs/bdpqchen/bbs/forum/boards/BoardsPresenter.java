@@ -36,60 +36,81 @@ class BoardsPresenter extends RxPresenter<BoardsContract.View> implements Boards
     }
 
     @Override
-    public void getBoardList(final int boardId) {
+    public void getBoardList(final int forumId) {
         SimpleObserver<PreviewThreadModel> observer = new SimpleObserver<PreviewThreadModel>() {
-
             @Override
             public void _onError(String msg) {
                 if (mView != null)
-                mView.failedToGetBoardList(msg);
+                    mView.failedToGetBoardList(msg);
                 LogUtil.dd("error_message", msg);
             }
 
             @Override
             public void _onNext(PreviewThreadModel previewThreadModels) {
                 if (mView != null)
-                mView.setBoardList(previewThreadModels);
-                LogUtil.dd("OnNext()");
+                    mView.setBoardList(previewThreadModels);
+//                LogUtil.dd("OnNext()");
+            }
+        };
+        addSubscribe(mHttpClient.getBoardList(forumId)
+                        .map(mTransformer)
+                        .flatMap(new Function<BoardsModel, Observable<BoardsModel.BoardsBean>>() {
+                            @Override
+                            public Observable<BoardsModel.BoardsBean> apply(@NonNull BoardsModel boardsModel) throws Exception {
+//                        LogUtil.dd("apply()", String.valueOf(boardsModel.getBoards().size()));
+                                return Observable.fromIterable(boardsModel.getBoards());
+                            }
+                        })
+                        .flatMap(new Function<BoardsModel.BoardsBean, Observable<BaseResponse<ThreadListModel>>>() {
+                            @Override
+                            public Observable<BaseResponse<ThreadListModel>> apply(@NonNull BoardsModel.BoardsBean boardsBean) throws Exception {
+                                return mHttpClient.getThreadList(boardsBean.getId(), 0);
+                            }
+                        })
+                        .map(mTransformerThread)
+                        .map(threadListModel -> {
+                            PreviewThreadModel model = new PreviewThreadModel();
+                            model.setBoard(threadListModel.getBoard());
+                            if (threadListModel.getThread() != null) {
+                                int listSize = threadListModel.getThread().size();
+//                        LogUtil.dd("threadListSize", String.valueOf(listSize));
+                                List<ThreadListModel.ThreadBean> threadBeanList = new ArrayList<>();
+                                if (listSize >= 1) {
+                                    ThreadListModel.ThreadBean threadBean0 = threadListModel.getThread().get(0);
+                                    threadBeanList.add(threadBean0);
+                                }
+                                if (listSize >= 2) {
+                                    ThreadListModel.ThreadBean threadBean1 = threadListModel.getThread().get(1);
+                                    threadBeanList.add(threadBean1);
+                                }
+                                model.setThreadList(threadBeanList);
+                            }
+                            return model;
+                        })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(observer)
+        );
+    }
+
+    public void getSimpleBoardList(int forumId) {
+        SimpleObserver<BoardsModel> observer = new SimpleObserver<BoardsModel>() {
+            @Override
+            public void _onError(String msg) {
+                if (mView != null)
+                    mView.onFailedGetSimpleList(msg);
+                LogUtil.dd("error_message", msg);
             }
 
+            @Override
+            public void _onNext(BoardsModel boards) {
+                if (mView != null)
+                    mView.onGotSimpleList(boards);
+//                LogUtil.dd("OnNext()");
+            }
         };
-
-        addSubscribe(mHttpClient.getBoardList(boardId)
+        addSubscribe(mHttpClient.getBoardList(forumId)
                 .map(mTransformer)
-                .flatMap(new Function<BoardsModel, Observable<BoardsModel.BoardsBean>>() {
-                    @Override
-                    public Observable<BoardsModel.BoardsBean> apply(@NonNull BoardsModel boardsModel) throws Exception {
-                        LogUtil.dd("apply()", String.valueOf(boardsModel.getBoards().size()));
-                        return Observable.fromIterable(boardsModel.getBoards());
-                    }
-                })
-                .flatMap(new Function<BoardsModel.BoardsBean, Observable<BaseResponse<ThreadListModel>>>() {
-                    @Override
-                    public Observable<BaseResponse<ThreadListModel>> apply(@NonNull BoardsModel.BoardsBean boardsBean) throws Exception {
-                        return mHttpClient.getThreadList(boardsBean.getId(), 0);
-                    }
-                })
-                .map(mTransformerThread)
-                .map(threadListModel -> {
-                    PreviewThreadModel model = new PreviewThreadModel();
-                    model.setBoard(threadListModel.getBoard());
-                    if (threadListModel.getThread() != null) {
-                        int listSize = threadListModel.getThread().size();
-                        LogUtil.dd("threadListSize", String.valueOf(listSize));
-                        List<ThreadListModel.ThreadBean> threadBeanList = new ArrayList<>();
-                        if (listSize >= 1) {
-                            ThreadListModel.ThreadBean threadBean0 = threadListModel.getThread().get(0);
-                            threadBeanList.add(threadBean0);
-                        }
-                        if (listSize >= 2) {
-                            ThreadListModel.ThreadBean threadBean1 = threadListModel.getThread().get(1);
-                            threadBeanList.add(threadBean1);
-                        }
-                        model.setThreadList(threadBeanList);
-                    }
-                    return model;
-                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)

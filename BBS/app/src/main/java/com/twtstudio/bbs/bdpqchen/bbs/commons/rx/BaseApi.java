@@ -8,12 +8,13 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActiv
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadModel;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.PostModel;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
@@ -42,6 +43,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.EMAIL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MESSAGE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REAL_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REPLY_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.STUNUM;
@@ -115,12 +117,6 @@ public interface BaseApi {
     Observable<BaseResponse<BaseModel>> doUpdatePassword(
             @Field(Constants.PASSWORD) String newP,
             @Field(Constants.OLD_PASSWORD) String old);
-
-    @Multipart
-    @PUT("home/avatar")
-    Observable<BaseResponse<BaseModel>> doUpdateAvatar(
-            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
-            @Part List<MultipartBody.Part> partList);
 
     @GET("forum/{forumId}")
     Observable<BaseResponse<BoardsModel>> getBoardList(@Path("forumId") String forumId);
@@ -238,5 +234,19 @@ public interface BaseApi {
 
     @GET("home/message/count")
     Observable<BaseResponse<Integer>> getUnreadCount();
+
+    @Multipart
+    @PUT("home/avatar")
+    Observable<BaseResponse<BaseModel>> doUpdateAvatar(
+            @Header(NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
+            @Part List<MultipartBody.Part> partList);
+
+    @Multipart
+    @POST("attach")
+    Observable<BaseResponse<UploadImageModel>> uploadImage(
+            @Header(NET_RETROFIT_HEADER_TITLE) String latestAuth,
+            @Part List<MultipartBody.Part> parts,
+            @Part("name") String image);
+
 }
 

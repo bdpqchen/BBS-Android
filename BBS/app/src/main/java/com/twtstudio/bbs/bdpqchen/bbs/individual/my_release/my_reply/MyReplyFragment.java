@@ -48,7 +48,7 @@ public class MyReplyFragment extends BaseFragment<MyReplyPresenter> implements M
         rv.setHasFixedSize(true);
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(myReplyAdapter);
-        rv.addItemDecoration(new RecyclerViewItemDecoration(5));
+        rv.addItemDecoration(new RecyclerViewItemDecoration(1));
         srl.setOnRefreshListener(this);
         srl.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         eros = new EndlessRecyclerOnScrollListener(layoutManager) {

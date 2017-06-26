@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,11 +16,14 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadActivity;
 
 import butterknife.BindView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_CAN_ANON;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_IS_SPECIFY_BOARD;
 
 
 /**
@@ -35,6 +38,8 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
     RecyclerView mRecyclerView;
     @BindView(R.id.srl_thread_list)
     SwipeRefreshLayout mSrlThreadList;
+    @BindView(R.id.fb_thread_list_create)
+    FloatingActionButton mFbThreadListCreate;
 
     private String mBoardTitle = "";
     private int mBoardId = 0;
@@ -45,7 +50,7 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
     private boolean mIsLoadingMore = false;
     private int lastVisibleItemPosition = 0;
     private boolean mRefreshing = false;
-
+    private int mCanAnon = 0;
 
     @Override
     protected int getLayoutResourceId() {
@@ -83,10 +88,11 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
         Intent intent = getIntent();
         mBoardId = intent.getIntExtra(INTENT_BOARD_ID, 0);
         mBoardTitle = intent.getStringExtra(INTENT_BOARD_TITLE);
+        mCanAnon = intent.getIntExtra(INTENT_BOARD_CAN_ANON, 0);
         LogUtil.dd(mBoardTitle);
         super.onCreate(savedInstanceState);
-        mContext = this;
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
+        mContext = this;
         mPresenter.getThreadList(mBoardId, mPage);
         mAdapter = new ThreadListAdapter(this);
         mAdapter.setShowFooter(true);
@@ -101,7 +107,6 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
             mRefreshing = true;
             mPresenter.getThreadList(mBoardId, 0);
         });
-
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -112,29 +117,36 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
                     mIsLoadingMore = true;
                 }
             }
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
             }
         });
-
-
+        mFbThreadListCreate.setOnClickListener(v -> {
+            Intent intent1 = new Intent(this, CreateThreadActivity.class);
+            intent1.putExtra(INTENT_IS_SPECIFY_BOARD, true);
+            intent1.putExtra(INTENT_BOARD_ID, mBoardId);
+            intent1.putExtra(INTENT_BOARD_TITLE, mBoardTitle);
+            intent1.putExtra(INTENT_BOARD_CAN_ANON, mCanAnon);
+            startActivity(intent1);
+        });
     }
 
     @Override
     public void setThreadList(ThreadListModel threadListModel) {
         mSrlThreadList.setRefreshing(false);
-        if (threadListModel == null || threadListModel.getThread() == null && threadListModel.getBoard() == null){
+        if (threadListModel == null || threadListModel.getThread() == null && threadListModel.getBoard() == null) {
             return;
         }
         if (mIsLoadingMore) {
             mAdapter.addDataList(threadListModel.getThread());
         } else {
-            if (mRefreshing){
+            if (mRefreshing) {
                 mAdapter.refreshList(threadListModel.getThread());
                 mRefreshing = false;
-            }else{
+            } else {
                 mAdapter.addList(threadListModel.getThread());
             }
         }
