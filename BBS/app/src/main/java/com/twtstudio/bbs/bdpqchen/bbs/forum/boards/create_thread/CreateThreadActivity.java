@@ -240,7 +240,7 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         bundle.putString(Constants.CONTENT, mContent);
         bundle.putInt(Constants.BID, mSelectedBoardId);
         bundle.putBoolean(Constants.IS_ANONYMOUS, mIsAnonymous);
-//        mPresenter.doPublishThread(bundle);
+        mPresenter.doPublishThread(bundle);
         showProgress("正在发布，请稍后..");
         LogUtil.dd("send content", mContent);
     }
