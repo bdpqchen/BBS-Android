@@ -187,6 +187,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     public void onGetMessageFailed(String m) {
         LogUtil.dd("onGetMessageFailed()");
+        if (PrefUtil.isNoAccountUser()){
+            return;
+        }
         if (m.contains("token") || m.contains("UID") || m.contains("过期") || m.contains("无效")) {
             SnackBarUtil.error(mActivity, "当前账户的登录信息已过期，请重新登录", true);
             HandlerUtil.postDelay(() -> {

@@ -6,6 +6,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 
 import javax.inject.Inject;
@@ -69,5 +70,29 @@ class CreateThreadPresenter extends RxPresenter<CreateThreadContract.View> imple
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer));
+    }
+
+    public void getBoardList(int forumId) {
+        ResponseTransformer<BoardsModel> transformer = new ResponseTransformer<>();
+        SimpleObserver<BoardsModel> observer = new SimpleObserver<BoardsModel>() {
+            @Override
+            public void _onError(String msg) {
+                if (mView != null) {
+                    mView.onGetBoardListFailed(msg);
+                }
+            }
+            @Override
+            public void _onNext(BoardsModel o) {
+                if (mView != null) {
+                    mView.onGetBoardList(o);
+                }
+            }
+        };
+        addSubscribe(mHttpClient.getBoardList(forumId)
+                .map(transformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer));
+
     }
 }
