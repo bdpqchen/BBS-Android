@@ -442,10 +442,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     @Override
     public void onGotThread(ThreadModel model) {
-        int canAnonymous = 0;
+        int canAnonymous = mCanAnonymous ? 1 : 0;
         if (model.getThread() != null) {
             mPostCount = model.getThread().getC_post();
-            canAnonymous = model.getThread().getAnonymous();
+            if (mPage == 0){
+                canAnonymous = model.getThread().getAnonymous();
+            }
         }
         //从我的消息中查看某一楼层
         if (mIsFindingFloor){
