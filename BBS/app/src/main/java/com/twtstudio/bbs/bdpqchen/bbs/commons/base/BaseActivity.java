@@ -77,7 +77,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
             SlideConfig slideConfig = new SlideConfig.Builder()
                     .rotateScreen(true)
                     .edgeOnly(true)
-                    .edgePercent(0.8f)
+                    .edgePercent(0.6f)
                     .slideOutPercent(0.2f)
                     .create();
             mSlideBackLayout = SlideBackHelper.attach(activity, App.getActivityHelper(), slideConfig, null);

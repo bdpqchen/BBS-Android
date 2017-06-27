@@ -261,7 +261,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         mUpdateDialog = createBuilder()
                 .setTitle("最最最新版本更新")
                 .setMessage(message)
-                .setPositiveButton("下载(校园网免流)", listener)
+                .setPositiveButton("下载", listener)
                 .setNegativeButton("下次提醒我", null)
                 .setCancelable(false)
                 .create();
