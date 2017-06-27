@@ -1,11 +1,8 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 /**

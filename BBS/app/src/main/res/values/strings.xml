@@ -8,11 +8,11 @@
     <string name="key_always_anon">key_always_anon</string>
     <string name="key_habit_hand">key_habit_hand</string>
     <string name="key_logout">key_logout</string>
-    <string name="version_name">1.1.0</string>
-    <string name="version_code">5</string>
+    <string name="current_version">当前版本 : 1.1.1</string>
+    <string name="version_name">1.1.1</string>
+    <string name="version_code">6</string>
     <string name="key_simple_board_list">key_simple_board_list</string>
     <string name="key_check_update">key_check_update</string>
-    <string name="current_version">当前版本 : 1.1.0</string>
     <string name="key_auto_clear_unread">key_auto_clear_unread</string>
     <string name="key_simple_forum">key_simple_forum</string>
 

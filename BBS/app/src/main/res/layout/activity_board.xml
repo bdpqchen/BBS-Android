@@ -22,20 +22,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-
-        <include
-            layout="@layout/common_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
-    </LinearLayout>
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -59,6 +45,7 @@
         android:layout_margin="@dimen/margin_fab"
         android:src="@drawable/ic_add_white_24dp"
         android:clickable="true"
+        android:focusable="true"
         app:backgroundTint="@color/material_teal_500"
         app:layout_behavior="com.twtstudio.bbs.bdpqchen.bbs.commons.support.FABScrollBehavior"
         />
