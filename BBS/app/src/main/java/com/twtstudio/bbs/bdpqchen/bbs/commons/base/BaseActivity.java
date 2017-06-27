@@ -76,7 +76,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         if (activity != null) {
             // TODO: 17-4-26 one hand mode
             SlideConfig slideConfig = new SlideConfig.Builder()
-                    .rotateScreen(false)
+                    .rotateScreen(true)
                     .edgeOnly(true)
                     .edgePercent(0.8f)
                     .slideOutPercent(0.2f)

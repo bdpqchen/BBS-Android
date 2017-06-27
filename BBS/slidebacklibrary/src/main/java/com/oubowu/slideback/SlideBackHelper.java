@@ -49,7 +49,11 @@ public class SlideBackHelper {
         }
 
         final Activity[] preActivity = {helper.getPreActivity()};
-        final View[] preContentView = {getContentView(preActivity[0])};
+
+        final View[] preContentView = new View[]{getContentView(preActivity[0])};
+//        if (getContentView(preActivity[0]) != null) {
+//            preContentView[0] = getContentView(preActivity[0]);
+//        }
         Drawable preDecorViewDrawable = getDecorViewDrawable(preActivity[0]);
         content = preContentView[0].findViewById(android.R.id.content);
         if (content.getBackground() == null) {
