@@ -26,6 +26,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImagePickUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PathUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 import com.zhihu.matisse.Matisse;
 
@@ -35,11 +36,9 @@ import java.util.List;
 import butterknife.BindView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_CAN_ANON;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_CAN_ANONS;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_IDS;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_NAMES;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_IS_SPECIFY_BOARD;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.RESULT_CODE_IMAGE_SELECTED;
 
@@ -65,8 +64,6 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     @BindView(R.id.ll_select_image)
     LinearLayout mLlSelectImage;
     private ArrayList<String> mBoardNames = new ArrayList<>();
-    private ArrayList<Integer> mBoardIds = new ArrayList<>();
-    private ArrayList<Integer> mBoardCanAnons = new ArrayList<>();
 
     private int mSelectedBoardId = 0;
     private String mTitle = "";
@@ -76,6 +73,8 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     private ImageFormatUtil mImageFormatUtil;
     private boolean isPublished = false;
     private int mCanAnon = 0;
+    private int mForumId = 0;
+    private BoardsModel mBoardsModel = new BoardsModel();
 
     @Override
     protected int getLayoutResourceId() {
@@ -115,34 +114,23 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         mContext = this;
         mImageFormatUtil = new ImageFormatUtil();
         Intent intent = getIntent();
-        mBoardNames = intent.getStringArrayListExtra(INTENT_BOARD_NAMES);
-        mBoardIds = intent.getIntegerArrayListExtra(INTENT_BOARD_IDS);
-        mBoardCanAnons = intent.getIntegerArrayListExtra(INTENT_BOARD_CAN_ANONS);
+        mForumId = intent.getIntExtra(INTENT_FORUM_ID, 28);
+
         //在帖子列表里直接跳进来的
         boolean specifyBoard = intent.getBooleanExtra(INTENT_IS_SPECIFY_BOARD, false);
-        if (specifyBoard || mBoardIds == null || mBoardIds.size() == 0) {
+        if (specifyBoard) {
             mCanAnon = intent.getIntExtra(INTENT_BOARD_CAN_ANON, 0);
             setCbAnonymous();
             mSelectedBoardId = intent.getIntExtra(INTENT_BOARD_ID, 0);
             mTitle = intent.getStringExtra(INTENT_BOARD_TITLE);
-            if (mToolbar != null){
+            if (mToolbar != null) {
                 mToolbar.setTitle("发布帖子|" + mTitle);
             }
             mLlSelectBoard.setVisibility(View.GONE);
-        }else{
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mBoardNames);
-            mSpinnerSelectBoard.setAdapter(adapter);
-            mSpinnerSelectBoard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    mCanAnon = mBoardCanAnons.get(position);
-                    mSelectedBoardId = mBoardIds.get(position);
-                    setCbAnonymous();
-                    LogUtil.dd("you have selected the id", String.valueOf(mSelectedBoardId));
-                }
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {}
-            });
+        } else {
+            mPresenter.getBoardList(mForumId);
+            mBoardNames.add("请选择");
+            setupSpinner();
         }
         mCbAnonymous.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mIsAnonymous = isChecked;
@@ -152,11 +140,11 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         });
     }
 
-    private void setCbAnonymous(){
-        if (mCanAnon == 1){
+    private void setCbAnonymous() {
+        if (mCanAnon == 1) {
             if (mCbAnonymous != null)
-            mCbAnonymous.setVisibility(View.VISIBLE);
-        }else{
+                mCbAnonymous.setVisibility(View.VISIBLE);
+        } else {
             if (mCbAnonymous != null)
                 mCbAnonymous.setVisibility(View.GONE);
         }
@@ -197,6 +185,48 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     }
 
     @Override
+    public void onGetBoardList(BoardsModel model) {
+        if (model != null && model.getBoards() != null) {
+            mBoardsModel = model;
+            int size = model.getBoards().size();
+            if (size > 0) {
+                for (int i = 0; i < size; i++) {
+                    BoardsModel.BoardsBean board = model.getBoards().get(i);
+                    mBoardNames.add(board.getName());
+                }
+                setupSpinner();
+            }
+        }
+    }
+
+    @Override
+    public void onGetBoardListFailed(String m) {
+        mPresenter.getBoardList(mForumId);
+    }
+
+    public void setupSpinner() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mBoardNames);
+        mSpinnerSelectBoard.setAdapter(adapter);
+        mSpinnerSelectBoard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0 && mBoardsModel != null && mBoardsModel.getBoards() != null) {
+                    BoardsModel.BoardsBean board = mBoardsModel.getBoards().get(position - 1);
+                    mCanAnon = board.getAnonymous();
+                    mSelectedBoardId = board.getId();
+                    setCbAnonymous();
+                    LogUtil.dd("you have selected the id", String.valueOf(mSelectedBoardId));
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                LogUtil.dd("onNothingSelected()");
+            }
+        });
+
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.getMenuInflater().inflate(R.menu.menu_create_thread, menu);
         return super.onCreateOptionsMenu(menu);
@@ -234,15 +264,24 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
             SnackBarUtil.error(this, "你还没有选择板块");
             return;
         }
-        mContent =  mImageFormatUtil.replaceImageFormat(mContent);
+        mContent = mImageFormatUtil.replaceImageFormat(mContent);
+        if (!isPublished){
+            publish();
+        }else{
+            mAlertDialog = DialogUtil.alertDialog(this, "提示", "你已经成功发布过帖子，还要再发一次吗？", "再次发布", "不要",
+                    (materialDialog, dialogAction) -> publish(), null);
+        }
+        LogUtil.dd("send content", mContent);
+    }
+
+    private void publish(){
         Bundle bundle = new Bundle();
         bundle.putString(Constants.TITLE, mTitle);
         bundle.putString(Constants.CONTENT, mContent);
         bundle.putInt(Constants.BID, mSelectedBoardId);
         bundle.putBoolean(Constants.IS_ANONYMOUS, mIsAnonymous);
-//        mPresenter.doPublishThread(bundle);
+        mPresenter.doPublishThread(bundle);
         showProgress("正在发布，请稍后..");
-        LogUtil.dd("send content", mContent);
     }
 
     private void hideProgress() {
@@ -264,6 +303,7 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         SnackBarUtil.normal(this, "发布成功");
         mProgressDialog.dismiss();
         isPublished = true;
+
     }
 
     @Override
@@ -280,7 +320,7 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     private void isDangerExit() {
         LogUtil.dd("isDangerExit()");
         setupData();
-        if (isPublished){
+        if (isPublished) {
             finishMe();
             return;
         }

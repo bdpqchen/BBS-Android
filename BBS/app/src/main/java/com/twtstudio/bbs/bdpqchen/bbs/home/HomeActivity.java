@@ -2,15 +2,14 @@ package com.twtstudio.bbs.bdpqchen.bbs.home;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
@@ -26,7 +25,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PermissionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
@@ -47,7 +45,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 //    View mMask;
 
     BottomBarTab mNearBy;
-
     private Context mContext;
     private HomeActivity mHomeActivity;
     private SupportFragment[] mFragments = new SupportFragment[3];
@@ -57,6 +54,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private int mShowingFragment = FIRST;
     private int mHidingFragment = FIRST;
     private boolean mIsExit = false;
+    private AlertDialog mUpdateDialog;
+    // 用于=判定是否自动检查更新
+    private boolean isCheckedUpdate = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -136,12 +136,23 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             }
         });
 
-        autoCheckUpdate();
+        isCheckedUpdate = true;
 
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+//        LogUtil.dd("onWindowFocusChanged()");
+        if (hasFocus && isCheckedUpdate) {
+            autoCheckUpdate();
+            isCheckedUpdate = false;
+        }
     }
 
     private void startDownload(AppBean appBean) {
         startDownloadTask(HomeActivity.this, appBean.getDownloadURL());
+//        startDownloadTask(HomeActivity.this, "https://github.com/bdpqchen/UpdateApps/raw/master/memo/v1.0.0/v1.0.0.apk");
     }
 
     private void hasPermission(AppBean appBean) {
@@ -187,6 +198,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     public void onGetMessageFailed(String m) {
         LogUtil.dd("onGetMessageFailed()");
+        if (PrefUtil.isNoAccountUser()) {
+            return;
+        }
         if (m.contains("token") || m.contains("UID") || m.contains("过期") || m.contains("无效")) {
             SnackBarUtil.error(mActivity, "当前账户的登录信息已过期，请重新登录", true);
             HandlerUtil.postDelay(() -> {
@@ -210,34 +224,54 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     private void autoCheckUpdate() {
         if (!BuildConfig.DEBUG) {
-            HandlerUtil.postDelay(() -> {
-                PgyUpdateManager.register(this, "9981",
-                        new UpdateManagerListener() {
-                            @Override
-                            public void onNoUpdateAvailable() {
-                                LogUtil.dd("not update available");
-                            }
-                            @Override
-                            public void onUpdateAvailable(final String result) {
-                                // 将新版本信息封装到AppBean中
-                                final AppBean appBean = getAppBeanFromString(result);
-                                new MaterialDialog.Builder(mContext)
-                                        .cancelable(false)
-                                        .title("最最最新版本更新")
-                                        .content(appBean.getReleaseNote())
-                                        .positiveText("下载(校园网免流)")
-                                        .positiveColor(ResourceUtil.getColor(mContext, R.color.colorPrimary))
-                                        .onPositive((new MaterialDialog.SingleButtonCallback() {
-                                            @Override
-                                            public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
-                                                hasPermission(appBean);
-                                            }
-                                        }))
-                                        .negativeText("立即不下载")
-                                        .show();
-                            }
-                        });
-            }, 2000);
+            PgyUpdateManager.register(this, "9981",
+                    new UpdateManagerListener() {
+                        @Override
+                        public void onNoUpdateAvailable() {
+                            LogUtil.dd("not update available");
+                        }
+                        @Override
+                        public void onUpdateAvailable(final String result) {
+                            final AppBean appBean = getAppBeanFromString(result);
+                            setupUpdateDialog(new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    hasPermission(appBean);
+                                }
+                            }, appBean.getReleaseNote());
+                            showUpdateDialog();
+                        }
+                    });
+        }
+    }
+
+    private void showUpdateDialog() {
+        if (mUpdateDialog != null) {
+            mUpdateDialog.show();
+        }
+    }
+
+    private void hideUpdateDialog() {
+        if (mUpdateDialog != null) {
+            mUpdateDialog.hide();
+        }
+    }
+
+    private void setupUpdateDialog(DialogInterface.OnClickListener listener, String message) {
+        mUpdateDialog = createBuilder()
+                .setTitle("最最最新版本更新")
+                .setMessage(message)
+                .setPositiveButton("下载", listener)
+                .setNegativeButton("下次提醒我", null)
+                .setCancelable(false)
+                .create();
+    }
+
+    private AlertDialog.Builder createBuilder() {
+        if (PrefUtil.isNightMode()) {
+            return new AlertDialog.Builder(mContext, R.style.NightAlertDialog);
+        } else {
+            return new AlertDialog.Builder(mContext);
         }
     }
 

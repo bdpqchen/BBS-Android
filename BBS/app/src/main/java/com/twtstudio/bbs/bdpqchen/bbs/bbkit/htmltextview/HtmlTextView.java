@@ -102,6 +102,7 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
         html = htmlTagHandler.overrideTags(html);
 
         Spanned spanned = Html.fromHtml(html, imageGetter, htmlTagHandler);
+
         QuoteReplaceUtil.replaceQuoteSpans((Spannable) spanned);
 
         if (removeFromHtmlSpace) {

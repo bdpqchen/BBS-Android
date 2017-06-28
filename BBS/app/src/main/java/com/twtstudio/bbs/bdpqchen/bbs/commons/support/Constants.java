@@ -33,13 +33,9 @@ public final class Constants {
 
 //    public static final String NET_RETROFIT_POST_HEADER = "ContentActivity-Type:application/x-www-form-urlencoded; charset=utf-8";
     public static final String NET_RETROFIT_HEADER_TITLE = "authentication";
-
-
     public static final String NET_RETROFIT_HEADER_REQUEST = "X-Requested_With";
     public static final String BUNDLE_TOKEN = "token";
     public static final String ANONYMOUS_NAME = "匿名用户";
-
-
 
     public static final String BUNDLE_UID = "uid";
     public static final String BUNDLE_EMAIL = "email";
@@ -58,6 +54,7 @@ public final class Constants {
     public static final String INTENT_BOARD_CAN_ANONS = "intent_board_can_anons";
     public static final String INTENT_RESULT_IMAGE_PATH = "intent_result_image_path";
     public static final String INTENT_IS_SPECIFY_BOARD = "intent_is_specify_board";
+    public static final String INTENT_BOARD_MODEL_LIST = "intent_board_model_list";
 
 
     public static final String CONTENT = "content";

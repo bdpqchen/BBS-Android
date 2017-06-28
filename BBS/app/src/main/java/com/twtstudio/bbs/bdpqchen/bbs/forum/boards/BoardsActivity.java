@@ -24,9 +24,6 @@ import java.util.List;
 
 import butterknife.BindView;
 
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_CAN_ANONS;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_IDS;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_NAMES;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_TITLE;
 
@@ -53,9 +50,6 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     BoardsAdapter mAdapter;
     LinearLayoutManager mLayoutManager;
     private String mForumTitle = "";
-    private ArrayList<String> mBoardNames = new ArrayList<>();
-    private ArrayList<Integer> mBoardIds = new ArrayList<>();
-    private ArrayList<Integer> mAnonymous = new ArrayList<>();
     private boolean isSimpleBoardList = PrefUtil.isSimpleBoardList();
     private List<PreviewThreadModel> mPreviewThreadModel = new ArrayList<>();
     private BoardsModel mBoardsModel = new BoardsModel();
@@ -115,14 +109,10 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
 
         mFab.setOnClickListener(v -> {
             Intent intent = new Intent(this, CreateThreadActivity.class);
-            intent.putStringArrayListExtra(INTENT_BOARD_NAMES, getBoardNames());
-            intent.putIntegerArrayListExtra(INTENT_BOARD_IDS, getBoardIds());
-            intent.putIntegerArrayListExtra(INTENT_BOARD_CAN_ANONS, getAnonymous());
+            intent.putExtra(INTENT_FORUM_ID, mForumId);
+            intent.putExtra(INTENT_FORUM_TITLE, mForumTitle);
             startActivity(intent);
         });
-        mBoardIds.add(0);
-        mBoardNames.add(".....");
-        mAnonymous.add(0);
         if (PrefUtil.isSimpleBoardList()){
             mPresenter.getSimpleBoardList(mForumId);
         }else{
@@ -139,9 +129,6 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
         }
         if (previewThreadList != null) {
             mAdapter.addData(previewThreadList);
-            mBoardNames.add(previewThreadList.getBoard().getName());
-            mBoardIds.add(previewThreadList.getBoard().getId());
-            mAnonymous.add(previewThreadList.getBoard().getAnonymous());
         }
         hideProgressBar();
         setRefreshing(false);
@@ -183,25 +170,5 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
         if (mProgressBar != null){
             mProgressBar.setVisibility(View.GONE);
         }
-    }
-
-    public ArrayList<Integer> getAnonymous() {
-        return mAnonymous;
-    }
-
-    public ArrayList<String> getBoardNames() {
-        return mBoardNames;
-    }
-
-    public void setBoardNames(ArrayList<String> boardNames) {
-        mBoardNames = boardNames;
-    }
-
-    public ArrayList<Integer> getBoardIds() {
-        return mBoardIds;
-    }
-
-    public void setBoardIds(ArrayList<Integer> boardIds) {
-        mBoardIds = boardIds;
     }
 }

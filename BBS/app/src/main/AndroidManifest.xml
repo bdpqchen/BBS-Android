@@ -32,7 +32,6 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
-
         <meta-data
             android:name="PGYER_APPID"
             android:value="c138c6031c518af45409b28f81913b7e">

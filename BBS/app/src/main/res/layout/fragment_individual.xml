@@ -232,6 +232,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorMainBgLight"
                     android:clickable="true"
+                    android:focusable="true"
                     android:foreground="@drawable/selector_foreground_settings"
                     >
 
@@ -241,9 +242,10 @@
                         android:layout_height="@dimen/icon_size_normal"
                         android:layout_gravity="center"
                         android:layout_margin="16dp"
+                        android:tint="@color/colorTintIconBlack"
                         android:padding="2dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/icon_ll_my_message"
+                        android:src="@drawable/ic_sms_black_24dp"
                         />
 
                     <TextView
@@ -302,7 +304,8 @@
                         android:layout_margin="16dp"
                         android:padding="2dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/icon_my_collection"
+                        android:src="@drawable/ic_star_white_24dp"
+                        android:tint="@color/colorTintIconBlack"
                         />
 
                     <TextView
@@ -348,7 +351,8 @@
                         android:layout_margin="16dp"
                         android:padding="2dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/icon_my_published"
+                        android:src="@drawable/ic_send_white_24dp"
+                        android:tint="@color/colorTintIconBlack"
                         />
 
                     <TextView
@@ -383,6 +387,7 @@
                     android:layout_marginTop="1px"
                     android:background="@color/colorMainBgLight"
                     android:clickable="true"
+                    android:focusable="true"
                     android:foreground="@drawable/selector_foreground_settings"
                     >
 
@@ -394,7 +399,8 @@
                         android:layout_margin="16dp"
                         android:padding="2dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/icon_my_detail_update"
+                        android:src="@drawable/ic_edit_black_24dp"
+                        android:tint="@color/colorTintIconBlack"
                         />
 
                     <TextView
@@ -444,7 +450,8 @@
                     android:layout_margin="16dp"
                     android:padding="2dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_my_settings"
+                    android:src="@drawable/ic_settings_black_24dp"
+                    android:tint="@color/colorTintIconBlack"
                     />
 
                 <TextView

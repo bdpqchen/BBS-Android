@@ -28,7 +28,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE_URL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_END;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
@@ -114,9 +113,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mTvTitle.setText(p.getTitle());
                 headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 headerHolder.mTvUsernameThread.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
-                String content = Processor.process(p.getContent());
-                content = content.replaceAll("attach:", BASE_URL + "img/");
-
+                String content = "";
+                if (p.getContent() != null && p.getContent().length() > 0){
+                    content = Processor.process(p.getContent());
+                }
+                content = TextUtil.getReplacedContent(content);
                 headerHolder.mHtvContent.setHtml(content, new GlideImageGeter(mContext, headerHolder.mHtvContent));
                 if (p.getT_modify() > 0 && p.getT_modify() != p.getT_create()){
                     headerHolder.mTvModifyTime.setText(TextUtil.getModifyTime(p.getT_modify()));
@@ -133,8 +134,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 h.mTvUsernamePost.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
-                String content = Processor.process(p.getContent());
-                content = content.replaceAll("attach:", BASE_URL + "img/");
+                String content = "";
+                if (p.getContent() != null && p.getContent().length() > 0){
+                    content = Processor.process(p.getContent());
+                }
+                content = TextUtil.getReplacedContent(content);
                 h.mHtvPostContent.setHtml(content, new GlideImageGeter(mContext, h.mHtvPostContent));
                 h.mTvReply.setTag(position);
                 h.mTvReply.setOnClickListener(this);
