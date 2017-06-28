@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -49,5 +50,12 @@ public final class DialogUtil {
                 .show();
     }
 
-
+    public static MaterialDialog inputDialog(Context context, String content, MaterialDialog.InputCallback inputCallback) {
+        return new MaterialDialog.Builder(context)
+                .input(content, "", false, inputCallback)
+                .title("跳楼层")
+                .inputType(InputType.TYPE_CLASS_NUMBER)
+                .positiveText("开始")
+                .show();
+    }
 }

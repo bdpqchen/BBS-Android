@@ -31,6 +31,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageFormatUtil;
@@ -98,13 +99,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     TextView mToolbarTitleThread;
     @BindView(R.id.toolbar_title_board)
     TextView mToolbarTitleBoard;
-
-    public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
     @BindView(R.id.ll_select_image)
     LinearLayout mIvSelectImage;
+
+    public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
     private String mThreadTitle = "";
     private int mThreadId = 0;
-    private int mThreadFloor = 1;
     private Context mContext;
     private PostAdapter mAdapter;
     private String mComment = "";
@@ -124,39 +124,47 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean mIsLoadingMore;
     private boolean mIsAddingComment = false;
     private int mPostCount = 0;
-    private boolean mEnding = false;
     private boolean showingThreadTitle = false;
     private boolean showingBoardName = true;
-    private int mSelectedCount = 0;
-    private ImageFormatUtil mImageFormatUtil;
     private boolean mIsFindingFloor = false;
     private int mFindingPage = 0;
     private int mFindingFloor = 0;
+    private int mInputFloor = 0;
+    private int mPossibleIndex = 0;
+
+    private ImageFormatUtil mImageFormatUtil;
+    private boolean mIsFindEnd = false;
 
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_thread;
     }
+
     @Override
     protected Toolbar getToolbarView() {
         return mToolbar;
     }
+
     @Override
     protected boolean isShowBackArrow() {
         return true;
     }
+
     @Override
     protected boolean isSupportNightMode() {
         return true;
     }
+
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
+
     @Override
     protected Activity supportSlideBack() {
         return this;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
@@ -169,9 +177,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
         mImageFormatUtil = new ImageFormatUtil();
-
         if (mBoardId == 0 || mBoardName == null) {
-
         } else {
             mToolbarTitleBoard.setText(TextUtil.getLinkHtml(mBoardName));
             mToolbarTitleBoard.setOnClickListener(v -> {
@@ -185,9 +191,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mAdapter = new PostAdapter(mContext);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRvThreadPost.setAnimation(null);
-//        RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
-//        recycledViewPool.setMaxRecycledViews(4, 50);
-//        mRvThreadPost.setRecycledViewPool(recycledViewPool);
         mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(1));
         mRvThreadPost.setLayoutManager(mLayoutManager);
         mRvThreadPost.setAdapter(mAdapter);
@@ -196,13 +199,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
-                    if (!mEnding) {
-                        mPage++;
-                        mIsLoadingMore = true;
-                        mPresenter.getThread(mThreadId, mPage);
-                    }
+                    mPage++;
+                    mIsLoadingMore = true;
+                    mPresenter.getThread(mThreadId, mPage);
                 }
             }
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -268,7 +270,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
         mIvCommentOut.setOnClickListener(v -> showFab());
@@ -286,31 +287,26 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlThreadList.setRefreshing(true);
         mSrlThreadList.setOnRefreshListener(() -> {
-            if (!mEnding) {
-                mRefreshing = true;
-                mPage = 0;
-                mPresenter.getThread(mThreadId, mPage);
-            } else {
-                mSrlThreadList.setRefreshing(false);
-            }
+            mRefreshing = true;
+            mPage = 0;
+            mPresenter.getThread(mThreadId, mPage);
+//                mSrlThreadList.setRefreshing(false);
         });
-
         mAdapter.setOnItemClickListener((view, position) -> {
             postPosition = position;
             mReplyId = mAdapter.getPostId(position);
             showCommentInput();
         });
-
         mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mIsAnonymous = isChecked;
         });
         mIvSelectImage.setOnClickListener(v -> {
             ImagePickUtil.commonPickImage(this);
         });
-        if (mFindingFloor == 0){
-            mPresenter.getThread(mThreadId, 0);
-        }else{
-            findFloor(mFindingFloor);
+        mPresenter.getThread(mThreadId, 0);
+        if (mFindingFloor == 0) {
+        } else {
+//            findFloor(mFindingFloor);
         }
     }
 
@@ -332,18 +328,297 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         }
     }
 
+    private void stopFinding() {
+        mFindingFloor = 0;
+        mIsFindingFloor = false;
+        mRvThreadPost.scrollToPosition(mPossibleIndex);
+        setRefreshing(false);
+    }
+
+    private void cannotFindIt() {
+        if (!mIsFindEnd) {
+            SnackBarUtil.notice(this, "该楼层不存在,可能已经被删除\n已经帮你跳转到附近楼层", true);
+        } else {
+            mIsFindEnd = false;
+        }
+        stopFinding();
+    }
+
+    private void findIt() {
+        stopFinding();
+    }
+
+    private void findFloor(int floor) {
+        mFindingFloor = floor;
+        if (isInside()) {
+            mRvThreadPost.scrollToPosition(mPossibleIndex);
+            mPage = mFindingPage;
+        } else {
+            mIsFindingFloor = true;
+            mFindingPage = ++mPage;
+            mPresenter.getThread(mThreadId, mFindingPage);
+        }
+    }
+
+    @Override
+    public void onGotThread(ThreadModel model) {
+        int canAnonymous = mCanAnonymous ? 1 : 0;
+        if (model.getThread() != null) {
+            mPostCount = model.getThread().getC_post();
+            if (mPage == 0) {
+                canAnonymous = model.getThread().getAnonymous();
+            }
+        }
+        List<ThreadModel.PostBean> postList = new ArrayList<>();
+        //将帖主重组成一个回复
+        if (mPage == 0 && model.getThread() != null) {
+            mAuthorId = model.getThread().getAuthor_id();
+            ThreadModel.ThreadBean thread = model.getThread();
+            showStarOrNot(thread.getIn_collection());
+            if (thread.getAnonymous() == 1) {
+                thread.setAuthor_name("匿名用户");
+            }
+            ThreadModel.PostBean post = new ThreadModel.PostBean();
+            post.setAnonymous(thread.getAnonymous());
+            post.setAuthor_name(thread.getAuthor_name());
+            post.setAuthor_nickname(thread.getAuthor_nickname());
+            post.setContent(thread.getContent());
+            post.setFloor(0);
+            post.setAuthor_id(thread.getAuthor_id());
+            post.setId(thread.getId());
+            post.setTitle(thread.getTitle());
+            post.setT_create(thread.getT_create());
+            post.setT_modify(thread.getT_modify());
+            postList.add(post);
+        }
+        if (mRefreshing) {
+            if (model.getPost() != null && model.getPost().size() > 0) {
+                postList.addAll(model.getPost());
+            }
+            mAdapter.refreshList(postList);
+            mRefreshing = false;
+        } else {
+            if (model.getPost() != null && model.getPost().size() > 0) {
+                postList.addAll(model.getPost());
+            } else {
+                pageSS();
+            }
+            mAdapter.updateThreadPost(postList, mPage);
+        }
+        //跳楼
+        if (mIsFindingFloor) {
+            if (model.getPost() == null || model.getPost().size() == 0) {
+                //到了帖子的尽头
+                LogUtil.dd("model is null");
+                cannotFindIt();
+            } else {
+                if (isInside()) {
+                    findIt();
+                } else {
+                    mPresenter.getThread(mThreadId, ++mFindingPage);
+                }
+            }
+            mPage = mFindingPage;
+        }
+        // TODO: 17-6-2 评论后的刷新
+        // 目前只支持刷新第一页
+        if (mIsAddingComment) {
+            mIsAddingComment = false;
+            if (mPage == 0) {
+                if (model.getPost() != null) {
+                    postList.addAll(model.getPost());
+                }
+                if (postList.size() > 0) {
+                    mAdapter.refreshList(postList);
+                }
+            }
+            return;
+        }
+        if (model.getBoard() != null) {
+            mBoardId = model.getBoard().getId();
+            mBoardName = model.getBoard().getName();
+        }
+        setRefreshing(false);
+        showAnonymousOrNot(canAnonymous);
+        hideProgressBar();
+        setCheckBox(false);
+    }
+
+    private boolean isInside() {
+        List<ThreadModel.PostBean> posts = mAdapter.getPostList();
+        boolean isFindIt = false;
+        mPossibleIndex = 0;
+        int size = posts.size();
+        int start = 0;
+        if (mIsFindingFloor) {
+            start = mFindingPage * MAX_LENGTH_POST;
+        }
+        if (size > 0) {
+            for (int i = start; i < size; i++) {
+                int floor = posts.get(i).getFloor();
+                if (floor == mFindingFloor) {
+                    isFindIt = true;
+                    LogUtil.dd("find it", String.valueOf(i));
+                    mPossibleIndex = i;
+                    break;
+                }
+                if (floor > mFindingFloor) {
+                    mPossibleIndex = i;
+                    break;
+                }
+                mPossibleIndex = i;
+            }
+        }
+        return isFindIt;
+    }
+
+    @Override
+    public void onGetThreadFailed(String m) {
+        SnackBarUtil.error(this, m);
+        hideProgressBar();
+        mRefreshing = false;
+        if (mIsLoadingMore) {
+            mIsLoadingMore = false;
+            mPage--;
+        }
+        setRefreshing(false);
+        pageSS();
+    }
+
+    @Override
+    public void onCommentFailed(String m) {
+        hideProgress();
+        SnackBarUtil.error(this, m, true);
+    }
+
+    @Override
+    public void onCommented(PostModel model) {
+        hideProgress();
+        SnackBarUtil.normal(this, "评论成功");
+        showFab();
+        if (mPage == 0) {
+            mRefreshing = true;
+            mIsAddingComment = false;
+            mPresenter.getThread(mThreadId, 0);
+        } else {
+            mIsAddingComment = true;
+            mPresenter.getThread(mThreadId, mPage);
+        }
+        clearCommentData();
+    }
+
+    @Override
+    public void onStarFailed(String m) {
+        SnackBarUtil.error(this, m);
+    }
+
+    @Override
+    public void onUnStarFailed(String m) {
+        SnackBarUtil.error(this, m);
+    }
+
+    @Override
+    public void onStarred() {
+        SnackBarUtil.normal(this, "收藏成功");
+        showStarOrNot(1);
+    }
+
+    @Override
+    public void onUnStarred() {
+        SnackBarUtil.normal(this, "已取消收藏");
+        showStarOrNot(0);
+    }
+
+    @Override
+    public void onUploadFailed(String m) {
+        LogUtil.dd("error msg upload", m);
+        SnackBarUtil.error(this, "图片添加失败\n" + m);
+        hideProgress();
+    }
+
+    @Override
+    public void onUploaded(UploadImageModel model) {
+        LogUtil.dd("loaded id ", String.valueOf(model.getId()));
+        if (mEtComment != null) {
+            String added = mEtComment.getText() + mImageFormatUtil.getShowImageCode(model.getId());
+            mEtComment.setText(added);
+            mEtComment.setSelection(mEtComment.getText().length());
+        }
+        hideProgress();
+        SnackBarUtil.normal(this, "图片已添加");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_thread_share, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_thread_share:
+                String url = BASE + "/forum/thread/" + mThreadId;
+                shareText(url);
+                break;
+            case android.R.id.home:
+                finishMe();
+                break;
+            case R.id.action_to_end:
+                if (!mRefreshing) {
+                    toEnd();
+                }
+                break;
+            case R.id.action_to_top:
+                toTop();
+                break;
+            case R.id.action_refresh:
+                setRefreshing(true);
+                mPresenter.getThread(mThreadId, 0);
+                break;
+            case R.id.action_jump_specify_floor:
+                if (!mRefreshing) {
+                    DialogUtil.inputDialog(mContext, "输入楼层,最大可能是" + mPostCount + "左右",
+                            (dialog, input) -> {
+                                mInputFloor = CastUtil.parse2int(input.toString());
+                                LogUtil.dd("mInputFloor", String.valueOf(mInputFloor));
+                                if (mInputFloor != 0) {
+                                    mFindingPage = mPage;
+                                    findFloor(mInputFloor);
+                                }
+                            });
+                }
+                break;
+        }
+
+        return false;
+    }
+
+    private void toEnd() {
+        findFloor(2147483647);
+        mIsFindEnd = true;
+    }
+
+    private void toTop() {
+        if (mPage == 0) {
+            mRvThreadPost.smoothScrollToPosition(0);
+        } else {
+            mRvThreadPost.scrollToPosition(0);
+        }
+    }
+
     private void showAnonymousOrNot(int canAnonymous) {
         if (mCbAnonymousComment == null) {
             return;
         }
         if (canAnonymous == 1) {
             mCanAnonymous = true;
-//            LogUtil.dd("always anon", String.valueOf(PrefUtil.isAlwaysAnonymous()));
             if (PrefUtil.isAlwaysAnonymous()) {
                 HandlerUtil.postDelay(() -> {
-                    mCbAnonymousComment.setChecked(true);
+                    if (mCbAnonymousComment != null) {
+                        mCbAnonymousComment.setChecked(true);
+                    }
                 }, 600);
-//                LogUtil.dd("anon check", String.valueOf(mCbAnonymousComment.isChecked()));
             }
             mCbAnonymousComment.setVisibility(View.VISIBLE);
         } else {
@@ -352,7 +627,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void sendComment(int replyId) {
-        if (mEtComment == null){
+        if (mEtComment == null) {
             return;
         }
         mComment = mImageFormatUtil.replaceImageFormat(mEtComment.getText().toString());
@@ -440,215 +715,23 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         }
     }
 
-    @Override
-    public void onGotThread(ThreadModel model) {
-        int canAnonymous = mCanAnonymous ? 1 : 0;
-        if (model.getThread() != null) {
-            mPostCount = model.getThread().getC_post();
-            if (mPage == 0){
-                canAnonymous = model.getThread().getAnonymous();
-            }
-        }
-        //从我的消息中查看某一楼层
-        if (mIsFindingFloor){
-            if (model.getPost() == null || model.getPost().size() == 0){
-//                mFindingPage--;
-                if (mFindingPage == 0){
-                    mIsFindingFloor = false;
-                    cannotFindIt();
-                    return;
-                }
-                mPresenter.getThread(mThreadId, --mFindingPage);
-            }else{
-                List<ThreadModel.PostBean> postList = model.getPost();
-                boolean isFindIt = false;
-                int index = 0;
-                for (int i = 0; i < postList.size(); i++){
-                    if (postList.get(i).getFloor() == mFindingFloor){
-                        isFindIt = true;
-                        LogUtil.dd("find it", String.valueOf(i));
-                        index = i;
-                    }
-                }
-                if (isFindIt){
-                    mIsFindingFloor = false;
-                    mAdapter.findingFloor(model.getPost());
-                    mRvThreadPost.smoothScrollToPosition(index);
-                    setRefreshing(false);
-                    mAdapter.findIt();
-                }else{
-                    if (mFindingPage == 0){
-                        mIsFindingFloor = false;
-                        cannotFindIt();
-                        return;
-                    }
-                    mPresenter.getThread(mThreadId, --mFindingPage);
-                }
-            }
-            return;
-        }
-
-        //只看最后一页
-        if (mEnding) {
-            if (model.getPost() == null || model.getPost().size() == 0) {
-                mEndingPage--;
-                mPresenter.getThread(mThreadId, mEndingPage);
-            } else {
-                mAdapter.refreshToEnd(model.getPost());
-//                mEnding = false;
-                mEndingPage = 0;
-            }
-            return;
-        }else{
-            mAdapter.setEnding(false);
-        }
-        if (model.getThread() == null && model.getPost() == null && model.getPost().size() > 0) {
-            pageSS();
-            return;
-        }
-        List<ThreadModel.PostBean> postList = new ArrayList<>();
-        if (mPage == 0 && model.getThread() != null) {
-            mAuthorId = model.getThread().getAuthor_id();
-            ThreadModel.ThreadBean thread = model.getThread();
-            showStarOrNot(thread.getIn_collection());
-            if (thread.getAnonymous() == 1) {
-                thread.setAuthor_name("匿名用户");
-            }
-            ThreadModel.PostBean post = new ThreadModel.PostBean();
-            post.setAnonymous(thread.getAnonymous());
-            post.setAuthor_name(thread.getAuthor_name());
-            post.setAuthor_nickname(thread.getAuthor_nickname());
-            post.setContent(thread.getContent());
-            post.setFloor(0);
-            post.setAuthor_id(thread.getAuthor_id());
-            post.setId(thread.getId());
-            post.setTitle(thread.getTitle());
-            post.setT_create(thread.getT_create());
-            post.setT_modify(thread.getT_modify());
-            postList.add(post);
-            mAdapter.notifyDataSetChanged();
-        }
-        // TODO: 17-6-2 评论后的刷新
-        // 目前只支持刷新第一页
-        if (mIsAddingComment) {
-            mIsAddingComment = false;
-            if (mPage == 0) {
-                if (model.getPost() != null) {
-                    postList.addAll(model.getPost());
-                }
-                if (postList.size() > 0) {
-                    mAdapter.refreshList(postList);
-                }
-            }
-            return;
-        }
-        if (mRefreshing) {
-            mAdapter.findIt();
-            if (model.getPost() != null && model.getPost().size() > 0) {
-                postList.addAll(model.getPost());
-            }
-            mAdapter.refreshList(postList);
-            mRefreshing = false;
-        } else {
-            if (model.getBoard() != null) {
-                mBoardId = model.getBoard().getId();
-                mBoardName = model.getBoard().getName();
-            }
-            if (model.getPost() != null && model.getPost().size() > 0) {
-                postList.addAll(model.getPost());
-            } else {
-                pageSS();
-            }
-            mAdapter.updateThreadPost(postList, mPage);
-        }
-        if (model.getBoard() != null) {
-            mBoardId = model.getBoard().getId();
-            mBoardName = model.getBoard().getName();
-        }
-        setRefreshing(false);
-        showAnonymousOrNot(canAnonymous);
-        hideProgressBar();
-        setCheckBox(false);
-    }
-
-    private void cannotFindIt() {
-        SnackBarUtil.notice(this, "该消息已不存在,可能已经被删除", true);
-        mPresenter.getThread(mThreadId, 0);
-        mAdapter.findIt();
-    }
-
-    private void toTop() {
-        mRvThreadPost.smoothScrollToPosition(0);
-    }
-
-    private void toEnd() {
-        mEnding = true;
-        mAdapter.findIt();
-        if (mPostCount > MAX_LENGTH_POST) {
-            mEndingPage = mPostCount / MAX_LENGTH_POST;
-        } else {
-            mEndingPage = 0;
-        }
-        mPresenter.getThread(mThreadId, mEndingPage);
-    }
-
-    private void findFloor(int floor){
-        LogUtil.dd("finding floor", String.valueOf(floor));
-        mIsFindingFloor = true;
-        if (floor > MAX_LENGTH_POST){
-            mFindingPage = floor / MAX_LENGTH_POST;
-        }else{
-            mFindingPage = 0;
-        }
-        mPresenter.getThread(mThreadId, mFindingPage);
-    }
-
-    private void pageSS() {
-        if (mPage != 0) {
-            mPage--;
-        }
-    }
-
     private void setCheckBox(boolean b) {
         if (mCbAnonymousComment != null) {
             mCbAnonymousComment.setChecked(b);
         }
     }
 
-    @Override
-    public void onGetThreadFailed(String m) {
-        SnackBarUtil.error(this, m);
-        hideProgressBar();
-        mRefreshing = false;
-        if (mIsLoadingMore) {
-            mIsLoadingMore = false;
-            mPage--;
+    private void hideProgressBar() {
+        if (mPbThreadLoading != null) {
+            mPbThreadLoading.setVisibility(View.GONE);
         }
-        setRefreshing(false);
-        pageSS();
-        mEnding = false;
     }
 
-    @Override
-    public void onCommentFailed(String m) {
-        hideProgress();
-        SnackBarUtil.error(this, m, true);
-    }
-
-    @Override
-    public void onCommented(PostModel model) {
-        hideProgress();
-        SnackBarUtil.normal(this, "评论成功");
-        showFab();
-        if (mPage == 0) {
-            mRefreshing = true;
-            mIsAddingComment = false;
-            mPresenter.getThread(mThreadId, 0);
-        } else {
-            mIsAddingComment = true;
-            mPresenter.getThread(mThreadId, mPage);
+    private void setRefreshing(boolean refreshing) {
+        if (mSrlThreadList != null) {
+            mRefreshing = refreshing;
+            mSrlThreadList.setRefreshing(refreshing);
         }
-        clearCommentData();
     }
 
     private void clearCommentData() {
@@ -662,80 +745,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mReplyId = 0;
     }
 
-    @Override
-    public void onStarFailed(String m) {
-        SnackBarUtil.error(this, m);
-    }
-
-    @Override
-    public void onUnStarFailed(String m) {
-        SnackBarUtil.error(this, m);
-    }
-
-    @Override
-    public void onStarred() {
-        SnackBarUtil.normal(this, "收藏成功");
-        showStarOrNot(1);
-    }
-
-    @Override
-    public void onUnStarred() {
-        SnackBarUtil.normal(this, "已取消收藏");
-        showStarOrNot(0);
-    }
-
-    @Override
-    public void onUploadFailed(String m) {
-        LogUtil.dd("error msg upload", m);
-        SnackBarUtil.error(this, "图片添加失败\n" + m);
-        hideProgress();
-    }
-
-    @Override
-    public void onUploaded(UploadImageModel model) {
-        LogUtil.dd("loaded id ", String.valueOf(model.getId()));
-        if (mEtComment != null){
-            String added = mEtComment.getText() + mImageFormatUtil.getShowImageCode(model.getId());
-            mEtComment.setText(added);
-            mEtComment.setSelection(mEtComment.getText().length());
+    private void pageSS() {
+        if (mPage != 0) {
+            mPage--;
         }
-        hideProgress();
-        SnackBarUtil.normal(this, "图片已添加");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_thread_share, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.action_thread_share:
-                String url = BASE + "/forum/thread/" + mThreadId;
-                shareText(url);
-                break;
-            case android.R.id.home:
-                finishMe();
-                break;
-            case R.id.action_to_end:
-                if (!mRefreshing) {
-                    toEnd();
-                }
-                break;
-            case R.id.action_to_top:
-                toTop();
-                break;
-            case R.id.action_refresh:
-                setRefreshing(true);
-                mEnding = false;
-                mPresenter.getThread(mThreadId, 0);
-                break;
-        }
-
-        return false;
     }
 
     //分享文字
@@ -752,19 +765,5 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         //设置分享列表的标题，并且每次都显示分享列表
         startActivity(Intent.createChooser(shareIntent, "分享到"));
     }
-
-    private void hideProgressBar() {
-        if (mPbThreadLoading != null) {
-            mPbThreadLoading.setVisibility(View.GONE);
-        }
-    }
-
-    private void setRefreshing(boolean refreshing) {
-        if (mSrlThreadList != null) {
-            mRefreshing = refreshing;
-            mSrlThreadList.setRefreshing(refreshing);
-        }
-    }
-
 
 }

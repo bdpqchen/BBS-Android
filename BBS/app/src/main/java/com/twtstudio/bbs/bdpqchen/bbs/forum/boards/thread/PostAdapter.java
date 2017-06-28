@@ -60,6 +60,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }
     }
 
+    public List<ThreadModel.PostBean> getPostList(){
+        return mPostData;
+    }
     public int getPostId(int position) {
         return mPostData.get(position).getId();
     }
@@ -143,7 +146,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 h.mTvReply.setTag(position);
                 h.mTvReply.setOnClickListener(this);
             } else if (holder instanceof BaseFooterViewHolder) {
-                LogUtil.d("base footer view");
+                LogUtil.dd("base footer view");
             } else if (holder instanceof TheEndViewHolder) {
                 LogUtil.dd("the end view");
             } else if (holder instanceof JustHeaderHolder) {
@@ -166,7 +169,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 //        LogUtil.dd("item position", String.valueOf(position));
 //        LogUtil.dd("itemCount", String.valueOf(getItemCount()));
         if (mPostData != null && mPostData.size() > 0) {
-            if (position == 0 && mPage == 1 && !mIsEnding && !mIsFinding) {
+//            if (position == 0 && mPage == 1 && !mIsEnding) {
+            if (position == 0) {
 //                LogUtil.dd("return header");
                 return ITEM_HEADER;
             }
@@ -206,20 +210,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     }
 
-    public void findingFloor(List<ThreadModel.PostBean> model){
-        mIsFinding = true;
-        refreshList(model);
-    }
-
     public void refreshList(List<ThreadModel.PostBean> model) {
         mPostData.removeAll(mPostData);
         mPostData.addAll(model);
         notifyDataSetChanged();
-    }
-
-    public void refreshToEnd(List<ThreadModel.PostBean> model){
-        mIsEnding = true;
-        refreshList(model);
     }
 
     public String comment2reply(int postPosition, String content) {

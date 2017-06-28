@@ -32,7 +32,9 @@ public class App extends Application {
         mContext = this;
         sApplication = this;
 
-        PgyCrashManager.register(this);
+        if (!BuildConfig.DEBUG){
+            PgyCrashManager.register(this);
+        }
 
         initLogUtils();
         initSlideBack();

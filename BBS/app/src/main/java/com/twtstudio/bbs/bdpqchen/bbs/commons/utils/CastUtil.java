@@ -18,4 +18,14 @@ public final class CastUtil {
         }
     }
 
+    public static int parse2int(String s){
+        int casted = 2147483647;
+        try {
+            casted = Integer.parseInt(s);
+        } catch (NumberFormatException ignored){
+        }
+        return casted;
+    }
+
+
 }
