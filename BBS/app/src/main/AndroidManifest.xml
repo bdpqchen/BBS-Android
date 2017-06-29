@@ -67,7 +67,6 @@
         <activity android:name=".forum.boards.BoardsActivity"/>
         <activity android:name=".forum.boards.thread.ThreadActivity"/>
         <activity android:name=".individual.message.MessageActivity"/>
-        <activity android:name=".individual.collection.CollectionActivity"/>
         <activity android:name=".forum.boards.thread_list.ThreadListActivity"/>
         <activity android:name=".individual.my_release.MyReleaseActivity"/>
         <activity android:name=".auth.renew.identify.IdentifyActivity"/>
@@ -85,6 +84,7 @@
             />
         <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
         <activity android:name=".individual.avatar.UpdateAvatarActivity"/>
+        <activity android:name=".individual.star.StarActivity"/>
 
 
     </application>

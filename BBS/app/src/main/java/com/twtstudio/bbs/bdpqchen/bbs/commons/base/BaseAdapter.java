@@ -2,6 +2,9 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.base;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +16,26 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORM
  * Created by bdpqchen on 17-4-27.
  */
 
-public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
-
+public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> implements View.OnClickListener {
 
     protected Context mContext;
     protected List<T> mDataSet = new ArrayList<>();
     private boolean isShowFooter = false;
     private boolean isShowHeader = false;
+    private OnItemClickListener mOnItemClickListener = null;
+
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            //注意这里使用getTag方法获取position
+            mOnItemClickListener.onItemClick(v, (int) v.getTag());
+        }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+
 
     public BaseAdapter(Context context){
         this.mContext = context;

@@ -19,6 +19,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
 
 import java.util.List;
@@ -248,5 +249,7 @@ public interface BaseApi {
             @Part List<MultipartBody.Part> parts,
             @Part("name") String image);
 
+    @GET("home/collection")
+    Observable<BaseResponse<List<StarModel>>> getStarThreadList();
 }
 

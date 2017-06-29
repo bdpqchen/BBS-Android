@@ -23,6 +23,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
 
 import java.io.File;
@@ -277,6 +278,10 @@ public class RxDoHttpClient<T> {
             return mApi.doCommentAnonymous(threadId, comment, replyId, 1);
         }
         return mApi.doComment(getLatestAuthentication(), threadId, comment, replyId);
+    }
+
+    public Observable<BaseResponse<List<StarModel>>> getStarThreadList(){
+        return mApi.getStarThreadList();
     }
 
     public Observable<BaseResponse<BaseModel>> starThread(int id) {

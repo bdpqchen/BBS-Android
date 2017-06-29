@@ -27,6 +27,10 @@ public final class ImageUtil {
         Glide.with(context).load(resourceId).asBitmap().centerCrop().into(view);
     }
 
+    public static void loadAnonAvatar(Context context, ImageView view){
+        Glide.with(context).load(R.drawable.avatar_anonymous_left).asBitmap().centerCrop().crossFade().into(view);
+    }
+
     public static void loadDrawable(Context context, int resource, ImageView view) {
         Glide.with(context)
                 .load(resource)
@@ -50,10 +54,6 @@ public final class ImageUtil {
                 .into(view);
     }
 
-    public static void loadFromUrl(Context context, String url, ImageView view) {
-        Glide.with(context).load(url).centerCrop().into(view);
-    }
-
     public static void loadAvatarByUid(Context context, int uid, ImageView view) {
         Glide.with(context)
                 .load(getAvatarUrl(uid))
@@ -61,12 +61,6 @@ public final class ImageUtil {
                 .crossFade()
                 .into(view);
 
-    }
-    public static void loadAvatarByPath(Context context, String path, ImageView view) {
-        Glide.with(context)
-                .load(path)
-                .centerCrop()
-                .into(view);
     }
 
     public static void loadAvatarAsBitmapByUid(Context context, int uid, ImageView view) {
