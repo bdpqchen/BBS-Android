@@ -18,11 +18,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.collection.CollectionActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 
 import butterknife.BindView;
@@ -140,7 +140,9 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
                     clazz = MessageActivity.class;
                     break;
                 case 2:
-                    clazz = StarActivity.class;
+                    clazz = CollectionActivity.class;
+//                    clazz = StarActivity.class;
+
                     break;
                 case 3:
                     clazz = MyReleaseActivity.class;

@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
@@ -77,7 +78,6 @@ public class StarActivity extends BaseActivity<StarPresenter> implements StarCon
             setRefresh();
         });
         mPresenter.getStarList();
-
     }
 
     private void setRefresh() {
