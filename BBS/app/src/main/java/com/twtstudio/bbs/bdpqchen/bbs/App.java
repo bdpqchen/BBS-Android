@@ -48,8 +48,9 @@ public class App extends Application {
         String processName = getProcessName(android.os.Process.myPid());
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
-        Bugly.init(context, BuildConfig.ID_BUGLY, BuildConfig.DEBUG);
         Beta.smallIconId = R.mipmap.ic_launcher_bbs;
+        Bugly.init(context, BuildConfig.ID_BUGLY, BuildConfig.DEBUG);
+
 
         initLogUtils();
         initSlideBack();

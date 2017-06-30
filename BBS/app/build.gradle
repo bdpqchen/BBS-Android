@@ -18,8 +18,8 @@ android {
         applicationId "com.twtstudio.bbs.bdpqchen.bbs"
         minSdkVersion 18
         targetSdkVersion 25
-        versionCode 8
-        versionName "1.2.1"
+        versionCode 7
+        versionName "1.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         /*dexOptions {
@@ -39,7 +39,6 @@ android {
         }
 
         debug {
-            storeFile file("./keystore/debug.jks")
         }
     }
 

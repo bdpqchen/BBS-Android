@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
 import com.pgyersdk.javabean.AppBean;
+import com.tencent.bugly.beta.Beta;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
@@ -121,40 +122,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     private void checkUpdate() {
-        /*PgyUpdateManager.register(mActivity, "9981",
-                new UpdateManagerListener() {
-                    @Override
-                    public void onNoUpdateAvailable() {
-                        LogUtil.dd("not update available");
-                        SnackBarUtil.normal(mActivity, "已是最新版本");
-                    }
-                    @Override
-                    public void onUpdateAvailable(final String result) {
-                        // 将新版本信息封装到AppBean中
-                        final AppBean appBean = getAppBeanFromString(result);
-                        new MaterialDialog.Builder(mActivity)
-                                .cancelable(false)
-                                .title("最最最新版本更新")
-                                .content(appBean.getReleaseNote())
-                                .positiveText("下载(校园网免流)")
-                                .positiveColor(ResourceUtil.getColor(mActivity, R.color.colorPrimary))
-                                .onPositive((new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
-                                        hasPermission(appBean);
-                                    }
-                                }))
-                                .negativeText("立即不下载")
-                                .show();
-                    }
-                });*/
-    }
+        Beta.checkUpgrade();
 
-    private void hasPermission(AppBean appBean) {
-        if (PermissionUtil.checkWriteStorage(mActivity)) {
-            startDownloadTask(mActivity, appBean.getDownloadURL());
-        }
     }
-
 
 }

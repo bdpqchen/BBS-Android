@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import com.pgyersdk.javabean.AppBean;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
+import com.tencent.bugly.beta.Beta;
 import com.twtstudio.bbs.bdpqchen.bbs.BuildConfig;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
@@ -103,7 +104,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 //        animator.setStartDelay(400);
 //        animator.start();
 
-//        SnackBarUtil.error(mActivity, "新版test", true);
 
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragment.newInstance();
