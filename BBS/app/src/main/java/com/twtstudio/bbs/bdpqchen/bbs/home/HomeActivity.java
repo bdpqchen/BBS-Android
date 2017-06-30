@@ -11,8 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 
 import com.pgyersdk.javabean.AppBean;
-import com.pgyersdk.update.PgyUpdateManager;
-import com.pgyersdk.update.UpdateManagerListener;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.twtstudio.bbs.bdpqchen.bbs.BuildConfig;
@@ -105,6 +103,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 //        animator.setStartDelay(400);
 //        animator.start();
 
+//        SnackBarUtil.error(mActivity, "新版test", true);
+
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragment.newInstance();
             mFragments[SECOND] = ForumFragment.newInstance();
@@ -169,7 +169,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        PgyUpdateManager.unregister();
+//        PgyUpdateManager.unregister();
     }
 
     @Override
@@ -224,7 +224,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     private void autoCheckUpdate() {
         if (!BuildConfig.DEBUG) {
-            PgyUpdateManager.register(this, "9981",
+            /*PgyUpdateManager.register(this, "9981",
                     new UpdateManagerListener() {
                         @Override
                         public void onNoUpdateAvailable() {
@@ -241,7 +241,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                             }, appBean.getReleaseNote());
                             showUpdateDialog();
                         }
-                    });
+                    });*/
         }
     }
 

@@ -7,14 +7,9 @@ import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.pgyersdk.javabean.AppBean;
-import com.pgyersdk.update.PgyUpdateManager;
-import com.pgyersdk.update.UpdateManagerListener;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
@@ -25,8 +20,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PermissionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import static com.pgyersdk.update.UpdateManagerListener.startDownloadTask;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
@@ -128,7 +121,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     private void checkUpdate() {
-        PgyUpdateManager.register(mActivity, "9981",
+        /*PgyUpdateManager.register(mActivity, "9981",
                 new UpdateManagerListener() {
                     @Override
                     public void onNoUpdateAvailable() {
@@ -154,7 +147,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                                 .negativeText("立即不下载")
                                 .show();
                     }
-                });
+                });*/
     }
 
     private void hasPermission(AppBean appBean) {

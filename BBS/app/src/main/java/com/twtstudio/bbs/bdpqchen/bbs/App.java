@@ -2,15 +2,16 @@ package com.twtstudio.bbs.bdpqchen.bbs;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.os.HandlerThread;
+import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.oubowu.slideback.ActivityHelper;
-import com.pgyersdk.crash.PgyCrashManager;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.AppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerAppComponent;
@@ -39,19 +40,16 @@ public class App extends Application {
         sApplication = this;
 
         if (!BuildConfig.DEBUG) {
-            PgyCrashManager.register(this);
+//            PgyCrashManager.register(this);
         }
+        //bugly配置
         Context context = getApplicationContext();
-// 获取当前包名
         String packageName = context.getPackageName();
-// 获取当前进程名
         String processName = getProcessName(android.os.Process.myPid());
-// 设置是否为上报进程
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
-// 初始化Bugly
-        CrashReport.initCrashReport(context, "d0cd942fc3", true, strategy);
-//        CrashReport.initCrashReport(getApplicationContext(), "", true);
+        Bugly.init(context, BuildConfig.ID_BUGLY, BuildConfig.DEBUG);
+        Beta.smallIconId = R.mipmap.ic_launcher_bbs;
 
         initLogUtils();
         initSlideBack();
@@ -59,8 +57,17 @@ public class App extends Application {
         workerThread.start();
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        // you must install multiDex whatever tinker is installed!
+        MultiDex.install(base);
+        // 安装tinker
+        Beta.installTinker();
+    }
+
     private void initLogUtils() {
-        if (!isApkDebug(mContext)) {
+        if (BuildConfig.DEBUG) {
             mLogLevel = LogLevel.NONE;
         }
         Hawk.init(mContext).build();
@@ -78,17 +85,6 @@ public class App extends Application {
 
     public static ActivityHelper getActivityHelper() {
         return sApplication.mActivityHelper;
-    }
-
-
-    public static boolean isApkDebug(Context context) {
-        try {
-            ApplicationInfo info = context.getApplicationInfo();
-            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
-        } catch (Exception ignored) {
-
-        }
-        return false;
     }
 
     public static AppComponent getAppComponent() {

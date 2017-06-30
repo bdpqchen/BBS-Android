@@ -1,10 +1,16 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply from: 'tinker-support.gradle'
+
+Properties pro = new Properties()
+pro.load(project.rootProject.file('local.properties').newDataInputStream())
 
 dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:support-v4:25.4.0'
     compile files('libs/txtmark-0.16.jar')
 }
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -12,18 +18,49 @@ android {
         applicationId "com.twtstudio.bbs.bdpqchen.bbs"
         minSdkVersion 18
         targetSdkVersion 25
-        versionCode 7
-        versionName "1.2.0"
+        versionCode 8
+        versionName "1.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-       /* jackOptions {
-            enabled true
+        multiDexEnabled true
+        /*dexOptions {
+            jumboMode = true
         }*/
     }
+    signingConfigs {
+        release {
+            try {
+                storeFile file(pro.getProperty("jksPath"))
+                storePassword pro.getProperty("storePassword")
+                keyAlias pro.getProperty("keyAlias")
+                keyPassword pro.getProperty("storePassword")
+            } catch (ex) {
+                throw new InvalidUserDataException(ex.toString())
+            }
+        }
+
+        debug {
+            storeFile file("./keystore/debug.jks")
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug{
+            debuggable true
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+
+        buildTypes.each {
+//        it.resValue 'string', 'LOCAL_KEY', localName
+        it.buildConfigField 'String', 'ID_BUGLY', pro.getProperty("id_bugly")
+        it.buildConfigField 'String', 'ID_PGYER', pro.getProperty("id_pgyer")
+        }
+
     }
 
     repositories {
@@ -36,8 +73,8 @@ android {
     compileOptions {
 
         compileOptions {
-            targetCompatibility 1.8
-            sourceCompatibility 1.8
+            targetCompatibility JavaVersion.VERSION_1_8
+            sourceCompatibility JavaVersion.VERSION_1_8
         }
     }
     dependencies {
@@ -48,11 +85,11 @@ android {
 
         //滑动返回
         compile project(':slidebacklibrary')
-        compile 'com.android.support:design:25.3.1'
-        compile 'com.android.support:appcompat-v7:25.3.1'
-        compile 'com.android.support:cardview-v7:25.3.1'
-        compile 'com.android.support:gridlayout-v7:25.3.1'
-        compile 'com.android.support:support-v4:25.3.1'
+        compile 'com.android.support:design:25.4.0'
+        compile 'com.android.support:appcompat-v7:25.4.0'
+        compile 'com.android.support:cardview-v7:25.4.0'
+        compile 'com.android.support:gridlayout-v7:25.4.0'
+        compile 'com.android.support:support-v4:25.4.0'
         compile 'com.android.support.constraint:constraint-layout:1.0.2'
         compile 'com.jaeger.statusbaruitl:library:1.3.6'
         compile 'com.jakewharton:butterknife:8.5.1'
@@ -85,12 +122,13 @@ android {
         compile 'com.pgyersdk:sdk:2.5.6'
         compile 'jp.wasabeef:richeditor-android:1.2.2'
         compile 'com.zhihu.android:matisse:0.4.3'
-//        compile 'com.sa90.materialarcmenu:library:1.5.0'
         compile 'com.nightonke:boommenu:2.1.0'
-        compile 'com.tencent.bugly:crashreport:2.6.5'
+        compile "com.android.support:multidex:1.0.1"
+        compile 'com.tencent.bugly:crashreport_upgrade:1.3.1'
+        compile 'com.tencent.bugly:nativecrashreport:3.3.0'
+
 
     }
-
 
 
     configurations.all {
