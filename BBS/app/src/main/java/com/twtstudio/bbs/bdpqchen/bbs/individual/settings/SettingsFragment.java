@@ -9,7 +9,6 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
-import com.pgyersdk.javabean.AppBean;
 import com.tencent.bugly.beta.Beta;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
@@ -19,10 +18,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PermissionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
-import static com.pgyersdk.update.UpdateManagerListener.startDownloadTask;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity.IS_SWITCH_NIGHT_MODE_LOCK;
 
@@ -123,7 +120,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     private void checkUpdate() {
         Beta.checkUpgrade();
-
     }
 
 }

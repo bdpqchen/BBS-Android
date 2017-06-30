@@ -34,7 +34,7 @@ public final class DialogUtil {
         assert negativeText != null;
         assert negativeCallback != null;
         return new MaterialDialog.Builder(context)
-                .title(title)
+//                .title(title)
                 .content(content)
                 .positiveText(positiveText)
                 .onPositive(positiveCallback)

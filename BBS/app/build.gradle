@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
-apply from: 'tinker-support.gradle'
+//apply from: 'tinker-support.gradle'
 
 Properties pro = new Properties()
 pro.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -57,7 +57,6 @@ android {
         buildTypes.each {
 //        it.resValue 'string', 'LOCAL_KEY', localName
         it.buildConfigField 'String', 'ID_BUGLY', pro.getProperty("id_bugly")
-        it.buildConfigField 'String', 'ID_PGYER', pro.getProperty("id_pgyer")
         }
 
     }
@@ -118,7 +117,6 @@ android {
         compile 'com.daimajia.easing:library:2.0@aar'
         compile 'com.daimajia.androidanimations:library:2.2@aar'
         compile 'com.soundcloud.android:android-crop:1.0.1@aar'
-        compile 'com.pgyersdk:sdk:2.5.6'
         compile 'jp.wasabeef:richeditor-android:1.2.2'
         compile 'com.zhihu.android:matisse:0.4.3'
         compile 'com.nightonke:boommenu:2.1.0'
