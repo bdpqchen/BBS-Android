@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.forum.forum;
+package com.twtstudio.bbs.bdpqchen.bbs.forum;
 
 import android.content.Context;
 import android.content.Intent;

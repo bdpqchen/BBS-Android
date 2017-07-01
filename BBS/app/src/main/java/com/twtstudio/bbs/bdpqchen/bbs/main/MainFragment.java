@@ -6,8 +6,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import butterknife.BindView;
@@ -19,7 +21,6 @@ import butterknife.Unbinder;
 
 public class MainFragment extends SimpleFragment {
     public static final String ARG_PAGE = "arg_page";
-
 
     @BindView(R.id.main_tab_layout)
     TabLayout mTabLayout;
@@ -43,6 +44,8 @@ public class MainFragment extends SimpleFragment {
 
     @Override
     protected void initFragments() {
+        StatusBarUtil.setColor(this.getActivity(), ResourceUtil.getColor(this.getActivity(), R.color.colorPrimaryDark), 0);
+
         mToolbar.setTitle("求实BBS");
         mIvAnnounce.setOnClickListener(v -> {
             SnackBarUtil.notice(this.getActivity(), "还没有公告");

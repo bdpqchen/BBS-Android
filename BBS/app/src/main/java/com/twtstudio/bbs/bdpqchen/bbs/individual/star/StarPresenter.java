@@ -50,7 +50,7 @@ class StarPresenter extends RxPresenter<StarContract.View> implements StarContra
     }
 
     @Override
-    public void starThread(int tid) {
+    public void starThread(int tid, int position) {
         SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
             @Override
             public void _onError(String msg) {
@@ -60,7 +60,7 @@ class StarPresenter extends RxPresenter<StarContract.View> implements StarContra
             @Override
             public void _onNext(BaseModel starModelBaseResponse) {
                 if (mView != null)
-                    mView.onStar();
+                    mView.onStar(position);
             }
         };
         addSubscribe(mHttpClient.starThread(tid)
@@ -72,7 +72,7 @@ class StarPresenter extends RxPresenter<StarContract.View> implements StarContra
     }
 
     @Override
-    public void unStarThread(int tid) {
+    public void unStarThread(int tid, int position) {
         SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
             @Override
             public void _onError(String msg) {
@@ -82,7 +82,7 @@ class StarPresenter extends RxPresenter<StarContract.View> implements StarContra
             @Override
             public void _onNext(BaseModel starModelBaseResponse) {
                 if (mView != null)
-                    mView.onUnStar();
+                    mView.onUnStar(position);
             }
         };
         addSubscribe(mHttpClient.unStarThread(tid)

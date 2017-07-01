@@ -8,9 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
-import com.tencent.bugly.crashreport.CrashReport;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
@@ -71,6 +71,7 @@ public class StarActivity extends BaseActivity<StarPresenter> implements StarCon
 
         mAdapter = new StarAdapter(this, mPresenter);
         mRvStar.setAdapter(mAdapter);
+        mRvStar.addItemDecoration(new RecyclerViewItemDecoration(1));
         mRvStar.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mSrlStar.setOnRefreshListener(()-> {
             mRefreshing = true;
@@ -94,7 +95,6 @@ public class StarActivity extends BaseActivity<StarPresenter> implements StarCon
                 mAdapter.refreshList(list);
             }else{
                 mAdapter.addList(list);
-
             }
         }
     }
@@ -105,27 +105,30 @@ public class StarActivity extends BaseActivity<StarPresenter> implements StarCon
     }
 
     @Override
-    public void onStar() {
+    public void onStar(int position) {
+        mAdapter.updateStatus(position, 0);
         showSnack("已收藏");
     }
 
     @Override
     public void onStarFailed(String m) {
-        showErrorSnack("收藏失败" + m);
+        showErrorSnack(m);
     }
 
     @Override
-    public void onUnStar() {
+    public void onUnStar(int position) {
+        mAdapter.updateStatus(position, 1);
         showSnack("已取消收藏");
     }
 
     @Override
     public void onUnStarFailed(String s) {
-        showErrorSnack("取消收藏失败" + s);
+        showErrorSnack(s);
     }
 
     private void showSnack(String s){
         SnackBarUtil.normal(mActivity, s);
+        mAdapter.notifyDataSetChanged();
     }
     private void showErrorSnack(String s){
         SnackBarUtil.error(mActivity, s);

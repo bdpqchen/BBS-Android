@@ -40,6 +40,7 @@ public class StarModel {
     private int t_modify;
     private String content;
     private String board_name;
+    private int in_collection;
 
     public int getId() {
         return id;
@@ -167,5 +168,13 @@ public class StarModel {
 
     public void setBoard_name(String board_name) {
         this.board_name = board_name;
+    }
+
+    public int getIn_collection() {
+        return in_collection;
+    }
+
+    public void setIn_collection(int in_collection) {
+        this.in_collection = in_collection;
     }
 }

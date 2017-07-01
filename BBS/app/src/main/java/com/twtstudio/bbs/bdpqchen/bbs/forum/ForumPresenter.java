@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.forum.forum;
+package com.twtstudio.bbs.bdpqchen.bbs.forum;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;

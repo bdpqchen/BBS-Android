@@ -13,14 +13,14 @@ interface StarContract {
     interface View extends BaseView{
         void onGetStarList(List<StarModel> list);
         void onGetStarFailed(String m);
-        void onStar();
+        void onStar(int position);
         void onStarFailed(String m);
-        void onUnStar();
+        void onUnStar(int position);
         void onUnStarFailed(String s);
     }
     interface Presenter extends BasePresenter<View>{
         void getStarList();
-        void starThread(int tid);
-        void unStarThread(int tid);
+        void starThread(int tid, int position);
+        void unStarThread(int tid, int position);
     }
 }

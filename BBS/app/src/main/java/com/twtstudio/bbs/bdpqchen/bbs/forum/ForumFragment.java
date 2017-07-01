@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.forum.forum;
+package com.twtstudio.bbs.bdpqchen.bbs.forum;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,12 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import java.util.List;
@@ -60,8 +64,8 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
 
     @Override
     protected void initFragment() {
-
         mActivity = this.getActivity();
+
         mTvTitleToolbar.setText("论坛区");
         mAdapter = new ForumAdapter(mContext, this.getActivity());
         if (isSimple){
@@ -77,11 +81,6 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
             mPresenter.getForumList();
             mRefreshing = true;
         });
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

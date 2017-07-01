@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
@@ -9,73 +9,74 @@
     android:focusable="true"
     android:foreground="@drawable/selector_foreground_settings"
     android:orientation="vertical"
-    android:padding="8dp"
+    android:padding="4dp"
     >
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civ_star_avatar"
+        android:layout_width="@dimen/size_avatar_normal"
+        android:layout_height="@dimen/size_avatar_normal"
+        android:layout_alignParentStart="true"
+        tools:src="@drawable/avatar_default_left"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/civ_star_avatar"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         >
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="@dimen/size_avatar_normal"
-            android:layout_height="@dimen/size_avatar_normal"
-            tools:src="@drawable/avatar_default_left"
-            android:layout_centerVertical="true"
-            android:id="@+id/civ_star_avatar"
-            />
 
         <TextView
             android:id="@+id/tv_star_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="username(nickname)"
-            android:layout_marginStart="8dp"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/civ_star_avatar"
             android:textColor="@color/colorTvBlackMain"
+            tools:text="username(nickname)"
             />
 
         <ImageView
             android:id="@+id/iv_star"
             android:layout_width="@dimen/icon_size_normal"
             android:layout_height="@dimen/icon_size_normal"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
             android:src="@drawable/ic_star_yellow_24dp"
             android:tint="@color/material_yellow_400"
-            android:layout_gravity="end"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="8dp"
             />
+
         <ImageView
             android:id="@+id/iv_un_star"
             android:layout_width="@dimen/icon_size_normal"
             android:layout_height="@dimen/icon_size_normal"
+            android:layout_alignParentEnd="true"
             android:src="@drawable/ic_star_border_white_24dp"
             android:tint="@color/material_yellow_400"
-            android:layout_gravity="end"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="8dp"
             android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/tv_star_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_star_name"
+            android:maxLines="2"
+            android:textColor="@color/colorTvBlackMainTint"
+            tools:text="dfafdsfdsafdsfsda"
+            />
+
+        <TextView
+            android:id="@+id/tv_star_create_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_star_title"
+            android:layout_gravity="end"
+            android:gravity="end"
+            tools:text="2015-22-22"
             />
 
     </RelativeLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_star_title"
-        android:textColor="@color/colorTvBlackMainTint"
-        android:maxLines="2"
-        />
-    <TextView
-        android:id="@+id/tv_star_create_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        tools:text="2015-22-22"
-        android:gravity="end"
-        />
 
-</LinearLayout>
+</RelativeLayout>

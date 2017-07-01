@@ -9,6 +9,8 @@ import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -121,7 +123,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
     @Override
     protected void initFragment() {
-        StatusBarUtil.setTranslucentForImageView(this.getActivity(), 0, null);
         ImageUtil.loadMyAvatar(mContext, mCivAvatar);
         ImageUtil.loadMyBg(mContext, mIvBg);
 
@@ -245,6 +246,8 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        StatusBarUtil.setTranslucentForImageViewInFragment(this.getActivity(), null);
+
         unbinder = ButterKnife.bind(this, rootView);
         return rootView;
     }

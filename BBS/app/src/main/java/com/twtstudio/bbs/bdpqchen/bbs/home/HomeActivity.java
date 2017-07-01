@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.Window;
+import android.view.WindowManager;
 
+import com.jaeger.library.StatusBarUtil;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -18,11 +21,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.forum.ForumFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.message.MessageFragment;
 
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -43,7 +46,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private SupportFragment[] mFragments = new SupportFragment[3];
     private static final int FIRST = 0;
     private static final int SECOND = 1;
-//    private static final int THIRD = 2;
+    //    private static final int THIRD = 2;
     private static final int FORTH = 2;
     private int mShowingFragment = FIRST;
     private int mHidingFragment = FIRST;
@@ -84,6 +87,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        StatusBarUtil.setTranslucentForImageViewInFragment(this, null);
+
         mHomeActivity = this;
         mContext = this;
         LogUtil.dd("token", PrefUtil.getAuthToken());
@@ -121,10 +126,14 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             if (PrefUtil.hadLogin()) {
                 if (i == R.id.bottom_bar_tab_main) {
                     mShowingFragment = FIRST;
+                    clearFullScreen();
                 } else if (i == R.id.bottom_bar_tab_forum) {
                     mShowingFragment = SECOND;
+                    clearFullScreen();
                 } else if (i == R.id.bottom_bar_tab_individual) {
                     mShowingFragment = FORTH;
+                    StatusBarUtil.setTranslucentForImageView(this, 0, null);
+
 //                } else if (i == R.id.bottom_bar_tab_message){
 //                    mShowingFragment = THIRD;
                 }
@@ -136,6 +145,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
         isCheckedUpdate = true;
 
+    }
+
+    private void clearFullScreen() {
+        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark), 0);
     }
 
     private void loadFragment() {
@@ -192,7 +205,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             mPresenter.getUnreadMessageCount();
         }
     }
-
 
 
 }

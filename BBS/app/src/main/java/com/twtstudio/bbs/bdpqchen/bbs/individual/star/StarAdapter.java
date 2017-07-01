@@ -35,7 +35,7 @@ public class StarAdapter extends BaseAdapter<StarModel> {
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BaseViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_star, parent, false));
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_star, parent, false));
     }
 
     @Override
@@ -54,23 +54,29 @@ public class StarAdapter extends BaseAdapter<StarModel> {
                 }
                 holder.mTvStarCreateTime.setText(StampUtil.getDatetimeByStamp(model.getT_create()));
                 holder.mTvStarTitle.setText(model.getTitle());
-                ImageUtil.loadIconAsBitmap(mContext, R.drawable.ic_star_yellow_24dp, holder.mIvStar);
-                holder.mIvStar.setOnClickListener(v -> {
-                    mStarPresenter.unStarThread(model.getId());
-                    holder.mIvUnStar.setVisibility(View.GONE);
-                    holder.mIvStar.setVisibility(View.VISIBLE);
-                });
-                holder.mIvUnStar.setOnClickListener(v -> {
-                    mStarPresenter.starThread(model.getId());
-                    holder.mIvUnStar.setVisibility(View.GONE);
-                    holder.mIvStar.setVisibility(View.VISIBLE);
-                });
 
+                if (model.getIn_collection() == 0){
+                    holder.mIvStar.setVisibility(View.VISIBLE);
+                    holder.mIvUnStar.setVisibility(View.GONE);
+//                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.ic_star_yellow_24dp, holder.mIvStar);
+                    holder.mIvStar.setOnClickListener(v -> {
+                        mStarPresenter.unStarThread(model.getId(), position);
+                    });
+                }else{
+                    holder.mIvUnStar.setVisibility(View.VISIBLE);
+                    holder.mIvStar.setVisibility(View.GONE);
+//                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.ic_star_border_yellow_24dp, holder.mIvUnStar);
+                    holder.mIvUnStar.setOnClickListener(v -> {
+                        mStarPresenter.starThread(model.getId(), position);
+                    });
+
+                }
             }
-
         }
+    }
 
-
+    void updateStatus(int position, int status) {
+        mDataSet.get(position).setIn_collection(status);
     }
 
     static class ViewHolder extends BaseViewHolder{
