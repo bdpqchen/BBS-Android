@@ -23,7 +23,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.message.MessageActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;

@@ -40,11 +40,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     BottomBarTab mNearBy;
     private Context mContext;
     private HomeActivity mHomeActivity;
-    private SupportFragment[] mFragments = new SupportFragment[4];
+    private SupportFragment[] mFragments = new SupportFragment[3];
     private static final int FIRST = 0;
     private static final int SECOND = 1;
-    private static final int THIRD = 2;
-    private static final int FORTH = 3;
+//    private static final int THIRD = 2;
+    private static final int FORTH = 2;
     private int mShowingFragment = FIRST;
     private int mHidingFragment = FIRST;
     private boolean mIsExit = false;
@@ -101,18 +101,18 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragment.newInstance();
             mFragments[SECOND] = ForumFragment.newInstance();
-            mFragments[THIRD] = IndividualFragment.newInstance();
-            mFragments[FORTH] = MessageFragment.newInstance();
+            mFragments[FORTH] = IndividualFragment.newInstance();
+//            mFragments[FORTH] = MessageFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_main_container, FIRST,
                     mFragments[FIRST],
                     mFragments[SECOND],
-                    mFragments[THIRD],
+//                    mFragments[THIRD],
                     mFragments[FORTH]);
         } else {
             mFragments[FIRST] = findFragment(MainFragment.class);
             mFragments[SECOND] = findFragment(ForumFragment.class);
-            mFragments[THIRD] = findFragment(IndividualFragment.class);
-            mFragments[FORTH] = findFragment(MessageFragment.class);
+//            mFragments[THIRD] = findFragment(MessageFragment.class);
+            mFragments[FORTH] = findFragment(IndividualFragment.class);
         }
 
         mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
@@ -124,9 +124,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 } else if (i == R.id.bottom_bar_tab_forum) {
                     mShowingFragment = SECOND;
                 } else if (i == R.id.bottom_bar_tab_individual) {
-                    mShowingFragment = THIRD;
-                } else if (i == R.id.bottom_bar_tab_message){
                     mShowingFragment = FORTH;
+//                } else if (i == R.id.bottom_bar_tab_message){
+//                    mShowingFragment = THIRD;
                 }
                 loadFragment();
             } else if (i == R.id.bottom_bar_tab_individual && !PrefUtil.hadLogin()) {
@@ -141,11 +141,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private void loadFragment() {
         showHideFragment(mFragments[mShowingFragment], mFragments[mHidingFragment]);
         mHidingFragment = mShowingFragment;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     @Override

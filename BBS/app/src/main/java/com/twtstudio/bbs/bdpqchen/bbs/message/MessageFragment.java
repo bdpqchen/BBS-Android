@@ -8,14 +8,14 @@ import android.support.v7.widget.Toolbar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainTabAdapter;
-import com.twtstudio.bbs.bdpqchen.bbs.message.model.MessageModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
-/**
+/**@deprecated
  * Created by bdpqchen on 17-5-3.
  */
 

@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.message;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.message;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.message.model.MessageModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
 import java.util.ArrayList;
 import java.util.List;

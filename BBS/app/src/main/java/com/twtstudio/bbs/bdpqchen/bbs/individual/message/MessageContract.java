@@ -1,8 +1,8 @@
-package com.twtstudio.bbs.bdpqchen.bbs.message;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.message;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
-import com.twtstudio.bbs.bdpqchen.bbs.message.model.MessageModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
 import java.util.List;
 

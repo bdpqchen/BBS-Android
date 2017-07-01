@@ -11,6 +11,7 @@
 
         <item name="colorControlActivated">@color/colorPrimaryCopy</item>
         <item name="android:lineSpacingExtra">3dp</item>
+
     </style>
 
     <style name="AppTheme.Intro" parent="AppTheme">

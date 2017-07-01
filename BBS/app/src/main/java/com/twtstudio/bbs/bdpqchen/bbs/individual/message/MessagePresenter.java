@@ -1,17 +1,19 @@
-package com.twtstudio.bbs.bdpqchen.bbs.message;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.message;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-import com.twtstudio.bbs.bdpqchen.bbs.message.model.MessageModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -36,7 +38,6 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
                 if (mView != null)
                     mView.onGetMessageFailed(msg);
             }
-
             @Override
             public void _onNext(List<MessageModel> messageModels) {
                 if (mView != null)
@@ -46,6 +47,13 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
 
         addSubscribe(mRxDoHttpClient.getMessageList(page)
                 .map(mRxDoHttpClient.mTransformer)
+                .map(new Function<List<MessageModel>, List<MessageModel>>() {
+                    @Override
+                    public List<MessageModel> apply(@NonNull List<MessageModel> messageModels) throws Exception {
+
+                        return null;
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)

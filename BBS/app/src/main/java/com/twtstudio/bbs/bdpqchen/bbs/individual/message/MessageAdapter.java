@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.message;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.message;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.message.model.MessageModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
