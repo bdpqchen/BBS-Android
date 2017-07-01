@@ -6,26 +6,31 @@ import android.support.annotation.Nullable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -92,6 +97,11 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     TextView mIndividualItemTvTitle;
     @BindView(R.id.individual_item_iv_icon_end)
     ImageView mIndividualItemIvIconEnd;
+    @BindView(R.id.iv_bg)
+    ImageView mIvBg;
+    @BindView(R.id.ll_need_offset)
+    LinearLayout mLlNeedOffset;
+    Unbinder unbinder;
 
     private boolean isChangingInfo = false;
 
@@ -111,7 +121,10 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
     @Override
     protected void initFragment() {
+        StatusBarUtil.setTranslucentForImageView(this.getActivity(), 0, null);
         ImageUtil.loadMyAvatar(mContext, mCivAvatar);
+        ImageUtil.loadMyBg(mContext, mIvBg);
+
         mRlIndividualItemMessage.setOnClickListener(v -> startItemActivity(1));
         mRlIndividualItemCollection.setOnClickListener(v -> startItemActivity(2));
         mRlIndividualItemPublish.setOnClickListener(v -> startItemActivity(3));
@@ -184,7 +197,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     public void onResume() {
         super.onResume();
         mPresenter.getUnreadMessageCount();
-        if (isChangingInfo){
+        if (isChangingInfo) {
             mTvNickname.setText(PrefUtil.getInfoNickname());
             mTvSignature.setText(PrefUtil.getInfoSignature());
             ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
@@ -228,4 +241,17 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         setUnread(0);
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }
