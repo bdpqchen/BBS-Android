@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 
@@ -23,6 +22,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.message.MessageFragment;
 
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -40,15 +40,15 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     BottomBarTab mNearBy;
     private Context mContext;
     private HomeActivity mHomeActivity;
-    private SupportFragment[] mFragments = new SupportFragment[3];
+    private SupportFragment[] mFragments = new SupportFragment[4];
     private static final int FIRST = 0;
     private static final int SECOND = 1;
     private static final int THIRD = 2;
+    private static final int FORTH = 3;
     private int mShowingFragment = FIRST;
     private int mHidingFragment = FIRST;
     private boolean mIsExit = false;
-    private AlertDialog mUpdateDialog;
-    // 用于=判定是否自动检查更新
+    // 用于判定是否自动检查更新
     private boolean isCheckedUpdate = false;
 
     @Override
@@ -98,19 +98,21 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 //        animator.setStartDelay(400);
 //        animator.start();
 
-
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragment.newInstance();
             mFragments[SECOND] = ForumFragment.newInstance();
             mFragments[THIRD] = IndividualFragment.newInstance();
+            mFragments[FORTH] = MessageFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_main_container, FIRST,
                     mFragments[FIRST],
                     mFragments[SECOND],
-                    mFragments[THIRD]);
+                    mFragments[THIRD],
+                    mFragments[FORTH]);
         } else {
             mFragments[FIRST] = findFragment(MainFragment.class);
             mFragments[SECOND] = findFragment(ForumFragment.class);
             mFragments[THIRD] = findFragment(IndividualFragment.class);
+            mFragments[FORTH] = findFragment(MessageFragment.class);
         }
 
         mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
@@ -123,6 +125,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                     mShowingFragment = SECOND;
                 } else if (i == R.id.bottom_bar_tab_individual) {
                     mShowingFragment = THIRD;
+                } else if (i == R.id.bottom_bar_tab_message){
+                    mShowingFragment = FORTH;
                 }
                 loadFragment();
             } else if (i == R.id.bottom_bar_tab_individual && !PrefUtil.hadLogin()) {

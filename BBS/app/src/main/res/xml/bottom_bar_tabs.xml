@@ -2,23 +2,26 @@
 <tabs>
 
     <tab
+        icon="@drawable/icon_bb_main"
         id="@+id/bottom_bar_tab_main"
-        icon="@drawable/icon_bottom_bar_home"
         title="首页"
         />
 
     <tab
+        icon="@drawable/icon_bb_forum"
         id="@+id/bottom_bar_tab_forum"
-        icon="@drawable/icon_bottom_bar_forum"
         title="论坛"
         />
 
     <tab
+        icon="@drawable/icon_bb_message"
+        id="@+id/bottom_bar_tab_message"
+        title="消息"
+        />
+    <tab
+        icon="@drawable/icon_bb_individual"
         id="@+id/bottom_bar_tab_individual"
-        icon="@drawable/icon_bottom_bar_individual"
         title="个人"
         />
 
 </tabs>
-    <!--barColorWhenSelected="@color/colorBottomSelectedBgHome"-->
-

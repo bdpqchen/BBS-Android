@@ -53,7 +53,7 @@
         <activity android:name=".individual.updatePassword.UpdatePasswordActivity"/>
         <activity android:name=".forum.boards.BoardsActivity"/>
         <activity android:name=".forum.boards.thread.ThreadActivity"/>
-        <activity android:name=".individual.message.MessageActivity"/>
+        <activity android:name=".message.MessageActivity"/>
         <activity android:name=".forum.boards.thread_list.ThreadListActivity"/>
         <activity android:name=".individual.my_release.MyReleaseActivity"/>
         <activity android:name=".auth.renew.identify.IdentifyActivity"/>

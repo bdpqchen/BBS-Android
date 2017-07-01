@@ -1,13 +1,12 @@
-package com.twtstudio.bbs.bdpqchen.bbs.main;
+package com.twtstudio.bbs.bdpqchen.bbs.message;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.message.personal.PersonalFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.message.system.SystemFragment;
 
 import javax.inject.Inject;
 
@@ -15,12 +14,12 @@ import javax.inject.Inject;
  * Created by bdpqchen on 17-6-5.
  */
 
-public class MainTabAdapter extends FragmentPagerAdapter {
+public class MessageTabAdapter extends FragmentPagerAdapter {
     private Context mContext;
-    private final String[] titles = {"最新动态", "全站十大"};
+    private final String[] titles = {"系统", "私信"};
 
     @Inject
-    public MainTabAdapter(FragmentManager fm, Context context) {
+    public MessageTabAdapter(FragmentManager fm, Context context) {
         super(fm);
         mContext = context;
 
@@ -30,11 +29,11 @@ public class MainTabAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return LatestFragment.newInstance();
+                return SystemFragment.newInstance();
             case 1:
-                return HotFragment.newInstance();
+                return PersonalFragment.newInstance();
         }
-        return LatestFragment.newInstance();
+        return null;
     }
 
     @Override

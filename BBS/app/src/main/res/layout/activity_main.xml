@@ -31,19 +31,19 @@
             android:layout_height="48dp"
             android:layout_gravity="bottom"
             android:background="@color/colorBottomBg"
+            app:bb_activeTabColor="@color/colorPrimaryCopy"
             app:bb_behavior="iconsOnly"
             app:bb_tabXmlResource="@xml/bottom_bar_tabs"
-            app:bb_activeTabColor="@color/colorPrimaryCopy"
             />
 
     </LinearLayout>
 
-   <!-- <View
-        android:id="@+id/mask_home"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:visibility="gone"
-        />
--->
+    <!-- <View
+         android:id="@+id/mask_home"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:background="@color/colorPrimary"
+         android:visibility="gone"
+         />
+ -->
 </FrameLayout>

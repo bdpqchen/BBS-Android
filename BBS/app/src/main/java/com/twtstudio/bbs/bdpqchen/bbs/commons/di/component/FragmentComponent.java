@@ -10,6 +10,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.message.personal.PersonalFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.message.system.SystemFragment;
 
 import dagger.Component;
 
@@ -32,4 +34,7 @@ public interface FragmentComponent {
     void inject(LatestFragment latestFragment);
     void inject(HotFragment hotFragment);
 
+    void inject(SystemFragment systemFragment);
+
+    void inject(PersonalFragment personalFragment);
 }

@@ -31,7 +31,6 @@ public class MainFragment extends SimpleFragment {
     ImageView mIvAnnounce;
     @BindView(R.id.appbar)
     AppBarLayout mAppbar;
-    Unbinder unbinder;
 
     public static MainFragment newInstance() {
         return new MainFragment();

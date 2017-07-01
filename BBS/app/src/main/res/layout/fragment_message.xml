@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainBg"
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:expanded="false"
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_message"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            >
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:layout_marginEnd="12dp"
+                android:visibility="gone"
+                >
+
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:background="@drawable/shape_red_dot"
+                    android:layout_gravity="end"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_announce"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_notifications_white_24dp"
+                    android:foreground="@drawable/selector_foreground_settings"
+                    android:clickable="true"
+                    />
+
+            </FrameLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tl_message"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:tabIndicatorColor="@color/colorPrimaryCopy"
+            app:tabSelectedTextColor="@color/colorPrimaryCopy"
+            app:tabTextColor="@color/colorTvBlackMain"
+            app:tabBackground="@color/colorMainBg"
+            />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
+
+</android.support.design.widget.CoordinatorLayout>

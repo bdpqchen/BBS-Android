@@ -16,8 +16,19 @@
    - 对于 *未* 自定义color/background...的View采用系统默认的配色
    - 对于 *已* 定义的color/background...的View需要在values-night添加相应的配色
 
-#### 关于惯用手模式
+#### 关于bugly
 
+> 项目使用了bugly的bug上报模块,应用全量更新模块,热更新能力
+
+ - bugly和instant run 不兼容, 如果要使用ir,请注释app 里build.gradle apply from: 'tinker-support.gradle'
+ - 用到了一些独立的签名文件和key文件
+ - 基线版本 tinkerID 为 base-[对应版本号]
+ - 补丁版本 tinkerID 为 patch-[对应版本号]+[自增序号]
+
+### 关于版本号
+- 没有热更新过的版本号遵循 [主版本].[次版本].[bug修复版本]
+- 次版本修改时机为 模块 功能的改动
+- 热更新不会修改版本号, 只修改对应 tinkerID
 
 #### 快速添加模块
 ```
