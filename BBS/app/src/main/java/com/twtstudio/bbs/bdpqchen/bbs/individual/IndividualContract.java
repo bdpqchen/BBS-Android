@@ -21,5 +21,6 @@ public interface IndividualContract {
     interface Presenter extends BasePresenter<View>{
         void getUnreadMessageCount();
         void initIndividualInfo();
+
     }
 }

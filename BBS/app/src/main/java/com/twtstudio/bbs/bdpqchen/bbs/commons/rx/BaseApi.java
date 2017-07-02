@@ -38,13 +38,18 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.BUNDLE_TOKEN;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.BUNDLE_UID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CAPTCHA_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CAPTCHA_VALUE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CONFIRM;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.EMAIL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MESSAGE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PASSWORD;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REAL_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REPLY_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.STUNUM;
@@ -116,7 +121,7 @@ public interface BaseApi {
     @FormUrlEncoded
     @PUT("home")
     Observable<BaseResponse<BaseModel>> doUpdatePassword(
-            @Field(Constants.PASSWORD) String newP,
+            @Field(PASSWORD) String newP,
             @Field(Constants.OLD_PASSWORD) String old);
 
     @GET("forum/{forumId}")
@@ -155,9 +160,9 @@ public interface BaseApi {
     @FormUrlEncoded
     @POST("passport/reset-pass")
     Observable<BaseResponse<BaseModel>> resetPassword(
-            @Field(Constants.BUNDLE_UID) String uid,
-            @Field(Constants.BUNDLE_TOKEN) String token,
-            @Field(Constants.PASSWORD) String password);
+            @Field(BUNDLE_UID) String uid,
+            @Field(BUNDLE_TOKEN) String token,
+            @Field(PASSWORD) String password);
 
     @FormUrlEncoded
     @POST("passport/appeal")
@@ -251,5 +256,14 @@ public interface BaseApi {
 
     @GET("home/collection")
     Observable<BaseResponse<List<StarModel>>> getStarThreadList();
+
+    @POST("home/friend/confirm")
+    @FormUrlEncoded
+    Observable<BaseResponse<BaseModel>> confirmFriend(
+            @Field(ID) int id,
+            @Field(CONFIRM) int bool);
+
+
+
 }
 

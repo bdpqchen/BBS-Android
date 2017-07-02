@@ -21,6 +21,11 @@ public final class Constants {
     public static final int ITEM_END = 2;
     public static final int ITEM_JUST_HEADER = 3;
     public static final int ITEM_SIMPLE = 4;
+    public static final int ITEM_MSG_LETTER = 1;
+    public static final int ITEM_MSG_COMMENT = 2;
+    public static final int ITEM_MSG_REPLY = 3;
+    public static final int ITEM_MSG_APPEAL = 4;
+
 
 
     public static final String BUNDLE_REGISTER_CID = "cid";
@@ -76,4 +81,6 @@ public final class Constants {
     public static final String OLD_PASSWORD = "old_password";
     public static final String NAME = "name";
     public static final String FILE = "file";
+    public static final String ID = "id";
+    public static final String CONFIRM = "confirm";
 }

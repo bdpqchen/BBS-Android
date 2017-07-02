@@ -104,8 +104,11 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     @BindView(R.id.ll_need_offset)
     LinearLayout mLlNeedOffset;
     Unbinder unbinder;
-
-    private boolean isChangingInfo = false;
+    private static final int ACT_MSG = 1;
+    private static final int ACT_STAR = 2;
+    private static final int ACT_PUBLISH = 3;
+    private static final int ACT_UPDATE = 4;
+    private int beingActivity = 0;
 
     @Override
     protected int getFragmentLayoutId() {
@@ -126,12 +129,12 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         ImageUtil.loadMyAvatar(mContext, mCivAvatar);
         ImageUtil.loadMyBg(mContext, mIvBg);
 
-        mRlIndividualItemMessage.setOnClickListener(v -> startItemActivity(1));
-        mRlIndividualItemCollection.setOnClickListener(v -> startItemActivity(2));
-        mRlIndividualItemPublish.setOnClickListener(v -> startItemActivity(3));
-        mRlIndividualItemUpdateInfo.setOnClickListener(v -> startItemActivity(4));
-        mCivAvatar.setOnClickListener(v -> startItemActivity(4));
-        mTvPostCount.setOnClickListener(v -> startItemActivity(3));
+        mRlIndividualItemMessage.setOnClickListener(v -> startItemActivity(ACT_MSG));
+        mRlIndividualItemCollection.setOnClickListener(v -> startItemActivity(ACT_STAR));
+        mRlIndividualItemPublish.setOnClickListener(v -> startItemActivity(ACT_PUBLISH));
+        mRlIndividualItemUpdateInfo.setOnClickListener(v -> startItemActivity(ACT_UPDATE));
+        mCivAvatar.setOnClickListener(v -> startItemActivity(ACT_UPDATE));
+        mTvPostCount.setOnClickListener(v -> startItemActivity(ACT_PUBLISH));
         mRlSettings.setOnClickListener(v -> startItemActivity(5));
 
     }
@@ -148,20 +151,20 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         if (!PrefUtil.hadLogin()) {
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
         } else {
+            beingActivity = index;
             Class clazz;
             switch (index) {
-                case 1:
+                case ACT_MSG:
                     clazz = MessageActivity.class;
                     break;
-                case 2:
+                case ACT_STAR:
                     clazz = StarActivity.class;
                     break;
-                case 3:
+                case ACT_PUBLISH:
                     clazz = MyReleaseActivity.class;
                     break;
-                case 4:
+                case ACT_UPDATE:
                     clazz = UpdateInfoActivity.class;
-                    isChangingInfo = true;
                     break;
                 case 5:
                     clazz = SettingsActivity.class;
@@ -197,12 +200,11 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.getUnreadMessageCount();
-        if (isChangingInfo) {
+        if (beingActivity == ACT_UPDATE) {
             mTvNickname.setText(PrefUtil.getInfoNickname());
             mTvSignature.setText(PrefUtil.getInfoSignature());
             ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
-            isChangingInfo = false;
+            beingActivity = 0;
         }
     }
 

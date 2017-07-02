@@ -3,6 +3,8 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 import android.text.Html;
 import android.text.Spanned;
 
+import com.github.rjeschke.txtmark.Processor;
+
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE_URL;
 
 /**
@@ -30,6 +32,15 @@ public final class TextUtil {
     public static String getReplacedContent(String content){
         content = content.replaceAll("attach:", BASE_URL + "img/");
         content = content.replaceAll("<img", "<br /><img");
+        return content;
+    }
+
+    public static String formatContent(String contentBefore){
+        String content = "";
+        if (contentBefore != null && contentBefore.length() > 0){
+            content = Processor.process(contentBefore);
+            content = TextUtil.getReplacedContent(content);
+        }
         return content;
     }
 

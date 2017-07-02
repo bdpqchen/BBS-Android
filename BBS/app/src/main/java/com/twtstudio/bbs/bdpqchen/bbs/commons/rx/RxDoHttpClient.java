@@ -341,4 +341,7 @@ public class RxDoHttpClient<T> {
         }
     }
 
+    public Observable<BaseResponse<BaseModel>> confirmFriend(int id, int bool) {
+        return mApi.confirmFriend(id, bool);
+    }
 }

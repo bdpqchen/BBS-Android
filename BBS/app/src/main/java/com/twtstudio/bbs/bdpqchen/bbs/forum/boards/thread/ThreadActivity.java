@@ -594,10 +594,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 break;
             case 4:
                 if (!mRefreshing) {
-                    DialogUtil.inputDialog(mContext, "输入楼层,最大可能是" + mPostCount + "左右",
+                    DialogUtil.inputDialog(mContext,
+                            "输入楼层,最大可能是" + mPostCount + "左右",
                             (dialog, input) -> {
                                 mInputFloor = CastUtil.parse2int(input.toString());
-                                LogUtil.dd("mInputFloor", String.valueOf(mInputFloor));
                                 if (mInputFloor != 0) {
                                     mFindingPage = mPage;
                                     findFloor(mInputFloor);

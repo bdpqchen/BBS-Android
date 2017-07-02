@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
@@ -78,6 +79,7 @@ public class IndividualPresenter extends RxPresenter<IndividualContract.View> im
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer));
     }
+
 
 
 }

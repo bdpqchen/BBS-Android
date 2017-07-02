@@ -51,7 +51,7 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
                     @Override
                     public List<MessageModel> apply(@NonNull List<MessageModel> messageModels) throws Exception {
 
-                        return null;
+                        return messageModels;
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -81,5 +81,27 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
                 .subscribeWith(observer)
         );
 
+    }
+
+    @Override
+    public void confirmFriend(int position, int id, int bool) {
+        ResponseTransformer<BaseModel> transformer = new ResponseTransformer<>();
+        SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
+            @Override
+            public void _onError(String msg) {
+                mView.onConfirmFriendFailed(msg, position);
+            }
+
+            @Override
+            public void _onNext(BaseModel baseModel) {
+                mView.onConfirmFriendSuccess(baseModel, position, bool);
+            }
+        };
+        addSubscribe(mRxDoHttpClient.confirmFriend(id, bool)
+                .map(transformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer)
+        );
     }
 }

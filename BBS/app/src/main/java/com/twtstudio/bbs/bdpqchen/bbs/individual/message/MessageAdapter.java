@@ -8,11 +8,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.GlideImageGeter;
+import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
@@ -21,6 +24,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_APPEAL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_COMMENT;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_LETTER;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_REPLY;
 import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity.INTENT_THREAD_FLOOR;
 
 /**
@@ -31,60 +38,90 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
 
     private LayoutInflater inflater;
     private int mPage = 0;
+    private MessagePresenter mPresenter;
 
-
-    public MessageAdapter(Context context) {
+    public MessageAdapter(Context context, MessagePresenter presenter) {
         super(context);
         inflater = LayoutInflater.from(context);
+        mPresenter = presenter;
+        mContext = context;
     }
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CommentView(inflater.inflate(R.layout.item_rv_message_comment, parent, false));
+        if (viewType == 2 || viewType == 3 || viewType == 1) {
+            return new CommentView(inflater.inflate(R.layout.item_rv_message_comment, parent, false));
+        } else if (viewType == 4) {
+            return new AppealView(inflater.inflate(R.layout.item_rv_message_appeal, parent, false));
+        } else {
+
+        }
+        return new TheEndViewHolder(inflater.inflate(R.layout.item_common_no_more, parent, false));
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-//        LogUtil.dd("datalistsize", String.valueOf(mDataSet.size()));
         if (mDataSet != null && mDataSet.size() > 0) {
+            MessageModel item = mDataSet.get(position);
+            int tag = mDataSet.get(position).getTag();
             if (holder instanceof CommentView) {
-                MessageModel item = mDataSet.get(position);
                 CommentView iHolder = (CommentView) holder;
+                setViewStatus(item.getRead(), iHolder.mTvRedDot);
                 if (item.getContent_model() != null) {
-                    int tag = mDataSet.get(position).getTag();
+                    ImageUtil.loadAvatarAsBitmapByUid(mContext, item.getAuthor_id(), iHolder.mCivMessage);
                     if (tag == 2 || tag == 3) {
                         MessageModel.ContentModel model = item.getContent_model();
                         iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(model.getT_create()));
-                        iHolder.mTvSummary.setText(model.getContent());
-                        ImageUtil.loadAvatarAsBitmapByUid(mContext, item.getAuthor_id(), iHolder.mCivMessage);
+                        String content = TextUtil.formatContent(model.getContent());
+                        iHolder.mHtvSummary.setHtml(content, new GlideImageGeter(mContext, iHolder.mHtvSummary));
                         iHolder.itemView.setOnClickListener(v -> {
+                            iHolder.mTvRedDot.setVisibility(View.GONE);
                             Intent intent = new Intent(mContext, ThreadActivity.class);
                             intent.putExtra(INTENT_THREAD_ID, model.getThread_id());
                             intent.putExtra(INTENT_THREAD_TITLE, model.getThread_title());
                             intent.putExtra(INTENT_THREAD_FLOOR, model.getFloor());
-
-//                            intent.putExtra(INTENT_BOARD_TITLE, )
                             mContext.startActivity(intent);
                         });
-                        if (iHolder.mTvRedDot != null) {
-                            if (item.getRead() == 0) {
-                                iHolder.mTvRedDot.setVisibility(View.VISIBLE);
-                            } else {
-                                iHolder.mTvRedDot.setVisibility(View.GONE);
-                            }
-                        }
-
-                        String preCom = item.getAuthor_name() + "  在  " + model.getThread_title();
+                        String what = "回复";
                         if (tag == 2) {
-                            String composed = preCom + "  中评论了你";
-                            iHolder.mTvComposeTitle.setText(composed);
+                            what = "评论";
                         }
-                        if (tag == 3) {
-                            String com = preCom + "楼回复了你" + model.getFloor();
-                            iHolder.mTvComposeTitle.setText(com);
-                        }
+                        String composed = item.getAuthor_name() + " 在 " + model.getThread_title() + " 中" + what + "了你";
+                        iHolder.mTvComposeTitle.setText(composed);
                     }
                 }
+                if (tag == 1) {
+                    iHolder.mTvComposeTitle.setText(TextUtil.getTwoNames(item.getAuthor_name(), item.getAuthor_nickname()));
+                    iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
+                    iHolder.mHtvSummary.setText(item.getContent());
+                }
+            } else if (holder instanceof AppealView) {
+                AppealView iHolder = (AppealView) holder;
+                setViewStatus(item.getRead(), iHolder.mRedDot);
+                ImageUtil.loadAvatarAsBitmapByUid(mContext, item.getAuthor_id(), iHolder.mCivMessage);
+                iHolder.mTvAppealName.setText(TextUtil.getTwoNames(item.getAuthor_name(), item.getAuthor_nickname()));
+                iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
+                if (item.getContent_model() != null){
+                    MessageModel.ContentModel content = item.getContent_model();
+                    iHolder.mTvAppealMsg.setText("请求成为好友 " + content.getMessage());
+                    int status = content.getStatus();
+                    if (status == 0){
+                        iHolder.mTvAppealGrant.setOnClickListener(v -> {
+                            mPresenter.confirmFriend(position, item.getId(), 1);
+                        });
+                        iHolder.mTvAppealReject.setOnClickListener(v -> {
+                            mPresenter.confirmFriend(position, item.getId(), 0);
+                        });
+                    }else{
+                        String confirm = "已同意";
+                        if (status == -1){
+                            confirm = "已拒绝";
+                        }
+                        iHolder.mTvAppealGrant.setText(confirm);
+                        iHolder.mTvAppealReject.setVisibility(View.GONE);
+                    }
+                }
+
             } else if (holder instanceof TheEndViewHolder) {
 
             } else if (holder instanceof BaseFooterViewHolder) {
@@ -93,9 +130,43 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
         }
     }
 
+    private void setViewStatus(int status, View v) {
+        if (v != null) {
+            if (status == 0) {
+                v.setVisibility(View.VISIBLE);
+            } else {
+                v.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mDataSet != null && mDataSet.size() > 0) {
+            switch (mDataSet.get(position).getTag()) {
+                case 1:
+                    return ITEM_MSG_LETTER;
+                case 2:
+                    return ITEM_MSG_COMMENT;
+                case 3:
+                    return ITEM_MSG_REPLY;
+                case 4:
+                    return ITEM_MSG_APPEAL;
+            }
+        }
+        return -1;
+    }
+
+    public void updateRead(int position, int read) {
+        mDataSet.get(position).setRead(read);
+    }
+    public void updateConfirm(int position, int isConfirm){
+        mDataSet.get(position).getContent_model().setStatus(isConfirm);
+    }
+
     static class CommentView extends BaseViewHolder {
         @BindView(R.id.tv_summary)
-        TextView mTvSummary;
+        HtmlTextView mHtvSummary;
         @BindView(R.id.tv_datetime)
         TextView mTvDatetime;
         @BindView(R.id.red_dot)
@@ -108,6 +179,7 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
         public CommentView(View itemView) {
             super(itemView);
         }
+
     }
 
     public class TheEndViewHolder extends BaseViewHolder {
@@ -116,4 +188,24 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
         }
     }
 
+    static class AppealView extends BaseViewHolder {
+        @BindView(R.id.civ_message)
+        CircleImageView mCivMessage;
+        @BindView(R.id.tv_appeal_name)
+        TextView mTvAppealName;
+        @BindView(R.id.tv_appeal_msg)
+        TextView mTvAppealMsg;
+        @BindView(R.id.tv_datetime)
+        TextView mTvDatetime;
+        @BindView(R.id.tv_appeal_reject)
+        TextView mTvAppealReject;
+        @BindView(R.id.tv_appeal_grant)
+        TextView mTvAppealGrant;
+        @BindView(R.id.red_dot)
+        View mRedDot;
+
+        AppealView(View view) {
+            super(view);
+        }
+    }
 }
