@@ -55,9 +55,7 @@ tinkerSupport {
  */
 tinkerPatch {
     //oldApk ="${bakPath}/${appName}/app-release.apk"
-    tinkerEnable = true
-    ignoreWarning = false
-    useSign = true
+    tinkerEnable = false
     dex {
         dexMode = "jar"
         pattern = ["classes*.dex"]

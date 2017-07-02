@@ -16,15 +16,20 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.twtstudio.bbs.bdpqchen.bbs"
-        minSdkVersion 18
+        minSdkVersion 22
         targetSdkVersion 25
         versionCode 7
         versionName "1.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        /*dexOptions {
+
+/*
+        dexOptions {
             jumboMode = true
-        }*/
+            maxProcessCount 4 // this is the default value
+            javaMaxHeapSize "2g"
+        }
+*/
     }
     signingConfigs {
         release {
@@ -39,6 +44,7 @@ android {
         }
 
         debug {
+
         }
     }
 

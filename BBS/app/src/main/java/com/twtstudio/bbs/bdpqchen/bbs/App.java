@@ -40,7 +40,7 @@ public class App extends Application {
         sApplication = this;
 
         if (!BuildConfig.DEBUG) {
-//            PgyCrashManager.register(this);
+
         }
         //bugly配置
         Context context = getApplicationContext();

@@ -227,9 +227,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
                 if (newState == SCROLL_STATE_IDLE) {
-
                     if (lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
                         mPage++;
                         mIsLoadingMore = true;

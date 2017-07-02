@@ -29,7 +29,7 @@ public final class TextUtil {
 
     public static String getReplacedContent(String content){
         content = content.replaceAll("attach:", BASE_URL + "img/");
-        content = content.replaceAll("\n", "<br>");
+        content = content.replaceAll("<img", "<br /><img");
         return content;
     }
 

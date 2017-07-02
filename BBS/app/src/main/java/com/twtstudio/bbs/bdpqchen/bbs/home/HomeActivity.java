@@ -85,7 +85,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        StatusBarUtil.setTranslucentForImageViewInFragment(this, null);
 
         mHomeActivity = this;
         mContext = this;
