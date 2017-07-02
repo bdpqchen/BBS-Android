@@ -32,6 +32,7 @@ import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
+import com.nightonke.boommenu.Util;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -198,18 +199,20 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         }
 
         mBoomMenuBtn.setButtonEnum(ButtonEnum.TextInsideCircle);
+
         mBoomMenuBtn.setPiecePlaceEnum(PiecePlaceEnum.DOT_6_6);
         mBoomMenuBtn.setButtonPlaceEnum(ButtonPlaceEnum.SC_6_6);
         mBoomMenuBtn.setShowDuration(200);
         mBoomMenuBtn.setHideDuration(100);
         mBoomMenuBtn.setAutoHide(true);
 
-        int ip = 52;
+        int ip = 36;
         int tp = 1;
         for (int i = 0; i < mBoomMenuBtn.getButtonPlaceEnum().buttonNumber(); i++) {
             TextInsideCircleButton.Builder builder = new TextInsideCircleButton.Builder()
                     .listener(this)
                     .imagePadding(new Rect(ip, ip, ip, ip))
+//                    .imageRect(new Rect(Util.dp2px(0), Util.dp2px(0), Util.dp2px(24), Util.dp2px(24)))
                     .textPadding(new Rect(tp, tp, tp, tp))
                     .normalText(menuTexts[i])
                     .normalImageRes(menuRes[i])
