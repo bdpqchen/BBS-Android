@@ -218,6 +218,26 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         notifyDataSetChanged();
     }
 
+    public void refreshThisPage(List<ThreadModel.PostBean> postList, int page) {
+        LogUtil.dd("refreshThisPage()");
+        LogUtil.dd(String.valueOf(mPostData.size()));
+        if (page == 0){
+            mPostData.removeAll(mPostData);
+        }else{
+            for (int i = page * MAX_LENGTH_POST; i < mPostData.size(); i ++){
+                LogUtil.dd(String.valueOf(mPostData.size()));
+                mPostData.remove(i);
+                LogUtil.dd(String.valueOf(mPostData.size()));
+            }
+        }
+        mPostData.addAll(postList);
+        notifyDataSetChanged();
+        LogUtil.dd(String.valueOf(mPostData.size()));
+
+//        mPostData.remove()
+
+    }
+
     public String comment2reply(int postPosition, String content) {
         ThreadModel.PostBean post = mPostData.get(postPosition);
         String beforeCommendContent = post.getContent();

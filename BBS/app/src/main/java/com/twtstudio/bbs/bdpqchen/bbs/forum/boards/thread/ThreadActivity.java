@@ -128,7 +128,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private int mPage = 0;
     private int mEndingPage = 0;
     private boolean mIsLoadingMore;
-    private boolean mIsAddingComment = false;
+    private boolean mIsCommentAfter = false;
     private int mPostCount = 0;
     private boolean showingThreadTitle = false;
     private boolean showingBoardName = true;
@@ -245,7 +245,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 if (dy > 0 && mBmbShowing) {
                     mBmbShowing = false;
                     hideBmb();
-                } else if (dy < 0 && !mBmbShowing){
+                } else if (dy < 0 && !mBmbShowing) {
                     mBmbShowing = true;
                     showBmb();
                 }
@@ -416,7 +416,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             post.setAuthor_name(thread.getAuthor_name());
             post.setAuthor_nickname(thread.getAuthor_nickname());
             post.setContent(thread.getContent());
-            post.setFloor(0);
+            post.setFloor(1);
             post.setAuthor_id(thread.getAuthor_id());
             post.setId(thread.getId());
             post.setTitle(thread.getTitle());
@@ -424,19 +424,28 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             post.setT_modify(thread.getT_modify());
             postList.add(post);
         }
-        if (mRefreshing) {
-            if (model.getPost() != null && model.getPost().size() > 0) {
+
+        if (mIsCommentAfter) {
+            mIsCommentAfter = false;
+            if (model.getPost() != null) {
                 postList.addAll(model.getPost());
+                mAdapter.refreshThisPage(postList, mPage);
             }
-            mAdapter.refreshList(postList);
-            mRefreshing = false;
         } else {
-            if (model.getPost() != null && model.getPost().size() > 0) {
-                postList.addAll(model.getPost());
+            if (mRefreshing) {
+                if (model.getPost() != null && model.getPost().size() > 0) {
+                    postList.addAll(model.getPost());
+                }
+                mAdapter.refreshList(postList);
+                mRefreshing = false;
             } else {
-                pageSS();
+                if (model.getPost() != null && model.getPost().size() > 0) {
+                    postList.addAll(model.getPost());
+                } else {
+                    pageSS();
+                }
+                mAdapter.updateThreadPost(postList, mPage);
             }
-            mAdapter.updateThreadPost(postList, mPage);
         }
         //跳楼
         if (mIsFindingFloor) {
@@ -453,20 +462,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }
             mPage = mFindingPage;
         }
-        // TODO: 17-6-2 评论后的刷新
-        // 目前只支持刷新第一页
-        if (mIsAddingComment) {
-            mIsAddingComment = false;
-            if (mPage == 0) {
-                if (model.getPost() != null) {
-                    postList.addAll(model.getPost());
-                }
-                if (postList.size() > 0) {
-                    mAdapter.refreshList(postList);
-                }
-            }
-            return;
-        }
+
         if (model.getBoard() != null) {
             mBoardId = model.getBoard().getId();
             mBoardName = model.getBoard().getName();
@@ -527,17 +523,11 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     @Override
     public void onCommented(PostModel model) {
         hideProgress();
-        SnackBarUtil.normal(this, "评论成功");
         hideCommentInput();
-        if (mPage == 0) {
-            mRefreshing = true;
-            mIsAddingComment = false;
-            mPresenter.getThread(mThreadId, 0);
-        } else {
-            mIsAddingComment = true;
-            mPresenter.getThread(mThreadId, mPage);
-        }
         clearCommentData();
+        SnackBarUtil.normal(this, "评论成功");
+        mIsCommentAfter = true;
+        mPresenter.getThread(mThreadId, mPage);
     }
 
     @Override
@@ -589,6 +579,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 resetReply();
                 break;
             case 1:
+                mRefreshing = true;
                 setRefreshing(true);
                 mPresenter.getThread(mThreadId, 0);
                 break;
@@ -737,7 +728,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 if (imm != null) {
                     imm.showSoftInput(mEtComment, 0);
                 }
-            }, d);
+            }, d + 100);
         } else {
             startActivity(new Intent(this, LoginActivity.class));
         }
