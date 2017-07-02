@@ -144,6 +144,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private int[] menuRes = new int[]{R.drawable.ic_insert_comment_white_24dp, R.drawable.ic_refresh_white_24dp, R.drawable.ic_share_white_24dp,
             R.drawable.ic_vertical_align_bottom_white_24dp, R.drawable.ic_jump_floor_black_24dp, R.drawable.ic_vertical_align_top_white_24dp};
     private boolean mBmbShowing = true;
+    private boolean isAutoFindFloor = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -187,6 +188,11 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
         mImageFormatUtil = new ImageFormatUtil();
+        if (mFindingFloor != 0){
+            isAutoFindFloor = true;
+            mIsFindingFloor = true;
+//            findFloor(mFindingFloor);
+        }
         if (mBoardId == 0 || mBoardName == null) {
         } else {
             mToolbarTitleBoard.setText(TextUtil.getLinkHtml(mBoardName));
@@ -199,7 +205,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         }
 
         mBoomMenuBtn.setButtonEnum(ButtonEnum.TextInsideCircle);
-
         mBoomMenuBtn.setPiecePlaceEnum(PiecePlaceEnum.DOT_6_6);
         mBoomMenuBtn.setButtonPlaceEnum(ButtonPlaceEnum.SC_6_6);
         mBoomMenuBtn.setShowDuration(200);
@@ -474,9 +479,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private boolean isInside() {
-        List<ThreadModel.PostBean> posts = mAdapter.getPostList();
-        boolean isFindIt = false;
         mPossibleIndex = 0;
+        boolean isFindIt = false;
+        if (mAdapter.getPostList() == null){
+            return false;
+        }
+        List<ThreadModel.PostBean> posts = mAdapter.getPostList();
         int size = posts.size();
         int start = 0;
         if (mIsFindingFloor) {

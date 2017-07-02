@@ -20,7 +20,7 @@ import jp.wasabeef.glide.transformations.MaskTransformation;
 
 public final class ImageUtil {
 
-    private static int raidus = 23;
+    private static int raidus = 25;
 
     public static String getAvatarUrl(int uid) {
         return RxDoHttpClient.BASE_URL + "user/" + uid + "/avatar";

@@ -14,6 +14,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
@@ -76,11 +77,8 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                         iHolder.mHtvSummary.setHtml(content, new GlideImageGeter(mContext, iHolder.mHtvSummary));
                         iHolder.itemView.setOnClickListener(v -> {
                             iHolder.mTvRedDot.setVisibility(View.GONE);
-                            Intent intent = new Intent(mContext, ThreadActivity.class);
-                            intent.putExtra(INTENT_THREAD_ID, model.getThread_id());
-                            intent.putExtra(INTENT_THREAD_TITLE, model.getThread_title());
-                            intent.putExtra(INTENT_THREAD_FLOOR, model.getFloor());
-                            mContext.startActivity(intent);
+                            mContext.startActivity(IntentUtil.toThread(mContext, ThreadActivity.class,
+                                    model.getThread_id(), model.getThread_title(), model.getFloor()));
                         });
                         String what = "回复";
                         if (tag == 2) {
@@ -101,20 +99,20 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                 ImageUtil.loadAvatarAsBitmapByUid(mContext, item.getAuthor_id(), iHolder.mCivMessage);
                 iHolder.mTvAppealName.setText(TextUtil.getTwoNames(item.getAuthor_name(), item.getAuthor_nickname()));
                 iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
-                if (item.getContent_model() != null){
+                if (item.getContent_model() != null) {
                     MessageModel.ContentModel content = item.getContent_model();
                     iHolder.mTvAppealMsg.setText("请求成为好友 " + content.getMessage());
                     int status = content.getStatus();
-                    if (status == 0){
+                    if (status == 0) {
                         iHolder.mTvAppealGrant.setOnClickListener(v -> {
                             mPresenter.confirmFriend(position, item.getId(), 1);
                         });
                         iHolder.mTvAppealReject.setOnClickListener(v -> {
                             mPresenter.confirmFriend(position, item.getId(), 0);
                         });
-                    }else{
+                    } else {
                         String confirm = "已同意";
-                        if (status == -1){
+                        if (status == -1) {
                             confirm = "已拒绝";
                         }
                         iHolder.mTvAppealGrant.setText(confirm);
@@ -160,7 +158,8 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
     public void updateRead(int position, int read) {
         mDataSet.get(position).setRead(read);
     }
-    public void updateConfirm(int position, int isConfirm){
+
+    public void updateConfirm(int position, int isConfirm) {
         mDataSet.get(position).getContent_model().setStatus(isConfirm);
     }
 

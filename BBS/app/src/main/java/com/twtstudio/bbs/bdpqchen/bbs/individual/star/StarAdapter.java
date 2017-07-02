@@ -11,8 +11,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -71,6 +73,10 @@ public class StarAdapter extends BaseAdapter<StarModel> {
                     });
 
                 }
+                holder.itemView.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toThread(mContext, ThreadActivity.class, model.getId(), model.getTitle(), 0,
+                            model.getBoard_id(), model.getBoard_name()));
+                });
             }
         }
     }

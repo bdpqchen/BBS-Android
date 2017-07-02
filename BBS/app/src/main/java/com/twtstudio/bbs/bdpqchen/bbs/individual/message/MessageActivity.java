@@ -47,7 +47,6 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     private LinearLayoutManager mLayoutManager;
     private boolean autoClear = true;
 
-
     @Override
     protected int getLayoutResourceId() {
         return R.layout.atcivity_message;
@@ -78,7 +77,6 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mAdapter = new MessageAdapter(this, mPresenter);
-//        mAdapter.setShowFooter(true);
         mRecyclerView.setAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -105,8 +103,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
                 lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
             }
         });
-        if (PrefUtil.isAutoClearUnread()){
-        }
+//        if (PrefUtil.isAutoClearUnread()){}
         mPresenter.doClearUnreadMessage();
 
     }

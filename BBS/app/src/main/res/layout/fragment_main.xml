@@ -61,6 +61,7 @@
             app:tabSelectedTextColor="@color/material_yellow_accent_700"
             app:tabTextColor="@color/material_light_white"
             app:tabBackground="@color/colorPrimary"
+            app:tabIndicatorHeight="1dp"
             />
 
     </android.support.design.widget.AppBarLayout>

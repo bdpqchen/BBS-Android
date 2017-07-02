@@ -7,6 +7,7 @@
     <color name="nightModeDim">#000000</color>
 
     <color name="colorPrimaryCopy">#2385df</color>
+    <color name="colorPrimaryCopyLight">#0085ff</color>
     <color name="colorPrimaryDarkCopy">#1c6bb4</color>
 
     <color name="colorMainBgLight">#fefefe</color>

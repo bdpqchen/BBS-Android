@@ -108,6 +108,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     private static final int ACT_STAR = 2;
     private static final int ACT_PUBLISH = 3;
     private static final int ACT_UPDATE = 4;
+    private static final int ACT_SETS = 5;
     private int beingActivity = 0;
 
     @Override
@@ -135,7 +136,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mRlIndividualItemUpdateInfo.setOnClickListener(v -> startItemActivity(ACT_UPDATE));
         mCivAvatar.setOnClickListener(v -> startItemActivity(ACT_UPDATE));
         mTvPostCount.setOnClickListener(v -> startItemActivity(ACT_PUBLISH));
-        mRlSettings.setOnClickListener(v -> startItemActivity(5));
+        mRlSettings.setOnClickListener(v -> startItemActivity(ACT_SETS));
 
     }
 
@@ -166,7 +167,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
                 case ACT_UPDATE:
                     clazz = UpdateInfoActivity.class;
                     break;
-                case 5:
+                case ACT_SETS:
                     clazz = SettingsActivity.class;
                     break;
                 default:
@@ -183,7 +184,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
                 mTvIndividualUnread.setVisibility(View.VISIBLE);
                 mTvIndividualUnread.setText(unread + "");
             } else {
-                mTvIndividualUnread.setVisibility(View.GONE);
+                mTvIndividualUnread.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -200,6 +201,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     @Override
     public void onResume() {
         super.onResume();
+        mPresenter.getUnreadMessageCount();
         if (beingActivity == ACT_UPDATE) {
             mTvNickname.setText(PrefUtil.getInfoNickname());
             mTvSignature.setText(PrefUtil.getInfoSignature());
