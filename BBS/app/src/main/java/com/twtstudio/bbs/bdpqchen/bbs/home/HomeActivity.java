@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import com.jaeger.library.StatusBarUtil;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
+import com.tapadoo.alerter.Alerter;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
