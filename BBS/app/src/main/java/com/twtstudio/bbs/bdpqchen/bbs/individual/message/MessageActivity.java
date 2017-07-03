@@ -194,7 +194,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_message_delete, menu);
+//        getMenuInflater().inflate(R.menu.menu_message_delete, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

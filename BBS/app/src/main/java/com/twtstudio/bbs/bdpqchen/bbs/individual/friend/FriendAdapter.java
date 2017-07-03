@@ -48,6 +48,7 @@ public class FriendAdapter extends BaseAdapter<FriendModel> {
                     mContext.startActivity(IntentUtil.toPeople(mContext, model.getUid()));
                 });
                 holder.itemView.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toPeople(mContext, model.getUid()));
 
                 });
             }

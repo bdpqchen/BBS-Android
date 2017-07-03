@@ -9,7 +9,7 @@
     android:focusable="true"
     android:foreground="@drawable/selector_foreground_settings"
     android:orientation="vertical"
-    android:padding="4dp"
+    android:padding="8dp"
     >
 
     <de.hdodenhof.circleimageview.CircleImageView

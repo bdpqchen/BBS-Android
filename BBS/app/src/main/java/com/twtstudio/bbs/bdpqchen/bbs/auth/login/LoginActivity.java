@@ -136,7 +136,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 startActivity(new Intent(this, ReplaceUserActivity.class));
                 break;
             case R.id.tv_no_account_user:
-                loginWithNoUsername();
+//                loginWithNoUsername();
                 break;
             case R.id.cp_btn_login:
                 String username = mEtAccount.getText() + "";

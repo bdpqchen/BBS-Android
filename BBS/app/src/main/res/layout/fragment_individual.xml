@@ -221,7 +221,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="1px"
+                android:layout_marginBottom="1dp"
                 android:background="@color/colorMainBg"
                 android:orientation="vertical"
                 >
@@ -238,11 +238,11 @@
 
                     <ImageView
                         android:id="@+id/iv_individual_message_icon"
-                        android:layout_width="@dimen/icon_size_normal"
-                        android:layout_height="@dimen/icon_size_normal"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/margin_info_list"
-                        android:padding="2dp"
+                        android:padding="4dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_sms_black_24dp"
                         android:tint="@color/colorTintIconBlack"
@@ -305,9 +305,11 @@
                         android:layout_height="@dimen/icon_size_normal"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/margin_info_list"
+                        android:padding="@dimen/icon_padding_small"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_person_black_24dp"
                         android:tint="@color/colorTintIconBlack"
+
                         />
 
                     <TextView
@@ -350,6 +352,8 @@
                         android:layout_height="@dimen/icon_size_normal"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/margin_info_list"
+                        android:padding="@dimen/icon_padding_small"
+
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_star_white_24dp"
                         android:tint="@color/colorTintIconBlack"
@@ -396,8 +400,10 @@
                         android:layout_height="@dimen/icon_size_normal"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/margin_info_list"
+                        android:padding="@dimen/icon_padding_small"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_send_white_24dp"
+
                         android:tint="@color/colorTintIconBlack"
                         />
 
@@ -443,6 +449,7 @@
                         android:layout_height="@dimen/icon_size_normal"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/margin_info_list"
+                        android:padding="@dimen/icon_padding_small"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_edit_black_24dp"
                         android:tint="@color/colorTintIconBlack"
@@ -492,6 +499,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_info_list"
+                    android:padding="@dimen/icon_padding_small"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_settings_black_24dp"
                     android:tint="@color/colorTintIconBlack"

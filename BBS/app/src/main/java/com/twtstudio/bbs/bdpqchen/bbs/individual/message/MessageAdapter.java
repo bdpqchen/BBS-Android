@@ -1,7 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.message;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,21 +14,18 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_APPEAL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_COMMENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_LETTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_REPLY;
-import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity.INTENT_THREAD_FLOOR;
 
 /**
  * Created by Ricky on 2017/5/19.
@@ -68,11 +64,12 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
             if (holder instanceof CommentView) {
                 CommentView iHolder = (CommentView) holder;
                 setViewStatus(item.getRead(), iHolder.mTvRedDot);
+                ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, item.getAuthor_id(), iHolder.mCivMessage);
+                iHolder.mCivMessage.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toPeople(mContext, item.getAuthor_id()));
+                });
                 if (item.getContent_model() != null) {
-                    ImageUtil.loadAvatarAsBitmapByUid(mContext, item.getAuthor_id(), iHolder.mCivMessage);
-                    iHolder.mCivMessage.setOnClickListener(v -> {
-                        mContext.startActivity(IntentUtil.toPeople(mContext, item.getAuthor_id()));
-                    });
+                    LogUtil.dd("load avatarr", String.valueOf(item.getAuthor_id()));
                     if (tag == 2 || tag == 3) {
                         MessageModel.ContentModel model = item.getContent_model();
                         iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(model.getT_create()));
@@ -100,7 +97,7 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
             } else if (holder instanceof AppealView) {
                 AppealView iHolder = (AppealView) holder;
                 setViewStatus(item.getRead(), iHolder.mRedDot);
-                ImageUtil.loadAvatarAsBitmapByUid(mContext, item.getAuthor_id(), iHolder.mCivMessage);
+                ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, item.getAuthor_id(), iHolder.mCivMessage);
                 iHolder.mCivMessage.setOnClickListener(v -> {
                     mContext.startActivity(IntentUtil.toPeople(mContext, item.getAuthor_id()));
                 });
@@ -149,13 +146,13 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
     public int getItemViewType(int position) {
         if (mDataSet != null && mDataSet.size() > 0) {
             switch (mDataSet.get(position).getTag()) {
-                case 1:
+                case ITEM_MSG_LETTER:
                     return ITEM_MSG_LETTER;
-                case 2:
+                case ITEM_MSG_COMMENT:
                     return ITEM_MSG_COMMENT;
-                case 3:
+                case ITEM_MSG_REPLY:
                     return ITEM_MSG_REPLY;
-                case 4:
+                case ITEM_MSG_APPEAL:
                     return ITEM_MSG_APPEAL;
             }
         }
