@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.individual.star;
+package com.twtstudio.bbs.bdpqchen.bbs.individual.friend;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import java.util.List;
 
@@ -22,26 +21,26 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-6-29.
  */
 
-public class StarActivity extends BaseActivity<StarPresenter> implements StarContract.View {
+public class FriendActivity extends BaseActivity<FriendPresenter> implements FriendContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.rv_star)
-    RecyclerView mRvStar;
-    @BindView(R.id.srl_star)
-    SwipeRefreshLayout mSrlStar;
+    @BindView(R.id.rv_friend)
+    RecyclerView mRvFriend;
+    @BindView(R.id.srl_friend)
+    SwipeRefreshLayout mSrlFriend;
 
-    private StarAdapter mAdapter;
+    private FriendAdapter mAdapter;
     private boolean mRefreshing = false;
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_star;
+        return R.layout.activity_friend;
     }
 
     @Override
     protected Toolbar getToolbarView() {
-        mToolbar.setTitle("我的收藏");
+        mToolbar.setTitle("我的好友");
         return mToolbar;
     }
 
@@ -68,28 +67,27 @@ public class StarActivity extends BaseActivity<StarPresenter> implements StarCon
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mAdapter = new StarAdapter(this, mPresenter);
-        mRvStar.setAdapter(mAdapter);
-        mRvStar.addItemDecoration(new RecyclerViewItemDecoration(1));
-        mRvStar.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        mSrlStar.setOnRefreshListener(()-> {
+        mAdapter = new FriendAdapter(this);
+        mRvFriend.setAdapter(mAdapter);
+        mRvFriend.addItemDecoration(new RecyclerViewItemDecoration(1));
+        mRvFriend.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        mSrlFriend.setOnRefreshListener(()-> {
             mRefreshing = true;
-            mPresenter.getStarList();
+            mPresenter.getFriendList();
             setRefresh();
         });
         mRefreshing = true;
         setRefresh();
-        mPresenter.getStarList();
+        mPresenter.getFriendList();
     }
 
     private void setRefresh() {
-        mSrlStar.setRefreshing(mRefreshing);
+        mSrlFriend.setRefreshing(mRefreshing);
     }
 
     @Override
-    public void onGetStarList(List<StarModel> list) {
-        LogUtil.dd("onGetStarList");
+    public void onGetFriendList(List<FriendModel> list) {
+        LogUtil.dd("onGetFriendList");
         if (list != null && list.size() > 0){
             if (mRefreshing){
                 mRefreshing = false;
@@ -102,39 +100,9 @@ public class StarActivity extends BaseActivity<StarPresenter> implements StarCon
     }
 
     @Override
-    public void onGetStarFailed(String m) {
-        LogUtil.dd("onGetStarFailed" + m);
+    public void onGetFriendFailed(String s) {
+
     }
 
-    @Override
-    public void onStar(int position) {
-        mAdapter.updateStatus(position, 0);
-        showSnack("已收藏");
-    }
-
-    @Override
-    public void onStarFailed(String m) {
-        showErrorSnack(m);
-    }
-
-    @Override
-    public void onUnStar(int position) {
-        mAdapter.updateStatus(position, 1);
-        showSnack("已取消收藏");
-    }
-
-    @Override
-    public void onUnStarFailed(String s) {
-        showErrorSnack(s);
-    }
-
-    private void showSnack(String s){
-        SnackBarUtil.normal(mActivity, s);
-        mAdapter.notifyDataSetChanged();
-    }
-    private void showErrorSnack(String s){
-        SnackBarUtil.error(mActivity, s);
-        mAdapter.notifyDataSetChanged();
-    }
 
 }

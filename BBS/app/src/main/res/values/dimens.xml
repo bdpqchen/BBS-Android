@@ -40,4 +40,5 @@
     <dimen name="padding_forum_cover">12dp</dimen>
     <dimen name="grid_expected_size">100dp</dimen>
     <dimen name="margin_top_create_thread">2dp</dimen>
+    <dimen name="margin_info_list">8dp</dimen>
 </resources>

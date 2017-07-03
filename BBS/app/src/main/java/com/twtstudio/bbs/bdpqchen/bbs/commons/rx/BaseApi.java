@@ -15,6 +15,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
@@ -263,7 +264,7 @@ public interface BaseApi {
             @Field(ID) int id,
             @Field(CONFIRM) int bool);
 
-
-
+    @GET("home/friend")
+    Observable<BaseResponse<List<FriendModel>>> getFriendList();
 }
 

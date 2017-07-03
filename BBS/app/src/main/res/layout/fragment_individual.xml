@@ -241,7 +241,7 @@
                         android:layout_width="@dimen/icon_size_normal"
                         android:layout_height="@dimen/icon_size_normal"
                         android:layout_gravity="center"
-                        android:layout_margin="16dp"
+                        android:layout_margin="@dimen/margin_info_list"
                         android:padding="2dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_sms_black_24dp"
@@ -290,6 +290,51 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/rl_info_friend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1px"
+                    android:background="@color/colorMainBgLight"
+                    android:clickable="true"
+                    android:foreground="@drawable/selector_foreground_settings"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_info_friend_icon"
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/margin_info_list"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_person_black_24dp"
+                        android:tint="@color/colorTintIconBlack"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_info_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/iv_info_friend_icon"
+                        android:text="我的好友"
+                        android:textColor="@color/colorTvBlackMain"
+                        android:textSize="18sp"
+                        />
+
+                    <ImageView
+                        android:layout_width="@dimen/icon_size_normal"
+                        android:layout_height="@dimen/icon_size_normal"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                        android:tint="@color/colorTintIconBlack"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/rl_individual_item_collection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -304,8 +349,7 @@
                         android:layout_width="@dimen/icon_size_normal"
                         android:layout_height="@dimen/icon_size_normal"
                         android:layout_gravity="center"
-                        android:layout_margin="16dp"
-                        android:padding="2dp"
+                        android:layout_margin="@dimen/margin_info_list"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_star_white_24dp"
                         android:tint="@color/colorTintIconBlack"
@@ -351,8 +395,7 @@
                         android:layout_width="@dimen/icon_size_normal"
                         android:layout_height="@dimen/icon_size_normal"
                         android:layout_gravity="center"
-                        android:layout_margin="16dp"
-                        android:padding="2dp"
+                        android:layout_margin="@dimen/margin_info_list"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_send_white_24dp"
                         android:tint="@color/colorTintIconBlack"
@@ -399,8 +442,7 @@
                         android:layout_width="@dimen/icon_size_normal"
                         android:layout_height="@dimen/icon_size_normal"
                         android:layout_gravity="center"
-                        android:layout_margin="16dp"
-                        android:padding="2dp"
+                        android:layout_margin="@dimen/margin_info_list"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_edit_black_24dp"
                         android:tint="@color/colorTintIconBlack"
@@ -433,7 +475,6 @@
 
             </LinearLayout>
 
-
             <RelativeLayout
                 android:id="@+id/individual_item_rl"
                 android:layout_width="match_parent"
@@ -450,8 +491,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:layout_margin="16dp"
-                    android:padding="2dp"
+                    android:layout_margin="@dimen/margin_info_list"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_settings_black_24dp"
                     android:tint="@color/colorTintIconBlack"
@@ -480,7 +520,6 @@
                     android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
                     android:tint="@color/colorTintIconBlack"
                     />
-
 
             </RelativeLayout>
 

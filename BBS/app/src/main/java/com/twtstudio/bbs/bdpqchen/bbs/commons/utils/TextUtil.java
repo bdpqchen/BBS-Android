@@ -26,6 +26,9 @@ public final class TextUtil {
     }
 
     public static String getTwoNames(String name, String nickname){
+        if (nickname != null && nickname.length() > 12){
+            nickname = nickname.substring(0, 11);
+        }
         return name + "(" + nickname + ")";
     }
 

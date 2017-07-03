@@ -71,6 +71,7 @@
         <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
         <activity android:name=".individual.avatar.UpdateAvatarActivity"/>
         <activity android:name=".individual.star.StarActivity"/>
+        <activity android:name=".individual.friend.FriendActivity"/>
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"

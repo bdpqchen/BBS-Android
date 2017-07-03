@@ -23,6 +23,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
@@ -59,52 +60,25 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     RelativeLayout mRlAvatar;
     @BindView(R.id.ll_nickname)
     LinearLayout mLlNickname;
-    @BindView(R.id.iv_individual_message_icon)
-    ImageView mIvIndividualMessageIcon;
-    @BindView(R.id.tv_individual_message_title)
-    TextView mTvIndividualMessageTitle;
     @BindView(R.id.tv_individual_unread)
     TextView mTvIndividualUnread;
-    @BindView(R.id.iv_individual_icon_end)
-    ImageView mIvIndividualIconEnd;
     @BindView(R.id.rl_individual_item_message)
     RelativeLayout mRlIndividualItemMessage;
-    @BindView(R.id.iv_individual_collection_icon)
-    ImageView mIvIndividualCollectionIcon;
-    @BindView(R.id.tv_individual_collection_title)
-    TextView mTvIndividualCollectionTitle;
-    @BindView(R.id.iv_individual_collection_end)
-    ImageView mIvIndividualCollectionEnd;
     @BindView(R.id.rl_individual_item_collection)
     RelativeLayout mRlIndividualItemCollection;
-    @BindView(R.id.iv_individual_publish_icon)
-    ImageView mIvIndividualPublishIcon;
-    @BindView(R.id.tv_individual_publish_title)
-    TextView mTvIndividualPublishTitle;
-    @BindView(R.id.iv_individual_publish_end)
-    ImageView mIvIndividualPublishEnd;
     @BindView(R.id.rl_individual_item_publish)
     RelativeLayout mRlIndividualItemPublish;
-    @BindView(R.id.iv_individual_update_info_icon)
-    ImageView mIvIndividualUpdateInfoIcon;
-    @BindView(R.id.tv_individual_update_info_title)
-    TextView mTvIndividualUpdateInfoTitle;
-    @BindView(R.id.iv_individual_update_info_end)
-    ImageView mIvIndividualUpdateInfoEnd;
     @BindView(R.id.rl_individual_item_update_info)
     RelativeLayout mRlIndividualItemUpdateInfo;
-    @BindView(R.id.individual_item_iv_icon_start)
-    ImageView mIndividualItemIvIconStart;
-    @BindView(R.id.individual_item_tv_title)
-    TextView mIndividualItemTvTitle;
-    @BindView(R.id.individual_item_iv_icon_end)
-    ImageView mIndividualItemIvIconEnd;
+    @BindView(R.id.rl_info_friend)
+    RelativeLayout mRlInfoFriend;
     @BindView(R.id.iv_bg)
     ImageView mIvBg;
     @BindView(R.id.ll_need_offset)
     LinearLayout mLlNeedOffset;
     Unbinder unbinder;
     private static final int ACT_MSG = 1;
+    private static final int ACT_FRIEND = 6;
     private static final int ACT_STAR = 2;
     private static final int ACT_PUBLISH = 3;
     private static final int ACT_UPDATE = 4;
@@ -134,10 +108,10 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mRlIndividualItemCollection.setOnClickListener(v -> startItemActivity(ACT_STAR));
         mRlIndividualItemPublish.setOnClickListener(v -> startItemActivity(ACT_PUBLISH));
         mRlIndividualItemUpdateInfo.setOnClickListener(v -> startItemActivity(ACT_UPDATE));
+        mRlInfoFriend.setOnClickListener(v -> startItemActivity(ACT_FRIEND));
         mCivAvatar.setOnClickListener(v -> startItemActivity(ACT_UPDATE));
         mTvPostCount.setOnClickListener(v -> startItemActivity(ACT_PUBLISH));
         mRlSettings.setOnClickListener(v -> startItemActivity(ACT_SETS));
-
     }
 
     @Override
@@ -157,6 +131,9 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
             switch (index) {
                 case ACT_MSG:
                     clazz = MessageActivity.class;
+                    break;
+                case ACT_FRIEND:
+                    clazz = FriendActivity.class;
                     break;
                 case ACT_STAR:
                     clazz = StarActivity.class;
