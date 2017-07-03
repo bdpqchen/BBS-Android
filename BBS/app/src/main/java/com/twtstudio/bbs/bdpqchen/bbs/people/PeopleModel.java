@@ -126,8 +126,8 @@ public class PeopleModel {
         private String title;
         private int b_elite;
         private int visibility;
-//        private int t_create;
-//        private int t_reply;
+        private int t_create;
+        private int t_reply;
 
         public int getId() {
             return id;
@@ -159,6 +159,22 @@ public class PeopleModel {
 
         public void setVisibility(int visibility) {
             this.visibility = visibility;
+        }
+
+        public int getT_create() {
+            return t_create;
+        }
+
+        public void setT_create(int t_create) {
+            this.t_create = t_create;
+        }
+
+        public int getT_reply() {
+            return t_reply;
+        }
+
+        public void setT_reply(int t_reply) {
+            this.t_reply = t_reply;
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.people;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 
 import butterknife.BindView;
 
@@ -33,11 +33,10 @@ public class PeopleAdapter extends BaseAdapter<PeopleModel.RecentBean> {
     @Override
     public void onBindViewHolder(BaseViewHolder holder0, int position) {
         if (mDataSet != null && mDataSet.size() > 0) {
-
             if (holder0 instanceof ViewHolder) {
                 ViewHolder holder = (ViewHolder) holder0;
                 PeopleModel.RecentBean model = mDataSet.get(position);
-//                holder.mtvCreate.setText(StampUtil.getDatetimeByStamp(model.getT_create()));
+                holder.mtvCreate.setText("发布于 " + StampUtil.getDatetimeByStamp(model.getT_create()));
                 holder.mtvTitle.setText(model.getTitle());
                 holder.itemView.setOnClickListener(v -> {
                     mContext.startActivity(IntentUtil.toThread(mContext, model.getId(), model.getTitle(), 0));
