@@ -51,7 +51,7 @@
                         android:layout_height="@dimen/size_avatar_large"
                         android:layout_centerInParent="true"
                         app:civ_border_color="@color/material_light_white"
-                        app:civ_border_width="2dp"
+                        app:civ_border_width="3dp"
                         tools:src="@drawable/avatar_default_left"
                         />
 
@@ -407,7 +407,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/iv_individual_publish_icon"
-                        android:text="我的发布"
+                        android:text="我的帖子"
                         android:textColor="@color/colorTvBlackMain"
                         android:textSize="18sp"
                         />

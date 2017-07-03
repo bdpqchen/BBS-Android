@@ -62,15 +62,18 @@ public final class Constants {
     public static final String INTENT_BOARD_MODEL_LIST = "intent_board_model_list";
 
 
-    public static final String CONTENT = "content";
-    public static final String TITLE = "title";
+    public static final String ID = "id";
+    public static final String UID = "uid";
+    public static final String CID = "cid";
+    public static final String FID = "fid";
     public static final String BID = "bid";
     public static final String TID = "tid";
+    public static final String CONTENT = "content";
+    public static final String TITLE = "title";
     public static final String REPLY_ID = "reply";
     public static final String IS_ANONYMOUS = "is_anonymous";
     public static final String ANONYMOUS = "anonymous";
     public static final String USERNAME = "username";
-    public static final String CID = "cid";
     public static final String REAL_NAME = "real_name";
     public static final String STUNUM = "stunum";
     public static final String EMAIL = "email";
@@ -81,6 +84,5 @@ public final class Constants {
     public static final String OLD_PASSWORD = "old_password";
     public static final String NAME = "name";
     public static final String FILE = "file";
-    public static final String ID = "id";
     public static final String CONFIRM = "confirm";
 }

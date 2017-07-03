@@ -1,14 +1,11 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.friend;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
@@ -16,10 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 
-import org.w3c.dom.Text;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -27,8 +21,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class FriendAdapter extends BaseAdapter<FriendModel> {
-
-    FriendPresenter mStarPresenter;
 
     public FriendAdapter(Context context) {
         super(context);
@@ -53,7 +45,7 @@ public class FriendAdapter extends BaseAdapter<FriendModel> {
                 }
                 ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getUid(), holder.mCivFriendAvatar);
                 holder.mCivFriendAvatar.setOnClickListener(v -> {
-//                    mContext.startActivity(IntentUtil.toFriend());
+                    mContext.startActivity(IntentUtil.toPeople(mContext, model.getUid()));
                 });
                 holder.itemView.setOnClickListener(v -> {
 

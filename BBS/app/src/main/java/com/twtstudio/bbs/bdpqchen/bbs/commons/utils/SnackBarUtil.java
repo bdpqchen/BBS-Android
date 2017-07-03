@@ -19,6 +19,7 @@ import com.androidadvance.topsnackbar.TSnackbar;
 import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
 
 /**
  * Created by bdpqchen on 17-4-21.
@@ -153,7 +154,10 @@ public final class SnackBarUtil {
         snackBar.show();
     }
 
-    private static final String[] fitsSysWindowClass = new String[]{HomeActivity.class.getName()};
+    private static final String[] fitsSysWindowClass = new String[]{
+            HomeActivity.class.getName(),
+            PeopleActivity.class.getName()
+    };
 
     private static boolean isFitsSystemWindow(Activity activity) {
         for (String className : fitsSysWindowClass){

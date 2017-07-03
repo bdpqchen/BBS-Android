@@ -74,7 +74,7 @@ public class StarAdapter extends BaseAdapter<StarModel> {
 
                 }
                 holder.itemView.setOnClickListener(v -> {
-                    mContext.startActivity(IntentUtil.toThread(mContext, ThreadActivity.class, model.getId(), model.getTitle(), 0,
+                    mContext.startActivity(IntentUtil.toThread(mContext, model.getId(), model.getTitle(), 0,
                             model.getBoard_id(), model.getBoard_name()));
                 });
             }

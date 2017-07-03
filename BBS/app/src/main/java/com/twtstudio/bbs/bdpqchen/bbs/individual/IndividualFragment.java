@@ -23,6 +23,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
@@ -101,6 +102,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
     @Override
     protected void initFragment() {
+
         ImageUtil.loadMyAvatar(mContext, mCivAvatar);
         ImageUtil.loadMyBg(mContext, mIvBg);
 
@@ -166,15 +168,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         }
     }
 
-    public void setPastDays(int pastDays) {
-        String days = StampUtil.getDaysFromCreateToNow(pastDays) + "天";
-        int daysLength = days.length();
-        SpannableString styledText = new SpannableString(days);
-        styledText.setSpan(new TextAppearanceSpan(mContext, R.style.tvTextSizeNormal), 0, daysLength - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        styledText.setSpan(new TextAppearanceSpan(mContext, R.style.tvTextSizeVeryLittle), daysLength - 1, daysLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mTvPastDays.setText(styledText, TextView.BufferType.SPANNABLE);
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -199,7 +192,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
             PrefUtil.setInfoGroup(info.getGroup());
             PrefUtil.setInfoLevel(info.getLevel());
             PrefUtil.setIsLatestInfo(true);
-            setPastDays(PrefUtil.getInfoCreate());
+            mTvPastDays.setText(TextUtil.getPastDays(mContext, info.getT_create()), TextView.BufferType.SPANNABLE);
             mTvPostCount.setText(PrefUtil.getInfoPost() + "");
             mTvNickname.setText(PrefUtil.getInfoNickname());
             mTvSignature.setText(PrefUtil.getInfoSignature());

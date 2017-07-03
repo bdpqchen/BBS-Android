@@ -17,6 +17,7 @@
         android:layout_width="@dimen/size_avatar_normal"
         android:layout_height="@dimen/size_avatar_normal"
         android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         android:clickable="true"
         android:focusable="true"
         tools:src="@drawable/avatar_default_left"

@@ -25,6 +25,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePasswordActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
 
 import dagger.Component;
 
@@ -79,4 +80,6 @@ public interface ActivityComponent {
     void inject(StarActivity starActivity);
 
     void inject(FriendActivity friendActivity);
+
+    void inject(PeopleActivity peopleActivity);
 }

@@ -20,7 +20,7 @@ import jp.wasabeef.glide.transformations.MaskTransformation;
 
 public final class ImageUtil {
 
-    private static int raidus = 25;
+    private static int radius = 30;
 
     public static String getAvatarUrl(int uid) {
         return RxDoHttpClient.BASE_URL + "user/" + uid + "/avatar";
@@ -105,10 +105,10 @@ public final class ImageUtil {
     public static void loadBgByUid(Context context, int uid, ImageView view){
         DrawableRequestBuilder<Integer> thumbnail = Glide.with(context)
                 .load(R.drawable.cover_login)
-                .bitmapTransform(new BlurTransformation(context, raidus));
+                .bitmapTransform(new BlurTransformation(context, radius));
         Glide.with(context)
                 .load(getAvatarUrl(uid))
-                .bitmapTransform(new BlurTransformation(context, raidus))
+                .bitmapTransform(new BlurTransformation(context, radius))
                 .thumbnail(thumbnail)
                 .crossFade()
                 .into(view);

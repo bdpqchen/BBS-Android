@@ -77,7 +77,7 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                         iHolder.mHtvSummary.setHtml(content, new GlideImageGeter(mContext, iHolder.mHtvSummary));
                         iHolder.itemView.setOnClickListener(v -> {
                             iHolder.mTvRedDot.setVisibility(View.GONE);
-                            mContext.startActivity(IntentUtil.toThread(mContext, ThreadActivity.class,
+                            mContext.startActivity(IntentUtil.toThread(mContext,
                                     model.getThread_id(), model.getThread_title(), model.getFloor()));
                         });
                         String what = "回复";

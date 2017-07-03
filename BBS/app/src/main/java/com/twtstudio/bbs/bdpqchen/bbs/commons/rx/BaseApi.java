@@ -22,6 +22,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
+import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel;
 
 import java.util.List;
 
@@ -55,6 +56,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REAL_NAME
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REPLY_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.STUNUM;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
 /**
@@ -266,5 +268,11 @@ public interface BaseApi {
 
     @GET("home/friend")
     Observable<BaseResponse<List<FriendModel>>> getFriendList();
+
+    @GET("user/{uid}/home")
+    Observable<BaseResponse<PeopleModel>> getUserInfo(
+            @Path(UID) int uid);
+
+
 }
 
