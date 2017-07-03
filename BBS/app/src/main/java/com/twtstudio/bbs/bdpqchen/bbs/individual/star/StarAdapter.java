@@ -71,11 +71,13 @@ public class StarAdapter extends BaseAdapter<StarModel> {
                     holder.mIvUnStar.setOnClickListener(v -> {
                         mStarPresenter.starThread(model.getId(), position);
                     });
-
                 }
                 holder.itemView.setOnClickListener(v -> {
                     mContext.startActivity(IntentUtil.toThread(mContext, model.getId(), model.getTitle(), 0,
                             model.getBoard_id(), model.getBoard_name()));
+                });
+                holder.mCivStarAvatar.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id()));
                 });
             }
         }

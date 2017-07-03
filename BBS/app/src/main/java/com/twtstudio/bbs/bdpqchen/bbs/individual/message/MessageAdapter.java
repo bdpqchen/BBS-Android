@@ -70,6 +70,9 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                 setViewStatus(item.getRead(), iHolder.mTvRedDot);
                 if (item.getContent_model() != null) {
                     ImageUtil.loadAvatarAsBitmapByUid(mContext, item.getAuthor_id(), iHolder.mCivMessage);
+                    iHolder.mCivMessage.setOnClickListener(v -> {
+                        mContext.startActivity(IntentUtil.toPeople(mContext, item.getAuthor_id()));
+                    });
                     if (tag == 2 || tag == 3) {
                         MessageModel.ContentModel model = item.getContent_model();
                         iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(model.getT_create()));
@@ -93,10 +96,14 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                     iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
                     iHolder.mHtvSummary.setText(item.getContent());
                 }
+
             } else if (holder instanceof AppealView) {
                 AppealView iHolder = (AppealView) holder;
                 setViewStatus(item.getRead(), iHolder.mRedDot);
                 ImageUtil.loadAvatarAsBitmapByUid(mContext, item.getAuthor_id(), iHolder.mCivMessage);
+                iHolder.mCivMessage.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toPeople(mContext, item.getAuthor_id()));
+                });
                 iHolder.mTvAppealName.setText(TextUtil.getTwoNames(item.getAuthor_name(), item.getAuthor_nickname()));
                 iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
                 if (item.getContent_model() != null) {

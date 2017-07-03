@@ -38,6 +38,7 @@
                     android:layout_height="@dimen/size_avatar_normal"
                     android:layout_gravity="center_vertical"
                     tools:src="@drawable/avatar_default_left"
+                    android:clickable="true"
                     />
 
                 <TextView

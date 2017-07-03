@@ -13,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
@@ -83,7 +84,9 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
                     intent.putExtra(INTENT_BOARD_ID, model.getBoard_id());
                     mContext.startActivity(intent);
                 });
-
+                holder.mLlLayerHeader.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id()));
+                });
             }
         }
 

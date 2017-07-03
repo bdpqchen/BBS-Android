@@ -15,6 +15,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
@@ -119,6 +120,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mTvUsernameThread.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
                 String content = formatContent(p.getContent());
                 headerHolder.mHtvContent.setHtml(content, new GlideImageGeter(mContext, headerHolder.mHtvContent));
+                headerHolder.mCivAvatarThread.setOnClickListener(v -> {
+                    startToPeople(p.getAuthor_id());
+                });
                 if (p.getT_modify() > 0 && p.getT_modify() != p.getT_create()){
                     headerHolder.mTvModifyTime.setText(TextUtil.getModifyTime(p.getT_modify()));
                 }
@@ -138,6 +142,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 h.mHtvPostContent.setHtml(content, new GlideImageGeter(mContext, h.mHtvPostContent));
                 h.mTvReply.setTag(position);
                 h.mTvReply.setOnClickListener(this);
+                h.mCivAvatarPost.setOnClickListener(v -> {
+                    startToPeople(p.getAuthor_id());
+                });
             } else if (holder instanceof BaseFooterViewHolder) {
                 LogUtil.dd("base footer view");
             } else if (holder instanceof TheEndViewHolder) {
@@ -146,6 +153,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 LogUtil.dd("just header view");
             }
         }
+    }
+
+    public void startToPeople(int uid){
+        mContext.startActivity(IntentUtil.toPeople(mContext, uid));
     }
 
     private String formatContent(String contentBefore){

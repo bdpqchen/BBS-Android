@@ -13,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 
@@ -74,12 +75,8 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
                 holder.mTvThreadTitle.setText(thread.getTitle());
                 holder.mTvThreadPostCount.setText(thread.getC_post() + " 回复");
                 holder.itemView.setOnClickListener(v -> {
-                    Intent in = new Intent(mContext, ThreadActivity.class);
-                    in.putExtra(INTENT_THREAD_ID, thread.getId());
-                    in.putExtra(INTENT_THREAD_TITLE, thread.getTitle());
-                    in.putExtra(INTENT_BOARD_TITLE, mBoardTitle);
-                    in.putExtra(INTENT_BOARD_ID, thread.getBoard_id());
-                    mContext.startActivity(in);
+                    mContext.startActivity(IntentUtil.toThread(mContext, thread.getId(), thread.getTitle(), 0,
+                            thread.getBoard_id(),mBoardTitle));
                 });
             } else if (viewHolder instanceof BaseFooterViewHolder) {
 
