@@ -145,6 +145,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             R.drawable.ic_vertical_align_bottom_white_24dp, R.drawable.ic_jump_floor_black_24dp, R.drawable.ic_vertical_align_top_white_24dp};
     private boolean mBmbShowing = true;
     private boolean isAutoFindFloor = false;
+    private boolean isLastPage = false;
+
 
     @Override
     protected int getLayoutResourceId() {
@@ -342,10 +344,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             ImagePickUtil.commonPickImage(this);
         });
         mPresenter.getThread(mThreadId, 0);
-        if (mFindingFloor == 0) {
-        } else {
-//            findFloor(mFindingFloor);
-        }
+
     }
 
     @Override
@@ -371,6 +370,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mIsFindingFloor = false;
         mRvThreadPost.scrollToPosition(mPossibleIndex);
         setRefreshing(false);
+        hideProgress();
     }
 
     private void cannotFindIt() {
@@ -429,7 +429,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             post.setT_modify(thread.getT_modify());
             postList.add(post);
         }
-
+        if (model.getPost() == null && model.getPost().size() == 0) {
+            isLastPage= true;
+            pageSS();
+        }
         if (mIsCommentAfter) {
             mIsCommentAfter = false;
             if (model.getPost() != null) {
@@ -438,16 +441,14 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }
         } else {
             if (mRefreshing) {
-                if (model.getPost() != null && model.getPost().size() > 0) {
+                if (!isLastPage) {
                     postList.addAll(model.getPost());
                 }
                 mAdapter.refreshList(postList);
                 mRefreshing = false;
             } else {
-                if (model.getPost() != null && model.getPost().size() > 0) {
+                if (!isLastPage) {
                     postList.addAll(model.getPost());
-                } else {
-                    pageSS();
                 }
                 mAdapter.updateThreadPost(postList, mPage);
             }
@@ -597,6 +598,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 break;
             case 3:
                 if (!mRefreshing) {
+                    startProgress("正在潜入..");
                     toEnd();
                 }
                 break;
@@ -609,6 +611,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                                 if (mInputFloor != 0) {
                                     mFindingPage = mPage;
                                     findFloor(mInputFloor);
+                                    startProgress("正在前往..");
                                 }
                             });
                 }
@@ -676,6 +679,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void startProgress(String msg) {
+        LogUtil.dd("I will show", msg);
         mProgress = DialogUtil.showProgressDialog(this, "提示", msg);
     }
 
@@ -743,6 +747,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void showStarOrNot(int in_collection) {
+//        LogUtil.dd("incollection", String.valueOf(in_collection));
         if (in_collection == 1) {
             if (mIvStaredThread != null) {
                 mIvStaredThread.setVisibility(View.VISIBLE);

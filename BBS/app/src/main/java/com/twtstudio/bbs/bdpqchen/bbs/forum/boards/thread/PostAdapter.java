@@ -253,7 +253,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         return content;
     }
 
-
     //添加两层的引用并截断1层 和 2层太长的部分
     private String addTwoQuote(String str0) {
         String key = "> ";
@@ -261,15 +260,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             int p = str0.indexOf(key);
             String start = str0.substring(0, p);
             start = cutIfTooLong(start);
-            start = start.replaceAll("\\n", "\n> ");
-            String end  = str0.substring(p, str0.length());
+            start = start.replaceAll("\n", "\n> ");
+            String end  = str0.substring(p + 2, str0.length());
             end = cutIfTooLong(end);
-            end = "\n" + end;
-            end = end.replaceAll("> ", "\n> > ");
-            str0 = start + end;
+            end = end.replaceAll("> ", "> > ");
+            str0 = start + "> " + end;
         }else{
             str0 = cutIfTooLong(str0);
-            str0 = str0.replaceAll("\\n", "\n> ");
+            str0 = str0.replaceAll("\n", "\n> ");
         }
         return str0;
     }
@@ -286,7 +284,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         StringBuilder strNew = new StringBuilder();
         String key = "> > ";
         if (str0.contains(key)) {
-            //去掉末尾的\n
+            //去掉末尾的\\n
             int i = str0.indexOf(key);
             str0 = str0.substring(0, i);
             String strStart = str0.substring(0, i - 3);

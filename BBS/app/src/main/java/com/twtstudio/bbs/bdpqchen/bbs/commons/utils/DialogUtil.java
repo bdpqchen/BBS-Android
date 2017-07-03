@@ -14,7 +14,7 @@ public final class DialogUtil {
 
     public static MaterialDialog showProgressDialog(Context context, String title, String content) {
         return new MaterialDialog.Builder(context)
-                .title(title)
+//                .title(title)
                 .content(content)
                 .progress(true, 0)
                 .show();
@@ -45,7 +45,7 @@ public final class DialogUtil {
 
     public static MaterialDialog noticeDialog(Context con, String title, String content){
         return new MaterialDialog.Builder(con)
-                .title(title)
+//                .title(title)
                 .content(content)
                 .show();
     }
