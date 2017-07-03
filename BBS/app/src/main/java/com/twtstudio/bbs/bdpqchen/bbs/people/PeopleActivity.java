@@ -97,7 +97,7 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
         mUid = getIntent().getIntExtra(UID, 0);
         mPresenter.getUserInfo(mUid);
-        ImageUtil.loadAvatarByUid(this, mUid, mCivAvatar);
+        ImageUtil.loadAvatarAsBitmapByUidWithLeft(this, mUid, mCivAvatar);
         ImageUtil.loadBgByUid(this, mUid, mIvBg);
         mAdapter = new PeopleAdapter(mContext);
         LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
@@ -113,8 +113,11 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
     @Override
     public void onGetUserInfo(PeopleModel model) {
         if (model != null){
+            if (model.getSignature() == null || model.getSignature().length() == 0){
+                model.setSignature(getString(R.string.default_signature));
+            }
             mTvPostCount.setText(model.getC_post() + "");
-            mTvNickname.setText(model.getNickname());
+            mTvNickname.setText(TextUtil.getTwoNames(model.getName(), model.getNickname()));
             mTvSignature.setText(model.getSignature());
             mTvPoints.setText(model.getPoints() + "");
             mInfoPastDay.setText(TextUtil.getPastDays(mContext, model.getT_create()), TextView.BufferType.SPANNABLE);

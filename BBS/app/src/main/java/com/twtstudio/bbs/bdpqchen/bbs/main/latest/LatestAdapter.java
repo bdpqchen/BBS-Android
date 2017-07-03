@@ -59,6 +59,9 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
                     model.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivLatestAvatar);
                 } else {
+                    holder.mLlLayerHeader.setOnClickListener(v -> {
+                        mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id()));
+                    });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivLatestAvatar);
                 }
                 holder.mTvUsername.setText(model.getAuthor_name());
@@ -83,9 +86,6 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
                     intent.putExtra(INTENT_BOARD_TITLE, model.getBoard_name());
                     intent.putExtra(INTENT_BOARD_ID, model.getBoard_id());
                     mContext.startActivity(intent);
-                });
-                holder.mLlLayerHeader.setOnClickListener(v -> {
-                    mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id()));
                 });
             }
         }

@@ -55,6 +55,9 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
                     model.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivHotAvatar);
                 } else {
+                    holder.mCivHotAvatar.setOnClickListener(v -> {
+                        mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id()));
+                    });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivHotAvatar);
                 }
                 holder.mTvUsername.setText(model.getAuthor_name());
@@ -77,9 +80,7 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
                     intent.putExtra(INTENT_BOARD_ID, model.getBoard_id());
                     mContext.startActivity(intent);
                 });
-                holder.mCivHotAvatar.setOnClickListener(v -> {
-                    mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id()));
-                });
+
             }
         }
 
