@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -100,13 +101,12 @@ public class MyRecyclerAdapter extends BaseAdapter<MyReleaseModel> {
                 holder.tv_icon.setTypeface(iconfont);
                 holder.tv_visit.setText(String.valueOf(data.get(position).c_post));
                 holder.tv_time.setText(StampUtil.TimeStamp2Date(data.get(position).t_create));
-                holder.cdv.setOnClickListener(new View.OnClickListener() {
+                holder.rlRelease.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(mContext, ThreadActivity.class);
                         intent.putExtra("intent_thread_id", data.get(position).id);
                         intent.putExtra("intent_thread_title", data.get(position).title);
-
                         mContext.startActivity(intent);//注意这里的context！！！
                     }
                 });
@@ -142,15 +142,11 @@ public class MyRecyclerAdapter extends BaseAdapter<MyReleaseModel> {
         TextView tv_visit;
         @BindView(R.id.tv_time)
         TextView tv_time;
-        @BindView(R.id.cdv)
-        CardView cdv;
+        @BindView(R.id.rl_release)
+        RelativeLayout rlRelease;
 
         public MyHolder(View view) {
             super(view);
-
-            cdv.setRadius(0);//设置图片圆角的半径大小
-            cdv.setCardElevation(0);//设置阴影部分大小
-
         }
     }
 }
