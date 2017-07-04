@@ -146,7 +146,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean isAutoFindFloor = false;
     private boolean isLastPage = false;
 
-
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_thread;
@@ -189,7 +188,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
         mImageFormatUtil = new ImageFormatUtil();
-        if (mFindingFloor != 0){
+        if (mFindingFloor != 0) {
             isAutoFindFloor = true;
             mIsFindingFloor = true;
 //            findFloor(mFindingFloor);
@@ -236,12 +235,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == SCROLL_STATE_IDLE) {
-                    if (lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
-                        mPage++;
-                        mIsLoadingMore = true;
-                        mPresenter.getThread(mThreadId, mPage);
-                    }
+                if (!isLastPage && newState == SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
+                    mPage++;
+                    mIsLoadingMore = true;
+                    mPresenter.getThread(mThreadId, mPage);
                 }
             }
 
@@ -311,35 +308,55 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             public void afterTextChanged(Editable s) {
             }
         });
-        mIvCommentOut.setOnClickListener(v -> hideCommentInput());
-        mIvCommentSend.setOnClickListener(v -> sendComment(mReplyId));
-        mIvStaredThread.setOnClickListener(v -> {
+        mIvCommentOut.setOnClickListener(v ->
+
+                hideCommentInput());
+        mIvCommentSend.setOnClickListener(v ->
+
+                sendComment(mReplyId));
+        mIvStaredThread.setOnClickListener(v ->
+
+        {
             if (PrefUtil.hadLogin()) {
                 mPresenter.unStarThread(mThreadId);
             }
         });
-        mIvStarThread.setOnClickListener(v -> {
+        mIvStarThread.setOnClickListener(v ->
+
+        {
             if (PrefUtil.hadLogin()) {
                 mPresenter.starThread(mThreadId);
             }
         });
-        mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
+        mSrlThreadList.setColorSchemeColors(
+
+                getResources().
+
+                        getIntArray(R.array.swipeRefreshColors));
         mSrlThreadList.setRefreshing(true);
-        mSrlThreadList.setOnRefreshListener(() -> {
+        mSrlThreadList.setOnRefreshListener(() ->
+
+        {
             mRefreshing = true;
             mPage = 0;
             mPresenter.getThread(mThreadId, mPage);
 //                mSrlThreadList.setRefreshing(false);
         });
-        mAdapter.setOnItemClickListener((view, position) -> {
+        mAdapter.setOnItemClickListener((view, position) ->
+
+        {
             postPosition = position;
             mReplyId = mAdapter.getPostId(position);
             showCommentInput();
         });
-        mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) ->
+
+        {
             mIsAnonymous = isChecked;
         });
-        mIvSelectImage.setOnClickListener(v -> {
+        mIvSelectImage.setOnClickListener(v ->
+
+        {
             ImagePickUtil.commonPickImage(this);
         });
         mPresenter.getThread(mThreadId, 0);
@@ -429,8 +446,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             post.setContent_converted(thread.getContent_converted());
             postList.add(post);
         }
-        if (model.getPost() == null && model.getPost().size() == 0) {
-            isLastPage= true;
+        if (model.getPost() == null || model.getPost().size() == 0) {
+            LogUtil.dd("no more post");
+            isLastPage = true;
             pageSS();
         }
         if (mIsCommentAfter) {
@@ -441,11 +459,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }
         } else {
             if (mRefreshing) {
-                if (!isLastPage) {
-                    postList.addAll(model.getPost());
-                }
-                mAdapter.refreshList(postList);
                 mRefreshing = false;
+                postList.addAll(model.getPost());
+                mAdapter.refreshList(postList);
             } else {
                 if (!isLastPage) {
                     postList.addAll(model.getPost());
@@ -482,7 +498,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean isInside() {
         mPossibleIndex = 0;
         boolean isFindIt = false;
-        if (mAdapter.getPostList() == null){
+        if (mAdapter.getPostList() == null) {
             return false;
         }
         List<ThreadModel.PostBean> posts = mAdapter.getPostList();

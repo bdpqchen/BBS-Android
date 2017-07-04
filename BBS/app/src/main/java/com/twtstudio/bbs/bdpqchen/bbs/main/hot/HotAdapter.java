@@ -66,7 +66,7 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
                 holder.mTvThreadTitle.setText(model.getTitle());
                 holder.mTvPostCount.setText(model.getC_post() + "");
                 holder.mTvHotTime.setText("发布于 " + StampUtil.getDatetimeByStamp(model.getT_create()));
-                holder.mTvHotContent.setText(model.getContent());
+                holder.mTvHotContent.setText(TextUtil.getReplacedImageContent(model.getContent()));
                 holder.mTvBoardName.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, ThreadListActivity.class);
                     intent.putExtra(Constants.INTENT_BOARD_ID, model.getBoard_id());

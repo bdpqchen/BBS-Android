@@ -21,9 +21,12 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
+
+import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -104,7 +107,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             SnackBarUtil.error(mActivity, "这个 干啥的是干撒个");
         }, 3000);
 */
-
 
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragment.newInstance();
