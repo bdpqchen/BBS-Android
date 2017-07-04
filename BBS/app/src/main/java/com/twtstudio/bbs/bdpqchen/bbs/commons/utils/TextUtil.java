@@ -67,7 +67,6 @@ public final class TextUtil {
 
     public static String getReplacedImageContent(String content) {
         String key = "attach:";
-//        content = "21321312![](attach:213132)1423![](attach:213132";
         while (content.contains(key)) {
             int index = content.indexOf(key);
             String start = content.substring(0, index - 4);
@@ -76,7 +75,7 @@ public final class TextUtil {
             int stopAt = content.length();
             for (int i = beginAt; i < stopAt; i++) {
                 if (content.charAt(i) < 48 || content.charAt(i) > 57) {
-                    if (i + 1 != stopAt && content.substring(i, i + 1).equals(")")) {
+                    if (content.substring(i, i + 1).equals(")")) {
                         i++;
                     }
                     end = content.substring(i, content.length());
@@ -84,6 +83,7 @@ public final class TextUtil {
                 }
             }
             content = start + "[图片]" + end;
+//            LogUtil.dd("resultis", content);
         }
         return content;
     }
