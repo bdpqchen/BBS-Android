@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
+import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
@@ -9,10 +10,14 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE_URL;
 
 /**
  * Created by bdpqchen on 17-5-12.
@@ -22,7 +27,6 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
 
     private RxDoHttpClient<ThreadModel> mHttpClient;
     private ResponseTransformer<PostModel> mTransformerPost = new ResponseTransformer<>();
-
 
     @Inject
     ThreadPresenter(RxDoHttpClient client) {
@@ -47,43 +51,39 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
         };
         addSubscribe(mHttpClient.getThread(threadId, postPage)
                 .map(mHttpClient.mTransformer)
-/*
                 .map(threadModel -> {
                     if (threadModel != null) {
-                        // TODO: 17-6-9 取消对bbcode的支持
                         if (threadModel.getThread() != null) {
-                            ThreadModel.ThreadBean thread = threadModel.getThread();
-                            String content = thread.getContent();
-                            if (content != null && content.length() > 0) {
-                                if (content.contains("[/") && content.contains("[") && content.contains("]")) {
-                                    content = BBCodeParse.bbcode2Html(content);
-                                }
-                                content = content.replaceAll("attach:", BASE_URL + "img/");
-                                thread.setContent(content);
-                            }
+                            threadModel.getThread().setContent_converted(convertContent(threadModel.getThread().getContent()));
                         }
                         if (threadModel.getPost() != null && threadModel.getPost().size() > 0) {
                             List<ThreadModel.PostBean> postList = threadModel.getPost();
                             for (int i = 0; i < postList.size(); i++) {
                                 String content = postList.get(i).getContent();
-                                if (content != null && content.length() > 0) {
-                                    if (content.contains("[/") && content.contains("[") && content.contains("]")) {
-                                        content = BBCodeParse.bbcode2Html(content);
-                                    }
-                                    content = content.replaceAll("attach:", BASE_URL + "img/");
-                                    content = content.replaceAll("!\\[]", "\n![]");
-                                    postList.get(i).setContent(content);
-                                }
+                                postList.get(i).setContent_converted(convertContent(content));
                             }
                         }
                     }
                     return threadModel;
                 })
-*/
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
         );
+    }
+
+    public String convertContent(String content) {
+        if (content == null || content.length() == 0) {
+            return " ";
+        }
+        content = Processor.process(content);
+        content = content.replaceAll("<img", "<br><img");
+        content = content.replaceAll("attach:", BASE_URL + "img/");
+        content = content.replaceAll("\n<blockquote>", "<blockquote>");
+        content = content.replaceAll("\n<p>", "<p>");
+        content = content.replaceAll("\n", "<br>");
+//        LogUtil.dd("final content", content);
+        return content;
     }
 
     @Override

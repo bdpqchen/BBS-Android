@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/colorMainBg"
     android:orientation="vertical"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
     >
 
     <android.support.v7.widget.Toolbar
@@ -20,6 +22,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         tools:targetApi="lollipop"
+        android:layout_marginBottom="4dp"
         >
 
         <TextView

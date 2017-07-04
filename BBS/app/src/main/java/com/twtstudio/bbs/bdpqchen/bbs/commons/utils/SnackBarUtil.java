@@ -1,12 +1,15 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebHistoryItem;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -15,6 +18,8 @@ import android.widget.Toast;
 import com.androidadvance.topsnackbar.TSnackbar;
 import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
 
 /**
  * Created by bdpqchen on 17-4-21.
@@ -22,9 +27,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 
 public final class SnackBarUtil {
 
-    private static final int NORMAL_BG = 0xFF0BC4C4;
-    private static final int NOTICE_BG = 0xFFe2a712;
-    private static final int ERROR_BG = 0xFFfd5602;
+    private static final int NORMAL_BG = 0xFF62cbd6;
+    private static final int NOTICE_BG = 0xFFf89042;
+    private static final int ERROR_BG = 0xFFf44336;
 
     private static boolean sIsShowing = false;
     private static int sOldColor;
@@ -94,6 +99,7 @@ public final class SnackBarUtil {
         }
 
         FrameLayout view = (FrameLayout) act.findViewById(android.R.id.content);
+
         final TSnackbar snackBar = TSnackbar.make(view, m, duration);
         View snackBarView = snackBar.getView();
         sOldColor = ResourceUtil.getColor(act, R.color.colorPrimaryDark);
@@ -101,24 +107,29 @@ public final class SnackBarUtil {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             sOldColor = act.getWindow().getStatusBarColor();
         }
-
-        if (listener != null) {
-            snackBar.setAction(actionTitle, listener);
-            snackBar.setActionTextColor(0xFF2385df);
+//        act.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        int isExtra = 0;
+        if (isFitsSystemWindow(act)){
+            isExtra = WindowUtil.getStatusBarHeight(act);
+        }else{
+            if (listener != null) {
+                snackBar.setAction(actionTitle, listener);
+                snackBar.setActionTextColor(0xFF2385df);
+            }
+            snackBarView.setOnClickListener(v -> {
+                snackBar.dismiss();
+                new Handler().postDelayed(() -> {
+                    //等待动画时间
+                    StatusBarUtil.setColor(act, sOldColor, 0);
+                }, 250);
+            });
         }
 
-        snackBarView.setOnClickListener(v -> {
-            snackBar.dismiss();
-            new Handler().postDelayed(() -> {
-                //等待动画时间
-                StatusBarUtil.setColor(act, sOldColor, 0);
-            }, 250);
-        });
         //设定snackBar 最小高度
         TypedValue tv = new TypedValue();
         if (act.getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
             int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, act.getResources().getDisplayMetrics());
-            snackBarView.setMinimumHeight(actionBarHeight);
+            snackBarView.setMinimumHeight(actionBarHeight + isExtra);
         }
         snackBarView.setBackgroundColor(color);
         StatusBarUtil.setColor(act, color, 0);
@@ -143,9 +154,24 @@ public final class SnackBarUtil {
         snackBar.show();
     }
 
+    private static final String[] fitsSysWindowClass = new String[]{
+            HomeActivity.class.getName(),
+            PeopleActivity.class.getName()
+    };
+
+    private static boolean isFitsSystemWindow(Activity activity) {
+        for (String className : fitsSysWindowClass){
+            if (className.equals(activity.getClass().getName())){
+                return true;
+            }
+        }
+        return false;
+    }
 
     private static int isLongTime(boolean isL) {
         return isL ? TSnackbar.LENGTH_LONG : TSnackbar.LENGTH_SHORT;
     }
+
+
 
 }

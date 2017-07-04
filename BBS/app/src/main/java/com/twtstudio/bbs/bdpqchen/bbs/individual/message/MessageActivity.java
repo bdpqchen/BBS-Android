@@ -14,12 +14,11 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,7 +45,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     private int mPage = 0;
     private boolean mIsLoadingMore = false;
     private LinearLayoutManager mLayoutManager;
-
+    private boolean autoClear = true;
 
     @Override
     protected int getLayoutResourceId() {
@@ -77,8 +76,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
-        mAdapter = new MessageAdapter(this);
-//        mAdapter.setShowFooter(true);
+        mAdapter = new MessageAdapter(this, mPresenter);
         mRecyclerView.setAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -105,9 +103,8 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
                 lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
             }
         });
-        if (PrefUtil.isAutoClearUnread()){
-            mPresenter.doClearUnreadMessage();
-        }
+//        if (PrefUtil.isAutoClearUnread()){}
+        mPresenter.doClearUnreadMessage();
 
     }
 
@@ -124,30 +121,12 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
             mAdapter.clearAll();
             mRefreshing = false;
         }
-        if (messageList != null) {
-            int size = messageList.size();
-            if (size > 0) {
-                List<MessageModel> listNew = new ArrayList<>();
-                for (int i = 0; i < size; i++) {
-                    if (messageList.get(i).getContent_model() != null) {
-                        int tag = messageList.get(i).getTag();
-                        if (tag == 2 || tag == 3) {
-                            listNew.add(messageList.get(i));
-                        }
-                    }
-                }
-                if (listNew.size() > 0) {
-                    LogUtil.dd("messagelistsize", String.valueOf(listNew.size()));
-                    mAdapter.addList(listNew);
-                } else {
-                    pageDecrease();
-                    showNoMessage();
-                }
 
-            } else {
-                pageDecrease();
-                showNoMessage();
-            }
+        if (messageList != null) {
+            mAdapter.addList(messageList);
+        }else{
+            pageDecrease();
+            showNoMessage();
         }
         stopRefresh();
     }
@@ -155,8 +134,11 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     @Override
     public void onCleared() {
         mRefreshing = true;
-        mPresenter.getMessageList(0);
-        SnackBarUtil.normal(this, "已清空未读消息");
+        if (!autoClear){
+            autoClear = false;
+            SnackBarUtil.normal(this, "已清空未读消息");
+            mPresenter.getMessageList(0);
+        }
     }
 
     private void stopRefresh() {
@@ -166,8 +148,30 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
 
     @Override
     public void onClearFailed(String msg) {
-        SnackBarUtil.error(this, "失败 " + msg);
+        if (!autoClear){
+            autoClear = false;
+            SnackBarUtil.error(this, "失败 " + msg);
+        }
         stopRefresh();
+    }
+
+    @Override
+    public void onConfirmFriendFailed(String m, int position) {
+        SnackBarUtil.error(mActivity, m);
+    }
+
+    @Override
+    public void onConfirmFriendSuccess(BaseModel model, int position, int isGrant) {
+        String m = "成功建立好友关系";
+        if (isGrant == 0){
+            m = "已残忍拒绝";
+            isGrant = -1;
+        }
+        SnackBarUtil.notice(mActivity, m);
+        mAdapter.updateRead(position, isGrant);
+        mAdapter.updateConfirm(position, 1);
+        mAdapter.notifyDataSetChanged();
+
     }
 
     void setRefreshing(boolean b){
@@ -190,7 +194,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_message_delete, menu);
+//        getMenuInflater().inflate(R.menu.menu_message_delete, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

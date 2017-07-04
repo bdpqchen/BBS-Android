@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
-        android:icon="@drawable/ic_share_white_24dp"
-        android:title="多少楼了？"
-        android:id="@+id/action_to_end"
-        app:showAsAction="never"
-        />
-    <item
-        android:icon="@drawable/ic_share_white_24dp"
-        android:title="返回顶部"
-        android:id="@+id/action_to_top"
-        app:showAsAction="never"
-        />
-    <item
-        android:icon="@drawable/ic_share_white_24dp"
-        android:title="刷新帖子"
-        android:id="@+id/action_refresh"
-        app:showAsAction="never"
-        />
-
-
-    <item
+        android:id="@+id/action_thread_share"
         android:icon="@drawable/ic_share_white_24dp"
         android:title="分享链接"
-        android:id="@+id/action_thread_share"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/action_refresh"
+        android:title="刷新帖子"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/action_to_end"
+        android:title="深入底部"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/action_to_top"
+        android:title="返回顶部"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/action_jump_specify_floor"
+        android:title="跳楼"
         app:showAsAction="never"
         />
 

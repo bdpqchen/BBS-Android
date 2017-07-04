@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
@@ -38,6 +39,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
     protected T mPresenter;
 
     protected Activity mActivity;
+    protected Context mContext;
     private Toolbar mToolbar;
     private Unbinder mUnBinder;
     public SlideBackLayout mSlideBackLayout;
@@ -63,6 +65,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         setContentView(getLayoutResourceId());
         mUnBinder = ButterKnife.bind(this);
         mActivity = this;
+        mContext = this;
         inject();
 
         if (mPresenter != null) {

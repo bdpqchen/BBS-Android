@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -97,8 +98,7 @@ public class MyReplyAdapter extends BaseAdapter<MyReplyModel> {
                 holder.tv_reply.setText(data.get(position).content);
                 holder.tv_reply.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
                 holder.tv_time.setText(StampUtil.TimeStamp2Date(data.get(position).t_create));
-
-                holder.cdv.setOnClickListener(new View.OnClickListener() {
+                holder.rlReply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, ThreadActivity.class);
@@ -138,15 +138,11 @@ public class MyReplyAdapter extends BaseAdapter<MyReplyModel> {
         TextView tv_reply;
         @BindView(R.id.tv_time)
         TextView tv_time;
-        @BindView(R.id.cdv)
-        CardView cdv;
+        @BindView(R.id.rl_reply)
+        RelativeLayout rlReply;
 
         public MyHolder(View view) {
             super(view);
-
-            cdv.setRadius(0);//设置图片圆角的半径大小
-            cdv.setCardElevation(0);//设置阴影部分大小
-
         }
     }
 }

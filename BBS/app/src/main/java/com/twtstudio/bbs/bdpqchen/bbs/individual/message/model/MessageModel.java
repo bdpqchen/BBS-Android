@@ -124,6 +124,15 @@ public class MessageModel {
         private int reply_id;
         private String reply_content;
 
+        /*
+        * tag=4 好友申请
+        * "content": {
+                "message": "",
+                "id": "154",todo 这里可能出问题
+                "status": 1
+            },
+        */
+        private int status;
 
         public int getId() {
             return id;
@@ -203,6 +212,14 @@ public class MessageModel {
 
         public void setReply_content(String reply_content) {
             this.reply_content = reply_content;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
         }
     }
 }

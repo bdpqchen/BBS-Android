@@ -7,6 +7,7 @@
     <color name="nightModeDim">#000000</color>
 
     <color name="colorPrimaryCopy">#2385df</color>
+    <color name="colorPrimaryCopyLight">#0085ff</color>
     <color name="colorPrimaryDarkCopy">#1c6bb4</color>
 
     <color name="colorMainBgLight">#fefefe</color>
@@ -27,10 +28,13 @@
     <color name="colorTvBlackMainTint">#0d0c0c</color>
     <color name="colorIndividualTagNum">#FF0000</color>
     <color name="colorTintIconBlack">#645e5e</color>
-    <color name="colorThreadContentBg">#ffffff</color>
+    <color name="colorThreadContentBg">#FFffffff</color>
     <color name="colorMainBgLightHeight">#ffffff</color>
     <color name="colorForumBg">#22ffffff</color>
+    <color name="colorInfoBg">#11111111</color>
     <color name="colorDividerLine">#112233</color>
+    <!--<color name="colorDividerLine">#62cbd6</color>-->
+    <!--<color name="colorDividerLine">#f89042</color>-->
     <!--<color name="colorTintIconBlack">#3F51B5</color>-->
 
 

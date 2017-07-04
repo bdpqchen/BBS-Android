@@ -18,12 +18,15 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.forum.ForumModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
+import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel;
 
 import java.io.File;
 import java.security.cert.CertificateException;
@@ -37,6 +40,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -279,6 +283,10 @@ public class RxDoHttpClient<T> {
         return mApi.doComment(getLatestAuthentication(), threadId, comment, replyId);
     }
 
+    public Observable<BaseResponse<List<StarModel>>> getStarThreadList(){
+        return mApi.getStarThreadList();
+    }
+
     public Observable<BaseResponse<BaseModel>> starThread(int id) {
         return mApi.starThread(getLatestAuthentication(), id);
     }
@@ -336,4 +344,15 @@ public class RxDoHttpClient<T> {
         }
     }
 
+    public Observable<BaseResponse<BaseModel>> confirmFriend(int id, int bool) {
+        return mApi.confirmFriend(id, bool);
+    }
+
+    public Observable<BaseResponse<List<FriendModel>>> getFriendList() {
+        return mApi.getFriendList();
+    }
+
+    public Observable<BaseResponse<PeopleModel>> getUserInfo(int uid) {
+        return mApi.getUserInfo(uid);
+    }
 }

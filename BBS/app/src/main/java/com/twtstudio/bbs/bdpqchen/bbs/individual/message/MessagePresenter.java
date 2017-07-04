@@ -12,6 +12,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -36,7 +38,6 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
                 if (mView != null)
                     mView.onGetMessageFailed(msg);
             }
-
             @Override
             public void _onNext(List<MessageModel> messageModels) {
                 if (mView != null)
@@ -46,6 +47,13 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
 
         addSubscribe(mRxDoHttpClient.getMessageList(page)
                 .map(mRxDoHttpClient.mTransformer)
+                .map(new Function<List<MessageModel>, List<MessageModel>>() {
+                    @Override
+                    public List<MessageModel> apply(@NonNull List<MessageModel> messageModels) throws Exception {
+
+                        return messageModels;
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
@@ -73,5 +81,27 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
                 .subscribeWith(observer)
         );
 
+    }
+
+    @Override
+    public void confirmFriend(int position, int id, int bool) {
+        ResponseTransformer<BaseModel> transformer = new ResponseTransformer<>();
+        SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
+            @Override
+            public void _onError(String msg) {
+                mView.onConfirmFriendFailed(msg, position);
+            }
+
+            @Override
+            public void _onNext(BaseModel baseModel) {
+                mView.onConfirmFriendSuccess(baseModel, position, bool);
+            }
+        };
+        addSubscribe(mRxDoHttpClient.confirmFriend(id, bool)
+                .map(transformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer)
+        );
     }
 }

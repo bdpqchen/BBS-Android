@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.view.WindowManager;
 
@@ -10,6 +11,16 @@ import android.view.WindowManager;
  */
 
 public final class WindowUtil  {
+
+    public static int getStatusBarHeight(Context context) {
+        int statusBarHeight = 0;
+        Resources res = context.getResources();
+        int resourceId = res.getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = res.getDimensionPixelSize(resourceId);
+        }
+        return statusBarHeight;
+    }
 
 
     public static int getWindowWidth(Activity activity){

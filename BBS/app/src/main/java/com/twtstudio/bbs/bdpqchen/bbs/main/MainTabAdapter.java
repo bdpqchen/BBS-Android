@@ -16,11 +16,8 @@ import javax.inject.Inject;
  */
 
 public class MainTabAdapter extends FragmentPagerAdapter {
-    //    private static final int PAGE_COUNT = 2;
     private Context mContext;
-    private static String[] titles = {"最新动态", "全站十大"};
-    private BaseFragment[] fragments = new BaseFragment[2];
-
+    private final String[] titles = {"最新动态", "全站十大"};
 
     @Inject
     public MainTabAdapter(FragmentManager fm, Context context) {

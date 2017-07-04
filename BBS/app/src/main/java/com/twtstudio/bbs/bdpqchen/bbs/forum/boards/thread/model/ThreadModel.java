@@ -52,6 +52,7 @@ public class ThreadModel {
         private int t_create;
         private int t_modify;
         private String content;
+        private String content_converted;
         private int in_collection;
 
         public int getId() {
@@ -173,6 +174,14 @@ public class ThreadModel {
         public void setIn_collection(int in_collection) {
             this.in_collection = in_collection;
         }
+
+        public String getContent_converted() {
+            return content_converted;
+        }
+
+        public void setContent_converted(String content_converted) {
+            this.content_converted = content_converted;
+        }
     }
 
     public static class BoardBean {
@@ -241,6 +250,7 @@ public class ThreadModel {
         private String author_name;
         private String author_nickname;
         private String content;
+        private String content_converted;
         private int anonymous;
         private int floor;
         private int t_create;
@@ -325,6 +335,14 @@ public class ThreadModel {
 
         public void setTitle(String title) {
             this.title = title;
+        }
+
+        public String getContent_converted() {
+            return content_converted;
+        }
+
+        public void setContent_converted(String content_converted) {
+            this.content_converted = content_converted;
         }
     }
 }

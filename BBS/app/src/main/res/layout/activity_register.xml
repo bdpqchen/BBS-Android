@@ -111,11 +111,11 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="用户名(2 - 12位英文字母)"
+                    android:hint="用户名(2-12位字母,对外显示,不只是登录账户)"
                     android:imeOptions="actionNext"
                     android:minLines="2"
                     android:maxLength="12"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:id="@+id/et_username"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:singleLine="true"

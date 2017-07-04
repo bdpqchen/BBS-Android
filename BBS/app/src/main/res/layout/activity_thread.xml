@@ -133,19 +133,14 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fb_thread_write_post"
+    <com.nightonke.boommenu.BoomMenuButton
+        android:id="@+id/bmb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="8dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_insert_comment_white_24dp"
-        android:visibility="visible"
-        app:backgroundTint="@color/material_cyan_800"
-        app:layout_behavior="com.twtstudio.bbs.bdpqchen.bbs.commons.support.FABScrollBehavior"
-        tools:visibility="visible"
+        android:layout_gravity="end|bottom"
+        app:bmb_normalColor="#62cbd6"
+        app:bmb_shadowRadius="2dp"
+        android:layout_margin="4dp"
         />
 
     <LinearLayout
@@ -157,7 +152,7 @@
         android:focusable="true"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="visible"
+        tools:visibility="gone"
         android:background="@color/colorMainBg"
         >
 

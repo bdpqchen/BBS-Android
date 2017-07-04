@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -13,7 +14,7 @@ public final class DialogUtil {
 
     public static MaterialDialog showProgressDialog(Context context, String title, String content) {
         return new MaterialDialog.Builder(context)
-                .title(title)
+//                .title(title)
                 .content(content)
                 .progress(true, 0)
                 .show();
@@ -33,7 +34,7 @@ public final class DialogUtil {
         assert negativeText != null;
         assert negativeCallback != null;
         return new MaterialDialog.Builder(context)
-                .title(title)
+//                .title(title)
                 .content(content)
                 .positiveText(positiveText)
                 .onPositive(positiveCallback)
@@ -44,10 +45,17 @@ public final class DialogUtil {
 
     public static MaterialDialog noticeDialog(Context con, String title, String content){
         return new MaterialDialog.Builder(con)
-                .title(title)
+//                .title(title)
                 .content(content)
                 .show();
     }
 
-
+    public static MaterialDialog inputDialog(Context context, String content, MaterialDialog.InputCallback inputCallback) {
+        return new MaterialDialog.Builder(context)
+                .input(content, "", false, inputCallback)
+                .title("跳楼层")
+                .inputType(InputType.TYPE_CLASS_NUMBER)
+                .positiveText("开始")
+                .show();
+    }
 }

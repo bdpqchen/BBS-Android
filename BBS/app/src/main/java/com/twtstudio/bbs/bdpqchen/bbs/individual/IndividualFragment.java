@@ -6,26 +6,35 @@ import android.support.annotation.Nullable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.collection.CollectionActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -52,48 +61,30 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     RelativeLayout mRlAvatar;
     @BindView(R.id.ll_nickname)
     LinearLayout mLlNickname;
-    @BindView(R.id.iv_individual_message_icon)
-    ImageView mIvIndividualMessageIcon;
-    @BindView(R.id.tv_individual_message_title)
-    TextView mTvIndividualMessageTitle;
     @BindView(R.id.tv_individual_unread)
     TextView mTvIndividualUnread;
-    @BindView(R.id.iv_individual_icon_end)
-    ImageView mIvIndividualIconEnd;
     @BindView(R.id.rl_individual_item_message)
     RelativeLayout mRlIndividualItemMessage;
-    @BindView(R.id.iv_individual_collection_icon)
-    ImageView mIvIndividualCollectionIcon;
-    @BindView(R.id.tv_individual_collection_title)
-    TextView mTvIndividualCollectionTitle;
-    @BindView(R.id.iv_individual_collection_end)
-    ImageView mIvIndividualCollectionEnd;
     @BindView(R.id.rl_individual_item_collection)
     RelativeLayout mRlIndividualItemCollection;
-    @BindView(R.id.iv_individual_publish_icon)
-    ImageView mIvIndividualPublishIcon;
-    @BindView(R.id.tv_individual_publish_title)
-    TextView mTvIndividualPublishTitle;
-    @BindView(R.id.iv_individual_publish_end)
-    ImageView mIvIndividualPublishEnd;
     @BindView(R.id.rl_individual_item_publish)
     RelativeLayout mRlIndividualItemPublish;
-    @BindView(R.id.iv_individual_update_info_icon)
-    ImageView mIvIndividualUpdateInfoIcon;
-    @BindView(R.id.tv_individual_update_info_title)
-    TextView mTvIndividualUpdateInfoTitle;
-    @BindView(R.id.iv_individual_update_info_end)
-    ImageView mIvIndividualUpdateInfoEnd;
     @BindView(R.id.rl_individual_item_update_info)
     RelativeLayout mRlIndividualItemUpdateInfo;
-    @BindView(R.id.individual_item_iv_icon_start)
-    ImageView mIndividualItemIvIconStart;
-    @BindView(R.id.individual_item_tv_title)
-    TextView mIndividualItemTvTitle;
-    @BindView(R.id.individual_item_iv_icon_end)
-    ImageView mIndividualItemIvIconEnd;
-
-    private boolean isChangingInfo = false;
+    @BindView(R.id.rl_info_friend)
+    RelativeLayout mRlInfoFriend;
+    @BindView(R.id.iv_bg)
+    ImageView mIvBg;
+    @BindView(R.id.ll_need_offset)
+    LinearLayout mLlNeedOffset;
+    Unbinder unbinder;
+    private static final int ACT_MSG = 1;
+    private static final int ACT_FRIEND = 6;
+    private static final int ACT_STAR = 2;
+    private static final int ACT_PUBLISH = 3;
+    private static final int ACT_UPDATE = 4;
+    private static final int ACT_SETS = 5;
+    private int beingActivity = 0;
 
     @Override
     protected int getFragmentLayoutId() {
@@ -111,15 +102,18 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
     @Override
     protected void initFragment() {
-        ImageUtil.loadMyAvatar(mContext, mCivAvatar);
-        mRlIndividualItemMessage.setOnClickListener(v -> startItemActivity(1));
-        mRlIndividualItemCollection.setOnClickListener(v -> startItemActivity(2));
-        mRlIndividualItemPublish.setOnClickListener(v -> startItemActivity(3));
-        mRlIndividualItemUpdateInfo.setOnClickListener(v -> startItemActivity(4));
-        mCivAvatar.setOnClickListener(v -> startItemActivity(4));
-        mTvPostCount.setOnClickListener(v -> startItemActivity(3));
-        mRlSettings.setOnClickListener(v -> startItemActivity(5));
 
+        ImageUtil.loadMyAvatar(mContext, mCivAvatar);
+        ImageUtil.loadMyBg(mContext, mIvBg);
+
+        mRlIndividualItemMessage.setOnClickListener(v -> startItemActivity(ACT_MSG));
+        mRlIndividualItemCollection.setOnClickListener(v -> startItemActivity(ACT_STAR));
+        mRlIndividualItemPublish.setOnClickListener(v -> startItemActivity(ACT_PUBLISH));
+        mRlIndividualItemUpdateInfo.setOnClickListener(v -> startItemActivity(ACT_UPDATE));
+        mRlInfoFriend.setOnClickListener(v -> startItemActivity(ACT_FRIEND));
+        mCivAvatar.setOnClickListener(v -> startItemActivity(ACT_UPDATE));
+        mTvPostCount.setOnClickListener(v -> startItemActivity(ACT_PUBLISH));
+        mRlSettings.setOnClickListener(v -> startItemActivity(ACT_SETS));
     }
 
     @Override
@@ -134,22 +128,25 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         if (!PrefUtil.hadLogin()) {
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
         } else {
+            beingActivity = index;
             Class clazz;
             switch (index) {
-                case 1:
+                case ACT_MSG:
                     clazz = MessageActivity.class;
                     break;
-                case 2:
-                    clazz = CollectionActivity.class;
+                case ACT_FRIEND:
+                    clazz = FriendActivity.class;
                     break;
-                case 3:
+                case ACT_STAR:
+                    clazz = StarActivity.class;
+                    break;
+                case ACT_PUBLISH:
                     clazz = MyReleaseActivity.class;
                     break;
-                case 4:
+                case ACT_UPDATE:
                     clazz = UpdateInfoActivity.class;
-                    isChangingInfo = true;
                     break;
-                case 5:
+                case ACT_SETS:
                     clazz = SettingsActivity.class;
                     break;
                 default:
@@ -166,29 +163,20 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
                 mTvIndividualUnread.setVisibility(View.VISIBLE);
                 mTvIndividualUnread.setText(unread + "");
             } else {
-                mTvIndividualUnread.setVisibility(View.GONE);
+                mTvIndividualUnread.setVisibility(View.INVISIBLE);
             }
         }
-    }
-
-    public void setPastDays(int pastDays) {
-        String days = StampUtil.getDaysFromCreateToNow(pastDays) + "天";
-        int daysLength = days.length();
-        SpannableString styledText = new SpannableString(days);
-        styledText.setSpan(new TextAppearanceSpan(mContext, R.style.tvTextSizeNormal), 0, daysLength - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        styledText.setSpan(new TextAppearanceSpan(mContext, R.style.tvTextSizeVeryLittle), daysLength - 1, daysLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mTvPastDays.setText(styledText, TextView.BufferType.SPANNABLE);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mPresenter.getUnreadMessageCount();
-        if (isChangingInfo){
+        if (beingActivity == ACT_UPDATE) {
             mTvNickname.setText(PrefUtil.getInfoNickname());
             mTvSignature.setText(PrefUtil.getInfoSignature());
             ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
-            isChangingInfo = false;
+            beingActivity = 0;
         }
     }
 
@@ -204,7 +192,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
             PrefUtil.setInfoGroup(info.getGroup());
             PrefUtil.setInfoLevel(info.getLevel());
             PrefUtil.setIsLatestInfo(true);
-            setPastDays(PrefUtil.getInfoCreate());
+            mTvPastDays.setText(TextUtil.getPastDays(mContext, info.getT_create()), TextView.BufferType.SPANNABLE);
             mTvPostCount.setText(PrefUtil.getInfoPost() + "");
             mTvNickname.setText(PrefUtil.getInfoNickname());
             mTvSignature.setText(PrefUtil.getInfoSignature());
@@ -228,4 +216,19 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         setUnread(0);
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        StatusBarUtil.setTranslucentForImageViewInFragment(this.getActivity(), null);
+
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }

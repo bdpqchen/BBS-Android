@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorMainBg"
+    android:fitsSystemWindows="true"
     >
 
     <android.support.design.widget.AppBarLayout
@@ -60,6 +61,7 @@
             app:tabSelectedTextColor="@color/material_yellow_accent_700"
             app:tabTextColor="@color/material_light_white"
             app:tabBackground="@color/colorPrimary"
+            app:tabIndicatorHeight="1dp"
             />
 
     </android.support.design.widget.AppBarLayout>

@@ -13,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
@@ -53,7 +54,11 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
                 if (model.getAnonymous() == 1) {
                     model.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivHotAvatar);
+                    holder.mCivHotAvatar.setOnClickListener(null);
                 } else {
+                    holder.mCivHotAvatar.setOnClickListener(v -> {
+                        mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id()));
+                    });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivHotAvatar);
                 }
                 holder.mTvUsername.setText(model.getAuthor_name());
@@ -76,11 +81,11 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
                     intent.putExtra(INTENT_BOARD_ID, model.getBoard_id());
                     mContext.startActivity(intent);
                 });
+
             }
         }
 
     }
-
 
     static class HotViewHolder extends BaseViewHolder {
         @BindView(R.id.civ_hot_avatar)
@@ -99,10 +104,8 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
         TextView mTvHotTime;
         @BindView(R.id.ll_hot_body)
         LinearLayout mLlHotBody;
-
         HotViewHolder(View view) {
             super(view);
-
         }
     }
 }

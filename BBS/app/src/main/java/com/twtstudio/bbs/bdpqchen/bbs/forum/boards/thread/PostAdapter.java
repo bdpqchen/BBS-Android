@@ -15,6 +15,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
@@ -28,6 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_END;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
@@ -51,6 +53,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private boolean mIsNoMore = false;
     private boolean mEnding;
     private boolean mIsFinding = false;
+    public List<ThreadModel.PostBean> getPostList(){
+        return mPostData;
+    }
 
     @Override
     public void onClick(View v) {
@@ -74,7 +79,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = null;
+        View view;
         if (viewType == ITEM_NORMAL) {
 //            LogUtil.dd("view = normal");
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_post, parent, false);
@@ -104,52 +109,67 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             if (holder instanceof HeaderHolder) {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 ThreadModel.PostBean p = mPostData.get(position);
-                if (p.getAuthor_id() == 0) {
-                    p.setAuthor_name("匿名用户");
+                if (p.getAnonymous() == 1) {
+                    p.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, headerHolder.mCivAvatarThread);
+                    headerHolder.mCivAvatarThread.setOnClickListener(null);
                 } else {
+                    headerHolder.mCivAvatarThread.setOnClickListener(v -> {
+                        startToPeople(p.getAuthor_id());
+                    });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, p.getAuthor_id(), headerHolder.mCivAvatarThread);
                 }
                 headerHolder.mTvTitle.setText(p.getTitle());
                 headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 headerHolder.mTvUsernameThread.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
-                String content = "";
-                if (p.getContent() != null && p.getContent().length() > 0){
-                    content = Processor.process(p.getContent());
-                }
-                content = TextUtil.getReplacedContent(content);
-                headerHolder.mHtvContent.setHtml(content, new GlideImageGeter(mContext, headerHolder.mHtvContent));
+//                LogUtil.dd("header contentis", p.getContent_converted());
+                headerHolder.mHtvContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, headerHolder.mHtvContent));
                 if (p.getT_modify() > 0 && p.getT_modify() != p.getT_create()){
                     headerHolder.mTvModifyTime.setText(TextUtil.getModifyTime(p.getT_modify()));
                 }
             } else if (holder instanceof PostHolder) {
                 ThreadModel.PostBean p = mPostData.get(position);
                 PostHolder h = (PostHolder) holder;
-                if (p.getAuthor_id() == 0) {
-                    p.setAuthor_name("匿名用户");
+                int uid = p.getAuthor_id();
+                if (p.getAnonymous() == 1) {
+                    p.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_right, h.mCivAvatarPost);
+                    h.mCivAvatarPost.setOnClickListener(null);
                 } else {
-                    ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, p.getAuthor_id(), h.mCivAvatarPost);
+                    h.mCivAvatarPost.setOnClickListener(v -> {
+                        startToPeople(uid);
+                    });
+                    ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, uid, h.mCivAvatarPost);
                 }
                 h.mTvUsernamePost.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
-                String content = "";
-                if (p.getContent() != null && p.getContent().length() > 0){
-                    content = Processor.process(p.getContent());
-                }
-                content = TextUtil.getReplacedContent(content);
-                h.mHtvPostContent.setHtml(content, new GlideImageGeter(mContext, h.mHtvPostContent));
+//                LogUtil.dd("contentis", p.getContent_converted());
+                h.mHtvPostContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, h.mHtvPostContent));
                 h.mTvReply.setTag(position);
                 h.mTvReply.setOnClickListener(this);
+
             } else if (holder instanceof BaseFooterViewHolder) {
-                LogUtil.d("base footer view");
+                LogUtil.dd("base footer view");
             } else if (holder instanceof TheEndViewHolder) {
                 LogUtil.dd("the end view");
             } else if (holder instanceof JustHeaderHolder) {
                 LogUtil.dd("just header view");
             }
         }
+    }
+
+    public void startToPeople(int uid){
+        mContext.startActivity(IntentUtil.toPeople(mContext, uid));
+    }
+
+    private String formatContent(String contentBefore){
+        String content = "";
+        if (contentBefore != null && contentBefore.length() > 0){
+            content = Processor.process(contentBefore);
+            content = TextUtil.getReplacedContent(content);
+        }
+        return content;
     }
 
     @Override
@@ -166,7 +186,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 //        LogUtil.dd("item position", String.valueOf(position));
 //        LogUtil.dd("itemCount", String.valueOf(getItemCount()));
         if (mPostData != null && mPostData.size() > 0) {
-            if (position == 0 && mPage == 1 && !mIsEnding && !mIsFinding) {
+//            if (position == 0 && mPage == 1 && !mIsEnding) {
+            if (position == 0) {
 //                LogUtil.dd("return header");
                 return ITEM_HEADER;
             }
@@ -206,20 +227,30 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     }
 
-    public void findingFloor(List<ThreadModel.PostBean> model){
-        mIsFinding = true;
-        refreshList(model);
-    }
-
     public void refreshList(List<ThreadModel.PostBean> model) {
         mPostData.removeAll(mPostData);
         mPostData.addAll(model);
         notifyDataSetChanged();
     }
 
-    public void refreshToEnd(List<ThreadModel.PostBean> model){
-        mIsEnding = true;
-        refreshList(model);
+    public void refreshThisPage(List<ThreadModel.PostBean> postList, int page) {
+        LogUtil.dd("refreshThisPage()");
+        LogUtil.dd(String.valueOf(mPostData.size()));
+        if (page == 0){
+            mPostData.removeAll(mPostData);
+        }else{
+            for (int i = page * MAX_LENGTH_POST; i < mPostData.size(); i ++){
+                LogUtil.dd(String.valueOf(mPostData.size()));
+                mPostData.remove(i);
+                LogUtil.dd(String.valueOf(mPostData.size()));
+            }
+        }
+        mPostData.addAll(postList);
+        notifyDataSetChanged();
+        LogUtil.dd(String.valueOf(mPostData.size()));
+
+//        mPostData.remove()
+
     }
 
     public String comment2reply(int postPosition, String content) {
@@ -237,7 +268,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         return content;
     }
 
-
     //添加两层的引用并截断1层 和 2层太长的部分
     private String addTwoQuote(String str0) {
         String key = "> ";
@@ -245,15 +275,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             int p = str0.indexOf(key);
             String start = str0.substring(0, p);
             start = cutIfTooLong(start);
-            start = start.replaceAll("\\n", "\n> ");
-            String end  = str0.substring(p, str0.length());
+            start = start.replaceAll("\n", "\n> ");
+            String end  = str0.substring(p + 2, str0.length());
             end = cutIfTooLong(end);
-            end = "\n" + end;
-            end = end.replaceAll("> ", "\n> > ");
-            str0 = start + end;
+            end = end.replaceAll("> ", "> > ");
+            str0 = start + "> " + end;
         }else{
             str0 = cutIfTooLong(str0);
-            str0 = str0.replaceAll("\\n", "\n> ");
+            str0 = str0.replaceAll("\n", "\n> ");
         }
         return str0;
     }
@@ -270,7 +299,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         StringBuilder strNew = new StringBuilder();
         String key = "> > ";
         if (str0.contains(key)) {
-            //去掉末尾的\n
+            //去掉末尾的\\n
             int i = str0.indexOf(key);
             str0 = str0.substring(0, i);
             String strStart = str0.substring(0, i - 3);

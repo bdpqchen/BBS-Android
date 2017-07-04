@@ -8,9 +8,10 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>  <!-- 获取设备信息 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/> <!-- 获取MAC地址-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- 读写sdcard，storage等等 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/> <!-- 允许程序录制音频 -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+
 
     <!--在这里稍微解决内存不够用的情况-->
     <application
@@ -18,24 +19,9 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_bbs"
         android:label="@string/app_name"
-        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="9981"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
-        </provider>
-
-        <meta-data
-            android:name="PGYER_APPID"
-            android:value="c138c6031c518af45409b28f81913b7e">
-        </meta-data>
 
         <meta-data
             android:name="com.twtstudio.bbs.bdpqchen.bbs.commons.support.SimpleGlideModule"
@@ -67,7 +53,6 @@
         <activity android:name=".forum.boards.BoardsActivity"/>
         <activity android:name=".forum.boards.thread.ThreadActivity"/>
         <activity android:name=".individual.message.MessageActivity"/>
-        <activity android:name=".individual.collection.CollectionActivity"/>
         <activity android:name=".forum.boards.thread_list.ThreadListActivity"/>
         <activity android:name=".individual.my_release.MyReleaseActivity"/>
         <activity android:name=".auth.renew.identify.IdentifyActivity"/>
@@ -83,9 +68,15 @@
             android:name=".welcome.IntroActivity"
             android:theme="@style/AppTheme.Intro"
             />
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
         <activity android:name=".individual.avatar.UpdateAvatarActivity"/>
-
+        <activity android:name=".individual.star.StarActivity"/>
+        <activity android:name=".individual.friend.FriendActivity"/>
+        <activity android:name=".people.PeopleActivity"/>
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
+            android:theme="@android:style/Theme.Translucent"/>
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
 
     </application>
 

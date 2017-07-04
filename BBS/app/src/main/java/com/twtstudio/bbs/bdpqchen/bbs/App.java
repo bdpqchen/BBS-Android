@@ -2,17 +2,24 @@ package com.twtstudio.bbs.bdpqchen.bbs;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.os.HandlerThread;
+import android.support.multidex.MultiDex;
+import android.text.TextUtils;
 
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.oubowu.slideback.ActivityHelper;
-import com.pgyersdk.crash.PgyCrashManager;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.AppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerAppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Created by bdpqchen on 17-4-17.
@@ -32,7 +39,18 @@ public class App extends Application {
         mContext = this;
         sApplication = this;
 
-        PgyCrashManager.register(this);
+        if (!BuildConfig.DEBUG) {
+
+        }
+        //bugly配置
+        Context context = getApplicationContext();
+        String packageName = context.getPackageName();
+        String processName = getProcessName(android.os.Process.myPid());
+        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
+        strategy.setUploadProcess(processName == null || processName.equals(packageName));
+        Beta.smallIconId = R.mipmap.ic_launcher_bbs;
+        Bugly.init(context, BuildConfig.ID_BUGLY, BuildConfig.DEBUG);
+
 
         initLogUtils();
         initSlideBack();
@@ -40,8 +58,17 @@ public class App extends Application {
         workerThread.start();
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        // you must install multiDex whatever tinker is installed!
+        MultiDex.install(base);
+        // 安装tinker
+        Beta.installTinker();
+    }
+
     private void initLogUtils() {
-        if (!isApkDebug(mContext)) {
+        if (BuildConfig.DEBUG) {
             mLogLevel = LogLevel.NONE;
         }
         Hawk.init(mContext).build();
@@ -61,17 +88,6 @@ public class App extends Application {
         return sApplication.mActivityHelper;
     }
 
-
-    public static boolean isApkDebug(Context context) {
-        try {
-            ApplicationInfo info = context.getApplicationInfo();
-            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
-        } catch (Exception ignored) {
-
-        }
-        return false;
-    }
-
     public static AppComponent getAppComponent() {
         if (sAppComponent == null) {
             sAppComponent = DaggerAppComponent.builder()
@@ -79,6 +95,35 @@ public class App extends Application {
                     .build();
         }
         return sAppComponent;
+    }
+
+    /**
+     * 获取进程号对应的进程名
+     *
+     * @param pid 进程号
+     * @return 进程名
+     */
+    private static String getProcessName(int pid) {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
+            String processName = reader.readLine();
+            if (!TextUtils.isEmpty(processName)) {
+                processName = processName.trim();
+            }
+            return processName;
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }
+        return null;
     }
 
 
