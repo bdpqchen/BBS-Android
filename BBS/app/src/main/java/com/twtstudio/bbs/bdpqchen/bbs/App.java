@@ -10,9 +10,6 @@ import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.oubowu.slideback.ActivityHelper;
-import com.tencent.bugly.Bugly;
-import com.tencent.bugly.beta.Beta;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.AppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerAppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
@@ -46,12 +43,12 @@ public class App extends Application {
         Context context = getApplicationContext();
         String packageName = context.getPackageName();
         String processName = getProcessName(android.os.Process.myPid());
-        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
+       /* CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
         Beta.smallIconId = R.mipmap.ic_launcher_bbs;
         if (!BuildConfig.DEBUG){
             Bugly.init(context, BuildConfig.ID_BUGLY, BuildConfig.DEBUG);
-        }
+        }*/
 
         initLogUtils();
         initSlideBack();
@@ -65,7 +62,7 @@ public class App extends Application {
         // you must install multiDex whatever tinker is installed!
         MultiDex.install(base);
         // 安装tinker
-        Beta.installTinker();
+//        Beta.installTinker();
     }
 
     private void initLogUtils() {

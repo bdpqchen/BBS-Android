@@ -99,9 +99,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 //        ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home), "alpha", 0f).setDuration(600);
 //        animator.setStartDelay(400);
 //        animator.start();
-        /*HandlerUtil.postDelay(()->{
-            SnackBarUtil.error(mActivity, "新版本");
-        }, 3000);*/
+
+//        SnackBarUtil.error(mActivity, "新版本");
+
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragment.newInstance();
             mFragments[SECOND] = ForumFragment.newInstance();
