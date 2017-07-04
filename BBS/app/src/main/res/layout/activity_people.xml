@@ -37,13 +37,13 @@
                 android:layout_alignParentBottom="true"
                 android:orientation="vertical"
                 >
+
                 <RelativeLayout
                     android:id="@+id/rl_avatar"
                     android:layout_width="wrap_content"
                     android:layout_height="104dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="24dp"
-
                     >
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -71,6 +71,7 @@
                         tools:visibility="visible"
                         />
                 </RelativeLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_data"
                     android:layout_width="match_parent"
@@ -80,6 +81,7 @@
 
                     <TextView
                         android:id="@+id/tv_nickname"
+                        style="@style/TextAboveWhiteImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -91,6 +93,7 @@
 
                     <TextView
                         android:id="@+id/tv_signature"
+                        style="@style/TextAboveWhiteImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -113,6 +116,7 @@
 
                         <TextView
                             android:id="@+id/tv_points"
+                            style="@style/TextAboveWhiteImage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -124,6 +128,7 @@
                             />
 
                         <TextView
+                            style="@style/TextAboveWhiteImage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="积分"
@@ -150,6 +155,7 @@
 
                         <TextView
                             android:id="@+id/tv_post_count"
+                            style="@style/TextAboveWhiteImage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -162,6 +168,7 @@
                             />
 
                         <TextView
+                            style="@style/TextAboveWhiteImage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="帖子"
@@ -171,7 +178,6 @@
                             app:layout_columnWeight="1"
                             app:layout_gravity="center"
                             app:layout_row="1"
-
                             />
 
                         <View
@@ -188,6 +194,7 @@
 
                         <TextView
                             android:id="@+id/info_past_day"
+                            style="@style/TextAboveWhiteImage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -200,6 +207,7 @@
                             />
 
                         <TextView
+                            style="@style/TextAboveWhiteImage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="站龄"

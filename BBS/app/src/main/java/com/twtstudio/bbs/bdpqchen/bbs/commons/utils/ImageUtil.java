@@ -111,14 +111,13 @@ public final class ImageUtil {
     }
 
     public static void loadBgByUid(Context context, int uid, ImageView view) {
-        DrawableRequestBuilder<Integer> thumbnail = Glide.with(context)
-                .load(R.drawable.cover_login)
-                .bitmapTransform(new BlurTransformation(context, radius));
+//        DrawableRequestBuilder<Integer> thumbnail = Glide.with(context)
+//                .load(R.drawable.avatar_default_left)
+//                .bitmapTransform(new BlurTransformation(context, radius));
         Glide.with(context)
                 .load(getAvatarUrl(uid))
-                .bitmapTransform(new BlurTransformation(context, radius),
-                        new ColorFilterTransformation(context, R.color.colorInfoBg))
-                .thumbnail(thumbnail)
+                .bitmapTransform(new BlurTransformation(context, radius))
+//                .thumbnail(thumbnail)
                 .crossFade()
                 .into(view);
     }

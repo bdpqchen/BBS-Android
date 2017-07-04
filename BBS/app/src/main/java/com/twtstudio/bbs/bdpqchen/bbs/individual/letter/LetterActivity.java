@@ -64,6 +64,7 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
     private LetterAdapter mAdapter;
     private int mPage = 0;
     private int mUid = 0;
+    private boolean isJustInto = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +90,6 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
                     LogUtil.dd("onLoadMore");
                 }
             }
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -101,6 +101,10 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
     @Override
     public void onGetLetterList(List<LetterModel> modelList) {
         mAdapter.addList(modelList);
+        if (isJustInto){
+            isJustInto = false;
+            mRvLetter.scrollToPosition(0);
+        }
         LogUtil.dd("datasize", String.valueOf(modelList.size()));
     }
 

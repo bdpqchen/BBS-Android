@@ -25,8 +25,8 @@
                 android:id="@+id/iv_bg"
                 android:layout_width="match_parent"
                 android:layout_height="296dp"
-                android:scaleType="centerCrop"
                 android:background="@color/material_blue_grey_700"
+                android:scaleType="centerCrop"
                 tools:src="@drawable/cover_login"
                 />
 
@@ -75,6 +75,7 @@
 
                 <TextView
                     android:id="@+id/tv_nickname"
+                    style="@style/TextAboveWhiteImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -86,6 +87,7 @@
 
                 <TextView
                     android:id="@+id/tv_signature"
+                    style="@style/TextAboveWhiteImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -108,6 +110,7 @@
 
                     <TextView
                         android:id="@+id/tv_points"
+                        style="@style/TextAboveWhiteImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
@@ -119,6 +122,7 @@
                         />
 
                     <TextView
+                        style="@style/TextAboveWhiteImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="积分"
@@ -142,9 +146,10 @@
                         app:layout_rowSpan="2"
                         />
 
-
                     <TextView
                         android:id="@+id/tv_post_count"
+                        style="@style/TextAboveWhiteImage"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
@@ -157,12 +162,14 @@
                         />
 
                     <TextView
+                        style="@style/TextAboveWhiteImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="帖子"
                         android:textColor="@color/colorMainText"
                         android:textSize="13sp"
                         app:layout_column="2"
+
                         app:layout_columnWeight="1"
                         app:layout_gravity="center"
                         app:layout_row="1"
@@ -183,6 +190,7 @@
 
                     <TextView
                         android:id="@+id/individual_info_past_day_with_you"
+                        style="@style/TextAboveWhiteImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
@@ -194,8 +202,8 @@
                         app:layout_row="0"
                         />
 
-
                     <TextView
+                        style="@style/TextAboveWhiteImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="站龄"
@@ -274,7 +282,6 @@
                         android:visibility="invisible"
                         tools:text="99+"
                         tools:visibility="visible"
-
                         />
 
                     <ImageView
