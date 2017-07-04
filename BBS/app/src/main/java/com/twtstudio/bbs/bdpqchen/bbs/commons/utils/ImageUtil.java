@@ -6,13 +6,17 @@ import android.widget.ImageView;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.ColorFilterTransformation;
 import jp.wasabeef.glide.transformations.GrayscaleTransformation;
 import jp.wasabeef.glide.transformations.MaskTransformation;
+import jp.wasabeef.glide.transformations.gpu.BrightnessFilterTransformation;
+import jp.wasabeef.glide.transformations.gpu.ToonFilterTransformation;
 
 /**
  * Created by bdpqchen on 17-5-4.
@@ -25,7 +29,8 @@ public final class ImageUtil {
     public static String getAvatarUrl(int uid) {
         return RxDoHttpClient.BASE_URL + "user/" + uid + "/avatar";
     }
-    public static String getCoverUri(int fid){
+
+    public static String getCoverUri(int fid) {
         return RxDoHttpClient.BASE_URL + "forum/" + fid + "/cover";
     }
 
@@ -33,7 +38,7 @@ public final class ImageUtil {
         Glide.with(context).load(resourceId).asBitmap().centerCrop().into(view);
     }
 
-    public static void loadAnonAvatar(Context context, ImageView view){
+    public static void loadAnonAvatar(Context context, ImageView view) {
         Glide.with(context).load(R.drawable.avatar_anonymous_left).asBitmap().centerCrop().crossFade().into(view);
     }
 
@@ -68,6 +73,7 @@ public final class ImageUtil {
                 .error(R.drawable.avatar_default_left)
                 .into(view);
     }
+
     public static void loadAvatarAsBitmapByUidWithRight(Context context, int author_id, CircleImageView civAvatarPost) {
         Glide.with(context).load(getAvatarUrl(author_id))
                 .asBitmap()
@@ -90,6 +96,7 @@ public final class ImageUtil {
     public static void loadMyAvatar(Context context, ImageView civAvatar) {
         loadAvatarByUid(context, PrefUtil.getAuthUid(), civAvatar);
     }
+
     public static void loadAvatarByUid(Context context, int uid, ImageView view) {
         Glide.with(context)
                 .load(getAvatarUrl(uid))
@@ -102,13 +109,15 @@ public final class ImageUtil {
     public static void loadMyBg(Context context, ImageView imageView) {
         loadBgByUid(context, PrefUtil.getAuthUid(), imageView);
     }
-    public static void loadBgByUid(Context context, int uid, ImageView view){
+
+    public static void loadBgByUid(Context context, int uid, ImageView view) {
         DrawableRequestBuilder<Integer> thumbnail = Glide.with(context)
                 .load(R.drawable.cover_login)
                 .bitmapTransform(new BlurTransformation(context, radius));
         Glide.with(context)
                 .load(getAvatarUrl(uid))
-                .bitmapTransform(new BlurTransformation(context, radius))
+                .bitmapTransform(new BlurTransformation(context, radius),
+                        new ColorFilterTransformation(context, R.color.colorInfoBg))
                 .thumbnail(thumbnail)
                 .crossFade()
                 .into(view);
@@ -118,7 +127,7 @@ public final class ImageUtil {
         refreshAvatar(context, PrefUtil.getAuthUid(), civAvatar);
     }
 
-    private static void refreshAvatar(Context context, int uid, ImageView view){
+    private static void refreshAvatar(Context context, int uid, ImageView view) {
         Glide.with(context)
                 .load(getAvatarUrl(uid))
                 .skipMemoryCache(true)

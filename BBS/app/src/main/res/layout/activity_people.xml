@@ -12,7 +12,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         >
 
@@ -25,25 +25,25 @@
                 android:id="@+id/iv_bg"
                 android:layout_width="match_parent"
                 android:layout_height="296dp"
+                android:background="@color/material_blue_grey_700"
                 android:scaleType="centerCrop"
                 tools:src="@drawable/cover_login"
-                android:background="@color/material_blue_grey_700"
                 />
 
             <LinearLayout
                 android:id="@+id/ll_nickname"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:orientation="vertical"
                 >
-
                 <RelativeLayout
                     android:id="@+id/rl_avatar"
                     android:layout_width="wrap_content"
                     android:layout_height="104dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="24dp"
+
                     >
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -70,15 +70,12 @@
                         android:visibility="gone"
                         tools:visibility="visible"
                         />
-
                 </RelativeLayout>
-
                 <LinearLayout
+                    android:id="@+id/ll_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:id="@+id/ll_data"
-                    android:background="@color/colorInfoBg"
                     >
 
                     <TextView
@@ -222,10 +219,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:text="最近帖子:"
             android:textColor="@color/colorPrimaryCopy"
-            android:layout_margin="8dp"
-
             />
 
         <android.support.v7.widget.RecyclerView
@@ -233,7 +229,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
-
 
     </LinearLayout>
 
