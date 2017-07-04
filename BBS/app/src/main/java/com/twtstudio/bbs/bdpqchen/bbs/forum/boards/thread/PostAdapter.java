@@ -79,7 +79,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = null;
+        View view;
         if (viewType == ITEM_NORMAL) {
 //            LogUtil.dd("view = normal");
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_post, parent, false);
@@ -109,9 +109,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             if (holder instanceof HeaderHolder) {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 ThreadModel.PostBean p = mPostData.get(position);
-                if (p.getAuthor_id() == 0) {
+                if (p.getAnonymous() == 1) {
                     p.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, headerHolder.mCivAvatarThread);
+                    headerHolder.mCivAvatarThread.setOnClickListener(null);
                 } else {
                     headerHolder.mCivAvatarThread.setOnClickListener(v -> {
                         startToPeople(p.getAuthor_id());
@@ -121,29 +122,30 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mTvTitle.setText(p.getTitle());
                 headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 headerHolder.mTvUsernameThread.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
-                String content = formatContent(p.getContent());
-                headerHolder.mHtvContent.setHtml(content, new GlideImageGeter(mContext, headerHolder.mHtvContent));
-
+//                LogUtil.dd("header contentis", p.getContent_converted());
+                headerHolder.mHtvContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, headerHolder.mHtvContent));
                 if (p.getT_modify() > 0 && p.getT_modify() != p.getT_create()){
                     headerHolder.mTvModifyTime.setText(TextUtil.getModifyTime(p.getT_modify()));
                 }
             } else if (holder instanceof PostHolder) {
                 ThreadModel.PostBean p = mPostData.get(position);
                 PostHolder h = (PostHolder) holder;
-                if (p.getAuthor_id() == 0) {
+                int uid = p.getAuthor_id();
+                if (p.getAnonymous() == 1) {
                     p.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_right, h.mCivAvatarPost);
+                    h.mCivAvatarPost.setOnClickListener(null);
                 } else {
                     h.mCivAvatarPost.setOnClickListener(v -> {
-                        startToPeople(p.getAuthor_id());
+                        startToPeople(uid);
                     });
-                    ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, p.getAuthor_id(), h.mCivAvatarPost);
+                    ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, uid, h.mCivAvatarPost);
                 }
                 h.mTvUsernamePost.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
-                String content = formatContent(p.getContent());
-                h.mHtvPostContent.setHtml(content, new GlideImageGeter(mContext, h.mHtvPostContent));
+//                LogUtil.dd("contentis", p.getContent_converted());
+                h.mHtvPostContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, h.mHtvPostContent));
                 h.mTvReply.setTag(position);
                 h.mTvReply.setOnClickListener(this);
 

@@ -49,6 +49,8 @@ public final class TextUtil {
         if (contentBefore != null && contentBefore.length() > 0){
             content = Processor.process(contentBefore);
             content = TextUtil.getReplacedContent(content);
+            content = content.replaceAll("attach:", BASE_URL + "img/");
+            content = content.replaceAll("<img", "<br /><img");
         }
         return content;
     }

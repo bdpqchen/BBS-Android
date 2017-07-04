@@ -54,6 +54,7 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
                 if (model.getAnonymous() == 1) {
                     model.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivHotAvatar);
+                    holder.mCivHotAvatar.setOnClickListener(null);
                 } else {
                     holder.mCivHotAvatar.setOnClickListener(v -> {
                         mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id()));
@@ -86,7 +87,6 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
 
     }
 
-
     static class HotViewHolder extends BaseViewHolder {
         @BindView(R.id.civ_hot_avatar)
         CircleImageView mCivHotAvatar;
@@ -104,10 +104,8 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
         TextView mTvHotTime;
         @BindView(R.id.ll_hot_body)
         LinearLayout mLlHotBody;
-
         HotViewHolder(View view) {
             super(view);
-
         }
     }
 }

@@ -32,7 +32,6 @@ import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
-import com.nightonke.boommenu.Util;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -427,6 +426,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             post.setTitle(thread.getTitle());
             post.setT_create(thread.getT_create());
             post.setT_modify(thread.getT_modify());
+            post.setContent_converted(thread.getContent_converted());
             postList.add(post);
         }
         if (model.getPost() == null && model.getPost().size() == 0) {

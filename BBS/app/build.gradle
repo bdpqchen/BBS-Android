@@ -16,7 +16,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.twtstudio.bbs.bdpqchen.bbs"
-        minSdkVersion 22
+        minSdkVersion 18
         targetSdkVersion 25
         versionCode 7
         versionName "1.2.0"

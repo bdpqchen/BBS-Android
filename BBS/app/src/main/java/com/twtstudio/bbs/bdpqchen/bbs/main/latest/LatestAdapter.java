@@ -58,6 +58,7 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
                 if (model.getAnonymous() == 1) {
                     model.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivLatestAvatar);
+                    holder.mLlLayerHeader.setOnClickListener(null);
                 } else {
                     holder.mLlLayerHeader.setOnClickListener(v -> {
                         mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id()));

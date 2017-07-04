@@ -38,7 +38,7 @@
             android:layout="@layout/preference_item"
             android:title="简版展示板块列表"
             android:summary="快速浏览所有板块"
-            android:defaultValue="false"
+            android:defaultValue="true"
             />
         <SwitchPreference
             android:key="@string/key_simple_forum"
@@ -46,6 +46,7 @@
             android:title="简版展示论坛区"
             android:defaultValue="false"
             />
+<!--
         <SwitchPreference
             android:key="@string/key_auto_clear_unread"
             android:layout="@layout/preference_item"
@@ -53,6 +54,7 @@
             android:summary="打开未读消息列表后,立即清空未读消息"
             android:defaultValue="false"
             />
+-->
 
        <!-- <ListPreference
             android:key="@string/key_habit_hand"

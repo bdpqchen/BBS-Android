@@ -138,7 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        app:bmb_normalColor="@color/material_cyan_600"
+        app:bmb_normalColor="#62cbd6"
         app:bmb_shadowRadius="2dp"
         android:layout_margin="4dp"
         />

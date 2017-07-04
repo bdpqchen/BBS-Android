@@ -93,7 +93,6 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                     iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
                     iHolder.mHtvSummary.setText(item.getContent());
                 }
-
             } else if (holder instanceof AppealView) {
                 AppealView iHolder = (AppealView) holder;
                 setViewStatus(item.getRead(), iHolder.mRedDot);
@@ -123,7 +122,6 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                         iHolder.mTvAppealReject.setVisibility(View.GONE);
                     }
                 }
-
             } else if (holder instanceof TheEndViewHolder) {
 
             } else if (holder instanceof BaseFooterViewHolder) {
