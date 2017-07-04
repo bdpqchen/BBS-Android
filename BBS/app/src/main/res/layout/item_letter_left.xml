@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    >
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="@dimen/size_avatar_normal"
+        android:layout_height="@dimen/size_avatar_normal"
+        android:src="@drawable/avatar_default_left"
+        android:id="@+id/civ_avatar_letter"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="240dp"
+        tools:text="z消息可以考虑使用上面3的方法，直接添加数据到列表的头部，或者重写"
+        android:id="@+id/tv_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="4dp"
+        android:background="@color/colorMainBgLight"
+        />
+
+
+</LinearLayout>

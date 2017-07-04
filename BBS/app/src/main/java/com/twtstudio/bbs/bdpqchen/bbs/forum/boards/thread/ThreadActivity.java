@@ -245,6 +245,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
                 if (dy > 0 && mBmbShowing) {
                     mBmbShowing = false;
                     hideBmb();
@@ -252,7 +253,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                     mBmbShowing = true;
                     showBmb();
                 }
-                lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
                 int d = 300;
                 if (lastVisibleItemPosition != 0 && mLayoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
                     if (!showingThreadTitle) {

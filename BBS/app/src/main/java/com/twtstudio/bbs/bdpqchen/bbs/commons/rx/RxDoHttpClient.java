@@ -20,6 +20,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
@@ -354,5 +355,9 @@ public class RxDoHttpClient<T> {
 
     public Observable<BaseResponse<PeopleModel>> getUserInfo(int uid) {
         return mApi.getUserInfo(uid);
+    }
+
+    public Observable<BaseResponse<List<LetterModel>>> getLetterList(int uid, int page) {
+        return mApi.getLetterList(uid, page);
     }
 }

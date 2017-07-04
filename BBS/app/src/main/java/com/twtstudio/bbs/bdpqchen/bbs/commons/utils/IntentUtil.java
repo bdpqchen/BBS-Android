@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
@@ -34,6 +35,12 @@ public final class IntentUtil {
 
     public static Intent toPeople(Context context, int uid) {
         Intent intent = new Intent(context, PeopleActivity.class);
+        intent.putExtra(UID, uid);
+        return intent;
+    }
+
+    public static Intent toLetter(Context context, int uid) {
+        Intent intent = new Intent(context, LetterActivity.class);
         intent.putExtra(UID, uid);
         return intent;
     }

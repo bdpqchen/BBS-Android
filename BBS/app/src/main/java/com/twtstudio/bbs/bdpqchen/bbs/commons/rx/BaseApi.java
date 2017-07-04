@@ -16,6 +16,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
@@ -273,6 +274,9 @@ public interface BaseApi {
     Observable<BaseResponse<PeopleModel>> getUserInfo(
             @Path(UID) int uid);
 
-
+    @GET("home/message/dialog/{uid}/page/{page}")
+    Observable<BaseResponse<List<LetterModel>>> getLetterList(
+            @Path(UID) int uid,
+            @Path("page") int page);
 }
 
