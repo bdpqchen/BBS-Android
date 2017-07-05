@@ -57,6 +57,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REAL_NAME
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REPLY_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.STUNUM;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TO_UID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
@@ -278,5 +279,11 @@ public interface BaseApi {
     Observable<BaseResponse<List<LetterModel>>> getLetterList(
             @Path(UID) int uid,
             @Path("page") int page);
+
+    @POST("home/message")
+    @FormUrlEncoded
+    Observable<BaseResponse<BaseModel>> sendLetter(
+            @Field(TO_UID) int to_uid,
+            @Field(CONTENT) String content);
 }
 

@@ -12,6 +12,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BO
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity.INTENT_THREAD_FLOOR;
 
 /**
@@ -39,9 +40,10 @@ public final class IntentUtil {
         return intent;
     }
 
-    public static Intent toLetter(Context context, int uid) {
+    public static Intent toLetter(Context context, int uid, String username) {
         Intent intent = new Intent(context, LetterActivity.class);
         intent.putExtra(UID, uid);
+        intent.putExtra(USERNAME, username);
         return intent;
     }
 }

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
@@ -48,7 +48,7 @@ public class FriendAdapter extends BaseAdapter<FriendModel> {
                     mContext.startActivity(IntentUtil.toPeople(mContext, model.getUid()));
                 });
                 holder.itemView.setOnClickListener(v -> {
-                    mContext.startActivity(IntentUtil.toLetter(mContext, model.getUid()));
+                    mContext.startActivity(IntentUtil.toLetter(mContext, model.getUid(), model.getName()));
 
                 });
             }

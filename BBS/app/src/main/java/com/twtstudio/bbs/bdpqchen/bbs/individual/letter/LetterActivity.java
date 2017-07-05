@@ -1,23 +1,35 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.letter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
 import java.util.List;
 
 import butterknife.BindView;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_Letter;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
 /**
  * Created by bdpqchen on 17-7-4.
@@ -28,7 +40,10 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
     Toolbar mToolbar;
     @BindView(R.id.rv_letter)
     RecyclerView mRvLetter;
-    private int lastVisibleItemPosition = 0;
+    @BindView(R.id.et_letter)
+    EditText mEtLetter;
+    @BindView(R.id.tv_send)
+    TextView mTvSend;
 
     @Override
     protected int getLayoutResourceId() {
@@ -61,55 +76,163 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
         return this;
     }
 
+    private static final int SEC = 5;
+
     private LetterAdapter mAdapter;
     private int mPage = 0;
     private int mUid = 0;
     private boolean isJustInto = true;
+    private boolean isTopping = false;
+    private String mContent = "";
+    LinearLayoutManager manager;
+    private int lastVisibleItemPosition = 0;
+    private int mInterval = SEC;
+    private boolean mIsRefreshList = true;
+    private  int mOldTime = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         mUid = intent.getIntExtra(UID, 0);
-
+        mToolbar.setTitle(intent.getStringExtra(USERNAME));
         mAdapter = new LetterAdapter(mContext);
         mRvLetter.setAdapter(mAdapter);
-//        mRvLetter.addItemDecoration(new RecyclerViewItemDecoration(2));
-        LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         manager.setReverseLayout(true);
         manager.setStackFromEnd(true);
         mRvLetter.setLayoutManager(manager);
+        mRvLetter.setNestedScrollingEnabled(false);
         mPresenter.getLetterList(mUid, mPage);
-
-//        mAdapter.setShowFooter(true);
+        mAdapter.setShowFooter(true);
+        mTvSend.setOnClickListener(v -> {
+            LogUtil.dd("you have clicked the send button");
+            mPresenter.sendLetter(mUid, mContent);
+        });
         mRvLetter.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()){
-                    LogUtil.dd("onLoadMore");
+                if (newState == SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
+//                    LogUtil.dd("onLoadMore");)
+                    if (!isTopping){
+                        mPresenter.getLetterList(mUid, ++mPage);
+                    }
                 }
             }
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 lastVisibleItemPosition = manager.findLastVisibleItemPosition();
             }
         });
+
+        mEtLetter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (mEtLetter.getText().toString().length() > 2) {
+                    updateSendColor(true);
+                    mContent = mEtLetter.getText().toString();
+                } else {
+                    updateSendColor(false);
+                }
+            }
+        });
+
+        KeyboardVisibilityEvent.setEventListener(mActivity, isOpen -> {
+            if (isOpen) {
+                mRvLetter.scrollToPosition(0);
+            }
+        });
+
+
+    }
+
+    private void hideInput() {
+        InputMethodManager imm = (InputMethodManager) mEtLetter
+                .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromInputMethod(mEtLetter.getWindowToken(), 0);
+    }
+
+    private void showInput() {
+    }
+
+    private void updateSendColor(boolean sendable) {
+        if (mTvSend != null) {
+            int color;
+            if (sendable) {
+                color = getColor(R.color.colorPrimaryCopy);
+            } else {
+                color = getColor(R.color.colorTvBlackMain);
+            }
+            mTvSend.setTextColor(color);
+            mTvSend.setClickable(sendable);
+        }
     }
 
     @Override
     public void onGetLetterList(List<LetterModel> modelList) {
-        mAdapter.addList(modelList);
-        if (isJustInto){
+        boolean thisTimeHaveNewData = false;
+        if (modelList != null && modelList.size() != 0) {
+            if (mPage == 0) {
+                mAdapter.clearAll();
+            }
+            if (mPage == 0 && modelList.size() < MAX_LENGTH_Letter) {
+                mAdapter.setNotEnoughOnePage(true);
+            }
+            int newTime = modelList.get(0).getT_create();
+            if (newTime > mOldTime){
+                thisTimeHaveNewData = true;
+                mInterval = SEC;
+                mOldTime = newTime;
+            }else{
+                mInterval *= 2;
+            }
+            mAdapter.addList(modelList, mPage);
+            if (thisTimeHaveNewData){
+                mRvLetter.scrollToPosition(0);
+            }
+        } else {
+            mPage--;
+            isTopping = true;
+            mAdapter.setTopping(true);
+            mInterval *= 2;
+        }
+        if (isJustInto) {
             isJustInto = false;
             mRvLetter.scrollToPosition(0);
         }
-        LogUtil.dd("datasize", String.valueOf(modelList.size()));
+        if (mIsRefreshList){
+            HandlerUtil.postDelay(()->{
+                mPresenter.getLetterList(mUid, 0);
+            }, mInterval * 1000);
+        }
     }
 
     @Override
     public void onGetLetterFailed(String m) {
         SnackBarUtil.error(mActivity, m);
+    }
+
+    @Override
+    public void onSend(BaseModel model) {
+        mPresenter.getLetterList(mUid, 0);
+        mEtLetter.getText().clear();
+    }
+
+    @Override
+    public void onSendFailed(String m) {
+        SnackBarUtil.error(mActivity, m);
+        mPresenter.getLetterList(mUid, 0);
     }
 }

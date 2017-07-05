@@ -4,28 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="end"
     android:orientation="horizontal"
     android:padding="8dp"
     >
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/civ_avatar_letter"
-        android:layout_width="@dimen/size_avatar_normal"
-        android:layout_height="@dimen/size_avatar_normal"
-        android:src="@drawable/avatar_default_left"
-        />
 
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="64dp"
         android:background="@drawable/shape_letter"
-        android:backgroundTint="@color/colorMainBgLight"
+        android:backgroundTint="@color/material_blue_300"
         android:maxWidth="@dimen/max_width_letter"
         android:padding="@dimen/padding_letter"
-        android:textColor="@color/colorTvBlackMain"
+        android:textColor="@color/colorMainBgLight"
         tools:text="z消息可以考虑使用上面3的方法，直接添加数据到列表的头部，或者重写"
         />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civ_avatar_letter"
+        android:layout_width="@dimen/size_avatar_normal"
+        android:layout_height="@dimen/size_avatar_normal"
+        android:layout_marginStart="4dp"
+        android:src="@drawable/avatar_default_left"
+        />
+
+
 
 </LinearLayout>

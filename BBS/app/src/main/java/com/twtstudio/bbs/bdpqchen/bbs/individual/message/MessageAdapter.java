@@ -10,8 +10,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.GlideImageGeter;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseFooterViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
@@ -26,6 +26,10 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_COMMENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_LETTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_REPLY;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TAG_MSG_APPEAL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TAG_MSG_COMMENT;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TAG_MSG_LETTER;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TAG_MSG_REPLY;
 
 /**
  * Created by Ricky on 2017/5/19.
@@ -46,9 +50,9 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == 2 || viewType == 3 || viewType == 1) {
+        if (viewType == ITEM_MSG_REPLY || viewType == ITEM_MSG_COMMENT || viewType == ITEM_MSG_LETTER) {
             return new CommentView(inflater.inflate(R.layout.item_rv_message_comment, parent, false));
-        } else if (viewType == 4) {
+        } else if (viewType == ITEM_MSG_APPEAL) {
             return new AppealView(inflater.inflate(R.layout.item_rv_message_appeal, parent, false));
         } else {
 
@@ -144,13 +148,13 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
     public int getItemViewType(int position) {
         if (mDataSet != null && mDataSet.size() > 0) {
             switch (mDataSet.get(position).getTag()) {
-                case ITEM_MSG_LETTER:
+                case TAG_MSG_LETTER:
                     return ITEM_MSG_LETTER;
-                case ITEM_MSG_COMMENT:
+                case TAG_MSG_COMMENT:
                     return ITEM_MSG_COMMENT;
-                case ITEM_MSG_REPLY:
+                case TAG_MSG_REPLY:
                     return ITEM_MSG_REPLY;
-                case ITEM_MSG_APPEAL:
+                case TAG_MSG_APPEAL:
                     return ITEM_MSG_APPEAL;
             }
         }

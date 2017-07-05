@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     private boolean isShowFooter = false;
     private boolean isShowHeader = false;
     private OnItemClickListener mOnItemClickListener = null;
+    protected int mPage = 0;
 
     @Override
     public void onClick(View v) {
@@ -63,6 +65,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     public void addList(List<T> items){
         mDataSet.addAll(items);
         notifyDataSetChanged();
+    }
+
+    public void addList(List<T> items, int page){
+        mPage = page;
+        addList(items);
     }
 
     @Override

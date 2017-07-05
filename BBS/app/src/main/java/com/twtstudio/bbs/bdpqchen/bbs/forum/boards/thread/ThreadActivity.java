@@ -746,7 +746,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                     .playOn(mLlComment);
             mLlComment.setVisibility(View.VISIBLE);
             mTvDynamicHint.setText(mAdapter.getDynamicHint(postPosition));
-
             mEtComment.setFocusable(true);
             mEtComment.setFocusableInTouchMode(true);
             mEtComment.requestFocus();

@@ -360,4 +360,8 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<List<LetterModel>>> getLetterList(int uid, int page) {
         return mApi.getLetterList(uid, page);
     }
+
+    public Observable<BaseResponse<BaseModel>> sendLetter(int to_uid, String content) {
+        return mApi.sendLetter(to_uid, content);
+    }
 }
