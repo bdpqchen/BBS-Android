@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -66,6 +67,8 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
     TextView mTvHonor;
     @BindView(R.id.toolbar_behavior)
     Toolbar mToolbar;
+    @BindView(R.id.nested_scroll)
+    NestedScrollView mNestedScroll;
     private int mUid = 0;
     private PeopleAdapter mAdapter;
     private String mName = "";
@@ -79,7 +82,7 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
     @Override
     protected Toolbar getToolbarView() {
         mToolbar.getBackground().mutate().setAlpha(0);
-        mToolbar.setTitle(mName);
+        mToolbar.setTitle("");
         return mToolbar;
     }
 
@@ -105,10 +108,11 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         mUid = intent.getIntExtra(UID, 0);
-        mName = intent.getStringExtra(USERNAME);
-        super.onCreate(savedInstanceState);
+//        mName = intent.getStringExtra(USERNAME);
+        mToolbar.setTitle(mName);
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
         mPresenter.getUserInfo(mUid);
         ImageUtil.loadAvatarAsBitmapByUidWithLeft(this, mUid, mCivAvatar);
@@ -117,8 +121,23 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
         LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRvPeople.setLayoutManager(manager);
         mRvPeople.setAdapter(mAdapter);
-        mRvPeople.addItemDecoration(new RecyclerViewItemDecoration(1));
+        mRvPeople.addItemDecoration(new RecyclerViewItemDecoration(2));
         mRvPeople.setNestedScrollingEnabled(false);
+
+        mNestedScroll.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                double minus = (scrollY - oldScrollY) / 1.5;
+                int alpha = mToolbar.getBackground().mutate().getAlpha();
+                alpha += minus;
+                if (alpha > 255){
+                    alpha = 255;
+                }else if (alpha < 0){
+                    alpha = 0;
+                }
+                mToolbar.getBackground().mutate().setAlpha(alpha);
+            }
+        });
 
     }
 

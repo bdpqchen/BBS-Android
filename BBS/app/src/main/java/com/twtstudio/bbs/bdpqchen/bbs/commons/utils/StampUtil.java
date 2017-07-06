@@ -35,7 +35,7 @@ public final class StampUtil {
             result += date[0] + "年" + date[1] + "月" + date[2] + "号 ";
         }else{
             if (date[1] == dateNow[1] && date[2] == dateNow[2]) {
-                result = "今天";
+                result = "今天 ";
             }else{
                 result = date[1] + "月" + date[2] + "号 ";
             }
@@ -93,8 +93,10 @@ public final class StampUtil {
         } else if (hours > 1) {
             return hours + "小时前";
         } else if (hours == 1) {
-            if (minutes <= 0) {
+            if (minutes < 0) {
                 minutes += 60;
+            }else{
+                return hours + "小时前";
             }
             return minutes + "分钟前";
         } else if (minutes > 1) {
