@@ -139,9 +139,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     private ImageFormatUtil mImageFormatUtil;
     private boolean mIsFindEnd = false;
-    private String[] menuTexts = new String[]{"评论", "刷新帖子", "分享链接", "潜入底部", "跳楼", "返回顶部"};
-    private int[] menuRes = new int[]{R.drawable.ic_insert_comment_white_24dp, R.drawable.ic_refresh_white_24dp, R.drawable.ic_share_white_24dp,
-            R.drawable.ic_vertical_align_bottom_white_24dp, R.drawable.ic_jump_floor_black_24dp, R.drawable.ic_vertical_align_top_white_24dp};
+    private String[] menuTexts = new String[]{"跳楼", "刷新帖子", "分享链接", "潜入底部", "评论", "返回顶部"};
+    private int[] menuRes = new int[]{R.drawable.ic_jump_floor_black_24dp, R.drawable.ic_refresh_white_24dp, R.drawable.ic_share_white_24dp,
+            R.drawable.ic_vertical_align_bottom_white_24dp, R.drawable.ic_insert_comment_white_24dp, R.drawable.ic_vertical_align_top_white_24dp};
     private boolean mBmbShowing = true;
     private boolean isAutoFindFloor = false;
     private boolean isLastPage = false;
@@ -309,21 +309,15 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }
         });
         mIvCommentOut.setOnClickListener(v ->
-
                 hideCommentInput());
         mIvCommentSend.setOnClickListener(v ->
-
                 sendComment(mReplyId));
-        mIvStaredThread.setOnClickListener(v ->
-
-        {
+        mIvStaredThread.setOnClickListener(v -> {
             if (PrefUtil.hadLogin()) {
                 mPresenter.unStarThread(mThreadId);
             }
         });
-        mIvStarThread.setOnClickListener(v ->
-
-        {
+        mIvStarThread.setOnClickListener(v -> {
             if (PrefUtil.hadLogin()) {
                 mPresenter.starThread(mThreadId);
             }
@@ -334,29 +328,21 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
                         getIntArray(R.array.swipeRefreshColors));
         mSrlThreadList.setRefreshing(true);
-        mSrlThreadList.setOnRefreshListener(() ->
-
-        {
+        mSrlThreadList.setOnRefreshListener(() -> {
             mRefreshing = true;
             mPage = 0;
             mPresenter.getThread(mThreadId, mPage);
 //                mSrlThreadList.setRefreshing(false);
         });
-        mAdapter.setOnItemClickListener((view, position) ->
-
-        {
+        mAdapter.setOnItemClickListener((view, position) -> {
             postPosition = position;
             mReplyId = mAdapter.getPostId(position);
             showCommentInput();
         });
-        mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) ->
-
-        {
+        mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mIsAnonymous = isChecked;
         });
-        mIvSelectImage.setOnClickListener(v ->
-
-        {
+        mIvSelectImage.setOnClickListener(v -> {
             ImagePickUtil.commonPickImage(this);
         });
         mPresenter.getThread(mThreadId, 0);
@@ -420,7 +406,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         if (model.getThread() != null) {
             mPostCount = model.getThread().getC_post();
             if (mPage == 0) {
-                canAnonymous = model.getThread().getAnonymous();
+                canAnonymous = model.getBoard().getAnonymous();
             }
         }
         List<ThreadModel.PostBean> postList = new ArrayList<>();
@@ -599,7 +585,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     @Override
     public void onBoomButtonClick(int index) {
         switch (index) {
-            case 0:
+            case 4:
                 showCommentInput();
                 resetReply();
                 break;
@@ -618,7 +604,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                     toEnd();
                 }
                 break;
-            case 4:
+            case 0:
                 if (!mRefreshing) {
                     DialogUtil.inputDialog(mContext,
                             "输入楼层,最大可能是" + mPostCount + "左右",
@@ -695,7 +681,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void startProgress(String msg) {
-        LogUtil.dd("I will show", msg);
         mProgress = DialogUtil.showProgressDialog(this, "提示", msg);
     }
 

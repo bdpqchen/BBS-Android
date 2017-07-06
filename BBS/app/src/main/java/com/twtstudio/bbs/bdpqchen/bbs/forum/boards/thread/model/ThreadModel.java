@@ -190,12 +190,14 @@ public class ThreadModel {
          * forum_id : 30
          * forum_name : 知性感性
          * name : 求实焦点
+         * anonymous : 1
          */
 
         private int id;
         private int forum_id;
         private String forum_name;
         private String name;
+        private int anonymous;
 
         public int getId() {
             return id;
@@ -227,6 +229,14 @@ public class ThreadModel {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public int getAnonymous() {
+            return anonymous;
+        }
+
+        public void setAnonymous(int anonymous) {
+            this.anonymous = anonymous;
         }
     }
 
