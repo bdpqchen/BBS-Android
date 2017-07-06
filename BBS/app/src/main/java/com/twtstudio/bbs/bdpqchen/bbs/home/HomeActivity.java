@@ -149,6 +149,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             ImageUtil.clearMemory(mContext);
             ImageUtil.clearDiskCache(mContext);
             PrefUtil.setIsThisVersionFirstOpen(false);
+            PrefUtil.setIsSimpleBoardList(true);
         }
 
 

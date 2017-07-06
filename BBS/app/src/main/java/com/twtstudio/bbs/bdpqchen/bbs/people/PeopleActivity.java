@@ -32,7 +32,6 @@ import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
 /**
  * Created by bdpqchen on 17-7-3.
@@ -132,8 +131,10 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
                 alpha += minus;
                 if (alpha > 255){
                     alpha = 255;
-                }else if (alpha < 0){
+                    mToolbar.setTitle(mName);
+                }else if (alpha <= 0){
                     alpha = 0;
+                    mToolbar.setTitle("");
                 }
                 mToolbar.getBackground().mutate().setAlpha(alpha);
             }
@@ -155,6 +156,8 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
             LogUtil.dd("Will notify", String.valueOf(model.getRecent().size()));
             mAdapter.addList(model.getRecent());
             mTvHonor.setText(TextUtil.getHonor(model.getPoints()));
+            mName = model.getName();
+
         }
     }
 

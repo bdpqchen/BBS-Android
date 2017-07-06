@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -71,6 +73,8 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     RelativeLayout mRlInfoFriend;
     @BindView(R.id.iv_bg)
     ImageView mIvBg;
+    @BindView(R.id.iv_refresh_info)
+    ImageView mIvRefreshInfo;
     @BindView(R.id.ll_need_offset)
     LinearLayout mLlNeedOffset;
 
@@ -82,6 +86,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     private static final int ACT_SETS = 5;
     private int beingActivity = 0;
     private int mUnread = 0;
+    private boolean isRefreshing = false;
 
     @Override
     protected int getFragmentLayoutId() {
@@ -111,6 +116,12 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mCivAvatar.setOnClickListener(v -> startItemActivity(ACT_UPDATE));
         mTvPostCount.setOnClickListener(v -> startItemActivity(ACT_PUBLISH));
         mRlSettings.setOnClickListener(v -> startItemActivity(ACT_SETS));
+        mIvRefreshInfo.setOnClickListener(v -> {
+            mPresenter.initIndividualInfo();
+            isRefreshing = true;
+            mPresenter.getUnreadMessageCount();
+        });
+
     }
 
     @Override
@@ -200,7 +211,11 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
             mTvSignature.setText(PrefUtil.getInfoSignature());
             mTvPoints.setText(PrefUtil.getInfoPoints() + "");
             mTvHonor.setText(TextUtil.getHonor(info.getPoints()));
-
+            if (isRefreshing){
+                ImageUtil.loadMyAvatar(mContext, mCivAvatar);
+                ImageUtil.loadMyBg(mContext, mIvBg);
+                isRefreshing = false;
+            }
         }
     }
 

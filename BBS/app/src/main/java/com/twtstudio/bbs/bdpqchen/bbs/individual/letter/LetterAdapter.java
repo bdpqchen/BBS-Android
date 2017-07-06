@@ -12,6 +12,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseEndViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseHeaderViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
@@ -74,12 +75,18 @@ public class LetterAdapter extends BaseAdapter<LetterModel> {
                 ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivAvatarLetter);
 //                LogUtil.dd("model", model.getContent());
                 holder.mTvContent.setText(model.getContent());
+                holder.mCivAvatarLetter.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id()));
+                });
 
             }else if (holder0 instanceof RightView){
                 RightView holder = (RightView) holder0;
                 LetterModel model = mDataSet.get(position);
                 ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, model.getAuthor_id(), holder.mCivAvatarLetter);
                 holder.mTvContent.setText(model.getContent());
+                holder.mCivAvatarLetter.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toPeople(mContext, myUid));
+                });
             }
         }
     }

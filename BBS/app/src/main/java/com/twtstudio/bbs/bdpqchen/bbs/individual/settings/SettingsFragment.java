@@ -48,9 +48,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         Preference preference = getPreferenceManager().findPreference(getString(R.string.key_logout));
         if (preference != null) {
-            preference.setSummary("当前账户: " + PrefUtil.getAuthUsername());
+            preference.setTitle(PrefUtil.getAuthUsername());
             preference.setOnPreferenceClickListener(this);
         }
+
 
     }
 
@@ -81,8 +82,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 PrefUtil.setIsSlideBackMode(CastUtil.cast2boolean(obj));
             } else if (key.equals(getString(R.string.key_simple_board_list))) {
                 PrefUtil.setIsSimpleBoardList(CastUtil.cast2boolean(obj));
-            }else if (key.equals(getString(R.string.key_auto_clear_unread))){
-                PrefUtil.setIsAutoClearUnread(CastUtil.cast2boolean(obj));
             }else if (key.equals(getString(R.string.key_simple_forum))){
                 PrefUtil.setIsSimpleForum(CastUtil.cast2boolean(obj));
                 HandlerUtil.postDelay(() -> ActivityManager.getActivityManager().recreateAllActivity(SettingsActivity.class), 10);

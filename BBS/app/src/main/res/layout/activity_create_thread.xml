@@ -42,7 +42,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="选择板块："
-                    android:textColor="@color/colorPrimaryCopy"
                     android:textSize="16sp"
                     />
 
@@ -70,7 +69,6 @@
                 android:minHeight="44dp"
                 android:paddingEnd="@dimen/padding_start_create_thread"
                 android:paddingStart="@dimen/padding_start_create_thread"
-                android:textColorHint="@color/colorPrimaryCopy"
                 />
 
             <android.support.design.widget.TextInputEditText
@@ -87,7 +85,6 @@
                 android:paddingEnd="@dimen/padding_start_create_thread"
                 android:paddingStart="@dimen/padding_start_create_thread"
                 android:scrollbars="vertical"
-                android:textColorHint="@color/colorPrimaryCopy"
                 />
 
             <LinearLayout

@@ -25,6 +25,7 @@
         android:layout_gravity="end|bottom"
         android:background="@color/colorMainBgLight"
         android:orientation="horizontal"
+        android:paddingStart="4dp"
         >
 
         <android.support.design.widget.TextInputLayout
