@@ -13,6 +13,8 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity.REFRESH;
+
 /**
  * Created by bdpqchen on 17-7-4.
  */
@@ -27,7 +29,7 @@ class LetterPresenter extends RxPresenter<LetterContract.View> implements Letter
     }
 
     @Override
-    public void getLetterList(int uid, int page) {
+    public void getLetterList(int uid, int page, int mode) {
         SimpleObserver<List<LetterModel>> observer = new SimpleObserver<List<LetterModel>>() {
             @Override
             public void _onError(String msg) {
@@ -37,8 +39,13 @@ class LetterPresenter extends RxPresenter<LetterContract.View> implements Letter
 
             @Override
             public void _onNext(List<LetterModel> LetterModel) {
-                if (mView != null)
-                    mView.onGetLetterList(LetterModel);
+                if (mView != null) {
+                    if (mode == REFRESH) {
+                        mView.onRefreshList(LetterModel);
+                    } else {
+                        mView.onGetLetterList(LetterModel);
+                    }
+                }
             }
         };
         addSubscribe(mHttpClient.getLetterList(uid, page)
@@ -51,7 +58,7 @@ class LetterPresenter extends RxPresenter<LetterContract.View> implements Letter
 
     @Override
     public void sendLetter(int to_uid, String content) {
-        ResponseTransformer<BaseModel> transformer =  new ResponseTransformer<>();
+        ResponseTransformer<BaseModel> transformer = new ResponseTransformer<>();
         SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
             @Override
             public void _onError(String msg) {

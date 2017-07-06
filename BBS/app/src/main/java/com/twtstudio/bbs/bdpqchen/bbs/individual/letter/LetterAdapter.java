@@ -15,6 +15,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -31,6 +36,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_RIGH
 
 public class LetterAdapter extends BaseAdapter<LetterModel> {
 
+    private Set<LetterModel> letterSets = new HashSet<>();
     private static final int myUid = PrefUtil.getAuthUid();
     private boolean isTopping = false;
     private boolean isNotEnoughOnePage = false;
@@ -99,6 +105,19 @@ public class LetterAdapter extends BaseAdapter<LetterModel> {
 
     }
 
+    public void addListWithRedundancy(List<LetterModel> redundancyList) {
+        int originSize = mDataSet.size();
+        int createKey = mDataSet.get(originSize - 1).getT_create();
+        int size = redundancyList.size();
+        List<LetterModel> cleanList = new ArrayList<>();
+        for (int i = 0; i < size; i++){
+            if (createKey > redundancyList.get(i).getT_create()){
+                cleanList.add(redundancyList.get(i));
+            }
+        }
+        mDataSet.addAll(cleanList);
+        notifyDataSetChanged();
+    }
 
     public void setTopping(boolean topping) {
         isTopping = topping;

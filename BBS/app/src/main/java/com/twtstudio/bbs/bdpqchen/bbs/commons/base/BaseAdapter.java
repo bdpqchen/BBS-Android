@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         mDataSet.addAll(items);
         notifyDataSetChanged();
     }
+    public void addFirst(List<T> items){
+        mDataSet.addAll(0, items);
+        notifyDataSetChanged();
+    }
 
     public void addList(List<T> items, int page){
         mPage = page;
@@ -105,8 +110,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
 //        notifyDataSetChanged();
     }
 
-    public void addData(T model){
+    public void addOne(T model){
         mDataSet.add(model);
-        notifyDataSetChanged();
+        notifyItemInserted(mDataSet.size() - 1);
+//        notifyDataSetChanged();
     }
+
 }

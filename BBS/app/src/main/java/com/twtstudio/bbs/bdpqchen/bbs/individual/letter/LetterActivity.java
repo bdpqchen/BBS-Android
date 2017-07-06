@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.twtstudio.bbs.bdpqchen.bbs.BuildConfig;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
@@ -22,6 +23,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -76,7 +78,8 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
         return this;
     }
 
-    private static final int SEC = 5;
+    private static final int SEC = BuildConfig.DEBUG ? 3 : 30;
+    public static final int REFRESH = 1;
 
     private LetterAdapter mAdapter;
     private int mPage = 0;
@@ -87,8 +90,8 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
     LinearLayoutManager manager;
     private int lastVisibleItemPosition = 0;
     private int mInterval = SEC;
-    private boolean mIsRefreshList = true;
-    private  int mOldTime = 0;
+    private int mOldTime = 0;
+    private int mNewDataSize = 0;
 
 
     @Override
@@ -104,10 +107,9 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
         manager.setStackFromEnd(true);
         mRvLetter.setLayoutManager(manager);
         mRvLetter.setNestedScrollingEnabled(false);
-        mPresenter.getLetterList(mUid, mPage);
+        mPresenter.getLetterList(mUid, mPage, 0);
         mAdapter.setShowFooter(true);
         mTvSend.setOnClickListener(v -> {
-            LogUtil.dd("you have clicked the send button");
             mPresenter.sendLetter(mUid, mContent);
         });
         mRvLetter.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -115,9 +117,9 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
-//                    LogUtil.dd("onLoadMore");)
-                    if (!isTopping){
-                        mPresenter.getLetterList(mUid, ++mPage);
+//                    LogUtil.dd("onLoadMore");
+                    if (!isTopping) {
+                        mPresenter.getLetterList(mUid, ++mPage, 0);
                     }
                 }
             }
@@ -164,9 +166,6 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
         imm.hideSoftInputFromInputMethod(mEtLetter.getWindowToken(), 0);
     }
 
-    private void showInput() {
-    }
-
     private void updateSendColor(boolean sendable) {
         if (mTvSend != null) {
             int color;
@@ -182,7 +181,6 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
 
     @Override
     public void onGetLetterList(List<LetterModel> modelList) {
-        boolean thisTimeHaveNewData = false;
         if (modelList != null && modelList.size() != 0) {
             if (mPage == 0) {
                 mAdapter.clearAll();
@@ -190,33 +188,55 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
             if (mPage == 0 && modelList.size() < MAX_LENGTH_Letter) {
                 mAdapter.setNotEnoughOnePage(true);
             }
-            int newTime = modelList.get(0).getT_create();
-            if (newTime > mOldTime){
-                thisTimeHaveNewData = true;
-                mInterval = SEC;
-                mOldTime = newTime;
+            if (mNewDataSize > 0){
+                mAdapter.addListWithRedundancy(modelList);
             }else{
-                mInterval *= 2;
-            }
-            mAdapter.addList(modelList, mPage);
-            if (thisTimeHaveNewData){
-                mRvLetter.scrollToPosition(0);
+                if (isJustInto){
+                    mOldTime = modelList.get(0).getT_create();
+                }
+                mAdapter.addList(modelList, mPage);
             }
         } else {
             mPage--;
             isTopping = true;
             mAdapter.setTopping(true);
-            mInterval *= 2;
         }
         if (isJustInto) {
             isJustInto = false;
             mRvLetter.scrollToPosition(0);
+            HandlerUtil.postDelay(() -> {
+                mPresenter.getLetterList(mUid, 0, REFRESH);
+            }, SEC * 1000);
         }
-        if (mIsRefreshList){
-            HandlerUtil.postDelay(()->{
-                mPresenter.getLetterList(mUid, 0);
-            }, mInterval * 1000);
+    }
+
+    @Override
+    public void onRefreshList(List<LetterModel> modelList) {
+        List<LetterModel> list = new ArrayList<>();
+        if (modelList != null) {
+            int size = modelList.size();
+            for (int i = 0; i < size; i++) {
+                if (modelList.get(i).getT_create() > mOldTime) {
+                    list.add(modelList.get(i));
+                } else {
+                    break;
+                }
+            }
         }
+        int size = list.size();
+        if (size > 0) {
+            mAdapter.addFirst(list);
+            mNewDataSize = size;
+            mInterval = SEC;
+            mOldTime = list.get(0).getT_create();
+        } else {
+            mInterval *= 2;
+        }
+
+        HandlerUtil.postDelay(() -> {
+            mPresenter.getLetterList(mUid, 0, REFRESH);
+        }, mInterval * 1000);
+
     }
 
     @Override
@@ -226,13 +246,13 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
 
     @Override
     public void onSend(BaseModel model) {
-        mPresenter.getLetterList(mUid, 0);
+        mPresenter.getLetterList(mUid, 0, REFRESH);
         mEtLetter.getText().clear();
     }
 
     @Override
     public void onSendFailed(String m) {
         SnackBarUtil.error(mActivity, m);
-        mPresenter.getLetterList(mUid, 0);
+        mPresenter.getLetterList(mUid, 0, REFRESH);
     }
 }
