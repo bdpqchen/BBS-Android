@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
 
@@ -34,10 +35,20 @@ public final class IntentUtil {
         return intent;
     }
 
+    public static Intent toThreadList(Context context, int bid, String name){
+        Intent intent = new Intent(context, ThreadListActivity.class);
+        intent.putExtra(INTENT_BOARD_ID, bid);
+        intent.putExtra(INTENT_BOARD_TITLE, name);
+        return intent;
+    }
+
     public static Intent toPeople(Context context, int uid) {
         Intent intent = new Intent(context, PeopleActivity.class);
         intent.putExtra(UID, uid);
         return intent;
+    }
+    public static Intent toPeople(Context context, int uid, String username) {
+        return toPeople(context, uid).putExtra(USERNAME, username);
     }
 
     public static Intent toLetter(Context context, int uid, String username) {

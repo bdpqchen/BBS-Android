@@ -1,233 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorMainBg"
     >
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:background="@color/colorMainBg"
         >
 
-        <RelativeLayout
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             >
 
-            <ImageView
-                android:id="@+id/iv_bg"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="296dp"
-                android:background="@color/material_blue_grey_700"
-                android:scaleType="centerCrop"
-                tools:src="@drawable/cover_login"
-                />
-
-            <LinearLayout
-                android:id="@+id/ll_nickname"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:orientation="vertical"
+                android:layout_height="wrap_content"
                 >
 
-                <RelativeLayout
-                    android:id="@+id/rl_avatar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="104dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="24dp"
-                    >
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/civ_avatar"
-                        android:layout_width="@dimen/size_avatar_large"
-                        android:layout_height="@dimen/size_avatar_large"
-                        android:layout_centerInParent="true"
-                        app:civ_border_color="@color/material_light_white"
-                        app:civ_border_width="3dp"
-                        tools:src="@drawable/avatar_default_left"
-                        />
-
-                    <TextView
-                        android:layout_width="64dp"
-                        android:layout_height="18dp"
-                        android:layout_alignBaseline="@+id/civ_avatar"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/honor_shape_bg"
-                        android:gravity="center"
-                        android:text="一般站友"
-                        android:textColor="@color/material_light_white"
-                        android:textSize="12sp"
-                        android:id="@+id/tv_honor"
-                        />
-                </RelativeLayout>
+                <ImageView
+                    android:id="@+id/iv_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_bg"
+                    android:background="@color/material_blue_grey_700"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/cover_login"
+                    />
 
                 <LinearLayout
-                    android:id="@+id/ll_data"
+                    android:id="@+id/ll_nickname"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
                     android:orientation="vertical"
                     >
 
-                    <TextView
-                        android:id="@+id/tv_nickname"
-                        style="@style/TextAboveWhiteImage"
+                    <RelativeLayout
+                        android:id="@+id/rl_avatar"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="104dp"
                         android:layout_gravity="center"
-                        android:maxLines="1"
-                        android:textSize="20sp"
-                        tools:text="username"
-                        />
+                        android:layout_marginTop="24dp"
+                        >
 
-                    <TextView
-                        android:id="@+id/tv_signature"
-                        style="@style/TextAboveWhiteImage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="4dp"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:text="这个人非常非常懒,什么也不写.."
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/civ_avatar"
+                            android:layout_width="@dimen/size_avatar_large"
+                            android:layout_height="@dimen/size_avatar_large"
+                            android:layout_centerInParent="true"
+                            app:civ_border_color="@color/material_light_white"
+                            app:civ_border_width="3dp"
+                            tools:src="@drawable/avatar_default_left"
+                            />
 
-                        />
+                        <TextView
+                            android:id="@+id/tv_honor"
+                            android:layout_width="64dp"
+                            android:layout_height="18dp"
+                            android:layout_alignBaseline="@+id/civ_avatar"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/honor_shape_bg"
+                            android:gravity="center"
+                            android:text="一般站友"
+                            android:textColor="@color/material_light_white"
+                            android:textSize="12sp"
+                            />
+                    </RelativeLayout>
 
-                    <android.support.v7.widget.GridLayout
-                        android:id="@+id/gl_count_data"
+                    <LinearLayout
+                        android:id="@+id/ll_data"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="4dp"
-                        android:paddingTop="4dp"
-                        app:columnCount="5"
-                        app:rowCount="2"
+                        android:orientation="vertical"
                         >
 
                         <TextView
-                            android:id="@+id/tv_points"
+                            android:id="@+id/tv_nickname"
                             style="@style/TextAboveWhiteImage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="18sp"
-                            app:layout_column="0"
-                            app:layout_gravity="center"
-                            app:layout_row="0"
+                            android:layout_gravity="center"
+                            android:maxLines="1"
+                            android:textSize="20sp"
+                            tools:text="username"
                             />
 
                         <TextView
+                            android:id="@+id/tv_signature"
                             style="@style/TextAboveWhiteImage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="积分"
-                            android:textSize="13sp"
-                            app:layout_column="0"
-                            app:layout_columnWeight="1"
-                            app:layout_gravity="center"
-                            app:layout_row="1"
-                            />
-
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="32dp"
+                            android:layout_gravity="center"
                             android:layout_marginTop="4dp"
-                            app:layout_column="1"
-                            app:layout_columnWeight="1"
-                            app:layout_gravity="center"
-                            app:layout_row="0"
-                            app:layout_rowSpan="2"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:text="这个人非常非常懒,什么也不写.."
+
                             />
 
-
-                        <TextView
-                            android:id="@+id/tv_post_count"
-                            style="@style/TextAboveWhiteImage"
-                            android:layout_width="wrap_content"
+                        <android.support.v7.widget.GridLayout
+                            android:id="@+id/gl_count_data"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="18sp"
-                            app:layout_column="2"
-                            app:layout_columnWeight="1"
-                            app:layout_gravity="center"
-                            app:layout_row="0"
-                            />
+                            android:paddingBottom="4dp"
+                            android:paddingTop="4dp"
+                            app:columnCount="5"
+                            app:rowCount="2"
+                            >
 
-                        <TextView
-                            style="@style/TextAboveWhiteImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="帖子"
-                            android:textSize="13sp"
-                            app:layout_column="2"
-                            app:layout_columnWeight="1"
-                            app:layout_gravity="center"
-                            app:layout_row="1"
-                            />
+                            <TextView
+                                android:id="@+id/tv_points"
+                                style="@style/TextAboveWhiteImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="18sp"
+                                app:layout_column="0"
+                                app:layout_gravity="center"
+                                app:layout_row="0"
+                                />
 
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="32dp"
-                            android:layout_marginTop="4dp"
-                            app:layout_column="3"
-                            app:layout_columnWeight="1"
-                            app:layout_gravity="center"
-                            app:layout_row="0"
-                            app:layout_rowSpan="2"
-                            />
+                            <TextView
+                                style="@style/TextAboveWhiteImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="积分"
+                                android:textSize="13sp"
+                                app:layout_column="0"
+                                app:layout_columnWeight="1"
+                                app:layout_gravity="center"
+                                app:layout_row="1"
+                                />
 
-                        <TextView
-                            android:id="@+id/info_past_day"
-                            style="@style/TextAboveWhiteImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="18sp"
-                            app:layout_column="4"
-                            app:layout_columnWeight="1"
-                            app:layout_gravity="center"
-                            app:layout_row="0"
-                            />
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="32dp"
+                                android:layout_marginTop="4dp"
+                                app:layout_column="1"
+                                app:layout_columnWeight="1"
+                                app:layout_gravity="center"
+                                app:layout_row="0"
+                                app:layout_rowSpan="2"
+                                />
 
-                        <TextView
-                            style="@style/TextAboveWhiteImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="站龄"
-                            android:textSize="13sp"
-                            app:layout_column="4"
-                            app:layout_columnWeight="1"
-                            app:layout_gravity="center"
-                            app:layout_row="1"
-                            />
-                    </android.support.v7.widget.GridLayout>
+
+                            <TextView
+                                android:id="@+id/tv_post_count"
+                                style="@style/TextAboveWhiteImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="18sp"
+                                app:layout_column="2"
+                                app:layout_columnWeight="1"
+                                app:layout_gravity="center"
+                                app:layout_row="0"
+                                />
+
+                            <TextView
+                                style="@style/TextAboveWhiteImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="帖子"
+                                android:textSize="13sp"
+                                app:layout_column="2"
+                                app:layout_columnWeight="1"
+                                app:layout_gravity="center"
+                                app:layout_row="1"
+                                />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="32dp"
+                                android:layout_marginTop="4dp"
+                                app:layout_column="3"
+                                app:layout_columnWeight="1"
+                                app:layout_gravity="center"
+                                app:layout_row="0"
+                                app:layout_rowSpan="2"
+                                />
+
+                            <TextView
+                                android:id="@+id/info_past_day"
+                                style="@style/TextAboveWhiteImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="18sp"
+                                app:layout_column="4"
+                                app:layout_columnWeight="1"
+                                app:layout_gravity="center"
+                                app:layout_row="0"
+                                />
+
+                            <TextView
+                                style="@style/TextAboveWhiteImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="站龄"
+                                android:textSize="13sp"
+                                app:layout_column="4"
+                                app:layout_columnWeight="1"
+                                app:layout_gravity="center"
+                                app:layout_row="1"
+                                />
+                        </android.support.v7.widget.GridLayout>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
 
-        </RelativeLayout>
+            </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="最近帖子:"
-            android:textColor="@color/colorPrimaryCopy"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="最近帖子:"
+                android:textColor="@color/colorPrimaryCopy"
+                />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_people"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_people"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
-    </LinearLayout>
+        </LinearLayout>
 
-</android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingTop="24dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_behavior="com.twtstudio.bbs.bdpqchen.bbs.commons.support.ToolbarBehavior"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        />
+
+</android.support.design.widget.CoordinatorLayout>

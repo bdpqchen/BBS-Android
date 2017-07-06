@@ -116,7 +116,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     headerHolder.mCivAvatarThread.setOnClickListener(null);
                 } else {
                     headerHolder.mCivAvatarThread.setOnClickListener(v -> {
-                        startToPeople(p.getAuthor_id());
+                        startToPeople(p.getAuthor_id(), p.getAuthor_name());
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, p.getAuthor_id(), headerHolder.mCivAvatarThread);
                 }
@@ -138,7 +138,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     h.mCivAvatarPost.setOnClickListener(null);
                 } else {
                     h.mCivAvatarPost.setOnClickListener(v -> {
-                        startToPeople(uid);
+                        startToPeople(uid, p.getAuthor_name());
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, uid, h.mCivAvatarPost);
                 }
@@ -160,8 +160,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }
     }
 
-    public void startToPeople(int uid) {
-        mContext.startActivity(IntentUtil.toPeople(mContext, uid));
+    public void startToPeople(int uid, String username) {
+        mContext.startActivity(IntentUtil.toPeople(mContext, uid, username));
     }
 
     private String formatContent(String contentBefore) {

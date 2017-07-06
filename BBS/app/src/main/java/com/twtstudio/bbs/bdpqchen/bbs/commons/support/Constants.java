@@ -94,4 +94,6 @@ public final class Constants {
     public static final String NAME = "name";
     public static final String FILE = "file";
     public static final String CONFIRM = "confirm";
+    public static final String FRIEND_ID = "friend_id";
+
 }

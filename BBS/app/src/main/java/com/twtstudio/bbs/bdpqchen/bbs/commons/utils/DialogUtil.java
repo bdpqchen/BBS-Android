@@ -58,4 +58,13 @@ public final class DialogUtil {
                 .positiveText("开始")
                 .show();
     }
+    public static MaterialDialog multiLineInputDialog(Context context, String title, String hint, MaterialDialog.InputCallback callback){
+        return new MaterialDialog.Builder(context)
+                .inputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_MULTI_LINE)
+                .input(hint, "", false, callback)
+                .title(title)
+                .negativeText("取消")
+                .show();
+
+    }
 }

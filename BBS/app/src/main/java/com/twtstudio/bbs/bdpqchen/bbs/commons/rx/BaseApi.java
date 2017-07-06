@@ -49,6 +49,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CONFIRM;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.EMAIL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.FRIEND_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MESSAGE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_TITLE;
@@ -285,5 +286,11 @@ public interface BaseApi {
     Observable<BaseResponse<BaseModel>> sendLetter(
             @Field(TO_UID) int to_uid,
             @Field(CONTENT) String content);
+
+    @POST("home/friend")
+    @FormUrlEncoded
+    Observable<BaseResponse<BaseModel>> addFriend(
+            @Field(FRIEND_ID) int uid,
+            @Field(MESSAGE) String m);
 }
 

@@ -1,6 +1,8 @@
 package com.twtstudio.bbs.bdpqchen.bbs.people;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 
@@ -47,4 +49,28 @@ public class PeoplePresenter extends RxPresenter<PeopleContract.View> implements
 
     }
 
+    @Override
+    public void addFriend(int uid, String confirmMsg) {
+        ResponseTransformer<BaseModel> transformer = new ResponseTransformer<>();
+        SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
+            @Override
+            public void _onError(String msg) {
+                if (mView != null) {
+                    mView.onAddFriendFailed(msg);
+                }
+            }
+
+            @Override
+            public void _onNext(BaseModel model) {
+                if (mView != null) {
+                    mView.onAddFriend(model);
+                }
+            }
+        };
+        addSubscribe(mHttpClient.addFriend(uid, confirmMsg)
+                .map(transformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer));
+    }
 }

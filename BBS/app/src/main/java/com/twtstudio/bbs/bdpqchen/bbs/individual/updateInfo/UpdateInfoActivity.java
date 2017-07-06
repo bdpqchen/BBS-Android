@@ -133,9 +133,9 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
     private void showInputDialog(String title, String hint, int range, MaterialDialog.InputCallback callback) {
         new MaterialDialog.Builder(this)
-                .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE)
-                .title(title)
+                .inputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_MULTI_LINE)
                 .input(hint, "", callback)
+                .title(title)
                 .negativeText("取消")
                 .show();
     }

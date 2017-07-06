@@ -41,6 +41,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageFormatUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImagePickUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PathUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -191,17 +192,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         if (mFindingFloor != 0) {
             isAutoFindFloor = true;
             mIsFindingFloor = true;
-//            findFloor(mFindingFloor);
-        }
-        if (mBoardId == 0 || mBoardName == null) {
-        } else {
-            mToolbarTitleBoard.setText(TextUtil.getLinkHtml(mBoardName));
-            mToolbarTitleBoard.setOnClickListener(v -> {
-                Intent intent1 = new Intent(mContext, ThreadListActivity.class);
-                intent1.putExtra(INTENT_BOARD_ID, mBoardId);
-                intent1.putExtra(INTENT_BOARD_TITLE, mBoardName);
-                startActivity(intent1);
-            });
         }
 
         mBoomMenuBtn.setButtonEnum(ButtonEnum.TextInsideCircle);
@@ -210,7 +200,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mBoomMenuBtn.setShowDuration(200);
         mBoomMenuBtn.setHideDuration(100);
         mBoomMenuBtn.setAutoHide(true);
-
         int ip = 36;
         int tp = 1;
         for (int i = 0; i < mBoomMenuBtn.getButtonPlaceEnum().buttonNumber(); i++) {
@@ -470,10 +459,13 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }
             mPage = mFindingPage;
         }
-
-        if (model.getBoard() != null) {
+        if (mPage == 0 && model.getBoard() != null) {
             mBoardId = model.getBoard().getId();
             mBoardName = model.getBoard().getName();
+            mToolbarTitleBoard.setText(TextUtil.getLinkHtml(mBoardName));
+            mToolbarTitleBoard.setOnClickListener(v -> {
+                startActivity(IntentUtil.toThreadList(mContext, mBoardId, mBoardName));
+            });
         }
         setRefreshing(false);
         showAnonymousOrNot(canAnonymous);

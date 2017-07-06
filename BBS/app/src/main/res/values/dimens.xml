@@ -44,4 +44,5 @@
     <dimen name="icon_padding_small">2dp</dimen>
     <dimen name="padding_letter">8dp</dimen>
     <dimen name="max_width_letter">240dp</dimen>
+    <dimen name="size_bg">296dp</dimen>
 </resources>

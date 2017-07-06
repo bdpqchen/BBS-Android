@@ -364,4 +364,8 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<BaseModel>> sendLetter(int to_uid, String content) {
         return mApi.sendLetter(to_uid, content);
     }
+
+    public Observable<BaseResponse<BaseModel>> addFriend(int uid, String m) {
+        return mApi.addFriend(uid, m);
+    }
 }

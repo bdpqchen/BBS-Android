@@ -57,7 +57,7 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
                     holder.mCivHotAvatar.setOnClickListener(null);
                 } else {
                     holder.mCivHotAvatar.setOnClickListener(v -> {
-                        mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id()));
+                        mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id(), model.getAuthor_name()));
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivHotAvatar);
                 }
