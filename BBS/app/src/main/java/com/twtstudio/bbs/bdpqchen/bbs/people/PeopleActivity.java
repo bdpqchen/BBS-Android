@@ -1,10 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.people;
 
 import android.app.Activity;
-import android.media.Image;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.health.UidHealthStats;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -58,6 +55,8 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
     LinearLayout mLlData;
     @BindView(R.id.rv_people)
     RecyclerView mRvPeople;
+    @BindView(R.id.tv_honor)
+    TextView mTvHonor;
     private int mUid = 0;
     private PeopleAdapter mAdapter;
 
@@ -107,13 +106,12 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
         mRvPeople.setNestedScrollingEnabled(false);
 
 
-
     }
 
     @Override
     public void onGetUserInfo(PeopleModel model) {
-        if (model != null){
-            if (model.getSignature() == null || model.getSignature().length() == 0){
+        if (model != null) {
+            if (model.getSignature() == null || model.getSignature().length() == 0) {
                 model.setSignature(getString(R.string.default_signature));
             }
             mTvPostCount.setText(model.getC_post() + "");
@@ -123,7 +121,7 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
             mInfoPastDay.setText(TextUtil.getPastDays(mContext, model.getT_create()), TextView.BufferType.SPANNABLE);
             LogUtil.dd("Will notify", String.valueOf(model.getRecent().size()));
             mAdapter.addList(model.getRecent());
-
+            mTvHonor.setText(TextUtil.getHonor(model.getPoints()));
         }
     }
 

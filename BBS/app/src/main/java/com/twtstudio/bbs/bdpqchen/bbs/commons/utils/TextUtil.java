@@ -87,4 +87,28 @@ public final class TextUtil {
         }
         return content;
     }
+
+    public static String getHonor(int points) {
+        final int lv1 = 100, lv2 = 500, lv3 = 1000, lv4 = 2000, lv5 = 4000, lv6 = 8000, lv7 = 10000;
+        String honor = "新手上路";
+        if (points < lv1) {
+        } else if (points < lv2) {
+            honor = "一般站友";
+        } else if (points < lv3) {
+            honor = "中级站友";
+        } else if (points < lv4) {
+            honor = "高级站友";
+        } else if (points < lv5) {
+            honor = "老站友";
+        } else if (points < lv6) {
+            honor = "长老级";
+        } else if (points < lv7) {
+            honor = "本站元老";
+        } else if (points > lv7) {
+            honor = "开国大佬";
+        }
+        return honor;
+    }
+
+
 }

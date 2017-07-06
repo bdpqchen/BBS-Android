@@ -57,6 +57,8 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     LinearLayout mLlNickname;
     @BindView(R.id.tv_individual_unread)
     TextView mTvIndividualUnread;
+    @BindView(R.id.tv_honor)
+    TextView mTvHonor;
     @BindView(R.id.rl_individual_item_message)
     RelativeLayout mRlIndividualItemMessage;
     @BindView(R.id.rl_individual_item_collection)
@@ -197,6 +199,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
             mTvNickname.setText(PrefUtil.getInfoNickname());
             mTvSignature.setText(PrefUtil.getInfoSignature());
             mTvPoints.setText(PrefUtil.getInfoPoints() + "");
+            mTvHonor.setText(TextUtil.getHonor(info.getPoints()));
 
         }
     }

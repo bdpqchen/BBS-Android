@@ -57,6 +57,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/tv_honor"
                         android:layout_width="64dp"
                         android:layout_height="18dp"
                         android:layout_alignBaseline="@+id/civ_avatar"
@@ -67,7 +68,6 @@
                         android:text="一般站友"
                         android:textColor="@color/material_light_white"
                         android:textSize="12sp"
-                        android:visibility="gone"
                         tools:visibility="visible"
                         />
 
