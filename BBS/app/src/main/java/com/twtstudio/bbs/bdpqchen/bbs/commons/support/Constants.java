@@ -67,6 +67,7 @@ public final class Constants {
     public static final String INTENT_RESULT_IMAGE_PATH = "intent_result_image_path";
     public static final String INTENT_IS_SPECIFY_BOARD = "intent_is_specify_board";
     public static final String INTENT_BOARD_MODEL_LIST = "intent_board_model_list";
+    public static final String INTENT_UNREAD = "intent_unread_count";
 
 
     public static final String ID = "id";

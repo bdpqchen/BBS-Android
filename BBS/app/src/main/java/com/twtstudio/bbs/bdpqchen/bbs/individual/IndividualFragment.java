@@ -29,6 +29,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_UNREAD;
+
 /**
  * Created by bdpqchen on 17-5-3.
  */
@@ -77,6 +79,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     private static final int ACT_UPDATE = 4;
     private static final int ACT_SETS = 5;
     private int beingActivity = 0;
+    private int mUnread = 0;
 
     @Override
     protected int getFragmentLayoutId() {
@@ -145,11 +148,15 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
                     return;
             }
             Intent intent = new Intent(mContext, clazz);
+            if (index == ACT_MSG){
+                intent.putExtra(INTENT_UNREAD, mUnread);
+            }
             startActivity(intent);
         }
     }
 
     private void setUnread(int unread) {
+        mUnread = unread;
         if (mTvIndividualUnread != null) {
             if (unread > 0) {
                 mTvIndividualUnread.setVisibility(View.VISIBLE);
