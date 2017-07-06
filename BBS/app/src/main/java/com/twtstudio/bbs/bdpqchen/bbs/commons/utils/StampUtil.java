@@ -1,8 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by bdpqchen on 17-5-10.
@@ -26,30 +24,42 @@ public final class StampUtil {
         return days + 1;    //不能从零天开始计算
     }
 
-    private static String convert(String formatMode, int oldStamp) {
-        oldStamp -= diff;
-        long longTime = Long.parseLong(oldStamp + "000");
-        SimpleDateFormat format = new SimpleDateFormat(formatMode);
-        return format.format(new Date(longTime));
-    }
-
     public static String getDatetimeByStamp(int postTime) {
-        String datetimeMode = "yyyy-MM-dd HH:mm";
-        return convert(datetimeMode, postTime + diff);
+        Calendar calendar = Calendar.getInstance();
+        int[] dateNow = getCalendar(calendar);
+        Long dateLong = Long.valueOf((postTime + "000"));
+        calendar.setTimeInMillis(dateLong);
+        int[] date = getCalendar(calendar);
+        String result = "";
+        if (date[0] < dateNow[0]) {
+            result += date[0] + "年" + date[1] + "月" + date[2] + "号 ";
+        }else{
+            if (date[1] == dateNow[1] && date[2] == dateNow[2]) {
+                result = "今天";
+            }else{
+                result = date[1] + "月" + date[2] + "号 ";
+            }
+        }
+        if (date[3] == 0){
+            result += "0";
+        }
+        result += date[3] + ":";
+        if (date[4] < 10){
+            result += "0";
+        }
+        result += date[4];
+//        LogUtil.dd("result time", result);
+        return result;
     }
-    /*public static String getTimeFromNow(long time) {
-        String datetimeMode = "MM-dd HH:mm:ss";
-        return convert(datetimeMode, (int) (time + diff));
-    }*/
 
-    public static String getDateByStamp(int t_create) {
-        String dateMode = "yyyy-MM-dd";
-        return convert(dateMode, t_create);
-    }
-
-    public static String TimeStamp2Date(long timestampString) {
-        Long timestamp = timestampString * 1000;
-        String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(timestamp));
+    private static int[] getCalendar(Calendar calendar) {
+        int[] date = new int[6];
+        date[0] = calendar.get(Calendar.YEAR);
+        date[1] = calendar.get(Calendar.MONTH) + 1;
+        date[2] = calendar.get(Calendar.DAY_OF_MONTH);
+        date[3] = calendar.get(Calendar.HOUR_OF_DAY);
+        date[4] = calendar.get(Calendar.MINUTE);
+        date[5] = calendar.get(Calendar.SECOND);
         return date;
     }
 
@@ -61,34 +71,14 @@ public final class StampUtil {
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes = calendar.get(Calendar.MINUTE);
         int seconds = calendar.get(Calendar.SECOND);
-
-       /* LogUtil.dd("stamp formal", String.valueOf(calendar.getTimeInMillis()));
-        LogUtil.dd("zone", String.valueOf(calendar.getTimeZone()));
-        LogUtil.dd("years", String.valueOf(years));
-        LogUtil.dd("months", String.valueOf(months));
-        LogUtil.dd("days", String.valueOf(days));
-        LogUtil.dd("hours", String.valueOf(hours));
-        LogUtil.dd("minutes", String.valueOf(minutes));
-        LogUtil.dd("seconds", String.valueOf(seconds));*/
-
         Long dateLong = Long.valueOf((date + "000"));
         calendar.setTimeInMillis(dateLong);
-//        LogUtil.dd("stamp after", String.valueOf(calendar.getTimeInMillis()));
-
         years -= calendar.get(Calendar.YEAR);
         months -= calendar.get(Calendar.MONTH);
         days -= calendar.get(Calendar.DAY_OF_MONTH);
         hours -= calendar.get(Calendar.HOUR_OF_DAY);
         minutes -= calendar.get(Calendar.MINUTE);
         seconds -= calendar.get(Calendar.SECOND);
-
-       /* LogUtil.dd("y", String.valueOf(years));
-        LogUtil.dd("M", String.valueOf(months));
-        LogUtil.dd("d", String.valueOf(days));
-        LogUtil.dd("h", String.valueOf(hours));
-        LogUtil.dd("m", String.valueOf(minutes));
-        LogUtil.dd("s", String.valueOf(seconds));
-*/
         if (years == 1 && months >= 0 || years > 1) {
             return years + "年前";
         } else if (months == 1 && days >= 0 || months > 1) {
@@ -103,7 +93,7 @@ public final class StampUtil {
         } else if (hours > 1) {
             return hours + "小时前";
         } else if (hours == 1) {
-            if (minutes < 0) {
+            if (minutes <= 0) {
                 minutes += 60;
             }
             return minutes + "分钟前";

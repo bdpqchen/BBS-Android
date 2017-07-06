@@ -3,7 +3,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.people;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -28,7 +26,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.WindowUtil;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;

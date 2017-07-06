@@ -96,7 +96,7 @@ public class MyReplyAdapter extends BaseAdapter<MyReplyModel> {
                 holder.tv_title.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
                 holder.tv_reply.setText(data.get(position).content);
                 holder.tv_reply.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
-                holder.tv_time.setText(StampUtil.TimeStamp2Date(data.get(position).t_create));
+                holder.tv_time.setText(StampUtil.getDatetimeByStamp(data.get(position).t_create));
                 holder.rlReply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

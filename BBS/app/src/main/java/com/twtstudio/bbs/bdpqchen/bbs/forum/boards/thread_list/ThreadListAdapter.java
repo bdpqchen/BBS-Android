@@ -67,7 +67,7 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
                 }
                 holder.mTvThreadNickname.setText(thread.getAuthor_name());
                 holder.mTvThreadContent.setText(thread.getContent());
-                holder.mTvThreadDate.setText(StampUtil.getDateByStamp(thread.getT_create()));
+                holder.mTvThreadDate.setText(StampUtil.getDatetimeByStamp(thread.getT_create()));
                 holder.mTvThreadTitle.setText(thread.getTitle());
                 holder.mTvThreadPostCount.setText(thread.getC_post() + " 回复");
                 holder.itemView.setOnClickListener(v -> {

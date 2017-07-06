@@ -99,7 +99,7 @@ public class MyRecyclerAdapter extends BaseAdapter<MyReleaseModel> {
                 Typeface iconfont = Typeface.createFromAsset(mContext.getAssets(), "iconfont/iconfont.ttf");
                 holder.tv_icon.setTypeface(iconfont);
                 holder.tv_visit.setText(String.valueOf(data.get(position).c_post));
-                holder.tv_time.setText(StampUtil.TimeStamp2Date(data.get(position).t_create));
+                holder.tv_time.setText(StampUtil.getDatetimeByStamp(data.get(position).t_create));
                 holder.rlRelease.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
