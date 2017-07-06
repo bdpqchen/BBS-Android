@@ -22,6 +22,7 @@
     <style name="AppTheme.EditText.Register" parent="AppTheme">
         <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
+
     <style name="AppTheme.EditText.Comment" parent="AppTheme">
         <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
@@ -49,16 +50,13 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    android:shadowColor="#cc000000"
-    android:shadowDx="6"
-    android:shadowDy="6"
-    android:shadowRadius="6"
 
     <style name="TextAboveWhiteImage" parent="@android:style/TextAppearance">
         <item name="android:shadowColor">#000000</item>
         <item name="android:shadowDx">6</item>
         <item name="android:shadowDy">6</item>
         <item name="android:shadowRadius">6</item>
+        <item name="android:textColor">#ffffff</item>
 
     </style>
 
