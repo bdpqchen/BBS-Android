@@ -40,6 +40,7 @@ public final class PrefUtil {
     private static final String IS_SIMPLE_BOARD_LIST = "is_simple_board_list";
     private static final String IS_AUTO_CLEAR_UNREAD = "is_auto_clear_unread";
     private static final String IS_SIMPLE_FORUM = "is_simple_forum";
+    private static final String IS_THIS_VERSION_FIRST_OPEN = "is_this_version_first_open";
 
     public static void setInfoGroup(int infoGroup) {
         Hawk.put(INFO_GROUP, infoGroup);
@@ -231,4 +232,13 @@ public final class PrefUtil {
     public static void setIsSimpleForum(boolean b){
         Hawk.put(IS_SIMPLE_FORUM, b);
     }
+
+    public static boolean thisVersionFirstOpen(){
+        return Hawk.get(IS_THIS_VERSION_FIRST_OPEN, true);
+    }
+    public static void setIsThisVersionFirstOpen(boolean b){
+        Hawk.put(IS_THIS_VERSION_FIRST_OPEN, b);
+    }
+
+
 }

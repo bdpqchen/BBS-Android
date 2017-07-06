@@ -47,7 +47,7 @@
             android:layout_marginBottom="4dp"
             android:background="@drawable/shape_intro_bg"
             android:text="上传"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryCopy"
             android:visibility="gone"
             />
 

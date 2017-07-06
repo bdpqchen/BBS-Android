@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -24,7 +25,9 @@ import jp.wasabeef.glide.transformations.gpu.ToonFilterTransformation;
 
 public final class ImageUtil {
 
-    private static int radius = 30;
+    private final static int radius = 30;
+    private final static int myUid = PrefUtil.getAuthUid();
+
 
     public static String getAvatarUrl(int uid) {
         return RxDoHttpClient.BASE_URL + "user/" + uid + "/avatar";
@@ -69,7 +72,8 @@ public final class ImageUtil {
         Glide.with(context).load(getAvatarUrl(uid))
                 .asBitmap()
                 .centerCrop()
-                .crossFade()
+                .crossFade().diskCacheStrategy(DiskCacheStrategy.NONE)
+
                 .error(R.drawable.avatar_default_left)
                 .into(view);
     }
@@ -79,6 +83,7 @@ public final class ImageUtil {
                 .asBitmap()
                 .centerCrop()
                 .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .error(R.drawable.avatar_default_right)
                 .into(civAvatarPost);
 
@@ -89,35 +94,48 @@ public final class ImageUtil {
                 .asBitmap()
                 .centerCrop()
                 .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .error(R.drawable.avatar_default_left)
                 .into(civAvatarPost);
     }
 
     public static void loadMyAvatar(Context context, ImageView civAvatar) {
-        loadAvatarByUid(context, PrefUtil.getAuthUid(), civAvatar);
+        loadAvatarByUid(context, myUid, civAvatar);
     }
 
     public static void loadAvatarByUid(Context context, int uid, ImageView view) {
         Glide.with(context)
                 .load(getAvatarUrl(uid))
                 .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .crossFade()
                 .into(view);
 
     }
 
     public static void loadMyBg(Context context, ImageView imageView) {
-        loadBgByUid(context, PrefUtil.getAuthUid(), imageView);
+        loadBgByUid(context, myUid, imageView);
     }
 
     public static void loadBgByUid(Context context, int uid, ImageView view) {
-//        DrawableRequestBuilder<Integer> thumbnail = Glide.with(context)
-//                .load(R.drawable.avatar_default_left)
-//                .bitmapTransform(new BlurTransformation(context, radius));
         Glide.with(context)
                 .load(getAvatarUrl(uid))
                 .bitmapTransform(new BlurTransformation(context, radius))
-//                .thumbnail(thumbnail)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .crossFade()
+                .into(view);
+    }
+
+    public static void refreshMyBg(Context context, ImageView view) {
+        refreshMyBg(context, myUid, view);
+    }
+
+    private static void refreshMyBg(Context context, int myUid, ImageView view) {
+        Glide.with(context)
+                .load(getAvatarUrl(myUid))
+                .skipMemoryCache(true)
+                .bitmapTransform(new BlurTransformation(context, radius))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .crossFade()
                 .into(view);
     }
@@ -133,6 +151,16 @@ public final class ImageUtil {
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .crossFade()
                 .into(view);
+    }
+
+    public static void clearMemory(Context context) {
+        Glide.get(context).clearMemory();
+    }
+
+    public static void clearDiskCache(Context context) {
+        new Thread(() -> {
+            Glide.get(context).clearDiskCache();
+        }).start();
     }
 
 }
