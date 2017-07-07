@@ -99,6 +99,7 @@ public class HtmlHttpImageGetter implements ImageGetter {
             source = params[0];
 
             if (resources.get() != null) {
+
                 return fetchDrawable(resources.get(), source);
             }
 
@@ -148,12 +149,15 @@ public class HtmlHttpImageGetter implements ImageGetter {
 
         private float getScale(Drawable drawable) {
             View container = containerReference.get();
+            return 0.5f;
+/*
             if (!matchParentWidth || container == null) {
                 return 1f;
             }
             float maxWidth = container.getWidth();
             float originalDrawableWidth = drawable.getIntrinsicWidth();
             return maxWidth / originalDrawableWidth;
+*/
         }
 
         private InputStream fetch(String urlString) throws IOException {

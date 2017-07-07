@@ -54,6 +54,8 @@ public class App extends Application {
         initSlideBack();
         HandlerThread workerThread = new HandlerThread("global_worker_thread");
         workerThread.start();
+
+
     }
 
     @Override
@@ -64,6 +66,14 @@ public class App extends Application {
         // 安装tinker
 //        Beta.installTinker();
     }
+/*
+
+    private Tracker tracker;
+    public synchronized Tracker getTracker() {
+        if (tracker == null) tracker = Piwik.getInstance(this).newTracker(new TrackerConfig("https://elf.twtstudio.com", 13, "Android"));
+        return tracker;
+    }
+*/
 
     private void initLogUtils() {
         if (BuildConfig.DEBUG) {

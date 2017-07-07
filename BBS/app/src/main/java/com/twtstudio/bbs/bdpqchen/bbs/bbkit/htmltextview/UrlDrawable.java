@@ -38,5 +38,6 @@ public class UrlDrawable extends BitmapDrawable implements Drawable.Callback{
     }
     public void setDrawable(Drawable drawable) {
         this.drawable = drawable;
+//        drawable.setBounds();
     }
 }

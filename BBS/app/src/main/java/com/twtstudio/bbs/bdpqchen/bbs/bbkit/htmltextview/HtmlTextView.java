@@ -25,8 +25,10 @@ import android.text.Spannable;
 import android.text.Spanned;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.quote.QuoteReplaceUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -103,6 +105,7 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
 
         Spanned spanned = Html.fromHtml(html, imageGetter, htmlTagHandler);
 
+
         QuoteReplaceUtil.replaceQuoteSpans((Spannable) spanned);
 
         if (removeFromHtmlSpace) {
@@ -114,7 +117,6 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
         // make links work
         setMovementMethod(LocalLinkMovementMethod.getInstance());
     }
-
 
 
 
@@ -155,6 +157,17 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
 
         while (text.length() > 0 && text.charAt(text.length() - 1) == '\n') {
             text = text.subSequence(0, text.length() - 1);
+        }
+        return removeHtmlTopPadding(text);
+    }
+
+    @Nullable
+    static private CharSequence removeHtmlTopPadding(@Nullable CharSequence text) {
+        if (text == null) {
+            return null;
+        }
+        while (text.length() > 0 && text.charAt(0) == '\n') {
+            text = text.subSequence(1, text.length());
         }
         return text;
     }
