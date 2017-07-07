@@ -96,6 +96,9 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                     iHolder.mTvComposeTitle.setText(TextUtil.getTwoNames(item.getAuthor_name(), item.getAuthor_nickname()));
                     iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
                     iHolder.mHtvSummary.setText(item.getContent());
+                    iHolder.itemView.setOnClickListener(v -> {
+                        mContext.startActivity(IntentUtil.toLetter(mContext, item.getAuthor_id(), item.getAuthor_name()));
+                    });
                 }
             } else if (holder instanceof AppealView) {
                 AppealView iHolder = (AppealView) holder;

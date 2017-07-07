@@ -58,17 +58,17 @@ public class GlideImageGeter implements Html.ImageGetter {
             target = new GifTarget(urlDrawable);
         } else {
             load = Glide.with(mContext).load(url).asBitmap().centerCrop()
-            .listener(new RequestListener<String, Bitmap>() {
-                @Override
-                public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                    return false;
-                }
+                    .listener(new RequestListener<String, Bitmap>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
 
-                @Override
-                public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                    return false;
-                }
-            });
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            return false;
+                        }
+                    });
             target = new BitmapTarget(urlDrawable);
         }
         targets.add(target);
@@ -135,8 +135,5 @@ public class GlideImageGeter implements Html.ImageGetter {
 
         }
     }
-
-
-
 
 }

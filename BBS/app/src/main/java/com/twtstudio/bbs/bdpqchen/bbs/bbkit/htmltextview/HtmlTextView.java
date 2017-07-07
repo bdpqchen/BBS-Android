@@ -23,6 +23,9 @@ import android.support.annotation.RawRes;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ImageSpan;
+import android.text.style.URLSpan;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -101,10 +104,10 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
         htmlTagHandler.setClickableTableSpan(clickableTableSpan);
         htmlTagHandler.setDrawTableLinkSpan(drawTableLinkSpan);
 
+
         html = htmlTagHandler.overrideTags(html);
 
         Spanned spanned = Html.fromHtml(html, imageGetter, htmlTagHandler);
-
 
         QuoteReplaceUtil.replaceQuoteSpans((Spannable) spanned);
 
@@ -116,6 +119,29 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
 
         // make links work
         setMovementMethod(LocalLinkMovementMethod.getInstance());
+    }
+
+    public void setHtml(HtmlTextView textView, @NonNull String html, @Nullable Html.ImageGetter imageGetter) {
+        final HtmlTagHandler htmlTagHandler = new HtmlTagHandler(getPaint());
+        htmlTagHandler.setClickableTableSpan(clickableTableSpan);
+        htmlTagHandler.setDrawTableLinkSpan(drawTableLinkSpan);
+
+
+        html = htmlTagHandler.overrideTags(html);
+
+        Spanned spanned = Html.fromHtml(html, imageGetter, htmlTagHandler);
+
+        QuoteReplaceUtil.replaceQuoteSpans((Spannable) spanned);
+        if (removeFromHtmlSpace) {
+            setText(removeHtmlBottomPadding(spanned));
+        } else {
+            setText(spanned);
+        }
+
+        // make links work
+        setMovementMethod(LocalLinkMovementMethod.getInstance());
+
+
     }
 
 
@@ -172,6 +198,8 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
         return text;
     }
 
+
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         linkHit = false;
@@ -182,5 +210,6 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
         }
         return res;
     }
+
 
 }

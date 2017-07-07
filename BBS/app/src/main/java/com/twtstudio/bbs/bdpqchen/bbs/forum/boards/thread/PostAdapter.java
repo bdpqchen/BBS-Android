@@ -2,7 +2,13 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +18,9 @@ import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.GlideImageGeter;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
+import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.LocalLinkMovementMethod;
+import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.MessageSpan;
+import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.MyTagHandler;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
@@ -146,7 +155,29 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
 //                LogUtil.dd("contentis", p.getContent_converted());
+                MyTagHandler tagHandler = new MyTagHandler(mContext);
                 h.mHtvPostContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, h.mHtvPostContent));
+
+                final Handler handler = new Handler() {
+                    public void handleMessage(Message msg) {
+                        int what = msg.what;
+                        if (what == 200) {
+                            MessageSpan ms = (MessageSpan) msg.obj;
+                            Object[] spans = (Object[]) ms.getObj();
+                            final ArrayList<String> list = new ArrayList<>();
+                            for (Object span : spans) {
+                                if (span instanceof ImageSpan) {
+                                    Log.i("picUrl==", ((ImageSpan) span).getSource());
+                                    list.add(((ImageSpan) span).getSource());
+//                                    Intent intent = new Intent(getApplicationContext(), ImageGalleryActivity.class);
+//                                    intent.putStringArrayListExtra("images", list);
+//                                    startActivity(intent);
+                                }
+                            }
+                        }
+                    }
+                };
+                h.mHtvPostContent.setMovementMethod(LocalLinkMovementMethod.getInstance(handler));
                 h.mTvReply.setTag(position);
                 h.mTvReply.setOnClickListener(this);
 
