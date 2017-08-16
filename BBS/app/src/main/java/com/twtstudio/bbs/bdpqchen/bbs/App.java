@@ -6,6 +6,8 @@ import android.os.HandlerThread;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
+import com.github.piasy.biv.BigImageViewer;
+import com.github.piasy.biv.loader.glide.GlideImageLoader;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
@@ -50,6 +52,7 @@ public class App extends Application {
             Bugly.init(context, BuildConfig.ID_BUGLY, BuildConfig.DEBUG);
         }*/
 
+        BigImageViewer.initialize(GlideImageLoader.with(getApplicationContext()));
         initLogUtils();
         initSlideBack();
         HandlerThread workerThread = new HandlerThread("global_worker_thread");
@@ -133,6 +136,5 @@ public class App extends Application {
         }
         return null;
     }
-
 
 }

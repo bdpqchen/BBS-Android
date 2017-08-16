@@ -6,8 +6,9 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath "com.tencent.bugly:tinker-support:1.0.8"
+        //用你对应的Android studio版本
+        classpath 'com.android.tools.build:gradle:3.0.0-beta2'
+//        classpath "com.tencent.bugly:tinker-support:1.0.8"
         classpath 'me.tatarka:gradle-retrolambda:3.6.1'
 
 //        classpath 'com.android.tools.build:gradle:2.3.2'
@@ -25,6 +26,9 @@ allprojects {
         mavenCentral()
         maven { url "https://raw.githubusercontent.com/Pgyer/mvn_repo_pgyer/master" }
         maven { url "https://jitpack.io" }
+        maven {
+            url  "http://dl.bintray.com/piasy/maven"
+        }
     }
 }
 

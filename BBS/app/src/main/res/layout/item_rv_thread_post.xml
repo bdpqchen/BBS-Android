@@ -88,6 +88,7 @@
                 android:padding="4dp"
                 android:textColor="@color/colorTvBlackMainTint"
                 android:textSize="14sp"
+                android:textIsSelectable="true"
                 tools:text="挑剔大家发多少aflsjlfsj大家来决定是否了解爱上了飞机来打扫房间2017年05月22日23:45:052017年05月22日23:45:07"
                 android:id="@+id/htv_post_content"
                 android:clickable="true"

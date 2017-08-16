@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.twtstudio.bbs.bdpqchen.bbs"
-          android:versionCode="@string/version_code"
-          android:versionName="@string/version_name">
+    package="com.twtstudio.bbs.bdpqchen.bbs"
+    android:versionCode="@string/version_code"
+    android:versionName="@string/version_name">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- 获取网络状态 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>  <!-- 获取设备信息 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/> <!-- 获取MAC地址-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- 读写sdcard，storage等等 -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 获取网络状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />  <!-- 获取设备信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取MAC地址-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 读写sdcard，storage等等 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
 
     <!--在这里稍微解决内存不够用的情况-->
@@ -20,67 +20,86 @@
         android:icon="@mipmap/ic_launcher_bbs"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
 
         <meta-data
             android:name="com.twtstudio.bbs.bdpqchen.bbs.commons.support.SimpleGlideModule"
-            android:value="GlideModule"/>
+            android:value="GlideModule" />
 
         <activity
             android:name=".splash.SplashActivity"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!--从浏览器的隐式跳转-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="opentjubbs" />
             </intent-filter>
         </activity>
-        <activity android:name=".home.HomeActivity"/>
+        <activity android:name=".home.HomeActivity" />
         <activity
             android:name=".auth.register.RegisterActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
             android:name=".auth.replaceUser.ReplaceUserActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"/>
-        <activity android:name=".auth.replaceUser.replacePassword.ReplacePasswordActivity"/>
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity android:name=".auth.replaceUser.replacePassword.ReplacePasswordActivity" />
         <activity
             android:name=".auth.login.LoginActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
-            />
-        <activity android:name=".individual.settings.SettingsActivity"/>
-        <activity android:name=".individual.updateInfo.UpdateInfoActivity"/>
-        <activity android:name=".individual.updatePassword.UpdatePasswordActivity"/>
-        <activity android:name=".forum.boards.BoardsActivity"/>
-        <activity android:name=".forum.boards.thread.ThreadActivity"/>
-        <activity android:name=".individual.message.MessageActivity"/>
-        <activity android:name=".forum.boards.thread_list.ThreadListActivity"/>
-        <activity android:name=".individual.my_release.MyReleaseActivity"/>
-        <activity android:name=".auth.renew.identify.IdentifyActivity"/>
-        <activity android:name=".auth.renew.appeal.AppealPassportActivity"/>
-        <activity android:name=".auth.renew.identify.retrieve.RetrieveActivity"/>
-        <activity android:name=".auth.renew.identify.retrieve.reset_password.ResetPasswordActivity"/>
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity android:name=".individual.settings.SettingsActivity" />
+        <activity android:name=".individual.updateInfo.UpdateInfoActivity" />
+        <activity android:name=".individual.updatePassword.UpdatePasswordActivity" />
+        <activity android:name=".forum.boards.BoardsActivity" />
+        <activity android:name=".forum.boards.thread.ThreadActivity" />
+        <activity android:name=".individual.message.MessageActivity" />
+        <activity android:name=".forum.boards.thread_list.ThreadListActivity">
+            <!--暂时这里不做隐式跳转吧先...-->
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.VIEW"/>-->
+            <!--<category android:name="android.intent.category.DEFAULT"/>-->
+            <!--<category android:name="android.intent.category.BROWSABLE"/>-->
+            <!--<data android:scheme="bbs"-->
+            <!--android:host="www.bbs.com"/>-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".individual.my_release.MyReleaseActivity" />
+        <activity android:name=".auth.renew.identify.IdentifyActivity" />
+        <activity android:name=".auth.renew.appeal.AppealPassportActivity" />
+        <activity android:name=".auth.renew.identify.retrieve.RetrieveActivity" />
+        <activity android:name=".auth.renew.identify.retrieve.reset_password.ResetPasswordActivity" />
         <activity
             android:name=".forum.boards.create_thread.CreateThreadActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
-            />
-        <activity android:name=".auth.register.old.RegisterOldActivity"/>
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity android:name=".auth.register.old.RegisterOldActivity" />
         <activity
             android:name=".welcome.IntroActivity"
-            android:theme="@style/AppTheme.Intro"
-            />
-        <activity android:name=".individual.avatar.UpdateAvatarActivity"/>
-        <activity android:name=".individual.star.StarActivity"/>
-        <activity android:name=".individual.friend.FriendActivity"/>
-        <activity android:name=".people.PeopleActivity"/>
-        <activity android:name=".individual.letter.LetterActivity"
-                  android:windowSoftInputMode="adjustResize"/>
-<!--
+            android:theme="@style/AppTheme.Intro" />
+        <activity android:name=".individual.avatar.UpdateAvatarActivity" />
+        <activity android:name=".individual.star.StarActivity" />
+        <activity android:name=".individual.friend.FriendActivity" />
+        <activity android:name=".people.PeopleActivity" />
         <activity
-            android:name="com.tencent.bugly.beta.ui.BetaActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|locale"
-            android:theme="@android:style/Theme.Translucent"/>
--->
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity"/>
+            android:name=".individual.letter.LetterActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <!--
+                <activity
+                    android:name="com.tencent.bugly.beta.ui.BetaActivity"
+                    android:configChanges="keyboardHidden|orientation|screenSize|locale"
+                    android:theme="@android:style/Theme.Translucent"/>
+        -->
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+        <activity
+            android:name=".bbkit.photo.BigPhotoActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
     </application>
 

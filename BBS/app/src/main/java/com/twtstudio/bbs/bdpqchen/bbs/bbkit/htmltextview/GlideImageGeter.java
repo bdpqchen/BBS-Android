@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.twtstudio.bbs.bdpqchen.bbs.R;
 
 import java.util.HashSet;
 
@@ -50,7 +51,7 @@ public class GlideImageGeter implements Html.ImageGetter {
 
     @Override
     public Drawable getDrawable(String url) {
-        final UrlDrawable urlDrawable = new UrlDrawable();
+        final UrlDrawable urlDrawable = new UrlDrawable(mContext);
         GenericRequestBuilder load;
         final Target target;
         if (isGif(url)) {

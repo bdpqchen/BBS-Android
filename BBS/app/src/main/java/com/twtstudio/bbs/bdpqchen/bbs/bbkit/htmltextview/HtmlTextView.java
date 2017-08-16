@@ -117,8 +117,13 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
             setText(spanned);
         }
 
-        // make links work
-        setMovementMethod(LocalLinkMovementMethod.getInstance());
+        //这个东西和我的图片点击触控有点冲突
+        // 换到了 Thread 和 post 的 xml 里面设置属性
+//        setTextIsSelectable(true);
+
+        // make links work and image
+        setMovementMethod(RichTextMovementMethod.getInstance());
+
     }
 
     public void setHtml(HtmlTextView textView, @NonNull String html, @Nullable Html.ImageGetter imageGetter) {
@@ -139,7 +144,7 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
         }
 
         // make links work
-        setMovementMethod(LocalLinkMovementMethod.getInstance());
+        setMovementMethod(RichTextMovementMethod.getInstance());
 
 
     }
@@ -200,16 +205,16 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
 
 
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        linkHit = false;
-        boolean res = super.onTouchEvent(event);
-
-        if (dontConsumeNonUrlClicks) {
-            return linkHit;
-        }
-        return res;
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        linkHit = false;
+//        boolean res = super.onTouchEvent(event);
+//
+//        if (dontConsumeNonUrlClicks) {
+//            return linkHit;
+//        }
+//        return res;
+//    }
 
 
 }
