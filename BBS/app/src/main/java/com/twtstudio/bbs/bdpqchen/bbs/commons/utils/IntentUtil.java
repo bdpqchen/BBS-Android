@@ -7,7 +7,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.picture.BigPhotoActivity;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.IMG_URL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
@@ -58,6 +60,12 @@ public final class IntentUtil {
         Intent intent = new Intent(context, LetterActivity.class);
         intent.putExtra(UID, uid);
         intent.putExtra(USERNAME, username);
+        return intent;
+    }
+
+    public static Intent toBigPhoto(Context context, String imageUrl) {
+        Intent intent = new Intent(context, BigPhotoActivity.class);
+        intent.putExtra(IMG_URL, imageUrl);
         return intent;
     }
 }

@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Layout;
@@ -85,9 +86,9 @@ public class RichTextMovementMethod extends ArrowKeyMovementMethod {
                 return true;
             } else if (isImage(imageSpans)) {
                 if (isActionUp(action)) {
-                    Intent intent = new Intent(widget.getContext(), BigPhotoActivity.class);
-                    intent.putExtra("url", imageSpans[0].getSource());
-                    widget.getContext().startActivity(intent);
+                    Context context = widget.getContext();
+                    Intent intent = IntentUtil.toBigPhoto(context, imageSpans[0].getSource());
+                    context.startActivity(intent);
                 }
                 return true;
             }
