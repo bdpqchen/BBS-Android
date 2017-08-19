@@ -3,21 +3,12 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 import android.content.Context;
 import android.widget.ImageView;
 
-import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.ColorFilterTransformation;
-import jp.wasabeef.glide.transformations.GrayscaleTransformation;
-import jp.wasabeef.glide.transformations.MaskTransformation;
-import jp.wasabeef.glide.transformations.gpu.BrightnessFilterTransformation;
-import jp.wasabeef.glide.transformations.gpu.ToonFilterTransformation;
 
 /**
  * Created by bdpqchen on 17-5-4.
@@ -28,14 +19,6 @@ public final class ImageUtil {
     private final static int radius = 30;
     private final static int myUid = PrefUtil.getAuthUid();
 
-
-    public static String getAvatarUrl(int uid) {
-        return RxDoHttpClient.BASE_URL + "user/" + uid + "/avatar";
-    }
-
-    public static String getCoverUri(int fid) {
-        return RxDoHttpClient.BASE_URL + "forum/" + fid + "/cover";
-    }
 
     public static void loadIconAsBitmap(Context context, int resourceId, ImageView view) {
         Glide.with(context).load(resourceId).asBitmap().centerCrop().into(view);
@@ -61,7 +44,7 @@ public final class ImageUtil {
 
     public static void loadLoginCover(Context context, int fid, ImageView view) {
         Glide.with(context)
-                .load(getCoverUri(fid))
+                .load(UrlUtil.getCoverUrl(fid))
                 .crossFade()
                 .error(R.drawable.cover_login)
 //                .placeholder(R.drawable.cover_login)
@@ -69,7 +52,7 @@ public final class ImageUtil {
     }
 
     public static void loadAvatarAsBitmapByUid(Context context, int uid, ImageView view) {
-        Glide.with(context).load(getAvatarUrl(uid))
+        Glide.with(context).load(UrlUtil.getAvatarUrl(uid))
                 .asBitmap()
                 .centerCrop()
                 .crossFade().diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -79,7 +62,7 @@ public final class ImageUtil {
     }
 
     public static void loadAvatarAsBitmapByUidWithRight(Context context, int author_id, CircleImageView civAvatarPost) {
-        Glide.with(context).load(getAvatarUrl(author_id))
+        Glide.with(context).load(UrlUtil.getAvatarUrl(author_id))
                 .asBitmap()
                 .centerCrop()
                 .crossFade()
@@ -90,7 +73,7 @@ public final class ImageUtil {
     }
 
     public static void loadAvatarAsBitmapByUidWithLeft(Context context, int author_id, CircleImageView civAvatarPost) {
-        Glide.with(context).load(getAvatarUrl(author_id))
+        Glide.with(context).load(UrlUtil.getAvatarUrl(author_id))
                 .asBitmap()
                 .centerCrop()
                 .crossFade()
@@ -105,7 +88,7 @@ public final class ImageUtil {
 
     public static void loadAvatarByUid(Context context, int uid, ImageView view) {
         Glide.with(context)
-                .load(getAvatarUrl(uid))
+                .load(UrlUtil.getAvatarUrl(uid))
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .crossFade()
@@ -119,7 +102,7 @@ public final class ImageUtil {
 
     public static void loadBgByUid(Context context, int uid, ImageView view) {
         Glide.with(context)
-                .load(getAvatarUrl(uid))
+                .load(UrlUtil.getAvatarUrl(uid))
                 .bitmapTransform(new BlurTransformation(context, radius))
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .crossFade()
@@ -132,7 +115,7 @@ public final class ImageUtil {
 
     private static void refreshMyBg(Context context, int myUid, ImageView view) {
         Glide.with(context)
-                .load(getAvatarUrl(myUid))
+                .load(UrlUtil.getAvatarUrl(myUid))
                 .skipMemoryCache(true)
                 .bitmapTransform(new BlurTransformation(context, radius))
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -146,7 +129,7 @@ public final class ImageUtil {
 
     private static void refreshAvatar(Context context, int uid, ImageView view) {
         Glide.with(context)
-                .load(getAvatarUrl(uid))
+                .load(UrlUtil.getAvatarUrl(uid))
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .crossFade()

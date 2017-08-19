@@ -63,6 +63,7 @@
                             app:civ_border_color="@color/material_light_white"
                             app:civ_border_width="3dp"
                             tools:src="@drawable/avatar_default_left"
+                            android:clickable="true"
                             />
 
                         <TextView

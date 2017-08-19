@@ -24,9 +24,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.UrlUtil;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -139,6 +139,10 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
                 mToolbar.getBackground().mutate().setAlpha(alpha);
             }
         });
+        mCivAvatar.setOnClickListener(v -> {
+            Intent intent1 = IntentUtil.toBigPhoto(mContext, UrlUtil.getAvatarUrl(mUid));
+            startActivity(intent1);
+        });
 
     }
 
@@ -153,7 +157,7 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
             mTvSignature.setText(model.getSignature());
             mTvPoints.setText(model.getPoints() + "");
             mInfoPastDay.setText(TextUtil.getPastDays(mContext, model.getT_create()), TextView.BufferType.SPANNABLE);
-            LogUtil.dd("Will notify", String.valueOf(model.getRecent().size()));
+//            LogUtil.dd("Will notify", String.valueOf(model.getRecent().size()));
             mAdapter.addList(model.getRecent());
             mTvHonor.setText(TextUtil.getHonor(model.getPoints()));
             mName = model.getName();
