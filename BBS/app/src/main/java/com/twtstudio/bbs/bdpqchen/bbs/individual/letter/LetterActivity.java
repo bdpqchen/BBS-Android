@@ -18,7 +18,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
@@ -78,7 +77,7 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
         return this;
     }
 
-    private static final int SEC = BuildConfig.DEBUG ? 3 : 30;
+    private static final int SEC = BuildConfig.DEBUG ? 30 : 60;
     public static final int REFRESH = 1;
 
     private LetterAdapter mAdapter;
