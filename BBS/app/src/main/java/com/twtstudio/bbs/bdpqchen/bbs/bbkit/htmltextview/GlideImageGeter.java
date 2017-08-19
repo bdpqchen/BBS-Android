@@ -20,7 +20,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
-import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.WindowUtil;
 
 import java.util.HashSet;
 
@@ -31,6 +31,7 @@ public class GlideImageGeter implements Html.ImageGetter {
     private HashSet<GifDrawable> gifDrawables;
     private final Context mContext;
     private final TextView mTextView;
+    private float betterImgScale = 0.65f;
 
     public void recycle() {
         targets.clear();
@@ -122,19 +123,39 @@ public class GlideImageGeter implements Html.ImageGetter {
         @Override
         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
             Drawable drawable = new BitmapDrawable(mContext.getResources(), resource);
-            int hh = drawable.getIntrinsicHeight();
-            int ww = drawable.getIntrinsicWidth();
-            float scale = 0.9f;
-            int www = (int) (ww * scale);
-            int hhh = (int) (hh * scale);
-            Rect rect = new Rect(0, 0, www, hhh);
+            int w = getScaledWidth(drawable.getIntrinsicWidth());
+            int h = getScaledHeight(drawable.getIntrinsicHeight());
+            Rect rect = new Rect(0, 0, w, h);
             drawable.setBounds(rect);
             urlDrawable.setBounds(rect);
             urlDrawable.setDrawable(drawable);
             mTextView.setText(mTextView.getText());
             mTextView.invalidate();
-
         }
+    }
+
+    private int getScaledWidth(int imgWidth) {
+        int resultWidth = imgWidth;
+        if (isTooWide(imgWidth)) {
+            resultWidth = (int) (imgWidth * betterImgScale);
+        }
+        return resultWidth;
+    }
+
+    private int getScaledHeight(int imgHeight) {
+        int resultHeight = imgHeight;
+        if (isTooHigh(imgHeight)) {
+            resultHeight = (int) (imgHeight * betterImgScale);
+        }
+        return resultHeight;
+    }
+
+    private boolean isTooWide(int imgWidth) {
+        return imgWidth > WindowUtil.getWindowWidth(mContext) / 2;
+    }
+
+    private boolean isTooHigh(int imgHigh) {
+        return imgHigh > WindowUtil.getWindowHeight(mContext) / 2;
     }
 
 }

@@ -56,7 +56,6 @@ public final class ImageUtil {
                 .asBitmap()
                 .centerCrop()
                 .crossFade().diskCacheStrategy(DiskCacheStrategy.NONE)
-
                 .error(R.drawable.avatar_default_left)
                 .into(view);
     }

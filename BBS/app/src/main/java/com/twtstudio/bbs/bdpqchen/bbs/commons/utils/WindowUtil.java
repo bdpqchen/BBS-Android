@@ -29,13 +29,8 @@ public final class WindowUtil  {
         //不含虚拟按键
 //        windowManager.getDefaultDisplay().getSize(point);
 //        int width = point.x;
-        int screenWidth = activity.getWindowManager().getDefaultDisplay().getWidth();
-        return screenWidth;
+        return activity.getWindowManager().getDefaultDisplay().getWidth();
     }
-
-
-
-//    public static int getScreenHeight
 
     public static int getWindowHeight(Context context){
         Point point = new Point();

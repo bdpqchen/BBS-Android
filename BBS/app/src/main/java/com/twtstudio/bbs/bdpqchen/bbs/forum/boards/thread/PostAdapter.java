@@ -12,7 +12,6 @@ import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.GlideImageGeter;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
-import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.MyTagHandler;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
@@ -20,7 +19,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.view_holder.TheEndViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.viewholder.TheEndViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 
 import java.util.ArrayList;
@@ -147,29 +146,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
 //                LogUtil.dd("contentis", p.getContent_converted());
-                MyTagHandler tagHandler = new MyTagHandler(mContext);
+
                 h.mHtvPostContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, h.mHtvPostContent));
-/*
-                final Handler handler = new Handler() {
-                    public void handleMessage(Message msg) {
-                        int what = msg.what;
-                        if (what == 200) {
-                            MessageSpan ms = (MessageSpan) msg.obj;
-                            Object[] spans = (Object[]) ms.getObj();
-                            final ArrayList<String> list = new ArrayList<>();
-                            for (Object span : spans) {
-                                if (span instanceof ImageSpan) {
-                                    Log.i("picUrl==", ((ImageSpan) span).getSource());
-                                    list.add(((ImageSpan) span).getSource());
-//                                    Intent intent = new Intent(getApplicationContext(), ImageGalleryActivity.class);
-//                                    intent.putStringArrayListExtra("images", list);
-//                                    startActivity(intent);
-                                }
-                            }
-                        }
-                    }
-                };
-                h.mHtvPostContent.setMovementMethod(LocalLinkMovementMethod.getInstance(handler));*/
                 h.mTvReply.setTag(position);
                 h.mTvReply.setOnClickListener(this);
 
@@ -295,6 +273,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private String addTwoQuote(String str0) {
         String key = "> ";
         if (str0.contains(key)) {
+            str0 = str0.replaceAll("\n> \n>", "\n> ");
             int p = str0.indexOf(key);
             String start = str0.substring(0, p);
             start = cutIfTooLong(start);
@@ -302,7 +281,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             String end = str0.substring(p + 2, str0.length());
             end = cutIfTooLong(end);
             end = end.replaceAll("> ", "> > ");
-            str0 = start + "> " + end;
+            str0 = start + "\n> >" + end;
         } else {
             str0 = cutIfTooLong(str0);
             str0 = str0.replaceAll("\n", "\n> ");
@@ -311,7 +290,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     private String cutIfTooLong(String s) {
-        if (s.length() > MAX_LENGTH_QUOTE + 1) {
+        if (s.length() > MAX_LENGTH_QUOTE) {
             return s.substring(0, MAX_LENGTH_QUOTE) + "...";
         }
         return s;
