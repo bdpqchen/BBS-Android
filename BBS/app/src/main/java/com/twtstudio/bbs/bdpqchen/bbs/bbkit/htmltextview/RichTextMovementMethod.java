@@ -3,22 +3,19 @@ package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Layout;
-import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.ArrowKeyMovementMethod;
 import android.text.method.MovementMethod;
-import android.text.method.Touch;
 import android.text.style.ClickableSpan;
 import android.text.style.ImageSpan;
 import android.text.style.URLSpan;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
-import com.twtstudio.bbs.bdpqchen.bbs.bbkit.photo.BigPhotoActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.picture.BigPhotoActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
-
-import java.util.Arrays;
-import java.util.HashSet;
 
 /**
  * Created by retrox on 16/08/2017.
@@ -63,56 +60,63 @@ public class RichTextMovementMethod extends ArrowKeyMovementMethod {
             ClickableSpan[] link = buffer.getSpans(off, off, ClickableSpan.class);
             ImageSpan[] imageSpans = buffer.getSpans(off, off, ImageSpan.class);
 
-            if (link.length != 0) {
-                if (action == MotionEvent.ACTION_UP && !isMoved) {
+            if (isLink(link)) {
+                if (isActionUp(action)) {
                     ClickableSpan span = link[0];
                     if (span instanceof URLSpan) {
-                        // todo 优化代码质量 封装一下什么的
-                        // 用于从URL中取出ThreadID跳转 那一堆其他的东西if什么的是用来判断ThreadURL的
-                        // 来避免跳转其他URL 把其他URL的跳转权利下放回系统
-                        String url = ((URLSpan) span).getURL();
-                        Uri uri = Uri.parse(url);
-                        System.out.println(uri.getHost());
-                        if (uri.getHost().equals("bbs.tju.edu.cn")){
-                            String[] elements = uri.getEncodedPath().split("/");
-                            HashSet<String> elementSet = new HashSet<>();
-                            elementSet.addAll(Arrays.asList(elements));
-                            if (elementSet.contains("forum")&&elementSet.contains("thread")){
-                                String threadId = uri.getLastPathSegment();
-                                Intent intent = IntentUtil.toThread(widget.getContext(), Integer.parseInt(threadId)," ",0);
-                                widget.getContext().startActivity(intent);
-                            }else {
-                                link[0].onClick(widget);
-                            }
-                        }else {
+                        Uri uri = Uri.parse(((URLSpan) span).getURL());
+//                        LogUtil.dd("uri", uri.toString());
+                        if (isInteriorThreadLink(uri)) {
+                            int threadId = CastUtil.parse2intWithMin(uri.getLastPathSegment());
+                            Intent intent = IntentUtil.toThread(widget.getContext(), threadId);
+                            widget.getContext().startActivity(intent);
+                        } else {
+                            // 调用系统默认链接点击事件
                             link[0].onClick(widget);
                         }
                     }
                 }
-//                else if (action == MotionEvent.ACTION_DOWN) {
-//                    Selection.setSelection(buffer,
-//                            buffer.getSpanStart(link[0]),
-//                            buffer.getSpanEnd(link[0]));
-//                }
+                /*else if (action == MotionEvent.ACTION_DOWN) {
+                    LogUtil.dd("action", "Down");
+                    Selection.setSelection(buffer,
+                            buffer.getSpanStart(link[0]),
+                            buffer.getSpanEnd(link[0]));
+                }*/
                 return true;
-            } else if (imageSpans.length != 0) {
-                //todo 弄得优雅一点 考虑隐式跳
-                if (action == MotionEvent.ACTION_UP && !isMoved) {
+            } else if (isImage(imageSpans)) {
+                if (isActionUp(action)) {
                     Intent intent = new Intent(widget.getContext(), BigPhotoActivity.class);
                     intent.putExtra("url", imageSpans[0].getSource());
                     widget.getContext().startActivity(intent);
                 }
-//                貌似没啥卵用的模仿代码
-//                else if (action == MotionEvent.ACTION_DOWN) {
-//                    Selection.setSelection(buffer,
-//                            buffer.getSpanStart(imageSpans[0]),
-//                            buffer.getSpanEnd(imageSpans[0]));
-//                }
-
                 return true;
             }
             return super.onTouchEvent(widget, buffer, event);
         }
         return super.onTouchEvent(widget, buffer, event);
+    }
+
+    private boolean isThread(String url) {
+        return url.contains("/forum/thread/");
+    }
+
+    private boolean isLink(ClickableSpan[] link) {
+        return link.length != 0;
+    }
+
+    private boolean isImage(ImageSpan[] imageSpans) {
+        return imageSpans.length != 0;
+    }
+
+    private boolean isActionUp(int action) {
+        return action == MotionEvent.ACTION_UP && !isMoved;
+    }
+
+    private boolean isInteriorLink(Uri uri) {
+        return uri.getHost().equals(RxDoHttpClient.BASE_HOST);
+    }
+
+    private boolean isInteriorThreadLink(Uri uri) {
+        return isInteriorLink(uri) && isThread(uri.toString());
     }
 }

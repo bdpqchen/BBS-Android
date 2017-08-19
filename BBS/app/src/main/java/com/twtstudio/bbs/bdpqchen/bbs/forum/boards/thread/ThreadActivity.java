@@ -601,7 +601,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                     DialogUtil.inputDialog(mContext,
                             "输入楼层,最大可能是" + mPostCount + "左右",
                             (dialog, input) -> {
-                                mInputFloor = CastUtil.parse2int(input.toString());
+                                mInputFloor = CastUtil.parse2intWithMax(input.toString());
                                 if (mInputFloor != 0) {
                                     mFindingPage = mPage;
                                     findFloor(mInputFloor);

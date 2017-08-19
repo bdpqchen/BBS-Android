@@ -19,7 +19,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.Message;
 import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
@@ -28,12 +27,10 @@ import android.text.method.Touch;
 import android.text.style.ClickableSpan;
 import android.text.style.ImageSpan;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
-import com.twtstudio.bbs.bdpqchen.bbs.bbkit.photo.BigPhotoActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.picture.BigPhotoActivity;
 
 /**
  * Copied from http://stackoverflow.com/questions/8558732
@@ -69,7 +66,6 @@ public class LocalLinkMovementMethod extends LinkMovementMethod {
 //            Log.d("move --> ","action MOVE");
             isMoved = true;
         }
-
 
         if (action == MotionEvent.ACTION_UP ||
                 action == MotionEvent.ACTION_DOWN) {

@@ -22,6 +22,9 @@ import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity.
 
 public final class IntentUtil {
 
+    public static Intent toThread(Context context, int tid){
+        return toThread(context, tid, "", 0);
+    }
     public static Intent toThread(Context context, int tid, String title, int floor){
         return toThread(context, tid, title, floor, 0, "");
     }

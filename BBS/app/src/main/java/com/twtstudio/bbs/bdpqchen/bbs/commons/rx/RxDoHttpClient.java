@@ -8,6 +8,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseHeaderViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
@@ -60,8 +61,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RxDoHttpClient<T> {
 
-//    public static final String BASE = "https://bbs.twtstudio.com";
-    public static final String BASE = "https://bbs.tju.edu.cn";
+    public static final String BASE_HOST = "bbs.tju.edu.cn";
+    public static final String BASE = "https://" + BASE_HOST;
     public static final String BASE_URL = BASE + "/api/";
     private Retrofit mRetrofit;
     public BaseApi mApi;

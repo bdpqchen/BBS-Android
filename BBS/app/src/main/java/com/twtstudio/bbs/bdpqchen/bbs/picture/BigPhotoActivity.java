@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.bbkit.photo;
+package com.twtstudio.bbs.bdpqchen.bbs.picture;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -12,6 +12,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.github.piasy.biv.indicator.progresspie.ProgressPieIndicator;
@@ -34,6 +36,7 @@ public class BigPhotoActivity extends AppCompatActivity {
 
         url = getIntent().getStringExtra("url");
 
+/*
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View decorView = getWindow().getDecorView();
             int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -41,6 +44,10 @@ public class BigPhotoActivity extends AppCompatActivity {
             decorView.setSystemUiVisibility(option);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
+*/
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,  WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_big_photo);
         BigImageView bigImageView = (BigImageView) findViewById(R.id.image);
