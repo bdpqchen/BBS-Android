@@ -103,8 +103,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     @Override
     protected void initFragment() {
 
-        ImageUtil.loadMyAvatar(mContext, mCivAvatar);
-        ImageUtil.loadMyBg(mContext, mIvBg);
 
         mRlIndividualItemMessage.setOnClickListener(v -> startItemActivity(ACT_MSG));
         mRlIndividualItemCollection.setOnClickListener(v -> startItemActivity(ACT_STAR));
@@ -127,6 +125,9 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         super.onLazyInitView(savedInstanceState);
         if (mPresenter != null) {
             mPresenter.initIndividualInfo();
+            ImageUtil.loadMyAvatar(mContext, mCivAvatar);
+            ImageUtil.loadMyBg(mContext, mIvBg);
+
         }
     }
 
