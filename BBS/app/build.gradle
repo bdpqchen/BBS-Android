@@ -21,8 +21,12 @@ android {
         versionName "1.3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        multiDexEnabled true
+        jackOptions {
+//            enabled true
+        }
 
     }
+
     signingConfigs {
         release {
             try {
