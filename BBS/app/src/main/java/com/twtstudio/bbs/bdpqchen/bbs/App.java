@@ -2,7 +2,6 @@ package com.twtstudio.bbs.bdpqchen.bbs;
 
 import android.app.Application;
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.github.piasy.biv.BigImageViewer;
 import com.github.piasy.biv.loader.glide.GlideImageLoader;
@@ -10,16 +9,9 @@ import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.oubowu.slideback.ActivityHelper;
-import com.tencent.bugly.Bugly;
-import com.tencent.bugly.beta.Beta;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.AppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerAppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 
 /**
  * Created by bdpqchen on 17-4-17.
@@ -40,8 +32,8 @@ public class App extends Application {
         sApplication = this;
 
         if (!BuildConfig.DEBUG) {
+//            initBuglyReport();
         }
-        initBuglyReport();
 
         BigImageViewer.initialize(GlideImageLoader.with(getApplicationContext()));
         initLogUtils();
@@ -52,7 +44,7 @@ public class App extends Application {
 
     }
 
-    private void initBuglyReport() {
+   /* private void initBuglyReport() {
         Context context = getApplicationContext();
         String packageName = context.getPackageName();
         String processName = getProcessName(android.os.Process.myPid());
@@ -60,7 +52,7 @@ public class App extends Application {
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
         Beta.smallIconId = R.mipmap.ic_launcher;
         Bugly.init(context, BuildConfig.ID_BUGLY, BuildConfig.DEBUG);
-    }
+    }*/
 
     /*
         private Tracker tracker;
@@ -106,7 +98,7 @@ public class App extends Application {
      * @param pid 进程号
      * @return 进程名
      */
-    private static String getProcessName(int pid) {
+   /* private static String getProcessName(int pid) {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
@@ -127,6 +119,6 @@ public class App extends Application {
             }
         }
         return null;
-    }
+    }*/
 
 }
