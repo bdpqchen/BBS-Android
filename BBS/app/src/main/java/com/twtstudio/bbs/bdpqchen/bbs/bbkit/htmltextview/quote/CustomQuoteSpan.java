@@ -11,6 +11,7 @@ import android.text.Layout;
 import android.text.style.LeadingMarginSpan;
 import android.text.style.LineBackgroundSpan;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
 /**
@@ -46,12 +47,9 @@ public class CustomQuoteSpan implements LeadingMarginSpan, LineBackgroundSpan {
                                   CharSequence text, int start, int end, boolean first, Layout layout) {
         Paint.Style style = p.getStyle();
         int paintColor = p.getColor();
-
         p.setStyle(Paint.Style.FILL);
         p.setColor(stripeColor);
-
         c.drawRect(x, top, x + dir * stripeWidth, bottom, p);
-
         p.setStyle(style);
         p.setColor(paintColor);
     }

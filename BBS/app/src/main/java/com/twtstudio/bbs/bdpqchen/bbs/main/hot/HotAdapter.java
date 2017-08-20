@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
@@ -57,7 +57,7 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
                     holder.mCivHotAvatar.setOnClickListener(null);
                 } else {
                     holder.mCivHotAvatar.setOnClickListener(v -> {
-                        mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id()));
+                        mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id(), model.getAuthor_name()));
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivHotAvatar);
                 }
@@ -66,7 +66,7 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
                 holder.mTvThreadTitle.setText(model.getTitle());
                 holder.mTvPostCount.setText(model.getC_post() + "");
                 holder.mTvHotTime.setText("发布于 " + StampUtil.getDatetimeByStamp(model.getT_create()));
-                holder.mTvHotContent.setText(model.getContent());
+                holder.mTvHotContent.setText(TextUtil.getReplacedImageContent(model.getContent()));
                 holder.mTvBoardName.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, ThreadListActivity.class);
                     intent.putExtra(Constants.INTENT_BOARD_ID, model.getBoard_id());

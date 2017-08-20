@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     private boolean isShowFooter = false;
     private boolean isShowHeader = false;
     private OnItemClickListener mOnItemClickListener = null;
+    protected int mPage = 0;
 
     @Override
     public void onClick(View v) {
@@ -64,6 +67,15 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         mDataSet.addAll(items);
         notifyDataSetChanged();
     }
+    public void addFirst(List<T> items){
+        mDataSet.addAll(0, items);
+        notifyDataSetChanged();
+    }
+
+    public void addList(List<T> items, int page){
+        mPage = page;
+        addList(items);
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -98,8 +110,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
 //        notifyDataSetChanged();
     }
 
-    public void addData(T model){
+    public void addOne(T model){
         mDataSet.add(model);
-        notifyDataSetChanged();
+        notifyItemInserted(mDataSet.size() - 1);
+//        notifyDataSetChanged();
     }
+
 }

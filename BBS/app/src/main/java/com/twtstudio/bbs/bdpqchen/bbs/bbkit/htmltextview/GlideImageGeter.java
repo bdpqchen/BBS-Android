@@ -16,21 +16,24 @@ import com.bumptech.glide.GenericRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.WindowUtil;
 
 import java.util.HashSet;
 
 
-public class GlideImageGeter implements Html.ImageGetter{
+public class GlideImageGeter implements Html.ImageGetter {
 
     private HashSet<Target> targets;
     private HashSet<GifDrawable> gifDrawables;
     private final Context mContext;
     private final TextView mTextView;
+    private float betterImgScale = 0.65f;
 
-    public  void recycle() {
+    public void recycle() {
         targets.clear();
         for (GifDrawable gifDrawable : gifDrawables) {
             gifDrawable.setCallback(null);
@@ -49,14 +52,25 @@ public class GlideImageGeter implements Html.ImageGetter{
 
     @Override
     public Drawable getDrawable(String url) {
-        final UrlDrawable urlDrawable = new UrlDrawable();
+        final UrlDrawable urlDrawable = new UrlDrawable(mContext);
         GenericRequestBuilder load;
         final Target target;
-        if(isGif(url)){
+        if (isGif(url)) {
             load = Glide.with(mContext).load(url).asGif();
             target = new GifTarget(urlDrawable);
-        }else {
-            load = Glide.with(mContext).load(url).asBitmap();
+        } else {
+            load = Glide.with(mContext).load(url).asBitmap().centerCrop()
+                    .listener(new RequestListener<String, Bitmap>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            return false;
+                        }
+                    });
             target = new BitmapTarget(urlDrawable);
         }
         targets.add(target);
@@ -68,11 +82,12 @@ public class GlideImageGeter implements Html.ImageGetter{
         int index = path.lastIndexOf('.');
         return index > 0 && "gif".toUpperCase().equals(path.substring(index + 1).toUpperCase());
     }
+
     private class GifTarget extends SimpleTarget<GifDrawable> {
         private final UrlDrawable urlDrawable;
 
 
-        private  GifTarget(UrlDrawable urlDrawable) {
+        private GifTarget(UrlDrawable urlDrawable) {
             this.urlDrawable = urlDrawable;
 
         }
@@ -81,10 +96,10 @@ public class GlideImageGeter implements Html.ImageGetter{
         public void onResourceReady(GifDrawable resource, GlideAnimation<? super GifDrawable> glideAnimation) {
 
             int w = MeasureUtil.getScreenSize(mContext).x;
-            int hh=resource.getIntrinsicHeight();
-            int ww=resource.getIntrinsicWidth() ;
-            int high = hh * (w - 50)/ww;
-            Rect rect = new Rect(20, 20,w-30,high);
+            int hh = resource.getIntrinsicHeight();
+            int ww = resource.getIntrinsicWidth();
+            int high = hh * (w - 50) / ww;
+            Rect rect = new Rect(20, 20, w - 30, high);
             resource.setBounds(rect);
             urlDrawable.setBounds(rect);
             urlDrawable.setDrawable(resource);
@@ -104,14 +119,13 @@ public class GlideImageGeter implements Html.ImageGetter{
         public BitmapTarget(UrlDrawable urlDrawable) {
             this.urlDrawable = urlDrawable;
         }
+
         @Override
         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
             Drawable drawable = new BitmapDrawable(mContext.getResources(), resource);
-            int w = MeasureUtil.getScreenSize(mContext).x;
-            int hh=drawable.getIntrinsicHeight();
-            int ww=drawable.getIntrinsicWidth() ;
-            int high=hh*(w-40)/ww;
-            Rect rect = new Rect(4, 4,w-20,high);
+            int w = getScaledWidth(drawable.getIntrinsicWidth());
+            int h = getScaledHeight(drawable.getIntrinsicHeight());
+            Rect rect = new Rect(0, 0, w, h);
             drawable.setBounds(rect);
             urlDrawable.setBounds(rect);
             urlDrawable.setDrawable(drawable);
@@ -119,4 +133,29 @@ public class GlideImageGeter implements Html.ImageGetter{
             mTextView.invalidate();
         }
     }
+
+    private int getScaledWidth(int imgWidth) {
+        int resultWidth = imgWidth;
+        if (isTooWide(imgWidth)) {
+            resultWidth = (int) (imgWidth * betterImgScale);
+        }
+        return resultWidth;
+    }
+
+    private int getScaledHeight(int imgHeight) {
+        int resultHeight = imgHeight;
+        if (isTooHigh(imgHeight)) {
+            resultHeight = (int) (imgHeight * betterImgScale);
+        }
+        return resultHeight;
+    }
+
+    private boolean isTooWide(int imgWidth) {
+        return imgWidth > WindowUtil.getWindowWidth(mContext) / 2;
+    }
+
+    private boolean isTooHigh(int imgHigh) {
+        return imgHigh > WindowUtil.getWindowHeight(mContext) / 2;
+    }
+
 }

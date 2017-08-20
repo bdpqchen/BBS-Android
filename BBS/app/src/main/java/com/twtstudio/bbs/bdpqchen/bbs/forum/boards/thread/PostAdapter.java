@@ -12,14 +12,14 @@ import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.GlideImageGeter;
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.view_holder.TheEndViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.viewholder.TheEndViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 
 import java.util.ArrayList;
@@ -53,7 +53,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private boolean mIsNoMore = false;
     private boolean mEnding;
     private boolean mIsFinding = false;
-    public List<ThreadModel.PostBean> getPostList(){
+
+    public List<ThreadModel.PostBean> getPostList() {
         return mPostData;
     }
 
@@ -115,7 +116,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     headerHolder.mCivAvatarThread.setOnClickListener(null);
                 } else {
                     headerHolder.mCivAvatarThread.setOnClickListener(v -> {
-                        startToPeople(p.getAuthor_id());
+                        startToPeople(p.getAuthor_id(), p.getAuthor_name());
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, p.getAuthor_id(), headerHolder.mCivAvatarThread);
                 }
@@ -124,7 +125,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 headerHolder.mTvUsernameThread.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
 //                LogUtil.dd("header contentis", p.getContent_converted());
                 headerHolder.mHtvContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, headerHolder.mHtvContent));
-                if (p.getT_modify() > 0 && p.getT_modify() != p.getT_create()){
+                if (p.getT_modify() > 0 && p.getT_modify() != p.getT_create()) {
                     headerHolder.mTvModifyTime.setText(TextUtil.getModifyTime(p.getT_modify()));
                 }
             } else if (holder instanceof PostHolder) {
@@ -137,7 +138,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     h.mCivAvatarPost.setOnClickListener(null);
                 } else {
                     h.mCivAvatarPost.setOnClickListener(v -> {
-                        startToPeople(uid);
+                        startToPeople(uid, p.getAuthor_name());
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, uid, h.mCivAvatarPost);
                 }
@@ -145,6 +146,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
 //                LogUtil.dd("contentis", p.getContent_converted());
+
                 h.mHtvPostContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, h.mHtvPostContent));
                 h.mTvReply.setTag(position);
                 h.mTvReply.setOnClickListener(this);
@@ -159,13 +161,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         }
     }
 
-    public void startToPeople(int uid){
-        mContext.startActivity(IntentUtil.toPeople(mContext, uid));
+    public void startToPeople(int uid, String username) {
+        mContext.startActivity(IntentUtil.toPeople(mContext, uid, username));
     }
 
-    private String formatContent(String contentBefore){
+    private String formatContent(String contentBefore) {
         String content = "";
-        if (contentBefore != null && contentBefore.length() > 0){
+        if (contentBefore != null && contentBefore.length() > 0) {
             content = Processor.process(contentBefore);
             content = TextUtil.getReplacedContent(content);
         }
@@ -236,10 +238,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public void refreshThisPage(List<ThreadModel.PostBean> postList, int page) {
         LogUtil.dd("refreshThisPage()");
         LogUtil.dd(String.valueOf(mPostData.size()));
-        if (page == 0){
+        if (page == 0) {
             mPostData.removeAll(mPostData);
-        }else{
-            for (int i = page * MAX_LENGTH_POST; i < mPostData.size(); i ++){
+        } else {
+            for (int i = page * MAX_LENGTH_POST; i < mPostData.size(); i++) {
                 LogUtil.dd(String.valueOf(mPostData.size()));
                 mPostData.remove(i);
                 LogUtil.dd(String.valueOf(mPostData.size()));
@@ -249,7 +251,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         notifyDataSetChanged();
         LogUtil.dd(String.valueOf(mPostData.size()));
 
-//        mPostData.remove()
 
     }
 
@@ -271,16 +272,17 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     //添加两层的引用并截断1层 和 2层太长的部分
     private String addTwoQuote(String str0) {
         String key = "> ";
-        if (str0.contains(key)){
+        if (str0.contains(key)) {
+            str0 = str0.replaceAll("\n> \n>", "\n> ");
             int p = str0.indexOf(key);
             String start = str0.substring(0, p);
             start = cutIfTooLong(start);
             start = start.replaceAll("\n", "\n> ");
-            String end  = str0.substring(p + 2, str0.length());
+            String end = str0.substring(p + 2, str0.length());
             end = cutIfTooLong(end);
             end = end.replaceAll("> ", "> > ");
-            str0 = start + "> " + end;
-        }else{
+            str0 = start + "\n> >" + end;
+        } else {
             str0 = cutIfTooLong(str0);
             str0 = str0.replaceAll("\n", "\n> ");
         }
@@ -288,7 +290,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     private String cutIfTooLong(String s) {
-        if (s.length() > MAX_LENGTH_QUOTE + 1) {
+        if (s.length() > MAX_LENGTH_QUOTE) {
             return s.substring(0, MAX_LENGTH_QUOTE) + "...";
         }
         return s;
@@ -358,6 +360,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView mTvReply;
         @BindView(R.id.htv_post_content)
         HtmlTextView mHtvPostContent;
+
         PostHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

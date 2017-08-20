@@ -41,6 +41,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageFormatUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImagePickUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PathUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -139,13 +140,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     private ImageFormatUtil mImageFormatUtil;
     private boolean mIsFindEnd = false;
-    private String[] menuTexts = new String[]{"评论", "刷新帖子", "分享链接", "潜入底部", "跳楼", "返回顶部"};
-    private int[] menuRes = new int[]{R.drawable.ic_insert_comment_white_24dp, R.drawable.ic_refresh_white_24dp, R.drawable.ic_share_white_24dp,
-            R.drawable.ic_vertical_align_bottom_white_24dp, R.drawable.ic_jump_floor_black_24dp, R.drawable.ic_vertical_align_top_white_24dp};
+    private String[] menuTexts = new String[]{"跳楼", "刷新帖子", "分享链接", "潜入底部", "评论", "返回顶部"};
+    private int[] menuRes = new int[]{R.drawable.ic_jump_floor_black_24dp, R.drawable.ic_refresh_white_24dp, R.drawable.ic_share_white_24dp,
+            R.drawable.ic_vertical_align_bottom_white_24dp, R.drawable.ic_insert_comment_white_24dp, R.drawable.ic_vertical_align_top_white_24dp};
     private boolean mBmbShowing = true;
     private boolean isAutoFindFloor = false;
     private boolean isLastPage = false;
-
 
     @Override
     protected int getLayoutResourceId() {
@@ -189,20 +189,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
         mImageFormatUtil = new ImageFormatUtil();
-        if (mFindingFloor != 0){
+        if (mFindingFloor != 0) {
             isAutoFindFloor = true;
             mIsFindingFloor = true;
-//            findFloor(mFindingFloor);
-        }
-        if (mBoardId == 0 || mBoardName == null) {
-        } else {
-            mToolbarTitleBoard.setText(TextUtil.getLinkHtml(mBoardName));
-            mToolbarTitleBoard.setOnClickListener(v -> {
-                Intent intent1 = new Intent(mContext, ThreadListActivity.class);
-                intent1.putExtra(INTENT_BOARD_ID, mBoardId);
-                intent1.putExtra(INTENT_BOARD_TITLE, mBoardName);
-                startActivity(intent1);
-            });
         }
 
         mBoomMenuBtn.setButtonEnum(ButtonEnum.TextInsideCircle);
@@ -211,7 +200,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mBoomMenuBtn.setShowDuration(200);
         mBoomMenuBtn.setHideDuration(100);
         mBoomMenuBtn.setAutoHide(true);
-
         int ip = 36;
         int tp = 1;
         for (int i = 0; i < mBoomMenuBtn.getButtonPlaceEnum().buttonNumber(); i++) {
@@ -236,18 +224,17 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == SCROLL_STATE_IDLE) {
-                    if (lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
-                        mPage++;
-                        mIsLoadingMore = true;
-                        mPresenter.getThread(mThreadId, mPage);
-                    }
+                if (!isLastPage && newState == SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
+                    mPage++;
+                    mIsLoadingMore = true;
+                    mPresenter.getThread(mThreadId, mPage);
                 }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
                 if (dy > 0 && mBmbShowing) {
                     mBmbShowing = false;
                     hideBmb();
@@ -255,7 +242,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                     mBmbShowing = true;
                     showBmb();
                 }
-                lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
                 int d = 300;
                 if (lastVisibleItemPosition != 0 && mLayoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
                     if (!showingThreadTitle) {
@@ -311,8 +297,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             public void afterTextChanged(Editable s) {
             }
         });
-        mIvCommentOut.setOnClickListener(v -> hideCommentInput());
-        mIvCommentSend.setOnClickListener(v -> sendComment(mReplyId));
+        mIvCommentOut.setOnClickListener(v ->
+                hideCommentInput());
+        mIvCommentSend.setOnClickListener(v ->
+                sendComment(mReplyId));
         mIvStaredThread.setOnClickListener(v -> {
             if (PrefUtil.hadLogin()) {
                 mPresenter.unStarThread(mThreadId);
@@ -323,7 +311,11 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 mPresenter.starThread(mThreadId);
             }
         });
-        mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
+        mSrlThreadList.setColorSchemeColors(
+
+                getResources().
+
+                        getIntArray(R.array.swipeRefreshColors));
         mSrlThreadList.setRefreshing(true);
         mSrlThreadList.setOnRefreshListener(() -> {
             mRefreshing = true;
@@ -403,7 +395,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         if (model.getThread() != null) {
             mPostCount = model.getThread().getC_post();
             if (mPage == 0) {
-                canAnonymous = model.getThread().getAnonymous();
+                canAnonymous = model.getBoard().getAnonymous();
             }
         }
         List<ThreadModel.PostBean> postList = new ArrayList<>();
@@ -429,8 +421,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             post.setContent_converted(thread.getContent_converted());
             postList.add(post);
         }
-        if (model.getPost() == null && model.getPost().size() == 0) {
-            isLastPage= true;
+        if (model.getPost() == null || model.getPost().size() == 0) {
+            LogUtil.dd("no more post");
+            isLastPage = true;
             pageSS();
         }
         if (mIsCommentAfter) {
@@ -441,11 +434,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }
         } else {
             if (mRefreshing) {
-                if (!isLastPage) {
-                    postList.addAll(model.getPost());
-                }
-                mAdapter.refreshList(postList);
                 mRefreshing = false;
+                postList.addAll(model.getPost());
+                mAdapter.refreshList(postList);
             } else {
                 if (!isLastPage) {
                     postList.addAll(model.getPost());
@@ -468,10 +459,13 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             }
             mPage = mFindingPage;
         }
-
-        if (model.getBoard() != null) {
+        if (mPage == 0 && model.getBoard() != null) {
             mBoardId = model.getBoard().getId();
             mBoardName = model.getBoard().getName();
+            mToolbarTitleBoard.setText(TextUtil.getLinkHtml(mBoardName));
+            mToolbarTitleBoard.setOnClickListener(v -> {
+                startActivity(IntentUtil.toThreadList(mContext, mBoardId, mBoardName));
+            });
         }
         setRefreshing(false);
         showAnonymousOrNot(canAnonymous);
@@ -482,7 +476,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean isInside() {
         mPossibleIndex = 0;
         boolean isFindIt = false;
-        if (mAdapter.getPostList() == null){
+        if (mAdapter.getPostList() == null) {
             return false;
         }
         List<ThreadModel.PostBean> posts = mAdapter.getPostList();
@@ -583,7 +577,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     @Override
     public void onBoomButtonClick(int index) {
         switch (index) {
-            case 0:
+            case 4:
                 showCommentInput();
                 resetReply();
                 break;
@@ -602,12 +596,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                     toEnd();
                 }
                 break;
-            case 4:
+            case 0:
                 if (!mRefreshing) {
                     DialogUtil.inputDialog(mContext,
                             "输入楼层,最大可能是" + mPostCount + "左右",
                             (dialog, input) -> {
-                                mInputFloor = CastUtil.parse2int(input.toString());
+                                mInputFloor = CastUtil.parse2intWithMax(input.toString());
                                 if (mInputFloor != 0) {
                                     mFindingPage = mPage;
                                     findFloor(mInputFloor);
@@ -679,7 +673,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void startProgress(String msg) {
-        LogUtil.dd("I will show", msg);
         mProgress = DialogUtil.showProgressDialog(this, "提示", msg);
     }
 
@@ -730,7 +723,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                     .playOn(mLlComment);
             mLlComment.setVisibility(View.VISIBLE);
             mTvDynamicHint.setText(mAdapter.getDynamicHint(postPosition));
-
             mEtComment.setFocusable(true);
             mEtComment.setFocusableInTouchMode(true);
             mEtComment.requestFocus();

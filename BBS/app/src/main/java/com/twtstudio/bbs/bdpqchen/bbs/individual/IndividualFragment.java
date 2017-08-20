@@ -3,14 +3,9 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,7 +17,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
@@ -33,9 +27,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_UNREAD;
 
 /**
  * Created by bdpqchen on 17-5-3.
@@ -63,6 +57,8 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     LinearLayout mLlNickname;
     @BindView(R.id.tv_individual_unread)
     TextView mTvIndividualUnread;
+    @BindView(R.id.tv_honor)
+    TextView mTvHonor;
     @BindView(R.id.rl_individual_item_message)
     RelativeLayout mRlIndividualItemMessage;
     @BindView(R.id.rl_individual_item_collection)
@@ -75,9 +71,11 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     RelativeLayout mRlInfoFriend;
     @BindView(R.id.iv_bg)
     ImageView mIvBg;
+    @BindView(R.id.iv_refresh_info)
+    ImageView mIvRefreshInfo;
     @BindView(R.id.ll_need_offset)
     LinearLayout mLlNeedOffset;
-    Unbinder unbinder;
+
     private static final int ACT_MSG = 1;
     private static final int ACT_FRIEND = 6;
     private static final int ACT_STAR = 2;
@@ -85,6 +83,8 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     private static final int ACT_UPDATE = 4;
     private static final int ACT_SETS = 5;
     private int beingActivity = 0;
+    private int mUnread = 0;
+    private boolean isRefreshing = false;
 
     @Override
     protected int getFragmentLayoutId() {
@@ -103,8 +103,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     @Override
     protected void initFragment() {
 
-        ImageUtil.loadMyAvatar(mContext, mCivAvatar);
-        ImageUtil.loadMyBg(mContext, mIvBg);
 
         mRlIndividualItemMessage.setOnClickListener(v -> startItemActivity(ACT_MSG));
         mRlIndividualItemCollection.setOnClickListener(v -> startItemActivity(ACT_STAR));
@@ -114,6 +112,12 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         mCivAvatar.setOnClickListener(v -> startItemActivity(ACT_UPDATE));
         mTvPostCount.setOnClickListener(v -> startItemActivity(ACT_PUBLISH));
         mRlSettings.setOnClickListener(v -> startItemActivity(ACT_SETS));
+        mIvRefreshInfo.setOnClickListener(v -> {
+            mPresenter.initIndividualInfo();
+            isRefreshing = true;
+            mPresenter.getUnreadMessageCount();
+        });
+
     }
 
     @Override
@@ -121,6 +125,9 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         super.onLazyInitView(savedInstanceState);
         if (mPresenter != null) {
             mPresenter.initIndividualInfo();
+            ImageUtil.loadMyAvatar(mContext, mCivAvatar);
+            ImageUtil.loadMyBg(mContext, mIvBg);
+
         }
     }
 
@@ -153,11 +160,15 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
                     return;
             }
             Intent intent = new Intent(mContext, clazz);
+            if (index == ACT_MSG){
+                intent.putExtra(INTENT_UNREAD, mUnread);
+            }
             startActivity(intent);
         }
     }
 
     private void setUnread(int unread) {
+        mUnread = unread;
         if (mTvIndividualUnread != null) {
             if (unread > 0) {
                 mTvIndividualUnread.setVisibility(View.VISIBLE);
@@ -176,6 +187,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
             mTvNickname.setText(PrefUtil.getInfoNickname());
             mTvSignature.setText(PrefUtil.getInfoSignature());
             ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
+            ImageUtil.refreshMyBg(mContext, mIvBg);
             beingActivity = 0;
         }
     }
@@ -197,7 +209,12 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
             mTvNickname.setText(PrefUtil.getInfoNickname());
             mTvSignature.setText(PrefUtil.getInfoSignature());
             mTvPoints.setText(PrefUtil.getInfoPoints() + "");
-
+            mTvHonor.setText(TextUtil.getHonor(info.getPoints()));
+            if (isRefreshing){
+                ImageUtil.loadMyAvatar(mContext, mCivAvatar);
+                ImageUtil.loadMyBg(mContext, mIvBg);
+                isRefreshing = false;
+            }
         }
     }
 
@@ -221,14 +238,8 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         StatusBarUtil.setTranslucentForImageViewInFragment(this.getActivity(), null);
-
-        unbinder = ButterKnife.bind(this, rootView);
         return rootView;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+
 }

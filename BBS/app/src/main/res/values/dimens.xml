@@ -42,4 +42,8 @@
     <dimen name="margin_top_create_thread">2dp</dimen>
     <dimen name="margin_info_list">10dp</dimen>
     <dimen name="icon_padding_small">2dp</dimen>
+    <dimen name="padding_letter">8dp</dimen>
+    <dimen name="max_width_letter">240dp</dimen>
+    <dimen name="size_bg">296dp</dimen>
+    <dimen name="icon_size_normal_with_padding">40dp</dimen>
 </resources>

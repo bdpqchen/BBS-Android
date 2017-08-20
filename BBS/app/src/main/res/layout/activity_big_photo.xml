@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <com.github.piasy.biv.view.BigImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <ImageView
+        android:layout_width="@dimen/icon_size_normal"
+        android:layout_height="@dimen/icon_size_normal"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/ic_file_download_black_24dp"
+        android:layout_margin="16dp"
+        android:background="@color/material_grey_100"
+        android:alpha="0.1"
+        android:tint="@color/colorTintIconBlack"
+        android:padding="2dp"
+        android:clickable="true"
+        android:id="@+id/iv_save"
+        />
+
+</RelativeLayout>

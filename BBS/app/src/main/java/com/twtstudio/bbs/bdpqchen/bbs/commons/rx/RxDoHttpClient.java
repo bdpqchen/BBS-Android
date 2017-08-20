@@ -8,6 +8,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseHeaderViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
@@ -20,6 +21,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
@@ -59,8 +61,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RxDoHttpClient<T> {
 
-//    public static final String BASE = "https://bbs.twtstudio.com";
-    public static final String BASE = "https://bbs.tju.edu.cn";
+    public static final String BASE_HOST = "bbs.tju.edu.cn";
+    public static final String BASE = "https://" + BASE_HOST;
     public static final String BASE_URL = BASE + "/api/";
     private Retrofit mRetrofit;
     public BaseApi mApi;
@@ -354,5 +356,17 @@ public class RxDoHttpClient<T> {
 
     public Observable<BaseResponse<PeopleModel>> getUserInfo(int uid) {
         return mApi.getUserInfo(uid);
+    }
+
+    public Observable<BaseResponse<List<LetterModel>>> getLetterList(int uid, int page) {
+        return mApi.getLetterList(uid, page);
+    }
+
+    public Observable<BaseResponse<BaseModel>> sendLetter(int to_uid, String content) {
+        return mApi.sendLetter(to_uid, content);
+    }
+
+    public Observable<BaseResponse<BaseModel>> addFriend(int uid, String m) {
+        return mApi.addFriend(uid, m);
     }
 }

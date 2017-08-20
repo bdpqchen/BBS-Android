@@ -71,7 +71,7 @@ public class StarActivity extends BaseActivity<StarPresenter> implements StarCon
 
         mAdapter = new StarAdapter(this, mPresenter);
         mRvStar.setAdapter(mAdapter);
-        mRvStar.addItemDecoration(new RecyclerViewItemDecoration(1));
+        mRvStar.addItemDecoration(new RecyclerViewItemDecoration(2));
         mRvStar.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         mSrlStar.setOnRefreshListener(()-> {
             mRefreshing = true;
@@ -92,18 +92,20 @@ public class StarActivity extends BaseActivity<StarPresenter> implements StarCon
         LogUtil.dd("onGetStarList");
         if (list != null && list.size() > 0){
             if (mRefreshing){
-                mRefreshing = false;
-                setRefresh();
                 mAdapter.refreshList(list);
             }else{
                 mAdapter.addList(list);
             }
         }
+        mRefreshing = false;
+        setRefresh();
     }
 
     @Override
     public void onGetStarFailed(String m) {
         LogUtil.dd("onGetStarFailed" + m);
+        mRefreshing = false;
+        setRefresh();
     }
 
     @Override

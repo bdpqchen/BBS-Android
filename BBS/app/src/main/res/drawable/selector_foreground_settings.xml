@@ -7,7 +7,7 @@
         />
 
     <item android:state_pressed="true"
-
           android:drawable="@color/colorMainBg"/>
+
 
 </selector>

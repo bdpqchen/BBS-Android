@@ -18,14 +18,22 @@ public final class CastUtil {
         }
     }
 
-    public static int parse2int(String s){
-        int casted = 2147483647;
+
+    public static int parse2int(String s, int def){
+        int casted = def;
         try {
             casted = Integer.parseInt(s);
         } catch (NumberFormatException ignored){
         }
         return casted;
     }
+    public static int parse2intWithMin(String s){
+        return parse2int(s, 0);
+    }
+    public static int parse2intWithMax(String s){
+        return parse2int(s, Integer.MAX_VALUE);
+    }
+
 
 
 }

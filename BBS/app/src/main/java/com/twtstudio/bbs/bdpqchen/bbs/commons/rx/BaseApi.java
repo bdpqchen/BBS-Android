@@ -16,6 +16,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
@@ -48,6 +49,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CONFIRM;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.EMAIL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.FRIEND_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MESSAGE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_TITLE;
@@ -56,6 +58,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REAL_NAME
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REPLY_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.STUNUM;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TO_UID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
@@ -273,6 +276,21 @@ public interface BaseApi {
     Observable<BaseResponse<PeopleModel>> getUserInfo(
             @Path(UID) int uid);
 
+    @GET("home/message/dialog/{uid}/page/{page}")
+    Observable<BaseResponse<List<LetterModel>>> getLetterList(
+            @Path(UID) int uid,
+            @Path("page") int page);
 
+    @POST("home/message")
+    @FormUrlEncoded
+    Observable<BaseResponse<BaseModel>> sendLetter(
+            @Field(TO_UID) int to_uid,
+            @Field(CONTENT) String content);
+
+    @POST("home/friend")
+    @FormUrlEncoded
+    Observable<BaseResponse<BaseModel>> addFriend(
+            @Field(FRIEND_ID) int uid,
+            @Field(MESSAGE) String m);
 }
 

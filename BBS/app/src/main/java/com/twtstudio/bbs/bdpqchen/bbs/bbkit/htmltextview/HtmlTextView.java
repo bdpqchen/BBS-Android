@@ -24,7 +24,6 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 
 import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.quote.QuoteReplaceUtil;
 
@@ -99,6 +98,7 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
         htmlTagHandler.setClickableTableSpan(clickableTableSpan);
         htmlTagHandler.setDrawTableLinkSpan(drawTableLinkSpan);
 
+
         html = htmlTagHandler.overrideTags(html);
 
         Spanned spanned = Html.fromHtml(html, imageGetter, htmlTagHandler);
@@ -111,12 +111,14 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
             setText(spanned);
         }
 
-        // make links work
-        setMovementMethod(LocalLinkMovementMethod.getInstance());
+        //这个东西和我的图片点击触控有点冲突
+        // 换到了 Thread 和 post 的 xml 里面设置属性
+//        setTextIsSelectable(true);
+
+        // make links work and image
+        setMovementMethod(RichTextMovementMethod.getInstance());
+
     }
-
-
-
 
     /**
      * Note that this must be called before setting text for it to work
@@ -156,18 +158,32 @@ public class HtmlTextView extends JellyBeanSpanFixTextView {
         while (text.length() > 0 && text.charAt(text.length() - 1) == '\n') {
             text = text.subSequence(0, text.length() - 1);
         }
+        return removeHtmlTopPadding(text);
+    }
+
+    @Nullable
+    static private CharSequence removeHtmlTopPadding(@Nullable CharSequence text) {
+        if (text == null) {
+            return null;
+        }
+        while (text.length() > 0 && text.charAt(0) == '\n') {
+            text = text.subSequence(1, text.length());
+        }
         return text;
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        linkHit = false;
-        boolean res = super.onTouchEvent(event);
 
-        if (dontConsumeNonUrlClicks) {
-            return linkHit;
-        }
-        return res;
-    }
+
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        linkHit = false;
+//        boolean res = super.onTouchEvent(event);
+//
+//        if (dontConsumeNonUrlClicks) {
+//            return linkHit;
+//        }
+//        return res;
+//    }
+
 
 }

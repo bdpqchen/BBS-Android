@@ -74,13 +74,17 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
 
     public String convertContent(String content) {
         if (content == null || content.length() == 0) {
-            return " ";
+            return "";
         }
+        content = content.replaceAll("\n> \n>", "\n>");
+        content = content.replaceAll("\n> > \n> >", "\n> >");
         content = Processor.process(content);
         content = content.replaceAll("<img", "<br><img");
         content = content.replaceAll("attach:", BASE_URL + "img/");
         content = content.replaceAll("\n<blockquote>", "<blockquote>");
+        content = content.replaceAll("</blockquote>\n", "</blockquote>");
         content = content.replaceAll("\n<p>", "<p>");
+        content = content.replaceAll("</p>\n", "</p>");
         content = content.replaceAll("\n", "<br>");
 //        LogUtil.dd("final content", content);
         return content;

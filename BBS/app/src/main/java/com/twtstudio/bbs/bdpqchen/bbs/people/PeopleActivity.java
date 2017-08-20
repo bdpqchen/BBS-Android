@@ -1,28 +1,35 @@
 package com.twtstudio.bbs.bdpqchen.bbs.people;
 
 import android.app.Activity;
-import android.media.Image;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.health.UidHealthStats;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.UrlUtil;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -58,8 +65,16 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
     LinearLayout mLlData;
     @BindView(R.id.rv_people)
     RecyclerView mRvPeople;
+    @BindView(R.id.tv_honor)
+    TextView mTvHonor;
+    @BindView(R.id.toolbar_behavior)
+    Toolbar mToolbar;
+    @BindView(R.id.nested_scroll)
+    NestedScrollView mNestedScroll;
     private int mUid = 0;
     private PeopleAdapter mAdapter;
+    private String mName = "";
+    private String mConfirmMsg = "";
 
     @Override
     protected int getLayoutResourceId() {
@@ -68,12 +83,14 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
 
     @Override
     protected Toolbar getToolbarView() {
-        return null;
+        mToolbar.getBackground().mutate().setAlpha(0);
+        mToolbar.setTitle("");
+        return mToolbar;
     }
 
     @Override
     protected boolean isShowBackArrow() {
-        return false;
+        return true;
     }
 
     @Override
@@ -94,8 +111,11 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        mUid = intent.getIntExtra(UID, 0);
+//        mName = intent.getStringExtra(USERNAME);
+        mToolbar.setTitle(mName);
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
-        mUid = getIntent().getIntExtra(UID, 0);
         mPresenter.getUserInfo(mUid);
         ImageUtil.loadAvatarAsBitmapByUidWithLeft(this, mUid, mCivAvatar);
         ImageUtil.loadBgByUid(this, mUid, mIvBg);
@@ -103,17 +123,36 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
         LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRvPeople.setLayoutManager(manager);
         mRvPeople.setAdapter(mAdapter);
-        mRvPeople.addItemDecoration(new RecyclerViewItemDecoration(1));
+        mRvPeople.addItemDecoration(new RecyclerViewItemDecoration(2));
         mRvPeople.setNestedScrollingEnabled(false);
 
-
+        mNestedScroll.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                double minus = (scrollY - oldScrollY) / 1.5;
+                int alpha = mToolbar.getBackground().mutate().getAlpha();
+                alpha += minus;
+                if (alpha > 255){
+                    alpha = 255;
+                    mToolbar.setTitle(mName);
+                }else if (alpha <= 0){
+                    alpha = 0;
+                    mToolbar.setTitle("");
+                }
+                mToolbar.getBackground().mutate().setAlpha(alpha);
+            }
+        });
+        mCivAvatar.setOnClickListener(v -> {
+            Intent intent1 = IntentUtil.toBigPhoto(mContext, UrlUtil.getAvatarUrl(mUid));
+            startActivity(intent1);
+        });
 
     }
 
     @Override
     public void onGetUserInfo(PeopleModel model) {
-        if (model != null){
-            if (model.getSignature() == null || model.getSignature().length() == 0){
+        if (model != null) {
+            if (model.getSignature() == null || model.getSignature().length() == 0) {
                 model.setSignature(getString(R.string.default_signature));
             }
             mTvPostCount.setText(model.getC_post() + "");
@@ -121,14 +160,49 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
             mTvSignature.setText(model.getSignature());
             mTvPoints.setText(model.getPoints() + "");
             mInfoPastDay.setText(TextUtil.getPastDays(mContext, model.getT_create()), TextView.BufferType.SPANNABLE);
-            LogUtil.dd("Will notify", String.valueOf(model.getRecent().size()));
+//            LogUtil.dd("Will notify", String.valueOf(model.getRecent().size()));
             mAdapter.addList(model.getRecent());
+            mTvHonor.setText(TextUtil.getHonor(model.getPoints()));
+            mName = model.getName();
 
         }
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_people, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_people_add:
+                DialogUtil.multiLineInputDialog(mContext, "请求信息", "", (dialog, input) -> {
+                    mConfirmMsg = input.toString();
+                    mPresenter.addFriend(mUid, mConfirmMsg);
+                });
+                break;
+            case R.id.action_people_letter:
+                startActivity(IntentUtil.toLetter(mContext, mUid, mName));
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onGetUserInfoFailed(String m) {
         SnackBarUtil.error(this, m);
+    }
+
+    @Override
+    public void onAddFriend(BaseModel model) {
+        SnackBarUtil.normal(mActivity, "发送成功");
+    }
+
+    @Override
+    public void onAddFriendFailed(String s) {
+        SnackBarUtil.error(mActivity, s);
     }
 }

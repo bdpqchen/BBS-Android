@@ -16,52 +16,15 @@
         app:expanded="false"
         >
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolBar_main"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            >
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|end"
-                android:layout_marginEnd="12dp"
-                android:visibility="gone"
-                >
-
-                <View
-                    android:layout_width="6dp"
-                    android:layout_height="6dp"
-                    android:background="@drawable/shape_red_dot"
-                    android:layout_gravity="end"
-                    />
-
-                <ImageView
-                    android:id="@+id/iv_announce"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_notifications_white_24dp"
-                    android:foreground="@drawable/selector_foreground_settings"
-                    android:clickable="true"
-                    />
-
-
-            </FrameLayout>
-
-        </android.support.v7.widget.Toolbar>
-
         <android.support.design.widget.TabLayout
             android:id="@+id/main_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:tabBackground="@color/colorPrimary"
             app:tabIndicatorColor="@color/material_yellow_accent_700"
+            app:tabIndicatorHeight="1dp"
             app:tabSelectedTextColor="@color/material_yellow_accent_700"
             app:tabTextColor="@color/material_light_white"
-            app:tabBackground="@color/colorPrimary"
-            app:tabIndicatorHeight="1dp"
             />
 
     </android.support.design.widget.AppBarLayout>
@@ -73,8 +36,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
-
-
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -2,7 +2,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +12,7 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 
@@ -97,7 +96,7 @@ public class MyReplyAdapter extends BaseAdapter<MyReplyModel> {
                 holder.tv_title.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
                 holder.tv_reply.setText(data.get(position).content);
                 holder.tv_reply.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
-                holder.tv_time.setText(StampUtil.TimeStamp2Date(data.get(position).t_create));
+                holder.tv_time.setText(StampUtil.getDatetimeByStamp(data.get(position).t_create));
                 holder.rlReply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

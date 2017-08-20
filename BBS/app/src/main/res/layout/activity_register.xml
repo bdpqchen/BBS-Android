@@ -70,7 +70,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="学号"
+                    android:hint="学号(新生用录取通知书号)"
                     android:inputType="number"
                     android:maxLines="1"
                     android:imeOptions="actionNext"

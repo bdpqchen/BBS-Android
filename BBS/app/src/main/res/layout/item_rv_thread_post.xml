@@ -21,7 +21,6 @@
             android:orientation="vertical"
             android:padding="@dimen/padding_thread_content"
             >
-            <!--todo 头像的点击-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,17 +60,21 @@
                         android:textColor="@color/colorTvBlackMain"
                         android:textSize="14sp"
                         tools:text="中文名"
+                        android:layout_alignParentEnd="true"
                         />
 
                     <TextView
                         android:id="@+id/tv_post_datetime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignStart="@+id/tv_username_post"
+                        android:layout_alignParentEnd="true"
                         android:layout_below="@+id/tv_username_post"
+                        android:minWidth="120dp"
+                        android:gravity="end"
                         android:paddingEnd="4dp"
                         android:paddingTop="2dp"
                         android:textSize="12sp"
+                        android:maxLines="1"
                         tools:text="2017-11-11"
                         />
 
@@ -85,9 +88,11 @@
                 android:padding="4dp"
                 android:textColor="@color/colorTvBlackMainTint"
                 android:textSize="14sp"
+                android:textIsSelectable="true"
                 tools:text="挑剔大家发多少aflsjlfsj大家来决定是否了解爱上了飞机来打扫房间2017年05月22日23:45:052017年05月22日23:45:07"
                 android:id="@+id/htv_post_content"
-                />
+                android:clickable="true"
+                    />
 
             <TextView
                 android:paddingStart="8dp"

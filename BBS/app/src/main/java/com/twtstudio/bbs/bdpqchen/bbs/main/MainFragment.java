@@ -26,10 +26,6 @@ public class MainFragment extends SimpleFragment {
     TabLayout mTabLayout;
     @BindView(R.id.main_viewpager)
     ViewPager mViewpager;
-    @BindView(R.id.toolBar_main)
-    Toolbar mToolbar;
-    @BindView(R.id.iv_announce)
-    ImageView mIvAnnounce;
     @BindView(R.id.appbar)
     AppBarLayout mAppbar;
 
@@ -44,17 +40,13 @@ public class MainFragment extends SimpleFragment {
 
     @Override
     protected void initFragments() {
+        mAppbar.setExpanded(false);
         StatusBarUtil.setColor(this.getActivity(), ResourceUtil.getColor(this.getActivity(), R.color.colorPrimaryDark), 0);
 
-        mToolbar.setTitle("求实BBS");
-        mIvAnnounce.setOnClickListener(v -> {
-            SnackBarUtil.notice(this.getActivity(), "还没有公告");
-        });
         MainTabAdapter tabAdapter = new MainTabAdapter(getFragmentManager(), mContext);
         mViewpager.setAdapter(tabAdapter);
         mTabLayout.setupWithViewPager(mViewpager);
 
-        mAppbar.setExpanded(false);
     }
 
 

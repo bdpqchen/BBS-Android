@@ -1,7 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +9,17 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFooterViewHolder;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseFooterViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 
 import java.util.List;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
 
@@ -73,7 +67,7 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
                 }
                 holder.mTvThreadNickname.setText(thread.getAuthor_name());
                 holder.mTvThreadContent.setText(thread.getContent());
-                holder.mTvThreadDate.setText(StampUtil.getDateByStamp(thread.getT_create()));
+                holder.mTvThreadDate.setText(StampUtil.getDatetimeByStamp(thread.getT_create()));
                 holder.mTvThreadTitle.setText(thread.getTitle());
                 holder.mTvThreadPostCount.setText(thread.getC_post() + " 回复");
                 holder.itemView.setOnClickListener(v -> {

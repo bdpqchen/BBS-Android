@@ -2,10 +2,10 @@ package com.twtstudio.bbs.bdpqchen.bbs;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.HandlerThread;
-import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
+import com.github.piasy.biv.BigImageViewer;
+import com.github.piasy.biv.loader.glide.GlideImageLoader;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
@@ -40,32 +40,35 @@ public class App extends Application {
         sApplication = this;
 
         if (!BuildConfig.DEBUG) {
-
         }
-        //bugly配置
+        initBuglyReport();
+
+        BigImageViewer.initialize(GlideImageLoader.with(getApplicationContext()));
+        initLogUtils();
+        initSlideBack();
+//        HandlerThread workerThread = new HandlerThread("global_worker_thread");
+//        workerThread.start();
+
+
+    }
+
+    private void initBuglyReport() {
         Context context = getApplicationContext();
         String packageName = context.getPackageName();
         String processName = getProcessName(android.os.Process.myPid());
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
-        Beta.smallIconId = R.mipmap.ic_launcher_bbs;
+        Beta.smallIconId = R.mipmap.ic_launcher;
         Bugly.init(context, BuildConfig.ID_BUGLY, BuildConfig.DEBUG);
-
-
-        initLogUtils();
-        initSlideBack();
-        HandlerThread workerThread = new HandlerThread("global_worker_thread");
-        workerThread.start();
     }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        // you must install multiDex whatever tinker is installed!
-        MultiDex.install(base);
-        // 安装tinker
-        Beta.installTinker();
-    }
+    /*
+        private Tracker tracker;
+        public synchronized Tracker getTracker() {
+            if (tracker == null) tracker = Piwik.getInstance(this).newTracker(new TrackerConfig("https://elf.twtstudio.com", 13, "Android"));
+            return tracker;
+        }
+    */
 
     private void initLogUtils() {
         if (BuildConfig.DEBUG) {
@@ -125,6 +128,5 @@ public class App extends Application {
         }
         return null;
     }
-
 
 }

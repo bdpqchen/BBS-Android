@@ -6,7 +6,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.support;
 
 public final class Constants {
 
-    public static final int FRAGMENT_MAIN  = 0;
+    public static final int FRAGMENT_MAIN = 0;
     public static final int FRAGMENT_FORUM = 1;
     public static final int FRAGMENT_INDIVIDUAL = 2;
     public static final String TOKEN = "token";
@@ -14,19 +14,26 @@ public final class Constants {
     public static final int RESULT_CODE_IMAGE_SELECTED = 11;
     public static final int MAX_LENGTH_QUOTE = 60;
     public static final int MAX_LENGTH_POST = 50;
-    public static final int MAX_LENGTH_MESSAGE = 10;
+    public static final int MAX_LENGTH_Letter = 20;
     public static final int ITEM_HEADER = -1;
     public static final int ITEM_NORMAL = 0;
     public static final int ITEM_FOOTER = 1;
     public static final int ITEM_END = 2;
     public static final int ITEM_JUST_HEADER = 3;
     public static final int ITEM_SIMPLE = 4;
-    public static final int ITEM_MSG_LETTER = 1;
-    public static final int ITEM_MSG_COMMENT = 2;
-    public static final int ITEM_MSG_REPLY = 3;
-    public static final int ITEM_MSG_APPEAL = 4;
+    public static final int ITEM_MSG_LETTER = 5;
+    public static final int ITEM_MSG_COMMENT = 6;
+    public static final int ITEM_MSG_REPLY = 7;
+    public static final int ITEM_MSG_APPEAL = 8;
+    public static final int ITEM_LEFT = 9;
+    public static final int ITEM_RIGHT = 10;
+    public static final int ITEM_EMPTY = 11;
 
-
+    public static final int TAG_MSG_SYSTEM = 0;
+    public static final int TAG_MSG_LETTER = 1;
+    public static final int TAG_MSG_COMMENT = 2;
+    public static final int TAG_MSG_REPLY = 3;
+    public static final int TAG_MSG_APPEAL = 4;
 
     public static final String BUNDLE_REGISTER_CID = "cid";
     public static final String BUNDLE_REGISTER_REAL_NAME = "real_name";
@@ -36,7 +43,7 @@ public final class Constants {
     public static final String BUNDLE_NICKNAME = "nickname";
     public static final String BUNDLE_SIGNATURE = "signature";
 
-//    public static final String NET_RETROFIT_POST_HEADER = "ContentActivity-Type:application/x-www-form-urlencoded; charset=utf-8";
+    //    public static final String NET_RETROFIT_POST_HEADER = "ContentActivity-Type:application/x-www-form-urlencoded; charset=utf-8";
     public static final String NET_RETROFIT_HEADER_TITLE = "authentication";
     public static final String NET_RETROFIT_HEADER_REQUEST = "X-Requested_With";
     public static final String BUNDLE_TOKEN = "token";
@@ -60,10 +67,12 @@ public final class Constants {
     public static final String INTENT_RESULT_IMAGE_PATH = "intent_result_image_path";
     public static final String INTENT_IS_SPECIFY_BOARD = "intent_is_specify_board";
     public static final String INTENT_BOARD_MODEL_LIST = "intent_board_model_list";
+    public static final String INTENT_UNREAD = "intent_unread_count";
 
 
     public static final String ID = "id";
     public static final String UID = "uid";
+    public static final String TO_UID = "to_uid";
     public static final String CID = "cid";
     public static final String FID = "fid";
     public static final String BID = "bid";
@@ -85,4 +94,7 @@ public final class Constants {
     public static final String NAME = "name";
     public static final String FILE = "file";
     public static final String CONFIRM = "confirm";
+    public static final String FRIEND_ID = "friend_id";
+    public static final String IMG_URL = "img_url";
+
 }

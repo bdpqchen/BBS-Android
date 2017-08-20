@@ -23,6 +23,8 @@ import java.util.List;
 
 import butterknife.BindView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_UNREAD;
+
 /**
  * Created by bdpqchen on 2017/5/28.
  */
@@ -103,8 +105,9 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
                 lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
             }
         });
-//        if (PrefUtil.isAutoClearUnread()){}
-        mPresenter.doClearUnreadMessage();
+        if (getIntent().getIntExtra(INTENT_UNREAD, 0) > 0){
+            mPresenter.doClearUnreadMessage();
+        }
 
     }
 

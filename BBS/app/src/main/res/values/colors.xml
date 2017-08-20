@@ -30,8 +30,8 @@
     <color name="colorTintIconBlack">#645e5e</color>
     <color name="colorThreadContentBg">#FFffffff</color>
     <color name="colorMainBgLightHeight">#ffffff</color>
-    <color name="colorForumBg">#22ffffff</color>
-    <color name="colorInfoBg">#11111111</color>
+    <color name="colorForumBg">#88ffffff</color>
+    <color name="colorInfoBg">#d60707</color>
     <color name="colorDividerLine">#112233</color>
     <!--<color name="colorDividerLine">#62cbd6</color>-->
     <!--<color name="colorDividerLine">#f89042</color>-->

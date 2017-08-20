@@ -17,6 +17,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
@@ -99,12 +100,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 //        ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home), "alpha", 0f).setDuration(600);
 //        animator.setStartDelay(400);
 //        animator.start();
-/*
-        HandlerUtil.postDelay(()->{
-            SnackBarUtil.error(mActivity, "这个 干啥的是干撒个");
-        }, 3000);
-*/
 
+//        SnackBarUtil.error(mActivity, "新版本");
 
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragment.newInstance();
@@ -147,6 +144,14 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         });
 
         isCheckedUpdate = true;
+        if (PrefUtil.thisVersionFirstOpen()){
+            // TODO: 17-7-6 统一清理缓存
+            ImageUtil.clearMemory(mContext);
+            ImageUtil.clearDiskCache(mContext);
+            PrefUtil.setIsThisVersionFirstOpen(false);
+            PrefUtil.setIsSimpleBoardList(true);
+        }
+
 
     }
 

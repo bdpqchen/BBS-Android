@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.commons.base;
+package com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

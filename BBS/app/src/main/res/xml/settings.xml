@@ -3,68 +3,58 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout="@layout/preference_item"
-    android:title="标题1">
+    android:layout="@layout/preference_item_normal">
 
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
         android:title="基本设置">
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="@string/key_night_mode"
-            android:layout="@layout/preference_item"
-            android:title="夜间模式"
-            android:defaultValue="false"
+            android:layout="@layout/preference_item_normal"
             android:summary="拒绝亮瞎眼式应用"
+            android:title="夜间模式"
             />
 
         <SwitchPreference
+            android:defaultValue="true"
             android:key="@string/key_slide_back"
-            android:layout="@layout/preference_item"
+            android:layout="@layout/preference_item_normal"
             android:title="滑动返回"
-            android:defaultValue="true"
             />
 
         <SwitchPreference
+            android:defaultValue="false"
             android:key="@string/key_always_anon"
-            android:layout="@layout/preference_item"
-            android:title="得匿名且匿名"
+            android:layout="@layout/preference_item_normal"
             android:summary="可匿名回复帖子自动勾选匿名按钮"
-            android:defaultValue="false"
+            android:title="得匿名且匿名"
             />
 
         <SwitchPreference
-            android:key="@string/key_simple_board_list"
-            android:layout="@layout/preference_item"
-            android:title="简版展示板块列表"
-            android:summary="快速浏览所有板块"
             android:defaultValue="true"
+            android:key="@string/key_simple_board_list"
+            android:layout="@layout/preference_item_normal"
+            android:summary="快速浏览所有板块"
+            android:title="简版展示板块列表"
             />
         <SwitchPreference
+            android:defaultValue="false"
             android:key="@string/key_simple_forum"
-            android:layout="@layout/preference_item"
+            android:layout="@layout/preference_item_normal"
             android:title="简版展示论坛区"
-            android:defaultValue="false"
             />
-<!--
-        <SwitchPreference
-            android:key="@string/key_auto_clear_unread"
-            android:layout="@layout/preference_item"
-            android:title="自动清空未读消息"
-            android:summary="打开未读消息列表后,立即清空未读消息"
-            android:defaultValue="false"
-            />
--->
 
-       <!-- <ListPreference
-            android:key="@string/key_habit_hand"
-            android:layout="@layout/preference_item"
-            android:title="惯用手模式"
-            android:summary="%s"
-            android:defaultValue="0"
-            android:entries="@array/pref_list_habit_hand"
-            android:entryValues="@array/pref_list_habit_hand_entries"
-            />-->
+        <!-- <ListPreference
+             android:key="@string/key_habit_hand"
+             android:layout="@layout/preference_item_normal"
+             android:title="惯用手模式"
+             android:summary="%s"
+             android:defaultValue="0"
+             android:entries="@array/pref_list_habit_hand"
+             android:entryValues="@array/pref_list_habit_hand_entries"
+             />-->
 
     </PreferenceCategory>
 
@@ -72,29 +62,22 @@
         android:layout="@layout/preference_category_widget"
         android:title="账户">
         <Preference
-            android:layout="@layout/preference_item"
             android:key="@string/key_logout"
-            android:title="退出登录"/>
+            android:layout="@layout/preference_item_button"
+            android:summary="登出"
+            />
 
     </PreferenceCategory>
 
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
-        android:title="关于BBS">
-<!--
+        android:title="关于应用">
 
         <Preference
-            android:layout="@layout/preference_item"
-            android:summary="@string/version_name"
-            android:title="当前版本"
-            />
--->
-
-        <Preference
-            android:layout="@layout/preference_item"
             android:key="@string/key_check_update"
-            android:title="检查更新"
+            android:layout="@layout/preference_item_normal"
             android:summary="@string/current_version"
+            android:title="检查更新"
             />
 
     </PreferenceCategory>

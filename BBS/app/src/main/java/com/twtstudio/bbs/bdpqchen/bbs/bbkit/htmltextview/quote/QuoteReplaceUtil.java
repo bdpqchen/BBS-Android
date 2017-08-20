@@ -3,6 +3,8 @@ package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.quote;
 import android.text.Spannable;
 import android.text.style.QuoteSpan;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+
 /**
  * Created by retrox on 28/05/2017.
  */
@@ -13,14 +15,13 @@ public class QuoteReplaceUtil {
         for (QuoteSpan quoteSpan : quoteSpans) {
             int start = spannable.getSpanStart(quoteSpan);
             int end = spannable.getSpanEnd(quoteSpan);
+            LogUtil.dd("start", String.valueOf(start));
+            LogUtil.dd("end", String.valueOf(end));
+
             int flags = spannable.getSpanFlags(quoteSpan);
             spannable.removeSpan(quoteSpan);
-            spannable.setSpan(new CustomQuoteSpan(
-//                            ResourceUtil.getColor()
-//                            Color.parseColor(R.color.colorPrimary + ""),
-//                            Color.parseColor(R.color.colorTvBlackMain + ""),
-                            8,
-                            16),
+            spannable.setSpan(
+                    new CustomQuoteSpan(8, 20),
                     start,
                     end,
                     flags);
