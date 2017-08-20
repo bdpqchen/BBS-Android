@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve;
+package com.twtstudio.bbs.bdpqchen.bbs.auth.retrieve;
 
 /**
  * Created by bdpqchen on 17-5-21.

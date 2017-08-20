@@ -4,17 +4,16 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveModel;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.retrieve.RetrieveModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
@@ -157,11 +156,11 @@ public interface BaseApi {
 
     @FormUrlEncoded
     @POST("passport/retrieve")
-    Observable<BaseResponse<RetrieveModel>> doRetrieveUsername(
-            @Field(RetrieveActivity.BUNDLE_STU_NUM) String string,
-            @Field(RetrieveActivity.BUNDLE_USERNAME) String string1,
-            @Field(RetrieveActivity.BUNDLE_REAL_NAME) String string2,
-            @Field(RetrieveActivity.BUNDLE_CID) String string3);
+    Observable<BaseResponse<RetrieveModel>> doRetrievePassword(
+            @Field(STUNUM) String string,
+            @Field(USERNAME) String string1,
+            @Field(REAL_NAME) String string2,
+            @Field(CID) String string3);
 
     @FormUrlEncoded
     @POST("passport/reset-pass")

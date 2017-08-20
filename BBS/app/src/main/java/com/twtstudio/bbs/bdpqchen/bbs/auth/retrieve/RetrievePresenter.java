@@ -1,8 +1,10 @@
-package com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve;
+package com.twtstudio.bbs.bdpqchen.bbs.auth.retrieve;
 
 import android.os.Bundle;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 
@@ -24,9 +26,8 @@ class RetrievePresenter extends RxPresenter<RetrieveContract.View> implements Re
         mHttpClient = client;
     }
 
-
     @Override
-    public void doRetrieveUsername(Bundle bundle) {
+    public void doRetrievePassword(Bundle bundle) {
         SimpleObserver<RetrieveModel> observer = new SimpleObserver<RetrieveModel>() {
             @Override
             public void _onError(String msg) {
@@ -38,11 +39,37 @@ class RetrievePresenter extends RxPresenter<RetrieveContract.View> implements Re
                 mView.retrieveSuccess(model);
             }
         };
-        addSubscribe(mHttpClient.doRetrieveUsername(bundle)
+        addSubscribe(mHttpClient.doRetrievePassword(bundle)
                 .map(mHttpClient.mTransformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
         );
     }
+
+
+    @Override
+    public void resetPassword(Bundle bundle) {
+        SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
+            @Override
+            public void _onError(String msg) {
+                mView.resetFailed(msg);
+            }
+
+            @Override
+            public void _onNext(BaseModel model) {
+                mView.resetSuccess(model);
+            }
+        };
+        addSubscribe(mHttpClient.resetPassword(bundle)
+                .map(new ResponseTransformer<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer)
+        );
+
+    }
+
+
+
 }

@@ -3,6 +3,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 import android.content.Context;
 import android.content.Intent;
 
+import com.twtstudio.bbs.bdpqchen.bbs.auth.retrieve.RetrieveActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity;
@@ -66,6 +67,11 @@ public final class IntentUtil {
     public static Intent toBigPhoto(Context context, String imageUrl) {
         Intent intent = new Intent(context, BigPhotoActivity.class);
         intent.putExtra(IMG_URL, imageUrl);
+        return intent;
+    }
+
+    public static Intent toRetrieve(Context context) {
+        Intent intent = new Intent(context, RetrieveActivity.class);
         return intent;
     }
 }

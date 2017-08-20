@@ -69,8 +69,8 @@
         <activity android:name=".individual.my_release.MyReleaseActivity" />
         <activity android:name=".auth.renew.identify.IdentifyActivity" />
         <activity android:name=".auth.renew.appeal.AppealPassportActivity" />
-        <activity android:name=".auth.renew.identify.retrieve.RetrieveActivity" />
-        <activity android:name=".auth.renew.identify.retrieve.reset_password.ResetPasswordActivity" />
+        <activity android:name=".auth.retrieve.RetrieveActivity" />
+        <activity android:name=".auth.retrieve.reset_password.ResetPasswordActivity" />
         <activity
             android:name=".forum.boards.create_thread.CreateThreadActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />

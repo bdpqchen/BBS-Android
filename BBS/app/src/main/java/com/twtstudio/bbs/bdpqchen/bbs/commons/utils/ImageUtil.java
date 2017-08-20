@@ -19,7 +19,6 @@ public final class ImageUtil {
     private final static int radius = 30;
     private final static int myUid = PrefUtil.getAuthUid();
 
-
     public static void loadIconAsBitmap(Context context, int resourceId, ImageView view) {
         Glide.with(context).load(resourceId).asBitmap().centerCrop().into(view);
     }

@@ -6,8 +6,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveModel;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.retrieve.RetrieveModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
@@ -44,6 +43,14 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PASSWORD;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REAL_NAME;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.STUNUM;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TOKEN;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
 /**
  * Created by bdpqchen on 17-4-27.
@@ -149,16 +156,17 @@ public class RxDoHttpClient<T> {
 
     }
 
-    public Observable<BaseResponse<RetrieveModel>> doRetrieveUsername(Bundle bundle) {
-        return mApi.doRetrieveUsername(bundle.getString(RetrieveActivity.BUNDLE_STU_NUM),
-                bundle.getString(RetrieveActivity.BUNDLE_USERNAME),
-                bundle.getString(RetrieveActivity.BUNDLE_REAL_NAME),
-                bundle.getString(RetrieveActivity.BUNDLE_CID));
+    public Observable<BaseResponse<RetrieveModel>> doRetrievePassword(Bundle bundle) {
+        return mApi.doRetrievePassword(
+                bundle.getString(STUNUM),
+                bundle.getString(USERNAME),
+                bundle.getString(REAL_NAME),
+                bundle.getString(CID));
 
     }
 
     public Observable<BaseResponse<BaseModel>> resetPassword(Bundle bundle) {
-        return mApi.resetPassword(bundle.getString(Constants.BUNDLE_UID), Constants.BUNDLE_TOKEN, Constants.PASSWORD);
+        return mApi.resetPassword(bundle.getString(UID), bundle.getString(TOKEN), bundle.getString(PASSWORD));
     }
 
     public Observable<BaseResponse<BaseModel>> appealPassport(Bundle bundle) {
@@ -201,7 +209,7 @@ public class RxDoHttpClient<T> {
         return mApi.doComment(getLatestAuthentication(), threadId, comment, replyId);
     }
 
-    public Observable<BaseResponse<List<StarModel>>> getStarThreadList(){
+    public Observable<BaseResponse<List<StarModel>>> getStarThreadList() {
         return mApi.getStarThreadList();
     }
 
@@ -214,9 +222,9 @@ public class RxDoHttpClient<T> {
     }
 
     public Observable<BaseResponse<RegisterOldModel>> doRegisterOld(Bundle bundle) {
-        return mApi.doRegisterOld(bundle.getString(Constants.TOKEN),
+        return mApi.doRegisterOld(bundle.getString(TOKEN),
                 bundle.getString(Constants.BUNDLE_REGISTER_USERNAME),
-                bundle.getString(Constants.PASSWORD),
+                bundle.getString(PASSWORD),
                 bundle.getString(Constants.BUNDLE_REGISTER_CID),
                 bundle.getString(Constants.BUNDLE_REGISTER_REAL_NAME)
         );

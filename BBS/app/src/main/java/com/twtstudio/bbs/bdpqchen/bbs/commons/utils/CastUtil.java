@@ -10,30 +10,41 @@ public final class CastUtil {
         return newValue instanceof Boolean && (boolean) newValue;
     }
 
-    public static int cast2int(Object obj){
-        if (obj instanceof Integer){
+    public static int cast2int(Object obj) {
+        if (obj instanceof Integer) {
             return (int) obj;
-        }else{
+        } else {
             return 0;
         }
     }
 
 
-    public static int parse2int(String s, int def){
+    public static int parse2int(String s, int def) {
         int casted = def;
         try {
             casted = Integer.parseInt(s);
-        } catch (NumberFormatException ignored){
+        } catch (NumberFormatException ignored) {
         }
         return casted;
     }
-    public static int parse2intWithMin(String s){
+
+    public static int parse2intWithMin(String s) {
         return parse2int(s, 0);
     }
-    public static int parse2intWithMax(String s){
+
+    public static int parse2intWithMax(String s) {
         return parse2int(s, Integer.MAX_VALUE);
     }
 
+
+    public static boolean isNumeric(String str) {
+        for (int i = str.length(); --i >= 0; ) {
+            int chr = str.charAt(i);
+            if (chr < 48 || chr > 57)
+                return false;
+        }
+        return true;
+    }
 
 
 }
