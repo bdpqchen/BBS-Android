@@ -90,16 +90,15 @@
         <activity
             android:name=".individual.letter.LetterActivity"
             android:windowSoftInputMode="adjustResize" />
-        <!--
-                <activity
-                    android:name="com.tencent.bugly.beta.ui.BetaActivity"
-                    android:configChanges="keyboardHidden|orientation|screenSize|locale"
-                    android:theme="@android:style/Theme.Translucent"/>
-        -->
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity
             android:name=".picture.BigPhotoActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
+            android:theme="@android:style/Theme.Translucent" />
 
     </application>
 

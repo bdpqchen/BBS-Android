@@ -8,7 +8,6 @@ buildscript {
     dependencies {
         //用你对应的Android studio版本
         classpath 'com.android.tools.build:gradle:3.0.0-alpha4'
-//        classpath "com.tencent.bugly:tinker-support:1.0.8"
         classpath 'me.tatarka:gradle-retrolambda:3.6.1'
 
 //        classpath 'com.android.tools.build:gradle:2.3.2'
