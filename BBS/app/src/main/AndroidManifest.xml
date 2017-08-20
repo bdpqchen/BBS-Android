@@ -13,7 +13,6 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
 
 
-    <!--在这里稍微解决内存不够用的情况-->
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -21,10 +20,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <meta-data
-            android:name="com.twtstudio.bbs.bdpqchen.bbs.commons.support.SimpleGlideModule"
-            android:value="GlideModule" />
 
         <activity
             android:name=".splash.SplashActivity"
