@@ -103,7 +103,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     @Override
     protected void initFragment() {
 
-
         mRlIndividualItemMessage.setOnClickListener(v -> startItemActivity(ACT_MSG));
         mRlIndividualItemCollection.setOnClickListener(v -> startItemActivity(ACT_STAR));
         mRlIndividualItemPublish.setOnClickListener(v -> startItemActivity(ACT_PUBLISH));
@@ -235,7 +234,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         StatusBarUtil.setTranslucentForImageViewInFragment(this.getActivity(), null);
         return rootView;

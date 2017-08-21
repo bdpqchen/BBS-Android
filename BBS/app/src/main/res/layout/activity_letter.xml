@@ -59,8 +59,9 @@
             android:gravity="center"
             android:padding="4dp"
             android:text="发送"
-            android:textColor="@color/colorTvBlackMain"
-            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryCopyLight"
+            android:alpha="0.2"
+            android:textSize="15sp"
             />
 
     </LinearLayout>
