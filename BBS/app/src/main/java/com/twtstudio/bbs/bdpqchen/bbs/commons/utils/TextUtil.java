@@ -5,11 +5,9 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
-import android.widget.TextView;
 
 import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE_URL;
 
@@ -32,10 +30,16 @@ public final class TextUtil {
     }
 
     public static String getTwoNames(String name, String nickname) {
+        if (isEqual(name, nickname)){
+            return name;
+        }
         if (nickname != null && nickname.length() > 12) {
             nickname = nickname.substring(0, 11);
         }
         return name + "(" + nickname + ")";
+    }
+    private static boolean isEqual(String str0, String str1){
+        return str0.equals(str1);
     }
 
     public static String getReplacedContent(String content) {
