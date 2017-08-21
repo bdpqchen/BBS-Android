@@ -49,7 +49,6 @@ public class RetrieveActivity extends BaseActivity<RetrievePresenter> implements
     private String mNewPassword = "";
     private String mCid = "";
     private String mRealName = "";
-    private String mStuOrUsername = "";
     private String mStuNum = "";
     private String mUsername = "";
 
@@ -137,7 +136,7 @@ public class RetrieveActivity extends BaseActivity<RetrievePresenter> implements
 
     private void gotoResetPassword() {
         Intent intent = new Intent(this, AppealPassportActivity.class);
-        intent.putExtra(Constants.BUNDLE_REGISTER_USERNAME, mStuOrUsername);
+        intent.putExtra(Constants.BUNDLE_REGISTER_USERNAME, mUsername);
         startActivity(intent);
     }
 

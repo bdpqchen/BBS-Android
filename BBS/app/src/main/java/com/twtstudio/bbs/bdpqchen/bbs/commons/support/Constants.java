@@ -6,6 +6,10 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.support;
 
 public final class Constants {
 
+    public static final String BASE_HOST = "bbs.tju.edu.cn";
+    public static final String BASE = "https://" + BASE_HOST;
+    public static final String BASE_URL = BASE + "/api/";
+
     public static final int FRAGMENT_MAIN = 0;
     public static final int FRAGMENT_FORUM = 1;
     public static final int FRAGMENT_INDIVIDUAL = 2;
@@ -99,4 +103,5 @@ public final class Constants {
     public static final String FRIEND_ID = "friend_id";
     public static final String IMG_URL = "img_url";
 
+    public static final String PIWIK_THREAD = BASE + "/forum/thread/";
 }

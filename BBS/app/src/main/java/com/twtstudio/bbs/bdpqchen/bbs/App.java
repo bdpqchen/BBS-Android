@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.StrictMode;
 
 import com.github.piasy.biv.BigImageViewer;
 import com.github.piasy.biv.loader.glide.GlideImageLoader;
@@ -12,6 +13,14 @@ import com.oubowu.slideback.ActivityHelper;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.AppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerAppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
+
+import org.piwik.sdk.Piwik;
+import org.piwik.sdk.Tracker;
+import org.piwik.sdk.TrackerConfig;
+import org.piwik.sdk.extra.DownloadTracker;
+import org.piwik.sdk.extra.TrackHelper;
+
+import timber.log.Timber;
 
 /**
  * Created by bdpqchen on 17-4-17.
@@ -38,11 +47,48 @@ public class App extends Application {
         BigImageViewer.initialize(GlideImageLoader.with(getApplicationContext()));
         initLogUtils();
         initSlideBack();
-//        HandlerThread workerThread = new HandlerThread("global_worker_thread");
-//        workerThread.start();
-
-
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectAll()
+                .penaltyLog()
+                .build());
+        initPiwik();
     }
+
+    private void initPiwik() {
+        // Print debug output when working on an app.
+        Timber.plant(new Timber.DebugTree());
+
+        // When working on an app we don't want to skew tracking results.
+//        getPiwik().setDryRun(BuildConfig.DEBUG);
+
+        // If you want to set a specific userID other than the random UUID token, do it NOW to ensure all future actions use that token.
+        // Changing it later will track new events as belonging to a different user.
+        // String userEmail = ....preferences....getString
+//         getTracker().setUserId(userEmail);
+
+        // Track this app install, this will only trigger once per app version.
+        // i.e. "http://com.piwik.demo:1/185DECB5CFE28FDB2F45887022D668B4"
+        TrackHelper.track().download().identifier(new DownloadTracker.Extra.ApkChecksum(this)).with(getTracker());
+        // Alternative:
+        // i.e. "http://com.piwik.demo:1/com.android.vending"
+        // getTracker().download();
+    }
+
+    private Tracker mPiwikTracker;
+
+    public Piwik getPiwik() {
+        return Piwik.getInstance(this);
+    }
+
+    public synchronized Tracker getTracker() {
+        if (mPiwikTracker == null) mPiwikTracker = getPiwik().newTracker(onCreateTrackerConfig());
+        return mPiwikTracker;
+    }
+
+    public TrackerConfig onCreateTrackerConfig(){
+        return TrackerConfig.createDefault("https://elf.twtstudio.com/piwik.php", 13);
+    }
+
 
    /* private void initBuglyReport() {
         Context context = getApplicationContext();
@@ -53,14 +99,6 @@ public class App extends Application {
         Beta.smallIconId = R.mipmap.ic_launcher;
         Bugly.init(context, BuildConfig.ID_BUGLY, BuildConfig.DEBUG);
     }*/
-
-    /*
-        private Tracker tracker;
-        public synchronized Tracker getTracker() {
-            if (tracker == null) tracker = Piwik.getInstance(this).newTracker(new TrackerConfig("https://elf.twtstudio.com", 13, "Android"));
-            return tracker;
-        }
-    */
 
     private void initLogUtils() {
         if (BuildConfig.DEBUG) {

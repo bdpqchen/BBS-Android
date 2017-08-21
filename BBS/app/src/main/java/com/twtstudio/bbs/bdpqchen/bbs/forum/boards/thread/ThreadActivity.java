@@ -32,10 +32,12 @@ import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
+import com.twtstudio.bbs.bdpqchen.bbs.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
@@ -50,8 +52,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 import com.zhihu.matisse.Matisse;
+
+import org.piwik.sdk.Tracker;
+import org.piwik.sdk.extra.TrackHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,6 +197,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             isAutoFindFloor = true;
             mIsFindingFloor = true;
         }
+
+        TrackHelper.track().screen(Constants.PIWIK_THREAD + mThreadId).with(getTracker());
 
         mBoomMenuBtn.setButtonEnum(ButtonEnum.TextInsideCircle);
         mBoomMenuBtn.setPiecePlaceEnum(PiecePlaceEnum.DOT_6_6);
@@ -808,4 +814,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         startActivity(Intent.createChooser(shareIntent, "分享到"));
     }
 
+    private Tracker getTracker() {
+        return ((App)getApplication()).getTracker();
+    }
 }

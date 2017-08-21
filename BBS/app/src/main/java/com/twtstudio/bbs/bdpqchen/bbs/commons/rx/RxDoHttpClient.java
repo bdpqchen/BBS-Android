@@ -58,7 +58,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
 public class RxDoHttpClient<T> {
 
-    public static final String BASE_HOST = "bbs.tju.edu.cn";
+    public static final String BASE_HOST = Constants.BASE_HOST;
     public static final String BASE = "https://" + BASE_HOST;
     public static final String BASE_URL = BASE + "/api/";
     private Retrofit mRetrofit;
