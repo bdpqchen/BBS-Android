@@ -263,7 +263,7 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         if (!isPublished){
             publish();
         }else{
-            mAlertDialog = DialogUtil.alertDialog(this, "提示", "你已经成功发布过帖子，还要再发一次吗？", "再次发布", "不要",
+            mAlertDialog = DialogUtil.alertDialog(this, "你已经成功发布过帖子，还要再发一次吗？", "再次发布", "不要",
                     (materialDialog, dialogAction) -> publish(), null);
         }
         LogUtil.dd("send content", mContent);
@@ -287,7 +287,7 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
 
     private void showProgress(String msg) {
         if (mProgressDialog == null) {
-            mProgressDialog = DialogUtil.showProgressDialog(this, "提示", msg);
+            mProgressDialog = DialogUtil.showProgressDialog(this, msg);
         } else {
             mProgressDialog.show();
         }
@@ -320,7 +320,7 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
             return;
         }
         if (mTitle.length() > 0 || mContent.length() > 0) {
-            mAlertDialog = DialogUtil.alertDialog(this, "提示", "确定放弃所写的内容吗？？", "放弃", "就不放弃",
+            mAlertDialog = DialogUtil.alertDialog(this, "确定放弃所写的内容吗？？", "放弃", "就不放弃",
                     (materialDialog, dialogAction) -> finishMe(), null);
         } else {
             finishMe();

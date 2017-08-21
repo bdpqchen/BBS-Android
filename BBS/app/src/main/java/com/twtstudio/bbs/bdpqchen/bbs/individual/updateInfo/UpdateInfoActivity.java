@@ -212,7 +212,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
     private void showProgressBar(String content) {
         if (mMaterialDialog == null) {
-            mMaterialDialog = DialogUtil.showProgressDialog(this, "提示", content);
+            mMaterialDialog = DialogUtil.showProgressDialog(this, content);
         } else {
             mMaterialDialog.show();
         }

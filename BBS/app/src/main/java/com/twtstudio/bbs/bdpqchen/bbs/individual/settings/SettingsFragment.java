@@ -92,7 +92,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     private void reallyLogout() {
-        DialogUtil.alertDialog(mActivity, "温馨的提示", "真的要登出当前的账户吗？？", "真的", "假的",
+        DialogUtil.alertDialog(mActivity, "真的要登出当前的账户吗？？", "真的", "假的",
                 ((materialDialog, dialogAction) -> logout()), null);
     }
 

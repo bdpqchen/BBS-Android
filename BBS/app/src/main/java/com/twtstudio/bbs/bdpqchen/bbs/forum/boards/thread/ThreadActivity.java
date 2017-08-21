@@ -673,7 +673,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void startProgress(String msg) {
-        mProgress = DialogUtil.showProgressDialog(this, "提示", msg);
+        mProgress = DialogUtil.showProgressDialog(this, msg);
     }
 
     private void hideProgress() {
