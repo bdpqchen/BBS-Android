@@ -50,11 +50,6 @@ public class FriendActivity extends BaseActivity<FriendPresenter> implements Fri
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }

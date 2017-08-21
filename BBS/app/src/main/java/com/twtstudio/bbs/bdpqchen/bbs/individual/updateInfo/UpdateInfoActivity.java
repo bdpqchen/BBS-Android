@@ -79,11 +79,6 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
@@ -96,7 +91,6 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mActivity = this;
         mNickname = PrefUtil.getInfoNickname();
         mSignature = PrefUtil.getInfoSignature();
@@ -275,9 +269,4 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         HandlerUtil.postDelay(this::finishMe, 2000);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
-    }
 }

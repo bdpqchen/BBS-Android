@@ -71,11 +71,6 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }

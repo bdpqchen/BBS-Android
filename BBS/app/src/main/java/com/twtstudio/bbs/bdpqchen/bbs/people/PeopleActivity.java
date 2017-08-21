@@ -91,11 +91,6 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }

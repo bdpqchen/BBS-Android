@@ -63,11 +63,6 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }

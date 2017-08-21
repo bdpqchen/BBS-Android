@@ -67,11 +67,6 @@ public class AppealPassportActivity extends BaseActivity<AppealPassportPresenter
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }

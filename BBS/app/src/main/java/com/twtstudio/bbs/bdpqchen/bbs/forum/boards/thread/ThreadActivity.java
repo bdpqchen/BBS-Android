@@ -32,7 +32,7 @@ import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
-import com.twtstudio.bbs.bdpqchen.bbs.App;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -167,11 +167,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
@@ -190,7 +185,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mBoardName = intent.getStringExtra(INTENT_BOARD_TITLE);
         mBoardId = intent.getIntExtra(INTENT_BOARD_ID, 0);
         super.onCreate(savedInstanceState);
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
         mImageFormatUtil = new ImageFormatUtil();
         if (mFindingFloor != 0) {

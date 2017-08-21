@@ -69,11 +69,6 @@ public class RetrieveActivity extends BaseActivity<RetrievePresenter> implements
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }

@@ -43,11 +43,6 @@ public class MyReleaseActivity extends BaseActivity<MyReleasePresenter>{
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }

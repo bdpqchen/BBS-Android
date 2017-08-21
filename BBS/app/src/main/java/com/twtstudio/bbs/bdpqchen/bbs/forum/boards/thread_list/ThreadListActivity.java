@@ -69,11 +69,6 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
@@ -91,7 +86,6 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
         mCanAnon = intent.getIntExtra(INTENT_BOARD_CAN_ANON, 0);
         LogUtil.dd(mBoardTitle);
         super.onCreate(savedInstanceState);
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
         mPresenter.getThreadList(mBoardId, mPage);
         mAdapter = new ThreadListAdapter(this);

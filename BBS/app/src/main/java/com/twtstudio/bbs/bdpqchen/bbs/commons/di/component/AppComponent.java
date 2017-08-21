@@ -1,10 +1,8 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.di.component;
 
 
-import com.twtstudio.bbs.bdpqchen.bbs.App;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.ContextLife;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerApp;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 
 import javax.inject.Singleton;

@@ -63,10 +63,6 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
         return true;
     }
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
@@ -77,7 +73,6 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mAdapter = new MessageAdapter(this, mPresenter);
         mRecyclerView.setAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

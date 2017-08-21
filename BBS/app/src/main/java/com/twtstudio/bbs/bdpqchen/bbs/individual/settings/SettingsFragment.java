@@ -78,8 +78,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 startMySelf();
             } else if (key.equals(getString(R.string.key_always_anon))) {
                 PrefUtil.setIsAlwaysAnonymous(CastUtil.cast2boolean(obj));
-            } else if (key.equals(getString(R.string.key_slide_back))) {
-                PrefUtil.setIsSlideBackMode(CastUtil.cast2boolean(obj));
             } else if (key.equals(getString(R.string.key_simple_board_list))) {
                 PrefUtil.setIsSimpleBoardList(CastUtil.cast2boolean(obj));
             }else if (key.equals(getString(R.string.key_simple_forum))){

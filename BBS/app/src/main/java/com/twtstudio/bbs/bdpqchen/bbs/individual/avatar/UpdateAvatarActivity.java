@@ -12,13 +12,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.soundcloud.android.crop.Crop;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import java.io.File;
 
@@ -47,11 +45,6 @@ public class UpdateAvatarActivity extends BaseActivity {
 
     @Override
     protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
-    protected boolean isSupportNightMode() {
         return true;
     }
 

@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs;
+package com.twtstudio.bbs.bdpqchen.bbs.commons;
 
 import android.app.Application;
 import android.content.Context;
@@ -10,6 +10,7 @@ import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.oubowu.slideback.ActivityHelper;
+import com.twtstudio.bbs.bdpqchen.bbs.BuildConfig;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.AppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerAppComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;

@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
@@ -82,11 +81,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return false;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
@@ -131,9 +125,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             case R.id.et_account:
                 break;
             case R.id.et_password:
-                break;
-            case R.id.tv_goto_replace_user:
-                startActivity(new Intent(this, ReplaceUserActivity.class));
                 break;
             case R.id.cp_btn_login:
                 String username = mEtAccount.getText() + "";

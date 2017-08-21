@@ -71,11 +71,6 @@ public class RegisterOldActivity extends BaseActivity<RegisterOldPresenter> impl
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return false;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
@@ -88,7 +83,6 @@ public class RegisterOldActivity extends BaseActivity<RegisterOldPresenter> impl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
         mActivity = this;
         Intent intent = getIntent();

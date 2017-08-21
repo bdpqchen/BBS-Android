@@ -7,8 +7,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.appeal.AppealPassportActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.replacePassword.ReplacePasswordActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.retrieve.RetrieveActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerActivity;
@@ -44,10 +42,6 @@ public interface ActivityComponent {
     void inject(RegisterActivity registerActivity);
 
     void inject(LoginActivity loginActivity);
-
-    void inject(ReplaceUserActivity replaceUserActivity);
-
-    void inject(ReplacePasswordActivity replacePasswordActivity);
 
     void inject(UpdateInfoActivity updateInfoActivity);
 

@@ -43,11 +43,6 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter> {
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }

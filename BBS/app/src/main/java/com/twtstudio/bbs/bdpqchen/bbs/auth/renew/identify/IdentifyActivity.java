@@ -61,11 +61,6 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
@@ -114,7 +109,6 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
         mCpBtnIdentify.startAnimation();
         mPresenter.doIdentify(mUsername, password);
     }
-
 
     @Override
     public void identifyFailed(String m) {

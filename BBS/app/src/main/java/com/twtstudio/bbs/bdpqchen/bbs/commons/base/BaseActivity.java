@@ -12,7 +12,7 @@ import com.jaeger.library.StatusBarUtil;
 import com.oubowu.slideback.SlideBackHelper;
 import com.oubowu.slideback.SlideConfig;
 import com.oubowu.slideback.widget.SlideBackLayout;
-import com.twtstudio.bbs.bdpqchen.bbs.App;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerActivityComponent;
@@ -50,7 +50,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     protected abstract boolean isShowBackArrow();
 
-    protected abstract boolean isSupportNightMode();
 
     protected abstract void inject();
 
@@ -59,7 +58,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (isSupportNightMode()) {
+        if (true) {
             AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         }
         setContentView(getLayoutResourceId());

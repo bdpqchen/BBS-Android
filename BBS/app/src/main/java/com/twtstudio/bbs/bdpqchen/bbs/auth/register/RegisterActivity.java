@@ -71,11 +71,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return false;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
@@ -89,18 +84,10 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
         mActivity = this;
 
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
-    }
-
 
     @OnClick({R.id.et_password, R.id.cp_btn_register})
     public void onViewClicked(View view) {

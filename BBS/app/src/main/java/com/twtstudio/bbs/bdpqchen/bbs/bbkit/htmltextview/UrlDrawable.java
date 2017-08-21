@@ -4,10 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-
-import com.twtstudio.bbs.bdpqchen.bbs.App;
-import com.twtstudio.bbs.bdpqchen.bbs.R;
 
 /**
  * Created by Jesson_Yi on 2016/6/23.
