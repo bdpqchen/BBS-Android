@@ -9,7 +9,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.welcome.IntroActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.splash.welcome.IntroActivity;
 
 /**
  * Created by bdpqchen on 17-5-2.

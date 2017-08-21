@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.welcome;
+package com.twtstudio.bbs.bdpqchen.bbs.splash.welcome;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;

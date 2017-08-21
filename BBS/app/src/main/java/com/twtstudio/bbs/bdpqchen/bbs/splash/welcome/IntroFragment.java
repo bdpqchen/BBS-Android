@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.welcome;
+package com.twtstudio.bbs.bdpqchen.bbs.splash.welcome;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,14 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyActivity;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 

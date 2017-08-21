@@ -76,7 +76,7 @@
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity android:name=".auth.register.old.RegisterOldActivity" />
         <activity
-            android:name=".welcome.IntroActivity"
+            android:name=".splash.welcome.IntroActivity"
             android:theme="@style/AppTheme.Intro" />
         <activity android:name=".individual.avatar.UpdateAvatarActivity" />
         <activity android:name=".individual.star.StarActivity" />

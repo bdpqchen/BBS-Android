@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.welcome;
+package com.twtstudio.bbs.bdpqchen.bbs.splash.welcome;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +13,6 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 
 import butterknife.BindView;
