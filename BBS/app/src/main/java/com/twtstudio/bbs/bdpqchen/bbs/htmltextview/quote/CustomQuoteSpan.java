@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.quote;
+package com.twtstudio.bbs.bdpqchen.bbs.htmltextview.quote;
 
 /**
  * Created by retrox on 28/05/2017.
@@ -11,7 +11,6 @@ import android.text.Layout;
 import android.text.style.LeadingMarginSpan;
 import android.text.style.LineBackgroundSpan;
 
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
 /**

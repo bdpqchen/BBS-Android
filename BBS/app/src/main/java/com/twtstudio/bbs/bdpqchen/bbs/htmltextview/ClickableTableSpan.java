@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
+package com.twtstudio.bbs.bdpqchen.bbs.htmltextview;
 
 import android.text.style.ClickableSpan;
 

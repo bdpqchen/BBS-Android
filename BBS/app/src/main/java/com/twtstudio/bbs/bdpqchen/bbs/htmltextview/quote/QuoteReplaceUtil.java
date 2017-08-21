@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.quote;
+package com.twtstudio.bbs.bdpqchen.bbs.htmltextview.quote;
 
 import android.text.Spannable;
 import android.text.style.QuoteSpan;

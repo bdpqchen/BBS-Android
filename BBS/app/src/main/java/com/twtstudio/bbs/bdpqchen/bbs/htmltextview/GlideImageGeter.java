@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
+package com.twtstudio.bbs.bdpqchen.bbs.htmltextview;
 
 /**
  * Created by Jesson_Yi on 2016/6/22.

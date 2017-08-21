@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
+package com.twtstudio.bbs.bdpqchen.bbs.htmltextview;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,6 @@ import android.text.style.URLSpan;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
-import com.twtstudio.bbs.bdpqchen.bbs.picture.BigPhotoActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;

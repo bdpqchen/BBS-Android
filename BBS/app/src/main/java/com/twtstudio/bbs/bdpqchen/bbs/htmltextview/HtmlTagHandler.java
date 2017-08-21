@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
+package com.twtstudio.bbs.bdpqchen.bbs.htmltextview;
 
 import android.support.annotation.Nullable;
 import android.text.Editable;

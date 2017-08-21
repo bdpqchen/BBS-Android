@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.GlideImageGeter;
-import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
+import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.GlideImageGeter;
+import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.HtmlTextView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;

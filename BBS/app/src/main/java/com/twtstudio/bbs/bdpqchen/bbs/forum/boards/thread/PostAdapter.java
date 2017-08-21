@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.GlideImageGeter;
-import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
+import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.GlideImageGeter;
+import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.HtmlTextView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;

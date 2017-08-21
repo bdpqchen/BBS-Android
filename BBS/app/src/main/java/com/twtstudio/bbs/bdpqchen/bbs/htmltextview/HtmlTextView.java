@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
+package com.twtstudio.bbs.bdpqchen.bbs.htmltextview;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -25,7 +25,7 @@ import android.text.Spannable;
 import android.text.Spanned;
 import android.util.AttributeSet;
 
-import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.quote.QuoteReplaceUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.quote.QuoteReplaceUtil;
 
 import java.io.InputStream;
 import java.util.Scanner;

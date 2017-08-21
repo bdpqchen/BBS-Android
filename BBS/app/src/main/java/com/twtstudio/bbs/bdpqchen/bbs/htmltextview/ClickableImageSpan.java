@@ -1,4 +1,4 @@
-package com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview;
+package com.twtstudio.bbs.bdpqchen.bbs.htmltextview;
 
 import android.graphics.drawable.Drawable;
 import android.text.style.ImageSpan;
