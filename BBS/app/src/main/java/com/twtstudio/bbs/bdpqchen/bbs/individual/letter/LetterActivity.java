@@ -16,6 +16,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
@@ -27,7 +28,7 @@ import butterknife.BindView;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_Letter;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MIN_LENGTH_Letter_CONTENT;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MIN_LENGTH_LETTER_CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
@@ -138,7 +139,7 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
                 mContent = mEtLetter.getText().toString();
                 int length = mContent.length();
                 mTvSend.setAlpha(getSendBtnTextAlpha(length));
-                updateSenderClickable(length >= MIN_LENGTH_Letter_CONTENT);
+                updateSenderClickable(length >= MIN_LENGTH_LETTER_CONTENT);
             }
         });
 
@@ -152,7 +153,7 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
     }
 
     private float getSendBtnTextAlpha(int length) {
-        return length < MIN_LENGTH_Letter_CONTENT ? 0.2f : 1.0f;
+        return length < MIN_LENGTH_LETTER_CONTENT ? 0.2f : 1.0f;
     }
 
     private void updateSenderClickable(boolean sendable) {

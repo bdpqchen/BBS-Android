@@ -54,7 +54,7 @@
             android:layout_gravity="center"
             android:layout_marginEnd="4dp"
             android:clickable="false"
-            android:focusable="true"
+            android:focusable="false"
             android:foreground="@drawable/selector_foreground_settings"
             android:gravity="center"
             android:padding="4dp"

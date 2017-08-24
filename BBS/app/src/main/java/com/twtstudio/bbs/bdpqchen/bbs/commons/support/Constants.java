@@ -21,7 +21,7 @@ public final class Constants {
     public static final int MAX_LENGTH_QUOTE = 60;
     public static final int MAX_LENGTH_POST = 50;
     public static final int MAX_LENGTH_Letter = 20;
-    public static final int MIN_LENGTH_Letter_CONTENT = 3;
+    public static final int MIN_LENGTH_LETTER_CONTENT = 3;
     public static final int ITEM_HEADER = -1;
     public static final int ITEM_NORMAL = 0;
     public static final int ITEM_FOOTER = 1;

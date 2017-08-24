@@ -118,21 +118,18 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
         mRvPeople.addItemDecoration(new RecyclerViewItemDecoration(2));
         mRvPeople.setNestedScrollingEnabled(false);
 
-        mNestedScroll.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                double minus = (scrollY - oldScrollY) / 1.5;
-                int alpha = mToolbar.getBackground().mutate().getAlpha();
-                alpha += minus;
-                if (alpha > 255){
-                    alpha = 255;
-                    mToolbar.setTitle(mName);
-                }else if (alpha <= 0){
-                    alpha = 0;
-                    mToolbar.setTitle("");
-                }
-                mToolbar.getBackground().mutate().setAlpha(alpha);
+        mNestedScroll.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            double minus = (scrollY - oldScrollY) / 1.5;
+            int alpha = mToolbar.getBackground().mutate().getAlpha();
+            alpha += minus;
+            if (alpha > 255) {
+                alpha = 255;
+                mToolbar.setTitle(mName);
+            } else if (alpha <= 0) {
+                alpha = 0;
+                mToolbar.setTitle("");
             }
+            mToolbar.getBackground().mutate().setAlpha(alpha);
         });
         mCivAvatar.setOnClickListener(v -> {
             Intent intent1 = IntentUtil.toBigPhoto(mContext, UrlUtil.getAvatarUrl(mUid));
