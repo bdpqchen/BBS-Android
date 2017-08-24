@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2016. SHENQINCI(沈钦赐)<dev@qinc.me>
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <!-- Base application theme. -->
+    <style name="BaseTheme.Light" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--actionMode覆盖actionbar，不顶下来-->
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionBarStyle">@style/ActionBarStyle</item>
+        <!--<item name="android:windowAnimationStyle">@style/NoAnimation</item>-->
+        <item name="actionModeBackground">@color/colorPrimary</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:textColorHighlight">@color/colorPrimary66</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:actionModeBackground">@color/colorPrimary</item>
+        <item name="searchViewStyle">@style/Widget.AppCompat.Light.SearchView</item>
+        <item name="bottomSheetTheme">@style/MyBottomSheet</item>
+    </style>
+
+    <style name="ActionBarStyle" parent="@android:style/Widget.ActionBar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="background">@color/colorPrimary</item>
+    </style>
+    <!--<style name="NoAnimation">-->
+    <!--<item name="android:activityOpenEnterAnimation">@null</item>-->
+    <!--<item name="android:activityOpenExitAnimation">@null</item>-->
+    <!--<item name="android:activityCloseEnterAnimation">@null</item>-->
+    <!--<item name="android:activityCloseExitAnimation">@null</item>-->
+    <!--<item name="android:taskOpenEnterAnimation">@null</item>-->
+    <!--<item name="android:taskOpenExitAnimation">@null</item>-->
+    <!--<item name="android:taskCloseEnterAnimation">@null</item>-->
+    <!--<item name="android:taskCloseExitAnimation">@null</item>-->
+    <!--<item name="android:taskToFrontEnterAnimation">@null</item>-->
+    <!--<item name="android:taskToFrontExitAnimation">@null</item>-->
+    <!--<item name="android:taskToBackEnterAnimation">@null</item>-->
+    <!--<item name="android:taskToBackExitAnimation">@null</item>-->
+    <!--</style>-->
+    <!--<style name="AppTheme" parent="BaseTheme.Light"/>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.CustomCursor">
+        <item name="android:textCursorDrawable">@drawable/custom_cursor</item>
+    </style>-->
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:textColorHighlight">@color/colorPrimary66</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textCursorDrawable">@drawable/custom_cursor_light</item>
+    </style>
+
+    <!--修改菜单字体颜色-->
+    <!--<style name="MenuText" parent="@android:style/TextAppearance.Large">-->
+    <!--<item name="android:textColor">@color/colorAccent</item>-->
+    <!--</style>-->
+
+
+
+    <style name="MyBottomSheet" parent="BottomSheet.Light">
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>

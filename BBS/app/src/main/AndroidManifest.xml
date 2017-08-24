@@ -44,10 +44,6 @@
             android:name=".auth.register.RegisterActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
-            android:name=".auth.replaceUser.ReplaceUserActivity"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-        <activity android:name=".auth.replaceUser.replacePassword.ReplacePasswordActivity" />
-        <activity
             android:name=".auth.login.LoginActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity android:name=".individual.settings.SettingsActivity" />
@@ -70,7 +66,6 @@
         <activity android:name=".auth.renew.identify.IdentifyActivity" />
         <activity android:name=".auth.renew.appeal.AppealPassportActivity" />
         <activity android:name=".auth.retrieve.RetrieveActivity" />
-        <activity android:name=".auth.retrieve.reset_password.ResetPasswordActivity" />
         <activity
             android:name=".forum.boards.create_thread.CreateThreadActivity"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
@@ -96,6 +91,8 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:theme="@android:style/Theme.Translucent" />
 -->
+
+        <activity android:name=".mdeditor.EditorActivity"/>
 
     </application>
 

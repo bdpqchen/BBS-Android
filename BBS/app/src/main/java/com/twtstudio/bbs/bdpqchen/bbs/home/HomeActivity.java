@@ -147,6 +147,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             PrefUtil.setIsSimpleBoardList(true);
         }
 
+//        startActivity(new Intent(this, EditorActivity.class));
 
     }
 
