@@ -25,6 +25,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.mdeditor.EditorActivity;
 
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -147,7 +148,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             PrefUtil.setIsSimpleBoardList(true);
         }
 
-//        startActivity(new Intent(this, EditorActivity.class));
+        startActivity(new Intent(this, EditorActivity.class));
 
     }
 

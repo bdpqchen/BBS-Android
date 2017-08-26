@@ -17,15 +17,20 @@
 package com.twtstudio.bbs.bdpqchen.bbs.mdeditor;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
-import java.io.File;
+import butterknife.BindView;
 
 /**
  * 编辑界面
@@ -33,7 +38,12 @@ import java.io.File;
  */
 public class EditorFragment extends BaseFragment {
     public static final String FILE_PATH_KEY = "FILE_PATH_KEY";
-    protected EditText mContent;
+    @BindView(R.id.title)
+    EditText mTitle;
+    @BindView(R.id.content)
+    EditText mContent;
+    @BindView(R.id.email_login_form)
+    LinearLayout mEmailLoginForm;
 
     private EditorFragmentPresenter mPresenter;
 
@@ -49,6 +59,7 @@ public class EditorFragment extends BaseFragment {
         Bundle bundle = new Bundle();
         bundle.putString(FILE_PATH_KEY, filePath);
         editorFragment.setArguments(bundle);
+        LogUtil.dd("getInstance");
         return editorFragment;
     }
 
@@ -59,47 +70,74 @@ public class EditorFragment extends BaseFragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        LogUtil.dd("onCreateView");
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    protected void initFragment() {
+        SnackBarUtil.error(this.getActivity(), "oncreated");
+        LogUtil.dd("InitView");
+        mPerformEditable = new PerformEditable(mContent);
+        PerformInputAfter.start(mContent);
+
+    }
+
+/*
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle arguments = getArguments();
         String fileTemp = arguments.getString(FILE_PATH_KEY);
+        SnackBarUtil.error(this.getActivity(), "oncreated");
+
+        LogUtil.dd("onCreate");
         if (fileTemp == null) {
 //            Toast.makeText(AppContext.context(), "路径参数有误！", Toast.LENGTH_SHORT).show();
-            return;
+//            return;
         }
 
-        File file = new File(fileTemp);
+
+//        File file = new File(fileTemp);
         //创建新文章
-        mPresenter = new EditorFragmentPresenter(file);
+//        mPresenter = new EditorFragmentPresenter(file);
 
         //代码格式化或者插入操作
         mPerformEditable = new PerformEditable(mContent);
+        PerformInputAfter.start(mContent);
 
-     /*   //撤销和恢复初始化
+     */
+/*   //撤销和恢复初始化
         mPerformEdit = new PerformEdit(mContent) {
             @Override
             protected void onTextChanged(Editable s) {
                 //文本改变
                 mPresenter.textChange();
             }
-        };*/
+        };*//*
 
-       /* mPerformNameEdit = new PerformEdit(mName) {
+
+       */
+/* mPerformNameEdit = new PerformEdit(mName) {
             @Override
             protected void onTextChanged(Editable s) {
                 //文本改变
                 mPresenter.textChange();
             }
-        };*/
+        };*//*
+
 
         //文本输入监听(用于自动输入)
-        PerformInputAfter.start(mContent);
+*/
 /*
         //装置数据
         if (file.isFile())
-            mPresenter.loadFile();*/
+            mPresenter.loadFile();*//*
+
 
     }
+*/
 
 
 

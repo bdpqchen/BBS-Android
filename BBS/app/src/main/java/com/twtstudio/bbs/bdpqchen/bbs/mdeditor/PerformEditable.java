@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 
 /**
@@ -138,6 +139,7 @@ public class PerformEditable implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        LogUtil.dd("onClick");
         if (mEditText == null) return;
         perform(v.getId());
     }

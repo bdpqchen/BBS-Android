@@ -18,6 +18,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.mdeditor;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * fragment基类
@@ -35,7 +37,9 @@ import butterknife.ButterKnife;
 public abstract class BaseFragment extends Fragment {
     protected Context mContext;
     protected View rootView;
+    private Unbinder mUnbinder;
     protected abstract int getLayoutId();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,16 +50,30 @@ public abstract class BaseFragment extends Fragment {
                 throw new IllegalStateException(this.getClass().getSimpleName() + ":LayoutID找不到对应的布局");
 
         }
-        ButterKnife.bind(this, rootView);
+//        ButterKnife.bind(this, rootView);
         return rootView;
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mUnbinder = ButterKnife.bind(this, rootView);
+        initFragment();
+
+    }
+
+    protected abstract void initFragment();
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mContext = null;
         rootView = null;
+        if (mUnbinder != null)
+        mUnbinder.unbind();
     }
+
 
     public boolean hasMenu() {
         return false;

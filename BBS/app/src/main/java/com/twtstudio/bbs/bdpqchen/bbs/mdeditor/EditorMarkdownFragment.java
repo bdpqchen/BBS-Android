@@ -18,9 +18,13 @@ package com.twtstudio.bbs.bdpqchen.bbs.mdeditor;
 
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+
+import butterknife.BindView;
+import butterknife.Unbinder;
 
 /**
  * 编辑预览界面
@@ -28,6 +32,13 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
  */
 public class EditorMarkdownFragment extends BaseFragment {
     protected TextView mName;
+    @BindView(R.id.title)
+    TextView mTitle;
+    @BindView(R.id.markdownView)
+    MarkdownPreviewView mMarkdownView;
+    @BindView(R.id.email_login_form)
+    LinearLayout mEmailLoginForm;
+    Unbinder unbinder;
     private String mContent;
 
 
@@ -42,6 +53,11 @@ public class EditorMarkdownFragment extends BaseFragment {
     @Override
     public int getLayoutId() {
         return R.layout.fragment_markdown;
+    }
+
+    @Override
+    protected void initFragment() {
+//        mMarkdownView.parseMarkdown();
     }
 
     @Override

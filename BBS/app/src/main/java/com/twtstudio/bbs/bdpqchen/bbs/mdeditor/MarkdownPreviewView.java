@@ -66,7 +66,7 @@ public class MarkdownPreviewView extends NestedScrollView {
             this.mWebView.setHorizontalScrollBarEnabled(false);
             this.mWebView.addJavascriptInterface(new JavaScriptInterface(this), "handler");
             this.mWebView.setWebViewClient(new MdWebViewClient(this));
-            this.mWebView.loadUrl("file:///android_asset/markdown.html");
+//            this.mWebView.loadUrl("file:///android_asset/markdown.html");
             addView(this.mWebView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         }
     }
