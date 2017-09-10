@@ -166,7 +166,7 @@ public class RetrieveActivity extends BaseActivity<RetrievePresenter> implements
         mCpBtnRetrieve.revertAnimation();
         Intent intentData = new Intent();
         intentData.putExtra(USERNAME, mUsername);
-        setResult(Constants.RESULT_CODE_AVATAR, intentData);
+        setResult(RESULT_OK, intentData);
         SnackBarUtil.normal(mActivity, "重置成功,使用新密码登录");
         HandlerUtil.postDelay(this::finish, 2000);
     }

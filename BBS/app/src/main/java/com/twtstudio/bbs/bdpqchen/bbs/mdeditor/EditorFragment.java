@@ -29,16 +29,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import butterknife.BindView;
 
-/**
- * 编辑界面
- * Created by 沈钦赐 on 16/1/21.
- */
 public class EditorFragment extends BaseFragment {
-    public static final String FILE_PATH_KEY = "FILE_PATH_KEY";
     @BindView(R.id.tv_editor_title)
     TextView mTitle;
     @BindView(R.id.et_editor_content)
@@ -46,21 +40,12 @@ public class EditorFragment extends BaseFragment {
     @BindView(R.id.email_login_form)
     LinearLayout mEmailLoginForm;
 
-    private EditorFragmentPresenter mPresenter;
-
     private PerformEditable mPerformEditable;
-//    private PerformEdit mPerformEdit;
-//    private PerformEdit mPerformNameEdit;
     public EditorFragment() {
     }
 
-    public static EditorFragment getInstance(String filePath) {
-        EditorFragment editorFragment = new EditorFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(FILE_PATH_KEY, filePath);
-        editorFragment.setArguments(bundle);
-        LogUtil.dd("getInstance");
-        return editorFragment;
+    public static EditorFragment getInstance() {
+        return new EditorFragment();
     }
 
     @Override
@@ -83,83 +68,12 @@ public class EditorFragment extends BaseFragment {
 
     }
 
-/*
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle arguments = getArguments();
-        String fileTemp = arguments.getString(FILE_PATH_KEY);
-        SnackBarUtil.error(this.getActivity(), "oncreated");
-
-        LogUtil.dd("onCreate");
-        if (fileTemp == null) {
-//            Toast.makeText(AppContext.context(), "路径参数有误！", Toast.LENGTH_SHORT).show();
-//            return;
-        }
-
-
-//        File file = new File(fileTemp);
-        //创建新文章
-//        mPresenter = new EditorFragmentPresenter(file);
-
-        //代码格式化或者插入操作
-        mPerformEditable = new PerformEditable(mContent);
-        PerformInputAfter.start(mContent);
-
-     */
-/*   //撤销和恢复初始化
-        mPerformEdit = new PerformEdit(mContent) {
-            @Override
-            protected void onTextChanged(Editable s) {
-                //文本改变
-                mPresenter.textChange();
-            }
-        };*//*
-
-       */
-/* mPerformNameEdit = new PerformEdit(mName) {
-            @Override
-            protected void onTextChanged(Editable s) {
-                //文本改变
-                mPresenter.textChange();
-            }
-        };*//*
-
-        //文本输入监听(用于自动输入)
-*/
-/*
-        //装置数据
-        if (file.isFile())
-            mPresenter.loadFile();*//*
-    }
-*/
-/*
-    @Override
-    public void onFailure(int errorCode, String message, int flag) {
-        switch (flag) {
-            case CALL_SAVE:
-            case CALL_LOAOD_FILE:
-                BaseApplication.showSnackbar(mContent, message);
-                break;
-            default:
-                BaseApplication.showSnackbar(mContent, message);
-                break;
-        }
-    }
-*/
-
     public PerformEditable getPerformEditable() {
         return mPerformEditable;
     }
 
-    @Override
-    public boolean hasMenu() {
-        return true;
-    }
-
     //菜单
     private MenuItem mActionSave;
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -168,58 +82,14 @@ public class EditorFragment extends BaseFragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_done://保存
-//                mPresenter.save(mName.getText().toString().trim(), mContent.getText().toString().trim());
-                return true;
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-/*
-    /*@Override
-    public void onReadSuccess(@NonNull String name, @NonNull String content) {
-//        mPerformNameEdit.setDefaultText(name.substring(0, name.lastIndexOf(".")));
-//        mPerformEdit.setDefaultText(content);
-        if (content.length() > 0) {
-            //切换到预览界面
-//            RxEventBus.getInstance().send(new RxEvent(RxEvent.TYPE_SHOW_PREVIEW, mName.getText().toString(), mContent.getText().toString()));
-        }
-    }*/
-
     public String getContent(){
         if (mContent == null){
             return "";
         }
-        String str = mContent.getText().toString();
-        LogUtil.dd("content_result", str);
-        return str;
+        return mContent.getText().toString();
     }
     public String getTitle(){
         return mListener.getTitleOfContent();
-    }
-
-    public void noSave() {
-        if (mActionSave == null) return;
-        mActionSave.setIcon(R.drawable.ic_action_unsave);
-    }
-
-    public void saved() {
-        if (mActionSave == null) return;
-        mActionSave.setIcon(R.drawable.ic_action_save);
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        if (mPresenter.isSave()) {
-            return false;
-        }
-        onNoSave();
-        return true;
     }
 
     OnContentListener mListener;
@@ -227,21 +97,6 @@ public class EditorFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mListener = (OnContentListener) context;
-    }
-
-    private void onNoSave() {
-      /*  AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
-        builder.setMessage("当前文件未保存，是否退出?");
-        builder.setNegativeButton("不保存", (dialog, which) -> {
-            getActivity().finish();
-
-        }).setNeutralButton("取消", (dialog, which) -> {
-            dialog.dismiss();
-
-        }).setPositiveButton("保存", (dialog, which) -> {
-            mPresenter.saveForExit(mName.getText().toString().trim(), mContent.getText().toString().trim(), true);
-
-        }).show();*/
     }
 
 

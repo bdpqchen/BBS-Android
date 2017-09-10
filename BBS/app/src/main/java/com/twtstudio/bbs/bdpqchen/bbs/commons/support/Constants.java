@@ -14,10 +14,11 @@ public final class Constants {
     public static final int FRAGMENT_FORUM = 1;
     public static final int FRAGMENT_INDIVIDUAL = 2;
     public static final String TOKEN = "token";
-    public static final int RESULT_CODE_AVATAR = 10;
-    public static final int RESULT_CODE_IMAGE_SELECTED = 11;
-    public static final int RESULT_CODE_RETRIEVE = 12;
-    public static final int RESULT_CODE_LOGIN = 13;
+    public static final int REQUEST_CODE_AVATAR = 10;
+    public static final int REQUEST_CODE_IMAGE_SELECTED = 11;
+    public static final int REQUEST_CODE_RETRIEVE = 12;
+    public static final int REQUEST_CODE_LOGIN = 13;
+    public static final int REQUEST_CODE_EDITOR = 14;
     public static final int MAX_LENGTH_QUOTE = 60;
     public static final int MAX_LENGTH_POST = 50;
     public static final int MAX_LENGTH_Letter = 20;
@@ -76,6 +77,7 @@ public final class Constants {
     public static final String INTENT_BOARD_MODEL_LIST = "intent_board_model_list";
     public static final String INTENT_UNREAD = "intent_unread_count";
     public static final String INTENT_EDITOR_TITLE = "intent_editor_title";
+    public static final String INTENT_EDITOR_CONTENT = "intent_editor_content";
 
 
     public static final String ID = "id";

@@ -32,6 +32,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_AVATAR;
+
 /**
  * Created by bdpqchen on 17-5-6.
  */
@@ -206,10 +208,6 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         mPresenter.doUpdateInfo(bundle, type);
     }
 
-    private void showImageList() {
-        startActivityForResult(new Intent(this, UpdateAvatarActivity.class), Constants.RESULT_CODE_AVATAR);
-    }
-
     private void showProgressBar(String content) {
         if (mMaterialDialog == null) {
             mMaterialDialog = DialogUtil.showProgressDialog(this, content);
@@ -230,9 +228,13 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
        }
     }
 
+    private void showImageList() {
+        startActivityForResult(new Intent(this, UpdateAvatarActivity.class), REQUEST_CODE_AVATAR);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Constants.RESULT_CODE_AVATAR) {
+        if (requestCode == REQUEST_CODE_AVATAR && resultCode == RESULT_OK) {
             mCivAvatar.setVisibility(View.VISIBLE);
             showProgressBar("正在上传，请稍后..");
             mPresenter.doUpdateAvatar(new File(getCacheDir(), "cropped"));

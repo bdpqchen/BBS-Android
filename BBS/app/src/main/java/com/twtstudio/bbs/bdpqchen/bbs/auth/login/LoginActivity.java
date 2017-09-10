@@ -35,7 +35,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.RESULT_CODE_RETRIEVE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_RETRIEVE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
 /**
@@ -117,7 +117,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tx_forgot_password:
-                startActivityForResult(IntentUtil.toRetrieve(mContext), RESULT_CODE_RETRIEVE);
+                startActivityForResult(IntentUtil.toRetrieve(mContext), REQUEST_CODE_RETRIEVE);
                 break;
             case R.id.tv_to_register:
                 startActivity(new Intent(this, RegisterActivity.class));
@@ -145,19 +145,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_CODE_RETRIEVE &&  resultCode == RESULT_OK) {
+        LogUtil.dd("request", String.valueOf(requestCode));
+        LogUtil.dd("resultcode", String.valueOf(resultCode));
+
+        if (requestCode == REQUEST_CODE_RETRIEVE && resultCode == RESULT_OK) {
             if (data != null) {
-                mEtAccount.setText(data.getStringExtra(USERNAME) + 11);
+                mEtAccount.setText(data.getStringExtra(USERNAME));
             }
         }
-    }
-
-    private void loginWithNoUsername() {
-        // TODO: 17-5-9 游客登录逻辑
-        PrefUtil.setIsNoAccountUser(true);
-        PrefUtil.setHadLogin(false);
-        startActivity(new Intent(this, HomeActivity.class));
-        finishMe();
     }
 
     @Override

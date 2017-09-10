@@ -40,7 +40,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BO
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_IS_SPECIFY_BOARD;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.RESULT_CODE_IMAGE_SELECTED;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_IMAGE_SELECTED;
 
 /**
  * Created by bdpqchen on 17-5-27.
@@ -148,7 +148,7 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_CODE_IMAGE_SELECTED && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_IMAGE_SELECTED && resultCode == RESULT_OK) {
             if (data != null) {
                 List<Uri> mSelected = Matisse.obtainResult(data);
                 mPresenter.uploadImages(PathUtil.getRealPathFromURI(mContext, mSelected.get(0)));

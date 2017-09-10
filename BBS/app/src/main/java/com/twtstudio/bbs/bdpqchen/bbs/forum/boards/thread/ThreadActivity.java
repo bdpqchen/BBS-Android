@@ -69,7 +69,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BO
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_POST;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.RESULT_CODE_IMAGE_SELECTED;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_IMAGE_SELECTED;
 
 
 /**
@@ -341,7 +341,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_CODE_IMAGE_SELECTED && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_IMAGE_SELECTED && resultCode == RESULT_OK) {
             if (data != null) {
                 List<Uri> mSelected = Matisse.obtainResult(data);
                 mPresenter.uploadImages(PathUtil.getRealPathFromURI(mContext, mSelected.get(0)));

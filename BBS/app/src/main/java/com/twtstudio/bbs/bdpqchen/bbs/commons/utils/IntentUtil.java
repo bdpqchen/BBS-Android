@@ -7,12 +7,15 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.retrieve.RetrieveActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.mdeditor.EditorActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.picture.BigPhotoActivity;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.IMG_URL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_CONTENT;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
@@ -72,6 +75,13 @@ public final class IntentUtil {
 
     public static Intent toRetrieve(Context context) {
         Intent intent = new Intent(context, RetrieveActivity.class);
+        return intent;
+    }
+
+    public static Intent toEditor(Context context, String title, String content){
+        Intent intent = new Intent(context, EditorActivity.class);
+        intent.putExtra(INTENT_EDITOR_TITLE, title);
+        intent.putExtra(INTENT_EDITOR_CONTENT, content);
         return intent;
     }
 }

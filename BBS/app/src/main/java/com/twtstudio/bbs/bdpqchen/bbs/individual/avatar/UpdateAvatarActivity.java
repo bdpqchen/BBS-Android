@@ -68,7 +68,7 @@ public class UpdateAvatarActivity extends BaseActivity {
             if (mImagePath != null) {
                 Intent data = new Intent();
                 data.putExtra(Constants.INTENT_RESULT_IMAGE_PATH, mImagePath.toString());
-                setResult(Constants.RESULT_CODE_AVATAR, data);
+                setResult(RESULT_OK, data);
                 finish();
             }
 

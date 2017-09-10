@@ -49,6 +49,9 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_CONTENT;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_TITLE;
+
 
 public class EditorActivity extends AppCompatActivity implements View.OnClickListener, OnContentListener{
     public static final String SHARED_ELEMENT_NAME = "SHARED_ELEMENT_NAME";
@@ -68,19 +71,18 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
 
     private EditorFragment mEditorFragment;
     private EditorMarkdownFragment mEditorMarkdownFragment;
-
-    private String currentFilePath;
     private String mTitle = "";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        mTitle = getIntent().getStringExtra(Constants.INTENT_EDITOR_TITLE);
-        mTitle = "假设的标题, 或者 回复:xxx";
+        mTitle = getIntent().getStringExtra(INTENT_EDITOR_TITLE);
+//        mTitle = "假设的标题, 或者 回复:xxx";
         setContentView(R.layout.activity_editor);
         ButterKnife.bind(this);
 
         getIntentData();
-        mEditorFragment = EditorFragment.getInstance(currentFilePath);
+        mEditorFragment = EditorFragment.getInstance();
         mEditorMarkdownFragment = EditorMarkdownFragment.getInstance();
 
         initViewPager();
@@ -229,11 +231,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                if (mEditorFragment.onBackPressed()) {
-                    return true;
-                }
-                break;
+
             case R.id.action_markup://展开和收缩
                 if (!mExpandLayout.isExpanded())
                     //没有展开，但是接下来就是展开，设置向上箭头
@@ -242,23 +240,31 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                     mActionOtherOperate.setIcon(R.drawable.ic_add_white_24dp);
                 mExpandLayout.toggle();
                 return true;
-            case R.id.action_preview://预览
-                mViewPager.setCurrentItem(1, true);
-                return true;
-            case R.id.action_edit://编辑
-                mViewPager.setCurrentItem(0, true);
-                return true;
             case R.id.action_helper:
 //                CommonMarkdownActivity.startHelper(this);
                 return true;
-//            case R.id.action_setting://设置
-//                return true;
+            case android.R.id.home:
             case R.id.action_done:
-                mEditorFragment.getContent();
+//                mEditorFragment.getContent();
+                retResult();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        retResult();
+    }
+
+    private void retResult() {
+        Intent intent = new Intent();
+        intent.putExtra(INTENT_EDITOR_CONTENT, getContent());
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -275,12 +281,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         }
         return super.onKeyDown(keyCode, event);
     }
-
-   /* @Override
-    protected void onPause() {
-        RxEventBus.getInstance().send(new RxEvent(RxEvent.TYPE_REFRESH_FOLDER));
-        super.onPause();
-    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -8,7 +8,7 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.RESULT_CODE_IMAGE_SELECTED;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_IMAGE_SELECTED;
 
 /**
  * Created by bdpqchen on 17-6-9.
@@ -26,7 +26,7 @@ public final class ImagePickUtil {
                     .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                     .thumbnailScale(0.85f)
                     .imageEngine(new GlideEngine())
-                    .forResult(RESULT_CODE_IMAGE_SELECTED);
+                    .forResult(REQUEST_CODE_IMAGE_SELECTED);
         }
 
     }
