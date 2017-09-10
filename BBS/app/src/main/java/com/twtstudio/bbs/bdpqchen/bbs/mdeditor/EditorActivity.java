@@ -51,7 +51,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class EditorActivity extends AppCompatActivity implements View.OnClickListener {
+public class EditorActivity extends AppCompatActivity implements View.OnClickListener, OnContentListener{
     public static final String SHARED_ELEMENT_NAME = "SHARED_ELEMENT_NAME";
     public static final String SHARED_ELEMENT_COLOR_NAME = "SHARED_ELEMENT_COLOR_NAME";
     private static final String SCHEME_FILE = "file";
@@ -139,16 +139,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         mTabIconView.addTab(R.drawable.ic_shortcut_format_header_6, R.id.id_shortcut_format_header_6, this);
     }
 
-/*
-    @Override
-    public void onFailure(int errorCode, String message, int flag) {
-        switch (flag) {
-            default:
-                BaseApplication.showSnackbar(getWindow().getDecorView(), message);
-                break;
-        }
-    }*/
-
     private final int SYSTEM_GALLERY = 1;
 
     @Override
@@ -190,6 +180,10 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         public int getCount() {
             return 2;
         }
+    }
+
+    public String getContent(){
+        return mEditorFragment.getContent();
     }
 
     private void getIntentData() {
@@ -256,6 +250,9 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                 return true;
 //            case R.id.action_setting://设置
 //                return true;
+            case R.id.action_save:
+                mEditorFragment.getContent();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

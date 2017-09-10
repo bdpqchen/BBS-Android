@@ -258,7 +258,6 @@ public class PerformEditable implements View.OnClickListener {
             mEditText.getText().insert(selectionStart, result);
             mEditText.setSelection(selectionStart + result.length());
         }
-
         completed();
     }
 
@@ -365,7 +364,8 @@ public class PerformEditable implements View.OnClickListener {
     }
 
     protected void completed() {
-
+//        String result = mEditText.getText().toString();
+//        LogUtil.dd("result", result);
     }
 
     private boolean hasNewLine(String source, int selectionStart) {

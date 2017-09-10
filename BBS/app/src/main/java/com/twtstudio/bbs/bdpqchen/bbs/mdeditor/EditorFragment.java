@@ -138,11 +138,7 @@ public class EditorFragment extends BaseFragment {
 
     }
 */
-
-
-
 /*
-
     @Override
     public void otherSuccess(int flag) {
         switch (flag) {
@@ -291,6 +287,12 @@ public class EditorFragment extends BaseFragment {
 //            RxEventBus.getInstance().send(new RxEvent(RxEvent.TYPE_SHOW_PREVIEW, mName.getText().toString(), mContent.getText().toString()));
         }
     }*/
+
+    public String getContent(){
+        String str = mContent.getText().toString();
+        LogUtil.dd("content_result", str);
+        return str;
+    }
 
     public void noSave() {
         if (mActionSave == null) return;

@@ -16,18 +16,19 @@
 
 package com.twtstudio.bbs.bdpqchen.bbs.mdeditor;
 
+import android.content.Context;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
 
 /**
- * 编辑预览界面
+ * 预览界面
  * Created by 沈钦赐 on 16/1/21.
  */
 public class EditorMarkdownFragment extends BaseFragment {
@@ -38,9 +39,11 @@ public class EditorMarkdownFragment extends BaseFragment {
     MarkdownPreviewView mMarkdownView;
     @BindView(R.id.email_login_form)
     LinearLayout mEmailLoginForm;
-    Unbinder unbinder;
     private String mContent;
 
+    public interface OnContenteListener {
+        public void getContent();
+    }
 
     public EditorMarkdownFragment() {
     }
@@ -58,6 +61,13 @@ public class EditorMarkdownFragment extends BaseFragment {
     @Override
     protected void initFragment() {
 //        mMarkdownView.parseMarkdown();
+        getContent();
+//        HandlerUtil.postDelay(this::getContent, 3000);
+    }
+
+    private void getContent(){
+        String content = mListener.getContent();
+        LogUtil.dd("inner fragment content", content + "---");
     }
 
     @Override
@@ -71,5 +81,10 @@ public class EditorMarkdownFragment extends BaseFragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-
+    OnContentListener mListener;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mListener = (OnContentListener) context;
+    }
 }
