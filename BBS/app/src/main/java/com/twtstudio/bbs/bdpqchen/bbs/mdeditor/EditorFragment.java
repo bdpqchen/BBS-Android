@@ -16,6 +16,7 @@
 
 package com.twtstudio.bbs.bdpqchen.bbs.mdeditor;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,10 +26,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import butterknife.BindView;
 
@@ -38,9 +39,9 @@ import butterknife.BindView;
  */
 public class EditorFragment extends BaseFragment {
     public static final String FILE_PATH_KEY = "FILE_PATH_KEY";
-    @BindView(R.id.title)
-    EditText mTitle;
-    @BindView(R.id.content)
+    @BindView(R.id.tv_editor_title)
+    TextView mTitle;
+    @BindView(R.id.et_editor_content)
     EditText mContent;
     @BindView(R.id.email_login_form)
     LinearLayout mEmailLoginForm;
@@ -50,7 +51,6 @@ public class EditorFragment extends BaseFragment {
     private PerformEditable mPerformEditable;
 //    private PerformEdit mPerformEdit;
 //    private PerformEdit mPerformNameEdit;
-
     public EditorFragment() {
     }
 
@@ -63,7 +63,6 @@ public class EditorFragment extends BaseFragment {
         return editorFragment;
     }
 
-
     @Override
     public int getLayoutId() {
         return R.layout.fragment_editor;
@@ -71,16 +70,16 @@ public class EditorFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LogUtil.dd("onCreateView");
+//        LogUtil.dd("onCreateView");
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     protected void initFragment() {
-        SnackBarUtil.error(this.getActivity(), "oncreated");
-        LogUtil.dd("InitView");
+//        LogUtil.dd("InitView");
         mPerformEditable = new PerformEditable(mContent);
         PerformInputAfter.start(mContent);
+        mTitle.setText(getTitle());
 
     }
 
@@ -117,7 +116,6 @@ public class EditorFragment extends BaseFragment {
             }
         };*//*
 
-
        */
 /* mPerformNameEdit = new PerformEdit(mName) {
             @Override
@@ -127,33 +125,15 @@ public class EditorFragment extends BaseFragment {
             }
         };*//*
 
-
         //文本输入监听(用于自动输入)
 */
 /*
         //装置数据
         if (file.isFile())
             mPresenter.loadFile();*//*
-
-
     }
 */
 /*
-    @Override
-    public void otherSuccess(int flag) {
-        switch (flag) {
-            case CALL_EXIT:
-                getActivity().finish();
-                break;
-            case CALL_NO_SAVE:
-                noSave();
-                break;
-            case CALL_SAVE:
-                saved();
-                break;
-        }
-    }
-
     @Override
     public void onFailure(int errorCode, String message, int flag) {
         switch (flag) {
@@ -184,100 +164,23 @@ public class EditorFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_editor_frag, menu);
-        mActionSave = menu.findItem(R.id.action_save);
+        mActionSave = menu.findItem(R.id.action_done);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
-            case R.id.action_share://分享
-                shareMenu();
-                return true;
-            case R.id.action_undo://撤销
-//                mPerformEdit.undo();
-                return true;
-            case R.id.action_redo://重做
-//                mPerformEdit.redo();
-                return true;
-            case R.id.action_save://保存
+            case R.id.action_done://保存
 //                mPresenter.save(mName.getText().toString().trim(), mContent.getText().toString().trim());
                 return true;
+
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void shareMenu() {
-       /* SystemUtils.hideSoftKeyboard(mContent);
-        if (mName.getText().toString().isEmpty()) {
-            AppContext.showSnackbar(mContent, "当前标题为空");
-            return;
-        }
-        if (mContent.getText().toString().isEmpty()) {
-            AppContext.showSnackbar(mContent, "当前内容为空");
-            return;
-        }
-
-        mPresenter.save(mName.getText().toString(), mContent.getText().toString());
-
-        BottomSheet.Builder builder = new BottomSheet.Builder(getActivity());
-//        builder.setTitle(R.string.bottom_sheet_title);
-        builder.addItem(0, R.string.share_copy_text);
-        builder.addItem(1, R.string.share_text);
-        builder.addItem(2, R.string.share_md);
-//        builder.addDivider();
-//        builder.addItem(3, R.string.share_html);
-//        builder.addItem(4, R.string.share_png);
-        builder.setOnItemClickListener((parent, view, position, id) -> {
-            switch ((int) id) {
-                case 0://复制
-                    shareCopyText();
-                    break;
-                case 1://分享文本
-                    shareText();
-                    break;
-                case 2://分享md文件
-                    shareMD();
-                    break;
-            }
-
-        });
-        BottomSheet bottomSheet = builder.create();
-        bottomSheet.show();*/
-    }
-
-    private void shareCopyText() {
-//        SystemUtils.copyToClipBoard(getActivity(), mContent.getText().toString());
-    }
 /*
-
-    private void shareText() {
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, mContent.getText().toString());
-        shareIntent.setType("text/plain");
-
-        BottomSheet.Builder builder = new BottomSheet.Builder(getActivity(), R.style.AppTheme);
-        builder.setIntent(getActivity(), shareIntent);
-        BottomSheet bottomSheet = builder.create();
-        bottomSheet.show();
-    }
-*/
-
-//    private void shareMD() {
-//        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(mPresenter.getMDFile()));
-////        shareIntent.setType("*/*");
-//
-////        startActivity(Intent.createChooser(share,"Share Image"));
-//        BottomSheet.Builder builder = new BottomSheet.Builder(getActivity());
-//        builder.setIntent(getActivity(), shareIntent);
-//        BottomSheet bottomSheet = builder.create();
-//        bottomSheet.show();
-//    }
-
     /*@Override
     public void onReadSuccess(@NonNull String name, @NonNull String content) {
 //        mPerformNameEdit.setDefaultText(name.substring(0, name.lastIndexOf(".")));
@@ -289,9 +192,15 @@ public class EditorFragment extends BaseFragment {
     }*/
 
     public String getContent(){
+        if (mContent == null){
+            return "";
+        }
         String str = mContent.getText().toString();
         LogUtil.dd("content_result", str);
         return str;
+    }
+    public String getTitle(){
+        return mListener.getTitleOfContent();
     }
 
     public void noSave() {
@@ -304,7 +213,6 @@ public class EditorFragment extends BaseFragment {
         mActionSave.setIcon(R.drawable.ic_action_save);
     }
 
-
     @Override
     public boolean onBackPressed() {
         if (mPresenter.isSave()) {
@@ -314,6 +222,12 @@ public class EditorFragment extends BaseFragment {
         return true;
     }
 
+    OnContentListener mListener;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mListener = (OnContentListener) context;
+    }
 
     private void onNoSave() {
       /*  AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);

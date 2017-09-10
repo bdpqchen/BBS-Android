@@ -41,7 +41,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.mdeditor.support.ExpandableLinearLayout;
 import com.twtstudio.bbs.bdpqchen.bbs.mdeditor.support.TabIconView;
 
@@ -70,12 +69,13 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
     private EditorFragment mEditorFragment;
     private EditorMarkdownFragment mEditorMarkdownFragment;
 
-    private String mName;
     private String currentFilePath;
-
+    private String mTitle = "";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        mTitle = getIntent().getStringExtra(Constants.INTENT_EDITOR_TITLE);
+        mTitle = "假设的标题, 或者 回复:xxx";
         setContentView(R.layout.activity_editor);
         ButterKnife.bind(this);
 
@@ -85,7 +85,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
 
         initViewPager();
         initTab();
-
         initActionBar(mIdToolbar);
 
     }
@@ -186,6 +185,11 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         return mEditorFragment.getContent();
     }
 
+    @Override
+    public String getTitleOfContent() {
+        return mTitle;
+    }
+
     private void getIntentData() {
         Intent intent = this.getIntent();
         int flags = intent.getFlags();
@@ -211,17 +215,16 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        LogUtil.dd("onCreateOptionsMenu");
+//        LogUtil.dd("onCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.menu_editor_act, menu);
-        mActionOtherOperate = menu.findItem(R.id.action_other_operate);
+        mActionOtherOperate = menu.findItem(R.id.action_markup);
         if (mExpandLayout.isExpanded())
             //展开，设置向上箭头
-            mActionOtherOperate.setIcon(R.drawable.ic_arrow_up);
+            mActionOtherOperate.setIcon(R.drawable.ic_keyboard_arrow_up_white_24dp);
         else
             mActionOtherOperate.setIcon(R.drawable.ic_add_white_24dp);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -231,10 +234,10 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                     return true;
                 }
                 break;
-            case R.id.action_other_operate://展开和收缩
+            case R.id.action_markup://展开和收缩
                 if (!mExpandLayout.isExpanded())
                     //没有展开，但是接下来就是展开，设置向上箭头
-                    mActionOtherOperate.setIcon(R.drawable.ic_arrow_up);
+                    mActionOtherOperate.setIcon(R.drawable.ic_keyboard_arrow_up_white_24dp);
                 else
                     mActionOtherOperate.setIcon(R.drawable.ic_add_white_24dp);
                 mExpandLayout.toggle();
@@ -250,7 +253,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                 return true;
 //            case R.id.action_setting://设置
 //                return true;
-            case R.id.action_save:
+            case R.id.action_done:
                 mEditorFragment.getContent();
                 return true;
         }
@@ -262,7 +265,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         if (keyCode == KeyEvent.KEYCODE_MENU) {
             if (!mExpandLayout.isExpanded())
                 //没有展开，但是接下来就是展开，设置向上箭头
-                mActionOtherOperate.setIcon(R.drawable.ic_arrow_up);
+                mActionOtherOperate.setIcon(R.drawable.ic_keyboard_arrow_up_white_24dp);
             else
                 mActionOtherOperate.setIcon(R.drawable.ic_add_white_24dp);
             mExpandLayout.toggle();
@@ -278,7 +281,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         RxEventBus.getInstance().send(new RxEvent(RxEvent.TYPE_REFRESH_FOLDER));
         super.onPause();
     }*/
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -302,12 +304,11 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-
     /**
      * 插入表格
      */
-    /*private void insertTable() {
-        View rootView = LayoutInflater.from(this).inflate(R.layout.view_common_input_table_view, null);
+    private void insertTable() {
+        /*View rootView = LayoutInflater.from(this).inflate(R.layout.view_common_input_table_view, null);
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("插入表格")
@@ -347,8 +348,8 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             dialog.dismiss();
         });
 
-        dialog.show();
-    }*/
+        dialog.show();*/
+    }
 
     /**
      * 插入链接

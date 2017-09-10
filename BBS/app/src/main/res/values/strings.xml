@@ -16,7 +16,7 @@
     <string name="key_auto_clear_unread">key_auto_clear_unread</string>
     <string name="key_simple_forum">key_simple_forum</string>
     <string name="default_signature">这个人很有趣,什么也不写..</string>
-
+    <string name="hint_md_editor">在这里编辑内容\n向左滑动可切换预览视图\n点击 + 可添加标记符号\n也可以直接输入 Markdown 语法编写优雅的文本字符\n如果你不太熟悉 Markdown 语法, 不用担心, 我们在右上角的帮助里,提供了5分钟快速入门教程\n学习使用Markdown, 或许能在你以后的工作中有所受益</string>
 
     <!--webViewActivity相关菜单-->
     <string name="action_refresh">刷新</string>

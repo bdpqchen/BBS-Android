@@ -26,43 +26,37 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/title"
+        <TextView
+            android:id="@+id/tv_editor_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:gravity="top"
+            android:gravity="center_vertical"
             android:textSize="17sp"
-            android:textColor="#111"
-            android:hint="标题"
-            android:inputType="text"
-            android:paddingBottom="@dimen/space_16"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/space_16"
+            android:textColor="@color/colorTvBlackMainTint"
+            android:padding="12dp"
             android:scrollHorizontally="false"
             android:singleLine="true"/>
 
         <View
-            android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="0.3dp"
             android:background="@color/colorDivider"/>
 
         <EditText
             android:textSize="16sp"
-            android:textColor="#333"
-            android:id="@+id/content"
+            android:textColor="@color/colorTvBlackMain"
+            android:id="@+id/et_editor_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#00000000"
             android:gravity="top"
-            android:hint="内容"
-            android:inputType="textMultiLine|textLongMessage"
+            android:background="@color/colorMainBgLight"
+            android:hint="@string/hint_md_editor"
+            android:inputType="textMultiLine"
             android:minHeight="200dp"
-            android:padding="@dimen/activity_horizontal_margin"
+            android:padding="12dp"
             android:scrollHorizontally="false"
             android:scrollbars="vertical"
-            android:singleLine="false"/>
+            android:singleLine="false" />
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

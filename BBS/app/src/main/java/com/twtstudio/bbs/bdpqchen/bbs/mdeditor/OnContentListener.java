@@ -6,4 +6,5 @@ package com.twtstudio.bbs.bdpqchen.bbs.mdeditor;
 
 interface OnContentListener {
     String getContent();
+    String getTitleOfContent();
 }

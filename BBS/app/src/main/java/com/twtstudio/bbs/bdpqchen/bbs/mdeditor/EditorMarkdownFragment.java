@@ -17,8 +17,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.mdeditor;
 
 import android.content.Context;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,10 +33,8 @@ import butterknife.BindView;
  */
 public class EditorMarkdownFragment extends BaseFragment {
     protected TextView mName;
-    @BindView(R.id.title)
+    @BindView(R.id.tv_preview_title)
     TextView mTitle;
-    @BindView(R.id.markdownView)
-    MarkdownPreviewView mMarkdownView;
     @BindView(R.id.email_login_form)
     LinearLayout mEmailLoginForm;
     @BindView(R.id.htv_preview_content)
@@ -62,17 +58,8 @@ public class EditorMarkdownFragment extends BaseFragment {
     }
 
     @Override
-    protected void initFragment() {}
-
-    @Override
-    public boolean hasMenu() {
-        return true;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_editor_preview_frag, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+    protected void initFragment() {
+        mTitle.setText(mListener.getTitleOfContent());
     }
 
     OnContentListener mListener;
