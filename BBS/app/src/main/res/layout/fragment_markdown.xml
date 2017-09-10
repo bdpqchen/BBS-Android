@@ -47,6 +47,13 @@
             android:layout_height="0.3dp"
             android:background="@color/colorDivider"/>
 
+        <com.twtstudio.bbs.bdpqchen.bbs.htmltextview.HtmlTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/htv_preview_content"
+            />
+
+
         <com.twtstudio.bbs.bdpqchen.bbs.mdeditor.MarkdownPreviewView
             android:id="@+id/markdownView"
             android:layout_width="match_parent"

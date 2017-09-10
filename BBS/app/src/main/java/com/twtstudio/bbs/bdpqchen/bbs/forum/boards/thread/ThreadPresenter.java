@@ -1,11 +1,11 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
-import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
@@ -16,8 +16,6 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE_URL;
 
 /**
  * Created by bdpqchen on 17-5-12.
@@ -54,13 +52,13 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
                 .map(threadModel -> {
                     if (threadModel != null) {
                         if (threadModel.getThread() != null) {
-                            threadModel.getThread().setContent_converted(convertContent(threadModel.getThread().getContent()));
+                            threadModel.getThread().setContent_converted(TextUtil.convert2HtmlContent(threadModel.getThread().getContent()));
                         }
                         if (threadModel.getPost() != null && threadModel.getPost().size() > 0) {
                             List<ThreadModel.PostBean> postList = threadModel.getPost();
                             for (int i = 0; i < postList.size(); i++) {
                                 String content = postList.get(i).getContent();
-                                postList.get(i).setContent_converted(convertContent(content));
+                                postList.get(i).setContent_converted(TextUtil.convert2HtmlContent(content));
                             }
                         }
                     }
@@ -70,24 +68,6 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
         );
-    }
-
-    public String convertContent(String content) {
-        if (content == null || content.length() == 0) {
-            return "";
-        }
-        content = content.replaceAll("\n> \n>", "\n>");
-        content = content.replaceAll("\n> > \n> >", "\n> >");
-        content = Processor.process(content);
-        content = content.replaceAll("<img", "<br><img");
-        content = content.replaceAll("attach:", BASE_URL + "img/");
-        content = content.replaceAll("\n<blockquote>", "<blockquote>");
-        content = content.replaceAll("</blockquote>\n", "</blockquote>");
-        content = content.replaceAll("\n<p>", "<p>");
-        content = content.replaceAll("</p>\n", "</p>");
-        content = content.replaceAll("\n", "<br>");
-//        LogUtil.dd("final content", content);
-        return content;
     }
 
     @Override

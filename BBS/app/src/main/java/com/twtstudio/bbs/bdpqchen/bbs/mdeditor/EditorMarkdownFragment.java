@@ -23,7 +23,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.GlideImageGeter;
+import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.HtmlTextView;
 
 import butterknife.BindView;
 
@@ -39,6 +41,8 @@ public class EditorMarkdownFragment extends BaseFragment {
     MarkdownPreviewView mMarkdownView;
     @BindView(R.id.email_login_form)
     LinearLayout mEmailLoginForm;
+    @BindView(R.id.htv_preview_content)
+    HtmlTextView mHtvPreviewContent;
     private String mContent;
 
     public interface OnContenteListener {
@@ -49,8 +53,7 @@ public class EditorMarkdownFragment extends BaseFragment {
     }
 
     public static EditorMarkdownFragment getInstance() {
-        EditorMarkdownFragment editorFragment = new EditorMarkdownFragment();
-        return editorFragment;
+        return new EditorMarkdownFragment();
     }
 
     @Override
@@ -59,16 +62,7 @@ public class EditorMarkdownFragment extends BaseFragment {
     }
 
     @Override
-    protected void initFragment() {
-//        mMarkdownView.parseMarkdown();
-        getContent();
-//        HandlerUtil.postDelay(this::getContent, 3000);
-    }
-
-    private void getContent(){
-        String content = mListener.getContent();
-        LogUtil.dd("inner fragment content", content + "---");
-    }
+    protected void initFragment() {}
 
     @Override
     public boolean hasMenu() {
@@ -87,4 +81,23 @@ public class EditorMarkdownFragment extends BaseFragment {
         super.onAttach(context);
         mListener = (OnContentListener) context;
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            drawPreview();
+        }
+    }
+
+    private void drawPreview() {
+        mContent = mListener.getContent();
+        String htmlContent = TextUtil.convert2HtmlContent(mContent);
+        mHtvPreviewContent.setHtml(htmlContent, new GlideImageGeter(mContext, mHtvPreviewContent));
+
+    }
+
+
+
+
 }

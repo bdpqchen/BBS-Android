@@ -30,13 +30,14 @@ public final class TextUtil {
     }
 
     public static String getTwoNames(String name, String nickname) {
-        if (isEqual(name, nickname)){
+        if (nickname == null || isEqual(name, nickname)){
             return name;
         }
-        if (nickname != null && nickname.length() > 12) {
+        if (nickname.length() > 12) {
             nickname = nickname.substring(0, 11);
+            return name + "(" + nickname + ")";
         }
-        return name + "(" + nickname + ")";
+        return name;
     }
     private static boolean isEqual(String str0, String str1){
         return str0.equals(str1);
@@ -113,6 +114,25 @@ public final class TextUtil {
         }
         return honor;
     }
+
+    public static String convert2HtmlContent(String content) {
+        if (content == null || content.length() == 0) {
+            return "";
+        }
+        content = content.replaceAll("\n> \n>", "\n>");
+        content = content.replaceAll("\n> > \n> >", "\n> >");
+        content = Processor.process(content);
+        content = content.replaceAll("<img", "<br><img");
+        content = content.replaceAll("attach:", BASE_URL + "img/");
+        content = content.replaceAll("\n<blockquote>", "<blockquote>");
+        content = content.replaceAll("</blockquote>\n", "</blockquote>");
+        content = content.replaceAll("\n<p>", "<p>");
+        content = content.replaceAll("</p>\n", "</p>");
+        content = content.replaceAll("\n", "<br>");
+//        LogUtil.dd("final content", content);
+        return content;
+    }
+
 
 
 }
