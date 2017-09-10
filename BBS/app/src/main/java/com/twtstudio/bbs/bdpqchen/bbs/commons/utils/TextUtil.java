@@ -133,6 +133,16 @@ public final class TextUtil {
         return content;
     }
 
-
+    public static String getEditorToolbarTitle(final int what){
+        String title = "发表";
+        switch (what){
+            case 0:
+                return title;
+            case 1:
+                title = "回复";
+                break;
+        }
+        return title;
+    }
 
 }

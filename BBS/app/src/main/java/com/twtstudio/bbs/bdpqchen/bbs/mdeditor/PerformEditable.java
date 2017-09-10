@@ -94,7 +94,6 @@ public class PerformEditable implements View.OnClickListener {
         }
     }
 
-
     private void performList(String tag) {
         String source = mEditText.getText().toString();
         int selectionStart = mEditText.getSelectionStart();

@@ -150,7 +150,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             PrefUtil.setIsSimpleBoardList(true);
         }
 
-        startActivityForResult(IntentUtil.toEditor(mContext, "标题标题", ""), REQUEST_CODE_EDITOR);
+        startActivityForResult(IntentUtil.toEditor(mContext, "标题标题", "", 0), REQUEST_CODE_EDITOR);
 
     }
 

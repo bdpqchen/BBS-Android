@@ -16,6 +16,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BO
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_TOOLBAR_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
@@ -78,9 +79,10 @@ public final class IntentUtil {
         return intent;
     }
 
-    public static Intent toEditor(Context context, String title, String content){
+    public static Intent toEditor(Context context, String title, String content, int toolbarTitle){
         Intent intent = new Intent(context, EditorActivity.class);
         intent.putExtra(INTENT_EDITOR_TITLE, title);
+        intent.putExtra(INTENT_EDITOR_TOOLBAR_TITLE, toolbarTitle);
         intent.putExtra(INTENT_EDITOR_CONTENT, content);
         return intent;
     }

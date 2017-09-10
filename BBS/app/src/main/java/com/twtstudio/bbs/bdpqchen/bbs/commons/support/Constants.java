@@ -77,6 +77,7 @@ public final class Constants {
     public static final String INTENT_BOARD_MODEL_LIST = "intent_board_model_list";
     public static final String INTENT_UNREAD = "intent_unread_count";
     public static final String INTENT_EDITOR_TITLE = "intent_editor_title";
+    public static final String INTENT_EDITOR_TOOLBAR_TITLE = "intent_editor_toolbar_title";
     public static final String INTENT_EDITOR_CONTENT = "intent_editor_content";
 
 

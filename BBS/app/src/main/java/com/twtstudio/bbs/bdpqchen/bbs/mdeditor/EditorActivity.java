@@ -17,6 +17,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.mdeditor;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -24,23 +25,25 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.mdeditor.support.ExpandableLinearLayout;
 import com.twtstudio.bbs.bdpqchen.bbs.mdeditor.support.TabIconView;
 
@@ -51,13 +54,10 @@ import butterknife.ButterKnife;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_TOOLBAR_TITLE;
 
 
 public class EditorActivity extends AppCompatActivity implements View.OnClickListener, OnContentListener{
-    public static final String SHARED_ELEMENT_NAME = "SHARED_ELEMENT_NAME";
-    public static final String SHARED_ELEMENT_COLOR_NAME = "SHARED_ELEMENT_COLOR_NAME";
-    private static final String SCHEME_FILE = "file";
-    private static final String SCHEME_Folder = "folder";
     @BindView(R.id.id_toolbar)
     Toolbar mIdToolbar;
     @BindView(R.id.id_appbar)
@@ -72,16 +72,17 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
     private EditorFragment mEditorFragment;
     private EditorMarkdownFragment mEditorMarkdownFragment;
     private String mTitle = "";
+    private String mToolbarTitle = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTitle = getIntent().getStringExtra(INTENT_EDITOR_TITLE);
-//        mTitle = "假设的标题, 或者 回复:xxx";
+        Intent intent = getIntent();
+        mTitle = intent.getStringExtra(INTENT_EDITOR_TITLE);
+        mToolbarTitle = TextUtil.getEditorToolbarTitle(intent.getIntExtra(INTENT_EDITOR_TOOLBAR_TITLE, 0));
         setContentView(R.layout.activity_editor);
         ButterKnife.bind(this);
 
-        getIntentData();
         mEditorFragment = EditorFragment.getInstance();
         mEditorMarkdownFragment = EditorMarkdownFragment.getInstance();
 
@@ -94,7 +95,10 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
     private void initActionBar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(mToolbarTitle);
+        }
     }
 
     private void initViewPager() {
@@ -192,27 +196,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         return mTitle;
     }
 
-    private void getIntentData() {
-        Intent intent = this.getIntent();
-        int flags = intent.getFlags();
-        if ((flags & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) == 0) {
-            if (intent.getAction() != null && Intent.ACTION_VIEW.equals(intent.getAction())) {
-                if (SCHEME_FILE.equals(intent.getScheme())) {
-                    //文件
-                    String type = getIntent().getType();
-                    // mImportingUri=file:///storage/emulated/0/Vlog.xml
-                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    Uri uri = intent.getData();
-
-                    if (uri != null && SCHEME_FILE.equalsIgnoreCase(uri.getScheme())) {
-                        //这是一个文件
-//                        currentFilePath = FileUtils.uri2FilePath(getBaseContext(), uri);
-                    }
-                }
-            }
-        }
-    }
-
     private MenuItem mActionOtherOperate;
 
     @Override
@@ -245,7 +228,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                 return true;
             case android.R.id.home:
             case R.id.action_done:
-//                mEditorFragment.getContent();
                 retResult();
                 return true;
         }
@@ -356,49 +338,27 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
      */
     private void insertLink() {
         View rootView = LayoutInflater.from(this).inflate(R.layout.view_common_input_link_view, null);
-
-        AlertDialog dialog = new AlertDialog.Builder(this, R.style.DialogTheme)
-                .setTitle("插入链接")
-                .setView(rootView)
-                .show();
-
-        TextInputLayout titleHint = (TextInputLayout) rootView.findViewById(R.id.inputNameHint);
-        TextInputLayout linkHint = (TextInputLayout) rootView.findViewById(R.id.inputHint);
         EditText title = (EditText) rootView.findViewById(R.id.name);
         EditText link = (EditText) rootView.findViewById(R.id.text);
-
-
-        rootView.findViewById(R.id.sure).setOnClickListener(v -> {
+        MaterialDialog.SingleButtonCallback callback = (dialog, sequence)->{
             String titleStr = title.getText().toString().trim();
             String linkStr = link.getText().toString().trim();
-
-/*
-            if (Check.isEmpty(titleStr)) {
-                titleHint.setError("不能为空");
-                return;
-            }
-            if (Check.isEmpty(linkStr)) {
-                linkHint.setError("不能为空");
-                return;
-            }
-*/
-
-            if (titleHint.isErrorEnabled())
-                titleHint.setErrorEnabled(false);
-            if (linkHint.isErrorEnabled())
-                linkHint.setErrorEnabled(false);
-
-//            mEditorFragment.getPerformEditable().perform(R.id.id_shortcut_insert_link, titleStr, linkStr);
+            mEditorFragment.getPerformEditable().perform(R.id.id_shortcut_insert_link, titleStr, linkStr);
             dialog.dismiss();
-        });
+        };
+        MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title("插入链接")
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .customView(rootView, false)
+                .onPositive(callback)
+                .positiveText("确定")
+                .negativeText("取消")
+                .show();
 
-/*
-        rootView.findViewById(R.id.cancel).setOnClickListener(v -> {
-            dialog.dismiss();
-        });
-*/
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 
-        dialog.show();
+
     }
 
 }
