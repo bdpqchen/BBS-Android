@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.GlideImageGeter;
 import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.HtmlTextView;
@@ -31,7 +33,7 @@ import butterknife.BindView;
  * 预览界面
  * Created by 沈钦赐 on 16/1/21.
  */
-public class EditorMarkdownFragment extends BaseFragment {
+public class EditorMarkdownFragment extends SimpleFragment {
     protected TextView mName;
     @BindView(R.id.tv_preview_title)
     TextView mTitle;
@@ -40,29 +42,24 @@ public class EditorMarkdownFragment extends BaseFragment {
     @BindView(R.id.htv_preview_content)
     HtmlTextView mHtvPreviewContent;
     private String mContent;
+    private OnContentListener mListener;
 
-    public interface OnContenteListener {
-        public void getContent();
-    }
-
-    public EditorMarkdownFragment() {
-    }
+    public EditorMarkdownFragment() {}
 
     public static EditorMarkdownFragment getInstance() {
         return new EditorMarkdownFragment();
     }
 
     @Override
-    public int getLayoutId() {
+    protected int getPerMainFragmentLayoutId() {
         return R.layout.fragment_markdown;
     }
 
     @Override
-    protected void initFragment() {
+    protected void initFragments() {
         mTitle.setText(mListener.getTitleOfContent());
     }
 
-    OnContentListener mListener;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -80,11 +77,8 @@ public class EditorMarkdownFragment extends BaseFragment {
     private void drawPreview() {
         mContent = mListener.getContent();
         String htmlContent = TextUtil.convert2HtmlContent(mContent);
+        LogUtil.dd("contentEditor", htmlContent);
         mHtvPreviewContent.setHtml(htmlContent, new GlideImageGeter(mContext, mHtvPreviewContent));
-
     }
-
-
-
 
 }

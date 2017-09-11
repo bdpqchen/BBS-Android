@@ -1,28 +1,8 @@
-/*
- * Copyright 2016. SHENQINCI(沈钦赐)<dev@qinc.me>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.twtstudio.bbs.bdpqchen.bbs.mdeditor;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
@@ -30,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -38,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -47,17 +25,16 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.mdeditor.support.ExpandableLinearLayout;
 import com.twtstudio.bbs.bdpqchen.bbs.mdeditor.support.TabIconView;
 
-import java.io.File;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.yokeyword.fragmentation.SupportActivity;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_TOOLBAR_TITLE;
 
 
-public class EditorActivity extends AppCompatActivity implements View.OnClickListener, OnContentListener{
+public class EditorActivity extends SupportActivity implements View.OnClickListener, OnContentListener{
     @BindView(R.id.id_toolbar)
     Toolbar mIdToolbar;
     @BindView(R.id.id_appbar)
@@ -138,7 +115,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         mTabIconView.addTab(R.drawable.ic_shortcut_xml, R.id.id_shortcut_xml, this);
         mTabIconView.addTab(R.drawable.ic_shortcut_minus, R.id.id_shortcut_minus, this);
         mTabIconView.addTab(R.drawable.ic_shortcut_format_strikethrough, R.id.id_shortcut_format_strikethrough, this);
-        mTabIconView.addTab(R.drawable.ic_shortcut_grid, R.id.id_shortcut_grid, this);
+//        mTabIconView.addTab(R.drawable.ic_shortcut_grid, R.id.id_shortcut_grid, this);
         mTabIconView.addTab(R.drawable.ic_shortcut_format_header_4, R.id.id_shortcut_format_header_4, this);
         mTabIconView.addTab(R.drawable.ic_shortcut_format_header_5, R.id.id_shortcut_format_header_5, this);
         mTabIconView.addTab(R.drawable.ic_shortcut_format_header_6, R.id.id_shortcut_format_header_6, this);
@@ -149,6 +126,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if (R.id.id_shortcut_insert_photo == v.getId()) {
+            mEditorFragment.uploadImage();
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_PICK);// Pick an item fromthe
             intent.setType("image/*");// 从所有图片中进行选择
@@ -158,11 +136,12 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             //插入链接
             insertLink();
             return;
-        } else if (R.id.id_shortcut_grid == v.getId()) {
-            //插入表格
-//            insertTable();
-            return;
         }
+        /*else if (R.id.id_shortcut_grid == v.getId()) {
+            //插入表格
+            insertTable();
+            return;
+        }*/
         //点击事件分发
         mEditorFragment.getPerformEditable().onClick(v);
     }
@@ -235,8 +214,8 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    public void onBackPressedSupport() {
+        super.onBackPressedSupport();
         retResult();
     }
 
@@ -258,39 +237,15 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                 mActionOtherOperate.setIcon(R.drawable.ic_add_white_24dp);
             mExpandLayout.toggle();
             return true;
-        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mEditorFragment.onBackPressed()) return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (resultCode == Activity.RESULT_OK && requestCode == SYSTEM_GALLERY) {
-            Uri uri = data.getData();
-            String[] pojo = {MediaStore.Images.Media.DATA};
-            Cursor cursor = this.managedQuery(uri, pojo, null, null, null);
-            if (cursor != null) {
-//                    ContentResolver cr = this.getContentResolver();
-                int colunm_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                cursor.moveToFirst();
-                String path = cursor.getString(colunm_index);
-                //以上代码获取图片路径
-                Uri.fromFile(new File(path));//Uri.decode(imageUri.toString())
-//                mEditorFragment.getPerformEditable().perform(R.id.id_shortcut_insert_photo, Uri.fromFile(new File(path)));
-            } else {
-//                Toast.showShort(this, "图片处理失败");
-            }
-        }
-
     }
 
     /**
      * 插入表格
      */
     private void insertTable() {
-        /*View rootView = LayoutInflater.from(this).inflate(R.layout.view_common_input_table_view, null);
+    /*    View rootView = LayoutInflater.from(this).inflate(R.layout.view_common_input_table_view, null);
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("插入表格")
@@ -301,7 +256,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         TextInputLayout columnNumberHint = (TextInputLayout) rootView.findViewById(R.id.columnNumberHint);
         EditText rowNumber = (EditText) rootView.findViewById(R.id.rowNumber);
         EditText columnNumber = (EditText) rootView.findViewById(R.id.columnNumber);
-
 
         rootView.findViewById(R.id.sure).setOnClickListener(v -> {
             String rowNumberStr = rowNumber.getText().toString().trim();
@@ -316,7 +270,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                 return;
             }
 
-
             if (rowNumberHint.isErrorEnabled())
                 rowNumberHint.setErrorEnabled(false);
             if (columnNumberHint.isErrorEnabled())
@@ -330,8 +283,8 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             dialog.dismiss();
         });
 
-        dialog.show();*/
-    }
+        dialog.show();
+    */}
 
     /**
      * 插入链接
@@ -346,7 +299,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             mEditorFragment.getPerformEditable().perform(R.id.id_shortcut_insert_link, titleStr, linkStr);
             dialog.dismiss();
         };
-        MaterialDialog dialog = new MaterialDialog.Builder(this)
+        new MaterialDialog.Builder(this)
                 .title("插入链接")
                 .inputType(InputType.TYPE_CLASS_TEXT)
                 .customView(rootView, false)
@@ -354,10 +307,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                 .positiveText("确定")
                 .negativeText("取消")
                 .show();
-
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-
 
     }
 

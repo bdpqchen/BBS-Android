@@ -24,7 +24,7 @@
     android:background="?android:attr/actionBarItemBackground"
     android:focusable="true"
     android:paddingBottom="10dp"
-    android:paddingLeft="13dp"
-    android:paddingRight="13dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
     android:paddingTop="10dp"
     android:src="@drawable/ic_shortcut_format_header_1"/>

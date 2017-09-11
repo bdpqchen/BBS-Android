@@ -61,7 +61,7 @@ public class TabIconView extends HorizontalScrollView {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mLayout = new LinearLayout(getContext());
-        mLayout.setPadding(1, 0, 1, 0);
+        mLayout.setPadding(0, 0, 0, 0);
         mLayout.setOrientation(LinearLayout.HORIZONTAL);
         addView(mLayout, params);
     }

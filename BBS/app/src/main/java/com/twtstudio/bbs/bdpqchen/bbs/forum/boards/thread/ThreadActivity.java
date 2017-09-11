@@ -311,11 +311,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 mPresenter.starThread(mThreadId);
             }
         });
-        mSrlThreadList.setColorSchemeColors(
-
-                getResources().
-
-                        getIntArray(R.array.swipeRefreshColors));
+        mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlThreadList.setRefreshing(true);
         mSrlThreadList.setOnRefreshListener(() -> {
             mRefreshing = true;
@@ -809,6 +805,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private Tracker getTracker() {
-        return ((App)getApplication()).getTracker();
+        return ((App) getApplication()).getTracker();
     }
 }

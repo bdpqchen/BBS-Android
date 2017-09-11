@@ -109,4 +109,11 @@ public final class Constants {
     public static final String IMG_URL = "img_url";
 
     public static final String PIWIK_THREAD = BASE + "/forum/thread/";
+
+    //所有前缀字符
+    public static final String PRE_ATTACH = "attach:";
+
+
+
+
 }

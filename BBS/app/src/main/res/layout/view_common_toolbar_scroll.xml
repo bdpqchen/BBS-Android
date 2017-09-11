@@ -21,9 +21,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    app:elevation="3dp">
+    app:elevation="2dp">
 
-    <!--<include layout="@layout/view_common_padding_view" />占时去除,跟滑动监听有冲突,改成判断如果是4.4代码手动添加-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/id_toolbar"
         android:layout_width="match_parent"
