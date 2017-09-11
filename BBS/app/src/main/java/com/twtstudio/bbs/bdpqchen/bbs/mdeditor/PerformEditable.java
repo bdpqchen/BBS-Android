@@ -227,6 +227,7 @@ public class PerformEditable implements View.OnClickListener {
         } else {
             result = "\n" + "![image](" + param[0] + ")";
         }
+        result += "\n";
         mEditText.getText().insert(selectionStart, result);
         if (temp == null || temp[0].toString().length() == 0)
             mEditText.setSelection(result.length() + selectionStart - 1);
