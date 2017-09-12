@@ -27,8 +27,9 @@ public class EditorFragment extends BaseFragment<EditorPresenter> implements Edi
     @BindView(R.id.tv_editor_title)
     TextView mTitle;
     @BindView(R.id.et_editor_content)
-    EditText mContent;
+    EditText mEtContent;
 
+    private String mContent = "";
     private PerformEditable mPerformEditable;
     private MaterialDialog mDialog;
     public EditorFragment() {}
@@ -50,10 +51,11 @@ public class EditorFragment extends BaseFragment<EditorPresenter> implements Edi
     @Override
     protected void initFragment() {
 //        LogUtil.dd("InitView");
-        mPerformEditable = new PerformEditable(mContent);
-        PerformInputAfter.start(mContent);
+        mPerformEditable = new PerformEditable(mEtContent);
+        PerformInputAfter.start(mEtContent);
         mTitle.setText(getTitle());
-
+        mEtContent.setText(mContent);
+        mEtContent.setSelection(mContent.length());
     }
 
     public PerformEditable getPerformEditable() {
@@ -61,10 +63,10 @@ public class EditorFragment extends BaseFragment<EditorPresenter> implements Edi
     }
 
     public String getContent(){
-        if (mContent == null){
+        if (mEtContent == null){
             return "";
         }
-        return mContent.getText().toString();
+        return mEtContent.getText().toString();
     }
 
     public String getTitle(){
@@ -121,5 +123,10 @@ public class EditorFragment extends BaseFragment<EditorPresenter> implements Edi
         }
 
     }
+
+    public void setContent(String content) {
+        mContent = content;
+    }
+
 
 }

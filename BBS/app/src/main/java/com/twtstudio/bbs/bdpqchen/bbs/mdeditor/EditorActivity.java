@@ -49,6 +49,7 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
     private EditorMarkdownFragment mEditorMarkdownFragment;
     private String mTitle = "";
     private String mToolbarTitle = "";
+    private String mContent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,16 +57,17 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
         Intent intent = getIntent();
         mTitle = intent.getStringExtra(INTENT_EDITOR_TITLE);
         mToolbarTitle = TextUtil.getEditorToolbarTitle(intent.getIntExtra(INTENT_EDITOR_TOOLBAR_TITLE, 0));
+        mContent = intent.getStringExtra(INTENT_EDITOR_CONTENT);
         setContentView(R.layout.activity_editor);
         ButterKnife.bind(this);
 
         mEditorFragment = EditorFragment.getInstance();
         mEditorMarkdownFragment = EditorMarkdownFragment.getInstance();
-
         initViewPager();
         initTab();
         initActionBar(mIdToolbar);
 
+        setContent(mContent);
     }
 
     private void initActionBar(Toolbar toolbar) {
@@ -161,6 +163,9 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
 
     public String getContent(){
         return mEditorFragment.getContent();
+    }
+    public void setContent(String content){
+        mEditorFragment.setContent(content);
     }
 
     @Override

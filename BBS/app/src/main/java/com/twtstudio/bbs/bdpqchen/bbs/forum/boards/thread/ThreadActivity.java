@@ -66,9 +66,11 @@ import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_POST;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_EDITOR;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_IMAGE_SELECTED;
 
 
@@ -107,8 +109,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     TextView mToolbarTitleThread;
     @BindView(R.id.toolbar_title_board)
     TextView mToolbarTitleBoard;
-    @BindView(R.id.ll_select_image)
-    LinearLayout mIvSelectImage;
+    @BindView(R.id.tv_select_image)
+    TextView mTvSelectImage;
+    @BindView(R.id.tv_open_editor)
+    TextView mTvOpenEditor;
     @BindView(R.id.bmb)
     BoomMenuButton mBoomMenuBtn;
 
@@ -327,8 +331,11 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mIsAnonymous = isChecked;
         });
-        mIvSelectImage.setOnClickListener(v -> {
+        mTvSelectImage.setOnClickListener(v -> {
             ImagePickUtil.commonPickImage(this);
+        });
+        mTvOpenEditor.setOnClickListener(v ->{
+            startActivityForResult(IntentUtil.toEditor(mContext, mTvDynamicHint.getText().toString(), mEtComment.getText().toString(), 1), REQUEST_CODE_EDITOR);
         });
         mPresenter.getThread(mThreadId, 0);
 
@@ -349,6 +356,15 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 //                    mPresenter.uploadImages(PathUtil.getRealPathFromURI(mContext, mSelected.get(i)));
 //                }
             }
+        }
+        if (requestCode == REQUEST_CODE_EDITOR && resultCode == RESULT_OK){
+            if (data != null){
+                String resultContent = data.getStringExtra(INTENT_EDITOR_CONTENT);
+                mEtComment.setText(resultContent);
+                mEtComment.setSelection(resultContent.length());
+                LogUtil.dd("resultContent", resultContent);
+            }
+
         }
     }
 
@@ -459,8 +475,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mBoardId = model.getBoard().getId();
             mBoardName = model.getBoard().getName();
             mToolbarTitleBoard.setText(TextUtil.getLinkHtml(mBoardName));
+            int finalCanAnonymous = canAnonymous;
             mToolbarTitleBoard.setOnClickListener(v -> {
-                startActivity(IntentUtil.toThreadList(mContext, mBoardId, mBoardName));
+                startActivity(IntentUtil.toThreadList(mContext, mBoardId, mBoardName, finalCanAnonymous));
             });
         }
         setRefreshing(false);

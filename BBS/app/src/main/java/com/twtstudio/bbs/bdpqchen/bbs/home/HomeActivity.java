@@ -18,7 +18,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
@@ -30,8 +29,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
 
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_CONTENT;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_EDITOR;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
 
@@ -150,20 +147,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             PrefUtil.setIsSimpleBoardList(true);
         }
 
-        startActivityForResult(IntentUtil.toEditor(mContext, "标题标题", "", 0), REQUEST_CODE_EDITOR);
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_EDITOR && resultCode == RESULT_OK){
-            if (data != null){
-                String resultContent = data.getStringExtra(INTENT_EDITOR_CONTENT);
-                LogUtil.dd("resultContent", resultContent);
-            }
-
-        }
     }
 
     private void clearFullScreen() {

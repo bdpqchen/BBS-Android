@@ -59,7 +59,7 @@ public class MainModel {
         private int t_create;
         private int t_modify;
         private String board_name;
-        private int anonymous = 0;
+        private int anonymous;
 
 
         public int getId() {
@@ -219,7 +219,7 @@ public class MainModel {
         private int t_modify;
         private String content;
         private String board_name;
-        private int anonymous = 0;
+        private int anonymous;
 
         public int getId() {
             return id;

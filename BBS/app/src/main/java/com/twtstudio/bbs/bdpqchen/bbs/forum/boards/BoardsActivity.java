@@ -2,7 +2,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,9 +14,9 @@ import android.widget.ProgressBar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,10 +102,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
         });
 
         mFab.setOnClickListener(v -> {
-            Intent intent = new Intent(this, CreateThreadActivity.class);
-            intent.putExtra(INTENT_FORUM_ID, mForumId);
-            intent.putExtra(INTENT_FORUM_TITLE, mForumTitle);
-            startActivity(intent);
+            startActivity(IntentUtil.toCreateThread(mContext, mForumId, mForumTitle));
         });
         if (PrefUtil.isSimpleBoardList()){
             mPresenter.getSimpleBoardList(mForumId);

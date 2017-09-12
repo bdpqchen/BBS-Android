@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.retrieve.RetrieveActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity;
@@ -12,11 +13,15 @@ import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.picture.BigPhotoActivity;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.IMG_URL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_CAN_ANON;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_TOOLBAR_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_IS_SPECIFY_BOARD;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
@@ -45,10 +50,11 @@ public final class IntentUtil {
         return intent;
     }
 
-    public static Intent toThreadList(Context context, int bid, String name){
+    public static Intent toThreadList(Context context, int bid, String name, int canAnon){
         Intent intent = new Intent(context, ThreadListActivity.class);
         intent.putExtra(INTENT_BOARD_ID, bid);
         intent.putExtra(INTENT_BOARD_TITLE, name);
+        intent.putExtra(INTENT_BOARD_CAN_ANON, canAnon);
         return intent;
     }
 
@@ -79,11 +85,39 @@ public final class IntentUtil {
         return intent;
     }
 
+    /*
+    * @param toolbarTitle 0: 发表, 1: 回复
+    */
     public static Intent toEditor(Context context, String title, String content, int toolbarTitle){
         Intent intent = new Intent(context, EditorActivity.class);
         intent.putExtra(INTENT_EDITOR_TITLE, title);
-        intent.putExtra(INTENT_EDITOR_TOOLBAR_TITLE, toolbarTitle);
         intent.putExtra(INTENT_EDITOR_CONTENT, content);
+        intent.putExtra(INTENT_EDITOR_TOOLBAR_TITLE, toolbarTitle);
+        return intent;
+    }
+
+    public static Intent toCreateThread(Context context, int fid, String fTitle) {
+        Intent intent = new Intent(context, CreateThreadActivity.class);
+        intent.putExtra(INTENT_FORUM_ID, fid);
+        intent.putExtra(INTENT_FORUM_TITLE, fTitle);
+        return intent;
+    }
+    public static Intent toCreateThread(Context context, int bid, String bTitle, int canAnon){
+        Intent intent1 = new Intent(context, CreateThreadActivity.class);
+        intent1.putExtra(INTENT_IS_SPECIFY_BOARD, true);
+        intent1.putExtra(INTENT_BOARD_ID, bid);
+        intent1.putExtra(INTENT_BOARD_TITLE, bTitle);
+        intent1.putExtra(INTENT_BOARD_CAN_ANON, canAnon);
+        return intent1;
+    }
+
+    public static Intent toCreateThread(Context context, int fid, String fTitle, int bid, String bTitle, int canAnon){
+        Intent intent = new Intent(context, CreateThreadActivity.class);
+        intent.putExtra(INTENT_FORUM_ID, fid);
+        intent.putExtra(INTENT_FORUM_TITLE, fTitle);
+        intent.putExtra(INTENT_BOARD_ID, bid);
+        intent.putExtra(INTENT_BOARD_TITLE, bTitle);
+        intent.putExtra(INTENT_BOARD_CAN_ANON, canAnon);
         return intent;
     }
 }

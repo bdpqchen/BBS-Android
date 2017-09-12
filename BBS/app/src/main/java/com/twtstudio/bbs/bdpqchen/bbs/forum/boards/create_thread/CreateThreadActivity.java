@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -23,6 +24,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageFormatUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImagePickUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PathUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -38,8 +40,10 @@ import butterknife.BindView;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_CAN_ANON;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_IS_SPECIFY_BOARD;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_EDITOR;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_IMAGE_SELECTED;
 
 /**
@@ -61,8 +65,11 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     AppCompatCheckBox mCbAnonymous;
     @BindView(R.id.ll_select_board)
     LinearLayout mLlSelectBoard;
-    @BindView(R.id.ll_select_image)
-    LinearLayout mLlSelectImage;
+    @BindView(R.id.tv_select_image)
+    TextView mTvSelectImage;
+    @BindView(R.id.tv_open_editor)
+    TextView mTvOpenEditor;
+
     private ArrayList<String> mBoardNames = new ArrayList<>();
 
     private int mSelectedBoardId = 0;
@@ -110,14 +117,14 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         mImageFormatUtil = new ImageFormatUtil();
         Intent intent = getIntent();
         mForumId = intent.getIntExtra(INTENT_FORUM_ID, 28);
-
+        mCanAnon = intent.getIntExtra(INTENT_BOARD_CAN_ANON, 0);
+        mTitle = intent.getStringExtra(INTENT_BOARD_TITLE);
         //在帖子列表里直接跳进来的
         boolean specifyBoard = intent.getBooleanExtra(INTENT_IS_SPECIFY_BOARD, false);
         if (specifyBoard) {
             mCanAnon = intent.getIntExtra(INTENT_BOARD_CAN_ANON, 0);
             setCbAnonymous();
             mSelectedBoardId = intent.getIntExtra(INTENT_BOARD_ID, 0);
-            mTitle = intent.getStringExtra(INTENT_BOARD_TITLE);
             if (mToolbar != null) {
                 mToolbar.setTitle("发布帖子|" + mTitle);
             }
@@ -130,8 +137,11 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         mCbAnonymous.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mIsAnonymous = isChecked;
         });
-        mLlSelectImage.setOnClickListener(v -> {
+        mTvSelectImage.setOnClickListener(v -> {
             ImagePickUtil.commonPickImage(this);
+        });
+        mTvOpenEditor.setOnClickListener(v -> {
+            startActivityForResult(IntentUtil.toEditor(mContext, mEtTitle.getText().toString(), mEtContent.getText().toString(),0), REQUEST_CODE_EDITOR);
         });
     }
 
@@ -154,6 +164,13 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
                 mPresenter.uploadImages(PathUtil.getRealPathFromURI(mContext, mSelected.get(0)));
                 showProgress("正在添加图片，请稍后..");
                 // TODO: 17-6-9  支持多张图片
+            }
+        }
+        if (requestCode == REQUEST_CODE_EDITOR && resultCode == RESULT_OK){
+            if (data != null){
+                String contentResult = data.getStringExtra(INTENT_EDITOR_CONTENT);
+                mEtContent.setText(contentResult);
+                mEtContent.setSelection(contentResult.length());
             }
         }
     }

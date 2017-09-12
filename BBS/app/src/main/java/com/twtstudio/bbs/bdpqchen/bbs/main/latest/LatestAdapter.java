@@ -16,7 +16,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
 
 import butterknife.BindView;
@@ -74,10 +73,7 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
                     holder.mTvLatestTime.setText(StampUtil.getTimeFromNow(model.getT_reply()) + "有新动态");
                 }
                 holder.mTvBoardName.setOnClickListener(v -> {
-                    Intent intent = new Intent(mContext, ThreadListActivity.class);
-                    intent.putExtra(INTENT_BOARD_ID, model.getBoard_id());
-                    intent.putExtra(INTENT_BOARD_TITLE, model.getBoard_name());
-                    mContext.startActivity(intent);
+                    mContext.startActivity(IntentUtil.toThreadList(mContext, model.getBoard_id(), model.getBoard_name(), model.getAnonymous()));
                 });
                 holder.mLlLatestBody.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, ThreadActivity.class);

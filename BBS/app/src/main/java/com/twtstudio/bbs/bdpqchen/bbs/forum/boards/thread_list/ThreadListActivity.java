@@ -13,17 +13,14 @@ import android.support.v7.widget.Toolbar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadActivity;
 
 import butterknife.BindView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_CAN_ANON;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_IS_SPECIFY_BOARD;
 
 
 /**
@@ -84,7 +81,7 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
         mBoardId = intent.getIntExtra(INTENT_BOARD_ID, 0);
         mBoardTitle = intent.getStringExtra(INTENT_BOARD_TITLE);
         mCanAnon = intent.getIntExtra(INTENT_BOARD_CAN_ANON, 0);
-        LogUtil.dd(mBoardTitle);
+//        LogUtil.dd(mBoardTitle);
         super.onCreate(savedInstanceState);
         mContext = this;
         mPresenter.getThreadList(mBoardId, mPage);
@@ -119,12 +116,7 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
             }
         });
         mFbThreadListCreate.setOnClickListener(v -> {
-            Intent intent1 = new Intent(this, CreateThreadActivity.class);
-            intent1.putExtra(INTENT_IS_SPECIFY_BOARD, true);
-            intent1.putExtra(INTENT_BOARD_ID, mBoardId);
-            intent1.putExtra(INTENT_BOARD_TITLE, mBoardTitle);
-            intent1.putExtra(INTENT_BOARD_CAN_ANON, mCanAnon);
-            startActivity(intent1);
+            startActivity(IntentUtil.toCreateThread(mContext, mBoardId, mBoardTitle, mCanAnon));
         });
     }
 
@@ -134,6 +126,7 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
         if (threadListModel == null || threadListModel.getThread() == null && threadListModel.getBoard() == null) {
             return;
         }
+        mCanAnon = threadListModel.getBoard().getAnonymous();
         if (mIsLoadingMore) {
             mAdapter.addDataList(threadListModel.getThread());
         } else {
