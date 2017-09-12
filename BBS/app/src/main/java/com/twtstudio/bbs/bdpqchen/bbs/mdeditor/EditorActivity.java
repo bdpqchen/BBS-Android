@@ -33,9 +33,8 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_ED
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_TOOLBAR_TITLE;
 
-
 public class EditorActivity extends SupportActivity implements View.OnClickListener, OnContentListener{
-    @BindView(R.id.id_toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mIdToolbar;
     @BindView(R.id.id_appbar)
     AppBarLayout mIdAppbar;
@@ -121,16 +120,10 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
         mTabIconView.addTab(R.drawable.ic_shortcut_format_header_6, R.id.id_shortcut_format_header_6, this);
     }
 
-    private final int SYSTEM_GALLERY = 1;
-
     @Override
     public void onClick(View v) {
         if (R.id.id_shortcut_insert_photo == v.getId()) {
             mEditorFragment.uploadImage();
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_PICK);// Pick an item fromthe
-            intent.setType("image/*");// 从所有图片中进行选择
-            startActivityForResult(intent, SYSTEM_GALLERY);
             return;
         } else if (R.id.id_shortcut_insert_link == v.getId()) {
             //插入链接
@@ -202,9 +195,6 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
                     mActionOtherOperate.setIcon(R.drawable.ic_add_white_24dp);
                 mExpandLayout.toggle();
                 return true;
-            case R.id.action_helper:
-//                CommonMarkdownActivity.startHelper(this);
-                return true;
             case android.R.id.home:
             case R.id.action_done:
                 retResult();
@@ -239,6 +229,30 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * 插入链接
+     */
+    private void insertLink() {
+        View rootView = LayoutInflater.from(this).inflate(R.layout.view_common_input_link_view, null);
+        EditText title = (EditText) rootView.findViewById(R.id.name);
+        EditText link = (EditText) rootView.findViewById(R.id.text);
+        MaterialDialog.SingleButtonCallback callback = (dialog, sequence)->{
+            String titleStr = title.getText().toString().trim();
+            String linkStr = link.getText().toString().trim();
+            mEditorFragment.getPerformEditable().perform(R.id.id_shortcut_insert_link, titleStr, linkStr);
+            dialog.dismiss();
+        };
+        new MaterialDialog.Builder(this)
+                .title("插入链接")
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .customView(rootView, false)
+                .onPositive(callback)
+                .positiveText("确定")
+                .negativeText("取消")
+                .show();
+
     }
 
     /**
@@ -286,28 +300,5 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
         dialog.show();
     */}
 
-    /**
-     * 插入链接
-     */
-    private void insertLink() {
-        View rootView = LayoutInflater.from(this).inflate(R.layout.view_common_input_link_view, null);
-        EditText title = (EditText) rootView.findViewById(R.id.name);
-        EditText link = (EditText) rootView.findViewById(R.id.text);
-        MaterialDialog.SingleButtonCallback callback = (dialog, sequence)->{
-            String titleStr = title.getText().toString().trim();
-            String linkStr = link.getText().toString().trim();
-            mEditorFragment.getPerformEditable().perform(R.id.id_shortcut_insert_link, titleStr, linkStr);
-            dialog.dismiss();
-        };
-        new MaterialDialog.Builder(this)
-                .title("插入链接")
-                .inputType(InputType.TYPE_CLASS_TEXT)
-                .customView(rootView, false)
-                .onPositive(callback)
-                .positiveText("确定")
-                .negativeText("取消")
-                .show();
-
-    }
 
 }

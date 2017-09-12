@@ -57,43 +57,8 @@
         <item name="android:shadowDy">6</item>
         <item name="android:shadowRadius">6</item>
         <item name="android:textColor">#ffffff</item>
-
-    </style>
-
-    <style name="root">
-        <item name="android:background">#fff</item>
-    </style>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
-
-
-    <style name="WebTitle"
-           parent="@android:style/TextAppearance">
-        <item name="android:textSize">18dp</item>
-        <item name="android:textColor">@color/material_light_white</item>
-        <item name="android:ellipsize">marquee</item>
-        <item name="android:marqueeRepeatLimit">marquee_forever</item>
-        <item name="android:scrollHorizontally">true</item>
-        <item name="android:singleLine">true</item>
     </style>
 
 
-    <style name="about_item">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/c_595959</item>
-        <item name="android:paddingTop">@dimen/space_10</item>
-        <item name="android:paddingBottom">@dimen/space_10</item>
-        <item name="android:paddingLeft">@dimen/space_18</item>
-        <item name="android:paddingRight">@dimen/space_18</item>
-    </style>
-    <style name="about_goup">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/c_7c7c7c</item>
-        <item name="android:paddingTop">@dimen/space_10</item>
-        <item name="android:paddingBottom">@dimen/space_10</item>
-        <item name="android:paddingLeft">@dimen/space_18</item>
-        <item name="android:paddingRight">@dimen/space_18</item>
-    </style>
 
 </resources>

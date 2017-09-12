@@ -16,11 +16,13 @@
         android:icon="@drawable/ic_done_white_24dp"
         app:showAsAction="always"/>
 
+<!--
     <item
         android:id="@+id/action_helper"
         android:icon="@drawable/ic_help_white_24dp"
         android:orderInCategory="85"
         android:title="帮助"
         app:showAsAction="always"/>
+-->
 
 </menu>

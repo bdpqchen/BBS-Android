@@ -16,13 +16,11 @@
   -->
 
 <android.support.design.widget.CoordinatorLayout
-    style="@style/root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/shadow"
     tools:context=".mdeditor.EditorActivity"
 
     >
@@ -39,14 +37,8 @@
             android:layout_height="match_parent">
             <android.support.v4.view.ViewPager
                 android:id="@+id/pager"
-                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/shadow"/>
 
             <com.twtstudio.bbs.bdpqchen.bbs.mdeditor.support.ExpandableLinearLayout
                 android:id="@+id/action_other_operate"

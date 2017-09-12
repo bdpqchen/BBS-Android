@@ -16,60 +16,6 @@
     <string name="key_auto_clear_unread">key_auto_clear_unread</string>
     <string name="key_simple_forum">key_simple_forum</string>
     <string name="default_signature">这个人很有趣,什么也不写..</string>
-    <string name="hint_md_editor">在这里编辑内容\n向左滑动可切换预览视图\n点击 + 可添加标记符号\n也可以直接输入 Markdown 语法编写优雅的文本字符\n如果你不太熟悉 Markdown 语法, 不用担心, 我们在右上角的帮助里,提供了5分钟快速入门教程\n学习使用Markdown, 或许能在你以后的工作中有所受益</string>
-
-    <!--webViewActivity相关菜单-->
-    <string name="action_refresh">刷新</string>
-    <string name="action_copy_url">复制链接</string>
-    <string name="action_open_url">打开链接</string>
-    <string name="action_clear_cache">清理缓存和历史</string>
-    <string name="action_clear_cookie">清理cookie</string>
-    <string name="action_share">分享</string>
-
-    <string name="menu_web_horizontal">横屏显示</string>
-    <string name="menu_web_vertical">竖屏显示</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="Description">Description</string>
-    <string name="MainFileManagerNoPost">没有文章</string>
-    <string name="MainFileManagerCreateHint">您可以点击右下角按钮创建新的文章</string>
-    <string name="action_create_file">创建文章</string>
-    <string name="create_folder">新建文件夹</string>
-    <string name="file">文章</string>
-    <string name="sure">确定</string>
-    <string name="action_cancel">取消</string>
-    <string name="action_search">搜索文章</string>
-    <string name="please_enter">请输入</string>
-    <string name="xxxx" translatable="false">xxxx</string>
-
-    <string name="action_paste">粘贴</string>
-    <string name="action_copy">复制</string>
-    <string name="action_cut">剪切</string>
-    <string name="action_delete">删除</string>
-    <string name="action_rename">重命名</string>
-
-    <string name="action_redo">重做</string>
-    <string name="action_undo">撤销</string>
-    <string name="action_save">保存</string>
-    <string name="action_other_operate">其他操作</string>
-    <string name="action_helper">语法参考</string>
-    <string name="action_preview">预览</string>
-    <string name="action_edit">编辑</string>
-    <string name="action_setting">设置</string>
-    <string name="about">关于</string>
-
-    <string name="copy_right" translatable="false">Copyrights © 2016</string>
-    <string name="version_string" translatable="false">Version %s</string>
-    <string name="contact_me">联系我们</string>
-    <string name="connect_with_us">与我们联系</string>
-    <string name="advertise_with_us">广告联系</string>
-
-    <string name="share_copy_text">复制为文本</string>
-    <string name="share_text">分享为文本</string>
-    <string name="share_md">分享为MD文件(.md)</string>
-    <string name="share_html">分享为HTML文本(.html)</string>
-    <string name="share_png">分享为图片(.png)</string>
+    <string name="hint_md_editor">在这里编辑内容\n向左滑动可切换预览视图\n点击 + 展开标记符号列表</string>
 
 </resources>

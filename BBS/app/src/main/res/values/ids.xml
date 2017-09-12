@@ -1,33 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright 2016. SHENQINCI(沈钦赐)<dev@qinc.me>
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~       http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-
 <resources>
-    <!-- base activity相关id -->
-    <item name="id_navigation_view" type="id"/><!--侧滑菜单-->
-    <item name="id_drawer_layout" type="id"/><!--侧滑菜单-->
-    <item name="id_toolbar" type="id"/><!--toolbar-->
-    <item name="id_appbar" type="id"/><!--toolbar-->
-    <item name="id_refresh" type="id"/><!--下拉刷新-->
-
-    <item name="id_fragment_root" type="id"/>
-    <item name="tag" type="id"/>
-
-    <item name="statusbar_view" type="id"/>
-    <item name="translucent_view" type="id"/>
 
     <!--编辑操作的id-->
     <item name="id_shortcut_console" type="id"/><!-- 代码行 -->
