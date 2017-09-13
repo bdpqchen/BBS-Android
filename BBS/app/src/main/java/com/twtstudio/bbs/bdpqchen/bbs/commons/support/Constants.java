@@ -1,5 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.support;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+
 /**
  * Created by bdpqchen on 17-5-3.
  */
@@ -108,12 +110,17 @@ public final class Constants {
     public static final String FRIEND_ID = "friend_id";
     public static final String IMG_URL = "img_url";
 
-    public static final String PIWIK_THREAD = BASE + "/forum/thread/";
+    //PIWIK相关
+    public static final String PK_THREAD = BASE_HOST + "/forum/thread/";
+    public static final String PK_HOME = BASE_HOST;
+    public static final String PK_USER_ID = "[" + PrefUtil.getAuthUid() + "]" + "\"" + PrefUtil.getAuthUsername() + "\"";
+    public static final String PK_LOGIN = BASE_HOST + "/login";
+    public static final String PK_CATAGORY_AJAX = "AjaxSender";
+//    public static final String PK_CATAGORY_AJAX = "AjaxSender";
+
 
     //所有前缀字符
     public static final String PRE_ATTACH = "attach:";
-
-
 
 
 }

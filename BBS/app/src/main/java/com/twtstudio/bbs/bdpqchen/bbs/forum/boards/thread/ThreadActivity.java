@@ -32,12 +32,10 @@ import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
@@ -54,7 +52,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 import com.zhihu.matisse.Matisse;
 
-import org.piwik.sdk.Tracker;
 import org.piwik.sdk.extra.TrackHelper;
 
 import java.util.ArrayList;
@@ -70,6 +67,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_ED
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_POST;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_THREAD;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_EDITOR;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_IMAGE_SELECTED;
 
@@ -134,7 +132,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private LinearLayoutManager mLayoutManager;
     private int lastVisibleItemPosition = 0;
     private int mPage = 0;
-    private int mEndingPage = 0;
     private boolean mIsLoadingMore;
     private boolean mIsCommentAfter = false;
     private int mPostCount = 0;
@@ -195,8 +192,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             isAutoFindFloor = true;
             mIsFindingFloor = true;
         }
-
-        TrackHelper.track().screen(Constants.PIWIK_THREAD + mThreadId).with(getTracker());
+        TrackHelper.track().screen(PK_THREAD + mThreadId).title(mThreadTitle).with(getTracker());
 
         mBoomMenuBtn.setButtonEnum(ButtonEnum.TextInsideCircle);
         mBoomMenuBtn.setPiecePlaceEnum(PiecePlaceEnum.DOT_6_6);
@@ -405,10 +401,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     public void onGotThread(ThreadModel model) {
         int canAnonymous = mCanAnonymous ? 1 : 0;
         if (model.getThread() != null) {
-            mPostCount = model.getThread().getC_post();
+            ThreadModel.ThreadBean entity = model.getThread();
+            mPostCount = entity.getC_post();
             if (mPage == 0) {
                 canAnonymous = model.getBoard().getAnonymous();
             }
+            pkTracker(entity.getTitle(), mPage + 1);
         }
         List<ThreadModel.PostBean> postList = new ArrayList<>();
         //将帖主重组成一个回复
@@ -821,7 +819,11 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         startActivity(Intent.createChooser(shareIntent, "分享到"));
     }
 
-    private Tracker getTracker() {
-        return ((App) getApplication()).getTracker();
+    private void pkTracker(String title, int page){
+        getTrackerHelper()
+                .screen( PK_THREAD + mThreadId + "/page/" + page + "/")
+                .title(title).with(getTracker());
+//        TrackHelper.track().event(PK_CATAGORY_AJAX, "comment");
     }
+
 }

@@ -147,6 +147,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             PrefUtil.setIsSimpleBoardList(true);
         }
 
+        pkTracker();
+
+    }
+
+    private void pkTracker(){
+        getTrackerHelper().screen("").title("首页").with(getTracker().setDispatchInterval(50000));
     }
 
     private void clearFullScreen() {
@@ -159,12 +165,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     }
 
     @Override
-    public void onGotMessageCount(int count) {
-        if (count > 0) {
-            mNearBy.setBadgeCount(count);
-        } else {
-            mNearBy.setBadgeCount(0);
-        }
+    public void onGotMessageCount(final int count) {
+        int c = count > 0 ? count : 0;
+        mNearBy.setBadgeCount(c);
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {

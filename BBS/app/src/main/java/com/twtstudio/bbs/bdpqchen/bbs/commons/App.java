@@ -18,10 +18,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
 import org.piwik.sdk.Piwik;
 import org.piwik.sdk.Tracker;
 import org.piwik.sdk.TrackerConfig;
-import org.piwik.sdk.extra.DownloadTracker;
-import org.piwik.sdk.extra.TrackHelper;
 
 import timber.log.Timber;
+
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_HOME;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_USER_ID;
 
 /**
  * Created by bdpqchen on 17-4-17.
@@ -65,11 +66,15 @@ public class App extends Application {
         // If you want to set a specific userID other than the random UUID token, do it NOW to ensure all future actions use that token.
         // Changing it later will track new events as belonging to a different user.
         // String userEmail = ....preferences....getString
-//         getTracker().setUserId(userEmail);
+        getTracker().setUserId(PK_USER_ID);
+        getTracker().setApplicationDomain(PK_HOME);
+        getTracker().setDispatchTimeout(100000);
+//        getTracker().setVisitorId(String.valueOf(PrefUtil.getAuthUid()));
+//        getTracker().setApplicationDomain("App Domain");
 
         // Track this app install, this will only trigger once per app version.
         // i.e. "http://com.piwik.demo:1/185DECB5CFE28FDB2F45887022D668B4"
-        TrackHelper.track().download().identifier(new DownloadTracker.Extra.ApkChecksum(this)).with(getTracker());
+        //TrackHelper.track().download().identifier(new DownloadTracker.Extra.ApkChecksum(this)).with(getTracker());
         // Alternative:
         // i.e. "http://com.piwik.demo:1/com.android.vending"
         // getTracker().download();
@@ -82,14 +87,23 @@ public class App extends Application {
     }
 
     public synchronized Tracker getTracker() {
+
         if (mPiwikTracker == null) mPiwikTracker = getPiwik().newTracker(onCreateTrackerConfig());
         return mPiwikTracker;
     }
 
-    public TrackerConfig onCreateTrackerConfig(){
+    public TrackerConfig onCreateTrackerConfig() {
         return TrackerConfig.createDefault("https://elf.twtstudio.com/piwik.php", 13);
     }
 
+
+    @Override
+    public void onTrimMemory(int level) {
+        if ((level == TRIM_MEMORY_UI_HIDDEN || level == TRIM_MEMORY_COMPLETE) && mPiwikTracker != null) {
+            mPiwikTracker.dispatch();
+        }
+        super.onTrimMemory(level);
+    }
 
    /* private void initBuglyReport() {
         Context context = getApplicationContext();

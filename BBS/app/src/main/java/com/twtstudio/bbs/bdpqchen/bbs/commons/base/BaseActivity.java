@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
@@ -12,8 +13,8 @@ import com.jaeger.library.StatusBarUtil;
 import com.oubowu.slideback.SlideBackHelper;
 import com.oubowu.slideback.SlideConfig;
 import com.oubowu.slideback.widget.SlideBackLayout;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerActivityComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
@@ -21,6 +22,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
+
+import org.piwik.sdk.Tracker;
+import org.piwik.sdk.extra.CustomVariables;
+import org.piwik.sdk.extra.TrackHelper;
 
 import javax.inject.Inject;
 
@@ -100,6 +105,19 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
         ActivityManager.getActivityManager().addActivity(this);
 
+    }
+
+    protected Tracker getTracker() {
+        return ((App) getApplication()).getTracker();
+    }
+
+    protected TrackHelper getTrackerHelper(){
+        CustomVariables variables = new CustomVariables();
+        variables.put(1000, "android_app_version", getResources().getString(R.string.version_name));
+        variables.put(1001, "android_os_version", Build.VERSION.RELEASE);
+        variables.put(1002, "android_device_model", Build.MODEL);
+        variables.put(1003, "android", "y");
+        return TrackHelper.track(variables.toVisitVariables());
     }
 
     protected ActivityComponent getActivityComponent() {
