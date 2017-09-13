@@ -111,7 +111,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         Intent intent = new Intent(mActivity, LoginActivity.class);
         intent.putExtra(USERNAME, PrefUtil.getAuthUsername());
         startActivity(intent);
-
     }
 
     private void checkUpdate() {

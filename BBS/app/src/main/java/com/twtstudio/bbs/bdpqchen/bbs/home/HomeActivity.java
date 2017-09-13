@@ -152,7 +152,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     }
 
     private void pkTracker(){
-        getTrackerHelper().screen("").title("首页").with(getTracker().setDispatchInterval(50000));
+        getTrackerHelper().screen("").title("首页").with(getTracker());
     }
 
     private void clearFullScreen() {

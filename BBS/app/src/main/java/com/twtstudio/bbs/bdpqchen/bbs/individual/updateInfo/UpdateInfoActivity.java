@@ -32,6 +32,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_CATEGORY_AJAX;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_UPDATE_INFO;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_AVATAR;
 
 /**
@@ -99,8 +101,13 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         mTvNicknameUpdate.setText(mNickname);
         mTvSignatureUpdate.setText(mSignature);
         ImageUtil.refreshMyAvatar(mActivity, mCivAvatar);
+        pkTracker();
     }
 
+    private void pkTracker(){
+        getTrackerHelper().screen(PK_UPDATE_INFO).title("编辑资料").with(getTracker());
+        getTrackerHelper().event(PK_CATEGORY_AJAX, "profile").name("PUT").with(getTracker());
+    }
     @OnClick({R.id.rl_avatar_update_info, R.id.rl_nickname_update_info, R.id.rl_signature_update_info, R.id.rl_password_update_info})
     public void onViewClicked(View view) {
         switch (view.getId()) {

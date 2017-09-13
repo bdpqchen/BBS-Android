@@ -21,6 +21,7 @@ import butterknife.BindView;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_CAN_ANON;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_THREAD_LIST_OF_ONE_BOARD;
 
 
 /**
@@ -137,7 +138,12 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
                 mAdapter.addList(threadListModel.getThread());
             }
         }
+        pkTracker();
+    }
 
+    private void pkTracker(){
+        getTrackerHelper().screen(PK_THREAD_LIST_OF_ONE_BOARD + mBoardId + "/all/page/1/");
+//        getTrackerHelper().event(PK_CATEGORY_AJAX, "")
     }
 
     @Override

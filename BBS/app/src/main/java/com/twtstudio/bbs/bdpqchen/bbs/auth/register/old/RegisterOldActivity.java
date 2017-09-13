@@ -14,7 +14,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
@@ -22,6 +21,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyActivity.INTENT_TOKEN;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_CATEGORY_SIGN;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_OLD_REGISTER;
 
 /**
  * Created by bdpqchen on 17-5-2.
@@ -89,6 +90,7 @@ public class RegisterOldActivity extends BaseActivity<RegisterOldPresenter> impl
         mUsername = intent.getStringExtra(INTENT_USERNAME);
         mToken = intent.getStringExtra(INTENT_TOKEN);
         mEtUsername.setText(mUsername);
+        pkTracker();
     }
 
     private void doRegister() {
@@ -143,6 +145,10 @@ public class RegisterOldActivity extends BaseActivity<RegisterOldPresenter> impl
         return isPerfect;
     }
 
+    private void pkTracker(){
+        getTrackerHelper().screen(PK_OLD_REGISTER).title("老用户认证").with(getTracker());
+        getTrackerHelper().event(PK_CATEGORY_SIGN, "oldRegister").with(getTracker());
+    }
 
     @OnClick(R.id.cp_btn_register)
     public void onViewClicked() {

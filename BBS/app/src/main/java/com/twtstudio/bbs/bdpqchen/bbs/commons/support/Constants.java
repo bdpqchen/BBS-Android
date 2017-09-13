@@ -114,8 +114,16 @@ public final class Constants {
     public static final String PK_THREAD = BASE_HOST + "/forum/thread/";
     public static final String PK_HOME = BASE_HOST;
     public static final String PK_USER_ID = "[" + PrefUtil.getAuthUid() + "]" + "\"" + PrefUtil.getAuthUsername() + "\"";
-    public static final String PK_LOGIN = BASE_HOST + "/login";
-    public static final String PK_CATAGORY_AJAX = "AjaxSender";
+    public static final String PK_CATEGORY_AJAX = "AjaxSender";
+    public static final String PK_CATEGORY_SIGN = "Signing";
+    public static final String PK_LOGIN = BASE_HOST + "/sign/in";
+    public static final String PK_OLD_LOGIN = BASE_HOST + "/sign/old/login";
+    public static final String PK_SIGN_UP = BASE_HOST + "/sign/up";
+    public static final String PK_OLD_REGISTER = BASE_HOST + "/sign/old/register";
+    public static final String PK_APPEAL = BASE_HOST + "/sign/appeal";
+    public static final String PK_UPDATE_INFO = BASE_HOST + "/user/me/edit";
+    public static final String PK_THREAD_LIST_OF_ONE_BOARD = BASE_HOST + "/forum/board/";
+    public static final String PK_RETRIEVE = BASE_HOST + "/sign/auth";
 //    public static final String PK_CATAGORY_AJAX = "AjaxSender";
 
 

@@ -52,8 +52,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 import com.zhihu.matisse.Matisse;
 
-import org.piwik.sdk.extra.TrackHelper;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -192,7 +190,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             isAutoFindFloor = true;
             mIsFindingFloor = true;
         }
-        TrackHelper.track().screen(PK_THREAD + mThreadId).title(mThreadTitle).with(getTracker());
 
         mBoomMenuBtn.setButtonEnum(ButtonEnum.TextInsideCircle);
         mBoomMenuBtn.setPiecePlaceEnum(PiecePlaceEnum.DOT_6_6);
@@ -823,7 +820,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         getTrackerHelper()
                 .screen( PK_THREAD + mThreadId + "/page/" + page + "/")
                 .title(title).with(getTracker());
-//        TrackHelper.track().event(PK_CATAGORY_AJAX, "comment");
     }
 
 }

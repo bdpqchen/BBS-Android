@@ -21,6 +21,8 @@ import butterknife.OnClick;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PASSWORD;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_CATEGORY_SIGN;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_RETRIEVE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REAL_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.STUNUM;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TOKEN;
@@ -169,6 +171,12 @@ public class RetrieveActivity extends BaseActivity<RetrievePresenter> implements
         setResult(RESULT_OK, intentData);
         SnackBarUtil.normal(mActivity, "重置成功,使用新密码登录");
         HandlerUtil.postDelay(this::finish, 2000);
+        pkTracker();
+    }
+
+    private void pkTracker(){
+        getTrackerHelper().screen(PK_RETRIEVE).title("找回用户名/密码").with(getTracker());
+        getTrackerHelper().event(PK_CATEGORY_SIGN, "Auth").with(getTracker());
     }
 
 }

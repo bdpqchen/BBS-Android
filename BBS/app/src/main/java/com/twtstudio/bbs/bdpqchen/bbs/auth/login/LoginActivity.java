@@ -35,6 +35,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_CATEGORY_SIGN;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_LOGIN;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_RETRIEVE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
@@ -110,6 +112,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             ImageUtil.loadAvatarAsBitmapByUid(this, PrefUtil.getAuthUid(), mCivAvatar);
         }
         ImageUtil.loadLoginCover(this, getForumIdRandom(), mIvBanner);
+        pkTracker();
     }
 
     @OnClick({R.id.tx_forgot_password, R.id.tv_goto_register,R.id.tv_to_register,
@@ -142,12 +145,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         }
     }
 
+    private void pkTracker(){
+        getTrackerHelper().screen(PK_LOGIN).title("登录").with(getTracker());
+        getTrackerHelper().event(PK_CATEGORY_SIGN, "Login").with(getTracker());
+
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LogUtil.dd("request", String.valueOf(requestCode));
-        LogUtil.dd("resultcode", String.valueOf(resultCode));
-
         if (requestCode == REQUEST_CODE_RETRIEVE && resultCode == RESULT_OK) {
             if (data != null) {
                 mEtAccount.setText(data.getStringExtra(USERNAME));
@@ -187,7 +192,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void loginFailed(String msg) {
-        LogUtil.d("loginFailed()");
         if (mCircularProgressButton != null) {
             mCircularProgressButton.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
         }
