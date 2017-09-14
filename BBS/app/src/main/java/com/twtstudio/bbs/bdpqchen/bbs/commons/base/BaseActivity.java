@@ -63,33 +63,22 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (true) {
-            AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-        }
+        AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(getLayoutResourceId());
         mUnBinder = ButterKnife.bind(this);
         mActivity = this;
         mContext = this;
         inject();
-
+        Activity activity = supportSlideBack();
+        if (activity != null) {
+            mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
+        }
         if (mPresenter != null) {
             mPresenter.attachView(this);
-        }else {
+        } else {
 
             LogUtil.d("mPresenter is null!!!");
         }
-        Activity activity = supportSlideBack();
-        if (activity != null) {
-            // TODO: 17-4-26 one hand mode
-            SlideConfig slideConfig = new SlideConfig.Builder()
-                    .rotateScreen(false)
-                    .edgeOnly(true)
-                    .edgePercent(0.6f)
-                    .slideOutPercent(0.2f)
-                    .create();
-            mSlideBackLayout = SlideBackHelper.attach(activity, App.getActivityHelper(), slideConfig, null);
-        }
-        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark), 0);
 
         mToolbar = getToolbarView();
         if (null != mToolbar) {
@@ -103,15 +92,40 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
             }
         }
 
-        ActivityManager.getActivityManager().addActivity(this);
 
+        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark), 0);
+
+        ActivityManager.getActivityManager().addActivity(this);
     }
+
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        LogUtil.dd("onWindowFocusChanged()");
+        /*if (hasFocus && mSlideBackLayout == null) {
+            Activity activity = supportSlideBack();
+            if (activity != null) {
+                mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
+            }
+        }*/
+    }
+
+    private SlideConfig getSlideConfig() {
+        return new SlideConfig.Builder()
+                .rotateScreen(false)
+                .edgeOnly(true)
+                .edgePercent(0.3f)
+                .slideOutPercent(0.2f)
+                .create();
+    }
+
 
     protected Tracker getTracker() {
         return ((App) getApplication()).getTracker();
     }
 
-    protected TrackHelper getTrackerHelper(){
+    protected TrackHelper getTrackerHelper() {
         CustomVariables variables = new CustomVariables();
         variables.put(1000, "android_app_version", getResources().getString(R.string.version_name));
         variables.put(1001, "android_os_version", Build.VERSION.RELEASE);
@@ -138,7 +152,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         if (mPresenter != null) {
             mPresenter.detachView();
         }
-        if (mUnBinder != null){
+        if (mUnBinder != null) {
             mUnBinder.unbind();
         }
 //        finishMe();
@@ -160,7 +174,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         return super.onOptionsItemSelected(item);
     }
 
-    public void finishMe(){
+    public void finishMe() {
         finishThisActivity();
     }
 

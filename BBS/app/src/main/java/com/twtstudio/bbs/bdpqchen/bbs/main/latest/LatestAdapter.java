@@ -17,6 +17,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
+import com.twtstudio.bbs.bdpqchen.bbs.picture.TestActivity;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -73,7 +74,8 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
                     holder.mTvLatestTime.setText(StampUtil.getTimeFromNow(model.getT_reply()) + "有新动态");
                 }
                 holder.mTvBoardName.setOnClickListener(v -> {
-                    mContext.startActivity(IntentUtil.toThreadList(mContext, model.getBoard_id(), model.getBoard_name(), model.getAnonymous()));
+                    mContext.startActivity(new Intent(mContext, TestActivity.class));
+//                    mContext.startActivity(IntentUtil.toThreadList(mContext, model.getBoard_id(), model.getBoard_name(), model.getAnonymous()));
                 });
                 holder.mLlLatestBody.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, ThreadActivity.class);

@@ -147,7 +147,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private int[] menuRes = new int[]{R.drawable.ic_jump_floor_black_24dp, R.drawable.ic_refresh_white_24dp, R.drawable.ic_share_white_24dp,
             R.drawable.ic_vertical_align_bottom_white_24dp, R.drawable.ic_insert_comment_white_24dp, R.drawable.ic_vertical_align_top_white_24dp};
     private boolean mBmbShowing = true;
-    private boolean isAutoFindFloor = false;
     private boolean isLastPage = false;
 
     @Override
@@ -187,7 +186,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mContext = this;
         mImageFormatUtil = new ImageFormatUtil();
         if (mFindingFloor != 0) {
-            isAutoFindFloor = true;
             mIsFindingFloor = true;
         }
 

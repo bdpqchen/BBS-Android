@@ -55,7 +55,10 @@ public class EditorFragment extends BaseFragment<EditorPresenter> implements Edi
         PerformInputAfter.start(mEtContent);
         mTitle.setText(getTitle());
         mEtContent.setText(mContent);
-        mEtContent.setSelection(mContent.length());
+        if (mContent != null && mContent.length() > 0){
+            mEtContent.setSelection(mContent.length());
+        }
+
     }
 
     public PerformEditable getPerformEditable() {

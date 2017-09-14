@@ -3,6 +3,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.home;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
@@ -148,11 +149,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         }
 
         pkTracker();
-
+        //startActivity(new Intent(this, TestActivity.class));
     }
 
     private void pkTracker(){
         getTrackerHelper().screen("").title("首页").with(getTracker());
+        getTrackerHelper().visitVariables(11, "android", Build.MODEL).screen("").title("test android variables").with(getTracker());
     }
 
     private void clearFullScreen() {

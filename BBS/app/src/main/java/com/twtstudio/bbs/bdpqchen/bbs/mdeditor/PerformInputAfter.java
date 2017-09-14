@@ -133,7 +133,7 @@ public class PerformInputAfter {
         } else if (mString.startsWith("1. ") && mString.length() > 3) {//1. 开头
             editable.insert(start + 1, startSpace + "1. ");
         } else if (mString.length() > 1) {
-            editable.insert(start + 1, startSpace);
+//            editable.insert(start + 1, startSpace);
         }
 
     }

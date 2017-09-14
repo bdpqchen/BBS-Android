@@ -15,7 +15,6 @@ public final class Constants {
     public static final int FRAGMENT_MAIN = 0;
     public static final int FRAGMENT_FORUM = 1;
     public static final int FRAGMENT_INDIVIDUAL = 2;
-    public static final String TOKEN = "token";
     public static final int REQUEST_CODE_AVATAR = 10;
     public static final int REQUEST_CODE_IMAGE_SELECTED = 11;
     public static final int REQUEST_CODE_RETRIEVE = 12;
@@ -82,7 +81,7 @@ public final class Constants {
     public static final String INTENT_EDITOR_TOOLBAR_TITLE = "intent_editor_toolbar_title";
     public static final String INTENT_EDITOR_CONTENT = "intent_editor_content";
 
-
+    public static final String TOKEN = "token";
     public static final String ID = "id";
     public static final String UID = "uid";
     public static final String TO_UID = "to_uid";
@@ -113,7 +112,7 @@ public final class Constants {
     //PIWIK相关
     public static final String PK_THREAD = BASE_HOST + "/forum/thread/";
     public static final String PK_HOME = BASE_HOST;
-    public static final String PK_USER_ID = "[" + PrefUtil.getAuthUid() + "]" + "\"" + PrefUtil.getAuthUsername() + "\"";
+    public static final String PK_USER_ID = "[" + PrefUtil.getAuthUid() + "]" + " \"" + PrefUtil.getAuthUsername() + "\"";
     public static final String PK_CATEGORY_AJAX = "AjaxSender";
     public static final String PK_CATEGORY_SIGN = "Signing";
     public static final String PK_LOGIN = BASE_HOST + "/sign/in";
@@ -124,7 +123,6 @@ public final class Constants {
     public static final String PK_UPDATE_INFO = BASE_HOST + "/user/me/edit";
     public static final String PK_THREAD_LIST_OF_ONE_BOARD = BASE_HOST + "/forum/board/";
     public static final String PK_RETRIEVE = BASE_HOST + "/sign/auth";
-//    public static final String PK_CATAGORY_AJAX = "AjaxSender";
 
 
     //所有前缀字符
