@@ -1,7 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.latest;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
-import com.twtstudio.bbs.bdpqchen.bbs.picture.TestActivity;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -69,8 +67,7 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
                     holder.mTvLatestTime.setText(StampUtil.getTimeFromNow(model.getT_reply()) + "有新动态");
                 }
                 holder.mTvBoardName.setOnClickListener(v -> {
-                    mContext.startActivity(new Intent(mContext, TestActivity.class));
-//                    mContext.startActivity(IntentUtil.toThreadList(mContext, model.getBoard_id(), model.getBoard_name(), model.getAnonymous()));
+                    mContext.startActivity(IntentUtil.toThreadList(mContext, model.getBoard_id(), model.getBoard_name(), model.getAnonymous()));
                 });
                 holder.mLlLatestBody.setOnClickListener(v -> {
                     mContext.startActivity(IntentUtil.toThread(mContext, model.getId(), model.getTitle(), model.getBoard_id(), model.getBoard_name()));

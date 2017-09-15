@@ -93,7 +93,6 @@
 -->
 
         <activity android:name=".mdeditor.EditorActivity"/>
-        <activity android:name=".picture.TestActivity"/>
 
     </application>
 

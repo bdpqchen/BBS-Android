@@ -235,7 +235,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        StatusBarUtil.setTranslucentForImageViewInFragment(this.getActivity(), null);
+        StatusBarUtil.setTranslucentForImageViewInFragment(this.getActivity(), 255, null);
         return rootView;
     }
 

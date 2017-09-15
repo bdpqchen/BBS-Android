@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import com.jaeger.library.StatusBarUtil;
 import com.oubowu.slideback.SlideBackHelper;
@@ -22,6 +24,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 
 import org.piwik.sdk.Tracker;
 import org.piwik.sdk.extra.CustomVariables;
@@ -65,6 +68,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(getLayoutResourceId());
+        fixApi21blackBlockOnBottom();
         mUnBinder = ButterKnife.bind(this);
         mActivity = this;
         mContext = this;
@@ -92,23 +96,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
             }
         }
 
-
         StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark), 0);
-
         ActivityManager.getActivityManager().addActivity(this);
-    }
-
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        LogUtil.dd("onWindowFocusChanged()");
-        /*if (hasFocus && mSlideBackLayout == null) {
-            Activity activity = supportSlideBack();
-            if (activity != null) {
-                mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
-            }
-        }*/
     }
 
     private SlideConfig getSlideConfig() {
@@ -120,6 +109,18 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
                 .create();
     }
 
+    //由于滑动返回库的bug 目前只在5.0系统上出现此问题, 暂时修复方案
+    private void fixApi21blackBlockOnBottom() {
+        if (!getClass().getSimpleName().equals(HomeActivity.class.getSimpleName())) {
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                FrameLayout view = (FrameLayout) findViewById(android.R.id.content);
+                if (view.getChildCount() > 0) view.getChildAt(0).setFitsSystemWindows(true);
+                else view.setFitsSystemWindows(true);
+
+            }
+        }
+    }
 
     protected Tracker getTracker() {
         return ((App) getApplication()).getTracker();
@@ -127,12 +128,12 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     protected TrackHelper getTrackerHelper() {
         CustomVariables variables = new CustomVariables();
-        variables.put(1000, "android_app_version", getResources().getString(R.string.version_name));
-        variables.put(1001, "android_os_version", Build.VERSION.RELEASE);
-        variables.put(1002, "android_device_model", Build.MODEL);
-        variables.put(1003, "android", "y");
-//        return TrackHelper.track(variables.toVisitVariables()).visitVariables(10, "android", "yes");
-        return TrackHelper.track();
+        variables.put(1, "android_app_version", getResources().getString(R.string.version_name));
+        variables.put(2, "android_os_version", Build.VERSION.RELEASE);
+        variables.put(3, "android_device_model", Build.MODEL);
+        variables.put(4, "android", "y");
+        return TrackHelper.track(variables.toVisitVariables());
+//        return TrackHelper.track();
     }
 
     protected ActivityComponent getActivityComponent() {
