@@ -131,7 +131,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         variables.put(1001, "android_os_version", Build.VERSION.RELEASE);
         variables.put(1002, "android_device_model", Build.MODEL);
         variables.put(1003, "android", "y");
-        return TrackHelper.track(variables.toVisitVariables()).visitVariables(10, "android", "yes");
+//        return TrackHelper.track(variables.toVisitVariables()).visitVariables(10, "android", "yes");
+        return TrackHelper.track();
     }
 
     protected ActivityComponent getActivityComponent() {

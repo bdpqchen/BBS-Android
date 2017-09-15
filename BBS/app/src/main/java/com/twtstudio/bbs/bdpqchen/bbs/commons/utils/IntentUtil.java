@@ -40,6 +40,9 @@ public final class IntentUtil {
     public static Intent toThread(Context context, int tid, String title, int floor){
         return toThread(context, tid, title, floor, 0, "");
     }
+    public static Intent toThread(Context context, int tid, String title, int bid, String boardTitle){
+        return toThread(context, tid, title, 0, bid, boardTitle);
+    }
     public static Intent toThread(Context context, int tid, String title, int floor, int bid, String boardTitle){
         Intent intent = new Intent(context, ThreadActivity.class);
         intent.putExtra(INTENT_THREAD_ID, tid);
