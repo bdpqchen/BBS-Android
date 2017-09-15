@@ -128,10 +128,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     protected TrackHelper getTrackerHelper() {
         CustomVariables variables = new CustomVariables();
-        variables.put(1, "android_app_version", getResources().getString(R.string.version_name));
-        variables.put(2, "android_os_version", Build.VERSION.RELEASE);
-        variables.put(3, "android_device_model", Build.MODEL);
-        variables.put(4, "android", "y");
+        variables.put(1, "Android Device", Build.MODEL);
+        variables.put(2, "Android App Version", getResources().getString(R.string.version_name));
+        variables.put(3, "Android OS  Version", Build.VERSION.RELEASE);
         return TrackHelper.track(variables.toVisitVariables());
 //        return TrackHelper.track();
     }

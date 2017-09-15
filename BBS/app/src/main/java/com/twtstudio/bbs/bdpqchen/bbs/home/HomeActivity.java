@@ -26,8 +26,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
 
-import org.piwik.sdk.extra.CustomVariables;
-
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -155,11 +153,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     private void pkTracker(){
         getTrackerHelper().screen("").title("首页").with(getTracker());
-        getTrackerHelper().visitVariables(10, "OS version", "test var, android 5.0").screen("").title("test android variables").with(getTracker());
-        CustomVariables variables = new CustomVariables();
-        variables.put(6, "android", "test custom var");
-        variables.put(12, "OS version", "test custom var version");
-        getTrackerHelper().visitVariables(variables).screen("test CustomVariables").title("test CustomVariables").with(getTracker());
     }
 
     private void clearFullScreen() {
