@@ -1,16 +1,11 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Handler;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
-import android.webkit.WebHistoryItem;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,7 +87,7 @@ public final class SnackBarUtil {
 
     private static void show(final Activity act, String m, int duration, final int color, String actionTitle, View.OnClickListener listener) {
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+        if (VersionUtil.isKitkat()) {
             Toast.makeText(act, m, Toast.LENGTH_SHORT).show();
             sIsShowing = false;
             return;
@@ -104,12 +99,11 @@ public final class SnackBarUtil {
         View snackBarView = snackBar.getView();
         sOldColor = ResourceUtil.getColor(act, R.color.colorPrimaryDark);
         //多次调用会出现sOldColor=上次的颜色
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (VersionUtil.eaLollipop()) {
             sOldColor = act.getWindow().getStatusBarColor();
         }
-//        act.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         int isExtra = 0;
-        if (isFitsSystemWindow(act)){
+        if (isFitsSystemWindow(act) || VersionUtil.isLollipop()){
             isExtra = WindowUtil.getStatusBarHeight(act);
         }else{
             if (listener != null) {

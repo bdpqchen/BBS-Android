@@ -12,104 +12,106 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:padding="8dp"
         >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            >
+
+            <TextView
+                android:id="@+id/tv_floor_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorTvBlackMainTint"
+                android:textSize="14sp"
+                tools:text="1楼"
+                />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civ_avatar_post"
+                android:layout_width="@dimen/size_avatar_normal"
+                android:layout_height="@dimen/size_avatar_normal"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/avatar_default_right"
+                />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="4dp"
+                android:layout_toEndOf="@id/civ_avatar_post"
+                >
+
+                <TextView
+                    android:id="@+id/tv_username_post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:textColor="@color/colorTvBlackMain"
+                    android:textSize="14sp"
+                    tools:text="中文名"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_post_datetime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_username_post"
+                    android:maxLines="1"
+                    android:paddingTop="2dp"
+                    android:textSize="12sp"
+                    tools:text="2017-11-11"
+                    />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <com.twtstudio.bbs.bdpqchen.bbs.htmltextview.HtmlTextView
+            android:id="@+id/htv_post_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:padding="4dp"
+            android:textColor="@color/colorTvBlackMainTint"
+            android:textIsSelectable="true"
+            android:textSize="14sp"
+            tools:text="挑剔大家发多少aflsjlfsj大家来决定是否了解爱上了飞机来打扫房间2017年05月22日23:45:052017年05月22日23:45:07"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorThreadContentBg"
-            android:orientation="vertical"
-            android:padding="@dimen/padding_thread_content"
+            android:gravity="end"
             >
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                >
-
-                <TextView
-                    android:id="@+id/tv_floor_post"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/colorTvBlackMainTint"
-                    android:textSize="14sp"
-                    tools:text="1楼"
-                    />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/civ_avatar_post"
-                    android:layout_width="@dimen/size_avatar_normal"
-                    android:layout_height="@dimen/size_avatar_normal"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/avatar_default_right"
-                    />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@id/civ_avatar_post"
-                    >
-
-                    <TextView
-                        android:id="@+id/tv_username_post"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="6dp"
-                        android:textColor="@color/colorTvBlackMain"
-                        android:textSize="14sp"
-                        tools:text="中文名"
-                        android:layout_alignParentEnd="true"
-                        />
-
-                    <TextView
-                        android:id="@+id/tv_post_datetime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_below="@+id/tv_username_post"
-                        android:minWidth="120dp"
-                        android:gravity="end"
-                        android:paddingEnd="4dp"
-                        android:paddingTop="2dp"
-                        android:textSize="12sp"
-                        android:maxLines="1"
-                        tools:text="2017-11-11"
-                        />
-
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-            <com.twtstudio.bbs.bdpqchen.bbs.htmltextview.HtmlTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:textColor="@color/colorTvBlackMainTint"
-                android:textSize="14sp"
-                android:textIsSelectable="true"
-                tools:text="挑剔大家发多少aflsjlfsj大家来决定是否了解爱上了飞机来打扫房间2017年05月22日23:45:052017年05月22日23:45:07"
-                android:id="@+id/htv_post_content"
-                android:clickable="true"
-                    />
 
             <TextView
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:id="@+id/tv_reply"
+                android:id="@+id/tv_post_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:foreground="@drawable/selector_foreground_settings"
-                android:text="回复"
-                android:textColor="@color/colorPrimaryCopy"
-                android:textSize="12sp"
+                android:layout_marginEnd="16dp"
+                android:drawablePadding="4dp"
+                android:drawableStart="@drawable/ic_thumb_up_white_24dp"
+                android:gravity="center"
+                android:textColor="@color/colorTvBlackMain"
+                tools:text="10"
+                />
+
+            <ImageView
+                android:id="@+id/iv_post_reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:clickable="true"
                 android:focusable="true"
-
+                android:src="@drawable/ic_sms_black_24dp"
+                android:tint="@color/colorTintIconBlack"
                 />
 
         </LinearLayout>

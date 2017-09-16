@@ -68,7 +68,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_C
  * Created by bdpqchen on 17-5-12.
  */
 
-public class ThreadActivity extends BaseActivity<ThreadPresenter> implements ThreadContract.View {
+public class ThreadActivity extends BaseActivity<ThreadPresenter> implements ThreadContract.View, PostAdapter.OnPostClickListener {
     @BindView(R.id.toolbar_thread)
     Toolbar mToolbar;
     @BindView(R.id.rv_thread_post)
@@ -180,7 +180,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mIsFindingFloor = true;
         }
 
-        mAdapter = new PostAdapter(mContext);
+        mAdapter = new PostAdapter(mContext, this);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRvThreadPost.setAnimation(null);
         mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(1));
@@ -266,20 +266,16 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             public void afterTextChanged(Editable s) {
             }
         });
-        mIvCommentOut.setOnClickListener(v ->
-                hideCommentInput());
-        mIvCommentSend.setOnClickListener(v ->
-                sendComment(mReplyId));
-        mIvStaredThread.setOnClickListener(v -> {
-            if (PrefUtil.hadLogin()) {
+        mIvCommentOut.setOnClickListener(v -> hideCommentInput());
+        mIvCommentSend.setOnClickListener(v -> sendComment(mReplyId));
+        if (PrefUtil.hadLogin()) {
+            mIvStaredThread.setOnClickListener(v -> {
                 mPresenter.unStarThread(mThreadId);
-            }
-        });
-        mIvStarThread.setOnClickListener(v -> {
-            if (PrefUtil.hadLogin()) {
+            });
+            mIvStarThread.setOnClickListener(v -> {
                 mPresenter.starThread(mThreadId);
-            }
-        });
+            });
+        }
         mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlThreadList.setRefreshing(true);
         mSrlThreadList.setOnRefreshListener(() -> {
@@ -287,11 +283,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mPage = 0;
             mPresenter.getThread(mThreadId, mPage);
 //                mSrlThreadList.setRefreshing(false);
-        });
-        mAdapter.setOnItemClickListener((view, position) -> {
-            postPosition = position;
-            mReplyId = mAdapter.getPostId(position);
-            showCommentInput();
         });
         mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mIsAnonymous = isChecked;
@@ -359,6 +350,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         if (isInside()) {
             mRvThreadPost.scrollToPosition(mPossibleIndex);
             mPage = mFindingPage;
+            hideProgress();
         } else {
             mIsFindingFloor = true;
             mFindingPage = ++mPage;
@@ -544,7 +536,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     @Override
     public void onUploaded(UploadImageModel model) {
-        LogUtil.dd("loaded id ", String.valueOf(model.getId()));
         if (mEtComment != null) {
             String added = mEtComment.getText() + mImageFormatUtil.getShowImageCode(model.getId());
             mEtComment.setText(added);
@@ -554,48 +545,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         SnackBarUtil.normal(this, "图片已添加");
     }
 
-    /*  @Override
-      public void onBoomButtonClick(int index) {
-          switch (index) {
-              case 4:
-                  showCommentInput();
-                  resetReply();
-                  break;
-              case 1:
-                  mRefreshing = true;
-                  setRefreshing(true);
-                  mPresenter.getThread(mThreadId, 0);
-                  break;
-              case 2:
-                  String url = BASE + "/forum/thread/" + mThreadId;
-                  shareText(url);
-                  break;
-              case 3:
-                  if (!mRefreshing) {
-                      startProgress("正在潜入..");
-                      toEnd();
-                  }
-                  break;
-              case 0:
-                  if (!mRefreshing) {
-                      DialogUtil.inputDialog(mContext,
-                              "输入楼层,最大可能是" + mPostCount + "左右",
-                              (dialog, input) -> {
-                                  mInputFloor = CastUtil.parse2intWithMax(input.toString());
-                                  if (mInputFloor != 0) {
-                                      mFindingPage = mPage;
-                                      findFloor(mInputFloor);
-                                      startProgress("正在前往..");
-                                  }
-                              });
-                  }
-                  break;
-              case 5:
-                  toTop();
-                  break;
-          }
-      }
-  */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -629,8 +578,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                                 mInputFloor = CastUtil.parse2intWithMax(input.toString());
                                 if (mInputFloor != 0) {
                                     mFindingPage = mPage;
-                                    findFloor(mInputFloor);
                                     startProgress("正在前往..");
+                                    findFloor(mInputFloor);
                                 }
                             });
                 }
@@ -696,6 +645,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void hideProgress() {
+        LogUtil.dd("hideProgress");
         if (mProgress != null) {
             mProgress.dismiss();
         }
@@ -829,4 +779,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 .title(title).with(getTracker());
     }
 
+    @Override
+    public void onLikeClick(int position, int id) {
+        postPosition = position;
+        mReplyId = mAdapter.getPostId(position);
+        showCommentInput();
+    }
 }

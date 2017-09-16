@@ -30,16 +30,20 @@ public final class TextUtil {
     }
 
     public static String getTwoNames(String name, String nickname) {
-        if (nickname == null || isEqual(name, nickname)){
+        LogUtil.dd("namename", name);
+        LogUtil.dd("nickname", nickname);
+        LogUtil.dd("isEqual", String.valueOf(name.equals(nickname)));
+        LogUtil.dd("is NUll", String.valueOf(nickname == null));
+        if (nickname == null || isEqual(name, nickname)) {
             return name;
         }
         if (nickname.length() > 12) {
             nickname = nickname.substring(0, 11);
-            return name + "(" + nickname + ")";
         }
-        return name;
+        return name + "(" + nickname + ")";
     }
-    private static boolean isEqual(String str0, String str1){
+
+    private static boolean isEqual(String str0, String str1) {
         return str0.equals(str1);
     }
 
@@ -133,9 +137,9 @@ public final class TextUtil {
         return content;
     }
 
-    public static String getEditorToolbarTitle(final int what){
+    public static String getEditorToolbarTitle(final int what) {
         String title = "发表";
-        switch (what){
+        switch (what) {
             case 0:
                 return title;
             case 1:

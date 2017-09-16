@@ -6,12 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.GlideImageGeter;
-import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.HtmlTextView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseFooterViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
@@ -21,6 +19,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.viewholder.TheEndViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.GlideImageGeter;
+import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private Context mContext;
     private List<ThreadModel.PostBean> mPostData = new ArrayList<>();
     private OnItemClickListener mOnItemClickListener = null;
-    private int onePage = MAX_LENGTH_POST;
     private int mPage = 0;
     private boolean mIsEnding = false;
     private boolean mIsNoMore = false;
@@ -56,6 +55,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     public List<ThreadModel.PostBean> getPostList() {
         return mPostData;
+    }
+    private OnPostClickListener mListener;
+    public interface OnPostClickListener{
+        void onLikeClick(int position, int id);
     }
 
     @Override
@@ -74,8 +77,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         this.mOnItemClickListener = listener;
     }
 
-    public PostAdapter(Context context) {
+    public PostAdapter(Context context, OnPostClickListener listener) {
         mContext = context;
+        mListener = listener;
     }
 
     @Override
@@ -145,11 +149,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 h.mTvUsernamePost.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
-//                LogUtil.dd("contentis", p.getContent_converted());
-
                 h.mHtvPostContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, h.mHtvPostContent));
-                h.mTvReply.setTag(position);
-                h.mTvReply.setOnClickListener(this);
+                h.mTvLike.setText(p.getLike());
+                h.mTvLike.setOnClickListener(v -> mListener.onLikeClick(position, 0));
+
 
             } else if (holder instanceof BaseFooterViewHolder) {
                 LogUtil.dd("base footer view");
@@ -165,15 +168,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         mContext.startActivity(IntentUtil.toPeople(mContext, uid, username));
     }
 
-    private String formatContent(String contentBefore) {
-        String content = "";
-        if (contentBefore != null && contentBefore.length() > 0) {
-            content = Processor.process(contentBefore);
-            content = TextUtil.getReplacedContent(content);
-        }
-        return content;
-    }
-
     @Override
     public int getItemCount() {
         if (mPostData == null || mPostData.size() == 0) {
@@ -185,32 +179,23 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     @Override
     public int getItemViewType(int position) {
-//        LogUtil.dd("item position", String.valueOf(position));
-//        LogUtil.dd("itemCount", String.valueOf(getItemCount()));
         if (mPostData != null && mPostData.size() > 0) {
-//            if (position == 0 && mPage == 1 && !mIsEnding) {
             if (position == 0) {
-//                LogUtil.dd("return header");
                 return ITEM_HEADER;
             }
             if (mPostData.size() == 1) {
                 return ITEM_JUST_HEADER;
             }
             if (position + 1 == getItemCount()) {
-//                LogUtil.dd("page=", String.valueOf(mPage));
-                if (getItemCount() < (mPage) * onePage + 1) {
-//                    LogUtil.dd("return end before footer");
+                if (getItemCount() < (mPage) * MAX_LENGTH_POST + 1) {
                     return ITEM_END;
                 }
                 if (mIsNoMore) {
                     mIsNoMore = false;
-//                    LogUtil.dd(" no more return end");
                     return ITEM_END;
                 }
-//                LogUtil.dd("return footer");
                 return ITEM_FOOTER;
             } else {
-//                LogUtil.dd("return normal");
                 return ITEM_NORMAL;
             }
         }
@@ -339,14 +324,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         return hint;
     }
 
-    public void setEnding(boolean ending) {
-        mEnding = ending;
-    }
-
-    public void findIt() {
-        mIsFinding = false;
-    }
-
     static class PostHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.civ_avatar_post)
         CircleImageView mCivAvatarPost;
@@ -356,10 +333,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView mTvPostDatetime;
         @BindView(R.id.tv_floor_post)
         TextView mTvFloorPost;
-        @BindView(R.id.tv_reply)
-        TextView mTvReply;
         @BindView(R.id.htv_post_content)
         HtmlTextView mHtvPostContent;
+        @BindView(R.id.tv_post_like)
+        TextView mTvLike;
+        @BindView(R.id.iv_post_reply)
+        ImageView mIvReply;
 
         PostHolder(View view) {
             super(view);
