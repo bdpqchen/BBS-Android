@@ -3,10 +3,10 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -26,14 +27,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
-import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
-import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
-import com.nightonke.boommenu.BoomMenuButton;
-import com.nightonke.boommenu.ButtonEnum;
-import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
@@ -74,7 +68,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_C
  * Created by bdpqchen on 17-5-12.
  */
 
-public class ThreadActivity extends BaseActivity<ThreadPresenter> implements ThreadContract.View, OnBMClickListener {
+public class ThreadActivity extends BaseActivity<ThreadPresenter> implements ThreadContract.View {
     @BindView(R.id.toolbar_thread)
     Toolbar mToolbar;
     @BindView(R.id.rv_thread_post)
@@ -109,8 +103,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     TextView mTvSelectImage;
     @BindView(R.id.tv_open_editor)
     TextView mTvOpenEditor;
-    @BindView(R.id.bmb)
-    BoomMenuButton mBoomMenuBtn;
+    @BindView(R.id.fab_thread_comment)
+    FloatingActionButton mFabComment;
 
     public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
     private String mThreadTitle = "";
@@ -143,10 +137,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     private ImageFormatUtil mImageFormatUtil;
     private boolean mIsFindEnd = false;
-    private String[] menuTexts = new String[]{"跳楼", "刷新帖子", "分享链接", "潜入底部", "评论", "返回顶部"};
-    private int[] menuRes = new int[]{R.drawable.ic_jump_floor_black_24dp, R.drawable.ic_refresh_white_24dp, R.drawable.ic_share_white_24dp,
-            R.drawable.ic_vertical_align_bottom_white_24dp, R.drawable.ic_insert_comment_white_24dp, R.drawable.ic_vertical_align_top_white_24dp};
-    private boolean mBmbShowing = true;
+    private boolean mFabShowing = true;
     private boolean isLastPage = false;
 
     @Override
@@ -189,26 +180,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             mIsFindingFloor = true;
         }
 
-        mBoomMenuBtn.setButtonEnum(ButtonEnum.TextInsideCircle);
-        mBoomMenuBtn.setPiecePlaceEnum(PiecePlaceEnum.DOT_6_6);
-        mBoomMenuBtn.setButtonPlaceEnum(ButtonPlaceEnum.SC_6_6);
-        mBoomMenuBtn.setShowDuration(200);
-        mBoomMenuBtn.setHideDuration(100);
-        mBoomMenuBtn.setAutoHide(true);
-        int ip = 36;
-        int tp = 1;
-        for (int i = 0; i < mBoomMenuBtn.getButtonPlaceEnum().buttonNumber(); i++) {
-            TextInsideCircleButton.Builder builder = new TextInsideCircleButton.Builder()
-                    .listener(this)
-                    .imagePadding(new Rect(ip, ip, ip, ip))
-//                    .imageRect(new Rect(Util.dp2px(0), Util.dp2px(0), Util.dp2px(24), Util.dp2px(24)))
-                    .textPadding(new Rect(tp, tp, tp, tp))
-                    .normalText(menuTexts[i])
-                    .normalImageRes(menuRes[i])
-                    .textSize(11);
-            mBoomMenuBtn.addBuilder(builder);
-        }
-
         mAdapter = new PostAdapter(mContext);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRvThreadPost.setAnimation(null);
@@ -230,12 +201,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
-                if (dy > 0 && mBmbShowing) {
-                    mBmbShowing = false;
-                    hideBmb();
-                } else if (dy < 0 && !mBmbShowing) {
-                    mBmbShowing = true;
-                    showBmb();
+                if (dy > 0 && mFabShowing) {
+                    mFabShowing = false;
+                    hideFab();
+                } else if (dy < 0 && !mFabShowing) {
+                    mFabShowing = true;
+                    showFab();
                 }
                 int d = 300;
                 if (lastVisibleItemPosition != 0 && mLayoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
@@ -271,7 +242,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mToolbarTitleThread.setOnClickListener(v -> {
             toTop();
         });
-
+        mFabComment.setOnClickListener(v -> {
+            showCommentInput();
+            resetReply();
+        });
         mEtComment.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -325,7 +299,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mTvSelectImage.setOnClickListener(v -> {
             ImagePickUtil.commonPickImage(this);
         });
-        mTvOpenEditor.setOnClickListener(v ->{
+        mTvOpenEditor.setOnClickListener(v -> {
             startActivityForResult(IntentUtil.toEditor(mContext, mTvDynamicHint.getText().toString(), mEtComment.getText().toString(), 1), REQUEST_CODE_EDITOR);
         });
         mPresenter.getThread(mThreadId, 0);
@@ -348,8 +322,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 //                }
             }
         }
-        if (requestCode == REQUEST_CODE_EDITOR && resultCode == RESULT_OK){
-            if (data != null){
+        if (requestCode == REQUEST_CODE_EDITOR && resultCode == RESULT_OK) {
+            if (data != null) {
                 String resultContent = data.getStringExtra(INTENT_EDITOR_CONTENT);
                 mEtComment.setText(resultContent);
                 mEtComment.setSelection(resultContent.length());
@@ -580,29 +554,74 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         SnackBarUtil.normal(this, "图片已添加");
     }
 
+    /*  @Override
+      public void onBoomButtonClick(int index) {
+          switch (index) {
+              case 4:
+                  showCommentInput();
+                  resetReply();
+                  break;
+              case 1:
+                  mRefreshing = true;
+                  setRefreshing(true);
+                  mPresenter.getThread(mThreadId, 0);
+                  break;
+              case 2:
+                  String url = BASE + "/forum/thread/" + mThreadId;
+                  shareText(url);
+                  break;
+              case 3:
+                  if (!mRefreshing) {
+                      startProgress("正在潜入..");
+                      toEnd();
+                  }
+                  break;
+              case 0:
+                  if (!mRefreshing) {
+                      DialogUtil.inputDialog(mContext,
+                              "输入楼层,最大可能是" + mPostCount + "左右",
+                              (dialog, input) -> {
+                                  mInputFloor = CastUtil.parse2intWithMax(input.toString());
+                                  if (mInputFloor != 0) {
+                                      mFindingPage = mPage;
+                                      findFloor(mInputFloor);
+                                      startProgress("正在前往..");
+                                  }
+                              });
+                  }
+                  break;
+              case 5:
+                  toTop();
+                  break;
+          }
+      }
+  */
     @Override
-    public void onBoomButtonClick(int index) {
-        switch (index) {
-            case 4:
-                showCommentInput();
-                resetReply();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_thread, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finishMe();
                 break;
-            case 1:
+            case R.id.action_thread_share:
+                String url = BASE + "/forum/thread/" + mThreadId;
+                shareText(url);
+                break;
+            case R.id.action_thread_refresh:
                 mRefreshing = true;
                 setRefreshing(true);
                 mPresenter.getThread(mThreadId, 0);
                 break;
-            case 2:
-                String url = BASE + "/forum/thread/" + mThreadId;
-                shareText(url);
+            case R.id.action_thread_top:
+                toTop();
                 break;
-            case 3:
-                if (!mRefreshing) {
-                    startProgress("正在潜入..");
-                    toEnd();
-                }
-                break;
-            case 0:
+            case R.id.action_thread_jump:
                 if (!mRefreshing) {
                     DialogUtil.inputDialog(mContext,
                             "输入楼层,最大可能是" + mPostCount + "左右",
@@ -616,17 +635,11 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                             });
                 }
                 break;
-            case 5:
-                toTop();
-                break;
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finishMe();
+            case R.id.action_thread_bottom:
+                if (!mRefreshing) {
+                    startProgress("正在潜入..");
+                    toEnd();
+                }
                 break;
         }
         return false;
@@ -688,18 +701,18 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         }
     }
 
-    private void hideBmb() {
+    private void hideFab() {
         int d = 500;
         YoYo.with(Techniques.SlideOutDown)
                 .duration(d)
-                .playOn(mBoomMenuBtn);
+                .playOn(mFabComment);
     }
 
-    private void showBmb() {
+    private void showFab() {
         int d = 500;
         YoYo.with(Techniques.SlideInUp)
                 .duration(d)
-                .playOn(mBoomMenuBtn);
+                .playOn(mFabComment);
     }
 
     private void hideCommentInput() {
@@ -707,7 +720,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         int d = 100;
         YoYo.with(Techniques.SlideInRight)
                 .duration(d)
-                .playOn(mBoomMenuBtn);
+                .playOn(mFabComment);
         YoYo.with(Techniques.SlideOutDown)
                 .duration(d)
                 .playOn(mLlComment);
@@ -719,29 +732,25 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     private void showCommentInput() {
-        if (PrefUtil.hadLogin()) {
-            int d = 100;
-            YoYo.with(Techniques.SlideOutRight)
-                    .duration(d)
-                    .playOn(mBoomMenuBtn);
-            YoYo.with(Techniques.SlideInUp)
-                    .duration(d)
-                    .playOn(mLlComment);
-            mLlComment.setVisibility(View.VISIBLE);
-            mTvDynamicHint.setText(mAdapter.getDynamicHint(postPosition));
-            mEtComment.setFocusable(true);
-            mEtComment.setFocusableInTouchMode(true);
-            mEtComment.requestFocus();
-            InputMethodManager imm = (InputMethodManager) mLlComment
-                    .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            HandlerUtil.postDelay(() -> {
-                if (imm != null) {
-                    imm.showSoftInput(mEtComment, 0);
-                }
-            }, d + 100);
-        } else {
-            startActivity(new Intent(this, LoginActivity.class));
-        }
+        int d = 100;
+        YoYo.with(Techniques.SlideOutRight)
+                .duration(d)
+                .playOn(mFabComment);
+        YoYo.with(Techniques.SlideInUp)
+                .duration(d)
+                .playOn(mLlComment);
+        mLlComment.setVisibility(View.VISIBLE);
+        mTvDynamicHint.setText(mAdapter.getDynamicHint(postPosition));
+        mEtComment.setFocusable(true);
+        mEtComment.setFocusableInTouchMode(true);
+        mEtComment.requestFocus();
+        InputMethodManager imm = (InputMethodManager) mLlComment
+                .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        HandlerUtil.postDelay(() -> {
+            if (imm != null) {
+                imm.showSoftInput(mEtComment, 0);
+            }
+        }, d + 100);
     }
 
     private void showStarOrNot(int in_collection) {
@@ -814,9 +823,9 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         startActivity(Intent.createChooser(shareIntent, "分享到"));
     }
 
-    private void pkTracker(String title, int page){
+    private void pkTracker(String title, int page) {
         getTrackerHelper()
-                .screen( PK_THREAD + mThreadId + "/page/" + page + "/")
+                .screen(PK_THREAD + mThreadId + "/page/" + page + "/")
                 .title(title).with(getTracker());
     }
 

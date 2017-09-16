@@ -36,8 +36,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @BindView(R.id.bottom_bar)
     BottomBar mBottomBar;
-//    @BindView(R.id.mask_home)
-//    View mMask;
 
     BottomBarTab mNearBy;
     private Context mContext;
@@ -85,18 +83,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         mHomeActivity = this;
         mContext = this;
         LogUtil.dd("token", PrefUtil.getAuthToken());
-        // TODO: 17-5-3 非登录后跳转到这里，是否渐变
-        // 登录后的渐变,
-        if (!PrefUtil.isNoAccountUser()) {
-            PrefUtil.setHadLogin(true);
-        }
-//        mMask.setVisibility(View.VISIBLE);
-//        ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home), "alpha", 0f).setDuration(600);
-//        ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home), "alpha", 0f).setDuration(600);
-//        animator.setStartDelay(400);
-//        animator.start();
-
-//        SnackBarUtil.error(mActivity, "新版本");
+        PrefUtil.setHadLogin(true);
 
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragment.newInstance();
@@ -117,7 +104,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
         mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
         mBottomBar.setOnTabSelectListener(i -> {
-            LogUtil.dd("onTabSelected()", String.valueOf(i));
+//            LogUtil.dd("onTabSelected()", String.valueOf(i));
             if (PrefUtil.hadLogin()) {
                 if (i == R.id.bottom_bar_tab_main) {
                     mShowingFragment = FIRST;
@@ -139,7 +126,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         });
 
         isCheckedUpdate = true;
-        if (PrefUtil.thisVersionFirstOpen()){
+        if (PrefUtil.thisVersionFirstOpen()) {
             // TODO: 17-7-6 统一清理缓存
             ImageUtil.clearMemory(mContext);
             ImageUtil.clearDiskCache(mContext);
@@ -148,10 +135,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         }
 
         pkTracker();
-        //startActivity(new Intent(this, TestActivity.class));
     }
 
-    private void pkTracker(){
+    private void pkTracker() {
         getTrackerHelper().screen("").title("首页").with(getTracker());
     }
 
@@ -186,7 +172,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public void onGetMessageFailed(String m) {
-        LogUtil.dd("onGetMessageFailed()");
+//        LogUtil.dd("onGetMessageFailed()");
         if (PrefUtil.isNoAccountUser()) {
             return;
         }

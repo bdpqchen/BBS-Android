@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="分享"
+        android:id="@+id/action_thread_share"
+        app:showAsAction="never"/>
+    <item
+        android:title="刷新"
+        android:id="@+id/action_thread_refresh"
+        app:showAsAction="never"/>
+    <item
+        android:title="返回顶部"
+        android:id="@+id/action_thread_top"
+        app:showAsAction="never"/>
+    <item
+        android:title="跳楼"
+        android:id="@+id/action_thread_jump"
+        app:showAsAction="never"/>
+    <item
+        android:title="潜入底部"
+        android:id="@+id/action_thread_bottom"
+        app:showAsAction="never"/>
+</menu>
