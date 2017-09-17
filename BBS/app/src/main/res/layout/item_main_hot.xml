@@ -145,6 +145,25 @@
                     android:gravity="center_vertical"
                     tools:text="12"
                     />
+                <ImageView
+                    android:layout_marginStart="16dp"
+                    android:layout_width="13dp"
+                    android:layout_height="@dimen/icon_size_small"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/ic_thumb_up_white_24dp"
+                    android:tint="@color/colorTintIconBlack"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_like_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="2dp"
+                    android:gravity="center_vertical"
+                    tools:text="12"
+                    />
 
                 <TextView
                     android:id="@+id/tv_hot_time"

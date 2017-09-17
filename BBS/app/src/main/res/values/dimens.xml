@@ -35,7 +35,7 @@
     <dimen name="size_tv_username">12sp</dimen>
     <dimen name="size_tv_small">12sp</dimen>
     <dimen name="size_tv_middle">16sp</dimen>
-    <dimen name="icon_size_small">12dp</dimen>
+    <dimen name="icon_size_small">16dp</dimen>
     <dimen name="margin_start_latest">12dp</dimen>
     <dimen name="padding_forum_cover">12dp</dimen>
     <dimen name="grid_expected_size">100dp</dimen>

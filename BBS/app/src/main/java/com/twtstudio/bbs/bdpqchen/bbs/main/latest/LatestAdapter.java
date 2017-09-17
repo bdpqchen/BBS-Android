@@ -56,6 +56,7 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivLatestAvatar);
                 }
+                holder.mTvLikeCount.setText(String.valueOf(model.getLike()));
                 holder.mTvUsername.setText(model.getAuthor_name());
                 holder.mTvBoardName.setText(TextUtil.getBoardName(model.getBoard_name()));
                 holder.mTvThreadTitle.setText(model.getTitle());
@@ -85,6 +86,8 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
         TextView mTvThreadTitle;
         @BindView(R.id.tv_post_count)
         TextView mTvPostCount;
+        @BindView(R.id.tv_like_count)
+        TextView mTvLikeCount;
         @BindView(R.id.tv_latest_time)
         TextView mTvLatestTime;
         @BindView(R.id.ll_layer_header)
