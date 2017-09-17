@@ -92,7 +92,6 @@
             android:gravity="end"
             >
 
-
             <ImageView
                 android:id="@+id/iv_post_like"
                 android:layout_width="wrap_content"
@@ -117,7 +116,7 @@
                 android:layout_gravity="center"
                 android:layout_marginEnd="16dp"
                 android:gravity="start"
-                android:textColor="@color/colorTvBlackMain"
+                android:textColor="@color/colorTintIconBlack"
                 tools:text="10"
                 />
 
@@ -143,7 +142,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.3dp"
         android:background="?android:attr/listDivider"
         />
 

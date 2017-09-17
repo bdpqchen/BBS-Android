@@ -34,7 +34,6 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
         mHttpClient = client;
     }
 
-
     @Override
     public void getThread(int threadId, int postPage) {
         SimpleObserver<ThreadModel> observer = new SimpleObserver<ThreadModel>() {
@@ -163,22 +162,22 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
                 .subscribeWith(observer));
     }
 
-    public void like(int id, boolean isLike, boolean isThread) {
+    public void like(int id, int position, boolean isLike, boolean isThread) {
         ResponseTransformer<BaseModel> transformer = new ResponseTransformer<>();
         SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
             @Override
             public void _onError(String msg) {
                 if (mView != null) {
-                    if (isLike) mView.onLikeFailed(msg, id);
-                    else mView.onUnlikeFailed(msg, id);
+                    if (isLike) mView.onLikeFailed(msg, position, true);
+                    else mView.onUnlikeFailed(msg, position, false);
                 }
             }
 
             @Override
             public void _onNext(BaseModel o) {
                 if (mView != null) {
-                    if (isLike) mView.onLike(o, id);
-                    else mView.onUnlike(o, id);
+                    if (isLike) mView.onLike(o);
+                    else mView.onUnlike(o);
                 }
             }
         };

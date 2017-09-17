@@ -25,8 +25,14 @@ public final class TextUtil {
         return Html.fromHtml("<u>" + s + "</u>");
     }
 
-    public static String getModifyTime(int time) {
-        return "最后修改于 " + StampUtil.getDatetimeByStamp(time);
+    public static String getThreadDateTime(int createTime, int modifyTime) {
+        String pre = "发布于 ";
+        int resultTime = createTime;
+        if (modifyTime > 0 && modifyTime > createTime) {
+            pre = "最后修改于 ";
+            resultTime = modifyTime;
+        }
+        return pre + StampUtil.getDatetimeByStamp(resultTime);
     }
 
     public static String getTwoNames(String name, String nickname) {

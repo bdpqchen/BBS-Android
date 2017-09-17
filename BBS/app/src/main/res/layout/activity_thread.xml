@@ -138,7 +138,6 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_insert_comment_white_24dp"
         app:backgroundTint="@color/material_teal_300"
-        app:layout_behavior="com.twtstudio.bbs.bdpqchen.bbs.commons.support.FABScrollBehavior"
         app:elevation="6dp"
         app:fabSize="normal"
         android:layout_margin="8dp"

@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseFooterViewHolder;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IsUtil;
@@ -48,22 +47,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private List<ThreadModel.PostBean> mPostData = new ArrayList<>();
-    private OnItemClickListener mOnItemClickListener = null;
     private int mPage = 0;
-    private boolean mIsEnding = false;
     private boolean mIsNoMore = false;
-    private boolean mEnding;
-    private boolean mIsFinding = false;
 
-    public List<ThreadModel.PostBean> getPostList() {
+    List<ThreadModel.PostBean> getPostList() {
         return mPostData;
     }
 
     private OnPostClickListener mListener;
-
-    public boolean isLike(int like) {
-        return like == 1;
-    }
 
     public interface OnPostClickListener {
         void onLikeClick(int position, boolean isLike, boolean isPost);
@@ -71,11 +62,11 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         void onReplyClick(int position);
     }
 
-    public int getPostId(int position) {
+    int getPostId(int position) {
         return mPostData.get(position).getId();
     }
 
-    public PostAdapter(Context context, OnPostClickListener listener) {
+    PostAdapter(Context context, OnPostClickListener listener) {
         mContext = context;
         mListener = listener;
     }
@@ -84,12 +75,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         if (viewType == ITEM_NORMAL) {
-//            LogUtil.dd("view = normal");
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_post, parent, false);
-//            view.setOnClickListener(this);
             return new PostHolder(view);
         } else if (viewType == ITEM_FOOTER) {
-//            LogUtil.dd("view == footer");
             view = LayoutInflater.from(mContext).inflate(R.layout.item_common_footer, parent, false);
             return new BaseFooterViewHolder(view);
         } else if (viewType == ITEM_HEADER) {
@@ -108,7 +96,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (mPostData != null && mPostData.size() > 0) {
-//            LogUtil.dd("position", String.valueOf(position));
+            int likeColor = mContext.getResources().getColor(R.color.colorPrimaryCopy);
+            int unlikeColor = mContext.getResources().getColor(R.color.colorTintIconBlack);
             if (holder instanceof HeaderHolder) {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 ThreadModel.PostBean p = mPostData.get(position);
@@ -123,12 +112,19 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, p.getAuthor_id(), headerHolder.mCivAvatarThread);
                 }
                 headerHolder.mTvTitle.setText(p.getTitle());
-                headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 headerHolder.mTvUsernameThread.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
-//                LogUtil.dd("header contentis", p.getContent_converted());
                 headerHolder.mHtvContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, headerHolder.mHtvContent));
-                if (p.getT_modify() > 0 && p.getT_modify() != p.getT_create()) {
-                    headerHolder.mTvModifyTime.setText(TextUtil.getModifyTime(p.getT_modify()));
+                headerHolder.mTvDatetimeThread.setText(TextUtil.getThreadDateTime(p.getT_create(), p.getT_modify()));
+                final boolean isLiked = IsUtil.is1(p.getLiked());
+                headerHolder.mTvLike.setText(String.valueOf(p.getLike()));
+                headerHolder.mIvLike.setOnClickListener(v -> mListener.onLikeClick(position, !isLiked, false));
+                headerHolder.mIvComment.setOnClickListener(v -> mListener.onReplyClick(position));
+                if (isLiked) {
+                    headerHolder.mTvLike.setTextColor(likeColor);
+                    headerHolder.mIvLike.setColorFilter(likeColor, PorterDuff.Mode.SRC_IN);
+                } else {
+                    headerHolder.mIvLike.clearColorFilter();
+                    headerHolder.mTvLike.setTextColor(unlikeColor);
                 }
             } else if (holder instanceof PostHolder) {
                 ThreadModel.PostBean p = mPostData.get(position);
@@ -136,7 +132,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 int uid = p.getAuthor_id();
                 if (IsUtil.is1(p.getAnonymous())) {
                     p.setAuthor_name(ANONYMOUS_NAME);
-                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_right, h.mCivAvatarPost);
+                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, h.mCivAvatarPost);
                     h.mCivAvatarPost.setOnClickListener(null);
                 } else {
                     h.mCivAvatarPost.setOnClickListener(v -> {
@@ -149,18 +145,13 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
                 h.mHtvPostContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, h.mHtvPostContent));
                 final boolean isLiked = IsUtil.is1(p.getLiked());
-                int unlikeColor = mContext.getResources().getColor(R.color.colorTvBlackMain);
                 h.mTvLike.setText(String.valueOf(p.getLike()));
                 h.mIvLike.setOnClickListener(v -> mListener.onLikeClick(position, !isLiked, true));
                 h.mIvReply.setOnClickListener(v -> mListener.onReplyClick(position));
-//                int colorRes = R.color.colorTintIconBlack;
-                LogUtil.dd("isLiked", String.valueOf(isLiked));
                 if (isLiked) {
-                    int colorRes = R.color.colorPrimaryCopy;
-                    int color = mContext.getResources().getColor(colorRes);
-                    h.mTvLike.setTextColor(color);
-                    h.mIvLike.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                }else{
+                    h.mTvLike.setTextColor(likeColor);
+                    h.mIvLike.setColorFilter(likeColor, PorterDuff.Mode.SRC_IN);
+                } else {
                     h.mIvLike.clearColorFilter();
                     h.mTvLike.setTextColor(unlikeColor);
                 }
@@ -174,7 +165,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public void startToPeople(int uid, String username) {
+    private void startToPeople(int uid, String username) {
         mContext.startActivity(IntentUtil.toPeople(mContext, uid, username));
     }
 
@@ -212,7 +203,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return ITEM_NORMAL;
     }
 
-    public void updateThreadPost(List<ThreadModel.PostBean> postList, int page) {
+    void updateThreadPost(List<ThreadModel.PostBean> postList, int page) {
         mPage = page + 1;
         if (postList == null || postList.size() == 0) {
             mIsNoMore = true;
@@ -230,7 +221,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void refreshThisPage(List<ThreadModel.PostBean> postList, int page) {
+    void refreshThisPage(List<ThreadModel.PostBean> postList, int page) {
         LogUtil.dd("refreshThisPage()");
         LogUtil.dd(String.valueOf(mPostData.size()));
         if (page == 0) {
@@ -252,7 +243,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     void likeItem(int position, boolean isLike) {
         int add = 1;
         int liked = 1;
-        if (!isLike){
+        if (!isLike) {
             add = -1;
             liked = 0;
         }
@@ -263,8 +254,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         notifyItemChanged(position);
     }
 
-
-    public String comment2reply(int postPosition, String content) {
+    String comment2reply(int postPosition, String content) {
         ThreadModel.PostBean post = mPostData.get(postPosition);
         String beforeCommendContent = post.getContent();
         String cut = cutTwoQuote(beforeCommendContent);
@@ -382,12 +372,16 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView mTvLevelThread;
         @BindView(R.id.tv_datetime_thread)
         TextView mTvDatetimeThread;
-        @BindView(R.id.tv_modify_time)
-        TextView mTvModifyTime;
         @BindView(R.id.tv_title)
         TextView mTvTitle;
         @BindView(R.id.htv_content)
         HtmlTextView mHtvContent;
+        @BindView(R.id.tv_thread_like)
+        TextView mTvLike;
+        @BindView(R.id.iv_thread_like)
+        ImageView mIvLike;
+        @BindView(R.id.iv_thread_comment)
+        ImageView mIvComment;
 
         HeaderHolder(View itemView) {
             super(itemView);

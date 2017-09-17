@@ -23,10 +23,10 @@ interface ThreadContract {
         void onUnStarred();
         void onUploadFailed(String m);
         void onUploaded(UploadImageModel model);
-        void onLike(BaseModel model, int id);
-        void onLikeFailed(String m, int id);
-        void onUnlike(BaseModel entity, int id);
-        void onUnlikeFailed(String m, int id);
+        void onLike(BaseModel model);
+        void onLikeFailed(String m, int position, boolean isLike);
+        void onUnlike(BaseModel entity);
+        void onUnlikeFailed(String m, int position, boolean isLike);
 
     }
     interface Presenter extends BasePresenter<View>{
@@ -35,6 +35,6 @@ interface ThreadContract {
         void starThread(int id);
         void unStarThread(int id);
         void uploadImages(String uri);
-        void like(int id, boolean isLike, boolean isPost);
+        void like(int id, int position, boolean isLike, boolean isPost);
     }
 }

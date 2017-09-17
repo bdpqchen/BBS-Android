@@ -482,23 +482,23 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     @Override
-    public void onLike(BaseModel model, int id) {
-        SnackBarUtil.normal(this, "点赞成功");
+    public void onLike(BaseModel model) {
     }
 
     @Override
-    public void onLikeFailed(String m, int id) {
+    public void onLikeFailed(String m, int pos, boolean isLike) {
         SnackBarUtil.notice(this, m);
+        mAdapter.likeItem(pos, !isLike);
     }
 
     @Override
-    public void onUnlike(BaseModel entity, int id) {
-        SnackBarUtil.normal(this, "点赞已取消");
+    public void onUnlike(BaseModel entity) {
     }
 
     @Override
-    public void onUnlikeFailed(String m, int id) {
-        SnackBarUtil.notice(this, "取消点赞失败");
+    public void onUnlikeFailed(String m, int position, boolean isLike) {
+        SnackBarUtil.notice(this, m);
+        mAdapter.likeItem(position, !isLike);
     }
 
     @Override
@@ -801,10 +801,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
 
     @Override
     public void onLikeClick(int position, boolean isLike, boolean isPost) {
-        mPresenter.like(mAdapter.getPostId(position), isLike, isPost);
+        mPresenter.like(mAdapter.getPostId(position), position, isLike, isPost);
         mAdapter.likeItem(position, isLike);
-//        mAdapter.notifyItemChanged(position);
-
     }
 
     @Override
