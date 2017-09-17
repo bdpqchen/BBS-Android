@@ -25,7 +25,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
+import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel;
 
 import java.io.File;
@@ -110,8 +111,11 @@ public class RxDoHttpClient<T> {
         return mApi.getForums();
     }
 
-    public Observable<BaseResponse<MainModel>> getMainData() {
-        return mApi.getMainData("Mobile");
+    public Observable<BaseResponse<List<LatestEntity>>> getLatestList() {
+        return mApi.getLatestList("Mobile");
+    }
+    public Observable<BaseResponse<List<HotEntity>>> getHotList() {
+        return mApi.getHotList("Mobile");
     }
 
     public Observable<BaseResponse<RegisterModel>> doRegister(Bundle bundle) {

@@ -8,4 +8,8 @@ public final class IsUtil {
     public static boolean is1(int status) {
         return status == 1;
     }
+
+    public static boolean is0(int status) {
+        return status == 0;
+    }
 }

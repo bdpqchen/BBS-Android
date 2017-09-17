@@ -14,7 +14,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -26,7 +25,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS
  * Created by bdpqchen on 17-6-5.
  */
 
-public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
+public class LatestAdapter extends BaseAdapter<LatestEntity> {
 
 
     public LatestAdapter(Context context) {
@@ -46,7 +45,7 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
         if (mDataSet != null && mDataSet.size() > 0) {
             if (holder0 instanceof LatestViewHolder) {
                 LatestViewHolder holder = (LatestViewHolder) holder0;
-                MainModel.LatestBean model = mDataSet.get(position);
+                LatestEntity model = mDataSet.get(position);
                 if (model.getAnonymous() == 1) {
                     model.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivLatestAvatar);
@@ -60,12 +59,8 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
                 holder.mTvUsername.setText(model.getAuthor_name());
                 holder.mTvBoardName.setText(TextUtil.getBoardName(model.getBoard_name()));
                 holder.mTvThreadTitle.setText(model.getTitle());
-                holder.mTvPostCount.setText(model.getC_post() + "");
-                if (model.getC_post() == 0) {
-                    holder.mTvLatestTime.setText("发布于 " + StampUtil.getTimeFromNow(model.getT_create()));
-                } else {
-                    holder.mTvLatestTime.setText(StampUtil.getTimeFromNow(model.getT_reply()) + "有新动态");
-                }
+                holder.mTvPostCount.setText(String.valueOf(model.getC_post()));
+                holder.mTvLatestTime.setText(StampUtil.getTimeFromNow(model.getT_create(), model.getT_reply()));
                 holder.mTvBoardName.setOnClickListener(v -> {
                     mContext.startActivity(IntentUtil.toThreadList(mContext, model.getBoard_id(), model.getBoard_name(), model.getAnonymous()));
                 });

@@ -12,8 +12,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainContract;
-import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainPresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -59,22 +61,24 @@ public class HotFragment extends BaseFragment<MainPresenter> implements MainCont
         mRvHot.setAdapter(mAdapter);
         mSrlHot.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlHot.setOnRefreshListener(() -> {
-            mPresenter.getDataList();
+            getDataList();
             mRefreshing = true;
             mSrlHot.setRefreshing(true);
         });
-        mPresenter.getDataList();
-        LogUtil.d("hot ten init ");
-
+        getDataList();
     }
 
     @Override
-    public void onGotDataList(MainModel model) {
-        if (model.getHot() != null && model.getHot().size() > 0) {
+    public void onGetLatestList(List<LatestEntity> list) {
+    }
+
+    @Override
+    public void onGetHotList(List<HotEntity> list) {
+        if (list != null && list.size() > 0) {
             if (mRefreshing) {
-                mAdapter.refreshList(model.getHot());
+                mAdapter.refreshList(list);
             } else {
-                mAdapter.addList(model.getHot());
+                mAdapter.addList(list);
             }
         }
         setRefreshing(false);
@@ -86,6 +90,10 @@ public class HotFragment extends BaseFragment<MainPresenter> implements MainCont
         hideLoading();
         setRefreshing(false);
         SnackBarUtil.notice(this.getActivity(), msg + "\n刷新试试～");
+    }
+
+    private void getDataList() {
+        mPresenter.getHotList();
     }
 
     void setRefreshing(boolean b) {

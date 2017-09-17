@@ -30,7 +30,7 @@ public class MainModel {
     public static class LatestBean {
         /**
          * id : 7909
-         * title : 我之前发的帖子被删了啊啊啊
+         * title : 我之前发的帖子被删了啊啊啊-
          * author_id : 39531
          * board_id : 193
          * author_name : testuser

@@ -9,11 +9,12 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainContract;
-import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainPresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -33,9 +34,7 @@ public class LatestFragment extends BaseFragment<MainPresenter> implements MainC
     TextView mTvLatestNoData;
 
     private LatestAdapter mAdapter;
-    private LinearLayoutManager mLinearLayoutManager;
     private boolean mRefreshing = false;
-
     public static LatestFragment newInstance() {
         return new LatestFragment();
     }
@@ -53,31 +52,34 @@ public class LatestFragment extends BaseFragment<MainPresenter> implements MainC
     @Override
     protected void initFragment() {
         mAdapter = new LatestAdapter(getActivity());
-        mLinearLayoutManager = new LinearLayoutManager(getActivity());
-        mRvLatest.setLayoutManager(mLinearLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRvLatest.setLayoutManager(linearLayoutManager);
         mRvLatest.setAdapter(mAdapter);
         mSrlLatest.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlLatest.setOnRefreshListener(() -> {
-            mPresenter.getDataList();
+            getDataList();
             mRefreshing = true;
             mSrlLatest.setRefreshing(true);
         });
-        mPresenter.getDataList();
-        LogUtil.d("latest ten init ");
-
+        getDataList();
     }
 
     @Override
-    public void onGotDataList(MainModel model) {
-        if (model.getLatest() != null && model.getLatest().size() > 0) {
+    public void onGetLatestList(List<LatestEntity> list) {
+        if (list != null && list.size() > 0) {
             if (mRefreshing) {
-                mAdapter.refreshList(model.getLatest());
+                mAdapter.refreshList(list);
             } else {
-                mAdapter.addList(model.getLatest());
+                mAdapter.addList(list);
             }
         }
         setRefreshing(false);
         hideLoading();
+    }
+
+    @Override
+    public void onGetHotList(List<HotEntity> list) {
+
     }
 
     @Override
@@ -98,4 +100,7 @@ public class LatestFragment extends BaseFragment<MainPresenter> implements MainC
         }
     }
 
+    public void getDataList() {
+        mPresenter.getLatestList();
+    }
 }

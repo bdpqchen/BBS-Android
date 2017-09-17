@@ -12,9 +12,12 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainContract;
-import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainPresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestAdapter;
+import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -59,26 +62,20 @@ public class PersonalFragment extends BaseFragment<MainPresenter> implements Mai
         mRvLatest.setAdapter(mAdapter);
         mSrlLatest.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlLatest.setOnRefreshListener(() -> {
-            mPresenter.getDataList();
             mRefreshing = true;
             mSrlLatest.setRefreshing(true);
         });
-        mPresenter.getDataList();
-        LogUtil.d("latest ten init ");
 
     }
 
     @Override
-    public void onGotDataList(MainModel model) {
-        if (model.getLatest() != null && model.getLatest().size() > 0) {
-            if (mRefreshing) {
-                mAdapter.refreshList(model.getLatest());
-            } else {
-                mAdapter.addList(model.getLatest());
-            }
-        }
-        setRefreshing(false);
-        hideLoading();
+    public void onGetLatestList(List<LatestEntity> list) {
+
+    }
+
+    @Override
+    public void onGetHotList(List<HotEntity> list) {
+
     }
 
     @Override

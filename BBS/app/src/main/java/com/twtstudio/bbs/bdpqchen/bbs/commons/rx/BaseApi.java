@@ -21,7 +21,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
+import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel;
 
 import java.util.List;
@@ -51,6 +52,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.EMAIL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.FRIEND_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MESSAGE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_REQUEST;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PASSWORD;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PID;
@@ -145,10 +147,6 @@ public interface BaseApi {
     Observable<BaseResponse<List<MessageModel>>> getMessageList(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Path("page") String page);
-
-    @GET("index")
-    Observable<BaseResponse<MainModel>> getMainData(
-            @Header(Constants.NET_RETROFIT_HEADER_REQUEST) String requestedWith);
 
     @FormUrlEncoded
     @POST("passport/login/old")
@@ -310,7 +308,10 @@ public interface BaseApi {
     Observable<BaseResponse<BaseModel>> unlikeThread(
             @Path(TID) int tid);
 
+    @GET("index/latest")
+    Observable<BaseResponse<List<LatestEntity>>> getLatestList(@Header(NET_RETROFIT_HEADER_REQUEST) String mobile);
 
-
+    @GET("index/hot")
+    Observable<BaseResponse<List<HotEntity>>> getHotList(@Header(NET_RETROFIT_HEADER_REQUEST) String mobile);
 }
 

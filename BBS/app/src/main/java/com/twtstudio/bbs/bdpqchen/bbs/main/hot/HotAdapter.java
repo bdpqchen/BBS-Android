@@ -17,7 +17,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -33,7 +32,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_TH
  * Created by bdpqchen on 17-6-5.
  */
 
-public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
+public class HotAdapter extends BaseAdapter<HotEntity> {
 
     public HotAdapter(Context context) {
         super(context);
@@ -51,7 +50,7 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
         if (mDataSet != null && mDataSet.size() > 0) {
             if (holder0 instanceof HotViewHolder) {
                 HotViewHolder holder = (HotViewHolder) holder0;
-                MainModel.HotBean model = mDataSet.get(position);
+                HotEntity model = mDataSet.get(position);
                 if (model.getAnonymous() == 1) {
                     model.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivHotAvatar);
