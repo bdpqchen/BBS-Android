@@ -30,10 +30,6 @@ public final class TextUtil {
     }
 
     public static String getTwoNames(String name, String nickname) {
-        LogUtil.dd("namename", name);
-        LogUtil.dd("nickname", nickname);
-        LogUtil.dd("isEqual", String.valueOf(name.equals(nickname)));
-        LogUtil.dd("is NUll", String.valueOf(nickname == null));
         if (nickname == null || isEqual(name, nickname)) {
             return name;
         }

@@ -78,10 +78,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:padding="4dp"
+            android:focusable="true"
+            android:padding="8dp"
             android:textColor="@color/colorTvBlackMainTint"
             android:textIsSelectable="true"
-            android:textSize="14sp"
+            android:textSize="16sp"
             tools:text="挑剔大家发多少aflsjlfsj大家来决定是否了解爱上了飞机来打扫房间2017年05月22日23:45:052017年05月22日23:45:07"
             />
 
@@ -91,14 +92,31 @@
             android:gravity="end"
             >
 
+
+            <ImageView
+                android:id="@+id/iv_post_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/selector_foreground_settings"
+                android:paddingBottom="4dp"
+                android:paddingStart="4dp"
+                android:paddingTop="4dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:src="@drawable/ic_thumb_up_white_24dp"
+                android:tint="@color/colorTintIconBlack"
+                />
+
             <TextView
                 android:id="@+id/tv_post_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginEnd="16dp"
-                android:drawablePadding="4dp"
-                android:drawableStart="@drawable/ic_thumb_up_white_24dp"
-                android:gravity="center"
+                android:gravity="start"
                 android:textColor="@color/colorTvBlackMain"
                 tools:text="10"
                 />
@@ -107,9 +125,14 @@
                 android:id="@+id/iv_post_reply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginEnd="16dp"
                 android:clickable="true"
                 android:focusable="true"
+                android:foreground="@drawable/selector_foreground_settings"
+                android:padding="4dp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
                 android:src="@drawable/ic_sms_black_24dp"
                 android:tint="@color/colorTintIconBlack"
                 />

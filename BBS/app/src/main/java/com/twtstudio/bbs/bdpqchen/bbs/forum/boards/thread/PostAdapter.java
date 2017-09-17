@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseFooterViewHold
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IsUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
@@ -42,7 +44,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGT
  * Created by bdpqchen on 17-5-23.
  */
 
-public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
+public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private List<ThreadModel.PostBean> mPostData = new ArrayList<>();
@@ -56,25 +58,21 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public List<ThreadModel.PostBean> getPostList() {
         return mPostData;
     }
+
     private OnPostClickListener mListener;
-    public interface OnPostClickListener{
-        void onLikeClick(int position, int id);
+
+    public boolean isLike(int like) {
+        return like == 1;
     }
 
-    @Override
-    public void onClick(View v) {
-        if (mOnItemClickListener != null) {
-            //注意这里使用getTag方法获取position
-            mOnItemClickListener.onItemClick(v, (int) v.getTag());
-        }
+    public interface OnPostClickListener {
+        void onLikeClick(int position, boolean isLike, boolean isPost);
+
+        void onReplyClick(int position);
     }
 
     public int getPostId(int position) {
         return mPostData.get(position).getId();
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.mOnItemClickListener = listener;
     }
 
     public PostAdapter(Context context, OnPostClickListener listener) {
@@ -114,7 +112,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             if (holder instanceof HeaderHolder) {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 ThreadModel.PostBean p = mPostData.get(position);
-                if (p.getAnonymous() == 1) {
+                if (IsUtil.is1(p.getAnonymous())) {
                     p.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, headerHolder.mCivAvatarThread);
                     headerHolder.mCivAvatarThread.setOnClickListener(null);
@@ -136,7 +134,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 ThreadModel.PostBean p = mPostData.get(position);
                 PostHolder h = (PostHolder) holder;
                 int uid = p.getAuthor_id();
-                if (p.getAnonymous() == 1) {
+                if (IsUtil.is1(p.getAnonymous())) {
                     p.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_right, h.mCivAvatarPost);
                     h.mCivAvatarPost.setOnClickListener(null);
@@ -150,16 +148,28 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
                 h.mHtvPostContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, h.mHtvPostContent));
-                h.mTvLike.setText(p.getLike());
-                h.mTvLike.setOnClickListener(v -> mListener.onLikeClick(position, 0));
-
-
+                final boolean isLiked = IsUtil.is1(p.getLiked());
+                int unlikeColor = mContext.getResources().getColor(R.color.colorTvBlackMain);
+                h.mTvLike.setText(String.valueOf(p.getLike()));
+                h.mIvLike.setOnClickListener(v -> mListener.onLikeClick(position, !isLiked, true));
+                h.mIvReply.setOnClickListener(v -> mListener.onReplyClick(position));
+//                int colorRes = R.color.colorTintIconBlack;
+                LogUtil.dd("isLiked", String.valueOf(isLiked));
+                if (isLiked) {
+                    int colorRes = R.color.colorPrimaryCopy;
+                    int color = mContext.getResources().getColor(colorRes);
+                    h.mTvLike.setTextColor(color);
+                    h.mIvLike.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                }else{
+                    h.mIvLike.clearColorFilter();
+                    h.mTvLike.setTextColor(unlikeColor);
+                }
             } else if (holder instanceof BaseFooterViewHolder) {
-                LogUtil.dd("base footer view");
+//                LogUtil.dd("base footer view");
             } else if (holder instanceof TheEndViewHolder) {
-                LogUtil.dd("the end view");
+//                LogUtil.dd("the end view");
             } else if (holder instanceof JustHeaderHolder) {
-                LogUtil.dd("just header view");
+//                LogUtil.dd("just header view");
             }
         }
     }
@@ -238,6 +248,21 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
 
     }
+
+    void likeItem(int position, boolean isLike) {
+        int add = 1;
+        int liked = 1;
+        if (!isLike){
+            add = -1;
+            liked = 0;
+        }
+        ThreadModel.PostBean entity = mPostData.get(position);
+        entity.setLike(entity.getLike() + add);
+        entity.setLiked(liked);
+        mPostData.set(position, entity);
+        notifyItemChanged(position);
+    }
+
 
     public String comment2reply(int postPosition, String content) {
         ThreadModel.PostBean post = mPostData.get(postPosition);
@@ -339,6 +364,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView mTvLike;
         @BindView(R.id.iv_post_reply)
         ImageView mIvReply;
+        @BindView(R.id.iv_post_like)
+        ImageView mIvLike;
 
         PostHolder(View view) {
             super(view);

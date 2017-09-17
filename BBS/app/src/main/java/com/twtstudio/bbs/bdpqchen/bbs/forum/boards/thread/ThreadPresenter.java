@@ -1,7 +1,9 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
+
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.BaseResponse;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
@@ -14,6 +16,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -158,6 +161,42 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer));
+    }
+
+    public void like(int id, boolean isLike, boolean isThread) {
+        ResponseTransformer<BaseModel> transformer = new ResponseTransformer<>();
+        SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
+            @Override
+            public void _onError(String msg) {
+                if (mView != null) {
+                    if (isLike) mView.onLikeFailed(msg, id);
+                    else mView.onUnlikeFailed(msg, id);
+                }
+            }
+
+            @Override
+            public void _onNext(BaseModel o) {
+                if (mView != null) {
+                    if (isLike) mView.onLike(o, id);
+                    else mView.onUnlike(o, id);
+                }
+            }
+        };
+        addSubscribe(getLikeHeader(id, isLike, isThread)
+                .map(transformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer));
+    }
+
+    private Observable<BaseResponse<BaseModel>> getLikeHeader(int id, boolean isLike, boolean isPost) {
+        if (isPost) {
+            if (isLike) return mHttpClient.likePost(id);
+            else return mHttpClient.unlikePost(id);
+        } else {
+            if (isLike) return mHttpClient.likeThread(id);
+            else return mHttpClient.unlikeThread(id);
+        }
     }
 
 }

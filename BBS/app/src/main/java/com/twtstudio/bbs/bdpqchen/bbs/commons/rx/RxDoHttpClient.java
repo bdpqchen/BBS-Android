@@ -293,4 +293,21 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<BaseModel>> addFriend(int uid, String m) {
         return mApi.addFriend(uid, m);
     }
+
+    public Observable<BaseResponse<BaseModel>> likePost(int pid) {
+        return mApi.likePost(pid);
+    }
+
+    public Observable<BaseResponse<BaseModel>> likeThread(int tid) {
+        return mApi.likeThread(tid);
+    }
+
+    public Observable<BaseResponse<BaseModel>> unlikePost(int pid) {
+        return mApi.unlikePost(pid);
+    }
+
+    public Observable<BaseResponse<BaseModel>> unlikeThread(int tid) {
+        return mApi.unlikeThread(tid);
+    }
+
 }

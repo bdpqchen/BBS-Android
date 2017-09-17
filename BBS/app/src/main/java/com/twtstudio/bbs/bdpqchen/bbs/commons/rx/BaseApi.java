@@ -53,9 +53,11 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MESSAGE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PASSWORD;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REAL_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REPLY_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.STUNUM;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TO_UID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
@@ -224,12 +226,12 @@ public interface BaseApi {
     @POST("home/collection")
     Observable<BaseResponse<BaseModel>> starThread(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String head,
-            @Field(Constants.TID) int id);
+            @Field(TID) int id);
 
     @DELETE("home/collection/{tid}")
     Observable<BaseResponse<BaseModel>> unStarThread(
             @Header(header) String latestAuthentication,
-            @Path(Constants.TID) int id);
+            @Path(TID) int id);
 
     @POST("home/message/read")
     Observable<BaseResponse<BaseModel>> doClearUnreadMessage();
@@ -291,5 +293,24 @@ public interface BaseApi {
     Observable<BaseResponse<BaseModel>> addFriend(
             @Field(FRIEND_ID) int uid,
             @Field(MESSAGE) String m);
+
+    @PUT("post/{pid}/like")
+    Observable<BaseResponse<BaseModel>> likePost(
+            @Path(PID) int pid);
+
+    @PUT("thread/{tid}/like")
+    Observable<BaseResponse<BaseModel>> likeThread(
+            @Path(TID) int tid);
+
+    @DELETE("post/{pid}/like")
+    Observable<BaseResponse<BaseModel>> unlikePost(
+            @Path(PID) int pid);
+
+    @DELETE("thread/{tid}/like")
+    Observable<BaseResponse<BaseModel>> unlikeThread(
+            @Path(TID) int tid);
+
+
+
 }
 

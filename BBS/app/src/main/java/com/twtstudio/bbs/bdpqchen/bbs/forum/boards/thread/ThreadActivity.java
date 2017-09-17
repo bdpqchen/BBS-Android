@@ -30,6 +30,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
@@ -324,40 +325,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         }
     }
 
-    private void stopFinding() {
-        mFindingFloor = 0;
-        mIsFindingFloor = false;
-        mRvThreadPost.scrollToPosition(mPossibleIndex);
-        setRefreshing(false);
-        hideProgress();
-    }
-
-    private void cannotFindIt() {
-        if (!mIsFindEnd) {
-            SnackBarUtil.notice(this, "该楼层不存在,可能已经被删除\n已经帮你跳转到附近楼层", true);
-        } else {
-            mIsFindEnd = false;
-        }
-        stopFinding();
-    }
-
-    private void findIt() {
-        stopFinding();
-    }
-
-    private void findFloor(int floor) {
-        mFindingFloor = floor;
-        if (isInside()) {
-            mRvThreadPost.scrollToPosition(mPossibleIndex);
-            mPage = mFindingPage;
-            hideProgress();
-        } else {
-            mIsFindingFloor = true;
-            mFindingPage = ++mPage;
-            mPresenter.getThread(mThreadId, mFindingPage);
-        }
-    }
-
     @Override
     public void onGotThread(ThreadModel model) {
         int canAnonymous = mCanAnonymous ? 1 : 0;
@@ -445,37 +412,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         setCheckBox(false);
     }
 
-    private boolean isInside() {
-        mPossibleIndex = 0;
-        boolean isFindIt = false;
-        if (mAdapter.getPostList() == null) {
-            return false;
-        }
-        List<ThreadModel.PostBean> posts = mAdapter.getPostList();
-        int size = posts.size();
-        int start = 0;
-        if (mIsFindingFloor) {
-            start = mFindingPage * MAX_LENGTH_POST;
-        }
-        if (size > 0) {
-            for (int i = start; i < size; i++) {
-                int floor = posts.get(i).getFloor();
-                if (floor == mFindingFloor) {
-                    isFindIt = true;
-                    LogUtil.dd("find it", String.valueOf(i));
-                    mPossibleIndex = i;
-                    break;
-                }
-                if (floor > mFindingFloor) {
-                    mPossibleIndex = i;
-                    break;
-                }
-                mPossibleIndex = i;
-            }
-        }
-        return isFindIt;
-    }
-
     @Override
     public void onGetThreadFailed(String m) {
         SnackBarUtil.error(this, m);
@@ -546,6 +482,26 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     @Override
+    public void onLike(BaseModel model, int id) {
+        SnackBarUtil.normal(this, "点赞成功");
+    }
+
+    @Override
+    public void onLikeFailed(String m, int id) {
+        SnackBarUtil.notice(this, m);
+    }
+
+    @Override
+    public void onUnlike(BaseModel entity, int id) {
+        SnackBarUtil.normal(this, "点赞已取消");
+    }
+
+    @Override
+    public void onUnlikeFailed(String m, int id) {
+        SnackBarUtil.notice(this, "取消点赞失败");
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_thread, menu);
@@ -592,6 +548,71 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 break;
         }
         return false;
+    }
+
+    private void stopFinding() {
+        mFindingFloor = 0;
+        mIsFindingFloor = false;
+        mRvThreadPost.scrollToPosition(mPossibleIndex);
+        setRefreshing(false);
+        hideProgress();
+    }
+
+    private void cannotFindIt() {
+        if (!mIsFindEnd) {
+            SnackBarUtil.notice(this, "该楼层不存在,可能已经被删除\n已经帮你跳转到附近楼层", true);
+        } else {
+            mIsFindEnd = false;
+        }
+        stopFinding();
+    }
+
+    private void findIt() {
+        stopFinding();
+    }
+
+    private void findFloor(int floor) {
+        mFindingFloor = floor;
+        if (isInside()) {
+            mRvThreadPost.scrollToPosition(mPossibleIndex);
+            mPage = mFindingPage;
+            hideProgress();
+        } else {
+            mIsFindingFloor = true;
+            mFindingPage = ++mPage;
+            mPresenter.getThread(mThreadId, mFindingPage);
+        }
+    }
+
+    private boolean isInside() {
+        mPossibleIndex = 0;
+        boolean isFindIt = false;
+        if (mAdapter.getPostList() == null) {
+            return false;
+        }
+        List<ThreadModel.PostBean> posts = mAdapter.getPostList();
+        int size = posts.size();
+        int start = 0;
+        if (mIsFindingFloor) {
+            start = mFindingPage * MAX_LENGTH_POST;
+        }
+        if (size > 0) {
+            for (int i = start; i < size; i++) {
+                int floor = posts.get(i).getFloor();
+                if (floor == mFindingFloor) {
+                    isFindIt = true;
+                    LogUtil.dd("find it", String.valueOf(i));
+                    mPossibleIndex = i;
+                    break;
+                }
+                if (floor > mFindingFloor) {
+                    mPossibleIndex = i;
+                    break;
+                }
+                mPossibleIndex = i;
+            }
+        }
+        return isFindIt;
     }
 
     private void toEnd() {
@@ -758,7 +779,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         }
     }
 
-    //分享文字
     public void shareText(String url) {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
@@ -780,7 +800,15 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     }
 
     @Override
-    public void onLikeClick(int position, int id) {
+    public void onLikeClick(int position, boolean isLike, boolean isPost) {
+        mPresenter.like(mAdapter.getPostId(position), isLike, isPost);
+        mAdapter.likeItem(position, isLike);
+//        mAdapter.notifyItemChanged(position);
+
+    }
+
+    @Override
+    public void onReplyClick(int position) {
         postPosition = position;
         mReplyId = mAdapter.getPostId(position);
         showCommentInput();
