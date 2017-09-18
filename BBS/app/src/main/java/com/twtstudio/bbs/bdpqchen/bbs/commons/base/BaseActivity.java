@@ -104,7 +104,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     private SlideConfig getSlideConfig() {
         return new SlideConfig.Builder()
-                .rotateScreen(false)
+                .rotateScreen(true)
                 .edgeOnly(true)
                 .edgePercent(0.3f)
                 .slideOutPercent(0.2f)

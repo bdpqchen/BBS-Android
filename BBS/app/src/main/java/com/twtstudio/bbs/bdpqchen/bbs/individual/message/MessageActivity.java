@@ -15,7 +15,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
@@ -45,7 +44,6 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     private boolean mRefreshing = false;
     private int lastVisibleItemPosition = 0;
     private int mPage = 0;
-    private boolean mIsLoadingMore = false;
     private LinearLayoutManager mLayoutManager;
     private boolean autoClear = true;
 
@@ -91,7 +89,6 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 2 >= mAdapter.getItemCount()) {
                     mPage++;
                     mPresenter.getMessageList(mPage);
-                    mIsLoadingMore = true;
                 }
             }
             @Override

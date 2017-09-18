@@ -22,8 +22,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.release.publish.PublishEntity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.release.reply.ReplyEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
@@ -189,12 +189,12 @@ public class RxDoHttpClient<T> {
         return mApi.getThread(threadId + "", postPage + "");
     }
 
-    public Observable<BaseResponse<List<MyReleaseModel>>> getMyReleaseList(int page) {
-        return mApi.getMyReleaseList(getLatestAuthentication(), String.valueOf(page));
+    public Observable<BaseResponse<List<PublishEntity>>> getPublishList(int page) {
+        return mApi.getPublishList(String.valueOf(page));
     }
 
-    public Observable<BaseResponse<List<MyReplyModel>>> getMyReplyList(int page) {
-        return mApi.getMyReplyList(getLatestAuthentication(), String.valueOf(page));
+    public Observable<BaseResponse<List<ReplyEntity>>> getReplyList(int page) {
+        return mApi.getReplyList(String.valueOf(page));
     }
 
     public Observable<BaseResponse<CreateThreadModel>> doPublishThread(Bundle bundle) {

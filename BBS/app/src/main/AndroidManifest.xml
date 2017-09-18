@@ -93,6 +93,7 @@
 -->
 
         <activity android:name=".mdeditor.EditorActivity"/>
+        <activity android:name=".individual.release.ReleaseActivity"/>
 
     </application>
 

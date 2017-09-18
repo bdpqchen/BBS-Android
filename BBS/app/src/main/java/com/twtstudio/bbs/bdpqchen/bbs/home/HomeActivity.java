@@ -36,10 +36,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @BindView(R.id.bottom_bar)
     BottomBar mBottomBar;
-
     BottomBarTab mNearBy;
-    private Context mContext;
-    private HomeActivity mHomeActivity;
     private SupportFragment[] mFragments = new SupportFragment[3];
     private static final int FIRST = 0;
     private static final int SECOND = 1;
@@ -48,8 +45,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private int mShowingFragment = FIRST;
     private int mHidingFragment = FIRST;
     private boolean mIsExit = false;
-    // 用于判定是否自动检查更新
-    private boolean isCheckedUpdate = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -80,8 +75,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mHomeActivity = this;
-        mContext = this;
+        Context context = this;
         LogUtil.dd("token", PrefUtil.getAuthToken());
         PrefUtil.setHadLogin(true);
 
@@ -125,11 +119,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             }
         });
 
-        isCheckedUpdate = true;
         if (PrefUtil.thisVersionFirstOpen()) {
             // TODO: 17-7-6 统一清理缓存
-            ImageUtil.clearMemory(mContext);
-            ImageUtil.clearDiskCache(mContext);
+            ImageUtil.clearMemory(context);
+            ImageUtil.clearDiskCache(context);
             PrefUtil.setIsThisVersionFirstOpen(false);
             PrefUtil.setIsSimpleBoardList(true);
         }
@@ -187,15 +180,5 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             }, 3000);
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        LogUtil.dd("home onResume", "getUnreadMessage");
-        if (mPresenter != null) {
-            mPresenter.getUnreadMessageCount();
-        }
-    }
-
 
 }

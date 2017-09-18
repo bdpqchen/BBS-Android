@@ -19,7 +19,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PermissionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -32,6 +31,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_RESULT_UPDATE_INFO;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_CATEGORY_AJAX;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_UPDATE_INFO;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_AVATAR;
@@ -59,7 +59,6 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     @BindView(R.id.tv_signature_update)
     TextView mTvSignatureUpdate;
 
-    private Activity mActivity;
     private String mNickname;
     private String mSignature;
     private String mOldNickname = PrefUtil.getInfoNickname();
@@ -95,19 +94,20 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActivity = this;
+        Activity activity = this;
         mNickname = PrefUtil.getInfoNickname();
         mSignature = PrefUtil.getInfoSignature();
         mTvNicknameUpdate.setText(mNickname);
         mTvSignatureUpdate.setText(mSignature);
-        ImageUtil.refreshMyAvatar(mActivity, mCivAvatar);
+        ImageUtil.refreshMyAvatar(activity, mCivAvatar);
         pkTracker();
     }
 
-    private void pkTracker(){
+    private void pkTracker() {
         getTrackerHelper().screen(PK_UPDATE_INFO).title("编辑资料").with(getTracker());
         getTrackerHelper().event(PK_CATEGORY_AJAX, "profile").name("PUT").with(getTracker());
     }
+
     @OnClick({R.id.rl_avatar_update_info, R.id.rl_nickname_update_info, R.id.rl_signature_update_info, R.id.rl_password_update_info})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -136,7 +136,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
 
     private void showInputDialog(String title, String hint, int range, MaterialDialog.InputCallback callback) {
         new MaterialDialog.Builder(this)
-                .inputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_MULTI_LINE)
+                .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE)
                 .input(hint, "", callback)
                 .title(title)
                 .negativeText("取消")
@@ -168,27 +168,22 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         hasUpdate();
     }
 
-
     private void hasUpdate() {
-        LogUtil.dd("nickname", mNickname);
-        LogUtil.dd("mOldNickname", mOldNickname);
-        LogUtil.dd("mSignature", mSignature);
-        LogUtil.dd("mOldSignature", mOldSignature);
         if (mNickname.equals(mOldNickname) && mSignature.equals(mOldSignature)) {
             finishMe();
         } else {
-                new MaterialDialog.Builder(this)
-                        .title("提示")
-                        .content("你刚刚修改的资料还没有保存")
-                        .positiveText("保存")
-                        .onPositive((materialDialog, dialogAction) -> {
-                            updateInfo();
-                        })
-                        .negativeText("放弃")
-                        .onNegative(((materialDialog, dialogAction) -> {
-                            finishMe();
-                        }))
-                        .show();
+            new MaterialDialog.Builder(this)
+                    .title("提示")
+                    .content("你刚刚修改的资料还没有保存")
+                    .positiveText("保存")
+                    .onPositive((materialDialog, dialogAction) -> {
+                        updateInfo();
+                    })
+                    .negativeText("放弃")
+                    .onNegative(((materialDialog, dialogAction) -> {
+                        finishMe();
+                    }))
+                    .show();
         }
     }
 
@@ -230,9 +225,9 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     }
 
     private void hasPermission() {
-       if (PermissionUtil.checkReadStorage(this)){
-           showImageList();
-       }
+        if (PermissionUtil.checkReadStorage(this)) {
+            showImageList();
+        }
     }
 
     private void showImageList() {
@@ -260,6 +255,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         hideProgressBar();
         SnackBarUtil.normal(this, "头像上传成功, 嘿嘿嘿");
         ImageUtil.refreshMyAvatar(this, mCivAvatar);
+        setUpdateAvatarResult();
     }
 
     @Override
@@ -278,4 +274,9 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         HandlerUtil.postDelay(this::finishMe, 2000);
     }
 
+    private void setUpdateAvatarResult(){
+        Intent data = new Intent();
+        data.putExtra(INTENT_RESULT_UPDATE_INFO, true);
+        setResult(RESULT_OK, data);
+    }
 }

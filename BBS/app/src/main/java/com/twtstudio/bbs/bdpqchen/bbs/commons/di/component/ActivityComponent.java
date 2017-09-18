@@ -18,7 +18,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.release.ReleaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
@@ -53,8 +53,6 @@ public interface ActivityComponent {
 
     void inject(MessageActivity messageActivity);
 
-    void inject(MyReleaseActivity myReleaseActivity);
-
     void inject(ThreadListActivity threadListActivity);
 
     void inject(AppealPassportActivity appealPassportActivity);
@@ -76,4 +74,7 @@ public interface ActivityComponent {
     void inject(PeopleActivity peopleActivity);
 
     void inject(LetterActivity letterActivity);
+
+    void inject(ReleaseActivity releaseActivity);
+
 }

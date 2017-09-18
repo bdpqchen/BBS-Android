@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainContract;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainPresenter;
@@ -36,7 +35,6 @@ public class HotFragment extends BaseFragment<MainPresenter> implements MainCont
     TextView mTvHotNoData;
 
     private HotAdapter mAdapter;
-    private LinearLayoutManager mLinearLayoutManager;
     private boolean mRefreshing = false;
 
     public static HotFragment newInstance() {
@@ -56,8 +54,8 @@ public class HotFragment extends BaseFragment<MainPresenter> implements MainCont
     @Override
     protected void initFragment() {
         mAdapter = new HotAdapter(getActivity());
-        mLinearLayoutManager = new LinearLayoutManager(getActivity());
-        mRvHot.setLayoutManager(mLinearLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRvHot.setLayoutManager(linearLayoutManager);
         mRvHot.setAdapter(mAdapter);
         mSrlHot.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlHot.setOnRefreshListener(() -> {

@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorMainBg">
+    android:background="@color/colorMainBg"
+    >
 
     <TextView
-        android:id="@+id/tv_none_reply"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
+        android:text="你还没有发布任何帖子"
         android:visibility="gone"
-        android:text="你还没有回复任何帖子"
+        android:id="@+id/tv_none_publish"
         />
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/srl"
+        android:id="@+id/srl_publish"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv"
+            android:id="@+id/rv_publish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical"
+            />
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
 
 </FrameLayout>

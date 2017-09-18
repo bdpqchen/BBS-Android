@@ -18,8 +18,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.release.publish.PublishEntity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.release.reply.ReplyEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
@@ -187,13 +187,11 @@ public interface BaseApi {
             @Path("page") String postPage);
 
     @GET("home/publish/thread/page/{page}")
-    Observable<BaseResponse<List<MyReleaseModel>>> getMyReleaseList(
-            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
+    Observable<BaseResponse<List<PublishEntity>>> getPublishList(
             @Path("page") String page);
 
     @GET("home/publish/post/page/{page}")
-    Observable<BaseResponse<List<MyReplyModel>>> getMyReplyList(
-            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
+    Observable<BaseResponse<List<ReplyEntity>>> getReplyList(
             @Path("page") String page);
 
     @FormUrlEncoded

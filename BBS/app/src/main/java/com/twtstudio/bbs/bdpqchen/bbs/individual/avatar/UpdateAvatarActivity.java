@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -50,7 +49,6 @@ public class UpdateAvatarActivity extends BaseActivity {
 
     @Override
     protected void inject() {
-//        getActivityComponent().inject(this);
     }
 
     @Override
@@ -61,9 +59,7 @@ public class UpdateAvatarActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         ImageUtil.refreshMyAvatar(this, resultView);
-
         mBtnFinish.setOnClickListener(v -> {
             if (mImagePath != null) {
                 Intent data = new Intent();
@@ -71,9 +67,7 @@ public class UpdateAvatarActivity extends BaseActivity {
                 setResult(RESULT_OK, data);
                 finish();
             }
-
         });
-
     }
 
     @Override
@@ -110,7 +104,7 @@ public class UpdateAvatarActivity extends BaseActivity {
         if (resultCode == RESULT_OK) {
             mImagePath = Crop.getOutput(result);
             resultView.setImageURI(mImagePath);
-            mBtnFinish.setVisibility(View.VISIBLE);
+            mBtnFinish.setClickable(true);
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
         }

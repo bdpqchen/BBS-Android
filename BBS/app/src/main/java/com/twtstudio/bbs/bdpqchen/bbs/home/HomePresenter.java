@@ -25,25 +25,23 @@ public class HomePresenter extends RxPresenter<HomeContract.View> implements Hom
 
 
     @Inject
-    public HomePresenter(RxDoHttpClient httpClient) {
+    HomePresenter(RxDoHttpClient httpClient) {
         this.mUnreadClient = httpClient;
     }
 
-
     @Override
     public void getUnreadMessageCount() {
-
         SimpleObserver<Integer> observer = new SimpleObserver<Integer>() {
             @Override
             public void _onError(String msg) {
-                if (mView != null){
+                if (mView != null) {
                     mView.onGetMessageFailed(msg);
                 }
             }
+
             @Override
             public void _onNext(Integer integer) {
-//                LogUtil.d(integer);
-                if (mView != null){
+                if (mView != null) {
                     mView.onGotMessageCount(integer);
                 }
             }
