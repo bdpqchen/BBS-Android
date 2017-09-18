@@ -23,7 +23,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
@@ -103,6 +102,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         String usernameToSet = intent.getStringExtra(USERNAME);
         if (usernameToSet == null || usernameToSet.length() == 0) {
             usernameToSet = PrefUtil.getAuthUsername();
+        }else{
             mEtPassword.requestFocus();
         }
         mEtAccount.setText(usernameToSet);

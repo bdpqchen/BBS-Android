@@ -35,6 +35,16 @@ public final class TextUtil {
         return pre + StampUtil.getDatetimeByStamp(resultTime);
     }
 
+    public static Spanned getNameWithFriend(String name, String nickname, int isFriend) {
+        boolean is = IsUtil.is1(isFriend);
+        String friend = "<font color=\'#e77574\'> [好友] </font>";
+        String result = getTwoNames(name, nickname);
+        if (is) {
+            result = friend + result;
+        }
+        return Html.fromHtml(result);
+    }
+
     public static String getTwoNames(String name, String nickname) {
         if (nickname == null || isEqual(name, nickname)) {
             return name;
@@ -49,7 +59,7 @@ public final class TextUtil {
         return str0.equals(str1);
     }
 
-    public static String getReplacedContent(String content) {
+    private static String getReplacedContent(String content) {
         content = content.replaceAll("attach:", BASE_URL + "img/");
         content = content.replaceAll("<img", "<br /><img");
         return content;

@@ -147,7 +147,7 @@
                     />
                 <ImageView
                     android:layout_marginStart="16dp"
-                    android:layout_width="13dp"
+                    android:layout_width="@dimen/icon_size_small"
                     android:layout_height="@dimen/icon_size_small"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"

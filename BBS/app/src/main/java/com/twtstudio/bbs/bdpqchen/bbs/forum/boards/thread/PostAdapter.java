@@ -112,7 +112,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, p.getAuthor_id(), headerHolder.mCivAvatarThread);
                 }
                 headerHolder.mTvTitle.setText(p.getTitle());
-                headerHolder.mTvUsernameThread.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
+                headerHolder.mTvUsernameThread.setText(TextUtil.getNameWithFriend(p.getAuthor_name(), p.getAuthor_nickname(), p.getFriend()));
                 headerHolder.mHtvContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, headerHolder.mHtvContent));
                 headerHolder.mTvDatetimeThread.setText(TextUtil.getThreadDateTime(p.getT_create(), p.getT_modify()));
                 final boolean isLiked = IsUtil.is1(p.getLiked());
@@ -140,7 +140,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, uid, h.mCivAvatarPost);
                 }
-                h.mTvUsernamePost.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
+                h.mTvUsernamePost.setText(TextUtil.getNameWithFriend(p.getAuthor_name(), p.getAuthor_nickname(), p.getFriend()));
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
                 h.mHtvPostContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, h.mHtvPostContent));

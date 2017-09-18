@@ -16,6 +16,7 @@ import com.oubowu.slideback.SlideBackHelper;
 import com.oubowu.slideback.SlideConfig;
 import com.oubowu.slideback.widget.SlideBackLayout;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerActivityComponent;
@@ -113,7 +114,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
     //由于滑动返回库的bug 目前只在5.0系统上出现此问题, 暂时修复方案
     private void fixApi21blackBlockOnBottom() {
         String className = getClass().getSimpleName();
-        if (!(className.equals(PeopleActivity.class.getSimpleName()) || className.equals(HomeActivity.class.getSimpleName()))) {
+        if (!(className.equals(PeopleActivity.class.getSimpleName())
+                || className.equals(HomeActivity.class.getSimpleName())
+                || className.equals(LoginActivity.class.getSimpleName()))) {
             if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
                 getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
                 FrameLayout view = (FrameLayout) findViewById(android.R.id.content);
@@ -134,7 +137,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         variables.put(2, "Android App Version", getResources().getString(R.string.version_name));
         variables.put(3, "Android OS Version", Build.VERSION.RELEASE);
         return TrackHelper.track(variables.toVisitVariables());
-//        return TrackHelper.track();
     }
 
     protected ActivityComponent getActivityComponent() {
