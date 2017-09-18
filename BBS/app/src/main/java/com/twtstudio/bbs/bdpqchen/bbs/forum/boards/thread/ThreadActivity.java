@@ -129,6 +129,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean mIsCommentAfter = false;
     private int mPostCount = 0;
     private boolean showingThreadTitle = false;
+    private boolean mIsShowingCommentDialog = false;
     private boolean showingBoardName = true;
     private boolean mIsFindingFloor = false;
     private int mFindingPage = 0;
@@ -202,12 +203,14 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 lastVisibleItemPosition = mLayoutManager.findLastVisibleItemPosition();
-                if (dy > 0 && mFabShowing) {
-                    mFabShowing = false;
-                    hideFab();
-                } else if (dy < 0 && !mFabShowing) {
-                    mFabShowing = true;
-                    showFab();
+                if (!mIsShowingCommentDialog) {
+                    if (dy > 0 && mFabShowing) {
+                        mFabShowing = false;
+                        hideFab();
+                    } else if (dy < 0 && !mFabShowing) {
+                        mFabShowing = true;
+                        showFab();
+                    }
                 }
                 int d = 300;
                 if (lastVisibleItemPosition != 0 && mLayoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
@@ -700,9 +703,11 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+        mIsShowingCommentDialog = false;
     }
 
     private void showCommentInput() {
+        mIsShowingCommentDialog = true;
         int d = 100;
         YoYo.with(Techniques.SlideOutRight)
                 .duration(d)
@@ -722,6 +727,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
                 imm.showSoftInput(mEtComment, 0);
             }
         }, d + 100);
+
     }
 
     private void showStarOrNot(int in_collection) {
