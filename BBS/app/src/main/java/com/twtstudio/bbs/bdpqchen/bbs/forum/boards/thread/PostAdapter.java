@@ -368,8 +368,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         CircleImageView mCivAvatarThread;
         @BindView(R.id.tv_username_thread)
         TextView mTvUsernameThread;
-        @BindView(R.id.tv_level_thread)
-        TextView mTvLevelThread;
         @BindView(R.id.tv_datetime_thread)
         TextView mTvDatetimeThread;
         @BindView(R.id.tv_title)

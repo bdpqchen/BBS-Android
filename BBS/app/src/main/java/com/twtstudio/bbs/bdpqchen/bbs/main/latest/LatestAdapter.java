@@ -12,6 +12,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.RandomUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 
@@ -19,6 +21,7 @@ import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS_NAME;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
 
 
 /**
@@ -35,13 +38,15 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LatestViewHolder holder = new LatestViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_latest, parent, false));
-        return holder;
+        if (viewType == ITEM_HEADER) {
+            return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_header, parent, false));
+        } else {
+            return new LatestViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_latest, parent, false));
+        }
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder0, int position) {
-
         if (mDataSet != null && mDataSet.size() > 0) {
             if (holder0 instanceof LatestViewHolder) {
                 LatestViewHolder holder = (LatestViewHolder) holder0;
@@ -62,19 +67,26 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
                 holder.mTvThreadTitle.setText(model.getTitle());
                 holder.mTvPostCount.setText(String.valueOf(model.getC_post()));
                 holder.mTvLatestTime.setText(StampUtil.getTimeFromNow(model.getT_create(), model.getT_reply()));
+                holder.itemView.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toThread(mContext, model.getId(), model.getTitle(), model.getBoard_id(), model.getBoard_name()));
+                });
                 holder.mTvBoardName.setOnClickListener(v -> {
                     mContext.startActivity(IntentUtil.toThreadList(mContext, model.getBoard_id(), model.getBoard_name(), model.getAnonymous()));
                 });
-                holder.mLlLatestBody.setOnClickListener(v -> {
-                    mContext.startActivity(IntentUtil.toThread(mContext, model.getId(), model.getTitle(), model.getBoard_id(), model.getBoard_name()));
+            } else if (holder0 instanceof HeaderHolder) {
+                HeaderHolder holder = (HeaderHolder) holder0;
+                holder.mTvUsername.setText(PrefUtil.getAuthUsername());
+                ImageUtil.loadMyAvatar(mContext, holder.mCivMyAvatar);
+                holder.mTvInduceCreate.setText(RandomUtil.getInduceCreateText());
+                holder.itemView.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toCreateThread(mContext));
                 });
             }
         }
-
     }
 
 
-    class LatestViewHolder extends BaseViewHolder {
+    static class LatestViewHolder extends BaseViewHolder {
 
         @BindView(R.id.civ_latest_avatar)
         CircleImageView mCivLatestAvatar;
@@ -98,7 +110,18 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
         LatestViewHolder(View itemView) {
             super(itemView);
         }
+    }
 
+    static class HeaderHolder extends BaseViewHolder {
+        @BindView(R.id.civ_my_avatar)
+        CircleImageView mCivMyAvatar;
+        @BindView(R.id.tv_username)
+        TextView mTvUsername;
+        @BindView(R.id.tv_induce_to_create)
+        TextView mTvInduceCreate;
 
+        HeaderHolder(View view) {
+            super(view);
+        }
     }
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
 
 /**
@@ -25,6 +26,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     private boolean isShowHeader = false;
     private OnItemClickListener mOnItemClickListener = null;
     protected int mPage = 0;
+    private boolean noDataHeader = false;
 
     @Override
     public void onClick(View v) {
@@ -72,6 +74,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         notifyDataSetChanged();
     }
 
+    public void addFirst(T item){
+        mDataSet.add(0, item);
+        notifyDataSetChanged();
+    }
+
     public void addList(List<T> items, int page) {
         mPage = page;
         addList(items);
@@ -79,6 +86,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
 
     @Override
     public int getItemViewType(int position) {
+        if (noDataHeader && position == 0) {
+            return ITEM_HEADER;
+        }
         if (mDataSet != null && mDataSet.size() > 0) {
             if (position + 1 == getItemCount()) {
                 return ITEM_FOOTER;
@@ -106,6 +116,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     }
 
     public void clearAll() {
+        mDataSet.removeAll(mDataSet);
         mDataSet.clear();
 //        notifyDataSetChanged();
     }
@@ -116,4 +127,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
 //        notifyDataSetChanged();
     }
 
+    public boolean isNoDataHeader() {
+        return noDataHeader;
+    }
+
+    public void setNoDataHeader(boolean noDataHeader) {
+        this.noDataHeader = noDataHeader;
+    }
 }

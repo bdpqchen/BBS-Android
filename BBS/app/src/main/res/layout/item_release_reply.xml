@@ -56,7 +56,7 @@
         android:foreground="@drawable/selector_foreground_settings"
         android:padding="4dp"
         android:text="删除"
-        android:textColor="@color/material_red_200"
+        android:textColor="@color/material_red_300"
         android:textSize="12sp"
         />
 

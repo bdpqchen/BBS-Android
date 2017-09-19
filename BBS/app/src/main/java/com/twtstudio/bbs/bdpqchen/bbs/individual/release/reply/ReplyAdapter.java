@@ -43,7 +43,7 @@ public class ReplyAdapter extends BaseAdapter<ReplyEntity> {
                 ReplyEntity entity = mDataSet.get(position);
                 holder.mTvTitle.setText(entity.getThread_title());
                 holder.mTvContent.setText(entity.getContent());
-                holder.mTvDelete.setOnClickListener(v -> mListener.onDeleteClick(position));
+                holder.mTvDelete.setOnClickListener(v -> mListener.onDeleteClick(holder.getAdapterPosition()));
                 holder.mTvBottomInfo.setText(TextUtil.getPostBottomInfo(entity.getC_post(), entity.getT_create(),
                         entity.getFloor(), entity.getAnonymous()));
                 holder.itemView.setOnClickListener(v -> {
@@ -58,8 +58,10 @@ public class ReplyAdapter extends BaseAdapter<ReplyEntity> {
     }
 
     void deletePost(int position) {
-        // id will remove the item *and* notify the below items.
+        // the position must be holder.getAdapterPosition().
+        mDataSet.remove(position);
         notifyItemRemoved(position);
+        notifyItemRangeChanged(position, mDataSet.size());
     }
 
 

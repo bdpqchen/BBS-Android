@@ -24,10 +24,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.RandomUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
-
-import java.util.Random;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
@@ -111,7 +110,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         } else {
             ImageUtil.loadAvatarAsBitmapByUid(this, PrefUtil.getAuthUid(), mCivAvatar);
         }
-        ImageUtil.loadLoginCover(this, getForumIdRandom(), mIvBanner);
+        ImageUtil.loadLoginCover(this, RandomUtil.getForumIdRandom(), mIvBanner);
         pkTracker();
     }
 
@@ -204,13 +203,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     }
 
-    private int getForumIdRandom() {
-        int max = 35;
-        int min = 28;
-        Random random = new Random();
-        int s = random.nextInt(max) % (max - min + 1) + min;
-        return s;
-    }
 
 }
 

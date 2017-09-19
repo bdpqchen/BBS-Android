@@ -45,7 +45,7 @@ public class PublishAdapter extends BaseAdapter<PublishEntity> {
                 holder.mTvTitle.setText(entity.getTitle());
                 holder.mTvContent.setText(entity.getContent());
                 holder.mTvDatetime.setText(TextUtil.getPostCountAndTime(entity.getC_post(), entity.getT_create()));
-                holder.mTvDelete.setOnClickListener(v -> mListener.onDeleteClick(position));
+                holder.mTvDelete.setOnClickListener(v -> mListener.onDeleteClick(holder.getAdapterPosition()));
                 holder.itemView.setOnClickListener(v -> {
                     mContext.startActivity(IntentUtil.toThread(mContext, entity.getId(), entity.getTitle(), 0));
                 });
@@ -59,7 +59,8 @@ public class PublishAdapter extends BaseAdapter<PublishEntity> {
 
     void deleteThread(int position) {
         mDataSet.remove(position);
-        notifyDataSetChanged();
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, mDataSet.size());
     }
 
     static class PublishHolder extends BaseViewHolder {

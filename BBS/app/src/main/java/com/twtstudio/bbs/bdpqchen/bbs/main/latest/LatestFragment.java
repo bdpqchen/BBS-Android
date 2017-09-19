@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainContract;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainPresenter;
@@ -35,6 +36,7 @@ public class LatestFragment extends BaseFragment<MainPresenter> implements MainC
 
     private LatestAdapter mAdapter;
     private boolean mRefreshing = false;
+
     public static LatestFragment newInstance() {
         return new LatestFragment();
     }
@@ -54,6 +56,8 @@ public class LatestFragment extends BaseFragment<MainPresenter> implements MainC
         mAdapter = new LatestAdapter(getActivity());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRvLatest.setLayoutManager(linearLayoutManager);
+        mRvLatest.addItemDecoration(new RecyclerViewItemDecoration(16));
+        mAdapter.setNoDataHeader(true);
         mRvLatest.setAdapter(mAdapter);
         mSrlLatest.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlLatest.setOnRefreshListener(() -> {
@@ -67,11 +71,12 @@ public class LatestFragment extends BaseFragment<MainPresenter> implements MainC
     @Override
     public void onGetLatestList(List<LatestEntity> list) {
         if (list != null && list.size() > 0) {
+            // add the header view data
             if (mRefreshing) {
-                mAdapter.refreshList(list);
-            } else {
-                mAdapter.addList(list);
+                mAdapter.clearAll();
             }
+            mAdapter.addFirst(new LatestEntity());
+            mAdapter.addList(list);
         }
         setRefreshing(false);
         hideLoading();
@@ -86,7 +91,7 @@ public class LatestFragment extends BaseFragment<MainPresenter> implements MainC
     public void onGotDataFailed(String msg) {
         hideLoading();
         setRefreshing(false);
-        SnackBarUtil.notice(this.getActivity(), msg + "\n刷新试试～");
+        SnackBarUtil.notice(this.getActivity(), msg + "\n刷新试试");
     }
 
     void setRefreshing(boolean b) {

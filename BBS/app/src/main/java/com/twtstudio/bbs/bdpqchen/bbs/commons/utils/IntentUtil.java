@@ -34,16 +34,19 @@ import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity.
 
 public final class IntentUtil {
 
-    public static Intent toThread(Context context, int tid){
+    public static Intent toThread(Context context, int tid) {
         return toThread(context, tid, "", 0);
     }
-    public static Intent toThread(Context context, int tid, String title, int floor){
+
+    public static Intent toThread(Context context, int tid, String title, int floor) {
         return toThread(context, tid, title, floor, 0, "");
     }
-    public static Intent toThread(Context context, int tid, String title, int bid, String boardTitle){
+
+    public static Intent toThread(Context context, int tid, String title, int bid, String boardTitle) {
         return toThread(context, tid, title, 0, bid, boardTitle);
     }
-    public static Intent toThread(Context context, int tid, String title, int floor, int bid, String boardTitle){
+
+    public static Intent toThread(Context context, int tid, String title, int floor, int bid, String boardTitle) {
         Intent intent = new Intent(context, ThreadActivity.class);
         intent.putExtra(INTENT_THREAD_ID, tid);
         intent.putExtra(INTENT_THREAD_TITLE, title);
@@ -53,7 +56,7 @@ public final class IntentUtil {
         return intent;
     }
 
-    public static Intent toThreadList(Context context, int bid, String name, int canAnon){
+    public static Intent toThreadList(Context context, int bid, String name, int canAnon) {
         Intent intent = new Intent(context, ThreadListActivity.class);
         intent.putExtra(INTENT_BOARD_ID, bid);
         intent.putExtra(INTENT_BOARD_TITLE, name);
@@ -66,6 +69,7 @@ public final class IntentUtil {
         intent.putExtra(UID, uid);
         return intent;
     }
+
     public static Intent toPeople(Context context, int uid, String username) {
         return toPeople(context, uid).putExtra(USERNAME, username);
     }
@@ -91,7 +95,7 @@ public final class IntentUtil {
     /*
     * @param toolbarTitle 0: 发表, 1: 回复
     */
-    public static Intent toEditor(Context context, String title, String content, int toolbarTitle){
+    public static Intent toEditor(Context context, String title, String content, int toolbarTitle) {
         Intent intent = new Intent(context, EditorActivity.class);
         intent.putExtra(INTENT_EDITOR_TITLE, title);
         intent.putExtra(INTENT_EDITOR_CONTENT, content);
@@ -100,13 +104,14 @@ public final class IntentUtil {
     }
 
     public static Intent toCreateThread(Context context, int fid, String fTitle) {
-        Intent intent = new Intent(context, CreateThreadActivity.class);
+        Intent intent = toCreateThread(context);
         intent.putExtra(INTENT_FORUM_ID, fid);
         intent.putExtra(INTENT_FORUM_TITLE, fTitle);
         return intent;
     }
-    public static Intent toCreateThread(Context context, int bid, String bTitle, int canAnon){
-        Intent intent1 = new Intent(context, CreateThreadActivity.class);
+
+    public static Intent toCreateThread(Context context, int bid, String bTitle, int canAnon) {
+        Intent intent1 = toCreateThread(context);
         intent1.putExtra(INTENT_IS_SPECIFY_BOARD, true);
         intent1.putExtra(INTENT_BOARD_ID, bid);
         intent1.putExtra(INTENT_BOARD_TITLE, bTitle);
@@ -114,13 +119,17 @@ public final class IntentUtil {
         return intent1;
     }
 
-    public static Intent toCreateThread(Context context, int fid, String fTitle, int bid, String bTitle, int canAnon){
-        Intent intent = new Intent(context, CreateThreadActivity.class);
+    public static Intent toCreateThread(Context context, int fid, String fTitle, int bid, String bTitle, int canAnon) {
+        Intent intent = toCreateThread(context);
         intent.putExtra(INTENT_FORUM_ID, fid);
         intent.putExtra(INTENT_FORUM_TITLE, fTitle);
         intent.putExtra(INTENT_BOARD_ID, bid);
         intent.putExtra(INTENT_BOARD_TITLE, bTitle);
         intent.putExtra(INTENT_BOARD_CAN_ANON, canAnon);
         return intent;
+    }
+
+    public static Intent toCreateThread(Context context) {
+        return new Intent(context, CreateThreadActivity.class);
     }
 }
