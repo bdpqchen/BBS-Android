@@ -28,13 +28,47 @@
             >
 
             <LinearLayout
-                android:id="@+id/ll_select_board"
+                android:id="@+id/ll_select_forum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@color/colorMainBgLight"
                 android:paddingEnd="@dimen/padding_start_create_thread"
                 android:paddingStart="@dimen/padding_start_create_thread"
+                android:visibility="gone"
+                tools:visibility="visible"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="选择分区："
+                    android:textSize="16sp"
+                    />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spinner_select_forum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="2dp"
+                    android:focusable="true"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_select_board"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorMainBgLight"
+                android:paddingEnd="@dimen/padding_start_create_thread"
+                android:paddingStart="@dimen/padding_start_create_thread"
+                android:layout_marginTop="2dp"
                 >
 
                 <TextView
