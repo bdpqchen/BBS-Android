@@ -1,6 +1,8 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.release.publish;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 
@@ -41,6 +43,29 @@ public class PublishPresenter extends RxPresenter<PublishContract.View> implemen
         };
         addSubscribe(mHttpClient.getPublishList(page)
                 .map(mHttpClient.mTransformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer));
+    }
+
+    @Override
+    public void deleteThread(int tid, int position) {
+        SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
+            @Override
+            public void _onError(String msg) {
+                if (mView != null)
+                    mView.onDeleteThreadFailed(msg);
+            }
+
+            @Override
+            public void _onNext(BaseModel entity) {
+
+                if (mView != null)
+                    mView.onDeleteThread(entity, position);
+            }
+        };
+        addSubscribe(mHttpClient.deleteThread(tid)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer));

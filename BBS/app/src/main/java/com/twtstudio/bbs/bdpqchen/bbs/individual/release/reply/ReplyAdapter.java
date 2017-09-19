@@ -9,10 +9,11 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.release.OnReleaseItemClickListener;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 /**
@@ -20,10 +21,12 @@ import butterknife.ButterKnife;
  */
 
 public class ReplyAdapter extends BaseAdapter<ReplyEntity> {
+    private OnReleaseItemClickListener mListener;
 
-    ReplyAdapter(Context context) {
+    ReplyAdapter(Context context, OnReleaseItemClickListener listener) {
         super(context);
         mContext = context;
+        mListener = listener;
     }
 
     @Override
@@ -40,25 +43,38 @@ public class ReplyAdapter extends BaseAdapter<ReplyEntity> {
                 ReplyEntity entity = mDataSet.get(position);
                 holder.mTvTitle.setText(entity.getThread_title());
                 holder.mTvContent.setText(entity.getContent());
-                holder.mTvDatetime.setText(TextUtil.getPostCountAndTime(entity.getC_post(), entity.getT_create()));
-                holder.mTvFloorAnon.setText(TextUtil.getFloorAndAnon(entity.getFloor(), entity.getAnonymous()));
+                holder.mTvDelete.setOnClickListener(v -> mListener.onDeleteClick(position));
+                holder.mTvBottomInfo.setText(TextUtil.getPostBottomInfo(entity.getC_post(), entity.getT_create(),
+                        entity.getFloor(), entity.getAnonymous()));
+                holder.itemView.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toThread(mContext, entity.getThread_id(), entity.getThread_title(), entity.getFloor()));
+                });
             }
         }
     }
+
+    int getPostId(int position) {
+        return mDataSet.get(position).getId();
+    }
+
+    void deletePost(int position) {
+        // id will remove the item *and* notify the below items.
+        notifyItemRemoved(position);
+    }
+
 
     static class ReplyHolder extends BaseViewHolder {
         @BindView(R.id.tv_title)
         TextView mTvTitle;
         @BindView(R.id.tv_content)
         TextView mTvContent;
-        @BindView(R.id.tv_datetime)
-        TextView mTvDatetime;
-        @BindView(R.id.tv_post_floor_and_anon)
-        TextView mTvFloorAnon;
+        @BindView(R.id.tv_bottom_info)
+        TextView mTvBottomInfo;
+        @BindView(R.id.tv_delete)
+        TextView mTvDelete;
 
         ReplyHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
         }
     }
 }

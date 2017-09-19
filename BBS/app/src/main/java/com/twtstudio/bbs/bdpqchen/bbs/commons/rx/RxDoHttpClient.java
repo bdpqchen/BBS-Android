@@ -114,6 +114,7 @@ public class RxDoHttpClient<T> {
     public Observable<BaseResponse<List<LatestEntity>>> getLatestList() {
         return mApi.getLatestList("Mobile");
     }
+
     public Observable<BaseResponse<List<HotEntity>>> getHotList() {
         return mApi.getHotList("Mobile");
     }
@@ -312,6 +313,14 @@ public class RxDoHttpClient<T> {
 
     public Observable<BaseResponse<BaseModel>> unlikeThread(int tid) {
         return mApi.unlikeThread(tid);
+    }
+
+    public Observable<BaseResponse<BaseModel>> deleteThread(int tid) {
+        return mApi.deleteThread(tid);
+    }
+
+    public Observable<BaseResponse<BaseModel>> deletePost(int pid) {
+        return mApi.deletePost(pid);
     }
 
 }

@@ -1,6 +1,8 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.release.reply;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 
@@ -41,6 +43,29 @@ class ReplyPresenter extends RxPresenter<ReplyContract.View> implements ReplyCon
         };
         addSubscribe(mHttpClient.getReplyList(page)
                 .map(mHttpClient.mTransformer)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer));
+    }
+
+    @Override
+    public void deletePost(int pid, int position) {
+        SimpleObserver<BaseModel> observer = new SimpleObserver<BaseModel>() {
+            @Override
+            public void _onError(String msg) {
+                if (mView != null)
+                    mView.onDeleteFailed(msg);
+            }
+
+            @Override
+            public void _onNext(BaseModel entity) {
+
+                if (mView != null)
+                    mView.onDeletePost(entity, position);
+            }
+        };
+        addSubscribe(mHttpClient.deletePost(pid)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer));

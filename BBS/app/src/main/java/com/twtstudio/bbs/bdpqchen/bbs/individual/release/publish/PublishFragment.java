@@ -5,11 +5,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.release.EndlessRecyclerOnScrollListener;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.release.OnReleaseItemClickListener;
 
 import java.util.List;
 
@@ -20,7 +24,7 @@ import butterknife.BindView;
  */
 
 public class PublishFragment extends BaseFragment<PublishPresenter> implements PublishContract.View,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener, OnReleaseItemClickListener {
 
     @BindView(R.id.tv_none_publish)
     TextView mTvNonePublish;
@@ -32,6 +36,7 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
     private PublishAdapter mAdapter;
     private int mPage = 0;
     private boolean mRefreshing = false;
+    private MaterialDialog mDialog;
 
     @Override
     protected int getFragmentLayoutId() {
@@ -45,7 +50,7 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
 
     @Override
     protected void initFragment() {
-        mAdapter = new PublishAdapter(mContext);
+        mAdapter = new PublishAdapter(mContext, this);
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRvPublish.setLayoutManager(manager);
@@ -92,10 +97,47 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
         SnackBarUtil.notice(this.getActivity(), m);
     }
 
-    private void stopRefreshing(){
-        if (mSrlPublish != null){
+    @Override
+    public void onDeleteThread(BaseModel entity, int position) {
+        SnackBarUtil.normal(mActivity, "一去不复返矣");
+        mAdapter.deleteThread(position);
+        stopProgress();
+    }
+
+    @Override
+    public void onDeleteThreadFailed(String m) {
+        stopProgress();
+        SnackBarUtil.error(mActivity, m);
+    }
+
+    private void stopRefreshing() {
+        if (mSrlPublish != null) {
             mSrlPublish.setRefreshing(false);
             mRefreshing = false;
         }
     }
+
+    @Override
+    public void onDeleteClick(int position) {
+        DialogUtil.alertDialog(mContext,
+                "最后的警告: 是否要删除本条记录?",
+                "是",
+                "否",
+                (dialog, which) -> {
+                    deleteThread(position);
+                }, null);
+    }
+
+    private void deleteThread(int position) {
+        mPresenter.deleteThread(mAdapter.getThreadId(position), position);
+        mDialog = DialogUtil.showProgressDialog(mContext, "正在删除, 稍后..");
+
+    }
+
+    private void stopProgress() {
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+    }
+
 }

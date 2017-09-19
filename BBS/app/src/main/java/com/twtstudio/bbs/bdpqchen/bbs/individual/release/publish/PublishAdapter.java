@@ -10,7 +10,9 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.release.OnReleaseItemClickListener;
 
 import butterknife.BindView;
 
@@ -20,10 +22,12 @@ import butterknife.BindView;
 
 public class PublishAdapter extends BaseAdapter<PublishEntity> {
 
+    private OnReleaseItemClickListener mListener;
 
-    PublishAdapter(Context context) {
+    PublishAdapter(Context context, OnReleaseItemClickListener listener) {
         super(context);
         mContext = context;
+        mListener = listener;
     }
 
     @Override
@@ -41,9 +45,21 @@ public class PublishAdapter extends BaseAdapter<PublishEntity> {
                 holder.mTvTitle.setText(entity.getTitle());
                 holder.mTvContent.setText(entity.getContent());
                 holder.mTvDatetime.setText(TextUtil.getPostCountAndTime(entity.getC_post(), entity.getT_create()));
-
+                holder.mTvDelete.setOnClickListener(v -> mListener.onDeleteClick(position));
+                holder.itemView.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toThread(mContext, entity.getId(), entity.getTitle(), 0));
+                });
             }
         }
+    }
+
+    int getThreadId(int position) {
+        return mDataSet.get(position).getId();
+    }
+
+    void deleteThread(int position) {
+        mDataSet.remove(position);
+        notifyDataSetChanged();
     }
 
     static class PublishHolder extends BaseViewHolder {
@@ -55,6 +71,8 @@ public class PublishAdapter extends BaseAdapter<PublishEntity> {
         TextView mTvContent;
         @BindView(R.id.tv_datetime)
         TextView mTvDatetime;
+        @BindView(R.id.tv_delete)
+        TextView mTvDelete;
 
         PublishHolder(View view) {
             super(view);

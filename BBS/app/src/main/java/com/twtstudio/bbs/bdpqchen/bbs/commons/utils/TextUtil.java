@@ -162,11 +162,15 @@ public final class TextUtil {
     }
 
     public static String getPostCountAndTime(int postCount, int datetime) {
-        return "回复 : " + postCount + "           " + "时间 : " + StampUtil.getDatetimeByStamp(datetime);
+        return "回复量 : " + postCount + "    " + "时间 : " + StampUtil.getDatetimeByStamp(datetime);
     }
 
     public static String getFloorAndAnon(int floor, int anonymous) {
         return isAnon(anonymous) + "回复于#" + floor;
+    }
+
+    public static String getPostBottomInfo(int postCount, int datetime, int floor, int anonymous){
+        return getFloorAndAnon(floor, anonymous) + "    " + getPostCountAndTime(postCount, datetime);
     }
 
     private static String isAnon(int status) {

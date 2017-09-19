@@ -311,5 +311,12 @@ public interface BaseApi {
 
     @GET("index/hot")
     Observable<BaseResponse<List<HotEntity>>> getHotList(@Header(NET_RETROFIT_HEADER_REQUEST) String mobile);
+
+    @DELETE("post/{pid}")
+    Observable<BaseResponse<BaseModel>> deletePost(@Path(PID) int pid);
+
+    @DELETE("thread/{tid}")
+    Observable<BaseResponse<BaseModel>> deleteThread(@Path(TID) int tid);
+
 }
 
