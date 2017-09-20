@@ -8,3 +8,5 @@
 .externalNativeBuild
 /keystore
 *.jks
+/release
+*.apk

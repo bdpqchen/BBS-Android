@@ -52,13 +52,13 @@ public class EditorFragment extends BaseFragment<EditorPresenter> implements Edi
     protected void initFragment() {
 //        LogUtil.dd("InitView");
         mPerformEditable = new PerformEditable(mEtContent);
-        PerformInputAfter.start(mEtContent);
         mTitle.setText(getTitle());
         mEtContent.setText(mContent);
         if (mContent != null && mContent.length() > 0){
             mEtContent.setSelection(mContent.length());
         }
 
+        PerformInputAfter.start(mEtContent);
     }
 
     public PerformEditable getPerformEditable() {
