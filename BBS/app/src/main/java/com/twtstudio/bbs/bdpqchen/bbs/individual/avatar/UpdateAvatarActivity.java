@@ -7,18 +7,15 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.soundcloud.android.crop.Crop;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import java.io.File;
 
@@ -51,13 +48,7 @@ public class UpdateAvatarActivity extends BaseActivity {
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
-//        getActivityComponent().inject(this);
     }
 
     @Override
@@ -68,19 +59,15 @@ public class UpdateAvatarActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         ImageUtil.refreshMyAvatar(this, resultView);
-
         mBtnFinish.setOnClickListener(v -> {
             if (mImagePath != null) {
                 Intent data = new Intent();
                 data.putExtra(Constants.INTENT_RESULT_IMAGE_PATH, mImagePath.toString());
-                setResult(Constants.RESULT_CODE_AVATAR, data);
+                setResult(RESULT_OK, data);
                 finish();
             }
-
         });
-
     }
 
     @Override
@@ -117,7 +104,7 @@ public class UpdateAvatarActivity extends BaseActivity {
         if (resultCode == RESULT_OK) {
             mImagePath = Crop.getOutput(result);
             resultView.setImageURI(mImagePath);
-            mBtnFinish.setVisibility(View.VISIBLE);
+            mBtnFinish.setClickable(true);
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
         }

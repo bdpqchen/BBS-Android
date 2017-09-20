@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".view.EditorActivity">
+    <item
+        android:id="@+id/action_markup"
+        android:orderInCategory="83"
+        android:title="选择标记"
+        android:icon="@drawable/ic_add_white_24dp"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_done"
+        android:orderInCategory="84"
+        android:title="完成"
+        android:icon="@drawable/ic_done_white_24dp"
+        app:showAsAction="always"/>
+
+<!--
+    <item
+        android:id="@+id/action_helper"
+        android:icon="@drawable/ic_help_white_24dp"
+        android:orderInCategory="85"
+        android:title="帮助"
+        app:showAsAction="always"/>
+-->
+
+</menu>

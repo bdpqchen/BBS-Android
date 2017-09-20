@@ -18,13 +18,6 @@
             />
 
         <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/key_slide_back"
-            android:layout="@layout/preference_item_normal"
-            android:title="滑动返回"
-            />
-
-        <SwitchPreference
             android:defaultValue="false"
             android:key="@string/key_always_anon"
             android:layout="@layout/preference_item_normal"

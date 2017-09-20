@@ -51,11 +51,6 @@ public class StarActivity extends BaseActivity<StarPresenter> implements StarCon
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }

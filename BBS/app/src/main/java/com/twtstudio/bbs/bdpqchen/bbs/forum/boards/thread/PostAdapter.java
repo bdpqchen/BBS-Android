@@ -2,25 +2,26 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.GlideImageGeter;
-import com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseFooterViewHolder;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IsUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.viewholder.TheEndViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.GlideImageGeter;
+import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,52 +43,41 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGT
  * Created by bdpqchen on 17-5-23.
  */
 
-public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
+public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private List<ThreadModel.PostBean> mPostData = new ArrayList<>();
-    private OnItemClickListener mOnItemClickListener = null;
-    private int onePage = MAX_LENGTH_POST;
     private int mPage = 0;
-    private boolean mIsEnding = false;
     private boolean mIsNoMore = false;
-    private boolean mEnding;
-    private boolean mIsFinding = false;
 
-    public List<ThreadModel.PostBean> getPostList() {
+    List<ThreadModel.PostBean> getPostList() {
         return mPostData;
     }
 
-    @Override
-    public void onClick(View v) {
-        if (mOnItemClickListener != null) {
-            //注意这里使用getTag方法获取position
-            mOnItemClickListener.onItemClick(v, (int) v.getTag());
-        }
+    private OnPostClickListener mListener;
+
+    public interface OnPostClickListener {
+        void onLikeClick(int position, boolean isLike, boolean isPost);
+
+        void onReplyClick(int position);
     }
 
-    public int getPostId(int position) {
+    int getPostId(int position) {
         return mPostData.get(position).getId();
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.mOnItemClickListener = listener;
-    }
-
-    public PostAdapter(Context context) {
+    PostAdapter(Context context, OnPostClickListener listener) {
         mContext = context;
+        mListener = listener;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         if (viewType == ITEM_NORMAL) {
-//            LogUtil.dd("view = normal");
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_post, parent, false);
-//            view.setOnClickListener(this);
             return new PostHolder(view);
         } else if (viewType == ITEM_FOOTER) {
-//            LogUtil.dd("view == footer");
             view = LayoutInflater.from(mContext).inflate(R.layout.item_common_footer, parent, false);
             return new BaseFooterViewHolder(view);
         } else if (viewType == ITEM_HEADER) {
@@ -106,11 +96,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (mPostData != null && mPostData.size() > 0) {
-//            LogUtil.dd("position", String.valueOf(position));
+            int likeColor = mContext.getResources().getColor(R.color.colorPrimaryCopy);
+            int unlikeColor = mContext.getResources().getColor(R.color.colorTintIconBlack);
             if (holder instanceof HeaderHolder) {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 ThreadModel.PostBean p = mPostData.get(position);
-                if (p.getAnonymous() == 1) {
+                if (IsUtil.is1(p.getAnonymous())) {
                     p.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, headerHolder.mCivAvatarThread);
                     headerHolder.mCivAvatarThread.setOnClickListener(null);
@@ -121,20 +112,27 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, p.getAuthor_id(), headerHolder.mCivAvatarThread);
                 }
                 headerHolder.mTvTitle.setText(p.getTitle());
-                headerHolder.mTvDatetimeThread.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
-                headerHolder.mTvUsernameThread.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
-//                LogUtil.dd("header contentis", p.getContent_converted());
+                headerHolder.mTvUsernameThread.setText(TextUtil.getNameWithFriend(p.getAuthor_name(), p.getAuthor_nickname(), p.getFriend()));
                 headerHolder.mHtvContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, headerHolder.mHtvContent));
-                if (p.getT_modify() > 0 && p.getT_modify() != p.getT_create()) {
-                    headerHolder.mTvModifyTime.setText(TextUtil.getModifyTime(p.getT_modify()));
+                headerHolder.mTvDatetimeThread.setText(TextUtil.getThreadDateTime(p.getT_create(), p.getT_modify()));
+                final boolean isLiked = IsUtil.is1(p.getLiked());
+                headerHolder.mTvLike.setText(String.valueOf(p.getLike()));
+                headerHolder.mIvLike.setOnClickListener(v -> mListener.onLikeClick(position, !isLiked, false));
+                headerHolder.mIvComment.setOnClickListener(v -> mListener.onReplyClick(position));
+                if (isLiked) {
+                    headerHolder.mTvLike.setTextColor(likeColor);
+                    headerHolder.mIvLike.setColorFilter(likeColor, PorterDuff.Mode.SRC_IN);
+                } else {
+                    headerHolder.mIvLike.clearColorFilter();
+                    headerHolder.mTvLike.setTextColor(unlikeColor);
                 }
             } else if (holder instanceof PostHolder) {
                 ThreadModel.PostBean p = mPostData.get(position);
                 PostHolder h = (PostHolder) holder;
                 int uid = p.getAuthor_id();
-                if (p.getAnonymous() == 1) {
+                if (IsUtil.is1(p.getAnonymous())) {
                     p.setAuthor_name(ANONYMOUS_NAME);
-                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_right, h.mCivAvatarPost);
+                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, h.mCivAvatarPost);
                     h.mCivAvatarPost.setOnClickListener(null);
                 } else {
                     h.mCivAvatarPost.setOnClickListener(v -> {
@@ -142,36 +140,33 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, uid, h.mCivAvatarPost);
                 }
-                h.mTvUsernamePost.setText(TextUtil.getTwoNames(p.getAuthor_name(), p.getAuthor_nickname()));
+                h.mTvUsernamePost.setText(TextUtil.getNameWithFriend(p.getAuthor_name(), p.getAuthor_nickname(), p.getFriend()));
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
-//                LogUtil.dd("contentis", p.getContent_converted());
-
                 h.mHtvPostContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, h.mHtvPostContent));
-                h.mTvReply.setTag(position);
-                h.mTvReply.setOnClickListener(this);
-
+                final boolean isLiked = IsUtil.is1(p.getLiked());
+                h.mTvLike.setText(String.valueOf(p.getLike()));
+                h.mIvLike.setOnClickListener(v -> mListener.onLikeClick(position, !isLiked, true));
+                h.mIvReply.setOnClickListener(v -> mListener.onReplyClick(position));
+                if (isLiked) {
+                    h.mTvLike.setTextColor(likeColor);
+                    h.mIvLike.setColorFilter(likeColor, PorterDuff.Mode.SRC_IN);
+                } else {
+                    h.mIvLike.clearColorFilter();
+                    h.mTvLike.setTextColor(unlikeColor);
+                }
             } else if (holder instanceof BaseFooterViewHolder) {
-                LogUtil.dd("base footer view");
+//                LogUtil.dd("base footer view");
             } else if (holder instanceof TheEndViewHolder) {
-                LogUtil.dd("the end view");
+//                LogUtil.dd("the end view");
             } else if (holder instanceof JustHeaderHolder) {
-                LogUtil.dd("just header view");
+//                LogUtil.dd("just header view");
             }
         }
     }
 
-    public void startToPeople(int uid, String username) {
+    private void startToPeople(int uid, String username) {
         mContext.startActivity(IntentUtil.toPeople(mContext, uid, username));
-    }
-
-    private String formatContent(String contentBefore) {
-        String content = "";
-        if (contentBefore != null && contentBefore.length() > 0) {
-            content = Processor.process(contentBefore);
-            content = TextUtil.getReplacedContent(content);
-        }
-        return content;
     }
 
     @Override
@@ -185,39 +180,30 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     @Override
     public int getItemViewType(int position) {
-//        LogUtil.dd("item position", String.valueOf(position));
-//        LogUtil.dd("itemCount", String.valueOf(getItemCount()));
         if (mPostData != null && mPostData.size() > 0) {
-//            if (position == 0 && mPage == 1 && !mIsEnding) {
             if (position == 0) {
-//                LogUtil.dd("return header");
                 return ITEM_HEADER;
             }
             if (mPostData.size() == 1) {
                 return ITEM_JUST_HEADER;
             }
             if (position + 1 == getItemCount()) {
-//                LogUtil.dd("page=", String.valueOf(mPage));
-                if (getItemCount() < (mPage) * onePage + 1) {
-//                    LogUtil.dd("return end before footer");
+                if (getItemCount() < (mPage) * MAX_LENGTH_POST + 1) {
                     return ITEM_END;
                 }
                 if (mIsNoMore) {
                     mIsNoMore = false;
-//                    LogUtil.dd(" no more return end");
                     return ITEM_END;
                 }
-//                LogUtil.dd("return footer");
                 return ITEM_FOOTER;
             } else {
-//                LogUtil.dd("return normal");
                 return ITEM_NORMAL;
             }
         }
         return ITEM_NORMAL;
     }
 
-    public void updateThreadPost(List<ThreadModel.PostBean> postList, int page) {
+    void updateThreadPost(List<ThreadModel.PostBean> postList, int page) {
         mPage = page + 1;
         if (postList == null || postList.size() == 0) {
             mIsNoMore = true;
@@ -235,7 +221,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         notifyDataSetChanged();
     }
 
-    public void refreshThisPage(List<ThreadModel.PostBean> postList, int page) {
+    void refreshThisPage(List<ThreadModel.PostBean> postList, int page) {
         LogUtil.dd("refreshThisPage()");
         LogUtil.dd(String.valueOf(mPostData.size()));
         if (page == 0) {
@@ -254,7 +240,21 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     }
 
-    public String comment2reply(int postPosition, String content) {
+    void likeItem(int position, boolean isLike) {
+        int add = 1;
+        int liked = 1;
+        if (!isLike) {
+            add = -1;
+            liked = 0;
+        }
+        ThreadModel.PostBean entity = mPostData.get(position);
+        entity.setLike(entity.getLike() + add);
+        entity.setLiked(liked);
+        mPostData.set(position, entity);
+        notifyItemChanged(position);
+    }
+
+    String comment2reply(int postPosition, String content) {
         ThreadModel.PostBean post = mPostData.get(postPosition);
         String beforeCommendContent = post.getContent();
         String cut = cutTwoQuote(beforeCommendContent);
@@ -339,14 +339,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         return hint;
     }
 
-    public void setEnding(boolean ending) {
-        mEnding = ending;
-    }
-
-    public void findIt() {
-        mIsFinding = false;
-    }
-
     static class PostHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.civ_avatar_post)
         CircleImageView mCivAvatarPost;
@@ -356,10 +348,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         TextView mTvPostDatetime;
         @BindView(R.id.tv_floor_post)
         TextView mTvFloorPost;
-        @BindView(R.id.tv_reply)
-        TextView mTvReply;
         @BindView(R.id.htv_post_content)
         HtmlTextView mHtvPostContent;
+        @BindView(R.id.tv_post_like)
+        TextView mTvLike;
+        @BindView(R.id.iv_post_reply)
+        ImageView mIvReply;
+        @BindView(R.id.iv_post_like)
+        ImageView mIvLike;
 
         PostHolder(View view) {
             super(view);
@@ -372,16 +368,18 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         CircleImageView mCivAvatarThread;
         @BindView(R.id.tv_username_thread)
         TextView mTvUsernameThread;
-        @BindView(R.id.tv_level_thread)
-        TextView mTvLevelThread;
         @BindView(R.id.tv_datetime_thread)
         TextView mTvDatetimeThread;
-        @BindView(R.id.tv_modify_time)
-        TextView mTvModifyTime;
         @BindView(R.id.tv_title)
         TextView mTvTitle;
         @BindView(R.id.htv_content)
         HtmlTextView mHtvContent;
+        @BindView(R.id.tv_thread_like)
+        TextView mTvLike;
+        @BindView(R.id.iv_thread_like)
+        ImageView mIvLike;
+        @BindView(R.id.iv_thread_comment)
+        ImageView mIvComment;
 
         HeaderHolder(View itemView) {
             super(itemView);

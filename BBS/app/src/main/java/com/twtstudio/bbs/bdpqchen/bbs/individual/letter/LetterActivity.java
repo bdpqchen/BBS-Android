@@ -1,7 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.letter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,6 +16,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
@@ -29,6 +28,7 @@ import butterknife.BindView;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_Letter;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MIN_LENGTH_LETTER_CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
@@ -53,17 +53,12 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
 
     @Override
     protected Toolbar getToolbarView() {
-        mToolbar.setTitle("用户名");
+        mToolbar.setTitle(" ");
         return mToolbar;
     }
 
     @Override
     protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
-    protected boolean isSupportNightMode() {
         return true;
     }
 
@@ -77,7 +72,7 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
         return this;
     }
 
-    private static final int SEC = BuildConfig.DEBUG ? 30 : 60;
+    private static final int SEC = (BuildConfig.DEBUG ? 3 : 600) * 1000;
     public static final int REFRESH = 1;
 
     private LetterAdapter mAdapter;
@@ -141,12 +136,10 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (mEtLetter.getText().toString().length() > 2) {
-                    updateSendColor(true);
-                    mContent = mEtLetter.getText().toString();
-                } else {
-                    updateSendColor(false);
-                }
+                mContent = mEtLetter.getText().toString();
+                int length = mContent.length();
+                mTvSend.setAlpha(getSendBtnTextAlpha(length));
+                updateSenderClickable(length >= MIN_LENGTH_LETTER_CONTENT);
             }
         });
 
@@ -159,23 +152,12 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
 
     }
 
-    private void hideInput() {
-        InputMethodManager imm = (InputMethodManager) mEtLetter
-                .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromInputMethod(mEtLetter.getWindowToken(), 0);
+    private float getSendBtnTextAlpha(int length) {
+        return length < MIN_LENGTH_LETTER_CONTENT ? 0.2f : 1.0f;
     }
 
-    private void updateSendColor(boolean sendable) {
-        if (mTvSend != null) {
-            int color;
-            if (sendable) {
-                color = getColor(R.color.colorPrimaryCopy);
-            } else {
-                color = getColor(R.color.colorTvBlackMain);
-            }
-            mTvSend.setTextColor(color);
-            mTvSend.setClickable(sendable);
-        }
+    private void updateSenderClickable(boolean sendable) {
+        mTvSend.setClickable(sendable);
     }
 
     @Override
@@ -187,10 +169,10 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
             if (mPage == 0 && modelList.size() < MAX_LENGTH_Letter) {
                 mAdapter.setNotEnoughOnePage(true);
             }
-            if (mNewDataSize > 0){
+            if (mNewDataSize > 0) {
                 mAdapter.addListWithRedundancy(modelList);
-            }else{
-                if (isJustInto){
+            } else {
+                if (isJustInto) {
                     mOldTime = modelList.get(0).getT_create();
                 }
                 mAdapter.addList(modelList, mPage);
@@ -205,7 +187,7 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
             mRvLetter.scrollToPosition(0);
             HandlerUtil.postDelay(() -> {
                 mPresenter.getLetterList(mUid, 0, REFRESH);
-            }, SEC * 1000);
+            }, SEC);
         }
     }
 
@@ -234,7 +216,7 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
 
         HandlerUtil.postDelay(() -> {
             mPresenter.getLetterList(mUid, 0, REFRESH);
-        }, mInterval * 1000);
+        }, mInterval);
 
     }
 

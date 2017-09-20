@@ -1,7 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.text.InputType;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -12,30 +11,34 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 public final class DialogUtil {
 
-    public static MaterialDialog showProgressDialog(Context context, String title, String content) {
-        return new MaterialDialog.Builder(context)
-//                .title(title)
-                .content(content)
+    public static MaterialDialog showProgressDialog(Context context, String content) {
+        return getBuilder(context, content)
                 .progress(true, 0)
                 .show();
     }
 
+    public static MaterialDialog showProgressDialog(Context context, String title, String content) {
+        return getBuilder(context, title, content)
+                .progress(true, 0)
+                .show();
+    }
+
+    private static MaterialDialog.Builder getBuilder(Context context, String content) {
+        return new MaterialDialog.Builder(context).content(content);
+    }
+
+    private static MaterialDialog.Builder getBuilder(Context context, String title, String content) {
+        return new MaterialDialog.Builder(context).title(title).content(content);
+    }
+
     public static MaterialDialog alertDialog(
             Context context,
-            @Nullable String title,
             String content,
             String positiveText,
-            @Nullable String negativeText,
-            @Nullable MaterialDialog.SingleButtonCallback positiveCallback,
-            @Nullable MaterialDialog.SingleButtonCallback negativeCallback) {
-
-        assert positiveCallback != null;
-        assert title != null;
-        assert negativeText != null;
-        assert negativeCallback != null;
-        return new MaterialDialog.Builder(context)
-//                .title(title)
-                .content(content)
+            String negativeText,
+            MaterialDialog.SingleButtonCallback positiveCallback,
+            MaterialDialog.SingleButtonCallback negativeCallback) {
+        return getBuilder(context, content)
                 .positiveText(positiveText)
                 .onPositive(positiveCallback)
                 .negativeText(negativeText)
@@ -43,11 +46,12 @@ public final class DialogUtil {
                 .show();
     }
 
-    public static MaterialDialog noticeDialog(Context con, String title, String content){
-        return new MaterialDialog.Builder(con)
-//                .title(title)
-                .content(content)
-                .show();
+    public static MaterialDialog noticeDialog(Context con, String content) {
+        return getBuilder(con, content).show();
+    }
+
+    public static MaterialDialog noticeDialog(Context con, String title, String content) {
+        return getBuilder(con, title, content).show();
     }
 
     public static MaterialDialog inputDialog(Context context, String content, MaterialDialog.InputCallback inputCallback) {
@@ -58,9 +62,10 @@ public final class DialogUtil {
                 .positiveText("开始")
                 .show();
     }
-    public static MaterialDialog multiLineInputDialog(Context context, String title, String hint, MaterialDialog.InputCallback callback){
+
+    public static MaterialDialog multiLineInputDialog(Context context, String title, String hint, MaterialDialog.InputCallback callback) {
         return new MaterialDialog.Builder(context)
-                .inputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_MULTI_LINE)
+                .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE)
                 .input(hint, "", false, callback)
                 .title(title)
                 .negativeText("取消")

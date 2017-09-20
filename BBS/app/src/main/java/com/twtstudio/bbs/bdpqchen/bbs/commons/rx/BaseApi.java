@@ -4,25 +4,25 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveModel;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.retrieve.RetrieveModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListModel;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseModel;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.my_reply.MyReplyModel;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.release.publish.PublishEntity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.release.reply.ReplyEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
-import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
+import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel;
 
 import java.util.List;
@@ -52,11 +52,14 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.EMAIL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.FRIEND_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MESSAGE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_REQUEST;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PASSWORD;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REAL_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REPLY_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.STUNUM;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TO_UID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
@@ -145,10 +148,6 @@ public interface BaseApi {
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String latestAuthentication,
             @Path("page") String page);
 
-    @GET("index")
-    Observable<BaseResponse<MainModel>> getMainData(
-            @Header(Constants.NET_RETROFIT_HEADER_REQUEST) String requestedWith);
-
     @FormUrlEncoded
     @POST("passport/login/old")
     Observable<BaseResponse<IdentifyModel>> getIdentifyContent(
@@ -157,11 +156,11 @@ public interface BaseApi {
 
     @FormUrlEncoded
     @POST("passport/retrieve")
-    Observable<BaseResponse<RetrieveModel>> doRetrieveUsername(
-            @Field(RetrieveActivity.BUNDLE_STU_NUM) String string,
-            @Field(RetrieveActivity.BUNDLE_USERNAME) String string1,
-            @Field(RetrieveActivity.BUNDLE_REAL_NAME) String string2,
-            @Field(RetrieveActivity.BUNDLE_CID) String string3);
+    Observable<BaseResponse<RetrieveModel>> doRetrievePassword(
+            @Field(STUNUM) String string,
+            @Field(USERNAME) String string1,
+            @Field(REAL_NAME) String string2,
+            @Field(CID) String string3);
 
     @FormUrlEncoded
     @POST("passport/reset-pass")
@@ -188,13 +187,11 @@ public interface BaseApi {
             @Path("page") String postPage);
 
     @GET("home/publish/thread/page/{page}")
-    Observable<BaseResponse<List<MyReleaseModel>>> getMyReleaseList(
-            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
+    Observable<BaseResponse<List<PublishEntity>>> getPublishList(
             @Path("page") String page);
 
     @GET("home/publish/post/page/{page}")
-    Observable<BaseResponse<List<MyReplyModel>>> getMyReplyList(
-            @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
+    Observable<BaseResponse<List<ReplyEntity>>> getReplyList(
             @Path("page") String page);
 
     @FormUrlEncoded
@@ -225,12 +222,12 @@ public interface BaseApi {
     @POST("home/collection")
     Observable<BaseResponse<BaseModel>> starThread(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String head,
-            @Field(Constants.TID) int id);
+            @Field(TID) int id);
 
     @DELETE("home/collection/{tid}")
     Observable<BaseResponse<BaseModel>> unStarThread(
             @Header(header) String latestAuthentication,
-            @Path(Constants.TID) int id);
+            @Path(TID) int id);
 
     @POST("home/message/read")
     Observable<BaseResponse<BaseModel>> doClearUnreadMessage();
@@ -292,5 +289,34 @@ public interface BaseApi {
     Observable<BaseResponse<BaseModel>> addFriend(
             @Field(FRIEND_ID) int uid,
             @Field(MESSAGE) String m);
+
+    @PUT("post/{pid}/like")
+    Observable<BaseResponse<BaseModel>> likePost(
+            @Path(PID) int pid);
+
+    @PUT("thread/{tid}/like")
+    Observable<BaseResponse<BaseModel>> likeThread(
+            @Path(TID) int tid);
+
+    @DELETE("post/{pid}/like")
+    Observable<BaseResponse<BaseModel>> unlikePost(
+            @Path(PID) int pid);
+
+    @DELETE("thread/{tid}/like")
+    Observable<BaseResponse<BaseModel>> unlikeThread(
+            @Path(TID) int tid);
+
+    @GET("index/latest")
+    Observable<BaseResponse<List<LatestEntity>>> getLatestList(@Header(NET_RETROFIT_HEADER_REQUEST) String mobile);
+
+    @GET("index/hot")
+    Observable<BaseResponse<List<HotEntity>>> getHotList(@Header(NET_RETROFIT_HEADER_REQUEST) String mobile);
+
+    @DELETE("post/{pid}")
+    Observable<BaseResponse<BaseModel>> deletePost(@Path(PID) int pid);
+
+    @DELETE("thread/{tid}")
+    Observable<BaseResponse<BaseModel>> deleteThread(@Path(TID) int tid);
+
 }
 

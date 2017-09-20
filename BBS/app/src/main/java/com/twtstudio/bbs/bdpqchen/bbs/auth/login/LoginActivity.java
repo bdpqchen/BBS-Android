@@ -19,22 +19,23 @@ import android.widget.Toast;
 import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.RandomUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
-
-import java.util.Random;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_CATEGORY_SIGN;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_LOGIN;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_RETRIEVE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
 /**
@@ -45,16 +46,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @BindView(R.id.tx_forgot_password)
     TextView mTxForgotPassword;
-    @BindView(R.id.tv_goto_register)
-    TextView mTvGotoRegister;
     @BindView(R.id.et_account)
     EditText mEtAccount;
     @BindView(R.id.et_password)
     EditText mEtPassword;
     @BindView(R.id.tv_goto_replace_user)
     TextView mTvGotoReplaceUser;
-    @BindView(R.id.tv_no_account_user)
-    TextView mTvNoAccountUser;
+    @BindView(R.id.tv_to_register)
+    TextView mTvGotoRegister;
     @BindView(R.id.cp_btn_login)
     CircularProgressButton mCircularProgressButton;
     @BindView(R.id.iv_login_banner)
@@ -64,7 +63,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @BindView(R.id.civ_avatar)
     CircleImageView mCivAvatar;
 
-    private static final String LOGIN_ERROR_TEXT = "哈哈？搞笑。";
+    private static final String LOGIN_ERROR_TEXT = "哈哈?搞笑..";
 
     @Override
     protected int getLayoutResourceId() {
@@ -78,11 +77,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     protected boolean isShowBackArrow() {
-        return false;
-    }
-
-    @Override
-    protected boolean isSupportNightMode() {
         return false;
     }
 
@@ -105,38 +99,34 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         //自动填写用户名
         Intent intent = getIntent();
         String usernameToSet = intent.getStringExtra(USERNAME);
-        if (usernameToSet == null || usernameToSet.length() == 0){
+        if (usernameToSet == null || usernameToSet.length() == 0) {
             usernameToSet = PrefUtil.getAuthUsername();
+        }else{
+            mEtPassword.requestFocus();
         }
         mEtAccount.setText(usernameToSet);
-        if (PrefUtil.getAuthUid() == 0){
+        if (PrefUtil.getAuthUid() == 0) {
             ImageUtil.loadDrawable(this, R.drawable.avatar_default_left, mCivAvatar);
-        }else{
+        } else {
             ImageUtil.loadAvatarAsBitmapByUid(this, PrefUtil.getAuthUid(), mCivAvatar);
         }
-        ImageUtil.loadLoginCover(this, getForumIdRandom(), mIvBanner);
+        ImageUtil.loadLoginCover(this, RandomUtil.getForumIdRandom(), mIvBanner);
+        pkTracker();
     }
 
-    @OnClick({R.id.tx_forgot_password, R.id.tv_goto_register,
-            R.id.et_account, R.id.et_password, R.id.tv_goto_replace_user, R.id.tv_no_account_user, R.id.cp_btn_login})
+    @OnClick({R.id.tx_forgot_password, R.id.tv_goto_register,R.id.tv_to_register,
+            R.id.et_account, R.id.et_password, R.id.tv_goto_replace_user, R.id.cp_btn_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tx_forgot_password:
-                // TODO: 17-5-31 忘记密码
-                Toast.makeText(this, "请到PC端找回密码，移动端暂不支持", Toast.LENGTH_LONG).show();
+                startActivityForResult(IntentUtil.toRetrieve(mContext), REQUEST_CODE_RETRIEVE);
                 break;
-            case R.id.tv_goto_register:
+            case R.id.tv_to_register:
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
             case R.id.et_account:
                 break;
             case R.id.et_password:
-                break;
-            case R.id.tv_goto_replace_user:
-                startActivity(new Intent(this, ReplaceUserActivity.class));
-                break;
-            case R.id.tv_no_account_user:
-//                loginWithNoUsername();
                 break;
             case R.id.cp_btn_login:
                 String username = mEtAccount.getText() + "";
@@ -154,18 +144,25 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         }
     }
 
-    private void loginWithNoUsername() {
-        // TODO: 17-5-9 游客登录逻辑
-        PrefUtil.setIsNoAccountUser(true);
-        PrefUtil.setHadLogin(false);
-        startActivity(new Intent(this, HomeActivity.class));
-        finishMe();
+    private void pkTracker(){
+        getTrackerHelper().screen(PK_LOGIN).title("登录").with(getTracker());
+        getTrackerHelper().event(PK_CATEGORY_SIGN, "Login").with(getTracker());
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_RETRIEVE && resultCode == RESULT_OK) {
+            if (data != null) {
+                mEtAccount.setText(data.getStringExtra(USERNAME));
+            }
+        }
     }
 
     @Override
     public void loginSuccess(LoginModel loginModel) {
         PrefUtil.setFirstOpen(false);
-        if (mCircularProgressButton != null){
+        if (mCircularProgressButton != null) {
             mCircularProgressButton.doneLoadingAnimation(R.color.material_green_600, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
         }
         PrefUtil.setAuthToken(loginModel.getToken());
@@ -194,12 +191,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void loginFailed(String msg) {
-        LogUtil.d("loginFailed()");
-        if (mCircularProgressButton != null){
+        if (mCircularProgressButton != null) {
             mCircularProgressButton.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
         }
         HandlerUtil.postDelay(() -> {
-            if (mCircularProgressButton != null){
+            if (mCircularProgressButton != null) {
                 mCircularProgressButton.revertAnimation();
             }
         }, 3000);
@@ -207,13 +203,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     }
 
-    private int getForumIdRandom() {
-        int max = 35;
-        int min = 28;
-        Random random = new Random();
-        int s = random.nextInt(max) % (max - min + 1) + min;
-        return s;
-    }
 
 }
 

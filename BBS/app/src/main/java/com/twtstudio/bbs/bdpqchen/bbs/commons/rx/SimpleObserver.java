@@ -63,11 +63,6 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
                 e.printStackTrace();
             }
         }
-        LogUtil.dd("error type", String.valueOf(throwable.getCause()));
-        LogUtil.dd("error message", String.valueOf(throwable.getMessage()));
-        LogUtil.dd("error strackT", String.valueOf(throwable.getStackTrace()));
-        LogUtil.dd("error strackT", String.valueOf(throwable.getLocalizedMessage()));
-
         _onError(msg);
     }
 

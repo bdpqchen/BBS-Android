@@ -7,10 +7,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.appeal.AppealPassportActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.RetrieveActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.retrieve.reset_password.ResetPasswordActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.ReplaceUserActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.replaceUser.replacePassword.ReplacePasswordActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.auth.retrieve.RetrieveActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.di.scope.PerActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity;
@@ -21,7 +18,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.release.ReleaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
@@ -46,10 +43,6 @@ public interface ActivityComponent {
 
     void inject(LoginActivity loginActivity);
 
-    void inject(ReplaceUserActivity replaceUserActivity);
-
-    void inject(ReplacePasswordActivity replacePasswordActivity);
-
     void inject(UpdateInfoActivity updateInfoActivity);
 
     void inject(UpdatePasswordActivity updatePasswordActivity);
@@ -60,8 +53,6 @@ public interface ActivityComponent {
 
     void inject(MessageActivity messageActivity);
 
-    void inject(MyReleaseActivity myReleaseActivity);
-
     void inject(ThreadListActivity threadListActivity);
 
     void inject(AppealPassportActivity appealPassportActivity);
@@ -69,8 +60,6 @@ public interface ActivityComponent {
     void inject(IdentifyActivity identifyActivity);
 
     void inject(RetrieveActivity retrieveActivity);
-
-    void inject(ResetPasswordActivity resetPasswordActivity);
 
     void inject(CreateThreadActivity createThreadActivity);
 
@@ -85,4 +74,7 @@ public interface ActivityComponent {
     void inject(PeopleActivity peopleActivity);
 
     void inject(LetterActivity letterActivity);
+
+    void inject(ReleaseActivity releaseActivity);
+
 }

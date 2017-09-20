@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainBgLight"
+    >
+
+    <LinearLayout
+        android:id="@+id/email_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/tv_editor_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textSize="17sp"
+            android:textColor="@color/colorTvBlackMainTint"
+            android:padding="12dp"
+            android:scrollHorizontally="false"
+            android:singleLine="true"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="?android:attr/listDivider"/>
+
+        <EditText
+            android:textSize="16sp"
+            android:textColor="@color/colorTvBlackMain"
+            android:id="@+id/et_editor_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:background="@color/colorMainBgLight"
+            android:hint="@string/hint_md_editor"
+            android:inputType="textMultiLine"
+            android:minHeight="200dp"
+            android:padding="12dp"
+            android:scrollHorizontally="false"
+            android:scrollbars="vertical"
+            android:singleLine="false" />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

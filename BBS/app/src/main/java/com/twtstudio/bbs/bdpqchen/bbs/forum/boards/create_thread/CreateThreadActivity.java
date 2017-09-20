@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -23,9 +24,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageFormatUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImagePickUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PathUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 import com.zhihu.matisse.Matisse;
@@ -38,9 +41,11 @@ import butterknife.BindView;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_CAN_ANON;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_IS_SPECIFY_BOARD;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.RESULT_CODE_IMAGE_SELECTED;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_EDITOR;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_IMAGE_SELECTED;
 
 /**
  * Created by bdpqchen on 17-5-27.
@@ -61,9 +66,17 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     AppCompatCheckBox mCbAnonymous;
     @BindView(R.id.ll_select_board)
     LinearLayout mLlSelectBoard;
-    @BindView(R.id.ll_select_image)
-    LinearLayout mLlSelectImage;
+    @BindView(R.id.tv_select_image)
+    TextView mTvSelectImage;
+    @BindView(R.id.tv_open_editor)
+    TextView mTvOpenEditor;
+    @BindView(R.id.spinner_select_forum)
+    AppCompatSpinner mSpinnerSelectForum;
+    @BindView(R.id.ll_select_forum)
+    LinearLayout mLlSelectForum;
+
     private ArrayList<String> mBoardNames = new ArrayList<>();
+    private ArrayList<String> mForumNames = new ArrayList<>();
 
     private int mSelectedBoardId = 0;
     private String mTitle = "";
@@ -75,6 +88,9 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     private int mCanAnon = 0;
     private int mForumId = 0;
     private BoardsModel mBoardsModel = new BoardsModel();
+    private List<ForumModel> mForumModelList = new ArrayList<>();
+    private int mSelectedForumId = 0;
+
 
     @Override
     protected int getLayoutResourceId() {
@@ -89,11 +105,6 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
 
     @Override
     protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
-    protected boolean isSupportNightMode() {
         return true;
     }
 
@@ -114,29 +125,35 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         mContext = this;
         mImageFormatUtil = new ImageFormatUtil();
         Intent intent = getIntent();
-        mForumId = intent.getIntExtra(INTENT_FORUM_ID, 28);
-
+        mForumId = intent.getIntExtra(INTENT_FORUM_ID, 0);
+        mCanAnon = intent.getIntExtra(INTENT_BOARD_CAN_ANON, 0);
+        mTitle = intent.getStringExtra(INTENT_BOARD_TITLE);
         //在帖子列表里直接跳进来的
         boolean specifyBoard = intent.getBooleanExtra(INTENT_IS_SPECIFY_BOARD, false);
+        if (mForumId == 0 && !specifyBoard) {
+            mLlSelectForum.setVisibility(View.VISIBLE);
+            getForumList();
+        }
         if (specifyBoard) {
             mCanAnon = intent.getIntExtra(INTENT_BOARD_CAN_ANON, 0);
             setCbAnonymous();
             mSelectedBoardId = intent.getIntExtra(INTENT_BOARD_ID, 0);
-            mTitle = intent.getStringExtra(INTENT_BOARD_TITLE);
             if (mToolbar != null) {
-                mToolbar.setTitle("发布帖子|" + mTitle);
+                mToolbar.setTitle("发布帖子 | " + mTitle);
             }
             mLlSelectBoard.setVisibility(View.GONE);
         } else {
-            mPresenter.getBoardList(mForumId);
-            mBoardNames.add("请选择");
-            setupSpinner();
+            getBoardList();
+            setupBoardSpinner();
         }
         mCbAnonymous.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mIsAnonymous = isChecked;
         });
-        mLlSelectImage.setOnClickListener(v -> {
+        mTvSelectImage.setOnClickListener(v -> {
             ImagePickUtil.commonPickImage(this);
+        });
+        mTvOpenEditor.setOnClickListener(v -> {
+            startActivityForResult(IntentUtil.toEditor(mContext, mEtTitle.getText().toString(), mEtContent.getText().toString(), 0), REQUEST_CODE_EDITOR);
         });
     }
 
@@ -153,19 +170,24 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_CODE_IMAGE_SELECTED && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_IMAGE_SELECTED && resultCode == RESULT_OK) {
             if (data != null) {
                 List<Uri> mSelected = Matisse.obtainResult(data);
                 mPresenter.uploadImages(PathUtil.getRealPathFromURI(mContext, mSelected.get(0)));
                 showProgress("正在添加图片，请稍后..");
-                // TODO: 17-6-9  支持多张图片
+            }
+        }
+        if (requestCode == REQUEST_CODE_EDITOR && resultCode == RESULT_OK) {
+            if (data != null) {
+                String contentResult = data.getStringExtra(INTENT_EDITOR_CONTENT);
+                mEtContent.setText(contentResult);
+                mEtContent.setSelection(contentResult.length());
             }
         }
     }
 
     @Override
     public void onUploadFailed(String m) {
-        LogUtil.dd("error msg upload", m);
         SnackBarUtil.error(this, "图片添加失败\n" + m);
         hideProgress();
     }
@@ -188,23 +210,68 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     public void onGetBoardList(BoardsModel model) {
         if (model != null && model.getBoards() != null) {
             mBoardsModel = model;
+            mBoardNames.clear();
+            mBoardNames.add("请选择");
             int size = model.getBoards().size();
             if (size > 0) {
                 for (int i = 0; i < size; i++) {
                     BoardsModel.BoardsBean board = model.getBoards().get(i);
                     mBoardNames.add(board.getName());
                 }
-                setupSpinner();
+                setupBoardSpinner();
             }
         }
     }
 
     @Override
     public void onGetBoardListFailed(String m) {
-        mPresenter.getBoardList(mForumId);
+        getBoardList();
+        SnackBarUtil.normal(this, m);
+
     }
 
-    public void setupSpinner() {
+    @Override
+    public void onGetForumList(List<ForumModel> list) {
+        if (list != null && list.size() > 0) {
+            LogUtil.dd("onGetForumList", String.valueOf(list.size()));
+            mForumModelList = list;
+            mForumNames.clear();
+            mForumNames.add("请选择");
+            int size = list.size();
+            for (int i = 0; i < size; i++) {
+                mForumNames.add(list.get(i).getName());
+            }
+            setupForumSpinner();
+        }
+    }
+
+    @Override
+    public void onGetForumFailed(String m) {
+        SnackBarUtil.normal(this, m);
+    }
+
+    public void setupForumSpinner() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mForumNames);
+        mSpinnerSelectForum.setAdapter(adapter);
+        mSpinnerSelectForum.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) {
+                    mSelectedForumId = mForumModelList.get(position - 1).getId();
+                    mForumId = mSelectedForumId;
+                    LogUtil.dd("you have selected the id", String.valueOf(mSelectedForumId));
+                    getBoardList();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+    }
+
+    public void setupBoardSpinner() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mBoardNames);
         mSpinnerSelectBoard.setAdapter(adapter);
         mSpinnerSelectBoard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -218,12 +285,21 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
                     LogUtil.dd("you have selected the id", String.valueOf(mSelectedBoardId));
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 LogUtil.dd("onNothingSelected()");
             }
         });
 
+    }
+
+    private void getBoardList() {
+        mPresenter.getBoardList(mForumId);
+    }
+
+    private void getForumList() {
+        mPresenter.getForumList();
     }
 
     @Override
@@ -265,16 +341,16 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
             return;
         }
         mContent = mImageFormatUtil.replaceImageFormat(mContent);
-        if (!isPublished){
+        if (!isPublished) {
             publish();
-        }else{
-            mAlertDialog = DialogUtil.alertDialog(this, "提示", "你已经成功发布过帖子，还要再发一次吗？", "再次发布", "不要",
+        } else {
+            mAlertDialog = DialogUtil.alertDialog(this, "你已经成功发布过帖子，还要再发一次吗？", "再次发布", "不要",
                     (materialDialog, dialogAction) -> publish(), null);
         }
         LogUtil.dd("send content", mContent);
     }
 
-    private void publish(){
+    private void publish() {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.TITLE, mTitle);
         bundle.putString(Constants.CONTENT, mContent);
@@ -292,7 +368,7 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
 
     private void showProgress(String msg) {
         if (mProgressDialog == null) {
-            mProgressDialog = DialogUtil.showProgressDialog(this, "提示", msg);
+            mProgressDialog = DialogUtil.showProgressDialog(this, msg);
         } else {
             mProgressDialog.show();
         }
@@ -303,7 +379,6 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         SnackBarUtil.normal(this, "发布成功");
         mProgressDialog.dismiss();
         isPublished = true;
-
     }
 
     @Override
@@ -325,7 +400,7 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
             return;
         }
         if (mTitle.length() > 0 || mContent.length() > 0) {
-            mAlertDialog = DialogUtil.alertDialog(this, "提示", "确定放弃所写的内容吗？？", "放弃", "就不放弃",
+            mAlertDialog = DialogUtil.alertDialog(this, "确定放弃所写的内容吗？？", "放弃", "就不放弃",
                     (materialDialog, dialogAction) -> finishMe(), null);
         } else {
             finishMe();

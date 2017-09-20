@@ -6,8 +6,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -33,8 +36,9 @@ class CreateThreadPresenter extends RxPresenter<CreateThreadContract.View> imple
             @Override
             public void _onError(String msg) {
                 if (mView != null)
-                mView.onPublishFailed(msg);
+                    mView.onPublishFailed(msg);
             }
+
             @Override
             public void _onNext(CreateThreadModel model) {
                 if (mView != null)
@@ -50,7 +54,6 @@ class CreateThreadPresenter extends RxPresenter<CreateThreadContract.View> imple
     }
 
     public void uploadImages(String uri) {
-        ResponseTransformer<UploadImageModel> transformer = new ResponseTransformer<>();
         SimpleObserver<UploadImageModel> observer = new SimpleObserver<UploadImageModel>() {
             @Override
             public void _onError(String msg) {
@@ -58,6 +61,7 @@ class CreateThreadPresenter extends RxPresenter<CreateThreadContract.View> imple
                     mView.onUploadFailed(msg);
                 }
             }
+
             @Override
             public void _onNext(UploadImageModel o) {
                 if (mView != null) {
@@ -66,14 +70,13 @@ class CreateThreadPresenter extends RxPresenter<CreateThreadContract.View> imple
             }
         };
         addSubscribe(mHttpClient.uploadImage(uri)
-                .map(transformer)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer));
     }
 
     public void getBoardList(int forumId) {
-        ResponseTransformer<BoardsModel> transformer = new ResponseTransformer<>();
         SimpleObserver<BoardsModel> observer = new SimpleObserver<BoardsModel>() {
             @Override
             public void _onError(String msg) {
@@ -81,6 +84,7 @@ class CreateThreadPresenter extends RxPresenter<CreateThreadContract.View> imple
                     mView.onGetBoardListFailed(msg);
                 }
             }
+
             @Override
             public void _onNext(BoardsModel o) {
                 if (mView != null) {
@@ -89,10 +93,34 @@ class CreateThreadPresenter extends RxPresenter<CreateThreadContract.View> imple
             }
         };
         addSubscribe(mHttpClient.getBoardList(forumId)
-                .map(transformer)
+                .map(new ResponseTransformer<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer));
+    }
+
+    public void getForumList() {
+        SimpleObserver<List<ForumModel>> observer = new SimpleObserver<List<ForumModel>>() {
+            @Override
+            public void _onError(String msg) {
+                if (mView != null) {
+                    mView.onGetForumFailed(msg);
+                }
+            }
+
+            @Override
+            public void _onNext(List<ForumModel> forumModels) {
+                if (mView != null) {
+                    mView.onGetForumList(forumModels);
+                }
+            }
+        };
+        addSubscribe(mHttpClient.getForumList()
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer));
 
     }
+
 }

@@ -11,14 +11,12 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -26,13 +24,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 
 
 /**
  * Created by bdpqchen on 17-6-5.
  */
 
-public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
+public class HotAdapter extends BaseAdapter<HotEntity> {
 
     public HotAdapter(Context context) {
         super(context);
@@ -50,7 +50,7 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
         if (mDataSet != null && mDataSet.size() > 0) {
             if (holder0 instanceof HotViewHolder) {
                 HotViewHolder holder = (HotViewHolder) holder0;
-                MainModel.HotBean model = mDataSet.get(position);
+                HotEntity model = mDataSet.get(position);
                 if (model.getAnonymous() == 1) {
                     model.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivHotAvatar);
@@ -61,6 +61,7 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivHotAvatar);
                 }
+                holder.mTvLikeCount.setText(String.valueOf(model.getLike()));
                 holder.mTvUsername.setText(model.getAuthor_name());
                 holder.mTvBoardName.setText(TextUtil.getBoardName(model.getBoard_name()));
                 holder.mTvThreadTitle.setText(model.getTitle());
@@ -68,15 +69,13 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
                 holder.mTvHotTime.setText("发布于 " + StampUtil.getDatetimeByStamp(model.getT_create()));
                 holder.mTvHotContent.setText(TextUtil.getReplacedImageContent(model.getContent()));
                 holder.mTvBoardName.setOnClickListener(v -> {
-                    Intent intent = new Intent(mContext, ThreadListActivity.class);
-                    intent.putExtra(Constants.INTENT_BOARD_ID, model.getBoard_id());
-                    intent.putExtra(Constants.INTENT_BOARD_TITLE, model.getBoard_name());
-                    mContext.startActivity(intent);
+                    LogUtil.dd("anonymous", String.valueOf(model.getAnonymous()));
+                    mContext.startActivity(IntentUtil.toThreadList(mContext, model.getBoard_id(), model.getBoard_name(), model.getAnonymous()));
                 });
                 holder.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, ThreadActivity.class);
-                    intent.putExtra(Constants.INTENT_THREAD_ID, model.getId());
-                    intent.putExtra(Constants.INTENT_THREAD_TITLE, model.getTitle());
+                    intent.putExtra(INTENT_THREAD_ID, model.getId());
+                    intent.putExtra(INTENT_THREAD_TITLE, model.getTitle());
                     intent.putExtra(INTENT_BOARD_TITLE, model.getBoard_name());
                     intent.putExtra(INTENT_BOARD_ID, model.getBoard_id());
                     mContext.startActivity(intent);
@@ -98,6 +97,8 @@ public class HotAdapter extends BaseAdapter<MainModel.HotBean> {
         TextView mTvThreadTitle;
         @BindView(R.id.tv_post_count)
         TextView mTvPostCount;
+        @BindView(R.id.tv_like_count)
+        TextView mTvLikeCount;
         @BindView(R.id.tv_hot_content)
         TextView mTvHotContent;
         @BindView(R.id.tv_hot_time)

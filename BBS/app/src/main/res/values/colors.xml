@@ -27,15 +27,14 @@
     <color name="colorTvBlackMain">#302c2c</color>
     <color name="colorTvBlackMainTint">#0d0c0c</color>
     <color name="colorIndividualTagNum">#FF0000</color>
-    <color name="colorTintIconBlack">#645e5e</color>
+    <color name="colorTintIconBlack">#9E9E9E</color>
     <color name="colorThreadContentBg">#FFffffff</color>
     <color name="colorMainBgLightHeight">#ffffff</color>
     <color name="colorForumBg">#88ffffff</color>
     <color name="colorInfoBg">#d60707</color>
     <color name="colorDividerLine">#112233</color>
-    <!--<color name="colorDividerLine">#62cbd6</color>-->
-    <!--<color name="colorDividerLine">#f89042</color>-->
     <!--<color name="colorTintIconBlack">#3F51B5</color>-->
+
 
 
 </resources>

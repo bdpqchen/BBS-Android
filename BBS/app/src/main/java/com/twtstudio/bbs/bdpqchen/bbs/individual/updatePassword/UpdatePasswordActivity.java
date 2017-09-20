@@ -14,13 +14,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
-import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
@@ -60,11 +55,6 @@ public class UpdatePasswordActivity extends BaseActivity<UpdatePasswordPresenter
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
@@ -77,14 +67,8 @@ public class UpdatePasswordActivity extends BaseActivity<UpdatePasswordPresenter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
-    }
 
     void checkInput() {
         String newPass = String.valueOf(mEtNew.getText());

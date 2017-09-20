@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -50,11 +51,6 @@ public class FriendActivity extends BaseActivity<FriendPresenter> implements Fri
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
@@ -71,7 +67,7 @@ public class FriendActivity extends BaseActivity<FriendPresenter> implements Fri
         mRvFriend.setAdapter(mAdapter);
         mRvFriend.addItemDecoration(new RecyclerViewItemDecoration(1));
         mRvFriend.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        mSrlFriend.setOnRefreshListener(()-> {
+        mSrlFriend.setOnRefreshListener(() -> {
             mRefreshing = true;
             mPresenter.getFriendList();
             setRefresh();
@@ -88,12 +84,12 @@ public class FriendActivity extends BaseActivity<FriendPresenter> implements Fri
     @Override
     public void onGetFriendList(List<FriendModel> list) {
         LogUtil.dd("onGetFriendList");
-        if (list != null && list.size() > 0){
-            if (mRefreshing){
+        if (list != null && list.size() > 0) {
+            if (mRefreshing) {
                 mRefreshing = false;
                 setRefresh();
                 mAdapter.refreshList(list);
-            }else{
+            } else {
                 mAdapter.addList(list);
             }
         }

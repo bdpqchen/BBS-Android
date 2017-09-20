@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainBgLight"
+    >
+
+    <LinearLayout
+        android:id="@+id/email_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/tv_preview_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textSize="17sp"
+            android:padding="12dp"
+            android:textColor="@color/colorTvBlackMainTint"
+            android:scrollHorizontally="false"
+            android:singleLine="true"/>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="?android:attr/listDivider"/>
+
+        <com.twtstudio.bbs.bdpqchen.bbs.htmltextview.HtmlTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/htv_preview_content"
+            android:padding="8dp"
+            android:textColor="@color/colorTvBlackMainTint"
+            />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

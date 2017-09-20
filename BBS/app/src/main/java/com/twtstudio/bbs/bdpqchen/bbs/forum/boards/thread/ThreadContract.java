@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
@@ -22,6 +23,10 @@ interface ThreadContract {
         void onUnStarred();
         void onUploadFailed(String m);
         void onUploaded(UploadImageModel model);
+        void onLike(BaseModel model);
+        void onLikeFailed(String m, int position, boolean isLike);
+        void onUnlike(BaseModel entity);
+        void onUnlikeFailed(String m, int position, boolean isLike);
 
     }
     interface Presenter extends BasePresenter<View>{
@@ -30,5 +35,6 @@ interface ThreadContract {
         void starThread(int id);
         void unStarThread(int id);
         void uploadImages(String uri);
+        void like(int id, int position, boolean isLike, boolean isPost);
     }
 }

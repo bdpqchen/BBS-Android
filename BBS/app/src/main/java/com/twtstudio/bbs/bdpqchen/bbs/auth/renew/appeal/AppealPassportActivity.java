@@ -17,6 +17,9 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_APPEAL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_CATEGORY_AJAX;
+
 /**
  * Created by bdpqchen on 17-5-21.
  */
@@ -63,11 +66,6 @@ public class AppealPassportActivity extends BaseActivity<AppealPassportPresenter
 
     @Override
     protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
-    protected boolean isSupportNightMode() {
         return true;
     }
 
@@ -135,7 +133,6 @@ public class AppealPassportActivity extends BaseActivity<AppealPassportPresenter
         bundle.putString(Constants.CAPTCHA_VALUE, mCaptchaValue);
         mPresenter.appealPassport(bundle);
         mCpBtnSubmitAppeal.startAnimation();
-
     }
 
     @Override
@@ -154,6 +151,12 @@ public class AppealPassportActivity extends BaseActivity<AppealPassportPresenter
                     finishMe();
                 }, 3000
         );
-
+        pkTracker();
     }
+
+    private void pkTracker(){
+        getTrackerHelper().screen(PK_APPEAL).title(mToolbar.getTitle().toString()).with(getTracker());
+        getTrackerHelper().event(PK_CATEGORY_AJAX, "appeal").name("POST").with(getTracker());
+    }
+
 }

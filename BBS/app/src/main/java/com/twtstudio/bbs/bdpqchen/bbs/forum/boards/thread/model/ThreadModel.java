@@ -47,6 +47,7 @@ public class ThreadModel {
         private int c_post;
         private int b_top;
         private int b_elite;
+        private int b_locked;
         private int visibility;
         private int t_reply;
         private int t_create;
@@ -54,6 +55,9 @@ public class ThreadModel {
         private String content;
         private String content_converted;
         private int in_collection;
+        private int like;
+        private int liked;
+        private int friend;
 
         public int getId() {
             return id;
@@ -182,6 +186,38 @@ public class ThreadModel {
         public void setContent_converted(String content_converted) {
             this.content_converted = content_converted;
         }
+
+        public int getFriend() {
+            return friend;
+        }
+
+        public void setFriend(int friend) {
+            this.friend = friend;
+        }
+
+        public int getLiked() {
+            return liked;
+        }
+
+        public void setLiked(int liked) {
+            this.liked = liked;
+        }
+
+        public int getLike() {
+            return like;
+        }
+
+        public void setLike(int like) {
+            this.like = like;
+        }
+
+        public int getB_locked() {
+            return b_locked;
+        }
+
+        public void setB_locked(int b_locked) {
+            this.b_locked = b_locked;
+        }
     }
 
     public static class BoardBean {
@@ -266,6 +302,9 @@ public class ThreadModel {
         private int t_create;
         private int t_modify;
         private String title;
+        private int like;
+        private int liked;
+        private int friend;
 
         public int getId() {
             return id;
@@ -353,6 +392,30 @@ public class ThreadModel {
 
         public void setContent_converted(String content_converted) {
             this.content_converted = content_converted;
+        }
+
+        public int getFriend() {
+            return friend;
+        }
+
+        public void setFriend(int friend) {
+            this.friend = friend;
+        }
+
+        public int getLike() {
+            return like;
+        }
+
+        public void setLike(int like) {
+            this.like = like;
+        }
+
+        public int getLiked() {
+            return liked;
+        }
+
+        public void setLiked(int liked) {
+            this.liked = liked;
         }
     }
 }

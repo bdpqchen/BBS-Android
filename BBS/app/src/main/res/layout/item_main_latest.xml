@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--CardView在5.0版本有水波纹效果, LinearLayout就没有-->
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
     android:foreground="@drawable/selector_foreground_settings"
     app:cardBackgroundColor="@color/colorMainBgLight"
+    app:cardElevation="0dp"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="8dp"
         >
@@ -23,12 +27,9 @@
             >
 
             <LinearLayout
+                android:id="@+id/ll_layer_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ll_layer_header"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="@drawable/selector_foreground_settings"
                 >
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -36,8 +37,8 @@
                     android:layout_width="@dimen/size_avatar_normal"
                     android:layout_height="@dimen/size_avatar_normal"
                     android:layout_gravity="center_vertical"
-                    tools:src="@drawable/avatar_default_left"
                     android:layout_marginStart="6dp"
+                    tools:src="@drawable/avatar_default_left"
                     />
 
                 <TextView
@@ -56,6 +57,8 @@
                 android:id="@+id/tv_board_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="4dp"
@@ -65,30 +68,25 @@
                 android:gravity="end|center_vertical"
                 android:textColor="@color/colorPrimaryCopy"
                 tools:text="[求实焦点]"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
                 />
 
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/ll_latest_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="@drawable/selector_foreground_settings"
-            android:id="@+id/ll_latest_body"
             >
 
             <TextView
                 android:id="@+id/tv_thread_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
                 android:layout_marginEnd="@dimen/margin_start_latest"
                 android:layout_marginStart="@dimen/margin_start_latest"
                 android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
                 android:textColor="@color/colorTvBlackMain"
                 android:textSize="@dimen/size_tv_middle"
                 tools:text="帖子的标题帖子的标题帖子的标题帖子的标题帖子的标题帖子"
@@ -123,6 +121,26 @@
                     tools:text="12"
                     />
 
+                <ImageView
+                    android:layout_width="@dimen/icon_size_small"
+                    android:layout_height="@dimen/icon_size_small"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/ic_thumb_up_white_24dp"
+                    android:tint="@color/colorTintIconBlack"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_like_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="2dp"
+                    android:gravity="center_vertical"
+                    tools:text="12"
+                    />
+
                 <TextView
                     android:id="@+id/tv_latest_time"
                     android:layout_width="match_parent"
@@ -138,12 +156,6 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider"/>
-
 </android.support.v7.widget.CardView>
 
 

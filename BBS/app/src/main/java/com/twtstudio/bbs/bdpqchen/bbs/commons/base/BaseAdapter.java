@@ -6,12 +6,12 @@ import android.view.View;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
 
 /**
@@ -26,6 +26,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     private boolean isShowHeader = false;
     private OnItemClickListener mOnItemClickListener = null;
     protected int mPage = 0;
+    private boolean noDataHeader = false;
 
     @Override
     public void onClick(View v) {
@@ -40,49 +41,58 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     }
 
 
-    public BaseAdapter(Context context){
+    public BaseAdapter(Context context) {
         this.mContext = context;
     }
 
     @Override
     public int getItemCount() {
-        if (isShowFooter || isShowHeader){
-            if (mDataSet == null || mDataSet.size() == 0){
+        if (isShowFooter || isShowHeader) {
+            if (mDataSet == null || mDataSet.size() == 0) {
                 return 0;
-            }else{
+            } else {
                 return mDataSet.size() + 1;
             }
         }
         return mDataSet.size();
     }
 
-    public void refreshList(List<T> items){
+    public void refreshList(List<T> items) {
         mDataSet.clear();
         mDataSet.addAll(items);
 //        setShowFooter(false);
         notifyDataSetChanged();
     }
 
-    public void addList(List<T> items){
+    public void addList(List<T> items) {
         mDataSet.addAll(items);
         notifyDataSetChanged();
     }
-    public void addFirst(List<T> items){
+
+    public void addFirst(List<T> items) {
         mDataSet.addAll(0, items);
         notifyDataSetChanged();
     }
 
-    public void addList(List<T> items, int page){
+    public void addFirst(T item){
+        mDataSet.add(0, item);
+        notifyDataSetChanged();
+    }
+
+    public void addList(List<T> items, int page) {
         mPage = page;
         addList(items);
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mDataSet != null && mDataSet.size() > 0){
-            if (position + 1 == getItemCount()){
+        if (noDataHeader && position == 0) {
+            return ITEM_HEADER;
+        }
+        if (mDataSet != null && mDataSet.size() > 0) {
+            if (position + 1 == getItemCount()) {
                 return ITEM_FOOTER;
-            }else {
+            } else {
                 return ITEM_NORMAL;
             }
         }
@@ -105,15 +115,23 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         isShowHeader = showHeader;
     }
 
-    public void clearAll(){
+    public void clearAll() {
+        mDataSet.removeAll(mDataSet);
         mDataSet.clear();
 //        notifyDataSetChanged();
     }
 
-    public void addOne(T model){
+    public void addOne(T model) {
         mDataSet.add(model);
         notifyItemInserted(mDataSet.size() - 1);
 //        notifyDataSetChanged();
     }
 
+    public boolean isNoDataHeader() {
+        return noDataHeader;
+    }
+
+    public void setNoDataHeader(boolean noDataHeader) {
+        this.noDataHeader = noDataHeader;
+    }
 }

@@ -1,6 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.di.module;
 
-import com.twtstudio.bbs.bdpqchen.bbs.App;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 
 import javax.inject.Singleton;

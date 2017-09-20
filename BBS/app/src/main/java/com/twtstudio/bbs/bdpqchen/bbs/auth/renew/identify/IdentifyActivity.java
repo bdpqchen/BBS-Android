@@ -21,6 +21,9 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_CATEGORY_SIGN;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_OLD_LOGIN;
+
 /**
  * Created by bdpqchen on 17-5-21.
  */
@@ -61,11 +64,6 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
@@ -80,6 +78,7 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
+
     }
 
     @OnClick({R.id.old_account, R.id.old_password, R.id.cp_btn_identify, R.id.tv_find_username})
@@ -115,7 +114,6 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
         mPresenter.doIdentify(mUsername, password);
     }
 
-
     @Override
     public void identifyFailed(String m) {
         mCpBtnIdentify.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
@@ -130,6 +128,7 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
 
     @Override
     public void identifySuccess(IdentifyModel model) {
+        pkTracker();
         mCpBtnIdentify.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
         Intent intent = new Intent(this, RegisterOldActivity.class);
         intent.putExtra(INTENT_USERNAME, mUsername);
@@ -137,6 +136,11 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
         startActivity(intent);
         finishMe();
         // TODO: 17-5-21 认证成功后
+    }
+
+    private void pkTracker(){
+        getTrackerHelper().screen(PK_OLD_LOGIN).title(mToolbar.getTitle().toString()).with(getTracker());
+        getTrackerHelper().event(PK_CATEGORY_SIGN, "oldLogin").with(getTracker());
     }
 
 

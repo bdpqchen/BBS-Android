@@ -20,6 +20,9 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_CATEGORY_SIGN;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_SIGN_UP;
+
 /**
  * Created by bdpqchen on 17-5-2.
  */
@@ -71,11 +74,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return false;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
@@ -89,18 +87,15 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         mContext = this;
         mActivity = this;
-
+        pkTracker();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
+    private void pkTracker(){
+        getTrackerHelper().screen(PK_SIGN_UP).title("注册").with(getTracker());
+        getTrackerHelper().event(PK_CATEGORY_SIGN, "Register").with(getTracker());
     }
-
 
     @OnClick({R.id.et_password, R.id.cp_btn_register})
     public void onViewClicked(View view) {

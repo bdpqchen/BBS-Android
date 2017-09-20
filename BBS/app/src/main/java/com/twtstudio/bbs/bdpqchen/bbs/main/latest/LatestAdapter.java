@@ -1,7 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.latest;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,27 +12,23 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.RandomUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.main.MainModel;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS_NAME;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
 
 
 /**
  * Created by bdpqchen on 17-6-5.
  */
 
-public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
+public class LatestAdapter extends BaseAdapter<LatestEntity> {
 
 
     public LatestAdapter(Context context) {
@@ -43,17 +38,19 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LatestViewHolder holder = new LatestViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_latest, parent, false));
-        return holder;
+        if (viewType == ITEM_HEADER) {
+            return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_header, parent, false));
+        } else {
+            return new LatestViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_latest, parent, false));
+        }
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder0, int position) {
-
         if (mDataSet != null && mDataSet.size() > 0) {
             if (holder0 instanceof LatestViewHolder) {
                 LatestViewHolder holder = (LatestViewHolder) holder0;
-                MainModel.LatestBean model = mDataSet.get(position);
+                LatestEntity model = mDataSet.get(position);
                 if (model.getAnonymous() == 1) {
                     model.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivLatestAvatar);
@@ -64,36 +61,32 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivLatestAvatar);
                 }
+                holder.mTvLikeCount.setText(String.valueOf(model.getLike()));
                 holder.mTvUsername.setText(model.getAuthor_name());
                 holder.mTvBoardName.setText(TextUtil.getBoardName(model.getBoard_name()));
                 holder.mTvThreadTitle.setText(model.getTitle());
-                holder.mTvPostCount.setText(model.getC_post() + "");
-                if (model.getC_post() == 0) {
-                    holder.mTvLatestTime.setText("发布于 " + StampUtil.getTimeFromNow(model.getT_create()));
-                } else {
-                    holder.mTvLatestTime.setText(StampUtil.getTimeFromNow(model.getT_reply()) + "有新动态");
-                }
-                holder.mTvBoardName.setOnClickListener(v -> {
-                    Intent intent = new Intent(mContext, ThreadListActivity.class);
-                    intent.putExtra(INTENT_BOARD_ID, model.getBoard_id());
-                    intent.putExtra(INTENT_BOARD_TITLE, model.getBoard_name());
-                    mContext.startActivity(intent);
+                holder.mTvPostCount.setText(String.valueOf(model.getC_post()));
+                holder.mTvLatestTime.setText(StampUtil.getTimeFromNow(model.getT_create(), model.getT_reply()));
+                holder.itemView.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toThread(mContext, model.getId(), model.getTitle(), model.getBoard_id(), model.getBoard_name()));
                 });
-                holder.mLlLatestBody.setOnClickListener(v -> {
-                    Intent intent = new Intent(mContext, ThreadActivity.class);
-                    intent.putExtra(INTENT_THREAD_ID, model.getId());
-                    intent.putExtra(INTENT_THREAD_TITLE, model.getTitle());
-                    intent.putExtra(INTENT_BOARD_TITLE, model.getBoard_name());
-                    intent.putExtra(INTENT_BOARD_ID, model.getBoard_id());
-                    mContext.startActivity(intent);
+                holder.mTvBoardName.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toThreadList(mContext, model.getBoard_id(), model.getBoard_name(), model.getAnonymous()));
+                });
+            } else if (holder0 instanceof HeaderHolder) {
+                HeaderHolder holder = (HeaderHolder) holder0;
+                holder.mTvUsername.setText(PrefUtil.getAuthUsername());
+                ImageUtil.loadMyAvatar(mContext, holder.mCivMyAvatar);
+                holder.mTvInduceCreate.setText(RandomUtil.getInduceCreateText());
+                holder.itemView.setOnClickListener(v -> {
+                    mContext.startActivity(IntentUtil.toCreateThread(mContext));
                 });
             }
         }
-
     }
 
 
-    class LatestViewHolder extends BaseViewHolder {
+    static class LatestViewHolder extends BaseViewHolder {
 
         @BindView(R.id.civ_latest_avatar)
         CircleImageView mCivLatestAvatar;
@@ -105,6 +98,8 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
         TextView mTvThreadTitle;
         @BindView(R.id.tv_post_count)
         TextView mTvPostCount;
+        @BindView(R.id.tv_like_count)
+        TextView mTvLikeCount;
         @BindView(R.id.tv_latest_time)
         TextView mTvLatestTime;
         @BindView(R.id.ll_layer_header)
@@ -115,7 +110,18 @@ public class LatestAdapter extends BaseAdapter<MainModel.LatestBean> {
         LatestViewHolder(View itemView) {
             super(itemView);
         }
+    }
 
+    static class HeaderHolder extends BaseViewHolder {
+        @BindView(R.id.civ_my_avatar)
+        CircleImageView mCivMyAvatar;
+        @BindView(R.id.tv_username)
+        TextView mTvUsername;
+        @BindView(R.id.tv_induce_to_create)
+        TextView mTvInduceCreate;
 
+        HeaderHolder(View view) {
+            super(view);
+        }
     }
 }

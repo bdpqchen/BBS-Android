@@ -28,13 +28,47 @@
             >
 
             <LinearLayout
-                android:id="@+id/ll_select_board"
+                android:id="@+id/ll_select_forum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@color/colorMainBgLight"
                 android:paddingEnd="@dimen/padding_start_create_thread"
                 android:paddingStart="@dimen/padding_start_create_thread"
+                android:visibility="gone"
+                tools:visibility="visible"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="选择分区："
+                    android:textSize="16sp"
+                    />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spinner_select_forum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="2dp"
+                    android:focusable="true"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_select_board"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorMainBgLight"
+                android:paddingEnd="@dimen/padding_start_create_thread"
+                android:paddingStart="@dimen/padding_start_create_thread"
+                android:layout_marginTop="2dp"
                 >
 
                 <TextView
@@ -95,43 +129,38 @@
                 android:background="@color/colorMainBgLight"
                 >
 
-                <LinearLayout
-                    android:id="@+id/ll_select_image"
+                <TextView
+                    android:id="@+id/tv_open_editor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|end"
+                    android:layout_marginStart="4dp"
                     android:clickable="true"
+                    android:drawableStart="@drawable/ic_crop_free_white_24dp"
                     android:focusable="true"
-                    android:foreground="@drawable/selector_foreground_settings"
-                    android:padding="4dp"
-                    >
+                    android:gravity="center"
+                    android:text=" 富文本编辑"
+                    android:textColor="@color/colorPrimaryCopy"
+                    />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="4dp"
-                        android:text="添加图片到正文"
-                        android:textColor="@color/colorPrimaryCopy"
-                        android:textSize="16sp"
-                        />
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:src="@drawable/ic_image_white_24dp"
-                        />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_select_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="4dp"
+                    android:drawableStart="@drawable/ic_image_white_24dp"
+                    android:gravity="center"
+                    android:text="添加图片到正文 "
+                    android:textColor="@color/colorPrimaryCopy"
+                    />
 
                 <android.support.v7.widget.AppCompatCheckBox
                     android:id="@+id/cb_anonymous"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@null"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                    android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
                     android:paddingEnd="16dp"
                     android:paddingStart="4dp"
                     android:text="匿名"
@@ -141,6 +170,7 @@
                     tools:ignore="RtlHardcoded"
                     tools:visibility="visible"
                     />
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

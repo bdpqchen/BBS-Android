@@ -5,11 +5,9 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
-import android.widget.TextView;
 
 import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE_URL;
 
@@ -27,18 +25,41 @@ public final class TextUtil {
         return Html.fromHtml("<u>" + s + "</u>");
     }
 
-    public static String getModifyTime(int time) {
-        return "最后修改于 " + StampUtil.getDatetimeByStamp(time);
+    public static String getThreadDateTime(int createTime, int modifyTime) {
+        String pre = "发布于 ";
+        int resultTime = createTime;
+        if (modifyTime > 0 && modifyTime > createTime) {
+            pre = "最后修改于 ";
+            resultTime = modifyTime;
+        }
+        return pre + StampUtil.getDatetimeByStamp(resultTime);
+    }
+
+    public static Spanned getNameWithFriend(String name, String nickname, int isFriend) {
+        boolean is = IsUtil.is1(isFriend);
+        String friend = "<font color=\'#e77574\'> [好友] </font>";
+        String result = getTwoNames(name, nickname);
+        if (is) {
+            result = friend + result;
+        }
+        return Html.fromHtml(result);
     }
 
     public static String getTwoNames(String name, String nickname) {
-        if (nickname != null && nickname.length() > 12) {
+        if (nickname == null || isEqual(name, nickname)) {
+            return name;
+        }
+        if (nickname.length() > 12) {
             nickname = nickname.substring(0, 11);
         }
         return name + "(" + nickname + ")";
     }
 
-    public static String getReplacedContent(String content) {
+    private static boolean isEqual(String str0, String str1) {
+        return str0.equals(str1);
+    }
+
+    private static String getReplacedContent(String content) {
         content = content.replaceAll("attach:", BASE_URL + "img/");
         content = content.replaceAll("<img", "<br /><img");
         return content;
@@ -110,5 +131,49 @@ public final class TextUtil {
         return honor;
     }
 
+    public static String convert2HtmlContent(String content) {
+        if (content == null || content.length() == 0) {
+            return "";
+        }
+        content = content.replaceAll("\n> \n>", "\n>");
+        content = content.replaceAll("\n> > \n> >", "\n> >");
+        content = Processor.process(content);
+        content = content.replaceAll("<img", "<br><img");
+        content = content.replaceAll("attach:", BASE_URL + "img/");
+        content = content.replaceAll("\n<blockquote>", "<blockquote>");
+        content = content.replaceAll("</blockquote>\n", "</blockquote>");
+        content = content.replaceAll("\n<p>", "<p>");
+        content = content.replaceAll("</p>\n", "</p>");
+        content = content.replaceAll("\n", "<br>");
+//        LogUtil.dd("final content", content);
+        return content;
+    }
 
+    public static String getEditorToolbarTitle(final int what) {
+        String title = "发表";
+        switch (what) {
+            case 0:
+                return title;
+            case 1:
+                title = "回复";
+                break;
+        }
+        return title;
+    }
+
+    public static String getPostCountAndTime(int postCount, int datetime) {
+        return "回复量 : " + postCount + "    " + "时间 : " + StampUtil.getDatetimeByStamp(datetime);
+    }
+
+    public static String getFloorAndAnon(int floor, int anonymous) {
+        return isAnon(anonymous) + "回复于#" + floor;
+    }
+
+    public static String getPostBottomInfo(int postCount, int datetime, int floor, int anonymous){
+        return getFloorAndAnon(floor, anonymous) + "    " + getPostCountAndTime(postCount, datetime);
+    }
+
+    private static String isAnon(int status) {
+        return IsUtil.is1(status) ? "匿名" : "";
+    }
 }

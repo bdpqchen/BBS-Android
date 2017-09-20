@@ -36,12 +36,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @BindView(R.id.bottom_bar)
     BottomBar mBottomBar;
-//    @BindView(R.id.mask_home)
-//    View mMask;
-
     BottomBarTab mNearBy;
-    private Context mContext;
-    private HomeActivity mHomeActivity;
     private SupportFragment[] mFragments = new SupportFragment[3];
     private static final int FIRST = 0;
     private static final int SECOND = 1;
@@ -50,8 +45,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private int mShowingFragment = FIRST;
     private int mHidingFragment = FIRST;
     private boolean mIsExit = false;
-    // 用于判定是否自动检查更新
-    private boolean isCheckedUpdate = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -69,11 +62,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     }
 
     @Override
-    protected boolean isSupportNightMode() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
@@ -87,21 +75,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mHomeActivity = this;
-        mContext = this;
+        Context context = this;
         LogUtil.dd("token", PrefUtil.getAuthToken());
-        // TODO: 17-5-3 非登录后跳转到这里，是否渐变
-        // 登录后的渐变,
-        if (!PrefUtil.isNoAccountUser()) {
-            PrefUtil.setHadLogin(true);
-        }
-//        mMask.setVisibility(View.VISIBLE);
-//        ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home), "alpha", 0f).setDuration(600);
-//        ObjectAnimator animator = ObjectAnimator.ofFloat(findViewById(R.id.mask_home), "alpha", 0f).setDuration(600);
-//        animator.setStartDelay(400);
-//        animator.start();
-
-//        SnackBarUtil.error(mActivity, "新版本");
+        PrefUtil.setHadLogin(true);
 
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragment.newInstance();
@@ -122,7 +98,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
         mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
         mBottomBar.setOnTabSelectListener(i -> {
-            LogUtil.dd("onTabSelected()", String.valueOf(i));
+//            LogUtil.dd("onTabSelected()", String.valueOf(i));
             if (PrefUtil.hadLogin()) {
                 if (i == R.id.bottom_bar_tab_main) {
                     mShowingFragment = FIRST;
@@ -143,16 +119,19 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             }
         });
 
-        isCheckedUpdate = true;
-        if (PrefUtil.thisVersionFirstOpen()){
+        if (PrefUtil.thisVersionFirstOpen()) {
             // TODO: 17-7-6 统一清理缓存
-            ImageUtil.clearMemory(mContext);
-            ImageUtil.clearDiskCache(mContext);
+            ImageUtil.clearMemory(context);
+            ImageUtil.clearDiskCache(context);
             PrefUtil.setIsThisVersionFirstOpen(false);
             PrefUtil.setIsSimpleBoardList(true);
         }
 
+        pkTracker();
+    }
 
+    private void pkTracker() {
+        getTrackerHelper().screen("").title("首页").with(getTracker());
     }
 
     private void clearFullScreen() {
@@ -165,12 +144,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     }
 
     @Override
-    public void onGotMessageCount(int count) {
-        if (count > 0) {
-            mNearBy.setBadgeCount(count);
-        } else {
-            mNearBy.setBadgeCount(0);
-        }
+    public void onGotMessageCount(final int count) {
+        int c = count > 0 ? count : 0;
+        mNearBy.setBadgeCount(c);
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -189,7 +165,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public void onGetMessageFailed(String m) {
-        LogUtil.dd("onGetMessageFailed()");
+//        LogUtil.dd("onGetMessageFailed()");
         if (PrefUtil.isNoAccountUser()) {
             return;
         }
@@ -204,15 +180,5 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             }, 3000);
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        LogUtil.dd("home onResume", "getUnreadMessage");
-        if (mPresenter != null) {
-            mPresenter.getUnreadMessageCount();
-        }
-    }
-
 
 }

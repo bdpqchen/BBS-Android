@@ -3,6 +3,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -18,7 +19,6 @@ public final class ImageUtil {
 
     private final static int radius = 30;
     private final static int myUid = PrefUtil.getAuthUid();
-
 
     public static void loadIconAsBitmap(Context context, int resourceId, ImageView view) {
         Glide.with(context).load(resourceId).asBitmap().centerCrop().into(view);
@@ -56,29 +56,32 @@ public final class ImageUtil {
                 .asBitmap()
                 .centerCrop()
                 .crossFade().diskCacheStrategy(DiskCacheStrategy.NONE)
-                .error(R.drawable.avatar_default_left)
+                .placeholder(R.drawable.avatar_default_left)
                 .into(view);
     }
 
+    public static void loadAvatarAsBitmapByUidWithLeft(Context context, int author_id, CircleImageView civAvatarPost) {
+        DrawableTypeRequest request = getDefaultAvatarRequest(context, author_id, 0);
+        request.asBitmap()
+                .centerCrop()
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .error(R.drawable.avatar_default_left)
+                .into(civAvatarPost);
+    }
+
     public static void loadAvatarAsBitmapByUidWithRight(Context context, int author_id, CircleImageView civAvatarPost) {
-        Glide.with(context).load(UrlUtil.getAvatarUrl(author_id))
-                .asBitmap()
+        DrawableTypeRequest request = getDefaultAvatarRequest(context, author_id, 0);
+        request.asBitmap()
                 .centerCrop()
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .error(R.drawable.avatar_default_right)
                 .into(civAvatarPost);
-
     }
 
-    public static void loadAvatarAsBitmapByUidWithLeft(Context context, int author_id, CircleImageView civAvatarPost) {
-        Glide.with(context).load(UrlUtil.getAvatarUrl(author_id))
-                .asBitmap()
-                .centerCrop()
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .error(R.drawable.avatar_default_left)
-                .into(civAvatarPost);
+    private static DrawableTypeRequest getDefaultAvatarRequest(Context context, int uid, int side) {
+        return Glide.with(context).load(UrlUtil.getAvatarUrl(uid));
     }
 
     public static void loadMyAvatar(Context context, ImageView civAvatar) {

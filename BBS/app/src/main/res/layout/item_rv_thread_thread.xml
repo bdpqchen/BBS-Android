@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorMainBgLight"
     android:orientation="vertical"
     android:padding="@dimen/padding_thread_content"
-    android:background="@color/colorMainBgLight"
     >
 
     <LinearLayout
@@ -22,47 +22,17 @@
             android:src="@drawable/avatar_default_left"
             />
 
-        <RelativeLayout
+
+        <TextView
+            android:id="@+id/tv_username_thread"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            >
-
-            <TextView
-                android:id="@+id/tv_username_thread"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:textColor="@color/colorTvBlackMainTint"
-                android:textSize="14sp"
-                tools:text="中文名"
-                />
-
-            <TextView
-                android:id="@+id/tv_level_thread"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_toEndOf="@+id/tv_username_thread"
-                android:background="@drawable/honor_shape_bg"
-                android:paddingEnd="2dp"
-                android:paddingStart="2dp"
-                android:text="LV 1"
-                android:textColor="@color/material_light_white"
-                android:visibility="gone"
-                />
-
-            <TextView
-                android:id="@+id/tv_datetime_thread"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/tv_username_thread"
-                android:layout_below="@+id/tv_username_thread"
-                android:paddingTop="2dp"
-                android:textSize="12sp"
-                tools:text="2017-11-11"
-                />
-
-        </RelativeLayout>
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/colorTvBlackMainTint"
+            android:textSize="14sp"
+            tools:text="中文名"
+            />
 
     </LinearLayout>
 
@@ -72,29 +42,80 @@
         android:layout_height="wrap_content"
         android:padding="4dp"
         android:textColor="@color/colorTvBlackMain"
-        android:textSize="18sp"
+        android:textSize="20sp"
         tools:text="挑剔大家发多少"
         />
 
-    <com.twtstudio.bbs.bdpqchen.bbs.bbkit.htmltextview.HtmlTextView
+    <com.twtstudio.bbs.bdpqchen.bbs.htmltextview.HtmlTextView
         android:id="@+id/htv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="4dp"
         android:textColor="@color/colorTvBlackMainTint"
-        android:textSize="14sp"
         android:textIsSelectable="true"
+        android:textSize="16sp"
         tools:text="挑剔大家发多少aflsjlfsj大家来决定是否了解爱上了飞机来打扫房间2017年05月22日23:45:052017年05月22日23:45:07"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:id="@+id/tv_modify_time"
-        android:textColor="@color/colorTvBlackMainTint"
-        android:textSize="13sp"
-        tools:text="2015-1-1 23:23:33"
-        />
+        android:gravity="end">
 
+        <TextView
+            android:id="@+id/tv_datetime_thread"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:textSize="12sp"
+            tools:text="2017-11-11 "
+            />
+
+        <ImageView
+            android:id="@+id/iv_thread_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/selector_foreground_settings"
+            android:paddingBottom="4dp"
+            android:paddingStart="4dp"
+            android:paddingTop="4dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/ic_thumb_up_white_24dp"
+            android:tint="@color/colorTintIconBlack"
+            />
+
+        <TextView
+            android:id="@+id/tv_thread_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="16dp"
+            android:gravity="start"
+            android:textColor="@color/colorTintIconBlack"
+            tools:text="10"
+            />
+
+        <ImageView
+            android:id="@+id/iv_thread_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/selector_foreground_settings"
+            android:padding="4dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/ic_sms_black_24dp"
+            android:tint="@color/colorTintIconBlack"
+            />
+
+    </LinearLayout>
 </LinearLayout>

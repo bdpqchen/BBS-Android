@@ -21,7 +21,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.my_release.MyReleaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.release.ReleaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
@@ -29,7 +29,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_RESULT_UPDATE_INFO;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_UNREAD;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_UPDATE_INFO;
 
 /**
  * Created by bdpqchen on 17-5-3.
@@ -82,7 +84,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     private static final int ACT_PUBLISH = 3;
     private static final int ACT_UPDATE = 4;
     private static final int ACT_SETS = 5;
-    private int beingActivity = 0;
     private int mUnread = 0;
     private boolean isRefreshing = false;
 
@@ -102,7 +103,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
     @Override
     protected void initFragment() {
-
 
         mRlIndividualItemMessage.setOnClickListener(v -> startItemActivity(ACT_MSG));
         mRlIndividualItemCollection.setOnClickListener(v -> startItemActivity(ACT_STAR));
@@ -135,11 +135,12 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         if (!PrefUtil.hadLogin()) {
             mContext.startActivity(new Intent(mContext, LoginActivity.class));
         } else {
-            beingActivity = index;
+            Intent intent = new Intent();
             Class clazz;
             switch (index) {
                 case ACT_MSG:
                     clazz = MessageActivity.class;
+                    intent.putExtra(INTENT_UNREAD, mUnread);
                     break;
                 case ACT_FRIEND:
                     clazz = FriendActivity.class;
@@ -148,7 +149,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
                     clazz = StarActivity.class;
                     break;
                 case ACT_PUBLISH:
-                    clazz = MyReleaseActivity.class;
+                    clazz = ReleaseActivity.class;
                     break;
                 case ACT_UPDATE:
                     clazz = UpdateInfoActivity.class;
@@ -159,11 +160,12 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
                 default:
                     return;
             }
-            Intent intent = new Intent(mContext, clazz);
-            if (index == ACT_MSG){
-                intent.putExtra(INTENT_UNREAD, mUnread);
+            intent.setClass(mContext, clazz);
+            if (ACT_UPDATE == index) {
+                startActivityForResult(intent, REQUEST_CODE_UPDATE_INFO);
+            } else {
+                startActivity(intent);
             }
-            startActivity(intent);
         }
     }
 
@@ -172,7 +174,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
         if (mTvIndividualUnread != null) {
             if (unread > 0) {
                 mTvIndividualUnread.setVisibility(View.VISIBLE);
-                mTvIndividualUnread.setText(unread + "");
+                mTvIndividualUnread.setText(String.valueOf(unread));
             } else {
                 mTvIndividualUnread.setVisibility(View.INVISIBLE);
             }
@@ -183,13 +185,6 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     public void onResume() {
         super.onResume();
         mPresenter.getUnreadMessageCount();
-        if (beingActivity == ACT_UPDATE) {
-            mTvNickname.setText(PrefUtil.getInfoNickname());
-            mTvSignature.setText(PrefUtil.getInfoSignature());
-            ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
-            ImageUtil.refreshMyBg(mContext, mIvBg);
-            beingActivity = 0;
-        }
     }
 
     @Override
@@ -205,12 +200,12 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
             PrefUtil.setInfoLevel(info.getLevel());
             PrefUtil.setIsLatestInfo(true);
             mTvPastDays.setText(TextUtil.getPastDays(mContext, info.getT_create()), TextView.BufferType.SPANNABLE);
-            mTvPostCount.setText(PrefUtil.getInfoPost() + "");
+            mTvPostCount.setText(String.valueOf(PrefUtil.getInfoPost()));
             mTvNickname.setText(PrefUtil.getInfoNickname());
             mTvSignature.setText(PrefUtil.getInfoSignature());
-            mTvPoints.setText(PrefUtil.getInfoPoints() + "");
+            mTvPoints.setText(String.valueOf(PrefUtil.getInfoPoints()));
             mTvHonor.setText(TextUtil.getHonor(info.getPoints()));
-            if (isRefreshing){
+            if (isRefreshing) {
                 ImageUtil.loadMyAvatar(mContext, mCivAvatar);
                 ImageUtil.loadMyBg(mContext, mIvBg);
                 isRefreshing = false;
@@ -235,11 +230,25 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        StatusBarUtil.setTranslucentForImageViewInFragment(this.getActivity(), null);
+        StatusBarUtil.setTranslucentForImageViewInFragment(this.getActivity(), 255, null);
         return rootView;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null && requestCode == REQUEST_CODE_UPDATE_INFO && resultCode == RESULT_OK
+                && data.getBooleanExtra(INTENT_RESULT_UPDATE_INFO, false)) {
+            refreshInfo();
+        }
+    }
+
+    private void refreshInfo() {
+        ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
+        ImageUtil.refreshMyBg(mContext, mIvBg);
+        mTvNickname.setText(PrefUtil.getInfoNickname());
+        mTvSignature.setText(PrefUtil.getInfoSignature());
+    }
 
 }

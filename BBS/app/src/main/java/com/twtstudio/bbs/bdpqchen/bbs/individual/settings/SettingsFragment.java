@@ -79,8 +79,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 startMySelf();
             } else if (key.equals(getString(R.string.key_always_anon))) {
                 PrefUtil.setIsAlwaysAnonymous(CastUtil.cast2boolean(obj));
-            } else if (key.equals(getString(R.string.key_slide_back))) {
-                PrefUtil.setIsSlideBackMode(CastUtil.cast2boolean(obj));
             } else if (key.equals(getString(R.string.key_simple_board_list))) {
                 PrefUtil.setIsSimpleBoardList(CastUtil.cast2boolean(obj));
             }else if (key.equals(getString(R.string.key_simple_forum))){
@@ -95,7 +93,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     private void reallyLogout() {
-        DialogUtil.alertDialog(mActivity, "温馨的提示", "真的要登出当前的账户吗？？", "真的", "假的",
+        DialogUtil.alertDialog(mActivity, "真的要登出当前的账户吗？？", "真的", "假的",
                 ((materialDialog, dialogAction) -> logout()), null);
     }
 
@@ -114,7 +112,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         Intent intent = new Intent(mActivity, LoginActivity.class);
         intent.putExtra(USERNAME, PrefUtil.getAuthUsername());
         startActivity(intent);
-
     }
 
     private void checkUpdate() {

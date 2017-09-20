@@ -1,20 +1,20 @@
 <resources>
     <string name="app_name">求实BBS</string>
     <string name="collection_no_collection">你还没有收藏的帖子哦~</string>
-    <string name="icon">&#xe61f;</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="key_night_mode">key_switch_night_mode</string>
     <string name="key_slide_back">key_slide_back</string>
     <string name="key_always_anon">key_always_anon</string>
     <string name="key_habit_hand">key_habit_hand</string>
     <string name="key_logout">key_logout</string>
-    <string name="current_version">当前版本 : 1.3.0</string>
-    <string name="version_name">1.3.0</string>
-    <string name="version_code">9</string>
+    <string name="current_version">当前版本 : 1.4.0</string>
+    <string name="version_name">1.4.0</string>
+    <string name="version_code">10</string>
     <string name="key_simple_board_list">key_simple_board_list</string>
     <string name="key_check_update">key_check_update</string>
     <string name="key_auto_clear_unread">key_auto_clear_unread</string>
     <string name="key_simple_forum">key_simple_forum</string>
     <string name="default_signature">这个人很有趣,什么也不写..</string>
+    <string name="hint_md_editor">在这里编辑内容\n向左滑动可切换预览视图\n点击 + 展开标记符号列表</string>
 
 </resources>

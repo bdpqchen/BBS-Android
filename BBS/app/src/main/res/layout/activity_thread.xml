@@ -133,14 +133,18 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <com.nightonke.boommenu.BoomMenuButton
-        android:id="@+id/bmb"
+    <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_insert_comment_white_24dp"
+        app:backgroundTint="@color/material_teal_300"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        android:layout_margin="8dp"
         android:layout_gravity="end|bottom"
-        app:bmb_normalColor="#62cbd6"
-        app:bmb_shadowRadius="2dp"
-        android:layout_margin="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:id="@+id/fab_thread_comment"
         />
 
     <LinearLayout
@@ -148,18 +152,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        android:background="@color/colorMainBg"
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="gone"
-        android:background="@color/colorMainBg"
+        tools:visibility="visible"
+
         >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:orientation="vertical"
             android:paddingTop="8dp"
             >
 
@@ -172,43 +177,53 @@
                 android:layout_marginTop="4dp"
                 android:textColor="@color/colorPrimaryCopy"
                 android:textSize="12sp"
-                tools:text="评论 1 楼 谁谁是"
+                tools:text="评论 100 楼 abcdefghijkl"
                 />
 
-            <LinearLayout
-                android:id="@+id/ll_select_image"
+            <TextView
+                android:id="@+id/tv_open_editor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
+                android:background="@color/colorMainBg"
                 android:clickable="true"
+                android:drawableStart="@drawable/ic_crop_free_white_24dp"
                 android:focusable="true"
                 android:foreground="@drawable/selector_foreground_settings"
-                >
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_image_white_24dp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="添加图片"
-                    android:textColor="@color/colorPrimaryCopy"
-                    android:textSize="11sp"
-                    />
-            </LinearLayout>
+                android:gravity="center_vertical"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:text=" 富文本编辑"
+                android:textColor="@color/colorPrimaryCopy"
+                android:textSize="15sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_select_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/tv_open_editor"
+                android:background="@color/colorMainBg"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_image_white_24dp"
+                android:focusable="true"
+                android:foreground="@drawable/selector_foreground_settings"
+                android:gravity="center_vertical"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:text=" 图片"
+                android:textColor="@color/colorPrimaryCopy"
+                android:textSize="15sp"
+                />
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/cb_anonymous_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="4dp"
-                android:layout_toStartOf="@+id/ll_select_image"
+                android:layout_toStartOf="@+id/tv_select_image"
                 android:scaleX="0.7"
                 android:scaleY="0.7"
                 android:text="匿名"
@@ -216,6 +231,7 @@
                 android:visibility="gone"
                 tools:visibility="visible"
                 />
+
         </RelativeLayout>
 
         <View
@@ -248,6 +264,7 @@
                     android:focusableInTouchMode="true"
                     android:maxLines="10"
                     android:paddingTop="32dp"
+
                     />
 
             </android.support.design.widget.TextInputLayout>

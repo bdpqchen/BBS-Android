@@ -3,17 +3,13 @@ package com.twtstudio.bbs.bdpqchen.bbs.main;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
 
 import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
 
 /**
  * Created by bdpqchen on 17-5-3.
@@ -42,7 +38,6 @@ public class MainFragment extends SimpleFragment {
     protected void initFragments() {
         mAppbar.setExpanded(false);
         StatusBarUtil.setColor(this.getActivity(), ResourceUtil.getColor(this.getActivity(), R.color.colorPrimaryDark), 0);
-
         MainTabAdapter tabAdapter = new MainTabAdapter(getFragmentManager(), mContext);
         mViewpager.setAdapter(tabAdapter);
         mTabLayout.setupWithViewPager(mViewpager);

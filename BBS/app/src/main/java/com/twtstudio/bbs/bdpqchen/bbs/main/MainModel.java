@@ -30,7 +30,7 @@ public class MainModel {
     public static class LatestBean {
         /**
          * id : 7909
-         * title : 我之前发的帖子被删了啊啊啊
+         * title : 我之前发的帖子被删了啊啊啊-
          * author_id : 39531
          * board_id : 193
          * author_name : testuser
@@ -59,7 +59,7 @@ public class MainModel {
         private int t_create;
         private int t_modify;
         private String board_name;
-        private int anonymous = 0;
+        private int anonymous;
 
 
         public int getId() {
@@ -219,7 +219,7 @@ public class MainModel {
         private int t_modify;
         private String content;
         private String board_name;
-        private int anonymous = 0;
+        private int anonymous;
 
         public int getId() {
             return id;

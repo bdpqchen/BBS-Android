@@ -33,18 +33,18 @@ public final class StampUtil {
         String result = "";
         if (date[0] < dateNow[0]) {
             result += date[0] + "年" + date[1] + "月" + date[2] + "号 ";
-        }else{
+        } else {
             if (date[1] == dateNow[1] && date[2] == dateNow[2]) {
                 result = "今天 ";
-            }else{
+            } else {
                 result = date[1] + "月" + date[2] + "号 ";
             }
         }
-        if (date[3] == 0){
+        if (date[3] == 0) {
             result += "0";
         }
         result += date[3] + ":";
-        if (date[4] < 10){
+        if (date[4] < 10) {
             result += "0";
         }
         result += date[4];
@@ -61,6 +61,14 @@ public final class StampUtil {
         date[4] = calendar.get(Calendar.MINUTE);
         date[5] = calendar.get(Calendar.SECOND);
         return date;
+    }
+
+    public static String getTimeFromNow(int createTime, int replyTime) {
+        if (IsUtil.is0(replyTime) || replyTime == createTime) {
+            return "发布于 " + getTimeFromNow(createTime);
+        } else {
+            return getTimeFromNow(replyTime) + "有新动态";
+        }
     }
 
     public static String getTimeFromNow(int date) {
@@ -95,7 +103,7 @@ public final class StampUtil {
         } else if (hours == 1) {
             if (minutes < 0) {
                 minutes += 60;
-            }else{
+            } else {
                 return hours + "小时前";
             }
             return minutes + "分钟前";

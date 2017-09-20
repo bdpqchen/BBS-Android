@@ -38,8 +38,6 @@ class ForumPresenter extends RxPresenter<ForumContract.View> implements ForumCon
 
             @Override
             public void _onNext(List<ForumModel> forumModels) {
-//                LogUtil.d(forumModels.size());
-//                LogUtil.d(mView);
                 if (mView != null)
                     mView.showForumList(forumModels);
             }
