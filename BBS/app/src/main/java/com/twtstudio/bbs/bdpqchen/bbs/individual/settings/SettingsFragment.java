@@ -9,6 +9,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
+import com.tencent.bugly.beta.Beta;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
@@ -114,7 +115,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     private void checkUpdate() {
-//        Beta.checkUpgrade();
+        Beta.checkUpgrade();
     }
 
 }

@@ -33,7 +33,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_ED
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_TOOLBAR_TITLE;
 
-public class EditorActivity extends SupportActivity implements View.OnClickListener, OnContentListener{
+public class EditorActivity extends SupportActivity implements View.OnClickListener, OnContentListener {
     @BindView(R.id.toolbar)
     Toolbar mIdToolbar;
     @BindView(R.id.id_appbar)
@@ -68,12 +68,14 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
         initActionBar(mIdToolbar);
 
         setContent(mContent);
+
+
     }
 
     private void initActionBar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null){
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(mToolbarTitle);
         }
@@ -81,24 +83,7 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
 
     private void initViewPager() {
         mViewPager.setAdapter(new EditFragmentAdapter(getSupportFragmentManager()));
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
 
-            @Override
-            public void onPageSelected(int position) {
-
-                //刷新渲染数据
-                if (position == 1) {
-//                    RxEventBus.getInstance().send(new RxEvent(RxEvent.TYPE_REFRESH_NOTIFY));
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
     }
 
     private void initTab() {
@@ -161,10 +146,11 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
         }
     }
 
-    public String getContent(){
+    public String getContent() {
         return mEditorFragment.getContent();
     }
-    public void setContent(String content){
+
+    public void setContent(String content) {
         mEditorFragment.setContent(content);
     }
 
@@ -180,6 +166,8 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
 //        LogUtil.dd("onCreateOptionsMenu");
         getMenuInflater().inflate(R.menu.menu_editor_act, menu);
         mActionOtherOperate = menu.findItem(R.id.action_markup);
+        mExpandLayout.expand(true);
+
         if (mExpandLayout.isExpanded())
             //展开，设置向上箭头
             mActionOtherOperate.setIcon(R.drawable.ic_keyboard_arrow_up_white_24dp);
@@ -243,7 +231,7 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
         View rootView = LayoutInflater.from(this).inflate(R.layout.view_common_input_link_view, null);
         EditText title = (EditText) rootView.findViewById(R.id.name);
         EditText link = (EditText) rootView.findViewById(R.id.text);
-        MaterialDialog.SingleButtonCallback callback = (dialog, sequence)->{
+        MaterialDialog.SingleButtonCallback callback = (dialog, sequence) -> {
             String titleStr = title.getText().toString().trim();
             String linkStr = link.getText().toString().trim();
             mEditorFragment.getPerformEditable().perform(R.id.id_shortcut_insert_link, titleStr, linkStr);
@@ -303,7 +291,8 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
         });
 
         dialog.show();
-    */}
+    */
+    }
 
 
 }
