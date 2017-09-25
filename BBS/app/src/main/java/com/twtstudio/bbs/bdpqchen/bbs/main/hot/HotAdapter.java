@@ -16,16 +16,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS_NAME;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 
 
 /**
@@ -73,11 +68,7 @@ public class HotAdapter extends BaseAdapter<HotEntity> {
                     mContext.startActivity(IntentUtil.toThreadList(mContext, model.getBoard_id(), model.getBoard_name(), model.getAnonymous()));
                 });
                 holder.itemView.setOnClickListener(v -> {
-                    Intent intent = new Intent(mContext, ThreadActivity.class);
-                    intent.putExtra(INTENT_THREAD_ID, model.getId());
-                    intent.putExtra(INTENT_THREAD_TITLE, model.getTitle());
-                    intent.putExtra(INTENT_BOARD_TITLE, model.getBoard_name());
-                    intent.putExtra(INTENT_BOARD_ID, model.getBoard_id());
+                    Intent intent = IntentUtil.toThread(mContext, model.getId(), model.getTitle(), model.getBoard_id(), model.getBoard_name());
                     mContext.startActivity(intent);
                 });
 

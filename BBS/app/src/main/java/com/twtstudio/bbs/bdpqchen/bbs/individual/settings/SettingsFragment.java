@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.settings;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -8,6 +7,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 
 import com.tencent.bugly.beta.Beta;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -30,12 +30,12 @@ import static com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivit
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
 
-    private Activity mActivity;
+    private AppCompatActivity mActivity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActivity = getActivity();
+        mActivity = (AppCompatActivity) getActivity();
         addPreferencesFromResource(R.xml.settings);
         PreferenceManager.setDefaultValues(this.getActivity(), R.xml.settings, false);
         for (int x = 0; x < getPreferenceScreen().getPreferenceCount(); x++) {

@@ -39,7 +39,8 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="6dp"
                     tools:src="@drawable/avatar_default_left"
-                    />
+                    android:transitionName="share_avatar"
+                    tools:targetApi="lollipop"/>
 
                 <TextView
                     android:id="@+id/tv_username"

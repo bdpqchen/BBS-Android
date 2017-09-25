@@ -3,7 +3,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.auth.login;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +25,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.RandomUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
@@ -114,8 +114,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         pkTracker();
     }
 
-    @OnClick({R.id.tx_forgot_password, R.id.tv_goto_register,R.id.tv_to_register,
-            R.id.et_account, R.id.et_password, R.id.tv_goto_replace_user, R.id.cp_btn_login})
+    @OnClick({R.id.tx_forgot_password, R.id.tv_to_register, R.id.cp_btn_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tx_forgot_password:
@@ -123,10 +122,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 break;
             case R.id.tv_to_register:
                 startActivity(new Intent(this, RegisterActivity.class));
-                break;
-            case R.id.et_account:
-                break;
-            case R.id.et_password:
                 break;
             case R.id.cp_btn_login:
                 String username = mEtAccount.getText() + "";
@@ -171,7 +166,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         ActivityOptions activityOptions = null;
         Intent intent = new Intent(this, HomeActivity.class);
         PrefUtil.setIsNoAccountUser(false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (VersionUtil.eaLollipop()) {
             activityOptions = ActivityOptions.makeSceneTransitionAnimation(this, new Pair<>(findViewById(R.id.cp_btn_login), "transition"));
         }
         if (activityOptions != null) {
@@ -179,9 +174,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             HandlerUtil.postDelay(() -> {
                 startActivity(intent, finalActivityOptions.toBundle());
             }, 400);
-//            LogUtil.d("start activity with options");
         } else {
-//            LogUtil.d("start activity with none");
             HandlerUtil.postDelay(() -> {
                 startActivity(intent);
             }, 400);

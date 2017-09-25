@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainContract;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainPresenter;
@@ -56,7 +55,7 @@ public class PersonalFragment extends BaseFragment<MainPresenter> implements Mai
 
     @Override
     protected void initFragment() {
-        mAdapter = new LatestAdapter(getActivity());
+        mAdapter = new LatestAdapter(getActivity(), getActivity());
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRvLatest.setLayoutManager(mLinearLayoutManager);
         mRvLatest.setAdapter(mAdapter);

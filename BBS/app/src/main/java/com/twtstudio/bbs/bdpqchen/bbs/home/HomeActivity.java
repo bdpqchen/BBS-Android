@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.widget.FrameLayout;
 
 import com.jaeger.library.StatusBarUtil;
 import com.roughike.bottombar.BottomBar;
@@ -36,7 +37,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @BindView(R.id.bottom_bar)
     BottomBar mBottomBar;
+
     BottomBarTab mNearBy;
+    @BindView(R.id.fl_main_container)
+    FrameLayout mFlMainContainer;
     private SupportFragment[] mFragments = new SupportFragment[3];
     private static final int FIRST = 0;
     private static final int SECOND = 1;
@@ -45,6 +49,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private int mShowingFragment = FIRST;
     private int mHidingFragment = FIRST;
     private boolean mIsExit = false;
+    private boolean mIsJustLoginIn = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -74,11 +79,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Context context = this;
         LogUtil.dd("token", PrefUtil.getAuthToken());
         PrefUtil.setHadLogin(true);
-
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragment.newInstance();
             mFragments[SECOND] = ForumFragment.newInstance();

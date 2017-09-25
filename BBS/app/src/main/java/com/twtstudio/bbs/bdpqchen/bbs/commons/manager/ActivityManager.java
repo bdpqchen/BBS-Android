@@ -1,9 +1,10 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.manager;
 
-import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 
 import com.orhanobut.logger.Logger;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil;
 
 import java.util.Stack;
 
@@ -12,76 +13,81 @@ import java.util.Stack;
  */
 
 public final class ActivityManager {
-    private Stack<Activity> mActivityStack;
+    private Stack<AppCompatActivity> mActivityStack;
 
     private static ActivityManager mInstance;
 
-    private ActivityManager(){}
+    private ActivityManager() {
+    }
 
-    public static ActivityManager getActivityManager(){
-        if(mInstance == null){
+    public static ActivityManager getActivityManager() {
+        if (mInstance == null) {
             mInstance = new ActivityManager();
         }
         return mInstance;
     }
 
-    public void recreateAllActivity(Class<?>cls){
-        if (mActivityStack != null){
-            for (Activity activity : mActivityStack){
-                if (activity.getClass() != cls){
+    public void recreateAllActivity(Class<?> cls) {
+        if (mActivityStack != null) {
+            for (AppCompatActivity activity : mActivityStack) {
+                if (activity.getClass() != cls) {
                     activity.recreate();
                 }
             }
         }
     }
 
-    public void addActivity(Activity activity){
-        if(mActivityStack == null){
+    public void addActivity(AppCompatActivity activity) {
+        if (mActivityStack == null) {
             mActivityStack = new Stack<>();
         }
         mActivityStack.add(activity);
     }
 
     //结束当前的activity
-    public void finishCurrentActivity(){
-        Activity activity = mActivityStack.lastElement();
+    public void finishCurrentActivity() {
+        AppCompatActivity activity = mActivityStack.lastElement();
         finishActivity(activity);
     }
 
-    public Activity getCurrentActivity(){
+    public AppCompatActivity getCurrentActivity() {
         return mActivityStack.lastElement();
     }
 
-    public void finishActivity(Activity activity) {
-        if(activity != null){
+    public void finishActivity(AppCompatActivity activity) {
+        if (activity != null) {
             mActivityStack.remove(activity);
-            activity.finish();
-        }else{
+            if (VersionUtil.eaLollipop()) {
+                activity.supportFinishAfterTransition();
+            } else {
+                activity.finish();
+            }
+        } else {
             Logger.d("You want to remove the activity, but it is null");
         }
     }
 
     //结束指定名称的activity
-    public void finishNamedActivity(Class<?>cls){
-        for (Activity activity : mActivityStack){
-            if(activity.getClass() == cls){
+    public void finishNamedActivity(Class<?> cls) {
+        for (AppCompatActivity activity : mActivityStack) {
+            if (activity.getClass() == cls) {
                 finishActivity(activity);
             }
         }
     }
 
-    public void finishAllActivity(){
+    public void finishAllActivity() {
         int i = 0;
-        for (Activity activity : mActivityStack){
-            if(activity != null){
-                activity.finish();
+        for (AppCompatActivity activity : mActivityStack) {
+            if (activity != null) {
+                finishActivity(activity);
                 i++;
             }
         }
         Logger.d("had finished " + i + " activity");
     }
 
-    public void appExit(Context context){
+    public void appExit(Context context) {
         finishAllActivity();
         System.exit(0);
     }

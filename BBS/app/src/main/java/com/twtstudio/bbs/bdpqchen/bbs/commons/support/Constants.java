@@ -133,5 +133,4 @@ public final class Constants {
     //所有前缀字符
     public static final String PRE_ATTACH = "attach:";
 
-
 }

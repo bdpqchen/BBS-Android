@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -108,8 +109,9 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
 //        mName = intent.getStringExtra(USERNAME);
         mToolbar.setTitle(mName);
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
-        mPresenter.getUserInfo(mUid);
+        ViewCompat.setTransitionName(mCivAvatar, "share_avatar");
         ImageUtil.loadAvatarAsBitmapByUidWithLeft(this, mUid, mCivAvatar);
+        mPresenter.getUserInfo(mUid);
         ImageUtil.loadBgByUid(this, mUid, mIvBg);
         mAdapter = new PeopleAdapter(mContext);
         LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
@@ -117,7 +119,6 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
         mRvPeople.setAdapter(mAdapter);
         mRvPeople.addItemDecoration(new RecyclerViewItemDecoration(2));
         mRvPeople.setNestedScrollingEnabled(false);
-
         mNestedScroll.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             double minus = (scrollY - oldScrollY) / 1.5;
             int alpha = mToolbar.getBackground().mutate().getAlpha();
@@ -137,6 +138,15 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
         });
 
     }
+
+/*
+    @Override
+    public void onBackPressedSupport() {
+//        super.onBackPressedSupport();
+//        finishAfterTransition();
+//        supportFinishAfterTransition();
+    }
+*/
 
     @Override
     public void onGetUserInfo(PeopleModel model) {

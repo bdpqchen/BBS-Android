@@ -164,7 +164,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     @Override
     public void onBackPressedSupport() {
-        super.onBackPressedSupport();
+//        super.onBackPressedSupport();
         finishThisActivity();
     }
 
