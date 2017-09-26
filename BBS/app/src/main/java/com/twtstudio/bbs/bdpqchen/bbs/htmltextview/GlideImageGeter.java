@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.WindowUtil;
 
 import java.util.HashSet;
@@ -59,7 +60,7 @@ public class GlideImageGeter implements Html.ImageGetter {
             load = Glide.with(mContext).load(url).asGif();
             target = new GifTarget(urlDrawable);
         } else {
-            load = Glide.with(mContext).load(url).asBitmap().centerCrop()
+            load = Glide.with(mContext).load(url).asBitmap().centerCrop().placeholder(R.drawable.avatar_default_left)
                     .listener(new RequestListener<String, Bitmap>() {
                         @Override
                         public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
@@ -123,9 +124,7 @@ public class GlideImageGeter implements Html.ImageGetter {
         @Override
         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
             Drawable drawable = new BitmapDrawable(mContext.getResources(), resource);
-            int w = getScaledWidth(drawable.getIntrinsicWidth());
-            int h = getScaledHeight(drawable.getIntrinsicHeight());
-            Rect rect = new Rect(0, 0, w, h);
+            Rect rect = getRect(drawable);
             drawable.setBounds(rect);
             urlDrawable.setBounds(rect);
             urlDrawable.setDrawable(drawable);
@@ -134,20 +133,14 @@ public class GlideImageGeter implements Html.ImageGetter {
         }
     }
 
-    private int getScaledWidth(int imgWidth) {
-        int resultWidth = imgWidth;
-        if (isTooWide(imgWidth)) {
-            resultWidth = (int) (imgWidth * betterImgScale);
+    private Rect getRect(Drawable drawable) {
+        int w = drawable.getIntrinsicWidth();
+        int h = drawable.getIntrinsicHeight();
+        if (isTooHigh(h) || isTooWide(w)) {
+            w = (int) (w * betterImgScale);
+            h = (int) (h * betterImgScale);
         }
-        return resultWidth;
-    }
-
-    private int getScaledHeight(int imgHeight) {
-        int resultHeight = imgHeight;
-        if (isTooHigh(imgHeight)) {
-            resultHeight = (int) (imgHeight * betterImgScale);
-        }
-        return resultHeight;
+        return new Rect(0, 0, w, h);
     }
 
     private boolean isTooWide(int imgWidth) {
@@ -157,5 +150,6 @@ public class GlideImageGeter implements Html.ImageGetter {
     private boolean isTooHigh(int imgHigh) {
         return imgHigh > WindowUtil.getWindowHeight(mContext) / 2;
     }
+
 
 }
