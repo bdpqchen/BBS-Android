@@ -13,8 +13,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseHeaderViewHold
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TransUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,6 +41,7 @@ public class LetterAdapter extends BaseAdapter<LetterModel> {
     private static final int myUid = PrefUtil.getAuthUid();
     private boolean isTopping = false;
     private boolean isNotEnoughOnePage = false;
+
     LetterAdapter(Context context) {
         super(context);
         mContext = context;
@@ -56,9 +57,9 @@ public class LetterAdapter extends BaseAdapter<LetterModel> {
             return new RightView(LayoutInflater.from(mContext).inflate(R.layout.item_letter_right, parent, false));
         } else if (viewType == ITEM_HEADER) {
             return new BaseHeaderViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_common_header, parent, false));
-        }else if (viewType == ITEM_END){
+        } else if (viewType == ITEM_END) {
             return new BaseEndViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_letter_end, parent, false));
-        }else if (viewType == ITEM_EMPTY){
+        } else if (viewType == ITEM_EMPTY) {
             return new BaseViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_common_empty, parent, false));
         }
         return null;
@@ -76,19 +77,25 @@ public class LetterAdapter extends BaseAdapter<LetterModel> {
 //                LogUtil.dd("model", model.getContent());
                 holder.mTvContent.setText(model.getContent());
                 holder.mCivAvatarLetter.setOnClickListener(v -> {
-                    mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id()));
+                    startToPeople(model.getAuthor_id(), holder.mCivAvatarLetter);
                 });
 
-            }else if (holder0 instanceof RightView){
+            } else if (holder0 instanceof RightView) {
                 RightView holder = (RightView) holder0;
                 LetterModel model = mDataSet.get(position);
                 ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, model.getAuthor_id(), holder.mCivAvatarLetter);
                 holder.mTvContent.setText(model.getContent());
                 holder.mCivAvatarLetter.setOnClickListener(v -> {
-                    mContext.startActivity(IntentUtil.toPeople(mContext, myUid));
+                    startToPeople(model.getAuthor_id(), holder.mCivAvatarLetter);
                 });
             }
         }
+    }
+
+    private void startToPeople(int uid, View view) {
+        mContext.startActivity(IntentUtil.toPeople(mContext, uid),
+                TransUtil.getAvatarTransOptions(mContext, view));
+
     }
 
     @Override
@@ -96,10 +103,10 @@ public class LetterAdapter extends BaseAdapter<LetterModel> {
 //        if (position + 1 == getItemCount() && mPage > 0) {
         if (position + 1 == getItemCount()) {
 //            LogUtil.dd("top, page", isTopping + "|" + mPage);
-            if (isNotEnoughOnePage){
+            if (isNotEnoughOnePage) {
                 return ITEM_EMPTY;
             }
-            if (isTopping){
+            if (isTopping) {
                 return ITEM_END;
             }
             return ITEM_HEADER;
@@ -117,8 +124,8 @@ public class LetterAdapter extends BaseAdapter<LetterModel> {
         int createKey = mDataSet.get(originSize - 1).getT_create();
         int size = redundancyList.size();
         List<LetterModel> cleanList = new ArrayList<>();
-        for (int i = 0; i < size; i++){
-            if (createKey > redundancyList.get(i).getT_create()){
+        for (int i = 0; i < size; i++) {
+            if (createKey > redundancyList.get(i).getT_create()) {
                 cleanList.add(redundancyList.get(i));
             }
         }
@@ -130,12 +137,13 @@ public class LetterAdapter extends BaseAdapter<LetterModel> {
         isTopping = topping;
         notifyDataSetChanged();
     }
+
     public void setNotEnoughOnePage(boolean enough) {
         isNotEnoughOnePage = enough;
         notifyDataSetChanged();
     }
 
-    public void setPage(int page){
+    public void setPage(int page) {
         mPage = page;
         notifyDataSetChanged();
     }
@@ -145,6 +153,7 @@ public class LetterAdapter extends BaseAdapter<LetterModel> {
         CircleImageView mCivAvatarLetter;
         @BindView(R.id.tv_content)
         TextView mTvContent;
+
         LeftView(View view) {
             super(view);
         }

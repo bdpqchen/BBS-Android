@@ -1,15 +1,12 @@
 package com.twtstudio.bbs.bdpqchen.bbs.picture;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -47,6 +44,7 @@ public class BigPhotoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         BigImageView bigImageView = (BigImageView) findViewById(R.id.image);
 
+
         bigImageView.setImageSaveCallback(new ImageSaveCallback() {
             @Override
             public void onSuccess(String uri) {
@@ -73,13 +71,5 @@ public class BigPhotoActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
 }

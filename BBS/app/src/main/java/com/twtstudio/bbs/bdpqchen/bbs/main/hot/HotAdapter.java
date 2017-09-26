@@ -16,6 +16,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TransUtil;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -52,7 +53,8 @@ public class HotAdapter extends BaseAdapter<HotEntity> {
                     holder.mCivHotAvatar.setOnClickListener(null);
                 } else {
                     holder.mCivHotAvatar.setOnClickListener(v -> {
-                        mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id(), model.getAuthor_name()));
+                        mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id(), model.getAuthor_name())
+                        , TransUtil.getAvatarTransOptions(mContext, holder.mCivHotAvatar));
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivHotAvatar);
                 }

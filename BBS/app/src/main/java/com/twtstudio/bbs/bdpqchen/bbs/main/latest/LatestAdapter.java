@@ -3,7 +3,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.main.latest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.RandomUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TransUtil;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -35,10 +35,9 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
 
     Activity mActivity;
 
-    public LatestAdapter(Context context, Activity activity) {
+    public LatestAdapter(Context context) {
         super(context);
         mContext = context;
-        mActivity = activity;
     }
 
     @Override
@@ -63,8 +62,7 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
                 } else {
                     holder.mLlLayerHeader.setOnClickListener(v -> {
                         Intent intent = IntentUtil.toPeople(mContext, model.getAuthor_id());
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(mActivity, holder.mCivLatestAvatar, "share_avatar");
-                        mContext.startActivity(intent, options.toBundle());
+                        mContext.startActivity(intent, TransUtil.getAvatarTransOptions(mContext, holder.mCivLatestAvatar));
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivLatestAvatar);
                 }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +26,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TransUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.UrlUtil;
 
 import butterknife.BindView;
@@ -109,7 +109,7 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
 //        mName = intent.getStringExtra(USERNAME);
         mToolbar.setTitle(mName);
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
-        ViewCompat.setTransitionName(mCivAvatar, "share_avatar");
+//        ViewCompat.setTransitionName(mCivAvatar, getString(R.string.share_avatar));
         ImageUtil.loadAvatarAsBitmapByUidWithLeft(this, mUid, mCivAvatar);
         mPresenter.getUserInfo(mUid);
         ImageUtil.loadBgByUid(this, mUid, mIvBg);
@@ -134,19 +134,11 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
         });
         mCivAvatar.setOnClickListener(v -> {
             Intent intent1 = IntentUtil.toBigPhoto(mContext, UrlUtil.getAvatarUrl(mUid));
-            startActivity(intent1);
+            Bundle bundle  = TransUtil.getTransOptions(mContext, mCivAvatar, R.string.share_big_photo);
+            startActivity(intent1, bundle);
         });
 
     }
-
-/*
-    @Override
-    public void onBackPressedSupport() {
-//        super.onBackPressedSupport();
-//        finishAfterTransition();
-//        supportFinishAfterTransition();
-    }
-*/
 
     @Override
     public void onGetUserInfo(PeopleModel model) {
@@ -154,16 +146,14 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
             if (model.getSignature() == null || model.getSignature().length() == 0) {
                 model.setSignature(getString(R.string.default_signature));
             }
-            mTvPostCount.setText(model.getC_post() + "");
+            mTvPostCount.setText(String.valueOf(model.getC_post()));
             mTvNickname.setText(TextUtil.getTwoNames(model.getName(), model.getNickname()));
             mTvSignature.setText(model.getSignature());
-            mTvPoints.setText(model.getPoints() + "");
+            mTvPoints.setText(String.valueOf(model.getPoints()));
             mInfoPastDay.setText(TextUtil.getPastDays(mContext, model.getT_create()), TextView.BufferType.SPANNABLE);
-//            LogUtil.dd("Will notify", String.valueOf(model.getRecent().size()));
             mAdapter.addList(model.getRecent());
             mTvHonor.setText(TextUtil.getHonor(model.getPoints()));
             mName = model.getName();
-
         }
     }
 

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorMainBgLight"
     android:foreground="@drawable/selector_foreground_settings"
     android:orientation="horizontal"
@@ -16,6 +15,8 @@
         android:layout_width="@dimen/size_avatar_normal"
         android:layout_height="@dimen/size_avatar_normal"
         android:layout_gravity="center_horizontal"
+        android:transitionName="@string/share_avatar"
+        tools:targetApi="lollipop"
         />
 
     <LinearLayout
@@ -34,7 +35,7 @@
                 android:paddingBottom="5dp"
                 android:textColor="@color/colorTvBlackMain"
                 android:textSize="16sp"
-                tool:text="谁谁在谁谁在谁谁在谁谁在谁谁在"
+                tools:text="谁谁在谁谁在谁谁在谁谁在谁谁在"
                 android:gravity="start"
                 />
 
@@ -46,7 +47,7 @@
             android:maxLines="10"
             android:textColor="@color/colorTvBlackMainTint"
             android:textSize="14sp"
-            tool:text="这是一条消息"/>
+            tools:text="这是一条消息"/>
 
         <TextView
             android:id="@+id/tv_datetime"
@@ -55,7 +56,7 @@
             android:layout_gravity="bottom|end"
             android:textColor="@color/colorTvBlackMainTint"
             android:textSize="13sp"
-            tool:text="17:20--121-2"
+            tools:text="17:20--121-2"
             />
 
     </LinearLayout>

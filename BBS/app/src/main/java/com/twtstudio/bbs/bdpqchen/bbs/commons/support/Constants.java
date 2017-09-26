@@ -113,6 +113,10 @@ public final class Constants {
     public static final String CONFIRM = "confirm";
     public static final String FRIEND_ID = "friend_id";
     public static final String IMG_URL = "img_url";
+    public static final String THREAD = "thread";
+    public static final String BOARD = "board";
+    public static final String FORUM = "forum";
+
 
     //PIWIK相关
     public static final String PK_THREAD = "/forum/thread/";

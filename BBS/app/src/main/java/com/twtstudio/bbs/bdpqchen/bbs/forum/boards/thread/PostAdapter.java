@@ -18,6 +18,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IsUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TransUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.viewholder.TheEndViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.GlideImageGeter;
@@ -107,7 +108,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     headerHolder.mCivAvatarThread.setOnClickListener(null);
                 } else {
                     headerHolder.mCivAvatarThread.setOnClickListener(v -> {
-                        startToPeople(p.getAuthor_id(), p.getAuthor_name());
+                        startToPeople(p.getAuthor_id(), p.getAuthor_name(), headerHolder.mCivAvatarThread);
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, p.getAuthor_id(), headerHolder.mCivAvatarThread);
                 }
@@ -136,7 +137,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     h.mCivAvatarPost.setOnClickListener(null);
                 } else {
                     h.mCivAvatarPost.setOnClickListener(v -> {
-                        startToPeople(uid, p.getAuthor_name());
+                        startToPeople(uid, p.getAuthor_name(), h.mCivAvatarPost);
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithRight(mContext, uid, h.mCivAvatarPost);
                 }
@@ -165,8 +166,9 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    private void startToPeople(int uid, String username) {
-        mContext.startActivity(IntentUtil.toPeople(mContext, uid, username));
+    private void startToPeople(int uid, String username, View transitionView) {
+        mContext.startActivity(IntentUtil.toPeople(mContext, uid, username),
+                TransUtil.getAvatarTransOptions(mContext, transitionView));
     }
 
     @Override

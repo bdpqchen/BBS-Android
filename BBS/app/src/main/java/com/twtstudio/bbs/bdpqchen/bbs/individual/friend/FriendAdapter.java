@@ -12,6 +12,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TransUtil;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -45,7 +46,8 @@ public class FriendAdapter extends BaseAdapter<FriendModel> {
                 }
                 ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getUid(), holder.mCivFriendAvatar);
                 holder.mCivFriendAvatar.setOnClickListener(v -> {
-                    mContext.startActivity(IntentUtil.toPeople(mContext, model.getUid()));
+                    mContext.startActivity(IntentUtil.toPeople(mContext, model.getUid()),
+                            TransUtil.getAvatarTransOptions(mContext, holder.mCivFriendAvatar));
                 });
                 holder.itemView.setOnClickListener(v -> {
                     mContext.startActivity(IntentUtil.toLetter(mContext, model.getUid(), model.getName()));

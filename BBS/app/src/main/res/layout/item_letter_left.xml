@@ -13,6 +13,8 @@
         android:layout_width="@dimen/size_avatar_normal"
         android:layout_height="@dimen/size_avatar_normal"
         android:src="@drawable/avatar_default_left"
+        android:transitionName="@string/share_avatar"
+        tools:targetApi="lollipop"
         />
 
     <TextView

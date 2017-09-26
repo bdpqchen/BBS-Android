@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AnimUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainContract;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainPresenter;
@@ -54,7 +53,7 @@ public class LatestFragment extends BaseFragment<MainPresenter> implements MainC
 
     @Override
     protected void initFragment() {
-        mAdapter = new LatestAdapter(getActivity(), getActivity());
+        mAdapter = new LatestAdapter(getActivity());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRvLatest.setLayoutManager(linearLayoutManager);
         mRvLatest.addItemDecoration(new RecyclerViewItemDecoration(16));

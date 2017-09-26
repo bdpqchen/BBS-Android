@@ -56,7 +56,7 @@ public class SystemFragment extends BaseFragment<MainPresenter> implements MainC
 
     @Override
     protected void initFragment() {
-        mAdapter = new LatestAdapter(getActivity(), getActivity());
+        mAdapter = new LatestAdapter(getActivity());
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRvLatest.setLayoutManager(mLinearLayoutManager);
         mRvLatest.setAdapter(mAdapter);

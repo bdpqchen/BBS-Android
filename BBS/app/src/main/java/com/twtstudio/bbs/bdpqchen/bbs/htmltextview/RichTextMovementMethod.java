@@ -17,6 +17,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.FORUM;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.THREAD;
+
 /**
  * Created by retrox on 16/08/2017.
  * 用于处理图片点击 链接点击 和 自由复制
@@ -86,8 +89,7 @@ public class RichTextMovementMethod extends ArrowKeyMovementMethod {
             } else if (isImage(imageSpans)) {
                 if (isActionUp(action)) {
                     Context context = widget.getContext();
-                    Intent intent = IntentUtil.toBigPhoto(context, imageSpans[0].getSource());
-                    context.startActivity(intent);
+                    context.startActivity(IntentUtil.toBigPhoto(context, imageSpans[0].getSource()));
                 }
                 return true;
             }
@@ -97,7 +99,7 @@ public class RichTextMovementMethod extends ArrowKeyMovementMethod {
     }
 
     private boolean isThread(String url) {
-        return url.contains("/forum/thread/");
+        return url.contains("/" + FORUM + "/" + THREAD + "/");
     }
 
     private boolean isLink(ClickableSpan[] link) {
