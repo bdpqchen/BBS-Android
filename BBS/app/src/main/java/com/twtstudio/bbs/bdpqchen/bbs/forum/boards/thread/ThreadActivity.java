@@ -42,6 +42,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PathUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.view.BottomToolsView;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
@@ -69,7 +70,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_C
  * Created by bdpqchen on 17-5-12.
  */
 
-public class ThreadActivity extends BaseActivity<ThreadPresenter> implements ThreadContract.View, PostAdapter.OnPostClickListener {
+public class ThreadActivity extends BaseActivity<ThreadPresenter> implements ThreadContract.View, PostAdapter.OnPostClickListener, View.OnClickListener {
     @BindView(R.id.toolbar_thread)
     Toolbar mToolbar;
     @BindView(R.id.rv_thread_post)
@@ -108,6 +109,8 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     FloatingActionButton mFabComment;
 
     public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
+    @BindView(R.id.bottom_tools)
+    BottomToolsView mBottomTools;
     private String mThreadTitle = "";
     private int mThreadId = 0;
     private Context mContext;
@@ -185,7 +188,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mAdapter = new PostAdapter(mContext, this);
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRvThreadPost.setAnimation(null);
-        mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(1));
+        mRvThreadPost.addItemDecoration(new RecyclerViewItemDecoration(2));
         mRvThreadPost.setLayoutManager(mLayoutManager);
         mRvThreadPost.setAdapter(mAdapter);
         mRvThreadPost.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -272,14 +275,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         });
         mIvCommentOut.setOnClickListener(v -> hideCommentInput());
         mIvCommentSend.setOnClickListener(v -> sendComment(mReplyId));
-        if (PrefUtil.hadLogin()) {
-            mIvStaredThread.setOnClickListener(v -> {
-                mPresenter.unStarThread(mThreadId);
-            });
-            mIvStarThread.setOnClickListener(v -> {
-                mPresenter.starThread(mThreadId);
-            });
-        }
+        mIvStaredThread.setOnClickListener(v -> {
+            mPresenter.unStarThread(mThreadId);
+        });
+        mIvStarThread.setOnClickListener(v -> {
+            mPresenter.starThread(mThreadId);
+        });
         mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlThreadList.setRefreshing(true);
         mSrlThreadList.setOnRefreshListener(() -> {
@@ -298,6 +299,10 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
             startActivityForResult(IntentUtil.toEditor(mContext, mTvDynamicHint.getText().toString(), mEtComment.getText().toString(), 1), REQUEST_CODE_EDITOR);
         });
         mPresenter.getThread(mThreadId, 0);
+        int[] reses = new int[]{R.drawable.ic_share_white_24dp, R.drawable.ic_star_white_24dp, R.drawable.ic_vertical_align_bottom_white_24dp,
+                R.drawable.ic_clear_white_24dp, R.drawable.ic_vertical_align_top_white_24dp, R.drawable.ic_thumb_up_white_24dp, R.drawable.ic_insert_comment_white_24dp};
+//        int[] tints = new int[]{0, 0, R.id.id_tools_bottom, R.id.id_tools_clear, R.id.id_tools_top, R.id.id_tools_thumb, R.id.id_tools_comment};
+        mBottomTools.addTabs(reses, this);
 
     }
 
@@ -679,14 +684,14 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         int d = 500;
         YoYo.with(Techniques.SlideOutDown)
                 .duration(d)
-                .playOn(mFabComment);
+                .playOn(mBottomTools);
     }
 
     private void showFab() {
         int d = 500;
         YoYo.with(Techniques.SlideInUp)
                 .duration(d)
-                .playOn(mFabComment);
+                .playOn(mBottomTools);
     }
 
     private void hideCommentInput() {
@@ -816,5 +821,14 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         postPosition = position;
         mReplyId = mAdapter.getPostId(position);
         showCommentInput();
+    }
+
+    @Override
+    public void onClick(View v) {
+        int position = (int) v.getTag();
+        LogUtil.dd("bootom tools position clicked", String.valueOf(position));
+        switch (position) {
+
+        }
     }
 }

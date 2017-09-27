@@ -117,34 +117,46 @@
         android:visibility="gone"
         />
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/srl_thread_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_thread_post"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/srl_thread_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="2dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_thread_post"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="2dp"
+                />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <com.twtstudio.bbs.bdpqchen.bbs.commons.view.BottomToolsView
+            android:id="@+id/bottom_tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#e7e7e7"
+            android:padding="8dp"
+            app:tabIconSize="24dp"
+            app:tabIconTint="@color/colorTintIconBlack"
             />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
-
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_thread_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="8dp"
+        android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/ic_insert_comment_white_24dp"
+        android:visibility="gone"
         app:backgroundTint="@color/material_teal_300"
         app:elevation="6dp"
         app:fabSize="normal"
-        android:layout_margin="8dp"
-        android:layout_gravity="end|bottom"
-        android:clickable="true"
-        android:focusable="true"
-        android:id="@+id/fab_thread_comment"
         />
 
     <LinearLayout
@@ -157,8 +169,7 @@
         android:focusable="true"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="visible"
-
+        tools:visibility="gone"
         >
 
         <RelativeLayout
@@ -264,7 +275,6 @@
                     android:focusableInTouchMode="true"
                     android:maxLines="10"
                     android:paddingTop="32dp"
-
                     />
 
             </android.support.design.widget.TextInputLayout>

@@ -27,4 +27,5 @@
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:paddingTop="10dp"
-    android:src="@drawable/ic_shortcut_format_header_1"/>
+    android:src="@drawable/ic_shortcut_format_header_1"
+    />

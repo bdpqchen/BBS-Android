@@ -21,4 +21,12 @@
     <item name="id_shortcut_minus" type="id"/><!-- 分割线 -->
     <item name="id_shortcut_xml" type="id"/><!-- 代码 -->
 
+    <item name="id_tools_star" type="id"/>
+    <item name="id_tools_comment" type="id"/>
+    <item name="id_tools_top" type="id"/>
+    <item name="id_tools_bottom" type="id"/>
+    <item name="id_tools_share" type="id"/>
+    <item name="id_tools_thumb" type="id"/>
+    <item name="id_tools_clear" type="id"/>
+
 </resources>

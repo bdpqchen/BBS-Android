@@ -69,5 +69,11 @@
               tools:targetApi="lollipop">true</item>
     </style>
 
+    <declare-styleable name="ExpandableLayout">
+        <attr name="el_duration" format="integer" />
+        <attr name="el_expanded" format="boolean" />
+        <attr name="layout_expandable" format="boolean" />
+    </declare-styleable>
+
 
 </resources>

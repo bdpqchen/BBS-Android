@@ -53,8 +53,8 @@ public class HotAdapter extends BaseAdapter<HotEntity> {
                     holder.mCivHotAvatar.setOnClickListener(null);
                 } else {
                     holder.mCivHotAvatar.setOnClickListener(v -> {
-                        mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id(), model.getAuthor_name())
-                        , TransUtil.getAvatarTransOptions(mContext, holder.mCivHotAvatar));
+                        mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id(), model.getAuthor_name()),
+                                TransUtil.getAvatarTransOptions(mContext, holder.mCivHotAvatar));
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivHotAvatar);
                 }
@@ -62,7 +62,7 @@ public class HotAdapter extends BaseAdapter<HotEntity> {
                 holder.mTvUsername.setText(model.getAuthor_name());
                 holder.mTvBoardName.setText(TextUtil.getBoardName(model.getBoard_name()));
                 holder.mTvThreadTitle.setText(model.getTitle());
-                holder.mTvPostCount.setText(model.getC_post() + "");
+                holder.mTvPostCount.setText(String.valueOf(model.getC_post()));
                 holder.mTvHotTime.setText("发布于 " + StampUtil.getDatetimeByStamp(model.getT_create()));
                 holder.mTvHotContent.setText(TextUtil.getReplacedImageContent(model.getContent()));
                 holder.mTvBoardName.setOnClickListener(v -> {
@@ -98,6 +98,7 @@ public class HotAdapter extends BaseAdapter<HotEntity> {
         TextView mTvHotTime;
         @BindView(R.id.ll_hot_body)
         LinearLayout mLlHotBody;
+
         HotViewHolder(View view) {
             super(view);
         }

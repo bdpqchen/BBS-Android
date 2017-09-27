@@ -224,7 +224,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     void refreshThisPage(List<ThreadModel.PostBean> postList, int page) {
-        LogUtil.dd("refreshThisPage()");
+//        LogUtil.dd("refreshThisPage()");
         LogUtil.dd(String.valueOf(mPostData.size()));
         if (page == 0) {
             mPostData.removeAll(mPostData);

@@ -33,6 +33,7 @@
     <color name="colorForumBg">#88ffffff</color>
     <color name="colorInfoBg">#d60707</color>
     <color name="colorDividerLine">#112233</color>
+    <color name="colorBottomToolsIconTint">#666666</color>
     <!--<color name="colorTintIconBlack">#3F51B5</color>-->
 
 

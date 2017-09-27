@@ -15,9 +15,6 @@ public class QuoteReplaceUtil {
         for (QuoteSpan quoteSpan : quoteSpans) {
             int start = spannable.getSpanStart(quoteSpan);
             int end = spannable.getSpanEnd(quoteSpan);
-            LogUtil.dd("start", String.valueOf(start));
-            LogUtil.dd("end", String.valueOf(end));
-
             int flags = spannable.getSpanFlags(quoteSpan);
             spannable.removeSpan(quoteSpan);
             spannable.setSpan(
