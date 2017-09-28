@@ -116,17 +116,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 headerHolder.mTvUsernameThread.setText(TextUtil.getNameWithFriend(p.getAuthor_name(), p.getAuthor_nickname(), p.getFriend()));
                 headerHolder.mHtvContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, headerHolder.mHtvContent));
                 headerHolder.mTvDatetimeThread.setText(TextUtil.getThreadDateTime(p.getT_create(), p.getT_modify()));
-                final boolean isLiked = IsUtil.is1(p.getLiked());
-                headerHolder.mTvLike.setText(String.valueOf(p.getLike()));
-                headerHolder.mIvLike.setOnClickListener(v -> mListener.onLikeClick(position, !isLiked, false));
-                headerHolder.mIvComment.setOnClickListener(v -> mListener.onReplyClick(position));
-                if (isLiked) {
-                    headerHolder.mTvLike.setTextColor(likeColor);
-                    headerHolder.mIvLike.setColorFilter(likeColor, PorterDuff.Mode.SRC_IN);
-                } else {
-                    headerHolder.mIvLike.clearColorFilter();
-                    headerHolder.mTvLike.setTextColor(unlikeColor);
-                }
             } else if (holder instanceof PostHolder) {
                 ThreadModel.PostBean p = mPostData.get(position);
                 PostHolder h = (PostHolder) holder;
