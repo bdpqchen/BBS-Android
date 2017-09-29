@@ -13,6 +13,7 @@
 
     <color name="colorMainBgLight">#273238</color>
     <color name="colorMainBg">#21282d</color>
+    <color name="colorBottomToolsBg">#242d2f</color>
     <color name="colorBottomBg">#293134</color>
     <color name="colorMainBgTrans">#4421282d</color>
 

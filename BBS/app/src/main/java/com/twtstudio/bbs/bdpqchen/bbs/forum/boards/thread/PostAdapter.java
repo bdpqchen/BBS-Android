@@ -227,8 +227,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         mPostData.addAll(postList);
         notifyDataSetChanged();
         LogUtil.dd(String.valueOf(mPostData.size()));
-
-
     }
 
     void likeItem(int position, boolean isLike) {
@@ -365,12 +363,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView mTvTitle;
         @BindView(R.id.htv_content)
         HtmlTextView mHtvContent;
-        @BindView(R.id.tv_thread_like)
-        TextView mTvLike;
-        @BindView(R.id.iv_thread_like)
-        ImageView mIvLike;
-        @BindView(R.id.iv_thread_comment)
-        ImageView mIvComment;
+//        @BindView(R.id.tv_thread_like)
+//        TextView mTvLike;
+//        @BindView(R.id.iv_thread_like)
+//        ImageView mIvLike;
+//        @BindView(R.id.iv_thread_comment)
+//        ImageView mIvComment;
 
         HeaderHolder(View itemView) {
             super(itemView);

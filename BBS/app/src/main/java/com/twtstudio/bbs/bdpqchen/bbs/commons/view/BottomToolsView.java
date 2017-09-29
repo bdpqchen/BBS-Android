@@ -41,7 +41,7 @@ public class BottomToolsView extends LinearLayout {
 
     private void init(AttributeSet attrs) {
         mContext = getContext();
-        mDefIconTint = getResources().getColor(R.color.colorTintIconBlack);
+        mDefIconTint = getResources().getColor(R.color.colorBottomToolsIconTint);
         if (attrs != null) {
             TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BottomToolsView);
             mIconTint = typedArray.getColor(R.styleable.BottomToolsView_tabIconTint, mIconTint);
