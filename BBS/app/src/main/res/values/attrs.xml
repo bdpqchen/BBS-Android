@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BottomToolsView">
+        <attr name="tabIconSize" format="reference|dimension"/>
+        <attr name="tabIconTint" format="reference|color"/>
+    </declare-styleable>
+
+    <declare-styleable name="ThumbView">
+        <attr name="like" format="reference|string"/>
+        <attr name="is_liked" format="reference|boolean"/>
+        <attr name="src" format="reference"/>
+        <attr name="scale" format="float"/>
+    </declare-styleable>
+
+</resources>

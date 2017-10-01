@@ -36,6 +36,8 @@
     <color name="colorBottomToolsIconTint">#666666</color>
     <color name="colorBottomToolsBg">#e7e7e7</color>
     <!--<color name="colorTintIconBlack">#3F51B5</color>-->
+    <color name="colorThumbUp">#2cc197</color>
+    <color name="colorThumbDown">#666666</color>
 
 
 

@@ -84,7 +84,6 @@ public class BottomToolsView extends LinearLayout {
             }
             mLayout.addView(view);
         }
-
     }
 
     public void changeIconTint(int index, int res) {
@@ -93,6 +92,7 @@ public class BottomToolsView extends LinearLayout {
             view.setColorFilter(res, PorterDuff.Mode.SRC_IN);
         }
     }
+
     public void resetIconTint(int index) {
         if (isValidIndex(index)) {
             ImageView view = (ImageView) mLayout.getChildAt(index);

@@ -2,7 +2,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
 
 import android.content.Context;
-import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +18,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TransUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.view.ThumbView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.viewholder.TheEndViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.GlideImageGeter;
@@ -97,8 +97,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (mPostData != null && mPostData.size() > 0) {
-            int likeColor = mContext.getResources().getColor(R.color.colorPrimaryCopy);
-            int unlikeColor = mContext.getResources().getColor(R.color.colorTintIconBlack);
             if (holder instanceof HeaderHolder) {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 ThreadModel.PostBean p = mPostData.get(position);
@@ -135,16 +133,12 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 h.mTvFloorPost.setText(p.getFloor() + "楼");
                 h.mHtvPostContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, h.mHtvPostContent));
                 final boolean isLiked = IsUtil.is1(p.getLiked());
-                h.mTvLike.setText(String.valueOf(p.getLike()));
-                h.mIvLike.setOnClickListener(v -> mListener.onLikeClick(position, !isLiked, true));
+                h.mThumbView.setIsLiked(isLiked);
+                h.mThumbView.setLikeCount(p.getLike());
+                h.mThumbView.setThumbOnClickListener(v -> {
+                    mListener.onLikeClick(position, !isLiked, true);
+                });
                 h.mIvReply.setOnClickListener(v -> mListener.onReplyClick(position));
-                if (isLiked) {
-                    h.mTvLike.setTextColor(likeColor);
-                    h.mIvLike.setColorFilter(likeColor, PorterDuff.Mode.SRC_IN);
-                } else {
-                    h.mIvLike.clearColorFilter();
-                    h.mTvLike.setTextColor(unlikeColor);
-                }
             } else if (holder instanceof BaseFooterViewHolder) {
 //                LogUtil.dd("base footer view");
             } else if (holder instanceof TheEndViewHolder) {
@@ -339,12 +333,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView mTvFloorPost;
         @BindView(R.id.htv_post_content)
         HtmlTextView mHtvPostContent;
-        @BindView(R.id.tv_post_like)
-        TextView mTvLike;
         @BindView(R.id.iv_post_reply)
         ImageView mIvReply;
-        @BindView(R.id.iv_post_like)
-        ImageView mIvLike;
+        @BindView(R.id.custom_thumb_post)
+        ThumbView mThumbView;
 
         PostHolder(View view) {
             super(view);
