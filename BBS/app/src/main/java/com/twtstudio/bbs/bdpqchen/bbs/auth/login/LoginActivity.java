@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -24,11 +23,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.RandomUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.view.ProgressButton;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 
-import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -54,14 +53,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     TextView mTvGotoReplaceUser;
     @BindView(R.id.tv_to_register)
     TextView mTvGotoRegister;
-    @BindView(R.id.cp_btn_login)
-    CircularProgressButton mCircularProgressButton;
     @BindView(R.id.iv_login_banner)
     ImageView mIvBanner;
     @BindView(R.id.view_need_offset)
     LinearLayout mNeedOffset;
     @BindView(R.id.civ_avatar)
     CircleImageView mCivAvatar;
+    @BindView(R.id.p_btn_login)
+    ProgressButton mPBtnLogin;
 
     private static final String LOGIN_ERROR_TEXT = "哈哈?搞笑..";
 
@@ -101,7 +100,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         String usernameToSet = intent.getStringExtra(USERNAME);
         if (usernameToSet == null || usernameToSet.length() == 0) {
             usernameToSet = PrefUtil.getAuthUsername();
-        }else{
+        }
+        if (usernameToSet != null && usernameToSet.length() > 0) {
             mEtPassword.requestFocus();
         }
         mEtAccount.setText(usernameToSet);
@@ -114,7 +114,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         pkTracker();
     }
 
-    @OnClick({R.id.tx_forgot_password, R.id.tv_to_register, R.id.cp_btn_login})
+    @OnClick({R.id.tx_forgot_password, R.id.tv_to_register, R.id.p_btn_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tx_forgot_password:
@@ -123,27 +123,27 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             case R.id.tv_to_register:
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
-            case R.id.cp_btn_login:
-                String username = mEtAccount.getText() + "";
-                String password = mEtPassword.getText() + "";
+            case R.id.p_btn_login:
+                String username = mEtAccount.getText().toString();
+                String password = mEtPassword.getText().toString();
                 if (username.length() == 0) {
                     mEtAccount.setError(LOGIN_ERROR_TEXT);
                 } else if (password.length() == 0) {
                     mEtPassword.setError(LOGIN_ERROR_TEXT);
                 } else {
-                    mCircularProgressButton.startAnimation();
-                    mPresenter.doLogin(username, password);
+                    mPBtnLogin.start();
                     PrefUtil.setAuthUsername(username);
+                    mPresenter.doLogin(username, password);
                 }
                 break;
         }
     }
 
-    private void pkTracker(){
+    private void pkTracker() {
         getTrackerHelper().screen(PK_LOGIN).title("登录").with(getTracker());
         getTrackerHelper().event(PK_CATEGORY_SIGN, "Login").with(getTracker());
-
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -157,9 +157,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void loginSuccess(LoginModel loginModel) {
         PrefUtil.setFirstOpen(false);
-        if (mCircularProgressButton != null) {
-            mCircularProgressButton.doneLoadingAnimation(R.color.material_green_600, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
-        }
+        mPBtnLogin.done();
         PrefUtil.setAuthToken(loginModel.getToken());
         PrefUtil.setAuthGroup(loginModel.getGroup());
         PrefUtil.setAuthUid(loginModel.getUid());
@@ -167,7 +165,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         Intent intent = new Intent(this, HomeActivity.class);
         PrefUtil.setIsNoAccountUser(false);
         if (VersionUtil.eaLollipop()) {
-            activityOptions = ActivityOptions.makeSceneTransitionAnimation(this, new Pair<>(findViewById(R.id.cp_btn_login), "transition"));
+            activityOptions = ActivityOptions.makeSceneTransitionAnimation(this, new Pair<>(findViewById(R.id.p_btn_login), "transition"));
         }
         if (activityOptions != null) {
             ActivityOptions finalActivityOptions = activityOptions;
@@ -184,16 +182,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void loginFailed(String msg) {
-        if (mCircularProgressButton != null) {
-            mCircularProgressButton.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
-        }
-        HandlerUtil.postDelay(() -> {
-            if (mCircularProgressButton != null) {
-                mCircularProgressButton.revertAnimation();
-            }
-        }, 3000);
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-
+        mPBtnLogin.error();
+        SnackBarUtil.error(this, msg);
+//        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
 

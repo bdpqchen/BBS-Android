@@ -13,4 +13,16 @@
         <attr name="scale" format="float"/>
     </declare-styleable>
 
+
+    <declare-styleable name="ProgressButton">
+        <attr name="radius" format="reference|integer"/>
+        <attr name="backgroundColor" format="reference|color"/>
+        <attr name="text" format="reference|string"/>
+        <attr name="progressImage" format="reference"/>
+        <attr name="errorImage" format="reference"/>
+        <attr name="doneImage" format="reference"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="textColor" format="color"/>
+    </declare-styleable>
+
 </resources>

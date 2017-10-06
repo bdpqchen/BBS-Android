@@ -38,7 +38,6 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEAD
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_JUST_HEADER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_POST;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_QUOTE;
 
 /**
  * Created by bdpqchen on 17-5-23.
@@ -200,7 +199,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
-    public void refreshList(List<ThreadModel.PostBean> model) {
+    void refreshList(List<ThreadModel.PostBean> model) {
         mPostData.removeAll(mPostData);
         mPostData.addAll(model);
         notifyDataSetChanged();
@@ -239,61 +238,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     String comment2reply(int postPosition, String content) {
         ThreadModel.PostBean post = mPostData.get(postPosition);
-        String beforeCommendContent = post.getContent();
-        String cut = cutTwoQuote(beforeCommendContent);
-        String added = addTwoQuote(cut);
-        content = content +
-                "\n> 回复 #" +
-                post.getFloor() + " " +
-                getAuthorName(postPosition) +
-                " :\n> \n> " +
-                added;
-        LogUtil.dd("content final", content);
-        return content;
-    }
-
-    //添加两层的引用并截断1层 和 2层太长的部分
-    private String addTwoQuote(String str0) {
-        String key = "> ";
-        if (str0.contains(key)) {
-            str0 = str0.replaceAll("\n> \n>", "\n> ");
-            int p = str0.indexOf(key);
-            String start = str0.substring(0, p);
-            start = cutIfTooLong(start);
-            start = start.replaceAll("\n", "\n> ");
-            String end = str0.substring(p + 2, str0.length());
-            end = cutIfTooLong(end);
-            end = end.replaceAll("> ", "> > ");
-            str0 = start + "\n> >" + end;
-        } else {
-            str0 = cutIfTooLong(str0);
-            str0 = str0.replaceAll("\n", "\n> ");
-        }
-        return str0;
-    }
-
-    private String cutIfTooLong(String s) {
-        if (s.length() > MAX_LENGTH_QUOTE) {
-            return s.substring(0, MAX_LENGTH_QUOTE) + "...";
-        }
-        return s;
-    }
-
-    //去掉最后面的两层的引用
-    private String cutTwoQuote(String str0) {
-        StringBuilder strNew = new StringBuilder();
-        String key = "> > ";
-        if (str0.contains(key)) {
-            //去掉末尾的\\n
-            int i = str0.indexOf(key);
-            str0 = str0.substring(0, i);
-            String strStart = str0.substring(0, i - 3);
-            String strEnd = str0.substring(str0.length() - 3, str0.length());
-            strEnd = strEnd.replace("\n", "");
-            str0 = strStart + strEnd;
-        }
-        strNew.append(str0);
-        return strNew.toString();
+        String added = TextUtil.addTwoQuote(TextUtil.cutTwoQuote(post.getContent()));
+        return content + TextUtil.getCommentContent(post.getFloor(), getAuthorName(postPosition)) + added;
     }
 
     private String getAuthorName(int position) {

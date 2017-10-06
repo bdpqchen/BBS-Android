@@ -78,6 +78,9 @@ public final class ActivityManager {
 
     public void finishAllActivity() {
         int i = 0;
+        // TODO: 17-10-7
+//        ConcurrentModificationException
+//        if (mActivityStack != null && !mActivityStack.empty())
         for (AppCompatActivity activity : mActivityStack) {
             if (activity != null) {
                 finishActivity(activity);

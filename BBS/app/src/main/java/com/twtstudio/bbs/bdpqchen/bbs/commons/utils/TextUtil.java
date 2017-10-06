@@ -10,6 +10,7 @@ import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE_URL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_QUOTE;
 
 /**
  * Created by bdpqchen on 17-6-5.
@@ -165,15 +166,64 @@ public final class TextUtil {
         return "回复量 : " + postCount + "    " + "时间 : " + StampUtil.getDatetimeByStamp(datetime);
     }
 
-    public static String getFloorAndAnon(int floor, int anonymous) {
+    private static String getFloorAndAnon(int floor, int anonymous) {
         return isAnon(anonymous) + "回复于#" + floor;
     }
 
-    public static String getPostBottomInfo(int postCount, int datetime, int floor, int anonymous){
+    public static String getPostBottomInfo(int postCount, int datetime, int floor, int anonymous) {
         return getFloorAndAnon(floor, anonymous) + "    " + getPostCountAndTime(postCount, datetime);
     }
 
     private static String isAnon(int status) {
         return IsUtil.is1(status) ? "匿名" : "";
     }
+
+    //去掉最后面的两层的引用
+    public static String cutTwoQuote(String str0) {
+        StringBuilder strNew = new StringBuilder();
+        String key = "> > ";
+        if (str0.contains(key)) {
+            //去掉末尾的\\n
+            int i = str0.indexOf(key);
+            str0 = str0.substring(0, i);
+            String strStart = str0.substring(0, i - 3);
+            String strEnd = str0.substring(str0.length() - 3, str0.length());
+            strEnd = strEnd.replace("\n", "");
+            str0 = strStart + strEnd;
+        }
+        strNew.append(str0);
+        return strNew.toString();
+    }
+
+    //添加两层的引用并截断1层 和 2层太长的部分
+    public static String addTwoQuote(String str0) {
+        String key = "> ";
+        if (str0.contains(key)) {
+            str0 = str0.replaceAll("\n> \n>", "\n> ");
+            int p = str0.indexOf(key);
+            String start = str0.substring(0, p);
+            start = cutIfTooLong(start);
+            start = start.replaceAll("\n", "\n> ");
+            String end = str0.substring(p + 2, str0.length());
+            end = cutIfTooLong(end);
+            end = end.replaceAll("> ", "> > ");
+            str0 = start + "\n> >" + end;
+        } else {
+            str0 = cutIfTooLong(str0);
+            str0 = str0.replaceAll("\n", "\n> ");
+        }
+        return str0;
+    }
+
+    private static String cutIfTooLong(String s) {
+        if (s.length() > MAX_LENGTH_QUOTE) {
+            return s.substring(0, MAX_LENGTH_QUOTE) + "...";
+        }
+        return s;
+    }
+
+    public static String getCommentContent(int floor, String authorName) {
+        return "\n> 回复 #" + floor + " " + authorName + " :\n> \n> ";
+    }
+
 }

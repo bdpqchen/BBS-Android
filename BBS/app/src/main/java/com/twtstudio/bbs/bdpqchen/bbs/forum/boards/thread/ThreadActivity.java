@@ -658,7 +658,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         mEtComment.requestFocus();
         InputMethodManager imm = (InputMethodManager) mLlComment
                 .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        HandlerUtil.postDelay(()->{
+        HandlerUtil.postDelay(() -> {
             if (imm != null) {
                 imm.showSoftInput(mEtComment, 0);
             }
