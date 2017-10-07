@@ -62,7 +62,9 @@ public class ProgressButton extends RelativeLayout {
     * STATUS_DONE the done image is showing, and then to do users want.
     * */
     private int mStatus;
+    // When mTransforming is true, everything cannot interrupt it's animation until animation is done.
     private boolean mTransforming = false;
+    // The view can be clicked but to do nothing when mClickable is false
     private boolean mClickable = true;
 
     public ProgressButton(Context context) {

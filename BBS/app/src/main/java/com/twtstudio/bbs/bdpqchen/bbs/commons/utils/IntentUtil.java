@@ -3,6 +3,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 import android.content.Context;
 import android.content.Intent;
 
+import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.retrieve.RetrieveActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
@@ -131,5 +132,15 @@ public final class IntentUtil {
 
     public static Intent toCreateThread(Context context) {
         return new Intent(context, CreateThreadActivity.class);
+    }
+
+    public static Intent toLogin(Context context){
+        return toLogin(context, PrefUtil.getAuthUsername());
+    }
+
+    public static Intent toLogin(Context context, String username) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra(USERNAME, username);
+        return intent;
     }
 }

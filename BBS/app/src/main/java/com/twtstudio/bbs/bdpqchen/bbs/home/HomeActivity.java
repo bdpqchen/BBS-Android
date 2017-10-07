@@ -19,6 +19,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
@@ -29,8 +30,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
 
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
-
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
 
 public class HomeActivity extends BaseActivity<HomePresenter> implements HomeContract.View {
@@ -176,9 +175,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             SnackBarUtil.error(mActivity, "当前账户的登录信息已过期，请重新登录", true);
             HandlerUtil.postDelay(() -> {
                 AuthUtil.logout();
-                Intent intent = new Intent(mActivity, LoginActivity.class);
-                intent.putExtra(USERNAME, PrefUtil.getAuthUsername());
-                startActivity(intent);
+                startActivity(IntentUtil.toLogin(mContext));
                 ActivityManager.getActivityManager().finishAllActivity();
             }, 3000);
         }

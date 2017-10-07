@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.manager;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.orhanobut.logger.Logger;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil;
@@ -78,16 +79,11 @@ public final class ActivityManager {
 
     public void finishAllActivity() {
         int i = 0;
-        // TODO: 17-10-7
-//        ConcurrentModificationException
-//        if (mActivityStack != null && !mActivityStack.empty())
-        for (AppCompatActivity activity : mActivityStack) {
-            if (activity != null) {
-                finishActivity(activity);
-                i++;
-            }
+        while (!mActivityStack.empty()) {
+            finishActivity(mActivityStack.firstElement());
+            i++;
         }
-        Logger.d("had finished " + i + " activity");
+        Log.d("ActivityManager", "finished " + i + " activity");
     }
 
     public void appExit(Context context) {

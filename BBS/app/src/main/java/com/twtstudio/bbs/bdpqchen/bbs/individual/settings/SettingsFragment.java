@@ -11,16 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.tencent.bugly.beta.Beta;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity.IS_SWITCH_NIGHT_MODE_LOCK;
 
 
@@ -70,7 +69,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object obj) {
-        LogUtil.dd("on preference change", preference.getKey());
         if (preference.getKey() != null) {
             String key = preference.getKey();
             if (key.equals(getString(R.string.key_night_mode))) {
@@ -81,7 +79,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 PrefUtil.setIsAlwaysAnonymous(CastUtil.cast2boolean(obj));
             } else if (key.equals(getString(R.string.key_simple_board_list))) {
                 PrefUtil.setIsSimpleBoardList(CastUtil.cast2boolean(obj));
-            }else if (key.equals(getString(R.string.key_simple_forum))){
+            } else if (key.equals(getString(R.string.key_simple_forum))) {
                 PrefUtil.setIsSimpleForum(CastUtil.cast2boolean(obj));
                 HandlerUtil.postDelay(() -> ActivityManager.getActivityManager().recreateAllActivity(SettingsActivity.class), 10);
             }
@@ -109,9 +107,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     public void logout() {
         AuthUtil.logout();
         ActivityManager.getActivityManager().finishAllActivity();
-        Intent intent = new Intent(mActivity, LoginActivity.class);
-        intent.putExtra(USERNAME, PrefUtil.getAuthUsername());
-        startActivity(intent);
+        startActivity(IntentUtil.toLogin(mActivity));
     }
 
     private void checkUpdate() {

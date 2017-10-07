@@ -60,7 +60,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     protected abstract boolean isShowBackArrow();
 
-
     protected abstract void inject();
 
     protected abstract Activity supportSlideBack();
@@ -159,12 +158,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         if (mUnBinder != null) {
             mUnBinder.unbind();
         }
-//        finishMe();
     }
 
     @Override
     public void onBackPressedSupport() {
-//        super.onBackPressedSupport();
         finishThisActivity();
     }
 
