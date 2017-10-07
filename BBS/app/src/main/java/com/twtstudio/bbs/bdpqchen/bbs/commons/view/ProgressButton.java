@@ -22,7 +22,6 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,7 +37,7 @@ public class ProgressButton extends RelativeLayout {
     private static final int STATUS_TRANSFORM = 1;
     private static final int STATUS_PROGRESS = 2;
     private static final int STATUS_ERROR = 3;
-    private static final int STATUS_DOWN = 4;
+    private static final int STATUS_DONE = 4;
 
     private ImageView mImageView;
     private TextView mTextView;
@@ -54,17 +53,17 @@ public class ProgressButton extends RelativeLayout {
     private int mMeasuredWidth;
     private int mTextColor;
     private float mTextSize;
-    private ProgressBar mProgressBar;
     private int mTransformDuration = 100;
     /* Status of ProgressButton
     * STATUS_INIT default, everything is as just init.
     * STATUS_TRANSFORM be set when the shape of background is transforming, any other animator cannot disturb with it.
     * STATUS_PROGRESS the progress image is progressing(just like rotating), the text is invisible.
     * STATUS_ERROR the error image is showing, but the other view are invisible, and automatically reverse to status 0 after some times.
-    * STATUS_DOWN the done image is showing, and then to do users want.
+    * STATUS_DONE the done image is showing, and then to do users want.
     * */
     private int mStatus;
-    private boolean mTransforming = true;
+    private boolean mTransforming = false;
+    private boolean mClickable = true;
 
     public ProgressButton(Context context) {
         super(context);
@@ -86,7 +85,6 @@ public class ProgressButton extends RelativeLayout {
         mTextView = new TextView(mContext);
         mLayout = new RelativeLayout(mContext);
         mImageView = new ImageView(mContext);
-        mProgressBar = new ProgressBar(mContext);
         if (attrs != null) {
             TypedArray typedValue = mContext.obtainStyledAttributes(attrs, R.styleable.ProgressButton);
             mBackgroundColor = typedValue.getColor(R.styleable.ProgressButton_backgroundColor, getResources().getColor(R.color.dracula_primary));
@@ -129,7 +127,9 @@ public class ProgressButton extends RelativeLayout {
             @Override
             public void onClick(View view) {
                 log("mLayout is Clicked");
-                callOnClick();
+                if (mClickable){
+                    callOnClick();
+                }
             }
         });
 
@@ -175,10 +175,12 @@ public class ProgressButton extends RelativeLayout {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mTransforming = false;
+                    mClickable = true;
                     mStatus = STATUS_INIT;
                 }
             });
             valueAnimator.setDuration(duration);
+            mClickable = false;
             mTransforming = true;
             valueAnimator.start();
             animator.start();
@@ -187,13 +189,15 @@ public class ProgressButton extends RelativeLayout {
 
     private void showProgress() {
         if (mStatus == STATUS_INIT) {
+            mClickable = false;
             mStatus = STATUS_PROGRESS;
             RotateAnimation animation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
             mImageView.setImageResource(mProgressImage);
             animation.setRepeatCount(Animation.INFINITE);
             animation.setDuration(300);
             animation.setInterpolator(new LinearInterpolator());
-            mImageView.startAnimation(animation);
+            mImageView.setAnimation(animation);
+            animation.start();
         }
     }
 
@@ -205,6 +209,7 @@ public class ProgressButton extends RelativeLayout {
         if (mStatus < STATUS_ERROR) {
             log("error()");
             mStatus = STATUS_ERROR;
+//            mClickable = true;
             mImageView.setImageResource(mErrorImage);
             mImageView.setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
             stopImageAnim();
@@ -239,12 +244,13 @@ public class ProgressButton extends RelativeLayout {
     }
 
     public void reverse() {
-        if (mStatus == STATUS_PROGRESS || mStatus == STATUS_ERROR || mStatus == STATUS_DOWN) {
+        if (mStatus == STATUS_PROGRESS || mStatus == STATUS_ERROR || mStatus == STATUS_DONE) {
             log("reverse()");
             mStatus = STATUS_INIT;
             stopImageAnim();
             stopLayoutAnim();
             mImageView.clearColorFilter();
+            mImageView.setImageResource(mProgressImage);
             mImageView.setVisibility(INVISIBLE);
             transformLayout(mCornerRadius, mLayout.getMeasuredWidth(), mMeasuredWidth,
                     new AnimatorListenerAdapter() {
@@ -257,8 +263,22 @@ public class ProgressButton extends RelativeLayout {
     }
 
     public void done() {
-        if (mStatus == STATUS_PROGRESS) {
-            mStatus = STATUS_DOWN;
+        if (mTransforming) {
+            Handler handler0 = new Handler();
+            handler0.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    success();
+                }
+            }, 150);
+        } else {
+            success();
+        }
+    }
+
+    private void success(){
+        if (mStatus == STATUS_PROGRESS || mStatus == STATUS_TRANSFORM) {
+            mStatus = STATUS_DONE;
             stopImageAnim();
             stopLayoutAnim();
             mImageView.setImageResource(mDownImage);
@@ -269,7 +289,9 @@ public class ProgressButton extends RelativeLayout {
         Animation animation = mImageView.getAnimation();
         if (animation != null) {
             animation.cancel();
+            animation.reset();
         }
+
         mImageView.clearAnimation();
     }
 
