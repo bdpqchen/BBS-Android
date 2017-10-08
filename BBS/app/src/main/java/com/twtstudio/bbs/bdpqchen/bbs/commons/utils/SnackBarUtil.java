@@ -89,7 +89,7 @@ public final class SnackBarUtil {
 
         if (VersionUtil.isKitkat()) {
             Toast.makeText(act, m, Toast.LENGTH_SHORT).show();
-            sIsShowing = false;
+//            sIsShowing = false;
             return;
         }
 
