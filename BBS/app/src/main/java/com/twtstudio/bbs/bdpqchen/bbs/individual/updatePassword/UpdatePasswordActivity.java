@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -48,20 +47,9 @@ public class UpdatePasswordActivity extends BaseActivity<UpdatePasswordPresenter
         mToolbar.setTitle("修改密码");
         return mToolbar;
     }
-
-    @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.auth.login;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
@@ -75,18 +74,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return false;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return null;
     }
 
     @Override

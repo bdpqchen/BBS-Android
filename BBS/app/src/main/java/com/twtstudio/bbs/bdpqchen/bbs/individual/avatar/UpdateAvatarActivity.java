@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.avatar;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -43,17 +42,7 @@ public class UpdateAvatarActivity extends BaseActivity {
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
     }
 
     @Override

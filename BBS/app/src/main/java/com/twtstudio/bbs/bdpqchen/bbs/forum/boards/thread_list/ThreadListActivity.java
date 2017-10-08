@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -60,20 +59,9 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
         mToolbar.setTitle(mBoardTitle);
         return mToolbar;
     }
-
-    @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
     }
 
     @Override

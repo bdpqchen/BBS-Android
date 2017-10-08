@@ -38,7 +38,10 @@
     <!--<color name="colorTintIconBlack">#3F51B5</color>-->
     <color name="colorThumbUp">#2cc197</color>
     <color name="colorThumbDown">#666666</color>
-
+    <color name="bg_reminder_error">#FFf44336</color>
+    <color name="reminderBgNotice">#FFf89042</color>
+    <color name="reminderBgErrror">#FFf44336</color>
+    <color name="reminderBgNormal">#FF62cbd6</color>
 
 
 </resources>

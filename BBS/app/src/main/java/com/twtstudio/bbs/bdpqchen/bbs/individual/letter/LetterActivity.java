@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.letter;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +15,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
@@ -58,18 +56,8 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
     }
 
     private static final int SEC = (BuildConfig.DEBUG ? 3 : 600) * 1000;

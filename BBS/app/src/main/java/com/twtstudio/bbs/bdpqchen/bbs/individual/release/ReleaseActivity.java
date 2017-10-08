@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.release;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -39,20 +38,9 @@ public class ReleaseActivity extends BaseActivity<PublishPresenter>{
         mToolbar.setTitle("我的帖子");
         return mToolbar;
     }
-
-    @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
     }
 
     @Override

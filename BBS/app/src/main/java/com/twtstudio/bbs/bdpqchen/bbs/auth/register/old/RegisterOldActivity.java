@@ -65,21 +65,12 @@ public class RegisterOldActivity extends BaseActivity<RegisterOldPresenter> impl
         mToolbar.setTitle("个人信息认证");
         return mToolbar;
     }
-
-    @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
 
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

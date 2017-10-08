@@ -13,7 +13,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
@@ -67,21 +66,9 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         mToolbar.setTitle("新用户注册");
         return mToolbar;
     }
-
-    @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        if (!PrefUtil.isSlideBackMode()) return null;
-        return this;
     }
 
     @Override

@@ -1,13 +1,11 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.friend;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -46,18 +44,8 @@ public class FriendActivity extends BaseActivity<FriendPresenter> implements Fri
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
     }
 
     @Override

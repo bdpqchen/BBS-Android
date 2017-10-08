@@ -149,21 +149,12 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     protected Toolbar getToolbarView() {
         return mToolbar;
     }
-
-    @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
 
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

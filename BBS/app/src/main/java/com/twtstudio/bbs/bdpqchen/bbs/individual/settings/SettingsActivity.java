@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.settings;
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -38,18 +37,8 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter> {
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
     }
 
     @Override

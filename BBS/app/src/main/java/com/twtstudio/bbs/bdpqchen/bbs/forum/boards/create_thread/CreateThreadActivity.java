@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -102,21 +101,9 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         mToolbar.setTitle("发布帖子");
         return mToolbar;
     }
-
-    @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        // 本页面不支持滑动返回，因为，怕用户滑出去了
-        return null;
     }
 
     @Override
@@ -124,6 +111,7 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         super.onCreate(savedInstanceState);
         mContext = this;
         mImageFormatUtil = new ImageFormatUtil();
+        mSlideBackLayout.lock(true);
         Intent intent = getIntent();
         mForumId = intent.getIntExtra(INTENT_FORUM_ID, 0);
         mCanAnon = intent.getIntExtra(INTENT_BOARD_CAN_ANON, 0);

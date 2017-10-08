@@ -64,21 +64,12 @@ public class RetrieveActivity extends BaseActivity<RetrievePresenter> implements
         mToolbar.setTitle("找回用户名");
         return mToolbar;
     }
-
-    @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
 
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

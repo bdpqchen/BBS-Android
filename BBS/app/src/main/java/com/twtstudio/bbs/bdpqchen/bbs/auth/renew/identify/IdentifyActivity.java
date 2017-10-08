@@ -57,21 +57,12 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
         mToolbar.setTitle("老用户验证");
         return mToolbar;
     }
-
-    @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
 
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
-    }
+
 
 
     @Override

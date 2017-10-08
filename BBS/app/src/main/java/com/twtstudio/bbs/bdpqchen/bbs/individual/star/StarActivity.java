@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.star;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -46,18 +45,8 @@ public class StarActivity extends BaseActivity<StarPresenter> implements StarCon
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
     }
 
     @Override
@@ -68,7 +57,7 @@ public class StarActivity extends BaseActivity<StarPresenter> implements StarCon
         mRvStar.setAdapter(mAdapter);
         mRvStar.addItemDecoration(new RecyclerViewItemDecoration(2));
         mRvStar.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        mSrlStar.setOnRefreshListener(()-> {
+        mSrlStar.setOnRefreshListener(() -> {
             mRefreshing = true;
             mPresenter.getStarList();
             setRefresh();
@@ -85,10 +74,10 @@ public class StarActivity extends BaseActivity<StarPresenter> implements StarCon
     @Override
     public void onGetStarList(List<StarModel> list) {
         LogUtil.dd("onGetStarList");
-        if (list != null && list.size() > 0){
-            if (mRefreshing){
+        if (list != null && list.size() > 0) {
+            if (mRefreshing) {
                 mAdapter.refreshList(list);
-            }else{
+            } else {
                 mAdapter.addList(list);
             }
         }
@@ -125,11 +114,12 @@ public class StarActivity extends BaseActivity<StarPresenter> implements StarCon
         showErrorSnack(s);
     }
 
-    private void showSnack(String s){
+    private void showSnack(String s) {
         SnackBarUtil.normal(mActivity, s);
         mAdapter.notifyDataSetChanged();
     }
-    private void showErrorSnack(String s){
+
+    private void showErrorSnack(String s) {
         SnackBarUtil.error(mActivity, s);
         mAdapter.notifyDataSetChanged();
     }

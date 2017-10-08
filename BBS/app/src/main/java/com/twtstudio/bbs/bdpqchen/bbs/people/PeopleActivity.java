@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.people;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -85,20 +84,9 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
         mToolbar.setTitle("");
         return mToolbar;
     }
-
-    @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
     }
 
     @Override

@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.jaeger.library.StatusBarUtil;
 import com.oubowu.slideback.SlideBackHelper;
 import com.oubowu.slideback.SlideConfig;
 import com.oubowu.slideback.widget.SlideBackLayout;
@@ -24,7 +23,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
 
@@ -47,10 +45,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     @Inject
     protected T mPresenter;
-
     protected Activity mActivity;
     protected Context mContext;
-    private Toolbar mToolbar;
     private Unbinder mUnBinder;
     public SlideBackLayout mSlideBackLayout;
 
@@ -58,11 +54,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     protected abstract Toolbar getToolbarView();
 
-    protected abstract boolean isShowBackArrow();
-
     protected abstract void inject();
-
-    protected abstract Activity supportSlideBack();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,31 +66,31 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         mActivity = this;
         mContext = this;
         inject();
-        Activity activity = supportSlideBack();
-        if (activity != null) {
-            mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
-        }
+        setArrowBack(true);
+        mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
         if (mPresenter != null) {
             mPresenter.attachView(this);
         } else {
-
             LogUtil.d("mPresenter is null!!!");
         }
 
-        mToolbar = getToolbarView();
-        if (null != mToolbar) {
-            setSupportActionBar(mToolbar);
-            if (isShowBackArrow()) {
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                } else {
+//        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark), 0);
+        ActivityManager.getActivityManager().addActivity(this);
+    }
 
-                }
+    public void setNoArrowBack() {
+        setArrowBack(false);
+    }
+
+    private void setArrowBack(boolean available) {
+        Toolbar toolbar = getToolbarView();
+        if (null != toolbar) {
+            setSupportActionBar(toolbar);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(available);
             }
         }
 
-        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark), 0);
-        ActivityManager.getActivityManager().addActivity(this);
     }
 
     private SlideConfig getSlideConfig() {
@@ -121,7 +113,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
                 FrameLayout view = (FrameLayout) findViewById(android.R.id.content);
                 if (view.getChildCount() > 0) view.getChildAt(0).setFitsSystemWindows(true);
                 else view.setFitsSystemWindows(true);
-
             }
         }
     }

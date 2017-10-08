@@ -63,21 +63,12 @@ public class AppealPassportActivity extends BaseActivity<AppealPassportPresenter
         mToolbar.setTitle("账号申诉");
         return mToolbar;
     }
-
-    @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
 
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

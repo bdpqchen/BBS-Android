@@ -77,18 +77,8 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
     protected void inject() {
         getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
     }
 
     @Override
@@ -274,7 +264,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         HandlerUtil.postDelay(this::finishMe, 2000);
     }
 
-    private void setUpdateAvatarResult(){
+    private void setUpdateAvatarResult() {
         Intent data = new Intent();
         data.putExtra(INTENT_RESULT_UPDATE_INFO, true);
         setResult(RESULT_OK, data);

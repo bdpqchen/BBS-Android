@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.home;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,7 +47,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private int mShowingFragment = FIRST;
     private int mHidingFragment = FIRST;
     private boolean mIsExit = false;
-    private boolean mIsJustLoginIn = false;
 
     @Override
     protected int getLayoutResourceId() {
@@ -59,27 +57,18 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     protected Toolbar getToolbarView() {
         return null;
     }
-
-    @Override
-    protected boolean isShowBackArrow() {
-        return false;
-    }
-
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
     }
 
     @Override
-    protected Activity supportSlideBack() {
-        return null;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        setNoArrowBack();
+        mSlideBackLayout.lock(true);
         Context context = this;
-        LogUtil.dd("token", PrefUtil.getAuthToken());
+        LogUtil.dd("current_token", PrefUtil.getAuthToken());
         PrefUtil.setHadLogin(true);
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragment.newInstance();
