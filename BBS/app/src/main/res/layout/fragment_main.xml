@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorMainBg"
@@ -16,19 +17,105 @@
         app:expanded="false"
         >
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/main_tab_layout"
+        <RelativeLayout
+            android:id="@+id/rl_search"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:tabBackground="@color/colorPrimary"
-            app:tabIndicatorColor="@color/material_yellow_accent_700"
-            app:tabIndicatorHeight="1dp"
-            app:tabSelectedTextColor="@color/material_yellow_accent_700"
-            app:tabTextColor="@color/material_light_white"
-            />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <RelativeLayout
+                android:id="@+id/rl_input"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:paddingEnd="24dp"
+                android:paddingStart="24dp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="天大求实"
+                    android:textSize="18sp"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_search_white_24dp"
+                    />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/et_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="28dp"
+                    android:drawableEnd="@drawable/ic_clear_white_24dp"
+                    android:hint="搜索帖子 \ 用户"
+                    android:inputType="text"
+                    android:textColorHint="#222222"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl_input"
+                android:orientation="vertical"
+                android:paddingStart="52dp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="搜索帖子"
+                    android:textColor="#333333"
+                    android:textSize="16sp"
+                    android:id="@+id/tv_option1"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp"
+                    android:paddingTop="8dp"
+                    android:text="搜索用户"
+                    android:textColor="#333333"
+                    android:textSize="16sp"
+                    android:id="@+id/tv_option2"
+                    />
+
+            </LinearLayout>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/main_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_below="@id/ll_options"
+                android:backgroundTint="@color/colorAccent"
+                android:clickable="true"
+                android:focusable="true"
+                app:tabIndicatorHeight="1dp"
+                />
+
+        </RelativeLayout>
 
     </android.support.design.widget.AppBarLayout>
-
 
     <android.support.v4.view.ViewPager
         android:id="@+id/main_viewpager"
@@ -36,6 +123,5 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
-
 
 </android.support.design.widget.CoordinatorLayout>

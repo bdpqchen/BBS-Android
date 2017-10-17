@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.jaeger.library.StatusBarUtil;
 import com.oubowu.slideback.SlideBackHelper;
 import com.oubowu.slideback.SlideConfig;
 import com.oubowu.slideback.widget.SlideBackLayout;
@@ -23,6 +24,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
 
@@ -48,7 +50,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
     protected Activity mActivity;
     protected Context mContext;
     private Unbinder mUnBinder;
-    public SlideBackLayout mSlideBackLayout;
+    protected SlideBackLayout mSlideBackLayout;
 
     protected abstract int getLayoutResourceId();
 
@@ -74,12 +76,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
             LogUtil.d("mPresenter is null!!!");
         }
 
-//        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark), 0);
+        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark), 0);
         ActivityManager.getActivityManager().addActivity(this);
-    }
-
-    public void setNoArrowBack() {
-        setArrowBack(false);
     }
 
     private void setArrowBack(boolean available) {
@@ -90,7 +88,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
                 getSupportActionBar().setDisplayHomeAsUpEnabled(available);
             }
         }
-
     }
 
     private SlideConfig getSlideConfig() {

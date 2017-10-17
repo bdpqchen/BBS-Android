@@ -25,7 +25,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
 
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -71,7 +70,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         LogUtil.dd("current_token", PrefUtil.getAuthToken());
         PrefUtil.setHadLogin(true);
         if (savedInstanceState == null) {
-            mFragments[FIRST] = MainFragment.newInstance();
+            mFragments[FIRST] = com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment.Companion.newInstance();
             mFragments[SECOND] = ForumFragment.newInstance();
             mFragments[FORTH] = IndividualFragment.newInstance();
 //            mFragments[FORTH] = MessageFragment.newInstance();
@@ -81,7 +80,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 //                    mFragments[THIRD],
                     mFragments[FORTH]);
         } else {
-            mFragments[FIRST] = findFragment(MainFragment.class);
+            mFragments[FIRST] = findFragment(com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment.class);
             mFragments[SECOND] = findFragment(ForumFragment.class);
 //            mFragments[THIRD] = findFragment(MessageFragment.class);
             mFragments[FORTH] = findFragment(IndividualFragment.class);

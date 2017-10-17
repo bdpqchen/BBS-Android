@@ -23,4 +23,8 @@ public final class VersionUtil {
     public static boolean eaLollipop(){
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
+
+    public static boolean eaMarshmallow(){
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
 }
