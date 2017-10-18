@@ -56,6 +56,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     protected Toolbar getToolbarView() {
         return null;
     }
+
     @Override
     protected void inject() {
         getActivityComponent().inject(this);
@@ -64,8 +65,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setNoArrowBack();
-        mSlideBackLayout.lock(true);
+        HandlerUtil.postDelay(() -> mSlideBackLayout.lock(true));
         Context context = this;
         LogUtil.dd("current_token", PrefUtil.getAuthToken());
         PrefUtil.setHadLogin(true);

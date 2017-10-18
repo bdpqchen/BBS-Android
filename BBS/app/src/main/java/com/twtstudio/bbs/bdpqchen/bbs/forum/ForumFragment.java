@@ -7,25 +7,18 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
 
 /**
  * Created by bdpqchen on 17-5-3.
@@ -39,7 +32,6 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
     RecyclerView mRvForumList;
 
     ForumAdapter mAdapter;
-    Unbinder unbinder;
     Activity mActivity;
     @BindView(R.id.pb_loading_forum)
     ProgressBar mPbLoadingForum;

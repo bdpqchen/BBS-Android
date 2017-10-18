@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:expanded="false"
         >
 
         <RelativeLayout
@@ -38,6 +37,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="天大求实"
+                    android:textColor="@color/material_light_white"
                     android:textSize="18sp"
                     />
 
