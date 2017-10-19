@@ -13,7 +13,7 @@ public final class SnackBarUtil {
 
     private static final int NORMAL_BG = R.color.reminderBgNormal;
     private static final int NOTICE_BG = R.color.reminderBgNotice;
-    private static final int ERROR_BG = R.color.reminderBgErrror;
+    private static final int ERROR_BG = R.color.reminderBgError;
 
     public static void normal(Activity act, String m) {
         normal(act, m, false);

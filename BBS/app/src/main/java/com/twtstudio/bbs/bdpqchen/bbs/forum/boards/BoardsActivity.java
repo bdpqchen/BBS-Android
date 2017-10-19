@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -31,7 +30,6 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FO
  */
 
 public class BoardsActivity extends BaseActivity<BoardsPresenter> implements BoardsContract.View {
-
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -68,8 +66,6 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     protected void inject() {
         getActivityComponent().inject(this);
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,15 +141,11 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     }
 
     void setRefreshing(boolean b){
-        if (mSrlBoardList != null){
-            mSrlBoardList.setRefreshing(b);
-        }
+        mSrlBoardList.setRefreshing(b);
     }
 
     private void hideProgressBar() {
         mRefreshing = false;
-        if (mProgressBar != null){
-            mProgressBar.setVisibility(View.GONE);
-        }
+        mProgressBar.setVisibility(View.GONE);
     }
 }

@@ -26,7 +26,7 @@ public class AppModule {
     }
 
 
-    //已经为HttpClient提供了但里模式，无需在RxDoHttpClient里
+    //已经为HttpClient提供了单例模式，无需在RxDoHttpClient里
     @Provides
     @Singleton
     RxDoHttpClient provideRxDoHttpClient(){

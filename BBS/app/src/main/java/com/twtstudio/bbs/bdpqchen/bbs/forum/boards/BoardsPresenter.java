@@ -29,7 +29,6 @@ class BoardsPresenter extends RxPresenter<BoardsContract.View> implements Boards
     public ResponseTransformer<BoardsModel> mTransformer = new ResponseTransformer<>();
     private ResponseTransformer<ThreadListModel> mTransformerThread = new ResponseTransformer<>();
 
-
     @Inject
     BoardsPresenter(RxDoHttpClient httpClient) {
         mHttpClient = httpClient;

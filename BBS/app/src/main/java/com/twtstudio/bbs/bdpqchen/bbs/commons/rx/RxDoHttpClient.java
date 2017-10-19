@@ -28,6 +28,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel;
+import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel;
 
 import java.io.File;
 import java.util.List;
@@ -62,10 +63,8 @@ public class RxDoHttpClient<T> {
     public static final String BASE_HOST = Constants.BASE_HOST;
     public static final String BASE = "https://" + BASE_HOST;
     public static final String BASE_URL = BASE + "/api/";
-    private Retrofit mRetrofit;
-    public BaseApi mApi;
+    private BaseApi mApi;
     public ResponseTransformer<T> mTransformer;
-    public SchedulersHelper mSchedulerHelper;
 
     public RxDoHttpClient() {
         Interceptor mTokenInterceptor = chain -> {
@@ -84,16 +83,15 @@ public class RxDoHttpClient<T> {
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
 
-        mRetrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(DirtyJsonConverter.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        mApi = mRetrofit.create(BaseApi.class);
+        mApi = retrofit.create(BaseApi.class);
         mTransformer = new ResponseTransformer<>();
-        mSchedulerHelper = new SchedulersHelper();
 
     }
 
@@ -101,7 +99,6 @@ public class RxDoHttpClient<T> {
         return PrefUtil.getAuthUid() + "|" + PrefUtil.getAuthToken();
 //        return PrefUtil.getAuthUid() + "" + PrefUtil.getAuthToken();
     }
-
 
     public Observable<BaseResponse<LoginModel>> doLogin(String username, String password) {
         return mApi.doLogin(username, password);
@@ -323,4 +320,7 @@ public class RxDoHttpClient<T> {
         return mApi.deletePost(pid);
     }
 
+    public Observable<BaseResponse<List<SearchUserModel>>> searchUser(String username) {
+        return mApi.searchUser(username);
+    }
 }

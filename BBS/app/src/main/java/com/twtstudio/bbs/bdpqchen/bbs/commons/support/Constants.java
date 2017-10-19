@@ -116,6 +116,7 @@ public final class Constants {
     public static final String THREAD = "thread";
     public static final String BOARD = "board";
     public static final String FORUM = "forum";
+    public static final String KEYWORD = "keyword";
 
 
     //PIWIK相关

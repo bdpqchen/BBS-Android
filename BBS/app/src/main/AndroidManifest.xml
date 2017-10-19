@@ -93,7 +93,7 @@
 
         <activity android:name=".mdeditor.EditorActivity"/>
         <activity android:name=".individual.release.ReleaseActivity"/>
-
+        <activity android:name=".search.SearchActivity"/>
     </application>
 
 </manifest>

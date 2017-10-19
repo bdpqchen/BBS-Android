@@ -24,6 +24,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo.UpdateInfoActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword.UpdatePasswordActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.search.SearchActivity;
 
 import dagger.Component;
 
@@ -77,4 +78,5 @@ public interface ActivityComponent {
 
     void inject(ReleaseActivity releaseActivity);
 
+    void inject(SearchActivity searchActivity);
 }

@@ -15,6 +15,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.FragmentModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -30,6 +31,7 @@ import me.yokeyword.fragmentation.SupportFragment;
 public abstract class BaseFragment<T extends BasePresenter> extends SupportFragment implements BaseView {
 
     @Inject
+    @Named("Test2")
     protected T mPresenter;
 
     protected View mView;

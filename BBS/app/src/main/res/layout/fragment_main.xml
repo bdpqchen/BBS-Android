@@ -16,12 +16,13 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         >
 
-        <RelativeLayout
-            android:id="@+id/rl_search"
+        <LinearLayout
+            android:id="@+id/ll_search"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            >
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <RelativeLayout
                 android:id="@+id/rl_input"
@@ -38,7 +39,7 @@
                     android:layout_centerVertical="true"
                     android:text="天大求实"
                     android:textColor="@color/material_light_white"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     />
 
                 <ImageView
@@ -57,13 +58,12 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="28dp"
                     android:drawableEnd="@drawable/ic_clear_white_24dp"
-                    android:hint="搜索帖子 \ 用户"
+                    android:hint="Searching.."
                     android:inputType="text"
-                    android:textColorHint="#222222"
+                    android:textColorHint="#666666"
                     android:visibility="gone"
                     tools:visibility="visible"
                     />
-
 
             </RelativeLayout>
 
@@ -71,7 +71,6 @@
                 android:id="@+id/ll_options"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rl_input"
                 android:orientation="vertical"
                 android:paddingStart="52dp"
                 android:visibility="gone"
@@ -79,42 +78,39 @@
                 >
 
                 <TextView
+                    android:id="@+id/tv_option1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
                     android:text="搜索帖子"
-                    android:textColor="#333333"
+                    android:textColor="@color/colorTvBlackMainTint"
                     android:textSize="16sp"
-                    android:id="@+id/tv_option1"
                     />
 
                 <TextView
+                    android:id="@+id/tv_option2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="16dp"
                     android:paddingTop="8dp"
                     android:text="搜索用户"
-                    android:textColor="#333333"
+                    android:textColor="@color/colorTvBlackMainTint"
                     android:textSize="16sp"
-                    android:id="@+id/tv_option2"
                     />
 
             </LinearLayout>
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/main_tab_layout"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_below="@id/ll_options"
-                android:backgroundTint="@color/colorAccent"
-                android:clickable="true"
-                android:focusable="true"
-                app:tabIndicatorHeight="1dp"
-                />
+        </LinearLayout>
 
-        </RelativeLayout>
-
+        <android.support.design.widget.TabLayout
+            android:id="@+id/main_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_search"
+            android:backgroundTint="@color/colorAccent"
+            app:tabIndicatorHeight="1dp"
+            />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager

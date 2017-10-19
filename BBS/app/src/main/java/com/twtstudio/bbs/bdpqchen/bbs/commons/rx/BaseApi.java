@@ -24,6 +24,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel;
+import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel;
 
 import java.util.List;
 
@@ -51,6 +52,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.EMAIL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.FRIEND_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.KEYWORD;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MESSAGE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_REQUEST;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_TITLE;
@@ -317,6 +319,14 @@ public interface BaseApi {
 
     @DELETE("thread/{tid}")
     Observable<BaseResponse<BaseModel>> deleteThread(@Path(TID) int tid);
+
+    @GET("search/user/{username}")
+    Observable<BaseResponse<List<SearchUserModel>>> searchUser(@Path(USERNAME) String keyName);
+
+    @GET("search/user/{keyword}")
+    Observable<BaseResponse<List<SearchUserModel>>> searchThread(@Path(KEYWORD) String keyword);
+
+
 
 }
 

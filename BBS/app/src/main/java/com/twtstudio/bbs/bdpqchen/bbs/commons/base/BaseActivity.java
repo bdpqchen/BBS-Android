@@ -69,6 +69,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         mContext = this;
         inject();
         setArrowBack(true);
+
         mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
         if (mPresenter != null) {
             mPresenter.attachView(this);

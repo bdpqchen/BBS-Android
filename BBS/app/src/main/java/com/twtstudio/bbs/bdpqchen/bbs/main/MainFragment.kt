@@ -5,11 +5,9 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.PorterDuff
 import android.support.annotation.ColorRes
-import android.support.design.widget.AppBarLayout
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.AppCompatEditText
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -18,7 +16,6 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import com.jaeger.library.StatusBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.R
@@ -30,13 +27,11 @@ import kotterknife.bindView
 /**
  * Created by bdpqchen on 17-5-3.
  */
-class MainFragment : SimpleFragment(), View.OnTouchListener {
+class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListener {
 
     private val mTabLayout: TabLayout by bindView(R.id.main_tab_layout)
 
     private val mViewpager: ViewPager by bindView(R.id.main_viewpager)
-
-    val mAppbar: AppBarLayout by bindView(R.id.appbar)
 
     private val mTvTitle: TextView by bindView(R.id.tv_title)
 
@@ -46,7 +41,7 @@ class MainFragment : SimpleFragment(), View.OnTouchListener {
 
     private val mLlOptions: LinearLayout by bindView(R.id.ll_options)
 
-    private val mRlSearch: RelativeLayout by bindView(R.id.rl_search)
+    private val mLlSearch: LinearLayout by bindView(R.id.ll_search)
 
     private val mTvOption1: TextView by bindView(R.id.tv_option1)
 
@@ -63,7 +58,6 @@ class MainFragment : SimpleFragment(), View.OnTouchListener {
     }
 
     override fun initFragments() {
-//        mAppbar.setExpanded(false)
         StatusBarUtil.setColor(this.activity, ResourceUtil.getColor(this.activity, R.color.colorPrimaryDark), 0)
         val tabAdapter = MainTabAdapter(fragmentManager, mContext)
         mViewpager.adapter = tabAdapter
@@ -71,14 +65,30 @@ class MainFragment : SimpleFragment(), View.OnTouchListener {
         mEtSearch.setOnTouchListener(this)
         mIvSearch.setOnClickListener { showSearch() }
         setViewClickEffects(mTvOption1, mTvOption2)
+        setItemOptionClickListener(mTvOption1, mTvOption2)
         setIconTint()
-
     }
 
+    private fun setItemOptionClickListener(vararg views: View) {
+        for (view in views) view.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.tv_option1 -> search(SEARCH_MODE_THREAD)
+            R.id.tv_option2 -> search(SEARCH_MODE_USER)
+        }
+    }
+
+    private fun search(mode: Int) {
+        println("mode is $mode")
+    }
 
     private fun setIconTint() {
-        mIvSearch.setColorFilter(R.color.colorTintIconBlack, PorterDuff.Mode.SRC_IN)
-        //        mEtSearch.getCompoundDrawables()[2].setColorFilter();
+        val defColor = R.color.colorTintIconBlack
+        val mode = PorterDuff.Mode.SRC_IN
+        mIvSearch.setColorFilter(defColor, mode)
+        mEtSearch.compoundDrawablesRelative[2]?.setColorFilter(ResourceUtil.getColor(mContext, defColor), mode)
     }
 
     private fun setViewClickEffects(vararg views: View) {
@@ -87,14 +97,6 @@ class MainFragment : SimpleFragment(), View.OnTouchListener {
                 view.foreground = ResourceUtil.getDrawable(mContext, R.drawable.selector_foreground_settings)
             }
         }
-    }
-
-    private fun print(s: String) {
-        Log.d("====", s)
-    }
-
-    private fun print(i: Int) {
-        print(i.toString())
     }
 
     private fun hideInput() {
@@ -156,7 +158,7 @@ class MainFragment : SimpleFragment(), View.OnTouchListener {
     }
 
     private fun showSearch() {
-        animateRevealColorFromCoordinates(mRlSearch, R.color.material_light_white, circularX, circularY)
+        animateRevealColorFromCoordinates(mLlSearch, R.color.material_light_white, circularX, circularY)
         mTabLayout.visibility = View.GONE
         mEtSearch.visibility = View.VISIBLE
         mLlOptions.visibility = View.VISIBLE
@@ -170,10 +172,9 @@ class MainFragment : SimpleFragment(), View.OnTouchListener {
         mLlOptions.visibility = View.GONE
         mTvTitle.visibility = View.VISIBLE
         mTabLayout.visibility = View.VISIBLE
-        mRlSearch.setBackgroundColor(ResourceUtil.getColor(mContext, R.color.colorPrimary))
+        mLlSearch.setBackgroundColor(ResourceUtil.getColor(mContext, R.color.colorPrimary))
         translate(true)
         hideInput()
-
     }
 
     companion object {
@@ -181,6 +182,10 @@ class MainFragment : SimpleFragment(), View.OnTouchListener {
         fun newInstance(): MainFragment {
             return MainFragment()
         }
+
+        val SEARCH_MODE_THREAD = 0
+        val SEARCH_MODE_USER = 1
+
     }
 
 }

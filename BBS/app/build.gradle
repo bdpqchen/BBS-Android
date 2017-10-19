@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 //apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
 
 Properties pro = new Properties()
 pro.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -25,6 +27,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        multiDexEnabled true
 
+    }
+
+    kapt {
+        generateStubs = true
     }
 
     lintOptions {
@@ -121,13 +127,13 @@ android {
         compile 'com.karumi:dexter:4.1.0'
         testCompile 'junit:junit:4.12'
         annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-        annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+        kapt "com.google.dagger:dagger-compiler:2.10"
+//        annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
         compile 'com.daimajia.easing:library:2.0@aar'
         compile 'com.daimajia.androidanimations:library:2.2@aar'
         compile 'com.soundcloud.android:android-crop:1.0.1@aar'
         compile 'jp.wasabeef:richeditor-android:1.2.2'
         compile 'com.zhihu.android:matisse:0.4.3'
-        compile 'com.nightonke:boommenu:2.1.0'
 //        compile "com.android.support:multidex:1.0.1"
         compile 'jp.wasabeef:glide-transformations:2.0.2'
         compile 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'
