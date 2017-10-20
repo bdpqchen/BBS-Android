@@ -28,15 +28,13 @@ public abstract class BaseFragment extends SupportFragment implements BaseView {
 
     protected abstract int getFragmentLayoutId();
 
-    protected abstract void injectFragment();
-
-    protected abstract void initFragment();
+    protected abstract BasePresenter getPresenter();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(getFragmentLayoutId(), container, false);
-        injectFragment();
+        mPresenter = getPresenter();
         return mView;
     }
 
@@ -44,20 +42,6 @@ public abstract class BaseFragment extends SupportFragment implements BaseView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnBinder = ButterKnife.bind(this, view);
-
-/*
-        if (mPresenter != null) {
-            mPresenter.attachView(this);
-        } else {
-            LogUtil.d("mPresenter is null!!! in base fragment");
-        }
-*/
-
-        initFragment();
-    }
-
-    public void setPresenter(BasePresenter presenter) {
-        mPresenter = presenter;
     }
 
     @Override

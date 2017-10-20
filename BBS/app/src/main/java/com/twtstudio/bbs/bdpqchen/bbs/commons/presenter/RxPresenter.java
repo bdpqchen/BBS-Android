@@ -11,6 +11,10 @@ import io.reactivex.disposables.Disposable;
 
 public class RxPresenter implements BasePresenter {
 
+    /*
+    * 在每个 Presenter 里都会创建这个 CompositeDisposable,
+    * so, unSubscribe 的调用时机为 each onDestroy() of Activity or Fragment be called.
+    * */
     private CompositeDisposable mCompositeDisposable;
 
     protected void addSubscribe(Disposable disposable){

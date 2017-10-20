@@ -27,11 +27,8 @@ public abstract class SimpleFragment extends SupportFragment {
     protected Activity mActivity;
 
     private Unbinder mUnBinder;
-    private boolean mInitialized = false;
 
     protected abstract int getPerMainFragmentLayoutId();
-
-    protected abstract void initFragments();
 
     @Override
     public void onAttach(Context context) {
@@ -51,7 +48,6 @@ public abstract class SimpleFragment extends SupportFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnBinder = ButterKnife.bind(this, view);
-        initFragments();
 /*
         if (savedInstanceState == null) {
             if (!isHidden()) {
