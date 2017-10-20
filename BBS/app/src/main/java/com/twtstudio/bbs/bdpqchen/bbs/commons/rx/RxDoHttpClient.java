@@ -58,15 +58,14 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
  * Created by bdpqchen on 17-4-27.
  */
 
-public class RxDoHttpClient<T> {
+public class RxDoHttpClient {
 
     public static final String BASE_HOST = Constants.BASE_HOST;
     public static final String BASE = "https://" + BASE_HOST;
     public static final String BASE_URL = BASE + "/api/";
     private BaseApi mApi;
-    public ResponseTransformer<T> mTransformer;
-
-    public RxDoHttpClient() {
+    private static RxDoHttpClient sINSTANCE;
+    private RxDoHttpClient() {
         Interceptor mTokenInterceptor = chain -> {
             Request originalRequest = chain.request();
             Request authorised = originalRequest.newBuilder()
@@ -91,8 +90,14 @@ public class RxDoHttpClient<T> {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         mApi = retrofit.create(BaseApi.class);
-        mTransformer = new ResponseTransformer<>();
 
+    }
+
+    public static RxDoHttpClient getInstance(){
+        if (sINSTANCE == null){
+            return new RxDoHttpClient();
+        }
+        return sINSTANCE;
     }
 
     private String getLatestAuthentication() {

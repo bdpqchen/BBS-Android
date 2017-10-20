@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -26,6 +25,8 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
@@ -150,7 +151,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
         return mToolbar;
     }
     @Override
-    protected void inject() {
+    protected BasePresenter<BaseView> inject() {
         getActivityComponent().inject(this);
     }
 

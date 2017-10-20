@@ -8,15 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerFragmentComponent;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.FragmentComponent;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.FragmentModule;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -24,29 +15,21 @@ import me.yokeyword.fragmentation.SupportFragment;
 /**
  * Created by bdpqchen on 17-4-21.
  * MVP-BaseFragment
- * provided Dagger injector
  * provided Presenter
  */
 
-public abstract class BaseFragment<T extends BasePresenter> extends SupportFragment implements BaseView {
+public abstract class BaseFragment extends SupportFragment implements BaseView {
 
-    @Inject
-    @Named("Test2")
-    protected T mPresenter;
-
+    protected BasePresenter mPresenter;
     protected View mView;
     protected Activity mActivity;
     protected Context mContext;
     private Unbinder mUnBinder;
-    protected boolean isInit = false;
-    protected boolean isLoad = false;
-    protected final String TAG = "LazyLoadFragment";
-    private View view;
-
-    protected boolean isInited = false;
 
     protected abstract int getFragmentLayoutId();
+
     protected abstract void injectFragment();
+
     protected abstract void initFragment();
 
     @Nullable
@@ -62,28 +45,20 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
         super.onViewCreated(view, savedInstanceState);
         mUnBinder = ButterKnife.bind(this, view);
 
-        if (mPresenter != null){
+/*
+        if (mPresenter != null) {
             mPresenter.attachView(this);
-        }else{
+        } else {
             LogUtil.d("mPresenter is null!!! in base fragment");
         }
-        /*if (savedInstanceState == null) {
-            if (!isHidden()) {
-                isInited = true;
-            }
-        } else {
-            // TODO: 17-5-4 if (!isSupportHidden()) {
-//            onLazyInitView(savedInstanceState);
-            isInited = true;
-        }*/
+*/
+
         initFragment();
     }
 
-  /*  @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-        super.onLazyInitView(savedInstanceState);
-//        initFragment();
-    }*/
+    public void setPresenter(BasePresenter presenter) {
+        mPresenter = presenter;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -95,21 +70,13 @@ public abstract class BaseFragment<T extends BasePresenter> extends SupportFragm
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mUnBinder != null){
+        if (mUnBinder != null) {
             mUnBinder.unbind();
         }
-        if (mPresenter != null){
-            mPresenter.detachView();
+        if (mPresenter != null) {
+            mPresenter.unSubscribe();
         }
     }
-
-    protected FragmentComponent getFragmentComponent(){
-        return DaggerFragmentComponent.builder()
-                .appComponent(App.getAppComponent())
-                .fragmentModule(new FragmentModule(this))
-                .build();
-    }
-
 
 
 }

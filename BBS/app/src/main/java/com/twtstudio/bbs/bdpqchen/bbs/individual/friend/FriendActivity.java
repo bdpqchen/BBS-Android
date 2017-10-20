@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
@@ -44,7 +46,7 @@ public class FriendActivity extends BaseActivity<FriendPresenter> implements Fri
     }
 
     @Override
-    protected void inject() {
+    protected BasePresenter<BaseView> inject() {
         getActivityComponent().inject(this);
     }
 

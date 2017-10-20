@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -60,7 +62,7 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
         return mToolbar;
     }
     @Override
-    protected void inject() {
+    protected BasePresenter<BaseView> inject() {
         getActivityComponent().inject(this);
     }
 

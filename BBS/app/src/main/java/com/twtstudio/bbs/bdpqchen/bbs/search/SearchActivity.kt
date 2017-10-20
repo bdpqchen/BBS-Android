@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil
 import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel
 
@@ -21,7 +23,7 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
         return null
     }
 
-    override fun inject(){
+    fun inject(): BasePresenter<BaseView<Any>>? {
         activityComponent.inject(this)
     }
 

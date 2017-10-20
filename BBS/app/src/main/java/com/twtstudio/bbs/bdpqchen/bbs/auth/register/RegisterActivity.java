@@ -11,6 +11,8 @@ import android.widget.EditText;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -67,7 +69,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> implements
         return mToolbar;
     }
     @Override
-    protected void inject() {
+    protected BasePresenter<BaseView> inject() {
         getActivityComponent().inject(this);
     }
 

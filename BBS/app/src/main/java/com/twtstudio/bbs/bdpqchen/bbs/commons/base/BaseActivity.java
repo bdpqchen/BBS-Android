@@ -18,11 +18,7 @@ import com.oubowu.slideback.widget.SlideBackLayout;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerActivityComponent;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
@@ -31,8 +27,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
 import org.piwik.sdk.Tracker;
 import org.piwik.sdk.extra.CustomVariables;
 import org.piwik.sdk.extra.TrackHelper;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -43,10 +37,9 @@ import me.yokeyword.fragmentation.SupportActivity;
  * Created by bdpqchen on 17-4-18.
  */
 
-public abstract class BaseActivity<T extends BasePresenter> extends SupportActivity implements BaseView {
+public abstract class BaseActivity extends SupportActivity {
 
-    @Inject
-    protected T mPresenter;
+    protected BasePresenter mBasePresenter;
     protected Activity mActivity;
     protected Context mContext;
     private Unbinder mUnBinder;
@@ -56,7 +49,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     protected abstract Toolbar getToolbarView();
 
-    protected abstract void inject();
+    protected abstract BasePresenter getPresenter();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,15 +60,17 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         mUnBinder = ButterKnife.bind(this);
         mActivity = this;
         mContext = this;
-        inject();
+        mBasePresenter = getPresenter();
         setArrowBack(true);
 
         mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
-        if (mPresenter != null) {
-            mPresenter.attachView(this);
+/*
+        if (mBasePresenter != null) {
+            mBasePresenter.attachView(this);
         } else {
-            LogUtil.d("mPresenter is null!!!");
+            LogUtil.d("mBasePresenter is null!!!");
         }
+*/
 
         StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark), 0);
         ActivityManager.getActivityManager().addActivity(this);
@@ -127,13 +122,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         return TrackHelper.track(variables.toVisitVariables());
     }
 
-    protected ActivityComponent getActivityComponent() {
-        return DaggerActivityComponent.builder()
-                .appComponent(App.getAppComponent())
-                .activityModule(new ActivityModule(this))
-                .build();
-    }
-
     private void finishThisActivity() {
         ActivityManager.getActivityManager().finishActivity(this);
     }
@@ -141,8 +129,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mPresenter != null) {
-            mPresenter.detachView();
+        if (mBasePresenter != null) {
+            mBasePresenter.unSubscribe();
         }
         if (mUnBinder != null) {
             mUnBinder.unbind();

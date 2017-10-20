@@ -12,7 +12,9 @@ import android.widget.ProgressBar;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -29,7 +31,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FO
  * Created by bdpqchen on 17-5-11.
  */
 
-public class BoardsActivity extends BaseActivity<BoardsPresenter> implements BoardsContract.View {
+public class BoardsActivity extends BaseActivity implements BoardsContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -50,6 +52,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     private boolean isSimpleBoardList = PrefUtil.isSimpleBoardList();
     private List<PreviewThreadModel> mPreviewThreadModel = new ArrayList<>();
     private BoardsModel mBoardsModel = new BoardsModel();
+    private BoardsContract.Presenter mPresenter;
 
     @Override
     protected int getLayoutResourceId() {
@@ -63,8 +66,14 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     }
 
     @Override
-    protected void inject() {
-        getActivityComponent().inject(this);
+    public void setPresenter(BoardsContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        mPresenter = new BoardsPresenter(RxDoHttpClient.getInstance());
+        return mPresenter;
     }
 
     @Override

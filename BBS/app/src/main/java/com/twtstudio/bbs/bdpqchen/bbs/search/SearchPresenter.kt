@@ -12,7 +12,7 @@ import javax.inject.Inject
 /**
  * Created by bdpqchen on 17-10-18.
  */
-class  SearchPresenter @Inject constructor(client: RxDoHttpClient<List<SearchUserModel>>) : RxPresenter<SearchContract.View>(), SearchContract.Presenter {
+class  SearchPresenter @Inject constructor(client: RxDoHttpClient<SearchUserModel>) : RxPresenter<SearchContract.View>(), SearchContract.Presenter {
     val mHttpClient = client
 
     override fun searchUser(keyName: String) {
