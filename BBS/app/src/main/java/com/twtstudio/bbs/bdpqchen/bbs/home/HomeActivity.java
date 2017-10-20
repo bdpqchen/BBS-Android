@@ -14,8 +14,6 @@ import com.roughike.bottombar.BottomBarTab;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
@@ -32,7 +30,7 @@ import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
 
 
-public class HomeActivity extends BaseActivity<HomePresenter> implements HomeContract.View {
+public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     @BindView(R.id.bottom_bar)
     BottomBar mBottomBar;
@@ -48,7 +46,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private int mShowingFragment = FIRST;
     private int mHidingFragment = FIRST;
     private boolean mIsExit = false;
-
+    private HomePresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_main;
@@ -60,8 +58,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     }
 
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected HomePresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
@@ -69,6 +67,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         super.onCreate(savedInstanceState);
         HandlerUtil.postDelay(() -> mSlideBackLayout.lock(true));
         Context context = this;
+        mPresenter = new HomePresenter(this);
         LogUtil.dd("current_token", PrefUtil.getAuthToken());
         PrefUtil.setHadLogin(true);
         if (savedInstanceState == null) {

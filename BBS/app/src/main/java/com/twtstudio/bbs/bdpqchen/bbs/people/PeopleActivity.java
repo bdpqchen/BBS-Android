@@ -18,8 +18,6 @@ import android.widget.TextView;
 import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
@@ -39,7 +37,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
  * Created by bdpqchen on 17-7-3.
  */
 
-public class PeopleActivity extends BaseActivity<PeoplePresenter> implements PeopleContract.View {
+public class PeopleActivity extends BaseActivity implements PeopleContract.View {
     @BindView(R.id.iv_bg)
     ImageView mIvBg;
     @BindView(R.id.civ_avatar)
@@ -74,7 +72,7 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
     private PeopleAdapter mAdapter;
     private String mName = "";
     private String mConfirmMsg = "";
-
+    private PeoplePresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_people;
@@ -86,14 +84,16 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
         mToolbar.setTitle("");
         return mToolbar;
     }
+
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected PeoplePresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new PeoplePresenter(this);
         Intent intent = getIntent();
         mUid = intent.getIntExtra(UID, 0);
 //        mName = intent.getStringExtra(USERNAME);

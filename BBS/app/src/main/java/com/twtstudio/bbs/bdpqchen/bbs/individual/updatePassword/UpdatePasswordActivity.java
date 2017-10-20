@@ -8,8 +8,6 @@ import android.widget.EditText;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -26,7 +24,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
  * Created by bdpqchen on 17-5-6.
  */
 
-public class UpdatePasswordActivity extends BaseActivity<UpdatePasswordPresenter> implements UpdatePasswordContract.View {
+public class UpdatePasswordActivity extends BaseActivity implements UpdatePasswordContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -38,7 +36,7 @@ public class UpdatePasswordActivity extends BaseActivity<UpdatePasswordPresenter
     EditText mEtAgain;
     @BindView(R.id.cpb_identify)
     CircularProgressButton mCpbIdentify;
-
+    private UpdatePasswordPresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_update_password;
@@ -49,16 +47,17 @@ public class UpdatePasswordActivity extends BaseActivity<UpdatePasswordPresenter
         mToolbar.setTitle("修改密码");
         return mToolbar;
     }
+
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected UpdatePasswordPresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new UpdatePasswordPresenter(this);
     }
-
 
     void checkInput() {
         String newPass = String.valueOf(mEtNew.getText());

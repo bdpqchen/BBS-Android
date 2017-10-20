@@ -9,8 +9,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
@@ -22,7 +20,7 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-6-29.
  */
 
-public class FriendActivity extends BaseActivity<FriendPresenter> implements FriendContract.View {
+public class FriendActivity extends BaseActivity implements FriendContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -33,7 +31,7 @@ public class FriendActivity extends BaseActivity<FriendPresenter> implements Fri
 
     private FriendAdapter mAdapter;
     private boolean mRefreshing = false;
-
+    private FriendPresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_friend;
@@ -46,13 +44,14 @@ public class FriendActivity extends BaseActivity<FriendPresenter> implements Fri
     }
 
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected FriendPresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new FriendPresenter(this);
         mAdapter = new FriendAdapter(this);
         mRvFriend.setAdapter(mAdapter);
         mRvFriend.addItemDecoration(new RecyclerViewItemDecoration(1));

@@ -1,32 +1,21 @@
 package com.twtstudio.bbs.bdpqchen.bbs.home;
 
-
-import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-
 
 /**
  * Created by bdpqchen on 17-4-21.
  */
 
-public class HomePresenter extends RxPresenter<HomeContract.View> implements HomeContract.Presenter {
+public class HomePresenter extends RxPresenter implements HomeContract.Presenter {
+    private HomeContract.View mView;
 
-    private RxDoHttpClient<Integer> mUnreadClient;
-    private ResponseTransformer<BaseModel> mTransformer = new ResponseTransformer<>();
-    private ResponseTransformer<Integer> mUnreadTrans = new ResponseTransformer<>();
-
-
-    @Inject
-    HomePresenter(RxDoHttpClient httpClient) {
-        this.mUnreadClient = httpClient;
+    HomePresenter(HomeContract.View view) {
+        mView = view;
     }
 
     @Override
@@ -46,8 +35,8 @@ public class HomePresenter extends RxPresenter<HomeContract.View> implements Hom
                 }
             }
         };
-        addSubscribe(mUnreadClient.getUnreadCount()
-                .map(mUnreadTrans)
+        addSubscribe(sHttpClient.getUnreadCount()
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer));

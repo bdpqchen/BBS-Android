@@ -10,12 +10,13 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
  */
 
 interface AppealPassportContract {
-    interface View extends BaseView{
+    interface View extends BaseView {
         void sendFailed(String s);
+
         void sendSuccess();
     }
 
-    interface Presenter extends BasePresenter<View>{
+    interface Presenter extends BasePresenter {
         void appealPassport(Bundle bundle);
 
     }

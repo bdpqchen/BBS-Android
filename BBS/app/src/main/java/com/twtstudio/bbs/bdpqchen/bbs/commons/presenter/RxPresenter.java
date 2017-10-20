@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.presenter;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -10,6 +11,8 @@ import io.reactivex.disposables.Disposable;
  */
 
 public class RxPresenter implements BasePresenter {
+
+    protected static RxDoHttpClient sHttpClient = RxDoHttpClient.getInstance();
 
     /*
     * 在每个 Presenter 里都会创建这个 CompositeDisposable,

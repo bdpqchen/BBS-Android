@@ -18,7 +18,7 @@ interface StarContract {
         void onUnStar(int position);
         void onUnStarFailed(String s);
     }
-    interface Presenter extends BasePresenter<View>{
+    interface Presenter extends BasePresenter{
         void getStarList();
         void starThread(int tid, int position);
         void unStarThread(int tid, int position);

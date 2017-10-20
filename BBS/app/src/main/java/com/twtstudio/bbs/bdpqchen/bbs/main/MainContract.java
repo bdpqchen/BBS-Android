@@ -20,7 +20,7 @@ public interface MainContract {
         void onGotDataFailed(String msg);
     }
 
-    interface Presenter extends BasePresenter<View> {
+    interface Presenter extends BasePresenter {
         void getLatestList();
         void getHotList();
     }

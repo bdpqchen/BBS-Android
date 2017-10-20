@@ -2,10 +2,8 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -14,13 +12,11 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-5-6.
  */
 
-class UpdatePasswordPresenter extends RxPresenter<UpdatePasswordContract.View> implements UpdatePasswordContract.Presenter {
+class UpdatePasswordPresenter extends RxPresenter implements UpdatePasswordContract.Presenter {
+    private UpdatePasswordContract.View mView;
 
-    RxDoHttpClient<BaseModel> mHttpClient;
-
-    @Inject
-    UpdatePasswordPresenter(RxDoHttpClient client) {
-        mHttpClient = client;
+    UpdatePasswordPresenter(UpdatePasswordContract.View view) {
+        mView = view;
     }
 
     @Override
@@ -38,8 +34,8 @@ class UpdatePasswordPresenter extends RxPresenter<UpdatePasswordContract.View> i
                     mView.onUpdated(model);
             }
         };
-        addSubscribe(mHttpClient.doUpdatePassword(newPass, oldPass)
-                .map(mHttpClient.mTransformer)
+        addSubscribe(sHttpClient.doUpdatePassword(newPass, oldPass)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer));

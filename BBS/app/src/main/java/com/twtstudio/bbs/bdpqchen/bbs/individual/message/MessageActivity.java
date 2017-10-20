@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -29,7 +27,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_UN
  * Created by bdpqchen on 2017/5/28.
  */
 
-public class MessageActivity extends BaseActivity<MessagePresenter> implements MessageContract.View {
+public class MessageActivity extends BaseActivity implements MessageContract.View {
 
 
     @BindView(R.id.toolbar)
@@ -47,7 +45,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     private int mPage = 0;
     private LinearLayoutManager mLayoutManager;
     private boolean autoClear = true;
-
+    private MessagePresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.atcivity_message;
@@ -57,14 +55,16 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
         toolbar.setTitle("我的消息");
         return toolbar;
     }
+
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected MessagePresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new MessagePresenter(this);
         mAdapter = new MessageAdapter(this, mPresenter);
         mRecyclerView.setAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

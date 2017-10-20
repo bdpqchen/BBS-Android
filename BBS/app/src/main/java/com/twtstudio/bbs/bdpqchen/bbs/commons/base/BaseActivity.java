@@ -39,7 +39,6 @@ import me.yokeyword.fragmentation.SupportActivity;
 
 public abstract class BaseActivity extends SupportActivity {
 
-    protected BasePresenter mBasePresenter;
     protected Activity mActivity;
     protected Context mContext;
     private Unbinder mUnBinder;
@@ -49,6 +48,7 @@ public abstract class BaseActivity extends SupportActivity {
 
     protected abstract Toolbar getToolbarView();
 
+    //主要用于 dispose subscribe
     protected abstract BasePresenter getPresenter();
 
     @Override
@@ -60,7 +60,6 @@ public abstract class BaseActivity extends SupportActivity {
         mUnBinder = ButterKnife.bind(this);
         mActivity = this;
         mContext = this;
-        mBasePresenter = getPresenter();
         setArrowBack(true);
 
         mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
@@ -129,8 +128,8 @@ public abstract class BaseActivity extends SupportActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mBasePresenter != null) {
-            mBasePresenter.unSubscribe();
+        if (getPresenter() != null) {
+            getPresenter().unSubscribe();
         }
         if (mUnBinder != null) {
             mUnBinder.unbind();

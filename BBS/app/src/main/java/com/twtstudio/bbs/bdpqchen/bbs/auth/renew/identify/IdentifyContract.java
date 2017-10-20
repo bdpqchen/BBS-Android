@@ -8,11 +8,13 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
  */
 
 interface IdentifyContract {
-    interface View extends BaseView{
+    interface View extends BaseView {
         void identifyFailed(String m);
+
         void identifySuccess(IdentifyModel model);
     }
-    interface Presenter extends BasePresenter<View>{
+
+    interface Presenter extends BasePresenter {
         void doIdentify(String username, String password);
     }
 }

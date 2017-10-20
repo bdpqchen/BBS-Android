@@ -14,7 +14,6 @@ import com.soundcloud.android.crop.Crop;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 
@@ -44,7 +43,8 @@ public class UpdateAvatarActivity extends BaseActivity {
     }
 
     @Override
-    protected BasePresenter<BaseView> inject() {
+    protected BasePresenter getPresenter() {
+        return null;
     }
 
     @Override

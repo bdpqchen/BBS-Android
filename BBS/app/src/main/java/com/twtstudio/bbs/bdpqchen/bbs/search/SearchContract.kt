@@ -8,7 +8,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel
  * Created by bdpqchen on 17-10-18.
  */
 interface SearchContract {
-    interface Presenter : BasePresenter<View> {
+    interface Presenter : BasePresenter {
         fun searchUser(username: String)
         fun searchThread(keyword: String, page: Int)
     }

@@ -15,20 +15,31 @@ import java.util.List;
  */
 
 interface CreateThreadContract {
-    interface View extends BaseView{
+    interface View extends BaseView {
         void onPublished();
+
         void onPublishFailed(String msg);
+
         void onUploadFailed(String m);
+
         void onUploaded(UploadImageModel model);
+
         void onGetBoardList(BoardsModel model);
+
         void onGetBoardListFailed(String m);
+
         void onGetForumList(List<ForumModel> list);
+
         void onGetForumFailed(String m);
     }
-    interface Presenter extends BasePresenter<View>{
+
+    interface Presenter extends BasePresenter {
         void doPublishThread(Bundle bundle);
+
         void uploadImages(String uri);
+
         void getBoardList(int forumId);
+
         void getForumList();
     }
 }

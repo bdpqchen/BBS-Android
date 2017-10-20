@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.BuildConfig;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -36,7 +34,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
  * Created by bdpqchen on 17-7-4.
  */
 
-public class LetterActivity extends BaseActivity<LetterPresenter> implements LetterContract.View {
+public class LetterActivity extends BaseActivity implements LetterContract.View {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.rv_letter)
@@ -45,7 +43,7 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
     EditText mEtLetter;
     @BindView(R.id.tv_send)
     TextView mTvSend;
-
+    private LetterPresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_letter;
@@ -58,8 +56,8 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
     }
 
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected LetterPresenter getPresenter() {
+        return mPresenter;
     }
 
     private static final int SEC = (BuildConfig.DEBUG ? 3 : 600) * 1000;
@@ -81,6 +79,7 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter= new LetterPresenter(this);
         Intent intent = getIntent();
         mUid = intent.getIntExtra(UID, 0);
         mToolbar.setTitle(intent.getStringExtra(USERNAME));

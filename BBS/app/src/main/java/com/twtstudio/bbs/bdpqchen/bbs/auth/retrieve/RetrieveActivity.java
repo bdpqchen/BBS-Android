@@ -8,8 +8,6 @@ import android.widget.EditText;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.appeal.AppealPassportActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
@@ -34,7 +32,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
  * Created by bdpqchen on 17-5-21.
  */
 
-public class RetrieveActivity extends BaseActivity<RetrievePresenter> implements RetrieveContract.View {
+public class RetrieveActivity extends BaseActivity implements RetrieveContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -54,6 +52,7 @@ public class RetrieveActivity extends BaseActivity<RetrievePresenter> implements
     private String mRealName = "";
     private String mStuNum = "";
     private String mUsername = "";
+    private RetrievePresenter mPresenter;
 
     @Override
     protected int getLayoutResourceId() {
@@ -65,16 +64,16 @@ public class RetrieveActivity extends BaseActivity<RetrievePresenter> implements
         mToolbar.setTitle("找回用户名");
         return mToolbar;
     }
+
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected RetrievePresenter getPresenter() {
+        return mPresenter;
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new RetrievePresenter(this);
     }
 
     @OnClick(R.id.cp_btn_retrieve)

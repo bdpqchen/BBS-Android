@@ -8,8 +8,6 @@ import android.widget.EditText;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -25,7 +23,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_CATEGO
  * Created by bdpqchen on 17-5-21.
  */
 
-public class AppealPassportActivity extends BaseActivity<AppealPassportPresenter> implements AppealPassportContract.View {
+public class AppealPassportActivity extends BaseActivity implements AppealPassportContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -45,14 +43,12 @@ public class AppealPassportActivity extends BaseActivity<AppealPassportPresenter
     CircularProgressButton mCpBtnSubmitAppeal;
 
     private String mUsername;
-    private String mStuNum;
-    private String mCid;
-    private String mEmail;
-    private String mRealName;
-    private String mComment;
     private String mCaptchaId;
     private String mCaptchaValue;
+    private AppealPassportPresenter mPresenter;
 
+    public AppealPassportActivity() {
+    }
 
     @Override
     protected int getLayoutResourceId() {
@@ -64,16 +60,16 @@ public class AppealPassportActivity extends BaseActivity<AppealPassportPresenter
         mToolbar.setTitle("账号申诉");
         return mToolbar;
     }
+
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected AppealPassportPresenter getPresenter() {
+        return mPresenter;
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new AppealPassportPresenter(this);
         mUsername = getIntent().getStringExtra(Constants.BUNDLE_REGISTER_USERNAME);
 
     }
@@ -84,14 +80,14 @@ public class AppealPassportActivity extends BaseActivity<AppealPassportPresenter
     }
 
     private void checkInput() {
-        mEmail = mEtEmail.getText().toString();
+        String email = mEtEmail.getText().toString();
         mUsername = mEtAccount.getText().toString();
-        mCid = mEtCid.getText().toString();
-        mComment = mEtComment.getText().toString();
-        mStuNum = mEtStuNum.getText().toString();
-        mRealName = mEtRealName.getText().toString();
+        String cid = mEtCid.getText().toString();
+        String comment = mEtComment.getText().toString();
+        String stuNum = mEtStuNum.getText().toString();
+        String realName = mEtRealName.getText().toString();
         String err = "输入不正确";
-        if (mEmail.length() < 3) {
+        if (email.length() < 3) {
             mEtEmail.setError(err);
             return;
         }
@@ -99,28 +95,28 @@ public class AppealPassportActivity extends BaseActivity<AppealPassportPresenter
             mEtAccount.setError("输入不正确");
             return;
         }
-        if (mRealName.length() < 1) {
+        if (realName.length() < 1) {
             mEtRealName.setError(err);
             return;
         }
-        if (mCid.length() < 4) {
+        if (cid.length() < 4) {
             mEtCid.setError(err);
             return;
         }
-        if (mStuNum.length() < 4) {
+        if (stuNum.length() < 4) {
             mEtStuNum.setError(err);
             return;
         }
-        if (mComment.length() < 4) {
+        if (comment.length() < 4) {
             mEtComment.setError(err);
             return;
         }
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.BUNDLE_REGISTER_CID, mCid);
-        bundle.putString(Constants.BUNDLE_REGISTER_REAL_NAME, mRealName);
-        bundle.putString(Constants.BUNDLE_REGISTER_STU_NUM, mStuNum);
-        bundle.putString(Constants.BUNDLE_EMAIL, mEmail);
-        bundle.putString(Constants.BUNDLE_MESSAGE, mComment);
+        bundle.putString(Constants.BUNDLE_REGISTER_CID, cid);
+        bundle.putString(Constants.BUNDLE_REGISTER_REAL_NAME, realName);
+        bundle.putString(Constants.BUNDLE_REGISTER_STU_NUM, stuNum);
+        bundle.putString(Constants.BUNDLE_EMAIL, email);
+        bundle.putString(Constants.BUNDLE_MESSAGE, comment);
         bundle.putString(Constants.CAPTCHA_ID, mCaptchaId);
         bundle.putString(Constants.CAPTCHA_VALUE, mCaptchaValue);
         mPresenter.appealPassport(bundle);

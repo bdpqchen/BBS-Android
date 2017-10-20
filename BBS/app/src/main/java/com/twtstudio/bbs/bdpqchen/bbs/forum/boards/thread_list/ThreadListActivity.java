@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -29,7 +28,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_THREAD
  * Created by bdpqchen on 17-5-20.
  */
 
-public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implements ThreadListContract.View {
+public class ThreadListActivity extends BaseActivity implements ThreadListContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -50,6 +49,7 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
     private int lastVisibleItemPosition = 0;
     private boolean mRefreshing = false;
     private int mCanAnon = 0;
+    private ThreadListPresenter mPresenter;
 
     @Override
     protected int getLayoutResourceId() {
@@ -61,9 +61,10 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
         mToolbar.setTitle(mBoardTitle);
         return mToolbar;
     }
+
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected BasePresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
@@ -75,6 +76,7 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
 //        LogUtil.dd(mBoardTitle);
         super.onCreate(savedInstanceState);
         mContext = this;
+        mPresenter = new ThreadListPresenter(this);
         mPresenter.getThreadList(mBoardId, mPage);
         mAdapter = new ThreadListAdapter(this);
         mAdapter.setShowFooter(true);
@@ -131,7 +133,7 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
         pkTracker();
     }
 
-    private void pkTracker(){
+    private void pkTracker() {
         getTrackerHelper().screen(PK_THREAD_LIST_OF_ONE_BOARD + mBoardId + "/all/page/1/");
 //        getTrackerHelper().event(PK_CATEGORY_AJAX, "")
     }
@@ -146,5 +148,4 @@ public class ThreadListActivity extends BaseActivity<ThreadListPresenter> implem
             mPage--;
         }
     }
-
 }

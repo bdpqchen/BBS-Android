@@ -14,8 +14,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
@@ -42,7 +40,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_C
  * Created by bdpqchen on 17-5-6.
  */
 
-public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implements UpdateInfoContract.View {
+public class UpdateInfoActivity extends BaseActivity implements UpdateInfoContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -66,7 +64,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     private String mOldNickname = PrefUtil.getInfoNickname();
     private String mOldSignature = PrefUtil.getInfoSignature();
     private MaterialDialog mMaterialDialog;
-
+    private UpdateInfoPresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_update_info;
@@ -79,13 +77,14 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     }
 
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected UpdateInfoPresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new UpdateInfoPresenter(this);
         Activity activity = this;
         mNickname = PrefUtil.getInfoNickname();
         mSignature = PrefUtil.getInfoSignature();

@@ -5,16 +5,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.appeal.AppealPassportActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
@@ -29,7 +25,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_OLD_LO
  * Created by bdpqchen on 17-5-21.
  */
 
-public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements IdentifyContract.View {
+public class IdentifyActivity extends BaseActivity implements IdentifyContract.View {
 
     private static final String INTENT_ENTERING_USERNAME = "intent_entering_username";
     @BindView(R.id.toolbar)
@@ -40,9 +36,8 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
     EditText mOldPassword;
     @BindView(R.id.cp_btn_identify)
     CircularProgressButton mCpBtnIdentify;
-    @BindView(R.id.tv_find_username)
-    TextView mTvFindUsername;
 
+    private IdentifyPresenter mPresenter;
     public static final String INTENT_USERNAME = "intent_username";
     public static final String INTENT_TOKEN = "intent_token";
 
@@ -58,19 +53,16 @@ public class IdentifyActivity extends BaseActivity<IdentifyPresenter> implements
         mToolbar.setTitle("老用户验证");
         return mToolbar;
     }
+
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected IdentifyPresenter getPresenter() {
+        return mPresenter;
     }
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
-
+        mPresenter = new IdentifyPresenter(this);
     }
 
     @OnClick({R.id.old_account, R.id.old_password, R.id.cp_btn_identify, R.id.tv_find_username})

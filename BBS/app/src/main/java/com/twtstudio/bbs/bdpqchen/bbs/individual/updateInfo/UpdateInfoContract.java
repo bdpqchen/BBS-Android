@@ -21,7 +21,7 @@ interface UpdateInfoContract {
         void updateInfoSuccess();
     }
 
-    interface Presenter extends BasePresenter<View>{
+    interface Presenter extends BasePresenter{
         void doUpdateAvatar(File file);
         void doUpdateInfo(Bundle bundle, int t);
     }

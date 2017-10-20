@@ -1,7 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.auth.register.old;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,14 +9,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
-import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -30,7 +25,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_OLD_RE
  * Created by bdpqchen on 17-5-2.
  */
 
-public class RegisterOldActivity extends BaseActivity<RegisterOldPresenter> implements RegisterOldContract.View {
+public class RegisterOldActivity extends BaseActivity implements RegisterOldContract.View {
 
 
     @BindView(R.id.toolbar)
@@ -43,20 +38,14 @@ public class RegisterOldActivity extends BaseActivity<RegisterOldPresenter> impl
     EditText mEtCid;
     @BindView(R.id.et_password_again)
     EditText mEtPasswordAgain;
-    @BindView(R.id.cp_btn_register)
-    CircularProgressButton mCpBtnRegister;
 
     private String mRealName;
     private String mCid;
     private String mUsername = "";
     private String mPasswordAgain;
-
-    private Context mContext;
-    private Activity mActivity;
-
     private String mToken = "";
     public static final String INTENT_USERNAME = "intent_username";
-
+    private RegisterOldPresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_register_old;
@@ -67,18 +56,16 @@ public class RegisterOldActivity extends BaseActivity<RegisterOldPresenter> impl
         mToolbar.setTitle("个人信息认证");
         return mToolbar;
     }
+
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected RegisterOldPresenter getPresenter() {
+        return mPresenter;
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = this;
-        mActivity = this;
+        mPresenter = new RegisterOldPresenter(this);
         Intent intent = getIntent();
         mUsername = intent.getStringExtra(INTENT_USERNAME);
         mToken = intent.getStringExtra(INTENT_TOKEN);

@@ -13,7 +13,7 @@ interface EditorContract {
         void onUpload(UploadImageModel entity);
         void onUploadFailed(String msg);
     }
-    interface Presenter extends BasePresenter<View>{
+    interface Presenter extends BasePresenter{
         void uploadImage(String uri);
     }
 }

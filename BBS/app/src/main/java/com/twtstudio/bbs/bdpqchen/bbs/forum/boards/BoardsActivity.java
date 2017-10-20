@@ -14,7 +14,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -52,7 +51,7 @@ public class BoardsActivity extends BaseActivity implements BoardsContract.View 
     private boolean isSimpleBoardList = PrefUtil.isSimpleBoardList();
     private List<PreviewThreadModel> mPreviewThreadModel = new ArrayList<>();
     private BoardsModel mBoardsModel = new BoardsModel();
-    private BoardsContract.Presenter mPresenter;
+    private BoardsPresenter mPresenter;
 
     @Override
     protected int getLayoutResourceId() {
@@ -66,13 +65,7 @@ public class BoardsActivity extends BaseActivity implements BoardsContract.View 
     }
 
     @Override
-    public void setPresenter(BoardsContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
-
-    @Override
     protected BasePresenter getPresenter() {
-        mPresenter = new BoardsPresenter(RxDoHttpClient.getInstance());
         return mPresenter;
     }
 
@@ -84,6 +77,7 @@ public class BoardsActivity extends BaseActivity implements BoardsContract.View 
         mForumTitle = getIntent().getStringExtra(INTENT_FORUM_TITLE);
         super.onCreate(savedInstanceState);
         mContext = this;
+        mPresenter = new BoardsPresenter(this);
         if (isSimpleBoardList){
             mAdapter = new BoardsAdapter(mContext, mBoardsModel);
         }else{

@@ -2,10 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -15,15 +12,12 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-5-20.
  */
 
-class ThreadListPresenter extends RxPresenter<ThreadListContract.View> implements ThreadListContract.Presenter {
+class ThreadListPresenter extends RxPresenter implements ThreadListContract.Presenter {
 
-    private RxDoHttpClient<ThreadListModel> mHttpClient;
-    private ResponseTransformer<ThreadListModel> mTransformer = new ResponseTransformer<>();
+    private ThreadListContract.View mView;
 
-    @Inject
-    ThreadListPresenter(RxDoHttpClient client) {
-        this.mHttpClient = client;
-
+    ThreadListPresenter(ThreadListContract.View view) {
+        mView = view;
     }
 
     @Override
@@ -42,8 +36,8 @@ class ThreadListPresenter extends RxPresenter<ThreadListContract.View> implement
                     mView.setThreadList(threadListModels);
             }
         };
-        addSubscribe(mHttpClient.getThreadList(boardId, page)
-                .map(mHttpClient.mTransformer)
+        addSubscribe(sHttpClient.getThreadList(boardId, page)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)

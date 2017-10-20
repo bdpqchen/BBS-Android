@@ -11,7 +11,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jaeger.library.StatusBarUtil;
@@ -19,7 +18,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
@@ -42,18 +40,12 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
  * Created by bdpqchen on 17-5-2.
  */
 
-public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
+public class LoginActivity extends BaseActivity implements LoginContract.View {
 
-    @BindView(R.id.tx_forgot_password)
-    TextView mTxForgotPassword;
     @BindView(R.id.et_account)
     EditText mEtAccount;
     @BindView(R.id.et_password)
     EditText mEtPassword;
-    @BindView(R.id.tv_goto_replace_user)
-    TextView mTvGotoReplaceUser;
-    @BindView(R.id.tv_to_register)
-    TextView mTvGotoRegister;
     @BindView(R.id.iv_login_banner)
     ImageView mIvBanner;
     @BindView(R.id.view_need_offset)
@@ -62,7 +54,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     CircleImageView mCivAvatar;
     @BindView(R.id.p_btn_login)
     ProgressButton mPBtnLogin;
-
+    private LoginPresenter mPresenter;
     private static final String LOGIN_ERROR_TEXT = "哈哈?搞笑..";
 
     @Override
@@ -76,8 +68,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected BasePresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
@@ -85,6 +77,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         //键盘挡住输入框
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState);
+        mPresenter = new LoginPresenter(this);
         StatusBarUtil.setTranslucentForImageView(this, 0, mNeedOffset);
         //自动填写用户名
         Intent intent = getIntent();

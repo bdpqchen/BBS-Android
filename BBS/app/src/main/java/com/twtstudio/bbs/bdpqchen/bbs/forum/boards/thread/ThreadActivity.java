@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,7 +25,6 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
@@ -70,7 +68,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_C
  * Created by bdpqchen on 17-5-12.
  */
 
-public class ThreadActivity extends BaseActivity<ThreadPresenter> implements ThreadContract.View, PostAdapter.OnPostClickListener, View.OnClickListener {
+public class ThreadActivity extends BaseActivity implements ThreadContract.View, PostAdapter.OnPostClickListener, View.OnClickListener {
     @BindView(R.id.toolbar_thread)
     Toolbar mToolbar;
     @BindView(R.id.rv_thread_post)
@@ -91,8 +89,6 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     TextView mTvDynamicHint;
     @BindView(R.id.cb_anonymous_comment)
     AppCompatCheckBox mCbAnonymousComment;
-    @BindView(R.id.collapsing_toolbar_layout)
-    CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.toolbar_title_thread)
     TextView mToolbarTitleThread;
     @BindView(R.id.toolbar_title_board)
@@ -139,7 +135,7 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     private boolean isLastPage = false;
     private boolean mIsStared = false;
     private boolean mIsLiked = false;
-
+    private ThreadPresenter mPresenter;
 
     @Override
     protected int getLayoutResourceId() {
@@ -150,16 +146,16 @@ public class ThreadActivity extends BaseActivity<ThreadPresenter> implements Thr
     protected Toolbar getToolbarView() {
         return mToolbar;
     }
+
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected BasePresenter getPresenter() {
+        return mPresenter;
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
+        mPresenter = new ThreadPresenter(this);
         mThreadId = intent.getIntExtra(INTENT_THREAD_ID, 0);
         mFindingFloor = intent.getIntExtra(INTENT_THREAD_FLOOR, 0);
         mThreadTitle = intent.getStringExtra(INTENT_THREAD_TITLE);

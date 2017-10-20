@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.auth.login;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 
 /**
@@ -10,12 +11,12 @@ public interface LoginContract {
 
     interface View extends BaseView {
         void loginSuccess(LoginModel loginModel);
-        void loginFailed(String msg);
 
+        void loginFailed(String msg);
     }
 
-    interface Presenter{
-        void doLogin();
+    interface Presenter extends BasePresenter {
+        void doLogin(String username, String password);
     }
 
 }

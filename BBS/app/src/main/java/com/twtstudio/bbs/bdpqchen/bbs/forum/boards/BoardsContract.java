@@ -9,7 +9,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 
 interface BoardsContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseView {
         void setBoardList(PreviewThreadModel previewThreadModel);
         void failedToGetBoardList(String msg);
         void onFailedGetSimpleList(String m);

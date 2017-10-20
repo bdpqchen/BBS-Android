@@ -3,12 +3,9 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.letter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -19,13 +16,10 @@ import static com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity.RE
  * Created by bdpqchen on 17-7-4.
  */
 
-class LetterPresenter extends RxPresenter<LetterContract.View> implements LetterContract.Presenter {
-
-    RxDoHttpClient<List<LetterModel>> mHttpClient;
-
-    @Inject
-    LetterPresenter(RxDoHttpClient httpClient) {
-        mHttpClient = httpClient;
+class LetterPresenter extends RxPresenter implements LetterContract.Presenter {
+    private LetterContract.View mView;
+    LetterPresenter(LetterContract.View view) {
+        mView = view;
     }
 
     @Override
@@ -48,8 +42,8 @@ class LetterPresenter extends RxPresenter<LetterContract.View> implements Letter
                 }
             }
         };
-        addSubscribe(mHttpClient.getLetterList(uid, page)
-                .map(mHttpClient.mTransformer)
+        addSubscribe(sHttpClient.getLetterList(uid, page)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
@@ -72,7 +66,7 @@ class LetterPresenter extends RxPresenter<LetterContract.View> implements Letter
                     mView.onSend(model);
             }
         };
-        addSubscribe(mHttpClient.sendLetter(to_uid, content)
+        addSubscribe(sHttpClient.sendLetter(to_uid, content)
                 .map(transformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

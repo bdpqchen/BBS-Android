@@ -21,7 +21,7 @@ interface RetrieveContract {
         void resetSuccess(BaseModel model);
     }
 
-    interface Presenter extends BasePresenter<View> {
+    interface Presenter extends BasePresenter {
         void doRetrievePassword(Bundle bundle);
 
         void resetPassword(Bundle bundle);

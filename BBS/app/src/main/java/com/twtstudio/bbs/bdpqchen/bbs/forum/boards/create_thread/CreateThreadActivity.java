@@ -20,7 +20,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageFormatUtil;
@@ -52,7 +51,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_C
  * Created by bdpqchen on 17-5-27.
  */
 
-public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> implements CreateThreadContract.View {
+public class CreateThreadActivity extends BaseActivity implements CreateThreadContract.View {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.spinner_select_board)
@@ -91,6 +90,7 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
     private BoardsModel mBoardsModel = new BoardsModel();
     private List<ForumModel> mForumModelList = new ArrayList<>();
     private int mSelectedForumId = 0;
+    private CreateThreadPresenter mPresenter;
 
 
     @Override
@@ -103,15 +103,17 @@ public class CreateThreadActivity extends BaseActivity<CreateThreadPresenter> im
         mToolbar.setTitle("发布帖子");
         return mToolbar;
     }
+
     @Override
-    protected BasePresenter<BaseView> inject() {
-        getActivityComponent().inject(this);
+    protected BasePresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        mPresenter = new CreateThreadPresenter(this);
         mImageFormatUtil = new ImageFormatUtil();
         mSlideBackLayout.lock(true);
         Intent intent = getIntent();
