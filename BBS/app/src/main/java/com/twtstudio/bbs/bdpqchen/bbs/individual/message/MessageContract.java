@@ -23,7 +23,7 @@ interface MessageContract {
         void onConfirmFriendSuccess(BaseModel model, int position, int isGrant);
     }
 
-    interface Presenter extends BasePresenter<MessageContract.View> {
+    interface Presenter extends BasePresenter {
         void getMessageList(int page);
         void doClearUnreadMessage();
         void confirmFriend(int id, int bool, int position);
