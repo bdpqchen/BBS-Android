@@ -22,7 +22,7 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-6-5.
  */
 
-public class HotFragment extends BaseFragment<MainPresenter> implements MainContract.View {
+public class HotFragment extends BaseFragment implements MainContract.View {
 
 
     @BindView(R.id.pb_loading)
@@ -36,7 +36,7 @@ public class HotFragment extends BaseFragment<MainPresenter> implements MainCont
 
     private HotAdapter mAdapter;
     private boolean mRefreshing = false;
-
+    private MainPresenter mPresenter;
     public static HotFragment newInstance() {
         return new HotFragment();
     }
@@ -47,12 +47,8 @@ public class HotFragment extends BaseFragment<MainPresenter> implements MainCont
     }
 
     @Override
-    protected void injectFragment() {
-        getFragmentComponent().inject(this);
-    }
-
-    @Override
     protected void initFragment() {
+        mPresenter = new MainPresenter(this);
         mAdapter = new HotAdapter(getActivity());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRvHot.setLayoutManager(linearLayoutManager);
@@ -64,6 +60,11 @@ public class HotFragment extends BaseFragment<MainPresenter> implements MainCont
             mSrlHot.setRefreshing(true);
         });
         getDataList();
+    }
+
+    @Override
+    protected MainPresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
@@ -100,9 +101,7 @@ public class HotFragment extends BaseFragment<MainPresenter> implements MainCont
     }
 
     private void hideLoading() {
-        if (mPbLoading != null) {
-            mPbLoading.setVisibility(View.GONE);
-        }
+        mPbLoading.setVisibility(View.GONE);
     }
 
 

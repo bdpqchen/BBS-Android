@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil
 import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel
 
@@ -13,7 +11,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel
  * Created by bdpqchen on 17-10-18.
  */
 
-class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
+class SearchActivity : BaseActivity(), SearchContract.View {
+    private val mPresenter: SearchPresenter = SearchPresenter(this)
+    override fun getPresenter(): SearchPresenter {
+        return mPresenter
+    }
 
     override fun getLayoutResourceId(): Int {
         return R.layout.activity_search
@@ -21,10 +23,6 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
 
     override fun getToolbarView(): Toolbar? {
         return null
-    }
-
-    fun inject(): BasePresenter<BaseView<Any>>? {
-        activityComponent.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

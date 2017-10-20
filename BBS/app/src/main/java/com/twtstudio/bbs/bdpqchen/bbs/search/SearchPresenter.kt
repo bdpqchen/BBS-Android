@@ -2,18 +2,16 @@ package com.twtstudio.bbs.bdpqchen.bbs.search
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver
 import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
 /**
  * Created by bdpqchen on 17-10-18.
  */
-class  SearchPresenter @Inject constructor(client: RxDoHttpClient<SearchUserModel>) : RxPresenter<SearchContract.View>(), SearchContract.Presenter {
-    val mHttpClient = client
+class SearchPresenter(view: SearchContract.View) : RxPresenter(), SearchContract.Presenter {
+    private val mView: SearchContract.View = view
 
     override fun searchUser(keyName: String) {
         val observer = object : SimpleObserver<List<SearchUserModel>>() {
@@ -29,7 +27,7 @@ class  SearchPresenter @Inject constructor(client: RxDoHttpClient<SearchUserMode
                 }
             }
         }
-        addSubscribe(mHttpClient.searchUser(keyName)
+        addSubscribe(sHttpClient.searchUser(keyName)
                 .map(ResponseTransformer<List<SearchUserModel>>())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(AndroidSchedulers.mainThread())

@@ -46,26 +46,27 @@ public class KillDagger {
 
     void inject(ReleaseActivity releaseActivity);
 
-    void inject(SearchActivity searchActivity);*/
+    void inject(SearchActivity searchActivity);
+    */
 
     /*
-    void inject(IndividualFragment individualFragment);
+    void inject(IndividualFragment individualFragment);1
 
-    void inject(ForumFragment forumFragment);
+    void inject(ForumFragment forumFragment);1
 
-    void inject(LatestFragment latestFragment);
+    void inject(LatestFragment latestFragment);1
 
-    void inject(HotFragment hotFragment);
+    void inject(HotFragment hotFragment);1
 
-    void inject(SystemFragment systemFragment);
+    void inject(SystemFragment systemFragment);1
 
-    void inject(PersonalFragment personalFragment);
+    void inject(PersonalFragment personalFragment);1
 
-    void inject(EditorFragment editorFragment);
+    void inject(EditorFragment editorFragment);1
 
-    void inject(PublishFragment publishFragment);
+    void inject(PublishFragment publishFragment);1
 
-    void inject(ReplyFragment replyFragment);
+    void inject(ReplyFragment replyFragment);1
     */
 
 }

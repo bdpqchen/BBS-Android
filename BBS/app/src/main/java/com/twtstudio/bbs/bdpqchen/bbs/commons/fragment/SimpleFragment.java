@@ -9,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -29,7 +27,7 @@ public abstract class SimpleFragment extends SupportFragment {
     private Unbinder mUnBinder;
 
     protected abstract int getPerMainFragmentLayoutId();
-
+    protected abstract void initFragments();
     @Override
     public void onAttach(Context context) {
         mActivity = (Activity) context;
@@ -66,12 +64,12 @@ public abstract class SimpleFragment extends SupportFragment {
 /*
             if (!isSupportHidden()) {
                 mInitialized = true;
-                initFragments();
             }
 *//*
 
         }
 */
+        initFragments();
     }
 
     @Override

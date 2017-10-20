@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
@@ -23,7 +22,7 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-6-5.
  */
 
-public class LatestFragment extends BaseFragment<MainPresenter> implements MainContract.View {
+public class LatestFragment extends BaseFragment implements MainContract.View {
 
     @BindView(R.id.pb_loading)
     ProgressBar mPbLoading;
@@ -31,12 +30,10 @@ public class LatestFragment extends BaseFragment<MainPresenter> implements MainC
     RecyclerView mRvLatest;
     @BindView(R.id.srl_latest)
     SwipeRefreshLayout mSrlLatest;
-    @BindView(R.id.tv_latest_no_data)
-    TextView mTvLatestNoData;
 
     private LatestAdapter mAdapter;
     private boolean mRefreshing = false;
-
+    private MainPresenter mPresenter;
     public static LatestFragment newInstance() {
         return new LatestFragment();
     }
@@ -47,13 +44,9 @@ public class LatestFragment extends BaseFragment<MainPresenter> implements MainC
     }
 
     @Override
-    protected void injectFragment() {
-        getFragmentComponent().inject(this);
-    }
-
-    @Override
     protected void initFragment() {
         mAdapter = new LatestAdapter(getActivity());
+        mPresenter = new MainPresenter(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRvLatest.setLayoutManager(linearLayoutManager);
         mRvLatest.addItemDecoration(new RecyclerViewItemDecoration(16));
@@ -66,6 +59,11 @@ public class LatestFragment extends BaseFragment<MainPresenter> implements MainC
             mSrlLatest.setRefreshing(true);
         });
         getDataList();
+    }
+
+    @Override
+    protected MainPresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
@@ -100,9 +98,7 @@ public class LatestFragment extends BaseFragment<MainPresenter> implements MainC
     }
 
     private void hideLoading() {
-        if (mPbLoading != null) {
-            mPbLoading.setVisibility(View.GONE);
-        }
+        mPbLoading.setVisibility(View.GONE);
     }
 
     public void getDataList() {

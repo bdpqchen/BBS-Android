@@ -17,8 +17,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  * MVP-BaseFragment
  * provided Presenter
  */
-
-public abstract class BaseFragment extends SupportFragment implements BaseView {
+public abstract class BaseFragment extends SupportFragment {
 
     protected BasePresenter mPresenter;
     protected View mView;
@@ -27,7 +26,7 @@ public abstract class BaseFragment extends SupportFragment implements BaseView {
     private Unbinder mUnBinder;
 
     protected abstract int getFragmentLayoutId();
-
+    protected abstract void initFragment();
     protected abstract BasePresenter getPresenter();
 
     @Nullable
@@ -42,6 +41,7 @@ public abstract class BaseFragment extends SupportFragment implements BaseView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnBinder = ButterKnife.bind(this, view);
+        initFragment();
     }
 
     @Override

@@ -24,7 +24,7 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-5-3.
  */
 
-public class ForumFragment extends BaseFragment<ForumPresenter> implements ForumContract.View {
+public class ForumFragment extends BaseFragment implements ForumContract.View {
 
     @BindView(R.id.tv_title_toolbar)
     TextView mTvTitleToolbar;
@@ -39,15 +39,10 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
     SwipeRefreshLayout mSrlForum;
     private boolean mRefreshing = false;
     private boolean isSimple = PrefUtil.isSimpleForum();
-
+    private ForumPresenter mPresenter;
     @Override
     protected int getFragmentLayoutId() {
         return R.layout.fragment_forum;
-    }
-
-    @Override
-    protected void injectFragment() {
-        getFragmentComponent().inject(this);
     }
 
     public static ForumFragment newInstance() {
@@ -57,7 +52,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
     @Override
     protected void initFragment() {
         mActivity = this.getActivity();
-
+        mPresenter = new ForumPresenter(this);
         mTvTitleToolbar.setText("论坛区");
         mAdapter = new ForumAdapter(mContext, this.getActivity());
         if (isSimple){
@@ -73,6 +68,11 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
             mPresenter.getForumList();
             mRefreshing = true;
         });
+    }
+
+    @Override
+    protected ForumPresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override

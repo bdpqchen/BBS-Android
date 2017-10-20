@@ -37,7 +37,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_C
  * Created by bdpqchen on 17-5-3.
  */
 
-public class IndividualFragment extends BaseFragment<IndividualPresenter> implements IndividualContract.View {
+public class IndividualFragment extends BaseFragment implements IndividualContract.View {
 
     @BindView(R.id.individual_info_past_day_with_you)
     TextView mTvPastDays;
@@ -86,15 +86,10 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
     private static final int ACT_SETS = 5;
     private int mUnread = 0;
     private boolean isRefreshing = false;
-
+    private IndividualPresenter mPresenter;
     @Override
     protected int getFragmentLayoutId() {
         return R.layout.fragment_individual;
-    }
-
-    @Override
-    protected void injectFragment() {
-        getFragmentComponent().inject(this);
     }
 
     public static IndividualFragment newInstance() {
@@ -103,7 +98,7 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
 
     @Override
     protected void initFragment() {
-
+        mPresenter = new IndividualPresenter(this);
         mRlIndividualItemMessage.setOnClickListener(v -> startItemActivity(ACT_MSG));
         mRlIndividualItemCollection.setOnClickListener(v -> startItemActivity(ACT_STAR));
         mRlIndividualItemPublish.setOnClickListener(v -> startItemActivity(ACT_PUBLISH));
@@ -118,6 +113,11 @@ public class IndividualFragment extends BaseFragment<IndividualPresenter> implem
             mPresenter.getUnreadMessageCount();
         });
 
+    }
+
+    @Override
+    protected IndividualPresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
