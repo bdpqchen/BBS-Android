@@ -20,6 +20,9 @@ import android.widget.TextView
 import com.jaeger.library.StatusBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment
+import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_THREAD
+import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_USER
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil
 import kotterknife.bindView
@@ -46,7 +49,6 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
     private val mTvOption1: TextView by bindView(R.id.tv_option1)
 
     private val mTvOption2: TextView by bindView(R.id.tv_option2)
-
     private val circularX: Int
         get() = mIvSearch.right
 
@@ -75,13 +77,17 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.tv_option1 -> search(SEARCH_MODE_THREAD)
-            R.id.tv_option2 -> search(SEARCH_MODE_USER)
+            R.id.tv_option1 -> search(MODE_SEARCH_THREAD)
+            R.id.tv_option2 -> search(MODE_SEARCH_USER)
         }
     }
 
     private fun search(mode: Int) {
         println("mode is $mode")
+        val keyword = "帖子"
+        val keyUsername = "bd"
+        startActivity(IntentUtil.toSearch(mContext, mode, keyUsername))
+
     }
 
     private fun setIconTint() {
@@ -182,9 +188,6 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
         fun newInstance(): MainFragment {
             return MainFragment()
         }
-
-        val SEARCH_MODE_THREAD = 0
-        val SEARCH_MODE_USER = 1
 
     }
 

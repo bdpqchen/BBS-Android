@@ -12,6 +12,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel
  */
 
 class SearchActivity : BaseActivity(), SearchContract.View {
+
+
+
     private val mPresenter: SearchPresenter = SearchPresenter(this)
     override fun getPresenter(): SearchPresenter {
         return mPresenter
@@ -27,7 +30,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        mPresenter.searchUser("bd")
+        mPresenter.searchUser("bd")
 
     }
 

@@ -54,16 +54,19 @@ public final class Constants {
     public static final String BUNDLE_REGISTER_USERNAME = "username";
     public static final String BUNDLE_NICKNAME = "nickname";
     public static final String BUNDLE_SIGNATURE = "signature";
+    public static final String BUNDLE_UID = "uid";
+    public static final String BUNDLE_EMAIL = "email";
+    public static final String BUNDLE_MESSAGE = "message";
+
+    public static final int MODE_SEARCH_THREAD = 0;
+    public static final int MODE_SEARCH_USER = 1;
+    public static final int MODE_SEARCH_BOTH = 2;
 
     //    public static final String NET_RETROFIT_POST_HEADER = "ContentActivity-Type:application/x-www-form-urlencoded; charset=utf-8";
     public static final String NET_RETROFIT_HEADER_TITLE = "authentication";
     public static final String NET_RETROFIT_HEADER_REQUEST = "X-Requested_With";
     public static final String BUNDLE_TOKEN = "token";
     public static final String ANONYMOUS_NAME = "匿名用户";
-
-    public static final String BUNDLE_UID = "uid";
-    public static final String BUNDLE_EMAIL = "email";
-    public static final String BUNDLE_MESSAGE = "message";
 
     /*intent*/
     public static final String INTENT_THREAD_ID = "intent_thread_id";
@@ -84,6 +87,8 @@ public final class Constants {
     public static final String INTENT_EDITOR_TITLE = "intent_editor_title";
     public static final String INTENT_EDITOR_TOOLBAR_TITLE = "intent_editor_toolbar_title";
     public static final String INTENT_EDITOR_CONTENT = "intent_editor_content";
+    public static final String INTENT_SEARCH_THREAD = "intent_search_thread";
+    public static final String INTENT_SEARCH_USER = "intent_search_user";
 
     public static final String TOKEN = "token";
     public static final String ID = "id";

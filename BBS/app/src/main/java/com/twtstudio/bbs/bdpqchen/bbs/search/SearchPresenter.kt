@@ -16,15 +16,11 @@ class SearchPresenter(view: SearchContract.View) : RxPresenter(), SearchContract
     override fun searchUser(keyName: String) {
         val observer = object : SimpleObserver<List<SearchUserModel>>() {
             override fun _onError(msg: String) {
-                if (mView != null) {
-                    mView.onGotUserFailed(msg)
-                }
+                mView.onGotUserFailed(msg)
             }
 
             override fun _onNext(t: List<SearchUserModel>?) {
-                if (mView != null) {
-                    mView.onGotUserList(t)
-                }
+                mView.onGotUserList(t)
             }
         }
         addSubscribe(sHttpClient.searchUser(keyName)

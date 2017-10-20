@@ -13,7 +13,6 @@ import java.util.List;
 
 interface MessageContract {
 
-
     interface View extends BaseView {
         void onGetMessageFailed(String m);
         void showMessageList(List<MessageModel> messageList);

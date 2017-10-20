@@ -12,6 +12,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.mdeditor.EditorActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.picture.BigPhotoActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.search.SearchActivity;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.IMG_URL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_CAN_ANON;
@@ -23,8 +24,12 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_ED
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_IS_SPECIFY_BOARD;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_SEARCH_THREAD;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_SEARCH_USER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_THREAD;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_USER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity.INTENT_THREAD_FLOOR;
@@ -141,6 +146,16 @@ public final class IntentUtil {
     public static Intent toLogin(Context context, String username) {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra(USERNAME, username);
+        return intent;
+    }
+
+    public static Intent toSearch(Context context, int mode, String key) {
+        Intent intent = new Intent(context, SearchActivity.class);
+        if (mode == MODE_SEARCH_THREAD){
+            intent.putExtra(INTENT_SEARCH_THREAD, key);
+        }else if (mode == MODE_SEARCH_USER) {
+            intent.putExtra(INTENT_SEARCH_USER, key);
+        }
         return intent;
     }
 }
