@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/colorMainBgLight"
     android:padding="8dp"
+    android:foreground="@drawable/selector_foreground_settings"
     >
 
     <de.hdodenhof.circleimageview.CircleImageView

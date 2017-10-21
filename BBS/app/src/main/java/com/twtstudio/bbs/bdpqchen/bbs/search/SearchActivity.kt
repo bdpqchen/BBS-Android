@@ -12,10 +12,14 @@ import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants
+import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_THREAD
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_USER
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IsUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.individual.release.EndlessRecyclerOnScrollListener
 import com.twtstudio.bbs.bdpqchen.bbs.search.model.AdapterModel
+import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchThreadModel
 import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel
 
 /**
@@ -52,7 +56,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         val layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         rvSearchResult.adapter = mAdapter
         rvSearchResult.layoutManager = layoutManager
-        rvSearchResult.addItemDecoration(RecyclerViewItemDecoration(5))
+        rvSearchResult.addItemDecoration(RecyclerViewItemDecoration(1))
         rvSearchResult.addOnScrollListener(object : EndlessRecyclerOnScrollListener(layoutManager) {
             override fun onLoadMore() {
                 LogUtil.d("search result onLoadMore")
@@ -61,27 +65,27 @@ class SearchActivity : BaseActivity(), SearchContract.View {
         doSearch()
     }
 
-    private fun doSearch(){
+    private fun doSearch() {
         val keyUser = intent.getStringExtra(Constants.INTENT_SEARCH_USER)
         if (keyUser != null && !keyUser.isEmpty()) {
             mPresenter.searchUser(keyUser)
         }
         val keyThread = intent.getStringExtra(Constants.INTENT_SEARCH_THREAD)
         if (keyThread != null && !keyThread.isEmpty()) {
-            mPresenter.searchUser(keyThread)
+            mPresenter.searchThread(keyThread, 0)
         }
     }
 
     override fun onGotUserList(userList: List<SearchUserModel>) {
+        LogUtil.dd("onGotUserList")
         if (userList.isEmpty()) {
             emptyResult()
-            return
+        } else {
+            val adapterList = ArrayList<AdapterModel>()
+            userList.mapTo(adapterList) { AdapterModel(it.name, MODE_SEARCH_USER, it.id, "") }
+            hideLoading()
+            mAdapter.addList(adapterList)
         }
-        LogUtil.dd("onGotUserList")
-        val adapterList = ArrayList<AdapterModel>()
-        userList.mapTo(adapterList) { AdapterModel(it.name, MODE_SEARCH_USER, it.id) }
-        mAdapter.addList(adapterList)
-
     }
 
     private fun emptyResult() {
@@ -99,14 +103,25 @@ class SearchActivity : BaseActivity(), SearchContract.View {
 
     override fun onGotUserFailed(msg: String) {
         LogUtil.dd("onGotUserListFailed()", msg)
+        SnackBarUtil.notice(mActivity, msg)
     }
 
-    override fun onGotThreadList() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onGotThreadList(list: List<SearchThreadModel>) {
+        if (list.isEmpty()) {
+            emptyResult()
+            return
+        }
+        val adapterList = ArrayList<AdapterModel>()
+        list.mapTo(adapterList, {
+            AdapterModel(
+                    it.title, MODE_SEARCH_THREAD,
+                    (if (IsUtil.is1(it.anonymous)) 0 else it.author_id),
+                    "")
+        })
     }
 
     override fun onGotThreadFailed(msg: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        SnackBarUtil.notice(mActivity, msg)
     }
 
 

@@ -63,6 +63,7 @@
                     android:textColorHint="#666666"
                     android:visibility="gone"
                     tools:visibility="visible"
+                    android:textColor="@color/colorTvBlackMain"
                     />
 
             </RelativeLayout>

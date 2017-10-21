@@ -28,6 +28,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel;
+import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel;
 
 import java.io.File;
@@ -65,6 +66,7 @@ public class RxDoHttpClient {
     public static final String BASE_URL = BASE + "/api/";
     private BaseApi mApi;
     private static RxDoHttpClient sINSTANCE;
+
     private RxDoHttpClient() {
         Interceptor mTokenInterceptor = chain -> {
             Request originalRequest = chain.request();
@@ -93,8 +95,8 @@ public class RxDoHttpClient {
 
     }
 
-    public static RxDoHttpClient getInstance(){
-        if (sINSTANCE == null){
+    public static RxDoHttpClient getInstance() {
+        if (sINSTANCE == null) {
             return new RxDoHttpClient();
         }
         return sINSTANCE;
@@ -328,4 +330,9 @@ public class RxDoHttpClient {
     public Observable<BaseResponse<List<SearchUserModel>>> searchUser(String username) {
         return mApi.searchUser(username);
     }
+
+    public Observable<BaseResponse<List<SearchThreadModel>>> searchThread(String keyword, int page) {
+        return mApi.searchThread(keyword, String.valueOf(page));
+    }
+
 }

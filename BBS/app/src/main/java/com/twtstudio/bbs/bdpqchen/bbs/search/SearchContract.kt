@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.search
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView
+import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchThreadModel
 import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel
 
 /**
@@ -16,7 +17,7 @@ interface SearchContract {
     interface View : BaseView {
         fun onGotUserList(userList: List<SearchUserModel>)
         fun onGotUserFailed(msg: String)
-        fun onGotThreadList()
+        fun onGotThreadList(list: List<SearchThreadModel>)
         fun onGotThreadFailed(msg: String)
     }
 }

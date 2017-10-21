@@ -24,6 +24,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel;
+import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel;
 
 import java.util.List;
@@ -323,9 +324,10 @@ public interface BaseApi {
     @GET("search/user/{username}")
     Observable<BaseResponse<List<SearchUserModel>>> searchUser(@Path(USERNAME) String keyName);
 
-    @GET("search/user/{keyword}")
-    Observable<BaseResponse<List<SearchUserModel>>> searchThread(@Path(KEYWORD) String keyword);
-
+    @GET("search/page/{page}?keyword={keyword}")
+    Observable<BaseResponse<List<SearchThreadModel>>> searchThread(
+            @Path("page") String page,
+            @Path(KEYWORD) String keyword);
 
 
 }

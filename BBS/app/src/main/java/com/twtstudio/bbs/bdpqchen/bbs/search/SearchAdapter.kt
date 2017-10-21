@@ -11,6 +11,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_THREAD
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_USER
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
 import com.twtstudio.bbs.bdpqchen.bbs.search.model.AdapterModel
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -21,23 +22,31 @@ class SearchAdapter(val context: Context) : BaseAdapter<AdapterModel>(context) {
 
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        if (mDataSet != null && mDataSet.size > 0){
-            val holder0 = holder as UserViewHolder
-            val entity = mDataSet[position]
-            holder0.tvName.text = entity.name
-            ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, entity.id, holder0.civAvatar)
+        if (mDataSet != null && mDataSet.size > 0) {
+            if (holder is UserViewHolder) {
+//                val holder = holder
+                val entity = mDataSet[position]
+                holder.tvName.text = entity.name
+                ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, entity.id, holder.civAvatar)
+                holder.itemView.setOnClickListener({
+                    mContext.startActivity(IntentUtil.toPeople(mContext, entity.id))
+                })
+            } else if (holder is ThreadViewHolder) {
+
+            }
+
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder? {
         val view: View?
         if (viewType == MODE_SEARCH_USER) {
-             view = LayoutInflater.from(mContext).inflate(R.layout.item_search_user, parent, false)
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_search_user, parent, false)
             return UserViewHolder(view)
         } else if (viewType == MODE_SEARCH_THREAD) {
-
+            view = LayoutInflater.from(mContext).inflate(R.layout.item_search_thread, parent, false)
+            return ThreadViewHolder(view)
         }
-
         return null
     }
 
@@ -48,6 +57,12 @@ class SearchAdapter(val context: Context) : BaseAdapter<AdapterModel>(context) {
     class UserViewHolder(val view: View) : BaseViewHolder(view) {
         val tvName = view.findViewById(R.id.tv_search_name) as TextView
         val civAvatar = view.findViewById(R.id.civ_search_avatar) as CircleImageView
+    }
+
+    class ThreadViewHolder(val view: View) : BaseViewHolder(view) {
+        val tvTitle = view.findViewById(R.id.tv_search_title)
+        val tvAuthorAndTime = view.findViewById(R.id.tv_search_author_time)
+        val civAvatar = view.findViewById(R.id.civ_search_thread_avatar)
     }
 
 }

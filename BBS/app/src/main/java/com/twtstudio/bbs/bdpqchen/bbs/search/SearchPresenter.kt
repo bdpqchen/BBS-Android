@@ -3,6 +3,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.search
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver
+import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchThreadModel
 import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -13,7 +14,7 @@ import io.reactivex.schedulers.Schedulers
 class SearchPresenter(view: SearchContract.View) : RxPresenter(), SearchContract.Presenter {
     private val mView: SearchContract.View = view
 
-    override fun searchUser(keyName: String) {
+    override fun searchUser(username: String) {
         val observer = object : SimpleObserver<List<SearchUserModel>>() {
             override fun _onError(msg: String) {
                 mView.onGotUserFailed(msg)
@@ -23,17 +24,32 @@ class SearchPresenter(view: SearchContract.View) : RxPresenter(), SearchContract
                 mView.onGotUserList(t)
             }
         }
-        addSubscribe(sHttpClient.searchUser(keyName)
+        addSubscribe(sHttpClient.searchUser(username)
                 .map(ResponseTransformer<List<SearchUserModel>>())
                 .subscribeOn(Schedulers.io())
-                .unsubscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
         )
 
     }
 
     override fun searchThread(keyword: String, page: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val observer = object : SimpleObserver<List<SearchThreadModel>>() {
+            override fun _onError(msg: String) {
+                mView.onGotThreadFailed(msg)
+            }
+
+            override fun _onNext(list: List<SearchThreadModel>) {
+                mView.onGotThreadList(list)
+            }
+
+        }
+        addSubscribe(sHttpClient.searchThread(keyword, page)
+                .map(ResponseTransformer<List<SearchThreadModel>>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(observer)
+        )
     }
 
 }
