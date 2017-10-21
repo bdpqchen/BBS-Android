@@ -84,10 +84,11 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
 
     private fun search(mode: Int) {
         println("mode is $mode")
-        val keyword = "帖子"
-        val keyUsername = "bd"
-        startActivity(IntentUtil.toSearch(mContext, mode, keyUsername))
-
+        val keyword = mEtSearch.text.toString()
+        if (keyword.isEmpty()){
+            return
+        }
+        startActivity(IntentUtil.toSearch(mContext, mode, keyword))
     }
 
     private fun setIconTint() {

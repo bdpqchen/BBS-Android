@@ -14,7 +14,7 @@ interface SearchContract {
     }
 
     interface View : BaseView {
-        fun onGotUserList(userList: List<SearchUserModel>?)
+        fun onGotUserList(userList: List<SearchUserModel>)
         fun onGotUserFailed(msg: String)
         fun onGotThreadList()
         fun onGotThreadFailed(msg: String)

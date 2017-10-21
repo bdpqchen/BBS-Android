@@ -97,10 +97,12 @@ public class HotFragment extends BaseFragment implements MainContract.View {
 
     void setRefreshing(boolean b) {
         mRefreshing = b;
+        if (mSrlHot != null)
         mSrlHot.setRefreshing(b);
     }
 
     private void hideLoading() {
+        if (mPbLoading != null)
         mPbLoading.setVisibility(View.GONE);
     }
 

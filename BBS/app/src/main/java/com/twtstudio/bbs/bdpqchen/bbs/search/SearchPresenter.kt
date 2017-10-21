@@ -19,7 +19,7 @@ class SearchPresenter(view: SearchContract.View) : RxPresenter(), SearchContract
                 mView.onGotUserFailed(msg)
             }
 
-            override fun _onNext(t: List<SearchUserModel>?) {
+            override fun _onNext(t: List<SearchUserModel>) {
                 mView.onGotUserList(t)
             }
         }

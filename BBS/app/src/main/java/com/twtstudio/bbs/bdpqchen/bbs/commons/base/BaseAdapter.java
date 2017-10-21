@@ -40,6 +40,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         this.mOnItemClickListener = listener;
     }
 
+//    public BaseAdapter(){}
 
     public BaseAdapter(Context context) {
         this.mContext = context;

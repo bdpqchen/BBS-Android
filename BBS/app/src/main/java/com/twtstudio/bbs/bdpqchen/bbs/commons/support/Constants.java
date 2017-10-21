@@ -40,6 +40,10 @@ public final class Constants {
     public static final int ITEM_LEFT = 9;
     public static final int ITEM_RIGHT = 10;
     public static final int ITEM_EMPTY = 11;
+    public static final int ITEM_SEARCH_USER = 12;
+    public static final int ITEM_SEARCH_THREAD = 13;
+
+
 
     public static final int TAG_MSG_SYSTEM = 0;
     public static final int TAG_MSG_LETTER = 1;

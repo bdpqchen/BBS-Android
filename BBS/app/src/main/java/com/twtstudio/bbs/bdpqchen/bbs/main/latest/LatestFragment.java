@@ -34,6 +34,7 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
     private LatestAdapter mAdapter;
     private boolean mRefreshing = false;
     private MainPresenter mPresenter;
+
     public static LatestFragment newInstance() {
         return new LatestFragment();
     }
@@ -94,11 +95,13 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
 
     void setRefreshing(boolean b) {
         mRefreshing = b;
-        mSrlLatest.setRefreshing(b);
+        if (mSrlLatest != null)
+            mSrlLatest.setRefreshing(b);
     }
 
     private void hideLoading() {
-        mPbLoading.setVisibility(View.GONE);
+        if (mPbLoading != null)
+            mPbLoading.setVisibility(View.GONE);
     }
 
     public void getDataList() {
