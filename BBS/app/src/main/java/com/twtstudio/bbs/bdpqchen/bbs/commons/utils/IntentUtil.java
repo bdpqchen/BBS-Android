@@ -44,6 +44,10 @@ public final class IntentUtil {
         return toThread(context, tid, "", 0);
     }
 
+    public static Intent toThread(Context context, int tid, String title) {
+        return toThread(context, tid, title, 0);
+    }
+
     public static Intent toThread(Context context, int tid, String title, int floor) {
         return toThread(context, tid, title, floor, 0, "");
     }
@@ -139,7 +143,7 @@ public final class IntentUtil {
         return new Intent(context, CreateThreadActivity.class);
     }
 
-    public static Intent toLogin(Context context){
+    public static Intent toLogin(Context context) {
         return toLogin(context, PrefUtil.getAuthUsername());
     }
 
@@ -151,9 +155,9 @@ public final class IntentUtil {
 
     public static Intent toSearch(Context context, int mode, String key) {
         Intent intent = new Intent(context, SearchActivity.class);
-        if (mode == MODE_SEARCH_THREAD){
+        if (mode == MODE_SEARCH_THREAD) {
             intent.putExtra(INTENT_SEARCH_THREAD, key);
-        }else if (mode == MODE_SEARCH_USER) {
+        } else if (mode == MODE_SEARCH_USER) {
             intent.putExtra(INTENT_SEARCH_USER, key);
         }
         return intent;

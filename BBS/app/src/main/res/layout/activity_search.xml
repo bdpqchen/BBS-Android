@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     >
 
@@ -19,21 +20,26 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:id="@+id/pb_search_result"
+            tools:visibility="gone"
             />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:text="啥也没搜着.."
+            android:gravity="center"
             android:id="@+id/tv_search_result_empty"
             android:visibility="gone"
+            tools:visibility="visible"
+            android:textSize="18sp"
             />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_search_result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            tools:visibility="gone"
             >
 
         </android.support.v7.widget.RecyclerView>

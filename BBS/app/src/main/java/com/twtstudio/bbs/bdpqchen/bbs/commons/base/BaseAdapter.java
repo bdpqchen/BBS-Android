@@ -70,6 +70,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         notifyDataSetChanged();
     }
 
+    public int getDataListSize(){
+        return mDataSet.size();
+    }
+
     public void addFirst(List<T> items) {
         mDataSet.addAll(0, items);
         notifyDataSetChanged();

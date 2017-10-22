@@ -21,7 +21,7 @@ public interface MainContract {
     }
 
     interface Presenter extends BasePresenter {
-        void getLatestList();
+        void getLatestList(int page);
         void getHotList();
     }
 }

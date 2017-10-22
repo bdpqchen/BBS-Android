@@ -24,5 +24,12 @@ package com.twtstudio.bbs.bdpqchen.bbs.search.model
         }
     ]
 }*/
-data class SearchThreadModel(val id: Int, var title: String, var t_create: Int, var author_id: Int, var anonymous: Int)
+data class SearchThreadModel(val id: Int,
+                             var title: String,
+                             var t_create: Int,
+                             var author_id: Int,
+                             var anonymous: Int,
+                             var author_name: String,
+                             var board_id: Int
+) : Model()
 

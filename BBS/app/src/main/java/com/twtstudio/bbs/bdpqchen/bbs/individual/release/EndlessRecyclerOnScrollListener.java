@@ -3,11 +3,13 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.release;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+
 /**
  * Created by Arsener on 2017/5/13.
  */
 
-public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListener{
+public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListener {
 
     private int previousTotal = 0;
     private boolean loading = true;
@@ -19,7 +21,6 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
 
     public EndlessRecyclerOnScrollListener(LinearLayoutManager linearLayoutManager) {
         this.mLinearLayoutManager = linearLayoutManager;
-        this.page = page;
     }
 
     @Override
@@ -29,7 +30,6 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
         visibleItemCount = recyclerView.getChildCount();
         totalItemCount = mLinearLayoutManager.getItemCount();
         firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
-
         if (loading) {
             if (totalItemCount > previousTotal) {
                 loading = false;
@@ -43,7 +43,7 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
         }
     }
 
-    public void restart(){
+    public void restart() {
         //this.page = 0;
         previousTotal = 0;
     }

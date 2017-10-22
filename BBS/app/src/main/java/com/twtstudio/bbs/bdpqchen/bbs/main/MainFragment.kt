@@ -23,6 +23,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_THREAD
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_USER
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil
 import kotterknife.bindView
@@ -135,7 +136,7 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
         val xx = if (isReverse) 0 else -x
         val translate = ObjectAnimator.ofFloat(mIvSearch, "translationX", xx.toFloat())
         translate.duration = 300
-        mIvSearch.postDelayed({ translate.start() }, 50)
+        mIvSearch.postDelayed({ translate.start() }, 150)
 
     }
 
@@ -158,6 +159,8 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
             if (mEtSearch.compoundDrawables[2] != null) {
                 if (event.x > mEtSearch.width - mEtSearch.compoundDrawables[2].bounds.width()) {
                     hideSearch()
+                }else{
+                    updateSoftInput(true)
                 }
             }
         }
@@ -165,7 +168,11 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
     }
 
     private fun showSearch() {
-        animateRevealColorFromCoordinates(mLlSearch, R.color.material_light_white, circularX, circularY)
+        var bgColor = R.color.material_light_white;
+        if(PrefUtil.isNightMode()){
+            bgColor = R.color.material_light_black
+        }
+        animateRevealColorFromCoordinates(mLlSearch, bgColor, circularX, circularY)
         mTabLayout.visibility = View.GONE
         mEtSearch.visibility = View.VISIBLE
         mLlOptions.visibility = View.VISIBLE

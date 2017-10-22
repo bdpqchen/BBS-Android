@@ -23,7 +23,7 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
     }
 
     @Override
-    public void getLatestList() {
+    public void getLatestList(int page) {
         SimpleObserver<List<LatestEntity>> observer = new SimpleObserver<List<LatestEntity>>() {
             @Override
             public void _onError(String msg) {
@@ -37,7 +37,7 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
                     mView.onGetLatestList(latestEntity);
             }
         };
-        addSubscribe(sHttpClient.getLatestList()
+        addSubscribe(sHttpClient.getLatestList(page)
                 .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -61,6 +61,10 @@ public final class ImageUtil {
     }
 
     public static void loadAvatarAsBitmapByUidWithLeft(Context context, int author_id, CircleImageView civAvatarPost) {
+        if (IsUtil.is0(author_id)){
+            loadAnonAvatar(context, civAvatarPost);
+            return;
+        }
         DrawableTypeRequest request = getDefaultAvatarRequest(context, author_id, 0);
         request.asBitmap()
                 .centerCrop()

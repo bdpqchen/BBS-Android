@@ -37,11 +37,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="4dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/shape_intro_bg"
+        android:clickable="false"
         android:text="上传"
         android:textColor="@color/colorPrimaryCopy"
-        android:layout_marginTop="48dp"
-        android:clickable="false"
         />
 
 </LinearLayout>

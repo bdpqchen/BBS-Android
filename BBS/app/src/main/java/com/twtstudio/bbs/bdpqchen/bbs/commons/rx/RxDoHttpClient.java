@@ -115,8 +115,8 @@ public class RxDoHttpClient {
         return mApi.getForums();
     }
 
-    public Observable<BaseResponse<List<LatestEntity>>> getLatestList() {
-        return mApi.getLatestList("Mobile");
+    public Observable<BaseResponse<List<LatestEntity>>> getLatestList(int page) {
+        return mApi.getLatestList("Mobile", String.valueOf(page));
     }
 
     public Observable<BaseResponse<List<HotEntity>>> getHotList() {
@@ -332,7 +332,7 @@ public class RxDoHttpClient {
     }
 
     public Observable<BaseResponse<List<SearchThreadModel>>> searchThread(String keyword, int page) {
-        return mApi.searchThread(keyword, String.valueOf(page));
+        return mApi.searchThread(String.valueOf(page), keyword);
     }
 
 }
