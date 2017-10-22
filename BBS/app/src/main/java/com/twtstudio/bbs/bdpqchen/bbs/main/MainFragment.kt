@@ -86,17 +86,18 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
     private fun search(mode: Int) {
         println("mode is $mode")
         val keyword = mEtSearch.text.toString()
-        if (keyword.isEmpty()){
+        if (keyword.isEmpty()) {
             return
         }
         startActivity(IntentUtil.toSearch(mContext, mode, keyword))
     }
 
     private fun setIconTint() {
-        val defColor = R.color.colorTintIconBlack
-        val mode = PorterDuff.Mode.SRC_IN
-        mIvSearch.setColorFilter(defColor, mode)
-        mEtSearch.compoundDrawablesRelative[2]?.setColorFilter(ResourceUtil.getColor(mContext, defColor), mode)
+        mEtSearch.compoundDrawablesRelative[2]?.setColorFilter(ResourceUtil.getColor(mContext, R.color.colorTintIconBlack), PorterDuff.Mode.SRC_IN)
+    }
+
+    private fun setIvSearchIconTint(color: Int) {
+        mIvSearch.setColorFilter(color, PorterDuff.Mode.SRC_IN)
     }
 
     private fun setViewClickEffects(vararg views: View) {
@@ -136,7 +137,15 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
         val xx = if (isReverse) 0 else -x
         val translate = ObjectAnimator.ofFloat(mIvSearch, "translationX", xx.toFloat())
         translate.duration = 300
-        mIvSearch.postDelayed({ translate.start() }, 150)
+        if (isReverse) {
+//            setIvSearchIconTint(R.color.material_light_white)
+            mIvSearch.clearColorFilter()
+        } else {
+            setIvSearchIconTint(R.color.colorTintIconBlack)
+        }
+        mIvSearch.postDelayed({
+            translate.start()
+        }, 100)
 
     }
 
@@ -159,7 +168,7 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
             if (mEtSearch.compoundDrawables[2] != null) {
                 if (event.x > mEtSearch.width - mEtSearch.compoundDrawables[2].bounds.width()) {
                     hideSearch()
-                }else{
+                } else {
                     updateSoftInput(true)
                 }
             }
@@ -169,7 +178,7 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
 
     private fun showSearch() {
         var bgColor = R.color.material_light_white;
-        if(PrefUtil.isNightMode()){
+        if (PrefUtil.isNightMode()) {
             bgColor = R.color.material_light_black
         }
         animateRevealColorFromCoordinates(mLlSearch, bgColor, circularX, circularY)

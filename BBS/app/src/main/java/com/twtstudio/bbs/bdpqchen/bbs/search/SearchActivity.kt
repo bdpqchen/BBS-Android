@@ -45,7 +45,7 @@ class SearchActivity : BaseActivity(), SearchContract.View {
     private lateinit var mPbLoading: ProgressBar
     private lateinit var rvSearchResult: RecyclerView
     private lateinit var mAdapter: SearchAdapter
-    private lateinit var mKeyThread: String
+    private var mKeyThread: String = ""
     private var mPage = 0
     private var mIsLoadingMore = false
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -19,7 +19,8 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGT
 public final class TextUtil {
 
     public static String getBoardName(String s) {
-        return "[" + s + "]";
+//        return "[" + s + "]";
+        return s;
     }
 
     public static Spanned getLinkHtml(String s) {
