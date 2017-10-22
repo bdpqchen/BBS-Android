@@ -10,3 +10,4 @@
 *.jks
 /release
 *.apk
+/debug

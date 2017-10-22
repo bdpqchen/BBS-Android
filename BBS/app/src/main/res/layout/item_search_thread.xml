@@ -16,6 +16,7 @@
         android:layout_height="@dimen/size_avatar_normal"
         android:layout_marginStart="16dp"
         tools:src="@drawable/avatar_default_left"
+        android:layout_gravity="center_vertical"
         />
 
     <LinearLayout

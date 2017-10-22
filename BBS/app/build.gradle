@@ -3,9 +3,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 //apply plugin: 'kotlin-kapt'
 
-
 Properties pro = new Properties()
 pro.load(project.rootProject.file('local.properties').newDataInputStream())
+
 
 dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -45,7 +45,7 @@ android {
                 keyAlias pro.getProperty("keyAlias")
                 keyPassword pro.getProperty("storePassword")
             } catch (ex) {
-                throw new InvalidUserDataException(ex.toString())
+//                throw new InvalidUserDataException(ex.toString())
             }
         }
 
@@ -59,16 +59,20 @@ android {
             minifyEnabled true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if(pro.getProperty("id_bugly") != null){
+                it.buildConfigField 'String', 'ID_BUGLY', pro.getProperty("id_bugly")
+            }
         }
         debug {
             debuggable true
             minifyEnabled false
             signingConfig signingConfigs.debug
+            it.buildConfigField 'String', 'ID_BUGLY', "\"abc\""
         }
 
         buildTypes.each {
 //        it.resValue 'string', 'LOCAL_KEY', localName
-            it.buildConfigField 'String', 'ID_BUGLY', pro.getProperty("id_bugly")
+//            it.buildConfigField 'String', 'ID_BUGLY', pro.getProperty("id_bugly")
         }
 
     }
