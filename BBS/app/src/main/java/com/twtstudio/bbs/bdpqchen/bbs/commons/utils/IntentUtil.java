@@ -154,12 +154,16 @@ public final class IntentUtil {
     }
 
     public static Intent toSearch(Context context, int mode, String key) {
-        Intent intent = new Intent(context, SearchActivity.class);
+        Intent intent = toSearch(context);
         if (mode == MODE_SEARCH_THREAD) {
             intent.putExtra(INTENT_SEARCH_THREAD, key);
         } else if (mode == MODE_SEARCH_USER) {
             intent.putExtra(INTENT_SEARCH_USER, key);
         }
         return intent;
+    }
+
+    public static Intent toSearch(Context context) {
+        return new Intent(context, SearchActivity.class);
     }
 }

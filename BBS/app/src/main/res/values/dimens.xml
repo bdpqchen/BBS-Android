@@ -48,6 +48,7 @@
     <dimen name="icon_size_normal_with_padding">40dp</dimen>
     <dimen name="padding_post_operator_bottom">4dp</dimen>
     <dimen name="padding_post_operator_start">8dp</dimen>
+    <dimen name="padding_item_search">8dp</dimen>
 
 
 </resources>

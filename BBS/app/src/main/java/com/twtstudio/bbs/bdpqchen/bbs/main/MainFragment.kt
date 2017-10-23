@@ -23,13 +23,13 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_THREAD
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_USER
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil
 import kotterknife.bindView
 
 /**
  * Created by bdpqchen on 17-5-3.
+ * 这个类所有没有用到的代码 是第一个搜索版本.
  */
 class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListener {
 
@@ -138,7 +138,6 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
         val translate = ObjectAnimator.ofFloat(mIvSearch, "translationX", xx.toFloat())
         translate.duration = 300
         if (isReverse) {
-//            setIvSearchIconTint(R.color.material_light_white)
             mIvSearch.clearColorFilter()
         } else {
             setIvSearchIconTint(R.color.colorTintIconBlack)
@@ -177,6 +176,10 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
     }
 
     private fun showSearch() {
+        startActivity(IntentUtil.toSearch(mContext))
+        return
+
+/*
         var bgColor = R.color.material_light_white;
         if (PrefUtil.isNightMode()) {
             bgColor = R.color.material_light_black
@@ -188,6 +191,7 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
         mTvTitle.visibility = View.GONE
         translate(false)
         showInput()
+*/
     }
 
     private fun hideSearch() {

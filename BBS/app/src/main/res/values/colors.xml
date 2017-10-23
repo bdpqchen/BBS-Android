@@ -32,7 +32,7 @@
     <color name="colorMainBgLightHeight">#ffffff</color>
     <color name="colorForumBg">#88ffffff</color>
     <color name="colorInfoBg">#d60707</color>
-    <color name="colorDividerLine">#112233</color>
+    <color name="colorDividerLine">#e2e2e2</color>
     <color name="colorBottomToolsIconTint">#666666</color>
     <color name="colorBottomToolsBg">#e7e7e7</color>
     <!--<color name="colorTintIconBlack">#3F51B5</color>-->

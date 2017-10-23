@@ -1,13 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     >
 
-    <include layout="@layout/common_toolbar"/>
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="8dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:targetApi="lollipop"
+        android:contentInsetLeft="0dp"
+        android:contentInsetStart="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:contentInsetRight="0dp"
+        android:contentInsetEnd="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            >
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableEnd="@drawable/ic_clear_white_24dp"
+                android:backgroundTint="@color/material_light_white"
+                android:hint="Searching.."
+                android:inputType="text"
+                android:textCursorDrawable="@drawable/bg_edit_text_cursor"
+                android:textColor="@color/material_light_white"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:id="@+id/tv_search"
+                android:text="搜索"
+                android:textColor="@color/material_light_white"
+                android:textSize="18sp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="12dp"
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,30 +73,30 @@
         >
 
         <ProgressBar
+            android:id="@+id/pb_search_result"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:id="@+id/pb_search_result"
-            tools:visibility="gone"
+            android:visibility="gone"
             />
 
         <TextView
+            android:id="@+id/tv_search_result_empty"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:text="啥也没搜着.."
             android:gravity="center"
-            android:id="@+id/tv_search_result_empty"
-            android:visibility="gone"
-            tools:visibility="visible"
+            android:text="啥也没搜着..建议优化你的检索词"
             android:textSize="18sp"
+            android:visibility="gone"
+            tools:visibility="gone"
             />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_search_result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:visibility="gone"
+            tools:visibility="visible"
             >
 
         </android.support.v7.widget.RecyclerView>

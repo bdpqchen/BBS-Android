@@ -27,6 +27,7 @@ public final class Constants {
     public static final int MAX_LENGTH_POST = 50;
     public static final int MAX_LENGTH_Letter = 20;
     public static final int MIN_LENGTH_LETTER_CONTENT = 3;
+    public static final int MAX_SEARCH_RESULT_USER = 3;
     public static final int ITEM_HEADER = -1;
     public static final int ITEM_NORMAL = 0;
     public static final int ITEM_FOOTER = 1;
@@ -42,7 +43,10 @@ public final class Constants {
     public static final int ITEM_EMPTY = 11;
     public static final int ITEM_SEARCH_USER = 12;
     public static final int ITEM_SEARCH_THREAD = 13;
-
+    public static final int ITEM_SEARCH_THREAD_HEADER = 14;
+    public static final int ITEM_SEARCH_USER_HEADER = 15;
+    public static final int ITEM_SEARCH_USER_HIDING = 16;
+    public static final int ITEM_SEARCH_DIVIDER = 17;
 
 
     public static final int TAG_MSG_SYSTEM = 0;

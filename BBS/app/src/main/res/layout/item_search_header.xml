@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorMainBgLight"
+    android:foreground="@drawable/selector_foreground_settings"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_item_search"
+    >
+    <TextView
+        android:id="@+id/tv_search_header_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="header name"
+        android:paddingTop="8dp"
+        android:textSize="16sp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/colorDividerLine"
+        />
+
+</LinearLayout>

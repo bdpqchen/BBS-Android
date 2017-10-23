@@ -3,4 +3,4 @@ package com.twtstudio.bbs.bdpqchen.bbs.search.model
 /**
  * Created by bdpqchen on 17-10-22.
  */
-open class Model
+data class CommonModel(var type: Int, var position: Int)

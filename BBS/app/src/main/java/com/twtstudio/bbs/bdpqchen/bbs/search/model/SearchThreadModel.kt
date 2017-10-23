@@ -30,6 +30,5 @@ data class SearchThreadModel(val id: Int,
                              var author_id: Int,
                              var anonymous: Int,
                              var author_name: String,
-                             var board_id: Int
-) : Model()
+                             var board_id: Int)
 
