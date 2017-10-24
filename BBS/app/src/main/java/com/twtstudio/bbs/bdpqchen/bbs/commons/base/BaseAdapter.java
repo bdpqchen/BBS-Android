@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
 
     public void refreshList(List<T> items) {
         mDataSet.clear();
+        LogUtil.dd("refreshList after ---- size", String.valueOf(mDataSet.size()));
         mDataSet.addAll(items);
 //        setShowFooter(false);
         notifyDataSetChanged();

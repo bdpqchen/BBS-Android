@@ -10,6 +10,7 @@ import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE_URL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_QUOTE;
 
 /**
@@ -39,11 +40,10 @@ public final class TextUtil {
 
     public static Spanned getNameWithFriend(String name, String nickname, int isFriend) {
         boolean is = IsUtil.is1(isFriend);
+        if (name.equals(ANONYMOUS_NAME)) return Html.fromHtml(name);
         String friend = "<font color=\'#e77574\'> [好友] </font>";
         String result = getTwoNames(name, nickname);
-        if (is) {
-            result = friend + result;
-        }
+        if (is) result = friend + result;
         return Html.fromHtml(result);
     }
 

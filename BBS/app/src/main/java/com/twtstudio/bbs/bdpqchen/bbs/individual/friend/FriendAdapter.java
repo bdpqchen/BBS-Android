@@ -41,9 +41,7 @@ public class FriendAdapter extends BaseAdapter<FriendModel> {
                 FriendModel model = mDataSet.get(position);
                 holder.mTvFriendName.setText(TextUtil.getTwoNames(model.getName(), model.getNickname()));
                 holder.mTvFriendSignature.setText(model.getSignature());
-                if (model.getStatus() != 1){
-                    holder.mTvConfirmStatus.setVisibility(View.VISIBLE);
-                }
+                holder.mTvConfirmStatus.setVisibility(model.getStatus() == 1 ? View.GONE : View.VISIBLE);
                 ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getUid(), holder.mCivFriendAvatar);
                 holder.mCivFriendAvatar.setOnClickListener(v -> {
                     mContext.startActivity(IntentUtil.toPeople(mContext, model.getUid()),
@@ -57,7 +55,7 @@ public class FriendAdapter extends BaseAdapter<FriendModel> {
         }
     }
 
-    static class ViewHolder extends BaseViewHolder{
+    static class ViewHolder extends BaseViewHolder {
         @BindView(R.id.civ_friend_avatar)
         CircleImageView mCivFriendAvatar;
         @BindView(R.id.tv_friend_name)
@@ -66,6 +64,7 @@ public class FriendAdapter extends BaseAdapter<FriendModel> {
         TextView mTvConfirmStatus;
         @BindView(R.id.tv_friend_signature)
         TextView mTvFriendSignature;
+
         ViewHolder(View view) {
             super(view);
         }
