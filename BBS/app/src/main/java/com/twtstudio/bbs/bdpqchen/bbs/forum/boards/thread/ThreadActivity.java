@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
@@ -71,6 +72,8 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_C
 public class ThreadActivity extends BaseActivity implements ThreadContract.View, PostAdapter.OnPostClickListener, View.OnClickListener {
     @BindView(R.id.toolbar_thread)
     Toolbar mToolbar;
+    @BindView(R.id.app_bar)
+    AppBarLayout mAppbar;
     @BindView(R.id.rv_thread_post)
     RecyclerView mRvThreadPost;
     @BindView(R.id.pb_thread_loading)
@@ -610,15 +613,15 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
     }
 
     private void hideFab() {
-        bottomToolsBehavior(Techniques.SlideOutDown);
+        bottomToolsBehavior(Techniques.SlideOutUp);
     }
 
     private void bottomToolsBehavior(Techniques technique) {
-        YoYo.with(technique).duration(500).playOn(mBottomTools);
+//        YoYo.with(technique).duration(500).playOn(m);
     }
 
     private void showFab() {
-        bottomToolsBehavior(Techniques.SlideInUp);
+        bottomToolsBehavior(Techniques.SlideInDown);
     }
 
     private void hideCommentInput() {

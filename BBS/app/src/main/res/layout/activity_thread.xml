@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:id="@+id/app_bar"
         >
-
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
@@ -104,7 +104,7 @@
         android:layout_gravity="bottom"
         android:background="@color/colorBottomToolsBg"
         android:padding="8dp"
-        app:tabIconSize="24dp"
+        app:tabIconSize="28dp"
         app:tabIconTint="@color/colorBottomToolsIconTint"
         />
 
@@ -117,9 +117,8 @@
         android:focusable="true"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="visible"
+        tools:visibility="gone"
         android:background="@color/colorMainBg"
-
         >
 
         <RelativeLayout
