@@ -168,7 +168,6 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
         }
     }
 
-
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         if (v.id == R.id.et_search && event.action == MotionEvent.ACTION_DOWN) {
             if (mEtSearch.compoundDrawables[2] != null) {
@@ -178,7 +177,7 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
                 }
             }
         }
-        return true
+        return false
     }
 
     private fun clearDataSet() {
