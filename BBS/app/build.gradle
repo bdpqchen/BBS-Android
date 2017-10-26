@@ -67,6 +67,7 @@ android {
             debuggable true
             minifyEnabled false
             signingConfig signingConfigs.debug
+            //假数据..
             it.buildConfigField 'String', 'ID_BUGLY', "\"abc\""
         }
 

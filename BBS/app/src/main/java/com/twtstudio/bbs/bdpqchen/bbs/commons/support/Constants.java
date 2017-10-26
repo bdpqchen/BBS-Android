@@ -107,6 +107,7 @@ public final class Constants {
     public static final String BID = "bid";
     public static final String TID = "tid";
     public static final String PID = "pid";
+    public static final String USER = "user";
     public static final String CONTENT = "content";
     public static final String TITLE = "title";
     public static final String REPLY_ID = "reply";

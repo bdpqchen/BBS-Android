@@ -23,7 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendAdapter extends BaseAdapter<FriendModel> {
 
-    public FriendAdapter(Context context) {
+    FriendAdapter(Context context) {
         super(context);
         mContext = context;
     }

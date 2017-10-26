@@ -14,13 +14,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.GenericRequestBuilder;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
-import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.WindowUtil;
 
 import java.util.HashSet;
@@ -28,89 +27,44 @@ import java.util.HashSet;
 
 public class GlideImageGeter implements Html.ImageGetter {
 
-    private HashSet<Target> targets;
     private HashSet<GifDrawable> gifDrawables;
     private final Context mContext;
     private final TextView mTextView;
-    private float betterImgScale = 0.65f;
-
-    public void recycle() {
-        targets.clear();
-        for (GifDrawable gifDrawable : gifDrawables) {
-            gifDrawable.setCallback(null);
-            gifDrawable.recycle();
-        }
-        gifDrawables.clear();
-    }
+//    private float betterImgScale = 0.65f;
+    private float betterImgScale = 1f;
 
     public GlideImageGeter(Context context, TextView textView) {
         this.mContext = context;
         this.mTextView = textView;
-        targets = new HashSet<>();
         gifDrawables = new HashSet<>();
-//        mTextView.setTag(R.id.img_tag, this);
     }
 
     @Override
     public Drawable getDrawable(String url) {
         final UrlDrawable urlDrawable = new UrlDrawable(mContext);
-        GenericRequestBuilder load;
+        final  GenericRequestBuilder load;
         final Target target;
-        if (isGif(url)) {
-            load = Glide.with(mContext).load(url).asGif();
-            target = new GifTarget(urlDrawable);
-        } else {
-            load = Glide.with(mContext).load(url).asBitmap().centerCrop().placeholder(R.drawable.avatar_default_left)
-                    .listener(new RequestListener<String, Bitmap>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                            return false;
-                        }
+        load = Glide.with(mContext).load(url).asBitmap().fitCenter()
+                .listener(new RequestListener<String, Bitmap>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                        LogUtil.dd("glide laod onException");
+                        return false;
+                    }
 
-                        @Override
-                        public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            return false;
-                        }
-                    });
-            target = new BitmapTarget(urlDrawable);
-        }
-        targets.add(target);
+                    @Override
+                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        LogUtil.dd("glide load onResourceReady");
+
+                        return false;
+                    }
+                });
+        target = new BitmapTarget(urlDrawable);
+
+//        load.override(100, 100).into(target);
+        load.override(800, 800);
         load.into(target);
         return urlDrawable;
-    }
-
-    private static boolean isGif(String path) {
-        int index = path.lastIndexOf('.');
-        return index > 0 && "gif".toUpperCase().equals(path.substring(index + 1).toUpperCase());
-    }
-
-    private class GifTarget extends SimpleTarget<GifDrawable> {
-        private final UrlDrawable urlDrawable;
-
-
-        private GifTarget(UrlDrawable urlDrawable) {
-            this.urlDrawable = urlDrawable;
-
-        }
-
-        @Override
-        public void onResourceReady(GifDrawable resource, GlideAnimation<? super GifDrawable> glideAnimation) {
-
-            int w = MeasureUtil.getScreenSize(mContext).x;
-            int hh = resource.getIntrinsicHeight();
-            int ww = resource.getIntrinsicWidth();
-            int high = hh * (w - 50) / ww;
-            Rect rect = new Rect(20, 20, w - 30, high);
-            resource.setBounds(rect);
-            urlDrawable.setBounds(rect);
-            urlDrawable.setDrawable(resource);
-            gifDrawables.add(resource);
-            resource.setCallback(mTextView);
-            resource.start();
-            resource.setLoopCount(GlideDrawable.LOOP_FOREVER);
-            mTextView.setText(mTextView.getText());
-            mTextView.invalidate();
-        }
     }
 
     private class BitmapTarget extends SimpleTarget<Bitmap> {

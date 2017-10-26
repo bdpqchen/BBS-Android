@@ -61,7 +61,6 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
 
     public void refreshList(List<T> items) {
         mDataSet.clear();
-        LogUtil.dd("refreshList after ---- size", String.valueOf(mDataSet.size()));
         mDataSet.addAll(items);
 //        setShowFooter(false);
         notifyDataSetChanged();
