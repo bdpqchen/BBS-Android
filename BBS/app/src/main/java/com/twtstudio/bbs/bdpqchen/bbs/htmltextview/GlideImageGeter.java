@@ -62,7 +62,7 @@ public class GlideImageGeter implements Html.ImageGetter {
         target = new BitmapTarget(urlDrawable);
 
 //        load.override(100, 100).into(target);
-        load.override(800, 800);
+        load.override(600, 600);
         load.into(target);
         return urlDrawable;
     }
