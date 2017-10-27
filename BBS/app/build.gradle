@@ -20,10 +20,10 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.twtstudio.bbs.bdpqchen.bbs"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 26
-        versionCode 11
-        versionName "1.4.1"
+        versionCode 12
+        versionName "1.5.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        multiDexEnabled true
 

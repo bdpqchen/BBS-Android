@@ -27,7 +27,7 @@
             <RelativeLayout
                 android:id="@+id/rl_input"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
                 android:paddingEnd="24dp"
                 android:paddingStart="24dp"
                 >
@@ -114,7 +114,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_search"
             android:backgroundTint="@color/colorAccent"
+            app:tabBackground="@color/colorPrimary"
+            app:tabIndicatorColor="@color/material_yellow_accent_700"
             app:tabIndicatorHeight="1dp"
+            app:tabSelectedTextColor="@color/material_yellow_accent_700"
+            app:tabTextColor="@color/material_light_white"
             />
     </android.support.design.widget.AppBarLayout>
 

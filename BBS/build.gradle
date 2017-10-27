@@ -11,7 +11,7 @@ buildscript {
     dependencies {
         //用你对应的Android studio版本
 //        classpath 'com.android.tools.build:gradle:3.0.0-beta2'
-        classpath 'com.android.tools.build:gradle:3.0.0-rc2'
+        classpath 'com.android.tools.build:gradle:3.0.0'
         classpath 'me.tatarka:gradle-retrolambda:3.6.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
