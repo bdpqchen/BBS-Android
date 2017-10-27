@@ -1,8 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.release;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -17,15 +15,12 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-9-18.
  */
 
-public class ReleaseActivity extends BaseActivity<PublishPresenter>{
-
+public class ReleaseActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.tl_release)
     TabLayout mTlRelease;
-    @BindView(R.id.appbar)
-    AppBarLayout mAppbar;
     @BindView(R.id.vp_release)
     ViewPager mVpRelease;
 
@@ -41,18 +36,8 @@ public class ReleaseActivity extends BaseActivity<PublishPresenter>{
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
-    protected void inject() {
-        getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
+    protected PublishPresenter getPresenter() {
+        return null;
     }
 
     @Override

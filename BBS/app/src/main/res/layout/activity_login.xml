@@ -144,6 +144,7 @@
                     android:layout_marginEnd="4dp"
                     android:layout_marginTop="4dp"
                     android:clickable="true"
+                    android:focusable="true"
                     android:text="忘记密码?"
                     android:textColor="@color/material_red_300"
                     android:textSize="15sp"
@@ -151,18 +152,22 @@
 
             </RelativeLayout>
 
-            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-                android:id="@+id/cp_btn_login"
+            <com.twtstudio.bbs.bdpqchen.bbs.commons.view.ProgressButton
+                android:id="@+id/p_btn_login"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_height="48dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_margin="16dp"
-                android:background="@drawable/circular_border_shape"
-                android:text="登\t\t录"
-                android:textColor="@color/material_light_white"
-                app:spinning_bar_color="@color/colorMainBgLight"
-                app:spinning_bar_padding="8dp"
-                app:spinning_bar_width="3dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                app:backgroundColor="@color/colorPrimary"
+                app:text="登录"
+                app:textSize="16sp"
                 />
 
             <RelativeLayout
@@ -178,6 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:clickable="true"
+                    android:focusable="true"
                     android:text="新用户注册>>"
                     android:textColor="@color/material_blue_400"
                     android:textSize="@dimen/text_size_16sp"
@@ -188,6 +194,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:focusable="true"
                     android:clickable="true"
                     android:text="老用户认证>>"
                     android:textColor="@color/material_blue_400"

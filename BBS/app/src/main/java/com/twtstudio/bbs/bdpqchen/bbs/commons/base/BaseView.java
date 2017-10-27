@@ -6,6 +6,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.base;
 
 public interface BaseView {
 
-
+//    void setPresenter(T presenter);
 
 }

@@ -1,12 +1,12 @@
 package com.twtstudio.bbs.bdpqchen.bbs.home;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.widget.FrameLayout;
 
 import com.jaeger.library.StatusBarUtil;
 import com.roughike.bottombar.BottomBar;
@@ -18,25 +18,26 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
 
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
 
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 
-
-public class HomeActivity extends BaseActivity<HomePresenter> implements HomeContract.View {
+public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     @BindView(R.id.bottom_bar)
     BottomBar mBottomBar;
+
     BottomBarTab mNearBy;
+    @BindView(R.id.fl_main_container)
+    FrameLayout mFlMainContainer;
     private SupportFragment[] mFragments = new SupportFragment[3];
     private static final int FIRST = 0;
     private static final int SECOND = 1;
@@ -45,7 +46,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private int mShowingFragment = FIRST;
     private int mHidingFragment = FIRST;
     private boolean mIsExit = false;
-
+    private HomePresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_main;
@@ -57,30 +58,20 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return false;
-    }
-
-    @Override
-    protected void inject() {
-        getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return null;
+    protected HomePresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        HandlerUtil.postDelay(() -> mSlideBackLayout.lock(true));
         Context context = this;
-        LogUtil.dd("token", PrefUtil.getAuthToken());
+        mPresenter = new HomePresenter(this);
+        LogUtil.dd("current_token", PrefUtil.getAuthToken());
         PrefUtil.setHadLogin(true);
-
         if (savedInstanceState == null) {
-            mFragments[FIRST] = MainFragment.newInstance();
+            mFragments[FIRST] = com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment.Companion.newInstance();
             mFragments[SECOND] = ForumFragment.newInstance();
             mFragments[FORTH] = IndividualFragment.newInstance();
 //            mFragments[FORTH] = MessageFragment.newInstance();
@@ -90,7 +81,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 //                    mFragments[THIRD],
                     mFragments[FORTH]);
         } else {
-            mFragments[FIRST] = findFragment(MainFragment.class);
+            mFragments[FIRST] = findFragment(com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment.class);
             mFragments[SECOND] = findFragment(ForumFragment.class);
 //            mFragments[THIRD] = findFragment(MessageFragment.class);
             mFragments[FORTH] = findFragment(IndividualFragment.class);
@@ -173,9 +164,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             SnackBarUtil.error(mActivity, "当前账户的登录信息已过期，请重新登录", true);
             HandlerUtil.postDelay(() -> {
                 AuthUtil.logout();
-                Intent intent = new Intent(mActivity, LoginActivity.class);
-                intent.putExtra(USERNAME, PrefUtil.getAuthUsername());
-                startActivity(intent);
+                startActivity(IntentUtil.toLogin(mContext));
                 ActivityManager.getActivityManager().finishAllActivity();
             }, 3000);
         }

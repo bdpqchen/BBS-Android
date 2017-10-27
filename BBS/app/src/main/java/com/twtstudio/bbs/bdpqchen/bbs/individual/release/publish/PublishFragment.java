@@ -23,7 +23,7 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-9-18.
  */
 
-public class PublishFragment extends BaseFragment<PublishPresenter> implements PublishContract.View,
+public class PublishFragment extends BaseFragment implements PublishContract.View,
         SwipeRefreshLayout.OnRefreshListener, OnReleaseItemClickListener {
 
     @BindView(R.id.tv_none_publish)
@@ -37,19 +37,15 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
     private int mPage = 0;
     private boolean mRefreshing = false;
     private MaterialDialog mDialog;
-
+    private PublishPresenter mPresenter;
     @Override
     protected int getFragmentLayoutId() {
         return R.layout.fragment_release_publish;
     }
 
     @Override
-    protected void injectFragment() {
-        getFragmentComponent().inject(this);
-    }
-
-    @Override
     protected void initFragment() {
+        mPresenter = new PublishPresenter(this);
         mAdapter = new PublishAdapter(mContext, this);
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -65,6 +61,11 @@ public class PublishFragment extends BaseFragment<PublishPresenter> implements P
             }
         });
         getDataList();
+    }
+
+    @Override
+    protected PublishPresenter getPresenter() {
+        return mPresenter;
     }
 
     public static PublishFragment newInstance() {

@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -25,7 +24,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
  * Created by bdpqchen on 17-5-6.
  */
 
-public class UpdatePasswordActivity extends BaseActivity<UpdatePasswordPresenter> implements UpdatePasswordContract.View {
+public class UpdatePasswordActivity extends BaseActivity implements UpdatePasswordContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -37,7 +36,7 @@ public class UpdatePasswordActivity extends BaseActivity<UpdatePasswordPresenter
     EditText mEtAgain;
     @BindView(R.id.cpb_identify)
     CircularProgressButton mCpbIdentify;
-
+    private UpdatePasswordPresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_update_password;
@@ -50,25 +49,15 @@ public class UpdatePasswordActivity extends BaseActivity<UpdatePasswordPresenter
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
-    protected void inject() {
-        getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
+    protected UpdatePasswordPresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new UpdatePasswordPresenter(this);
     }
-
 
     void checkInput() {
         String newPass = String.valueOf(mEtNew.getText());

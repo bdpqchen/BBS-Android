@@ -14,9 +14,6 @@ import com.oubowu.slideback.ActivityHelper;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.twtstudio.bbs.bdpqchen.bbs.BuildConfig;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.AppComponent;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerAppComponent;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.AppModule;
 
 import org.piwik.sdk.Piwik;
 import org.piwik.sdk.Tracker;
@@ -41,7 +38,6 @@ public class App extends Application {
     private LogLevel mLogLevel = LogLevel.FULL;
     private ActivityHelper mActivityHelper;
     private static App sApplication;
-    private static AppComponent sAppComponent;
 
     @Override
     public void onCreate() {
@@ -125,15 +121,6 @@ public class App extends Application {
 
     public static ActivityHelper getActivityHelper() {
         return sApplication.mActivityHelper;
-    }
-
-    public static AppComponent getAppComponent() {
-        if (sAppComponent == null) {
-            sAppComponent = DaggerAppComponent.builder()
-                    .appModule(new AppModule(sApplication))
-                    .build();
-        }
-        return sAppComponent;
     }
 
     /**

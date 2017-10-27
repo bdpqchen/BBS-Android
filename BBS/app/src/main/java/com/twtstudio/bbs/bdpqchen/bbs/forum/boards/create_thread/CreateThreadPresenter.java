@@ -4,15 +4,12 @@ import android.os.Bundle;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -21,13 +18,12 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-5-27.
  */
 
-class CreateThreadPresenter extends RxPresenter<CreateThreadContract.View> implements CreateThreadContract.Presenter {
+class CreateThreadPresenter extends RxPresenter implements CreateThreadContract.Presenter {
 
-    private RxDoHttpClient<CreateThreadModel> mHttpClient;
+    private CreateThreadContract.View mView;
 
-    @Inject
-    CreateThreadPresenter(RxDoHttpClient client) {
-        mHttpClient = client;
+    CreateThreadPresenter(CreateThreadContract.View view) {
+        mView = view;
     }
 
     @Override
@@ -45,8 +41,8 @@ class CreateThreadPresenter extends RxPresenter<CreateThreadContract.View> imple
                     mView.onPublished();
             }
         };
-        addSubscribe(mHttpClient.doPublishThread(bundle)
-                .map(mHttpClient.mTransformer)
+        addSubscribe(sHttpClient.doPublishThread(bundle)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
@@ -69,7 +65,7 @@ class CreateThreadPresenter extends RxPresenter<CreateThreadContract.View> imple
                 }
             }
         };
-        addSubscribe(mHttpClient.uploadImage(uri)
+        addSubscribe(sHttpClient.uploadImage(uri)
                 .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -92,7 +88,7 @@ class CreateThreadPresenter extends RxPresenter<CreateThreadContract.View> imple
                 }
             }
         };
-        addSubscribe(mHttpClient.getBoardList(forumId)
+        addSubscribe(sHttpClient.getBoardList(forumId)
                 .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -115,7 +111,7 @@ class CreateThreadPresenter extends RxPresenter<CreateThreadContract.View> imple
                 }
             }
         };
-        addSubscribe(mHttpClient.getForumList()
+        addSubscribe(sHttpClient.getForumList()
                 .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

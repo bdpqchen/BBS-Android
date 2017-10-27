@@ -2,7 +2,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.friend;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ interface FriendContract {
         void onGetFriendList(List<FriendModel> list);
         void onGetFriendFailed(String s);
     }
-    interface Presenter extends BasePresenter<View>{
+    interface Presenter extends BasePresenter{
         void getFriendList();
     }
 }

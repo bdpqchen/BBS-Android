@@ -1,7 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
-import android.content.Context;
-
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import org.json.JSONException;
@@ -20,19 +18,13 @@ import retrofit2.HttpException;
 
 public abstract class SimpleObserver<T> extends DisposableObserver<T> {
 
-//    private Context mContext;
-
     public SimpleObserver() {
 
     }
 
-    public SimpleObserver(Context context) {
-//        mContext = context;
-    }
-
     @Override
     public void onNext(T t) {
-        LogUtil.dd("onNext()");
+        LogUtil.dd("onNext()  in SimpleObserver");
         if (t != null) {
             _onNext(t);
         }
@@ -40,7 +32,7 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
 
     @Override
     public void onError(Throwable throwable) {
-        LogUtil.dd("onError()");
+        LogUtil.dd("onError() in SimpleObserver");
         // TODO: 17-4-27 无网络请求监听，扼杀在请求阶段
         String msg = throwable.getMessage();
         if (msg != null && msg.length() == 0) {

@@ -1,24 +1,11 @@
 package com.twtstudio.bbs.bdpqchen.bbs.auth.login;
 
-import android.content.Context;
-
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.BaseResponse;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SchedulersHelper;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
-import javax.inject.Inject;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -26,23 +13,21 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-5-2.
  */
 
-public class LoginPresenter extends RxPresenter<LoginContract.View> {
+class LoginPresenter extends RxPresenter implements LoginContract.Presenter{
 
-    private RxDoHttpClient<LoginModel> mHttpClient;
-    private Context mContext;
+    private LoginContract.View mView;
 
-    @Inject
-    public LoginPresenter(RxDoHttpClient client) {
-        mHttpClient = client;
-
+    LoginPresenter(LoginContract.View view) {
+        mView = view;
     }
 
+    @Override
     public void doLogin(String username, String password) {
 
-        addSubscribe(mHttpClient.doLogin(username, password)
+        addSubscribe(sHttpClient.doLogin(username, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(mHttpClient.mTransformer)
+                .map(new ResponseTransformer<>())
                 .subscribeWith(new SimpleObserver<LoginModel>() {
                     @Override
                     public void _onError(String msg) {
@@ -56,11 +41,10 @@ public class LoginPresenter extends RxPresenter<LoginContract.View> {
                     public void _onNext(LoginModel loginModel) {
                         LogUtil.d("_onNext()", loginModel);
                         if (mView != null)
-                        mView.loginSuccess(loginModel);
+                            mView.loginSuccess(loginModel);
                     }
 
                 }));
-
 
 
     }

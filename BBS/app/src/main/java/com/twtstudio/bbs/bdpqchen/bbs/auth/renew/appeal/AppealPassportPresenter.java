@@ -4,10 +4,8 @@ import android.os.Bundle;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -16,15 +14,13 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-5-21.
  */
 
-class AppealPassportPresenter extends RxPresenter<AppealPassportContract.View> implements AppealPassportContract.Presenter{
+class AppealPassportPresenter extends RxPresenter implements AppealPassportContract.Presenter{
 
-    RxDoHttpClient<BaseModel> mHttpClient;
+    private AppealPassportContract.View mView;
 
-    @Inject
-    AppealPassportPresenter(RxDoHttpClient client){
-        this.mHttpClient = client;
+    AppealPassportPresenter(AppealPassportContract.View view){
+        mView = view;
     }
-
 
     @Override
     public void appealPassport(Bundle bundle) {
@@ -41,8 +37,8 @@ class AppealPassportPresenter extends RxPresenter<AppealPassportContract.View> i
                     mView.sendSuccess();
             }
         };
-        addSubscribe(mHttpClient.appealPassport(bundle)
-                .map(mHttpClient.mTransformer)
+        addSubscribe(sHttpClient.appealPassport(bundle)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)

@@ -24,6 +24,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel;
+import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel;
 
 import java.util.List;
 
@@ -39,6 +41,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.BUNDLE_TOKEN;
@@ -51,6 +54,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.EMAIL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.FRIEND_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.KEYWORD;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MESSAGE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_REQUEST;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_TITLE;
@@ -307,7 +311,9 @@ public interface BaseApi {
             @Path(TID) int tid);
 
     @GET("index/latest")
-    Observable<BaseResponse<List<LatestEntity>>> getLatestList(@Header(NET_RETROFIT_HEADER_REQUEST) String mobile);
+    Observable<BaseResponse<List<LatestEntity>>> getLatestList(
+            @Header(NET_RETROFIT_HEADER_REQUEST) String mobile,
+            @Query("p") String page);
 
     @GET("index/hot")
     Observable<BaseResponse<List<HotEntity>>> getHotList(@Header(NET_RETROFIT_HEADER_REQUEST) String mobile);
@@ -317,6 +323,15 @@ public interface BaseApi {
 
     @DELETE("thread/{tid}")
     Observable<BaseResponse<BaseModel>> deleteThread(@Path(TID) int tid);
+
+    @GET("search/user/{username}")
+    Observable<BaseResponse<List<SearchUserModel>>> searchUser(@Path(USERNAME) String keyName);
+
+    @GET("search/page/{page}")
+    Observable<BaseResponse<List<SearchThreadModel>>> searchThread(
+            @Path("page") String page,
+            @Query(KEYWORD) String keyword);
+
 
 }
 

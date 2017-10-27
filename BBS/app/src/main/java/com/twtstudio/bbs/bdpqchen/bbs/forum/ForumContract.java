@@ -14,7 +14,7 @@ interface ForumContract {
         void showForumList(List<ForumModel> forumModel);
         void failedToGetForum(String msg);
     }
-    interface Presenter extends BasePresenter<View>{
+    interface Presenter extends BasePresenter{
         void getForumList();
     }
 }

@@ -52,7 +52,9 @@
         <activity android:name=".forum.boards.BoardsActivity"/>
         <activity android:name=".forum.boards.thread.ThreadActivity"/>
         <activity android:name=".individual.message.MessageActivity"/>
-        <activity android:name=".forum.boards.thread_list.ThreadListActivity">
+        <activity
+            android:name=".forum.boards.thread_list.ThreadListActivity"
+            android:launchMode="singleTask">
             <!--暂时这里不做隐式跳转吧先...-->
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.VIEW"/>-->
@@ -84,14 +86,14 @@
             android:name=".picture.BigPhotoActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
-                <activity
-                    android:name="com.tencent.bugly.beta.ui.BetaActivity"
-                    android:configChanges="keyboardHidden|orientation|screenSize|locale"
-                    android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
+            android:theme="@android:style/Theme.Translucent"/>
 
         <activity android:name=".mdeditor.EditorActivity"/>
         <activity android:name=".individual.release.ReleaseActivity"/>
-
+        <activity android:name=".search.SearchActivity"/>
     </application>
 
 </manifest>

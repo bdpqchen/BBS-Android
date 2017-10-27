@@ -10,10 +10,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 public interface ThreadListContract {
     interface View extends BaseView {
         void setThreadList(ThreadListModel threadListModel);
+
         void showErrorMessage(String msg);
     }
 
-    interface Presenter extends BasePresenter<View> {
+    interface Presenter extends BasePresenter {
         void getThreadList(int id, int page);
     }
 }

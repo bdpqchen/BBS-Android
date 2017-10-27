@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
@@ -23,7 +24,7 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-9-18.
  */
 
-public class ReplyFragment extends BaseFragment<ReplyPresenter> implements ReplyContract.View, SwipeRefreshLayout.OnRefreshListener, OnReleaseItemClickListener {
+public class ReplyFragment extends BaseFragment implements ReplyContract.View, SwipeRefreshLayout.OnRefreshListener, OnReleaseItemClickListener {
 
     @BindView(R.id.tv_none_reply)
     TextView mTvNoneReply;
@@ -36,6 +37,7 @@ public class ReplyFragment extends BaseFragment<ReplyPresenter> implements Reply
     private ReplyAdapter mAdapter;
     private int mPage;
     private boolean mRefreshing;
+    private ReplyPresenter mPresenter;
 
     @Override
     protected int getFragmentLayoutId() {
@@ -43,12 +45,8 @@ public class ReplyFragment extends BaseFragment<ReplyPresenter> implements Reply
     }
 
     @Override
-    protected void injectFragment() {
-        getFragmentComponent().inject(this);
-    }
-
-    @Override
     protected void initFragment() {
+        mPresenter = new ReplyPresenter(this);
         mAdapter = new ReplyAdapter(mContext, this);
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -64,6 +62,11 @@ public class ReplyFragment extends BaseFragment<ReplyPresenter> implements Reply
             }
         });
         getDataList();
+    }
+
+    @Override
+    protected ReplyPresenter getPresenter() {
+        return mPresenter;
     }
 
     public static ReplyFragment newInstance() {

@@ -1,9 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.auth.login;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -13,22 +11,22 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.RandomUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.view.ProgressButton;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 
-import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -42,27 +40,21 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
  * Created by bdpqchen on 17-5-2.
  */
 
-public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
+public class LoginActivity extends BaseActivity implements LoginContract.View {
 
-    @BindView(R.id.tx_forgot_password)
-    TextView mTxForgotPassword;
     @BindView(R.id.et_account)
     EditText mEtAccount;
     @BindView(R.id.et_password)
     EditText mEtPassword;
-    @BindView(R.id.tv_goto_replace_user)
-    TextView mTvGotoReplaceUser;
-    @BindView(R.id.tv_to_register)
-    TextView mTvGotoRegister;
-    @BindView(R.id.cp_btn_login)
-    CircularProgressButton mCircularProgressButton;
     @BindView(R.id.iv_login_banner)
     ImageView mIvBanner;
     @BindView(R.id.view_need_offset)
     LinearLayout mNeedOffset;
     @BindView(R.id.civ_avatar)
     CircleImageView mCivAvatar;
-
+    @BindView(R.id.p_btn_login)
+    ProgressButton mPBtnLogin;
+    private LoginPresenter mPresenter;
     private static final String LOGIN_ERROR_TEXT = "哈哈?搞笑..";
 
     @Override
@@ -76,18 +68,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return false;
-    }
-
-    @Override
-    protected void inject() {
-        getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return null;
+    protected BasePresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
@@ -95,13 +77,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         //键盘挡住输入框
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState);
+        mPresenter = new LoginPresenter(this);
         StatusBarUtil.setTranslucentForImageView(this, 0, mNeedOffset);
         //自动填写用户名
         Intent intent = getIntent();
         String usernameToSet = intent.getStringExtra(USERNAME);
         if (usernameToSet == null || usernameToSet.length() == 0) {
             usernameToSet = PrefUtil.getAuthUsername();
-        }else{
+        }
+        if (usernameToSet != null && usernameToSet.length() > 0) {
             mEtPassword.requestFocus();
         }
         mEtAccount.setText(usernameToSet);
@@ -114,8 +98,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         pkTracker();
     }
 
-    @OnClick({R.id.tx_forgot_password, R.id.tv_goto_register,R.id.tv_to_register,
-            R.id.et_account, R.id.et_password, R.id.tv_goto_replace_user, R.id.cp_btn_login})
+    @OnClick({R.id.tx_forgot_password, R.id.tv_to_register, R.id.p_btn_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tx_forgot_password:
@@ -124,31 +107,27 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             case R.id.tv_to_register:
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
-            case R.id.et_account:
-                break;
-            case R.id.et_password:
-                break;
-            case R.id.cp_btn_login:
-                String username = mEtAccount.getText() + "";
-                String password = mEtPassword.getText() + "";
+            case R.id.p_btn_login:
+                String username = mEtAccount.getText().toString();
+                String password = mEtPassword.getText().toString();
                 if (username.length() == 0) {
                     mEtAccount.setError(LOGIN_ERROR_TEXT);
                 } else if (password.length() == 0) {
                     mEtPassword.setError(LOGIN_ERROR_TEXT);
                 } else {
-                    mCircularProgressButton.startAnimation();
-                    mPresenter.doLogin(username, password);
+                    mPBtnLogin.start();
                     PrefUtil.setAuthUsername(username);
+                    mPresenter.doLogin(username, password);
                 }
                 break;
         }
     }
 
-    private void pkTracker(){
+    private void pkTracker() {
         getTrackerHelper().screen(PK_LOGIN).title("登录").with(getTracker());
         getTrackerHelper().event(PK_CATEGORY_SIGN, "Login").with(getTracker());
-
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -162,26 +141,23 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void loginSuccess(LoginModel loginModel) {
         PrefUtil.setFirstOpen(false);
-        if (mCircularProgressButton != null) {
-            mCircularProgressButton.doneLoadingAnimation(R.color.material_green_600, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
-        }
+        mPBtnLogin.done();
+
         PrefUtil.setAuthToken(loginModel.getToken());
         PrefUtil.setAuthGroup(loginModel.getGroup());
         PrefUtil.setAuthUid(loginModel.getUid());
         ActivityOptions activityOptions = null;
         Intent intent = new Intent(this, HomeActivity.class);
         PrefUtil.setIsNoAccountUser(false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            activityOptions = ActivityOptions.makeSceneTransitionAnimation(this, new Pair<>(findViewById(R.id.cp_btn_login), "transition"));
+        if (VersionUtil.eaLollipop()) {
+            activityOptions = ActivityOptions.makeSceneTransitionAnimation(this, new Pair<>(findViewById(R.id.p_btn_login), "transition"));
         }
         if (activityOptions != null) {
             ActivityOptions finalActivityOptions = activityOptions;
             HandlerUtil.postDelay(() -> {
                 startActivity(intent, finalActivityOptions.toBundle());
             }, 400);
-//            LogUtil.d("start activity with options");
         } else {
-//            LogUtil.d("start activity with none");
             HandlerUtil.postDelay(() -> {
                 startActivity(intent);
             }, 400);
@@ -191,16 +167,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void loginFailed(String msg) {
-        if (mCircularProgressButton != null) {
-            mCircularProgressButton.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
-        }
-        HandlerUtil.postDelay(() -> {
-            if (mCircularProgressButton != null) {
-                mCircularProgressButton.revertAnimation();
-            }
-        }, 3000);
+        mPBtnLogin.error();
+//        SnackBarUtil.error(this, msg);
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-
     }
 
 

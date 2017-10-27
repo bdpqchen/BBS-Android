@@ -2,14 +2,11 @@ package com.twtstudio.bbs.bdpqchen.bbs.main;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -18,17 +15,15 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-6-5.
  */
 
-public class MainPresenter extends RxPresenter<MainContract.View> implements MainContract.Presenter {
+public class MainPresenter extends RxPresenter implements MainContract.Presenter {
+    private MainContract.View mView;
 
-    RxDoHttpClient<List<LatestEntity>> mHttpClient;
-
-    @Inject
-    MainPresenter(RxDoHttpClient client) {
-        mHttpClient = client;
+    public MainPresenter(MainContract.View view) {
+        mView = view;
     }
 
     @Override
-    public void getLatestList() {
+    public void getLatestList(int page) {
         SimpleObserver<List<LatestEntity>> observer = new SimpleObserver<List<LatestEntity>>() {
             @Override
             public void _onError(String msg) {
@@ -42,8 +37,8 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                     mView.onGetLatestList(latestEntity);
             }
         };
-        addSubscribe(mHttpClient.getLatestList()
-                .map(mHttpClient.mTransformer)
+        addSubscribe(sHttpClient.getLatestList(page)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
@@ -65,7 +60,7 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                     mView.onGetHotList(hotEntity);
             }
         };
-        addSubscribe(mHttpClient.getHotList()
+        addSubscribe(sHttpClient.getHotList()
                 .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

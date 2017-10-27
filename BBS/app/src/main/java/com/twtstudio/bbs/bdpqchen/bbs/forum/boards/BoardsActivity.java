@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +12,7 @@ import android.widget.ProgressBar;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -30,8 +30,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FO
  * Created by bdpqchen on 17-5-11.
  */
 
-public class BoardsActivity extends BaseActivity<BoardsPresenter> implements BoardsContract.View {
-
+public class BoardsActivity extends BaseActivity implements BoardsContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -52,6 +51,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     private boolean isSimpleBoardList = PrefUtil.isSimpleBoardList();
     private List<PreviewThreadModel> mPreviewThreadModel = new ArrayList<>();
     private BoardsModel mBoardsModel = new BoardsModel();
+    private BoardsPresenter mPresenter;
 
     @Override
     protected int getLayoutResourceId() {
@@ -65,18 +65,8 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
-    protected void inject() {
-        getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
+    protected BasePresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
@@ -87,6 +77,7 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
         mForumTitle = getIntent().getStringExtra(INTENT_FORUM_TITLE);
         super.onCreate(savedInstanceState);
         mContext = this;
+        mPresenter = new BoardsPresenter(this);
         if (isSimpleBoardList){
             mAdapter = new BoardsAdapter(mContext, mBoardsModel);
         }else{
@@ -153,15 +144,11 @@ public class BoardsActivity extends BaseActivity<BoardsPresenter> implements Boa
     }
 
     void setRefreshing(boolean b){
-        if (mSrlBoardList != null){
-            mSrlBoardList.setRefreshing(b);
-        }
+        mSrlBoardList.setRefreshing(b);
     }
 
     private void hideProgressBar() {
         mRefreshing = false;
-        if (mProgressBar != null){
-            mProgressBar.setVisibility(View.GONE);
-        }
+        mProgressBar.setVisibility(View.GONE);
     }
 }

@@ -13,7 +13,6 @@ import java.util.List;
 
 interface MessageContract {
 
-
     interface View extends BaseView {
         void onGetMessageFailed(String m);
         void showMessageList(List<MessageModel> messageList);
@@ -23,7 +22,7 @@ interface MessageContract {
         void onConfirmFriendSuccess(BaseModel model, int position, int isGrant);
     }
 
-    interface Presenter extends BasePresenter<MessageContract.View> {
+    interface Presenter extends BasePresenter {
         void getMessageList(int page);
         void doClearUnreadMessage();
         void confirmFriend(int id, int bool, int position);

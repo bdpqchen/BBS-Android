@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.avatar;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import android.widget.Toast;
 import com.soundcloud.android.crop.Crop;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 
@@ -43,17 +43,8 @@ public class UpdateAvatarActivity extends BaseActivity {
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
-    protected void inject() {
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
+    protected BasePresenter getPresenter() {
+        return null;
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TransUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.GlideImageGeter;
 import com.twtstudio.bbs.bdpqchen.bbs.htmltextview.HtmlTextView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
@@ -70,7 +71,7 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                 setViewStatus(item.getRead(), iHolder.mTvRedDot);
                 ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, item.getAuthor_id(), iHolder.mCivMessage);
                 iHolder.mCivMessage.setOnClickListener(v -> {
-                    mContext.startActivity(IntentUtil.toPeople(mContext, item.getAuthor_id()));
+                    startToPeople(mContext, item.getAuthor_id(), iHolder.mCivMessage);
                 });
                 if (item.getContent_model() != null) {
                     LogUtil.dd("load avatarr", String.valueOf(item.getAuthor_id()));
@@ -105,7 +106,7 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                 setViewStatus(item.getRead(), iHolder.mRedDot);
                 ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, item.getAuthor_id(), iHolder.mCivMessage);
                 iHolder.mCivMessage.setOnClickListener(v -> {
-                    mContext.startActivity(IntentUtil.toPeople(mContext, item.getAuthor_id()));
+                    startToPeople(mContext, item.getAuthor_id(), iHolder.mCivMessage);
                 });
                 iHolder.mTvAppealName.setText(TextUtil.getTwoNames(item.getAuthor_name(), item.getAuthor_nickname()));
                 iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
@@ -135,6 +136,10 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
 
             }
         }
+    }
+
+    private void startToPeople(Context context, int uid, View view) {
+        context.startActivity(IntentUtil.toPeople(mContext, uid), TransUtil.getAvatarTransOptions(context, view));
     }
 
     private void setViewStatus(int status, View v) {

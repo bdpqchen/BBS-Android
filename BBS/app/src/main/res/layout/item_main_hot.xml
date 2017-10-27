@@ -40,6 +40,8 @@
                     android:clickable="true"
                     android:focusable="true"
                     tools:src="@drawable/avatar_default_left"
+                    android:transitionName="@string/share_avatar"
+                    tools:targetApi="lollipop"
                     />
 
                 <TextView

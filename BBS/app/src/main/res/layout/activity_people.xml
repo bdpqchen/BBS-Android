@@ -11,10 +11,10 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nested_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorMainBg"
-        android:id="@+id/nested_scroll"
         >
 
         <LinearLayout
@@ -60,10 +60,13 @@
                             android:layout_width="@dimen/size_avatar_large"
                             android:layout_height="@dimen/size_avatar_large"
                             android:layout_centerInParent="true"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:transitionName="@string/share_avatar"
                             app:civ_border_color="@color/material_light_white"
                             app:civ_border_width="3dp"
                             tools:src="@drawable/avatar_default_left"
-                            android:clickable="true"
+                            tools:targetApi="lollipop"
                             />
 
                         <TextView

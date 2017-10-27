@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainContract;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainPresenter;
@@ -25,7 +24,7 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-6-5.
  */
 
-public class PersonalFragment extends BaseFragment<MainPresenter> implements MainContract.View {
+public class PersonalFragment extends BaseFragment implements MainContract.View {
 
     @BindView(R.id.pb_loading)
     ProgressBar mPbLoading;
@@ -39,7 +38,7 @@ public class PersonalFragment extends BaseFragment<MainPresenter> implements Mai
     private LatestAdapter mAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     private boolean mRefreshing = false;
-
+    private MainPresenter mPresenter;
     public static PersonalFragment newInstance() {
         return new PersonalFragment();
     }
@@ -50,12 +49,13 @@ public class PersonalFragment extends BaseFragment<MainPresenter> implements Mai
     }
 
     @Override
-    protected void injectFragment() {
-        getFragmentComponent().inject(this);
+    protected MainPresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
     protected void initFragment() {
+//        mPresenter = new MainPresenter(this);
         mAdapter = new LatestAdapter(getActivity());
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRvLatest.setLayoutManager(mLinearLayoutManager);

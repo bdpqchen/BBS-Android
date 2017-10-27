@@ -15,7 +15,7 @@ public interface PeopleContract {
         void onAddFriend(BaseModel model);
         void onAddFriendFailed(String s);
     }
-    interface Presenter extends BasePresenter<View>{
+    interface Presenter extends BasePresenter{
         void getUserInfo(int uid);
         void addFriend(int toUid, String msg);
     }

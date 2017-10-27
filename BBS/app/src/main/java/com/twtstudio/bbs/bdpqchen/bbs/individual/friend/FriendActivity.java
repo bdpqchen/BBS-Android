@@ -1,13 +1,11 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.friend;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -22,7 +20,7 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-6-29.
  */
 
-public class FriendActivity extends BaseActivity<FriendPresenter> implements FriendContract.View {
+public class FriendActivity extends BaseActivity implements FriendContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -33,7 +31,7 @@ public class FriendActivity extends BaseActivity<FriendPresenter> implements Fri
 
     private FriendAdapter mAdapter;
     private boolean mRefreshing = false;
-
+    private FriendPresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_friend;
@@ -46,23 +44,14 @@ public class FriendActivity extends BaseActivity<FriendPresenter> implements Fri
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
-    protected void inject() {
-        getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
+    protected FriendPresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new FriendPresenter(this);
         mAdapter = new FriendAdapter(this);
         mRvFriend.setAdapter(mAdapter);
         mRvFriend.addItemDecoration(new RecyclerViewItemDecoration(1));

@@ -16,6 +16,11 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.FORUM;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.THREAD;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USER;
 
 /**
  * Created by retrox on 16/08/2017.
@@ -36,12 +41,10 @@ public class RichTextMovementMethod extends ArrowKeyMovementMethod {
         return sInstance;
     }
 
-    private boolean isMoved = false; //设置滑动标志位来模拟点击操作（学习自view源码）: DOWN -> 没有MOVE -> UP == 点击
-
     @Override
     public boolean onTouchEvent(TextView widget, Spannable buffer, MotionEvent event) {
         int action = event.getAction();
-
+        final Context context = widget.getContext();
         if (action == MotionEvent.ACTION_UP ||
                 action == MotionEvent.ACTION_DOWN) {
             int x = (int) event.getX();
@@ -65,29 +68,24 @@ public class RichTextMovementMethod extends ArrowKeyMovementMethod {
                     ClickableSpan span = link[0];
                     if (span instanceof URLSpan) {
                         Uri uri = Uri.parse(((URLSpan) span).getURL());
-//                        LogUtil.dd("uri", uri.toString());
+                        LogUtil.dd("uri", uri.toString());
                         if (isInteriorThreadLink(uri)) {
                             int threadId = CastUtil.parse2intWithMin(uri.getLastPathSegment());
-                            Intent intent = IntentUtil.toThread(widget.getContext(), threadId);
-                            widget.getContext().startActivity(intent);
+                            Intent intent = IntentUtil.toThread(context, threadId);
+                            context.startActivity(intent);
+                        } else if (isAtUserLink(uri)) {
+                            context.startActivity(IntentUtil.toPeople(context, getAtUid(uri.toString())));
                         } else {
                             // 调用系统默认链接点击事件
-                            link[0].onClick(widget);
+                            if (isOuterLink(uri))
+                                link[0].onClick(widget);
                         }
                     }
                 }
-                /*else if (action == MotionEvent.ACTION_DOWN) {
-                    LogUtil.dd("action", "Down");
-                    Selection.setSelection(buffer,
-                            buffer.getSpanStart(link[0]),
-                            buffer.getSpanEnd(link[0]));
-                }*/
                 return true;
             } else if (isImage(imageSpans)) {
                 if (isActionUp(action)) {
-                    Context context = widget.getContext();
-                    Intent intent = IntentUtil.toBigPhoto(context, imageSpans[0].getSource());
-                    context.startActivity(intent);
+                    context.startActivity(IntentUtil.toBigPhoto(context, imageSpans[0].getSource()));
                 }
                 return true;
             }
@@ -96,8 +94,32 @@ public class RichTextMovementMethod extends ArrowKeyMovementMethod {
         return super.onTouchEvent(widget, buffer, event);
     }
 
-    private boolean isThread(String url) {
-        return url.contains("/forum/thread/");
+    private boolean isOuterLink(Uri uri) {
+        String link = uri.toString();
+        if (link.length() > 2 && uri.getHost() != null) {
+            return true;
+        }
+        return false;
+    }
+
+    private String getUserLinkKey() {
+        return "/" + USER + "/";
+    }
+
+    private boolean isAtUserLink(Uri uri) {
+        final String str = uri.toString();
+        final String key = getUserLinkKey();
+        return str.contains(key) && CastUtil.isNumeric(str.substring(str.indexOf(key) + key.length(), str.length()));
+    }
+
+    private int getAtUid(String str) {
+        final String key = getUserLinkKey();
+        int uid = 0;
+        String uidStr = str.substring(str.indexOf(key) + key.length(), str.length());
+        if (CastUtil.isNumeric(uidStr)) {
+            uid = CastUtil.parse2int(uidStr);
+        }
+        return uid;
     }
 
     private boolean isLink(ClickableSpan[] link) {
@@ -109,14 +131,20 @@ public class RichTextMovementMethod extends ArrowKeyMovementMethod {
     }
 
     private boolean isActionUp(int action) {
-        return action == MotionEvent.ACTION_UP && !isMoved;
+        return action == MotionEvent.ACTION_UP;
     }
 
     private boolean isInteriorLink(Uri uri) {
+        if (uri.getHost() == null) return false;
         return uri.getHost().equals(RxDoHttpClient.BASE_HOST);
     }
 
+    private boolean isThread(String url) {
+        return url.contains("/" + FORUM + "/" + THREAD + "/");
+    }
+
     private boolean isInteriorThreadLink(Uri uri) {
+        if (uri == null) return false;
         return isInteriorLink(uri) && isThread(uri.toString());
     }
 }

@@ -18,7 +18,7 @@ interface LetterContract {
         void onSend(BaseModel model);
         void onSendFailed(String m);
     }
-    interface Presenter extends BasePresenter<View>{
+    interface Presenter extends BasePresenter{
         void getLetterList(int uid, int page, int mode);
         void sendLetter(int to_uid, String content);
     }

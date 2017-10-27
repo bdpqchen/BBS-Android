@@ -3,12 +3,9 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.star;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -17,15 +14,12 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-6-29.
  */
 
-class StarPresenter extends RxPresenter<StarContract.View> implements StarContract.Presenter {
-    private RxDoHttpClient<List<StarModel>> mHttpClient;
-    private ResponseTransformer<BaseModel> transformer = new ResponseTransformer<>();
+class StarPresenter extends RxPresenter implements StarContract.Presenter {
+    private StarContract.View mView;
 
-    @Inject
-    StarPresenter(RxDoHttpClient httpClient) {
-        mHttpClient = httpClient;
+    StarPresenter(StarContract.View view) {
+        mView = view;
     }
-
 
     @Override
     public void getStarList() {
@@ -35,14 +29,15 @@ class StarPresenter extends RxPresenter<StarContract.View> implements StarContra
                 if (mView != null)
                     mView.onGetStarFailed(msg);
             }
+
             @Override
             public void _onNext(List<StarModel> starModel) {
                 if (mView != null)
                     mView.onGetStarList(starModel);
             }
         };
-        addSubscribe(mHttpClient.getStarThreadList()
-                .map(mHttpClient.mTransformer)
+        addSubscribe(sHttpClient.getStarThreadList()
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
@@ -57,14 +52,15 @@ class StarPresenter extends RxPresenter<StarContract.View> implements StarContra
                 if (mView != null)
                     mView.onStarFailed(msg);
             }
+
             @Override
             public void _onNext(BaseModel starModelBaseResponse) {
                 if (mView != null)
                     mView.onStar(position);
             }
         };
-        addSubscribe(mHttpClient.starThread(tid)
-                .map(transformer)
+        addSubscribe(sHttpClient.starThread(tid)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
@@ -79,14 +75,15 @@ class StarPresenter extends RxPresenter<StarContract.View> implements StarContra
                 if (mView != null)
                     mView.onUnStarFailed(msg);
             }
+
             @Override
             public void _onNext(BaseModel starModelBaseResponse) {
                 if (mView != null)
                     mView.onUnStar(position);
             }
         };
-        addSubscribe(mHttpClient.unStarThread(tid)
-                .map(transformer)
+        addSubscribe(sHttpClient.unStarThread(tid)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)

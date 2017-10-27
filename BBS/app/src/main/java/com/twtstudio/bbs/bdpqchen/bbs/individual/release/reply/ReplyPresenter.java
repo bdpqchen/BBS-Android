@@ -3,12 +3,9 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.release.reply;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -17,13 +14,11 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-9-18.
  */
 
-class ReplyPresenter extends RxPresenter<ReplyContract.View> implements ReplyContract.Presenter {
+class ReplyPresenter extends RxPresenter implements ReplyContract.Presenter {
+    private ReplyContract.View mView;
 
-    private RxDoHttpClient<List<ReplyEntity>> mHttpClient;
-
-    @Inject
-    ReplyPresenter(RxDoHttpClient httpClient) {
-        mHttpClient = httpClient;
+    ReplyPresenter(ReplyContract.View view) {
+        mView = view;
     }
 
     @Override
@@ -41,8 +36,8 @@ class ReplyPresenter extends RxPresenter<ReplyContract.View> implements ReplyCon
                     mView.onGetReplyList(list);
             }
         };
-        addSubscribe(mHttpClient.getReplyList(page)
-                .map(mHttpClient.mTransformer)
+        addSubscribe(sHttpClient.getReplyList(page)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer));
@@ -64,7 +59,7 @@ class ReplyPresenter extends RxPresenter<ReplyContract.View> implements ReplyCon
                     mView.onDeletePost(entity, position);
             }
         };
-        addSubscribe(mHttpClient.deletePost(pid)
+        addSubscribe(sHttpClient.deletePost(pid)
                 .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

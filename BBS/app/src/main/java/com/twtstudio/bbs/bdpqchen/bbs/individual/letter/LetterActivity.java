@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.letter;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +15,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
@@ -36,7 +34,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
  * Created by bdpqchen on 17-7-4.
  */
 
-public class LetterActivity extends BaseActivity<LetterPresenter> implements LetterContract.View {
+public class LetterActivity extends BaseActivity implements LetterContract.View {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.rv_letter)
@@ -45,7 +43,7 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
     EditText mEtLetter;
     @BindView(R.id.tv_send)
     TextView mTvSend;
-
+    private LetterPresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_letter;
@@ -58,18 +56,8 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
-    protected void inject() {
-        getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
+    protected LetterPresenter getPresenter() {
+        return mPresenter;
     }
 
     private static final int SEC = (BuildConfig.DEBUG ? 3 : 600) * 1000;
@@ -91,6 +79,7 @@ public class LetterActivity extends BaseActivity<LetterPresenter> implements Let
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter= new LetterPresenter(this);
         Intent intent = getIntent();
         mUid = intent.getIntExtra(UID, 0);
         mToolbar.setTitle(intent.getStringExtra(USERNAME));

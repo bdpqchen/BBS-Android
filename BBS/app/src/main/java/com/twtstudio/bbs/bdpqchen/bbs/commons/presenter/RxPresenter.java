@@ -1,7 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.presenter;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -10,9 +10,14 @@ import io.reactivex.disposables.Disposable;
  * Created by bdpqchen on 17-4-21.
  */
 
-public class RxPresenter<T extends BaseView> implements BasePresenter<T> {
+public class RxPresenter implements BasePresenter {
 
-    protected T mView;
+    protected static RxDoHttpClient sHttpClient = RxDoHttpClient.getInstance();
+
+    /*
+    * 在每个 Presenter 里都会创建这个 CompositeDisposable,
+    * so, unSubscribe 的调用时机为 each onDestroy() of Activity or Fragment be called.
+    * */
     private CompositeDisposable mCompositeDisposable;
 
     protected void addSubscribe(Disposable disposable){
@@ -22,24 +27,10 @@ public class RxPresenter<T extends BaseView> implements BasePresenter<T> {
         mCompositeDisposable.add(disposable);
     }
 
-    protected void unSubscribe(){
+    public void unSubscribe(){
         if (mCompositeDisposable != null){
             mCompositeDisposable.dispose();
         }
     }
 
-    @Override
-    public void attachView(T view) {
-        if (view != null){
-            this.mView = view;
-        }
-    }
-
-    @Override
-    public void detachView() {
-        if (mView != null){
-            mView = null;
-        }
-        unSubscribe();
-    }
 }

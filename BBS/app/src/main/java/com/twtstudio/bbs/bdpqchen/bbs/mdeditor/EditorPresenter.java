@@ -1,11 +1,9 @@
 package com.twtstudio.bbs.bdpqchen.bbs.mdeditor;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -14,13 +12,11 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-9-11.
  */
 
-public class EditorPresenter extends RxPresenter<EditorContract.View> implements EditorContract.Presenter {
+public class EditorPresenter extends RxPresenter implements EditorContract.Presenter {
+    private EditorContract.View mView;
 
-    private RxDoHttpClient<UploadImageModel> mHttpClient;
-
-    @Inject
-    EditorPresenter(RxDoHttpClient client) {
-        mHttpClient = client;
+    EditorPresenter(EditorContract.View v) {
+        mView = v;
     }
 
     @Override
@@ -40,8 +36,8 @@ public class EditorPresenter extends RxPresenter<EditorContract.View> implements
 
             }
         };
-        addSubscribe(mHttpClient.uploadImage(uri)
-                .map(mHttpClient.mTransformer)
+        addSubscribe(sHttpClient.uploadImage(uri)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)

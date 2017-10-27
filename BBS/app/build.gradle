@@ -1,24 +1,29 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-kapt'
 
 Properties pro = new Properties()
 pro.load(project.rootProject.file('local.properties').newDataInputStream())
+
 
 dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:25.4.0'
     compile files('libs/txtmark-0.16.jar')
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.twtstudio.bbs.bdpqchen.bbs"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 10
-        versionName "1.4.0"
+        versionCode 12
+        versionName "1.5.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        multiDexEnabled true
 
@@ -26,6 +31,10 @@ android {
 
     lintOptions {
         checkReleaseBuilds false
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 
     signingConfigs {
@@ -36,7 +45,7 @@ android {
                 keyAlias pro.getProperty("keyAlias")
                 keyPassword pro.getProperty("storePassword")
             } catch (ex) {
-                throw new InvalidUserDataException(ex.toString())
+//                throw new InvalidUserDataException(ex.toString())
             }
         }
 
@@ -50,16 +59,21 @@ android {
             minifyEnabled true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if(pro.getProperty("id_bugly") != null){
+                it.buildConfigField 'String', 'ID_BUGLY', pro.getProperty("id_bugly")
+            }
         }
         debug {
             debuggable true
             minifyEnabled false
             signingConfig signingConfigs.debug
+            //假数据..
+            it.buildConfigField 'String', 'ID_BUGLY', "\"abc\""
         }
 
         buildTypes.each {
 //        it.resValue 'string', 'LOCAL_KEY', localName
-            it.buildConfigField 'String', 'ID_BUGLY', pro.getProperty("id_bugly")
+//            it.buildConfigField 'String', 'ID_BUGLY', pro.getProperty("id_bugly")
         }
 
     }
@@ -68,6 +82,8 @@ android {
         mavenCentral()
         jcenter()
         maven { url 'https://jitpack.io' }
+        //KotterKnife
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
 
     compileOptions {
@@ -90,10 +106,10 @@ android {
         compile 'com.android.support.constraint:constraint-layout:1.0.2'
         compile 'com.jaeger.statusbaruitl:library:1.3.6'
         compile 'com.jakewharton:butterknife:8.5.1'
+        compile 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
+
         compile 'com.orhanobut:hawk:2.0.1'
         compile 'com.orhanobut:logger:1.15'
-        compile 'com.androidadvance:topsnackbar:1.1.1'
-        compile 'com.isanwenyu.TopSnackbar:topsnackbar:1.0.0'
         compile 'io.reactivex.rxjava2:rxjava:2.0.9'
         compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
         compile 'com.squareup.retrofit2:retrofit:2.2.0'
@@ -112,13 +128,13 @@ android {
         compile 'com.karumi:dexter:4.1.0'
         testCompile 'junit:junit:4.12'
         annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-        annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+//        kapt "com.google.dagger:dagger-compiler:2.10"
+//        annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
         compile 'com.daimajia.easing:library:2.0@aar'
         compile 'com.daimajia.androidanimations:library:2.2@aar'
         compile 'com.soundcloud.android:android-crop:1.0.1@aar'
         compile 'jp.wasabeef:richeditor-android:1.2.2'
         compile 'com.zhihu.android:matisse:0.4.3'
-        compile 'com.nightonke:boommenu:2.1.0'
 //        compile "com.android.support:multidex:1.0.1"
         compile 'jp.wasabeef:glide-transformations:2.0.2'
         compile 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'
@@ -128,8 +144,6 @@ android {
         compile 'com.github.piasy:ProgressPieIndicator:1.3.2'
         compile 'com.tencent.bugly:crashreport_upgrade:1.3.1'
         compile 'com.github.michael-rapp:android-bottom-sheet:1.3.0'
-
-
 
     }
 

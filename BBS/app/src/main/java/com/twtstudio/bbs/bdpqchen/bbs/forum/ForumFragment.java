@@ -7,31 +7,24 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
 
 /**
  * Created by bdpqchen on 17-5-3.
  */
 
-public class ForumFragment extends BaseFragment<ForumPresenter> implements ForumContract.View {
+public class ForumFragment extends BaseFragment implements ForumContract.View {
 
     @BindView(R.id.tv_title_toolbar)
     TextView mTvTitleToolbar;
@@ -39,7 +32,6 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
     RecyclerView mRvForumList;
 
     ForumAdapter mAdapter;
-    Unbinder unbinder;
     Activity mActivity;
     @BindView(R.id.pb_loading_forum)
     ProgressBar mPbLoadingForum;
@@ -47,15 +39,10 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
     SwipeRefreshLayout mSrlForum;
     private boolean mRefreshing = false;
     private boolean isSimple = PrefUtil.isSimpleForum();
-
+    private ForumPresenter mPresenter;
     @Override
     protected int getFragmentLayoutId() {
         return R.layout.fragment_forum;
-    }
-
-    @Override
-    protected void injectFragment() {
-        getFragmentComponent().inject(this);
     }
 
     public static ForumFragment newInstance() {
@@ -65,7 +52,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
     @Override
     protected void initFragment() {
         mActivity = this.getActivity();
-
+        mPresenter = new ForumPresenter(this);
         mTvTitleToolbar.setText("论坛区");
         mAdapter = new ForumAdapter(mContext, this.getActivity());
         if (isSimple){
@@ -81,6 +68,11 @@ public class ForumFragment extends BaseFragment<ForumPresenter> implements Forum
             mPresenter.getForumList();
             mRefreshing = true;
         });
+    }
+
+    @Override
+    protected ForumPresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override

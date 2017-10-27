@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.message;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,7 +27,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_UN
  * Created by bdpqchen on 2017/5/28.
  */
 
-public class MessageActivity extends BaseActivity<MessagePresenter> implements MessageContract.View {
+public class MessageActivity extends BaseActivity implements MessageContract.View {
 
 
     @BindView(R.id.toolbar)
@@ -46,7 +45,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
     private int mPage = 0;
     private LinearLayoutManager mLayoutManager;
     private boolean autoClear = true;
-
+    private MessagePresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.atcivity_message;
@@ -56,21 +55,16 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
         toolbar.setTitle("我的消息");
         return toolbar;
     }
+
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
+    protected MessagePresenter getPresenter() {
+        return mPresenter;
     }
-    @Override
-    protected void inject() {
-        getActivityComponent().inject(this);
-    }
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new MessagePresenter(this);
         mAdapter = new MessageAdapter(this, mPresenter);
         mRecyclerView.setAdapter(mAdapter);
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

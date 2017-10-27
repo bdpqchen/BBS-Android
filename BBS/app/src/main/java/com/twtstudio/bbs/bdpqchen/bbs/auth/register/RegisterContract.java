@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.auth.register;
 
 import android.os.Bundle;
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 
 /**
@@ -11,10 +12,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseView;
 public interface RegisterContract {
     interface View extends BaseView {
         void registerSuccess();
+
         void registerFailed(String errorMessage);
     }
 
-    interface Presenter extends BaseView {
+    interface Presenter extends BasePresenter {
         void doRegister(Bundle bundle);
     }
 }

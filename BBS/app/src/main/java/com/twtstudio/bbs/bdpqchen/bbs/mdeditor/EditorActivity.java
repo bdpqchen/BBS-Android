@@ -66,10 +66,7 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
         initViewPager();
         initTab();
         initActionBar(mIdToolbar);
-
         setContent(mContent);
-
-
     }
 
     private void initActionBar(Toolbar toolbar) {

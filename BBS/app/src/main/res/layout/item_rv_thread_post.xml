@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -38,7 +39,8 @@
                 android:layout_height="@dimen/size_avatar_normal"
                 android:layout_alignParentStart="true"
                 android:src="@drawable/avatar_default_right"
-                />
+                android:transitionName="@string/share_avatar"
+                tools:targetApi="lollipop"/>
 
             <TextView
                 android:id="@+id/tv_username_post"
@@ -64,8 +66,9 @@
             android:textColor="@color/colorTvBlackMainTint"
             android:textIsSelectable="true"
             android:textSize="16sp"
-            tools:text="挑剔大家发多少aflsjlfsj大家来决定是否了解爱上了飞机来打扫房间2017年05月22日23:45:052017年05月22日23:45:07"
-            />
+            android:transitionName="@string/share_avatar"
+            tools:targetApi="lollipop"
+            tools:text="挑剔大家发多少aflsjlfsj大家来决定是否了解爱上了飞机来打扫房间2017年05月22日23:45:052017年05月22日23:45:07"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -85,8 +88,8 @@
                 tools:text="2017-11-11"
                 />
 
-            <ImageView
-                android:id="@+id/iv_post_like"
+            <com.twtstudio.bbs.bdpqchen.bbs.commons.view.ThumbView
+                android:id="@+id/custom_thumb_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -98,19 +101,8 @@
                 android:paddingTop="4dp"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
-                android:src="@drawable/ic_thumb_up_white_24dp"
                 android:tint="@color/colorTintIconBlack"
-                />
-
-            <TextView
-                android:id="@+id/tv_post_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="16dp"
-                android:gravity="start"
-                android:textColor="@color/colorTintIconBlack"
-                tools:text="10"
+                app:src="@drawable/ic_thumb_up_white_24dp"
                 />
 
             <ImageView

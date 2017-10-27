@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         this.mOnItemClickListener = listener;
     }
 
+//    public BaseAdapter(){}
 
     public BaseAdapter(Context context) {
         this.mContext = context;
@@ -67,6 +69,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     public void addList(List<T> items) {
         mDataSet.addAll(items);
         notifyDataSetChanged();
+    }
+
+    public int getDataListSize(){
+        return mDataSet.size();
     }
 
     public void addFirst(List<T> items) {

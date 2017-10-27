@@ -1,11 +1,9 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread;
 
-
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.BaseResponse;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
@@ -13,8 +11,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -24,14 +20,11 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-5-12.
  */
 
-class ThreadPresenter extends RxPresenter<ThreadContract.View> implements ThreadContract.Presenter {
+class ThreadPresenter extends RxPresenter implements ThreadContract.Presenter {
+    private ThreadContract.View mView;
 
-    private RxDoHttpClient<ThreadModel> mHttpClient;
-    private ResponseTransformer<PostModel> mTransformerPost = new ResponseTransformer<>();
-
-    @Inject
-    ThreadPresenter(RxDoHttpClient client) {
-        mHttpClient = client;
+    ThreadPresenter(ThreadContract.View view) {
+        mView = view;
     }
 
     @Override
@@ -49,8 +42,8 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
                     mView.onGotThread(model);
             }
         };
-        addSubscribe(mHttpClient.getThread(threadId, postPage)
-                .map(mHttpClient.mTransformer)
+        addSubscribe(sHttpClient.getThread(threadId, postPage)
+                .map(new ResponseTransformer<>())
                 .map(threadModel -> {
                     if (threadModel != null) {
                         if (threadModel.getThread() != null) {
@@ -86,8 +79,8 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
             }
 
         };
-        addSubscribe(mHttpClient.doComment(threadId, comment, replyId, isAno)
-                .map(mTransformerPost)
+        addSubscribe(sHttpClient.doComment(threadId, comment, replyId, isAno)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
@@ -108,7 +101,7 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
                 mView.onStarred();
             }
         };
-        addSubscribe(mHttpClient.starThread(id)
+        addSubscribe(sHttpClient.starThread(id)
                 .map(transformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -130,7 +123,7 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
                 mView.onUnStarred();
             }
         };
-        addSubscribe(mHttpClient.unStarThread(id)
+        addSubscribe(sHttpClient.unStarThread(id)
                 .map(transformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -155,7 +148,7 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
                 }
             }
         };
-        addSubscribe(mHttpClient.uploadImage(uri)
+        addSubscribe(sHttpClient.uploadImage(uri)
                 .map(transformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -190,11 +183,11 @@ class ThreadPresenter extends RxPresenter<ThreadContract.View> implements Thread
 
     private Observable<BaseResponse<BaseModel>> getLikeHeader(int id, boolean isLike, boolean isPost) {
         if (isPost) {
-            if (isLike) return mHttpClient.likePost(id);
-            else return mHttpClient.unlikePost(id);
+            if (isLike) return sHttpClient.likePost(id);
+            else return sHttpClient.unlikePost(id);
         } else {
-            if (isLike) return mHttpClient.likeThread(id);
-            else return mHttpClient.unlikeThread(id);
+            if (isLike) return sHttpClient.likeThread(id);
+            else return sHttpClient.unlikeThread(id);
         }
     }
 

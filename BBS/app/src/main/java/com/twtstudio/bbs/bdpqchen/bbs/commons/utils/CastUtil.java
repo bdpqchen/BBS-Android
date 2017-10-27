@@ -18,6 +18,9 @@ public final class CastUtil {
         }
     }
 
+    public static int parse2int(String s) {
+        return parse2int(s, 0);
+    }
 
     public static int parse2int(String s, int def) {
         int casted = def;
@@ -38,7 +41,9 @@ public final class CastUtil {
 
 
     public static boolean isNumeric(String str) {
-        for (int i = str.length(); --i >= 0; ) {
+        final int length = str.length();
+        if (length == 0) return false;
+        for (int i = length; --i >= 0; ) {
             int chr = str.charAt(i);
             if (chr < 48 || chr > 57)
                 return false;

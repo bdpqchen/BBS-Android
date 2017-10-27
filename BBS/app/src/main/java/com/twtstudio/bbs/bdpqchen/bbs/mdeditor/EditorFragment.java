@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImagePickUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PathUtil;
@@ -23,7 +24,7 @@ import butterknife.BindView;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PRE_ATTACH;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_IMAGE_SELECTED;
 
-public class EditorFragment extends BaseFragment<EditorPresenter> implements EditorContract.View {
+public class EditorFragment extends BaseFragment implements EditorContract.View {
     @BindView(R.id.tv_editor_title)
     TextView mTitle;
     @BindView(R.id.et_editor_content)
@@ -32,6 +33,7 @@ public class EditorFragment extends BaseFragment<EditorPresenter> implements Edi
     private String mContent = "";
     private PerformEditable mPerformEditable;
     private MaterialDialog mDialog;
+    private EditorPresenter mPresenter;
     public EditorFragment() {}
 
     public static EditorFragment getInstance() {
@@ -44,13 +46,9 @@ public class EditorFragment extends BaseFragment<EditorPresenter> implements Edi
     }
 
     @Override
-    protected void injectFragment() {
-        getFragmentComponent().inject(this);
-    }
-
-    @Override
     protected void initFragment() {
 //        LogUtil.dd("InitView");
+        mPresenter = new EditorPresenter(this);
         mPerformEditable = new PerformEditable(mEtContent);
         mTitle.setText(getTitle());
         mEtContent.setText(mContent);
@@ -61,12 +59,17 @@ public class EditorFragment extends BaseFragment<EditorPresenter> implements Edi
         PerformInputAfter.start(mEtContent);
     }
 
+    @Override
+    protected BasePresenter getPresenter() {
+        return null;
+    }
+
     public PerformEditable getPerformEditable() {
         return mPerformEditable;
     }
 
     public String getContent(){
-        if (mEtContent == null){
+        if (mEtContent.length() == 1){
             return "";
         }
         return mEtContent.getText().toString();

@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface ReplyContract {
 
-    interface Presenter extends BasePresenter<View> {
+    interface Presenter extends BasePresenter {
         void onGetReplyList(List<ReplyEntity> entityList);
     }
 

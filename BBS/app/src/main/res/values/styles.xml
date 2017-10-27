@@ -8,7 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
+        <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
+<!--
+        <item name="android:windowAllowEnterTransitionOverlap" tools:targetApi="lollipop">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap" tools:targetApi="lollipop">true</item>
+        <item name="android:windowEnterTransition" tools:targetApi="lollipop">@android:transition/slide_bottom</item>
+-->
         <item name="colorControlActivated">@color/colorPrimaryCopy</item>
         <item name="android:lineSpacingExtra">3dp</item>
 
@@ -59,6 +64,16 @@
         <item name="android:textColor">#ffffff</item>
     </style>
 
+    <style name="AppTheme.ShareElement" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowContentTransitions"
+              tools:targetApi="lollipop">true</item>
+    </style>
+
+    <declare-styleable name="ExpandableLayout">
+        <attr name="el_duration" format="integer" />
+        <attr name="el_expanded" format="boolean" />
+        <attr name="layout_expandable" format="boolean" />
+    </declare-styleable>
 
 
 </resources>

@@ -40,7 +40,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_C
  * Created by bdpqchen on 17-5-6.
  */
 
-public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implements UpdateInfoContract.View {
+public class UpdateInfoActivity extends BaseActivity implements UpdateInfoContract.View {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -64,7 +64,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     private String mOldNickname = PrefUtil.getInfoNickname();
     private String mOldSignature = PrefUtil.getInfoSignature();
     private MaterialDialog mMaterialDialog;
-
+    private UpdateInfoPresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_update_info;
@@ -77,23 +77,14 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
-    protected void inject() {
-        getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
+    protected UpdateInfoPresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new UpdateInfoPresenter(this);
         Activity activity = this;
         mNickname = PrefUtil.getInfoNickname();
         mSignature = PrefUtil.getInfoSignature();
@@ -274,7 +265,7 @@ public class UpdateInfoActivity extends BaseActivity<UpdateInfoPresenter> implem
         HandlerUtil.postDelay(this::finishMe, 2000);
     }
 
-    private void setUpdateAvatarResult(){
+    private void setUpdateAvatarResult() {
         Intent data = new Intent();
         data.putExtra(INTENT_RESULT_UPDATE_INFO, true);
         setResult(RESULT_OK, data);

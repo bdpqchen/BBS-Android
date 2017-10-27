@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface PublishContract {
 
-    interface Presenter extends BasePresenter<View> {
+    interface Presenter extends BasePresenter {
         void getPublishList(int page);
         void deleteThread(int tid, int position);
     }

@@ -1,16 +1,13 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo;
 
-import android.net.Uri;
 import android.os.Bundle;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 
 import java.io.File;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -19,15 +16,12 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-5-6.
  */
 
-class UpdateInfoPresenter extends RxPresenter<UpdateInfoContract.View> implements UpdateInfoContract.Presenter {
+class UpdateInfoPresenter extends RxPresenter implements UpdateInfoContract.Presenter {
+    private UpdateInfoContract.View mView;
 
-    private RxDoHttpClient<BaseModel> mRxDoHttpClient;
-
-    @Inject
-    UpdateInfoPresenter(RxDoHttpClient client) {
-        this.mRxDoHttpClient = client;
+    UpdateInfoPresenter(UpdateInfoContract.View view) {
+        mView = view;
     }
-
 
     @Override
     public void doUpdateAvatar(File file) {
@@ -45,8 +39,8 @@ class UpdateInfoPresenter extends RxPresenter<UpdateInfoContract.View> implement
             }
 
         };
-        addSubscribe(mRxDoHttpClient.doUpdateAvatar(file)
-                .map(mRxDoHttpClient.mTransformer)
+        addSubscribe(sHttpClient.doUpdateAvatar(file)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
@@ -67,8 +61,8 @@ class UpdateInfoPresenter extends RxPresenter<UpdateInfoContract.View> implement
                     mView.updateInfoSuccess();
             }
         };
-        addSubscribe(mRxDoHttpClient.doUpdateInfo(bundle, type)
-                .map(mRxDoHttpClient.mTransformer)
+        addSubscribe(sHttpClient.doUpdateInfo(bundle, type)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)

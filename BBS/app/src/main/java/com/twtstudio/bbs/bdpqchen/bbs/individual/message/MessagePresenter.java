@@ -3,30 +3,23 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.message;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Ricky on 2017/5/13.
  */
 
-public class MessagePresenter extends RxPresenter<MessageContract.View> implements MessageContract.Presenter {
+public class MessagePresenter extends RxPresenter implements MessageContract.Presenter {
+    private MessageContract.View mView;
 
-    private RxDoHttpClient<List<MessageModel>> mRxDoHttpClient;
-
-    @Inject
-    MessagePresenter(RxDoHttpClient client) {
-        this.mRxDoHttpClient = client;
+    MessagePresenter(MessageContract.View view) {
+        mView = view;
     }
 
     @Override
@@ -38,6 +31,7 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
                 if (mView != null)
                     mView.onGetMessageFailed(msg);
             }
+
             @Override
             public void _onNext(List<MessageModel> messageModels) {
                 if (mView != null)
@@ -45,15 +39,9 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
             }
         };
 
-        addSubscribe(mRxDoHttpClient.getMessageList(page)
-                .map(mRxDoHttpClient.mTransformer)
-                .map(new Function<List<MessageModel>, List<MessageModel>>() {
-                    @Override
-                    public List<MessageModel> apply(@NonNull List<MessageModel> messageModels) throws Exception {
-
-                        return messageModels;
-                    }
-                })
+        addSubscribe(sHttpClient.getMessageList(page)
+                .map(new ResponseTransformer<>())
+//                .map(messageModels -> messageModels)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer)
@@ -74,7 +62,7 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
                 mView.onCleared();
             }
         };
-        addSubscribe(mRxDoHttpClient.doClearUnreadMessage()
+        addSubscribe(sHttpClient.doClearUnreadMessage()
                 .map(transformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -97,7 +85,7 @@ public class MessagePresenter extends RxPresenter<MessageContract.View> implemen
                 mView.onConfirmFriendSuccess(baseModel, position, bool);
             }
         };
-        addSubscribe(mRxDoHttpClient.confirmFriend(id, bool)
+        addSubscribe(sHttpClient.confirmFriend(id, bool)
                 .map(transformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

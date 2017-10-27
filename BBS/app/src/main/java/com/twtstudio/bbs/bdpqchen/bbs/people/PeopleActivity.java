@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.people;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,6 +25,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TransUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.UrlUtil;
 
 import butterknife.BindView;
@@ -37,7 +37,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
  * Created by bdpqchen on 17-7-3.
  */
 
-public class PeopleActivity extends BaseActivity<PeoplePresenter> implements PeopleContract.View {
+public class PeopleActivity extends BaseActivity implements PeopleContract.View {
     @BindView(R.id.iv_bg)
     ImageView mIvBg;
     @BindView(R.id.civ_avatar)
@@ -72,7 +72,7 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
     private PeopleAdapter mAdapter;
     private String mName = "";
     private String mConfirmMsg = "";
-
+    private PeoplePresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_people;
@@ -86,30 +86,22 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
-    protected void inject() {
-        getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
+    protected PeoplePresenter getPresenter() {
+        return mPresenter;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new PeoplePresenter(this);
         Intent intent = getIntent();
         mUid = intent.getIntExtra(UID, 0);
 //        mName = intent.getStringExtra(USERNAME);
         mToolbar.setTitle(mName);
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
-        mPresenter.getUserInfo(mUid);
+//        ViewCompat.setTransitionName(mCivAvatar, getString(R.string.share_avatar));
         ImageUtil.loadAvatarAsBitmapByUidWithLeft(this, mUid, mCivAvatar);
+        mPresenter.getUserInfo(mUid);
         ImageUtil.loadBgByUid(this, mUid, mIvBg);
         mAdapter = new PeopleAdapter(mContext);
         LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
@@ -117,7 +109,6 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
         mRvPeople.setAdapter(mAdapter);
         mRvPeople.addItemDecoration(new RecyclerViewItemDecoration(2));
         mRvPeople.setNestedScrollingEnabled(false);
-
         mNestedScroll.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             double minus = (scrollY - oldScrollY) / 1.5;
             int alpha = mToolbar.getBackground().mutate().getAlpha();
@@ -133,7 +124,8 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
         });
         mCivAvatar.setOnClickListener(v -> {
             Intent intent1 = IntentUtil.toBigPhoto(mContext, UrlUtil.getAvatarUrl(mUid));
-            startActivity(intent1);
+            Bundle bundle  = TransUtil.getTransOptions(mContext, mCivAvatar, R.string.share_big_photo);
+            startActivity(intent1, bundle);
         });
 
     }
@@ -144,16 +136,14 @@ public class PeopleActivity extends BaseActivity<PeoplePresenter> implements Peo
             if (model.getSignature() == null || model.getSignature().length() == 0) {
                 model.setSignature(getString(R.string.default_signature));
             }
-            mTvPostCount.setText(model.getC_post() + "");
+            mTvPostCount.setText(String.valueOf(model.getC_post()));
             mTvNickname.setText(TextUtil.getTwoNames(model.getName(), model.getNickname()));
             mTvSignature.setText(model.getSignature());
-            mTvPoints.setText(model.getPoints() + "");
+            mTvPoints.setText(String.valueOf(model.getPoints()));
             mInfoPastDay.setText(TextUtil.getPastDays(mContext, model.getT_create()), TextView.BufferType.SPANNABLE);
-//            LogUtil.dd("Will notify", String.valueOf(model.getRecent().size()));
             mAdapter.addList(model.getRecent());
             mTvHonor.setText(TextUtil.getHonor(model.getPoints()));
             mName = model.getName();
-
         }
     }
 

@@ -1,15 +1,14 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.settings;
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
 import butterknife.BindView;
@@ -18,13 +17,11 @@ import butterknife.BindView;
  * Created by bdpqchen on 17-5-5.
  */
 
-public class SettingsActivity extends BaseActivity<SettingsPresenter> {
+public class SettingsActivity extends BaseActivity {
 
     public static final String IS_SWITCH_NIGHT_MODE_LOCK = "isSwitchNightModeLock";
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.settings_container)
-    FrameLayout mSettingsContainer;
 
     @Override
     protected int getLayoutResourceId() {
@@ -38,18 +35,8 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter> {
     }
 
     @Override
-    protected boolean isShowBackArrow() {
-        return true;
-    }
-
-    @Override
-    protected void inject() {
-        getActivityComponent().inject(this);
-    }
-
-    @Override
-    protected Activity supportSlideBack() {
-        return this;
+    protected BasePresenter getPresenter() {
+        return null;
     }
 
     @Override

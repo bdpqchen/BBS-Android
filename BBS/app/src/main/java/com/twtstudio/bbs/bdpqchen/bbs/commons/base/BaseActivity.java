@@ -18,11 +18,7 @@ import com.oubowu.slideback.widget.SlideBackLayout;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.ActivityComponent;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.component.DaggerActivityComponent;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.di.module.ActivityModule;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
@@ -31,8 +27,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
 import org.piwik.sdk.Tracker;
 import org.piwik.sdk.extra.CustomVariables;
 import org.piwik.sdk.extra.TrackHelper;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -43,27 +37,19 @@ import me.yokeyword.fragmentation.SupportActivity;
  * Created by bdpqchen on 17-4-18.
  */
 
-public abstract class BaseActivity<T extends BasePresenter> extends SupportActivity implements BaseView {
-
-    @Inject
-    protected T mPresenter;
+public abstract class BaseActivity extends SupportActivity {
 
     protected Activity mActivity;
     protected Context mContext;
-    private Toolbar mToolbar;
     private Unbinder mUnBinder;
-    public SlideBackLayout mSlideBackLayout;
+    protected SlideBackLayout mSlideBackLayout;
 
     protected abstract int getLayoutResourceId();
 
     protected abstract Toolbar getToolbarView();
 
-    protected abstract boolean isShowBackArrow();
-
-
-    protected abstract void inject();
-
-    protected abstract Activity supportSlideBack();
+    //主要用于 dispose subscribe
+    protected abstract BasePresenter getPresenter();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,32 +60,29 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         mUnBinder = ButterKnife.bind(this);
         mActivity = this;
         mContext = this;
-        inject();
-        Activity activity = supportSlideBack();
-        if (activity != null) {
-            mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
-        }
-        if (mPresenter != null) {
-            mPresenter.attachView(this);
+        setArrowBack(true);
+
+        mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
+/*
+        if (mBasePresenter != null) {
+            mBasePresenter.attachView(this);
         } else {
-
-            LogUtil.d("mPresenter is null!!!");
+            LogUtil.d("mBasePresenter is null!!!");
         }
-
-        mToolbar = getToolbarView();
-        if (null != mToolbar) {
-            setSupportActionBar(mToolbar);
-            if (isShowBackArrow()) {
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                } else {
-
-                }
-            }
-        }
+*/
 
         StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark), 0);
         ActivityManager.getActivityManager().addActivity(this);
+    }
+
+    private void setArrowBack(boolean available) {
+        Toolbar toolbar = getToolbarView();
+        if (null != toolbar) {
+            setSupportActionBar(toolbar);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(available);
+            }
+        }
     }
 
     private SlideConfig getSlideConfig() {
@@ -122,7 +105,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
                 FrameLayout view = (FrameLayout) findViewById(android.R.id.content);
                 if (view.getChildCount() > 0) view.getChildAt(0).setFitsSystemWindows(true);
                 else view.setFitsSystemWindows(true);
-
             }
         }
     }
@@ -139,13 +121,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         return TrackHelper.track(variables.toVisitVariables());
     }
 
-    protected ActivityComponent getActivityComponent() {
-        return DaggerActivityComponent.builder()
-                .appComponent(App.getAppComponent())
-                .activityModule(new ActivityModule(this))
-                .build();
-    }
-
     private void finishThisActivity() {
         ActivityManager.getActivityManager().finishActivity(this);
     }
@@ -153,18 +128,16 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mPresenter != null) {
-            mPresenter.detachView();
+        if (getPresenter() != null) {
+            getPresenter().unSubscribe();
         }
         if (mUnBinder != null) {
             mUnBinder.unbind();
         }
-//        finishMe();
     }
 
     @Override
     public void onBackPressedSupport() {
-        super.onBackPressedSupport();
         finishThisActivity();
     }
 

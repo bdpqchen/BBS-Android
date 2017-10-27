@@ -1,6 +1,8 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.latest;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.RandomUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TransUtil;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -30,6 +33,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEAD
 
 public class LatestAdapter extends BaseAdapter<LatestEntity> {
 
+    Activity mActivity;
 
     public LatestAdapter(Context context) {
         super(context);
@@ -57,7 +61,8 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
                     holder.mLlLayerHeader.setOnClickListener(null);
                 } else {
                     holder.mLlLayerHeader.setOnClickListener(v -> {
-                        mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id()));
+                        Intent intent = IntentUtil.toPeople(mContext, model.getAuthor_id());
+                        mContext.startActivity(intent, TransUtil.getAvatarTransOptions(mContext, holder.mCivLatestAvatar));
                     });
                     ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivLatestAvatar);
                 }

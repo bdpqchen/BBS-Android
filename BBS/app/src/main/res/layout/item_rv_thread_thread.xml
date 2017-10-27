@@ -20,8 +20,9 @@
             android:layout_width="@dimen/size_avatar_normal"
             android:layout_height="@dimen/size_avatar_normal"
             android:src="@drawable/avatar_default_left"
+            android:transitionName="@string/share_avatar"
+            tools:targetApi="lollipop"
             />
-
 
         <TextView
             android:id="@+id/tv_username_thread"
@@ -73,7 +74,7 @@
             tools:text="2017-11-11 "
             />
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/iv_thread_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,6 +117,6 @@
             android:src="@drawable/ic_sms_black_24dp"
             android:tint="@color/colorTintIconBlack"
             />
-
+-->
     </LinearLayout>
 </LinearLayout>

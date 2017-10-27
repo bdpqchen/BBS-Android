@@ -20,8 +20,8 @@ public interface MainContract {
         void onGotDataFailed(String msg);
     }
 
-    interface Presenter extends BasePresenter<View> {
-        void getLatestList();
+    interface Presenter extends BasePresenter {
+        void getLatestList(int page);
         void getHotList();
     }
 }

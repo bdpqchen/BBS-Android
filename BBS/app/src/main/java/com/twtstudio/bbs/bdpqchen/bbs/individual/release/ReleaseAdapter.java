@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.release.publish.PublishFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.release.reply.ReplyFragment;
 
-import javax.inject.Inject;
-
 /**
  * Created by bdpqchen on 17-9-18.
  */
@@ -16,7 +14,6 @@ import javax.inject.Inject;
 public class ReleaseAdapter extends FragmentPagerAdapter {
     private static String[] mTitles = {"发贴", "回帖"};
 
-    @Inject
     ReleaseAdapter(FragmentManager fm) {
         super(fm);
     }

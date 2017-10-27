@@ -27,6 +27,7 @@ public final class Constants {
     public static final int MAX_LENGTH_POST = 50;
     public static final int MAX_LENGTH_Letter = 20;
     public static final int MIN_LENGTH_LETTER_CONTENT = 3;
+    public static final int MAX_SEARCH_RESULT_USER = 3;
     public static final int ITEM_HEADER = -1;
     public static final int ITEM_NORMAL = 0;
     public static final int ITEM_FOOTER = 1;
@@ -40,6 +41,13 @@ public final class Constants {
     public static final int ITEM_LEFT = 9;
     public static final int ITEM_RIGHT = 10;
     public static final int ITEM_EMPTY = 11;
+    public static final int ITEM_SEARCH_USER = 12;
+    public static final int ITEM_SEARCH_THREAD = 13;
+    public static final int ITEM_SEARCH_THREAD_HEADER = 14;
+    public static final int ITEM_SEARCH_USER_HEADER = 15;
+    public static final int ITEM_SEARCH_USER_HIDING = 16;
+    public static final int ITEM_SEARCH_DIVIDER = 17;
+
 
     public static final int TAG_MSG_SYSTEM = 0;
     public static final int TAG_MSG_LETTER = 1;
@@ -54,16 +62,19 @@ public final class Constants {
     public static final String BUNDLE_REGISTER_USERNAME = "username";
     public static final String BUNDLE_NICKNAME = "nickname";
     public static final String BUNDLE_SIGNATURE = "signature";
+    public static final String BUNDLE_UID = "uid";
+    public static final String BUNDLE_EMAIL = "email";
+    public static final String BUNDLE_MESSAGE = "message";
+
+    public static final int MODE_SEARCH_THREAD = 0;
+    public static final int MODE_SEARCH_USER = 1;
+    public static final int MODE_SEARCH_BOTH = 2;
 
     //    public static final String NET_RETROFIT_POST_HEADER = "ContentActivity-Type:application/x-www-form-urlencoded; charset=utf-8";
     public static final String NET_RETROFIT_HEADER_TITLE = "authentication";
     public static final String NET_RETROFIT_HEADER_REQUEST = "X-Requested_With";
     public static final String BUNDLE_TOKEN = "token";
     public static final String ANONYMOUS_NAME = "匿名用户";
-
-    public static final String BUNDLE_UID = "uid";
-    public static final String BUNDLE_EMAIL = "email";
-    public static final String BUNDLE_MESSAGE = "message";
 
     /*intent*/
     public static final String INTENT_THREAD_ID = "intent_thread_id";
@@ -84,6 +95,8 @@ public final class Constants {
     public static final String INTENT_EDITOR_TITLE = "intent_editor_title";
     public static final String INTENT_EDITOR_TOOLBAR_TITLE = "intent_editor_toolbar_title";
     public static final String INTENT_EDITOR_CONTENT = "intent_editor_content";
+    public static final String INTENT_SEARCH_THREAD = "intent_search_thread";
+    public static final String INTENT_SEARCH_USER = "intent_search_user";
 
     public static final String TOKEN = "token";
     public static final String ID = "id";
@@ -94,6 +107,7 @@ public final class Constants {
     public static final String BID = "bid";
     public static final String TID = "tid";
     public static final String PID = "pid";
+    public static final String USER = "user";
     public static final String CONTENT = "content";
     public static final String TITLE = "title";
     public static final String REPLY_ID = "reply";
@@ -113,6 +127,11 @@ public final class Constants {
     public static final String CONFIRM = "confirm";
     public static final String FRIEND_ID = "friend_id";
     public static final String IMG_URL = "img_url";
+    public static final String THREAD = "thread";
+    public static final String BOARD = "board";
+    public static final String FORUM = "forum";
+    public static final String KEYWORD = "keyword";
+
 
     //PIWIK相关
     public static final String PK_THREAD = "/forum/thread/";
@@ -132,6 +151,5 @@ public final class Constants {
 
     //所有前缀字符
     public static final String PRE_ATTACH = "attach:";
-
 
 }

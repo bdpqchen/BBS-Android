@@ -28,6 +28,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel;
+import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel;
 
 import java.io.File;
 import java.util.List;
@@ -57,17 +59,15 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
  * Created by bdpqchen on 17-4-27.
  */
 
-public class RxDoHttpClient<T> {
+public class RxDoHttpClient {
 
     public static final String BASE_HOST = Constants.BASE_HOST;
     public static final String BASE = "https://" + BASE_HOST;
     public static final String BASE_URL = BASE + "/api/";
-    private Retrofit mRetrofit;
-    public BaseApi mApi;
-    public ResponseTransformer<T> mTransformer;
-    public SchedulersHelper mSchedulerHelper;
+    private BaseApi mApi;
+    private static RxDoHttpClient sINSTANCE;
 
-    public RxDoHttpClient() {
+    private RxDoHttpClient() {
         Interceptor mTokenInterceptor = chain -> {
             Request originalRequest = chain.request();
             Request authorised = originalRequest.newBuilder()
@@ -84,24 +84,28 @@ public class RxDoHttpClient<T> {
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
 
-        mRetrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(DirtyJsonConverter.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        mApi = mRetrofit.create(BaseApi.class);
-        mTransformer = new ResponseTransformer<>();
-        mSchedulerHelper = new SchedulersHelper();
+        mApi = retrofit.create(BaseApi.class);
 
+    }
+
+    public static RxDoHttpClient getInstance() {
+        if (sINSTANCE == null) {
+            return new RxDoHttpClient();
+        }
+        return sINSTANCE;
     }
 
     private String getLatestAuthentication() {
         return PrefUtil.getAuthUid() + "|" + PrefUtil.getAuthToken();
 //        return PrefUtil.getAuthUid() + "" + PrefUtil.getAuthToken();
     }
-
 
     public Observable<BaseResponse<LoginModel>> doLogin(String username, String password) {
         return mApi.doLogin(username, password);
@@ -111,8 +115,8 @@ public class RxDoHttpClient<T> {
         return mApi.getForums();
     }
 
-    public Observable<BaseResponse<List<LatestEntity>>> getLatestList() {
-        return mApi.getLatestList("Mobile");
+    public Observable<BaseResponse<List<LatestEntity>>> getLatestList(int page) {
+        return mApi.getLatestList("Mobile", String.valueOf(page));
     }
 
     public Observable<BaseResponse<List<HotEntity>>> getHotList() {
@@ -321,6 +325,14 @@ public class RxDoHttpClient<T> {
 
     public Observable<BaseResponse<BaseModel>> deletePost(int pid) {
         return mApi.deletePost(pid);
+    }
+
+    public Observable<BaseResponse<List<SearchUserModel>>> searchUser(String username) {
+        return mApi.searchUser(username);
+    }
+
+    public Observable<BaseResponse<List<SearchThreadModel>>> searchThread(String keyword, int page) {
+        return mApi.searchThread(String.valueOf(page), keyword);
     }
 
 }

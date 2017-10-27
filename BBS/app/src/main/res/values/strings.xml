@@ -7,14 +7,16 @@
     <string name="key_always_anon">key_always_anon</string>
     <string name="key_habit_hand">key_habit_hand</string>
     <string name="key_logout">key_logout</string>
-    <string name="current_version">当前版本 : 1.4.0</string>
-    <string name="version_name">1.4.0</string>
-    <string name="version_code">10</string>
+    <string name="current_version">当前版本 : 1.5.0</string>
+    <string name="version_name">1.5.0</string>
+    <string name="version_code">12</string>
     <string name="key_simple_board_list">key_simple_board_list</string>
     <string name="key_check_update">key_check_update</string>
     <string name="key_auto_clear_unread">key_auto_clear_unread</string>
     <string name="key_simple_forum">key_simple_forum</string>
     <string name="default_signature">这个人很有趣,什么也不写..</string>
     <string name="hint_md_editor">在这里编辑内容\n向左滑动可切换预览视图\n点击 + 展开标记符号列表</string>
+    <string name="share_avatar">share_avatar</string>
+    <string name="share_big_photo">share_big_photo</string>
 
 </resources>

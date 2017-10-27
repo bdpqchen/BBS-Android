@@ -1,15 +1,20 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext.kotlin_version = '1.1.0'
+
     repositories {
         jcenter()
         mavenCentral()
+        google()
     }
     dependencies {
         //用你对应的Android studio版本
 //        classpath 'com.android.tools.build:gradle:3.0.0-beta2'
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.0'
         classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
 //        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -26,6 +31,7 @@ allprojects {
         maven {
             url  "http://dl.bintray.com/piasy/maven"
         }
+        google()
     }
 }
 

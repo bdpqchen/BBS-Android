@@ -3,10 +3,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.people;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-
-import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -15,13 +12,10 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-7-3.
  */
 
-public class PeoplePresenter extends RxPresenter<PeopleContract.View> implements PeopleContract.Presenter {
-
-    RxDoHttpClient<PeopleModel> mHttpClient;
-
-    @Inject
-    PeoplePresenter(RxDoHttpClient httpClient) {
-        mHttpClient = httpClient;
+public class PeoplePresenter extends RxPresenter implements PeopleContract.Presenter {
+    private PeopleContract.View mView;
+    PeoplePresenter(PeopleContract.View view) {
+        mView = view;
     }
 
     @Override
@@ -41,8 +35,8 @@ public class PeoplePresenter extends RxPresenter<PeopleContract.View> implements
                 }
             }
         };
-        addSubscribe(mHttpClient.getUserInfo(uid)
-                .map(mHttpClient.mTransformer)
+        addSubscribe(sHttpClient.getUserInfo(uid)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(observer));
@@ -67,7 +61,7 @@ public class PeoplePresenter extends RxPresenter<PeopleContract.View> implements
                 }
             }
         };
-        addSubscribe(mHttpClient.addFriend(uid, confirmMsg)
+        addSubscribe(sHttpClient.addFriend(uid, confirmMsg)
                 .map(transformer)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
