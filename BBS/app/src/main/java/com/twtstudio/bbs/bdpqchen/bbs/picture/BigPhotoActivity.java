@@ -61,7 +61,7 @@ public class BigPhotoActivity extends BaseActivity {
         bigImageView.setImageSaveCallback(new ImageSaveCallback() {
             @Override
             public void onSuccess(String uri) {
-                SnackBarUtil.normal(BigPhotoActivity.this, "已保存至: " + bigImageView.getCurrentImageFile(), true);
+                SnackBarUtil.normal(BigPhotoActivity.this, "已保存至Pictures");
             }
 
             @Override

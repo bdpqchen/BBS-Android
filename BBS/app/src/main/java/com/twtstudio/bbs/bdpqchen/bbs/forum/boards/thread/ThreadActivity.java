@@ -31,7 +31,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageFormatUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImagePickUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IsUtil;
@@ -132,7 +131,6 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
     private int mInputFloor = 0;
     private int mPossibleIndex = 0;
 
-    private ImageFormatUtil mImageFormatUtil;
     private boolean mIsFindEnd = false;
     private boolean mFabShowing = true;
     private boolean isLastPage = false;
@@ -166,7 +164,6 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
         mBoardId = intent.getIntExtra(INTENT_BOARD_ID, 0);
         super.onCreate(savedInstanceState);
         mContext = this;
-        mImageFormatUtil = new ImageFormatUtil();
         if (mFindingFloor != 0) {
             mIsFindingFloor = true;
         }
@@ -445,13 +442,11 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
 
     @Override
     public void onUploaded(UploadImageModel model) {
-        if (mEtComment != null) {
-            String added = mEtComment.getText() + mImageFormatUtil.getShowImageCode(model.getId());
-            mEtComment.setText(added);
-            mEtComment.setSelection(mEtComment.getText().length());
+        if (mEtComment != null && model != null) {
+            TextUtil.addImg2Content(model.getId(), mEtComment);
+            SnackBarUtil.normal(this, "图片已添加");
         }
         hideProgress();
-        SnackBarUtil.normal(this, "图片已添加");
     }
 
     @Override
@@ -591,8 +586,7 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
         if (mEtComment == null) {
             return;
         }
-        mComment = mImageFormatUtil.replaceImageFormat(mEtComment.getText().toString());
-        if (mEtComment != null && mComment.length() > 0) {
+        if (mComment.length() > 0) {
             if (replyId != 0) {
                 mComment = mAdapter.comment2reply(postPosition, mComment);
             }

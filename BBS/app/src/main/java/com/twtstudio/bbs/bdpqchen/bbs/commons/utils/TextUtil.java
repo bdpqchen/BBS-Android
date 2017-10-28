@@ -2,10 +2,12 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 import android.content.Context;
 import android.net.Uri;
+import android.text.Editable;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TextAppearanceSpan;
+import android.widget.EditText;
 
 import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -19,6 +21,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.BASE_HOST
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.BASE_HOST_TWT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.FORUM;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_QUOTE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PRE_MD_IMG;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.THREAD;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USER;
 
@@ -255,9 +258,10 @@ public final class TextUtil {
         return isMatch("/" + FORUM + "/" + THREAD + "/\\d+", url);
     }
 
-    public static boolean isImg(String url){
+    public static boolean isImg(String url) {
         return isMatch("/api/img/\\d+", url);
     }
+
     public static boolean isInnerLink(Uri uri) {
         if (uri == null || uri.getHost() == null) return false;
         return uri.getHost().equals(BASE_HOST) || uri.getHost().equals(BASE_HOST_TWT);
@@ -289,5 +293,15 @@ public final class TextUtil {
         return link.length() > 2 && uri.getHost() != null;
     }
 
+    public static void addImg2Content(int imgId, EditText editText) {
+        String addStr = " " + PRE_MD_IMG + (imgId) + ")" + " ";
+        int index = editText.getSelectionStart();
+        Editable editable = editText.getEditableText();
+        if (index < 0 || index == editText.length()) {
+            editable.append(addStr);
+        } else {
+            editable.insert(index, addStr);
+        }
+    }
 
 }
