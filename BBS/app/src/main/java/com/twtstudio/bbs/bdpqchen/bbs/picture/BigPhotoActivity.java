@@ -51,9 +51,9 @@ public class BigPhotoActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        super.onCreate(savedInstanceState);
 
         url = getIntent().getStringExtra(IMG_URL);
         BigImageView bigImageView = (BigImageView) findViewById(R.id.image);

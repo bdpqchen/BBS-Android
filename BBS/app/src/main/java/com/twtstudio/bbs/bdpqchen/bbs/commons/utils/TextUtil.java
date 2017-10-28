@@ -255,6 +255,9 @@ public final class TextUtil {
         return isMatch("/" + FORUM + "/" + THREAD + "/\\d+", url);
     }
 
+    public static boolean isImg(String url){
+        return isMatch("/api/img/\\d+", url);
+    }
     public static boolean isInnerLink(Uri uri) {
         if (uri == null || uri.getHost() == null) return false;
         return uri.getHost().equals(BASE_HOST) || uri.getHost().equals(BASE_HOST_TWT);

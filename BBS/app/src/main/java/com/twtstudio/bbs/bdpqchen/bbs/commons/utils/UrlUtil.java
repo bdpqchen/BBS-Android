@@ -22,5 +22,4 @@ public final class UrlUtil {
         return BASE_URL + "forum/" + fid + "/cover";
     }
 
-
 }

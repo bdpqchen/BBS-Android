@@ -67,9 +67,15 @@ public class RichTextMovementMethod extends ArrowKeyMovementMethod {
                         Uri uri = Uri.parse(((URLSpan) span).getURL());
                         LogUtil.dd("uri", uri.toString());
                         if (TextUtil.isInnerLink(uri)) {
-                            int threadId = CastUtil.parse2intWithMin(uri.getLastPathSegment());
-                            Intent intent = IntentUtil.toThread(context, threadId);
-                            context.startActivity(intent);
+                            if (TextUtil.isThread(uri.toString())){
+                                int threadId = CastUtil.parse2intWithMin(uri.getLastPathSegment());
+                                Intent intent = IntentUtil.toThread(context, threadId);
+                                context.startActivity(intent);
+                            }
+                            if (TextUtil.isImg(uri.toString())){
+                                Intent intent = IntentUtil.toBigPhoto(context, uri.toString());
+                                context.startActivity(intent);
+                            }
                         } else if (TextUtil.isAtUserLink(uri)) {
                             context.startActivity(IntentUtil.toPeople(context, TextUtil.getAtUid(uri.toString())));
                         } else {
