@@ -100,6 +100,8 @@ public class PeopleActivity extends BaseActivity implements PeopleContract.View 
         mToolbar.setTitle(mName);
         StatusBarUtil.setTranslucentForImageView(this, 0, null);
 //        ViewCompat.setTransitionName(mCivAvatar, getString(R.string.share_avatar));
+        TransUtil.setSharedElementsInterpolator(getWindow());
+
         ImageUtil.loadAvatarAsBitmapByUidWithLeft(this, mUid, mCivAvatar);
         mPresenter.getUserInfo(mUid);
         ImageUtil.loadBgByUid(this, mUid, mIvBg);

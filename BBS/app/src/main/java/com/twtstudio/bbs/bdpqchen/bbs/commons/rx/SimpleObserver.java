@@ -33,7 +33,6 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
     @Override
     public void onError(Throwable throwable) {
         LogUtil.dd("onError() in SimpleObserver");
-        // TODO: 17-4-27 无网络请求监听，扼杀在请求阶段
         String msg = throwable.getMessage();
         if (msg != null && msg.length() == 0) {
             msg = "网络错误";
@@ -44,6 +43,8 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
             msg = "找不到服务器了..";
         } else if (throwable instanceof ResponseException) {
             msg = throwable.getMessage();
+            LogUtil.dd("response exception is cased");
+            LogUtil.dd("the msg is", throwable.getMessage());
         } else if (throwable instanceof HttpException) {
             HttpException exception = (HttpException) throwable;
             try {

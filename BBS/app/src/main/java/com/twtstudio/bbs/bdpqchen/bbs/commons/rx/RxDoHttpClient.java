@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
 import android.os.Bundle;
 
+import com.google.gson.GsonBuilder;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldModel;
@@ -84,12 +85,14 @@ public class RxDoHttpClient {
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
 
+        GsonBuilder gson = new GsonBuilder().registerTypeHierarchyAdapter(BaseResponse.class, new ErrorJsonAdapter());
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
-                .addConverterFactory(DirtyJsonConverter.create())
+//                .addConverterFactory(DirtyJsonConverter.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson.create()))
                 .build();
         mApi = retrofit.create(BaseApi.class);
 
@@ -97,7 +100,7 @@ public class RxDoHttpClient {
 
     public static RxDoHttpClient getInstance() {
         if (sINSTANCE == null) {
-            return new RxDoHttpClient();
+            sINSTANCE = new RxDoHttpClient();
         }
         return sINSTANCE;
     }

@@ -133,6 +133,9 @@ public final class Constants {
     public static final String FORUM = "forum";
     public static final String KEYWORD = "keyword";
 
+    public static final String OBJECT_NAME_DATA = "data";
+    public static final String OBJECT_NAME_ERR = "err";
+    public static final String OBJECT_NAME_MESSAGE = "message";
 
     //PIWIK相关
     public static final String PK_THREAD = "/forum/thread/";

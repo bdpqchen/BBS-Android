@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
+import android.view.Window;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 
@@ -14,16 +16,29 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 
 public final class TransUtil {
 
+    static int count = 0;
+
     public static Bundle getAvatarTransOptions(Context context, View view) {
         return getTransOptions(context, view, R.string.share_avatar);
     }
 
     public static Bundle getTransOptions(Context context, View view, int stringId) {
+        count++;
         ActivityOptionsCompat options = ActivityOptionsCompat
                 .makeSceneTransitionAnimation((Activity) context, view, context.getString(stringId));
         return options.toBundle();
     }
 
+    public static void setSharedElementsInterpolator(Window window) {
+        if (VersionUtil.eaLollipop()) {
+            if (window.getSharedElementEnterTransition() != null) {
+                window.getSharedElementEnterTransition().setInterpolator(new AccelerateDecelerateInterpolator());
+            }
+            if (window.getSharedElementExitTransition() != null) {
+                window.getSharedElementExitTransition().setInterpolator(new AccelerateDecelerateInterpolator());
+            }
+        }
+    }
 
 
 }
