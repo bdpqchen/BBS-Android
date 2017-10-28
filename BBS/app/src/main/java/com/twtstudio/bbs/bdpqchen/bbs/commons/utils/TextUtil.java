@@ -281,7 +281,6 @@ public final class TextUtil {
         return CastUtil.parse2int(cut);
     }
 
-
     public static boolean isOuterLink(Uri uri) {
         String link = uri.toString();
         return link.length() > 2 && uri.getHost() != null;
