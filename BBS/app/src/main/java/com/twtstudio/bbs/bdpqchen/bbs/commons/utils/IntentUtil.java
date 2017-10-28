@@ -24,12 +24,9 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_ED
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_IS_SPECIFY_BOARD;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_SEARCH_THREAD;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_SEARCH_USER;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_SEARCH_MODE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_THREAD;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_USER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity.INTENT_THREAD_FLOOR;
@@ -153,13 +150,9 @@ public final class IntentUtil {
         return intent;
     }
 
-    public static Intent toSearch(Context context, int mode, String key) {
+    public static Intent toSearch(Context context, int mode) {
         Intent intent = toSearch(context);
-        if (mode == MODE_SEARCH_THREAD) {
-            intent.putExtra(INTENT_SEARCH_THREAD, key);
-        } else if (mode == MODE_SEARCH_USER) {
-            intent.putExtra(INTENT_SEARCH_USER, key);
-        }
+        intent.putExtra(INTENT_SEARCH_MODE, mode);
         return intent;
     }
 

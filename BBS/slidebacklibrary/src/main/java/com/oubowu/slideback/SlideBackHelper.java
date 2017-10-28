@@ -17,14 +17,18 @@ import com.oubowu.slideback.widget.SlideBackLayout;
 public class SlideBackHelper {
 
     public static ViewGroup getDecorView(Activity activity) {
+        if (activity == null)return null;
+        if (activity.getWindow() == null) return null;
         return (ViewGroup) activity.getWindow().getDecorView();
     }
 
     public static Drawable getDecorViewDrawable(Activity activity) {
+        if (getDecorView(activity) == null)return null;
         return getDecorView(activity).getBackground();
     }
 
     public static View getContentView(Activity activity) {
+        if (getDecorView(activity) == null)return null;
         return getDecorView(activity).getChildAt(0);
     }
 
@@ -55,6 +59,7 @@ public class SlideBackHelper {
             preContentView[0] = getContentView(preActivity[0]);
         }
         Drawable preDecorViewDrawable = getDecorViewDrawable(preActivity[0]);
+        if (preDecorViewDrawable == null) return null;
         content = preContentView[0].findViewById(android.R.id.content);
         if (content.getBackground() == null) {
             content.setBackground(preDecorViewDrawable);

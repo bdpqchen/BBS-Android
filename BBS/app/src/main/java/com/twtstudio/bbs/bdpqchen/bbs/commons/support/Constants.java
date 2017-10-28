@@ -23,6 +23,7 @@ public final class Constants {
     public static final int REQUEST_CODE_LOGIN = 13;
     public static final int REQUEST_CODE_EDITOR = 14;
     public static final int REQUEST_CODE_UPDATE_INFO = 15;
+    public static final int REQUEST_CODE_AT_USER = 16;
 
     public static final int MAX_LENGTH_QUOTE = 60;
     public static final int MAX_LENGTH_POST = 50;
@@ -88,16 +89,20 @@ public final class Constants {
     public static final String INTENT_BOARD_NAMES = "intent_board_names";
     public static final String INTENT_BOARD_IDS = "intent_board_ids";
     public static final String INTENT_BOARD_CAN_ANONS = "intent_board_can_anons";
-    public static final String INTENT_RESULT_IMAGE_PATH = "intent_result_image_path";
-    public static final String INTENT_RESULT_UPDATE_INFO = "intent_result_update_info";
     public static final String INTENT_IS_SPECIFY_BOARD = "intent_is_specify_board";
     public static final String INTENT_BOARD_MODEL_LIST = "intent_board_model_list";
     public static final String INTENT_UNREAD = "intent_unread_count";
     public static final String INTENT_EDITOR_TITLE = "intent_editor_title";
     public static final String INTENT_EDITOR_TOOLBAR_TITLE = "intent_editor_toolbar_title";
     public static final String INTENT_EDITOR_CONTENT = "intent_editor_content";
+    public static final String INTENT_SEARCH_MODE = "intent_search_mode";
     public static final String INTENT_SEARCH_THREAD = "intent_search_thread";
     public static final String INTENT_SEARCH_USER = "intent_search_user";
+
+    public static final String INTENT_RESULT_IMAGE_PATH = "intent_result_image_path";
+    public static final String INTENT_RESULT_UPDATE_INFO = "intent_result_update_info";
+    public static final String INTENT_RESULT_AT_USER_UID = "intent_result_at_user_uid";
+    public static final String INTENT_RESULT_AT_USER_NAME = "intent_result_at_user_name";
 
     public static final String TOKEN = "token";
     public static final String ID = "id";

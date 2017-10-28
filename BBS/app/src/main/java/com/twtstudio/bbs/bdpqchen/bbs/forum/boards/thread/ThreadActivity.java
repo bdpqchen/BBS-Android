@@ -28,6 +28,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.MatcherTool;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
@@ -56,10 +57,14 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_CONTENT;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_RESULT_AT_USER_NAME;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_RESULT_AT_USER_UID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_POST;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_USER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_THREAD;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_AT_USER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_EDITOR;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_IMAGE_SELECTED;
 
@@ -95,10 +100,12 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
     TextView mToolbarTitleThread;
     @BindView(R.id.toolbar_title_board)
     TextView mToolbarTitleBoard;
-    @BindView(R.id.tv_select_image)
-    TextView mTvSelectImage;
-    @BindView(R.id.tv_open_editor)
-    TextView mTvOpenEditor;
+    @BindView(R.id.iv_select_image)
+    ImageView mIvSelectImage;
+    @BindView(R.id.iv_open_editor)
+    ImageView mIvOpenEditor;
+    @BindView(R.id.tv_at_user)
+    TextView mTvAtUser;
 
     public static final String INTENT_THREAD_FLOOR = "intent_thread_floor";
     @BindView(R.id.bottom_tools)
@@ -262,12 +269,13 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
         mCbAnonymousComment.setOnCheckedChangeListener((buttonView, isChecked) -> {
             mIsAnonymous = isChecked;
         });
-        mTvSelectImage.setOnClickListener(v -> {
+        mIvSelectImage.setOnClickListener(v -> {
             ImagePickUtil.commonPickImage(this);
         });
-        mTvOpenEditor.setOnClickListener(v -> {
+        mIvOpenEditor.setOnClickListener(v -> {
             startActivityForResult(IntentUtil.toEditor(mContext, mTvDynamicHint.getText().toString(), mEtComment.getText().toString(), 1), REQUEST_CODE_EDITOR);
         });
+        mTvAtUser.setOnClickListener(v -> startActivityForResult(IntentUtil.toSearch(mContext, MODE_SEARCH_USER), REQUEST_CODE_AT_USER));
         mPresenter.getThread(mThreadId, 0);
         initBottomTools();
     }
@@ -275,20 +283,24 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK && data != null) {
             if (requestCode == REQUEST_CODE_IMAGE_SELECTED) {
-                if (data != null) {
-                    List<Uri> mSelected = Matisse.obtainResult(data);
-                    mPresenter.uploadImages(PathUtil.getRealPathFromURI(mContext, mSelected.get(0)));
-                    startProgress("正在添加图片，请稍后..");
-                }
+                List<Uri> mSelected = Matisse.obtainResult(data);
+                mPresenter.uploadImages(PathUtil.getRealPathFromURI(mContext, mSelected.get(0)));
+                startProgress("正在添加图片，请稍后..");
             }
             if (requestCode == REQUEST_CODE_EDITOR) {
-                if (data != null) {
-                    String resultContent = data.getStringExtra(INTENT_EDITOR_CONTENT);
-                    mEtComment.setText(resultContent);
-                    mEtComment.setSelection(resultContent.length());
-                }
+                String resultContent = data.getStringExtra(INTENT_EDITOR_CONTENT);
+                mEtComment.setText(resultContent);
+                mEtComment.setSelection(resultContent.length());
+            }
+            if (requestCode == REQUEST_CODE_AT_USER) {
+                String name = data.getStringExtra(INTENT_RESULT_AT_USER_NAME);
+                int uid = data.getIntExtra(INTENT_RESULT_AT_USER_UID, 0);
+                TextUtil.addAt2Content(name, mEtComment);
+                MatcherTool.addAtName(name, uid);
+
+                LogUtil.dd("I get the hash map data===", String.valueOf(MatcherTool.matchAtUid(name)));
             }
         }
     }

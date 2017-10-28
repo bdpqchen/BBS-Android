@@ -295,6 +295,14 @@ public final class TextUtil {
 
     public static void addImg2Content(int imgId, EditText editText) {
         String addStr = " " + PRE_MD_IMG + (imgId) + ")" + " ";
+        insertStr(addStr, editText);
+    }
+
+    public static void addAt2Content(String name, EditText editText) {
+        insertStr(" @" + name, editText);
+    }
+
+    private static void insertStr(String addStr, EditText editText) {
         int index = editText.getSelectionStart();
         Editable editable = editText.getEditableText();
         if (index < 0 || index == editText.length()) {
@@ -302,6 +310,11 @@ public final class TextUtil {
         } else {
             editable.insert(index, addStr);
         }
+    }
+
+    public static void getAtContent(String content){
+        String result = content;
+        match(" @{2, 12} ", content);
     }
 
 }
