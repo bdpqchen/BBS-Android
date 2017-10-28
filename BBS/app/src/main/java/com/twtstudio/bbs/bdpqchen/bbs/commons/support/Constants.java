@@ -9,6 +9,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 public final class Constants {
 
     public static final String BASE_HOST = "bbs.tju.edu.cn";
+    public static final String BASE_HOST_TWT = "bbs.twtstudio.com";
     public static final String BASE = "https://" + BASE_HOST;
     public static final String BASE_URL = BASE + "/api/";
 

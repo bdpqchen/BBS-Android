@@ -13,14 +13,11 @@ import android.text.style.URLSpan;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.FORUM;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.THREAD;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USER;
 
 /**
  * Created by retrox on 16/08/2017.
@@ -63,22 +60,23 @@ public class RichTextMovementMethod extends ArrowKeyMovementMethod {
             ClickableSpan[] link = buffer.getSpans(off, off, ClickableSpan.class);
             ImageSpan[] imageSpans = buffer.getSpans(off, off, ImageSpan.class);
 
-            if (isLink(link)) {
+            if (isNotEmpty(link)) {
                 if (isActionUp(action)) {
                     ClickableSpan span = link[0];
                     if (span instanceof URLSpan) {
                         Uri uri = Uri.parse(((URLSpan) span).getURL());
                         LogUtil.dd("uri", uri.toString());
-                        if (isInteriorThreadLink(uri)) {
+                        if (TextUtil.isInnerLink(uri)) {
                             int threadId = CastUtil.parse2intWithMin(uri.getLastPathSegment());
                             Intent intent = IntentUtil.toThread(context, threadId);
                             context.startActivity(intent);
-                        } else if (isAtUserLink(uri)) {
-                            context.startActivity(IntentUtil.toPeople(context, getAtUid(uri.toString())));
+                        } else if (TextUtil.isAtUserLink(uri)) {
+                            context.startActivity(IntentUtil.toPeople(context, TextUtil.getAtUid(uri.toString())));
                         } else {
                             // 调用系统默认链接点击事件
-                            if (isOuterLink(uri))
+                            if (TextUtil.isOuterLink(uri)){
                                 link[0].onClick(widget);
+                            }
                         }
                     }
                 }
@@ -94,36 +92,8 @@ public class RichTextMovementMethod extends ArrowKeyMovementMethod {
         return super.onTouchEvent(widget, buffer, event);
     }
 
-    private boolean isOuterLink(Uri uri) {
-        String link = uri.toString();
-        if (link.length() > 2 && uri.getHost() != null) {
-            return true;
-        }
-        return false;
-    }
-
-    private String getUserLinkKey() {
-        return "/" + USER + "/";
-    }
-
-    private boolean isAtUserLink(Uri uri) {
-        final String str = uri.toString();
-        final String key = getUserLinkKey();
-        return str.contains(key) && CastUtil.isNumeric(str.substring(str.indexOf(key) + key.length(), str.length()));
-    }
-
-    private int getAtUid(String str) {
-        final String key = getUserLinkKey();
-        int uid = 0;
-        String uidStr = str.substring(str.indexOf(key) + key.length(), str.length());
-        if (CastUtil.isNumeric(uidStr)) {
-            uid = CastUtil.parse2int(uidStr);
-        }
-        return uid;
-    }
-
-    private boolean isLink(ClickableSpan[] link) {
-        return link.length != 0;
+    private boolean isNotEmpty(ClickableSpan[] link) {
+        return link != null && link.length != 0;
     }
 
     private boolean isImage(ImageSpan[] imageSpans) {
@@ -134,17 +104,4 @@ public class RichTextMovementMethod extends ArrowKeyMovementMethod {
         return action == MotionEvent.ACTION_UP;
     }
 
-    private boolean isInteriorLink(Uri uri) {
-        if (uri.getHost() == null) return false;
-        return uri.getHost().equals(RxDoHttpClient.BASE_HOST);
-    }
-
-    private boolean isThread(String url) {
-        return url.contains("/" + FORUM + "/" + THREAD + "/");
-    }
-
-    private boolean isInteriorThreadLink(Uri uri) {
-        if (uri == null) return false;
-        return isInteriorLink(uri) && isThread(uri.toString());
-    }
 }

@@ -32,7 +32,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_USER_I
  * Created by bdpqchen on 17-4-17.
  */
 
-public class App extends Application {
+public class  App extends Application {
 
     private Context mContext;
     private LogLevel mLogLevel = LogLevel.FULL;

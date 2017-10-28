@@ -17,7 +17,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -110,13 +109,13 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
             }
         });
 
-        if (PrefUtil.thisVersionFirstOpen()) {
+//        if (PrefUtil.thisVersionFirstOpen()) {
             // TODO: 17-7-6 统一清理缓存
-            ImageUtil.clearMemory(context);
-            ImageUtil.clearDiskCache(context);
-            PrefUtil.setIsThisVersionFirstOpen(false);
-            PrefUtil.setIsSimpleBoardList(true);
-        }
+//            ImageUtil.clearMemory(context);
+//            ImageUtil.clearDiskCache(context);
+//            PrefUtil.setIsThisVersionFirstOpen(false);
+//            PrefUtil.setIsSimpleBoardList(true);
+//        }
 
         pkTracker();
     }
