@@ -12,6 +12,7 @@ import android.widget.EditText;
 import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -282,10 +283,10 @@ public final class TextUtil {
     public static int getAtUid(String str) {
         Matcher matcherStart = match(getAtUserStartPattern(), str);
         Matcher matcherEnd = match(getAtUserPattern(), str);
-        matcherStart.find();
-        matcherEnd.find();
-        String cut = str.substring(matcherStart.end(), matcherEnd.end());
-        return CastUtil.parse2int(cut);
+        if (matcherStart.find() && matcherEnd.find()) {
+            return CastUtil.parse2int(str.substring(matcherStart.end(), matcherEnd.end()));
+        }
+        return 0;
     }
 
     public static boolean isOuterLink(Uri uri) {
@@ -299,7 +300,7 @@ public final class TextUtil {
     }
 
     public static void addAt2Content(String name, EditText editText) {
-        insertStr(" @" + name, editText);
+        insertStr("(@" + name + ")", editText);
     }
 
     private static void insertStr(String addStr, EditText editText) {
@@ -312,9 +313,27 @@ public final class TextUtil {
         }
     }
 
-    public static void getAtContent(String content){
-        String result = content;
-        match(" @{2, 12} ", content);
+    public static String getAtContent(String content, HashMap<String, Integer> map) {
+        StringBuilder result = new StringBuilder("");
+        int lastIndex = 0;
+        //the pattern can match so complex string properly. "3 (@bd)a(@2(@na)(@df(@dfd)"
+        Matcher matcher = match("\\(@[^()]{2,12}\\)", content);
+        while (matcher.find()) {
+            //find a username to match it's uid. example ( @bdpqchen ) -> [@bdpqchen](/user/17004)so, start -2, end -1
+            String name = content.substring(matcher.start() + 2, matcher.end() - 1);
+            if (map.containsKey(name)) {
+                result.append(content.substring(lastIndex, matcher.start()))
+                        .append("[@").append(name).append("](/")
+                        .append(USER).append("/").append(map.get(name)).append(")");
+                lastIndex = matcher.end();
+                LogUtil.dd("index is " + lastIndex, result.toString());
+            }
+        }
+        if (lastIndex == 0){
+            result = new StringBuilder(content);
+        }
+        LogUtil.dd("---.>", result.toString());
+        return result.toString();
     }
 
 }

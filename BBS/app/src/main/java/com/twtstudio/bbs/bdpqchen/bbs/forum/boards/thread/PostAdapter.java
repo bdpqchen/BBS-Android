@@ -248,7 +248,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             uid = mPostData.get(position).getAuthor_id();
         }
         if (uid == 0) {
-            return "匿名用户";
+            return ANONYMOUS_NAME;
         } else {
             if (mPostData.get(position) != null) {
                 return mPostData.get(position).getAuthor_name();

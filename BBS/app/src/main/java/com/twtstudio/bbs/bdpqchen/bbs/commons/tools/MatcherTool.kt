@@ -1,5 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.tools
 
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil
+
 /**
  * Created by bdpqchen on 17-10-29.
  */
@@ -22,6 +24,10 @@ object MatcherTool {
         return atName2uid[atName]
     }
 
+    @JvmStatic
+    fun getAtContent(content: String): String{
+        return TextUtil.getAtContent(content, atName2uid)
+    }
 
 
 }

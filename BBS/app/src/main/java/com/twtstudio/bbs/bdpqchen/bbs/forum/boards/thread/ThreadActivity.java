@@ -299,7 +299,6 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
                 int uid = data.getIntExtra(INTENT_RESULT_AT_USER_UID, 0);
                 TextUtil.addAt2Content(name, mEtComment);
                 MatcherTool.addAtName(name, uid);
-
                 LogUtil.dd("I get the hash map data===", String.valueOf(MatcherTool.matchAtUid(name)));
             }
         }
@@ -598,10 +597,12 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
         if (mEtComment == null) {
             return;
         }
+        mComment = MatcherTool.getAtContent(mEtComment.getText().toString());
         if (mComment.length() > 0) {
             if (replyId != 0) {
                 mComment = mAdapter.comment2reply(postPosition, mComment);
             }
+            LogUtil.dd("final comment content", mComment);
             mPresenter.doComment(mThreadId, mComment, replyId, mIsAnonymous);
             startProgress("正在发送，稍后..");
         }
