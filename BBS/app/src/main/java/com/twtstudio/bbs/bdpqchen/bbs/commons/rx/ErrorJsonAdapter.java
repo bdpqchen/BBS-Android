@@ -25,12 +25,12 @@ class ErrorJsonAdapter implements JsonDeserializer<BaseResponse<?>> {
             JsonObject jsonObject = json.getAsJsonObject();
             int code = jsonObject.get(OBJECT_NAME_ERR).getAsInt();
             response.setErr(code);
-            if (code != 0) {
-                String errMsg = jsonObject.get(OBJECT_NAME_DATA).getAsString();
-                response.setMessage(errMsg);
-            } else {
+            if (code == 0) {
                 Type itemType = ((ParameterizedType) typeOfT).getActualTypeArguments()[0];
                 response.setData(context.deserialize(jsonObject.get(OBJECT_NAME_DATA), itemType));
+            } else {
+                String errMsg = jsonObject.get(OBJECT_NAME_DATA).getAsString();
+                response.setMessage(errMsg);
             }
         }
         return response;

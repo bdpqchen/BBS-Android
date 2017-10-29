@@ -24,10 +24,12 @@ import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_APPEAL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_AT_USER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_COMMENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_LETTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_MSG_REPLY;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TAG_MSG_APPEAL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TAG_MSG_AT_USER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TAG_MSG_COMMENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TAG_MSG_LETTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TAG_MSG_REPLY;
@@ -51,7 +53,7 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == ITEM_MSG_REPLY || viewType == ITEM_MSG_COMMENT || viewType == ITEM_MSG_LETTER) {
+        if (viewType == ITEM_MSG_REPLY || viewType == ITEM_MSG_COMMENT || viewType == ITEM_MSG_LETTER || viewType == ITEM_MSG_AT_USER) {
             return new CommentView(inflater.inflate(R.layout.item_rv_message_comment, parent, false));
         } else if (viewType == ITEM_MSG_APPEAL) {
             return new AppealView(inflater.inflate(R.layout.item_rv_message_appeal, parent, false));
@@ -75,7 +77,7 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                 });
                 if (item.getContent_model() != null) {
                     LogUtil.dd("load avatarr", String.valueOf(item.getAuthor_id()));
-                    if (tag == 2 || tag == 3) {
+                    if (tag == TAG_MSG_COMMENT || tag == TAG_MSG_REPLY || tag == TAG_MSG_AT_USER) {
                         MessageModel.ContentModel model = item.getContent_model();
                         iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(model.getT_create()));
                         String content = TextUtil.formatContent(model.getContent());
@@ -164,6 +166,8 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                     return ITEM_MSG_REPLY;
                 case TAG_MSG_APPEAL:
                     return ITEM_MSG_APPEAL;
+                case TAG_MSG_AT_USER:
+                    return ITEM_MSG_AT_USER;
             }
         }
         return -1;

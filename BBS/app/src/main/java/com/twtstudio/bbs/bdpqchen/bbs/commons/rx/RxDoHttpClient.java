@@ -90,8 +90,8 @@ public class RxDoHttpClient {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
-//                .addConverterFactory(DirtyJsonConverter.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(DirtyJsonConverter.create())
                 .addConverterFactory(GsonConverterFactory.create(gson.create()))
                 .build();
         mApi = retrofit.create(BaseApi.class);

@@ -49,6 +49,7 @@ public final class Constants {
     public static final int ITEM_SEARCH_USER_HEADER = 15;
     public static final int ITEM_SEARCH_USER_HIDING = 16;
     public static final int ITEM_SEARCH_DIVIDER = 17;
+    public static final int ITEM_MSG_AT_USER = 18;
 
 
     public static final int TAG_MSG_SYSTEM = 0;
@@ -56,6 +57,8 @@ public final class Constants {
     public static final int TAG_MSG_COMMENT = 2;
     public static final int TAG_MSG_REPLY = 3;
     public static final int TAG_MSG_APPEAL = 4;
+    public static final int TAG_MSG_AT_USER = 11;
+
 
     public static final String BUNDLE_REGISTER_CID = "cid";
     public static final String BUNDLE_REGISTER_REAL_NAME = "real_name";
