@@ -317,7 +317,7 @@ public interface BaseApi {
             @Query("p") String page);
 
     @GET("index/hot")
-    @Headers("Cache-Control: max-age=99")
+    @Headers("Cache-Control: max-age=")
     Observable<BaseResponse<List<HotEntity>>> getHotList(@Header(NET_RETROFIT_HEADER_REQUEST) String mobile);
 
     @DELETE("post/{pid}")

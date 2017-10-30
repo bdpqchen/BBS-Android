@@ -39,7 +39,6 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import okhttp3.Cache;
-import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -71,7 +70,6 @@ public class RxDoHttpClient {
     public static final String BASE_URL = BASE + "/api/";
     private BaseApi mApi;
     private static RxDoHttpClient sINSTANCE;
-    private static boolean isCache = false;
 
     private RxDoHttpClient() {
         Interceptor tokenInterceptor = chain -> {
@@ -81,10 +79,11 @@ public class RxDoHttpClient {
                     .build();
             return chain.proceed(authorised);
         };
-        Cache cache = new Cache(new File(App.getContext().getExternalCacheDir().toString()), 1024 * 1024 * 50);
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
+                .cache(getCache())
+                .addNetworkInterceptor(getNetWorkInterceptor())
                 .addInterceptor(interceptor)
                 .addInterceptor(tokenInterceptor)
                 .retryOnConnectionFailure(true)
@@ -104,94 +103,24 @@ public class RxDoHttpClient {
 
     }
 
-    private Retrofit getRetrofit() {
-        GsonBuilder gson = new GsonBuilder().registerTypeHierarchyAdapter(BaseResponse.class, new ErrorJsonAdapter());
-        return new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(getClient())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(DirtyJsonConverter.create())
-                .addConverterFactory(GsonConverterFactory.create(gson.create()))
-                .build();
-    }
-
-    private static HttpLoggingInterceptor getLogInterceptor() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        return interceptor;
-    }
-
-    private static Interceptor getTokenInterceptor() {
+    private static Interceptor getNetWorkInterceptor() {
         return chain -> {
-            Request originalRequest = chain.request();
-            Request authorised = originalRequest.newBuilder()
-                    .header(Constants.NET_RETROFIT_HEADER_TITLE, getLatestAuthentication())
+            Request request = chain.request();
+            Response response = chain.proceed(request);
+            String cacheControl = request.cacheControl().toString();
+            if (!cacheControl.isEmpty()) {
+                response.header("Cache-Control", cacheControl);
+            }
+            return response.newBuilder()
+                    .removeHeader("Pragma")
                     .build();
-            return chain.proceed(authorised);
         };
     }
 
-    private static OkHttpClient getClient() {
-        isCache = true;
-        if (isCache) {
-
-            return getCacheableClient().build();
-        } else {
-            return getCacheableClient()
-//                    .cache(getCache())
-                    .build();
-        }
-    }
-
-    private static OkHttpClient.Builder getCacheableClient() {
-        return new OkHttpClient.Builder()
-                .addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
-//                .addInterceptor(getCacheInterceptor())
-                .addInterceptor(getLogInterceptor())
-                .addInterceptor(getTokenInterceptor())
-                .retryOnConnectionFailure(true)
-                .connectTimeout(5, TimeUnit.SECONDS);
-    }
-
-    private BaseApi getApi() {
-        return getRetrofit().create(BaseApi.class);
-    }
-
     private static Cache getCache() {
-        LogUtil.dd("exterialcache", App.getContext().getExternalCacheDir().toString());
-        File cacheFile = new File(App.getContext().getExternalCacheDir().toString(), "qsbbs");
-        Cache cache = new Cache(cacheFile, 1024 * 1024 * 5);
-        return cache;
+        File cacheFile = new File(App.getContext().getExternalCacheDir(), "twt_qs_bbs_network_cache");
+        return new Cache(cacheFile, 1024 * 1024 * 100);
     }
-
-    //cache
-    static Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = chain -> {
-        CacheControl.Builder cacheBuilder = new CacheControl.Builder();
-        cacheBuilder.maxAge(110, TimeUnit.SECONDS);
-        cacheBuilder.maxStale(3, TimeUnit.DAYS);
-        CacheControl cacheControl = cacheBuilder.build();
-        Request request = chain.request();
-        if (true) {
-            request = request.newBuilder()
-                    .cacheControl(cacheControl)
-                    .build();
-        }
-        Response originalResponse = chain.proceed(request);
-        if (true) {
-            int maxAge = 60; // read from cache
-            return originalResponse.newBuilder()
-                    .removeHeader("Pragma")
-                    .header("Cache-Control", "public ,max-age=" + maxAge)
-                    .build();
-        } else {
-            int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
-            return originalResponse.newBuilder()
-                    .removeHeader("Pragma")
-                    .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
-                    .build();
-        }
-    };
-
 
     public static RxDoHttpClient getInstance() {
         if (sINSTANCE == null) {
@@ -218,8 +147,8 @@ public class RxDoHttpClient {
     }
 
     public Observable<BaseResponse<List<HotEntity>>> getHotList() {
-        return getApi().getHotList("Mobile");
-//        return mApi.getHotList("Mobile");
+//        return getApi().getHotList("Mobile");
+        return mApi.getHotList("Mobile");
     }
 
     public Observable<BaseResponse<RegisterModel>> doRegister(Bundle bundle) {
