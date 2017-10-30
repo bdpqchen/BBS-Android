@@ -22,6 +22,7 @@ import org.piwik.sdk.TrackerConfig;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
 import timber.log.Timber;
 
@@ -32,12 +33,19 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_USER_I
  * Created by bdpqchen on 17-4-17.
  */
 
-public class  App extends Application {
+public class App extends Application {
 
-    private Context mContext;
+    private static Context mContext;
     private LogLevel mLogLevel = LogLevel.FULL;
     private ActivityHelper mActivityHelper;
     private static App sApplication;
+
+    public static Context getContext() {
+        if (mContext != null) {
+            return mContext;
+        }
+        throw new NoSuchElementException("No context from App.class");
+    }
 
     @Override
     public void onCreate() {

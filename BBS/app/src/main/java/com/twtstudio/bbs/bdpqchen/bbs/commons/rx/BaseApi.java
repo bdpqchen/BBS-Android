@@ -36,6 +36,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -316,6 +317,7 @@ public interface BaseApi {
             @Query("p") String page);
 
     @GET("index/hot")
+    @Headers("Cache-Control: max-age=99")
     Observable<BaseResponse<List<HotEntity>>> getHotList(@Header(NET_RETROFIT_HEADER_REQUEST) String mobile);
 
     @DELETE("post/{pid}")
