@@ -7,7 +7,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.*
-import de.hdodenhof.circleimageview.CircleImageView
 import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
@@ -74,6 +73,22 @@ object ImageUtil {
     }
 
     /**
+     * Load an user avatar simply on the left side (default).
+     */
+    @JvmStatic
+    fun loadAvatar(context: Context, uid: Int, view: ImageView) {
+        loadAvatar(context, UrlUtil.getAvatarUrl(uid), view, 0, getDefaultAvatar())
+    }
+
+    /**
+     * Load an user avatar simply on the right.
+     */
+    @JvmStatic
+    fun loadAvatarOnTheRight(context: Context, uid: Int, view: ImageView) {
+        loadAvatar(context, UrlUtil.getAvatarUrl(uid), view, 0, getDefaultAvatar(true))
+    }
+
+    /**
      * Load user avatar, if uid=0 then load default avatar.
      */
     @JvmStatic
@@ -90,20 +105,12 @@ object ImageUtil {
     }
 
     /**
-     * Load an user avatar simply.
-     */
-    @JvmStatic
-    fun loadAvatar(context: Context, uid: Int, view: ImageView) {
-        loadAvatarByUid(context, uid, view)
-    }
-
-    /**
      * @param uid Can be 0
      * @param noUidThen Image according to User's status if uid = 0 that want to get.
      */
     private fun loadAvatarByUid(context: Context, uid: Int = 0, view: ImageView, noUidThen: Int = STATUS_USER_NORMAL) {
-        if (uid != 0 && noUidThen == STATUS_USER_NORMAL) {
-            loadAvatar(context, UrlUtil.getAvatarUrl(uid), view, getDefaultAvatar())
+        if (uid != 0) {
+            loadAvatar(context, UrlUtil.getAvatarUrl(uid), view, 0, getDefaultAvatar())
         } else {
             when (noUidThen) {
                 STATUS_USER_ANONYMOUS -> loadAnonAvatar(context, view)
@@ -125,79 +132,53 @@ object ImageUtil {
         return R.drawable.avatar_default_left
     }
 
-    fun loadAvatarAsBitmapByUidWithLeft(context: Context, author_id: Int, civAvatarPost: ImageView) {
-        if (IsUtil.is0(author_id)) {
-            loadAnonAvatar(context, civAvatarPost)
-            return
-        }
-        val request = getDefaultAvatarRequest(context, author_id, 0)
-        request.asBitmap()
-                .centerCrop()
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .error(getDefaultAvatar())
-                .into(civAvatarPost)
-    }
-
-    fun loadAvatarAsBitmapByUidWithRight(context: Context, author_id: Int, civAvatarPost: CircleImageView) {
-        val request = getDefaultAvatarRequest(context, author_id, 0)
-        request.asBitmap()
-                .centerCrop()
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .error(R.drawable.avatar_default_right)
-                .into(civAvatarPost)
-    }
-
-    private fun getDefaultAvatarRequest(context: Context, uid: Int, side: Int): DrawableTypeRequest<*> {
-        return Glide.with(context).load(UrlUtil.getAvatarUrl(uid))
-    }
-
+    @JvmStatic
     fun loadMyAvatar(context: Context, civAvatar: ImageView) {
         loadAvatarByUid(context, myUid, civAvatar)
     }
 
-    private fun loadAvatarByUid(context: Context, uid: Int, view: ImageView) {
-        Glide.with(context)
-                .load(UrlUtil.getAvatarUrl(uid))
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .crossFade()
-                .into(view)
-
-    }
-
+    @JvmStatic
     fun loadMyBg(context: Context, imageView: ImageView) {
         loadBgByUid(context, myUid, imageView)
     }
 
+    @JvmStatic
     fun loadBgByUid(context: Context, uid: Int, view: ImageView) {
         Glide.with(context)
                 .load(UrlUtil.getAvatarUrl(uid))
                 .bitmapTransform(BlurTransformation(context, radius))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .crossFade()
                 .into(view)
     }
 
+    @JvmStatic
     fun refreshMyBg(context: Context, view: ImageView) {
         refreshMyBg(context, myUid, view)
     }
 
+    /**
+     * Load background by skipMemoryCache() like {@link #refreshAvatar(Context, Int, ImageView)}
+     */
     private fun refreshMyBg(context: Context, myUid: Int, view: ImageView) {
         Glide.with(context)
                 .load(UrlUtil.getAvatarUrl(myUid))
                 .skipMemoryCache(true)
                 .bitmapTransform(BlurTransformation(context, radius))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .crossFade()
                 .into(view)
     }
 
+    @JvmStatic
     fun refreshMyAvatar(context: Context, civAvatar: ImageView) {
         refreshAvatar(context, PrefUtil.getAuthUid(), civAvatar)
     }
 
+    /**
+     * Load avatar by skipMemoryCache() and cache both original data and transformed data to
+     * both memory and hard disk.
+     */
     private fun refreshAvatar(context: Context, uid: Int, view: ImageView) {
         Glide.with(context)
                 .load(UrlUtil.getAvatarUrl(uid))
@@ -207,12 +188,5 @@ object ImageUtil {
                 .into(view)
     }
 
-    fun clearMemory(context: Context) {
-        Glide.get(context).clearMemory()
-    }
-
-    fun clearDiskCache(context: Context) {
-        Thread { Glide.get(context).clearDiskCache() }.start()
-    }
 
 }

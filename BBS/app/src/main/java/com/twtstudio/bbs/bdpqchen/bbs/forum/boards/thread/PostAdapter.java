@@ -101,14 +101,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ThreadModel.PostBean p = mPostData.get(position);
                 if (IsUtil.is1(p.getAnonymous())) {
                     p.setAuthor_name(ANONYMOUS_NAME);
-                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, headerHolder.mCivAvatarThread);
+                    p.setAuthor_id(0);
                     headerHolder.mCivAvatarThread.setOnClickListener(null);
                 } else {
                     headerHolder.mCivAvatarThread.setOnClickListener(v -> {
                         startToPeople(p.getAuthor_id(), p.getAuthor_name(), headerHolder.mCivAvatarThread);
                     });
-                    ImageUtil.INSTANCE.loadAvatarAsBitmapByUidWithLeft(mContext, p.getAuthor_id(), headerHolder.mCivAvatarThread);
                 }
+                ImageUtil.loadAvatarButAnon(mContext, p.getAuthor_id(), headerHolder.mCivAvatarThread);
                 headerHolder.mTvTitle.setText(p.getTitle());
                 headerHolder.mTvUsernameThread.setText(TextUtil.getNameWithFriend(p.getAuthor_name(), p.getAuthor_nickname(), p.getFriend()));
                 headerHolder.mHtvContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, headerHolder.mHtvContent));
@@ -119,17 +119,17 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 int uid = p.getAuthor_id();
                 if (IsUtil.is1(p.getAnonymous())) {
                     p.setAuthor_name(ANONYMOUS_NAME);
-                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, h.mCivAvatarPost);
+                    p.setAuthor_id(0);
                     h.mCivAvatarPost.setOnClickListener(null);
                 } else {
                     h.mCivAvatarPost.setOnClickListener(v -> {
                         startToPeople(uid, p.getAuthor_name(), h.mCivAvatarPost);
                     });
-                    ImageUtil.INSTANCE.loadAvatarAsBitmapByUidWithLeft(mContext, uid, h.mCivAvatarPost);
                 }
+                ImageUtil.loadAvatarButAnon(mContext, uid, h.mCivAvatarPost);
                 h.mTvUsernamePost.setText(TextUtil.getNameWithFriend(p.getAuthor_name(), p.getAuthor_nickname(), p.getFriend()));
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
-                h.mTvFloorPost.setText(p.getFloor() + "楼");
+                h.mTvFloorPost.setText(String.valueOf(p.getFloor() + "楼"));
                 h.mHtvPostContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, h.mHtvPostContent));
                 final boolean isLiked = IsUtil.is1(p.getLiked());
                 h.mThumbView.setIsLiked(isLiked);

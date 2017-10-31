@@ -56,16 +56,16 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
                 LatestViewHolder holder = (LatestViewHolder) holder0;
                 LatestEntity model = mDataSet.get(position);
                 if (model.getAnonymous() == 1) {
+                    model.setAuthor_id(0);
                     model.setAuthor_name(ANONYMOUS_NAME);
-                    ImageUtil.INSTANCE.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivLatestAvatar);
                     holder.mLlLayerHeader.setOnClickListener(null);
                 } else {
                     holder.mLlLayerHeader.setOnClickListener(v -> {
                         Intent intent = IntentUtil.toPeople(mContext, model.getAuthor_id());
                         mContext.startActivity(intent, TransUtil.getAvatarTransOptions(mContext, holder.mCivLatestAvatar));
                     });
-                    ImageUtil.INSTANCE.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivLatestAvatar);
                 }
+                ImageUtil.loadAvatarButAnon(mContext, model.getAuthor_id(), holder.mCivLatestAvatar);
                 holder.mTvLikeCount.setText(String.valueOf(model.getLike()));
                 holder.mTvUsername.setText(model.getAuthor_name());
                 holder.mTvBoardName.setText(TextUtil.getBoardName(model.getBoard_name()));
@@ -81,7 +81,7 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
             } else if (holder0 instanceof HeaderHolder) {
                 HeaderHolder holder = (HeaderHolder) holder0;
                 holder.mTvUsername.setText(PrefUtil.getAuthUsername());
-                ImageUtil.INSTANCE.loadMyAvatar(mContext, holder.mCivMyAvatar);
+                ImageUtil.loadMyAvatar(mContext, holder.mCivMyAvatar);
                 holder.mTvInduceCreate.setText(RandomUtil.getInduceCreateText());
                 holder.itemView.setOnClickListener(v -> {
                     mContext.startActivity(IntentUtil.toCreateThread(mContext));

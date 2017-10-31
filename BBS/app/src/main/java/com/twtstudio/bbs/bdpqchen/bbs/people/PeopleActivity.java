@@ -73,6 +73,7 @@ public class PeopleActivity extends BaseActivity implements PeopleContract.View 
     private String mName = "";
     private String mConfirmMsg = "";
     private PeoplePresenter mPresenter;
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_people;
@@ -102,9 +103,9 @@ public class PeopleActivity extends BaseActivity implements PeopleContract.View 
 //        ViewCompat.setTransitionName(mCivAvatar, getString(R.string.share_avatar));
         TransUtil.setSharedElementsInterpolator(getWindow());
 
-        ImageUtil.INSTANCE.loadAvatarAsBitmapByUidWithLeft(this, mUid, mCivAvatar);
+        ImageUtil.loadAvatar(this, mUid, mCivAvatar);
         mPresenter.getUserInfo(mUid);
-        ImageUtil.INSTANCE.loadBgByUid(this, mUid, mIvBg);
+        ImageUtil.loadBgByUid(this, mUid, mIvBg);
         mAdapter = new PeopleAdapter(mContext);
         LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRvPeople.setLayoutManager(manager);
@@ -126,7 +127,7 @@ public class PeopleActivity extends BaseActivity implements PeopleContract.View 
         });
         mCivAvatar.setOnClickListener(v -> {
             Intent intent1 = IntentUtil.toBigPhoto(mContext, UrlUtil.getAvatarUrl(mUid));
-            Bundle bundle  = TransUtil.getTransOptions(mContext, mCivAvatar, R.string.share_big_photo);
+            Bundle bundle = TransUtil.getTransOptions(mContext, mCivAvatar, R.string.share_big_photo);
             startActivity(intent1, bundle);
         });
 

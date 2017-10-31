@@ -55,14 +55,13 @@ public class SystemAdapter extends BaseAdapter<MainModel.LatestBean> {
                 MainModel.LatestBean model = mDataSet.get(position);
                 if (model.getAnonymous() == 1) {
                     model.setAuthor_name(ANONYMOUS_NAME);
-                    ImageUtil.INSTANCE.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivLatestAvatar);
-                } else {
-                    ImageUtil.INSTANCE.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivLatestAvatar);
+                    model.setAuthor_id(0);
                 }
+                ImageUtil.loadAvatarButAnon(mContext, model.getAuthor_id(), holder.mCivLatestAvatar);
                 holder.mTvUsername.setText(model.getAuthor_name());
                 holder.mTvBoardName.setText(TextUtil.getBoardName(model.getBoard_name()));
                 holder.mTvThreadTitle.setText(model.getTitle());
-                holder.mTvPostCount.setText(model.getC_post() + "");
+                holder.mTvPostCount.setText(String.valueOf(model.getC_post()));
                 if (model.getC_post() == 0) {
                     holder.mTvLatestTime.setText("发布于 " + StampUtil.getTimeFromNow(model.getT_create()));
                 } else {

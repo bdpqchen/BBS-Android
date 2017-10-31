@@ -33,7 +33,7 @@ class SearchAdapter(val mContext: Context, private val mUserClickListener: OnUse
                 is UserViewHolder -> {
                     val entity = mUserDataSet[mCommonDataSet[position].position]
                     holder.tvName.text = entity.name
-                    ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, entity.id, holder.civAvatar)
+                    ImageUtil.loadAvatar(mContext, entity.id, holder.civAvatar)
                     holder.itemView.setOnClickListener({
                         mUserClickListener.onClick(position)
                     })
@@ -47,7 +47,7 @@ class SearchAdapter(val mContext: Context, private val mUserClickListener: OnUse
                                 author_id = 0
                             }
                             tvAuthorAndTime.text = author_name + "  创建于 " + StampUtil.getDatetimeByStamp(t_create)
-                            ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, author_id, civAvatar)
+                            ImageUtil.loadAvatar(mContext, author_id, civAvatar)
                             holder.itemView.setOnClickListener({ mContext.startActivity(IntentUtil.toThread(mContext, id, title)) })
                         })
                     })

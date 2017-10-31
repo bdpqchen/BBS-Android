@@ -73,7 +73,7 @@ public class LetterAdapter extends BaseAdapter<LetterModel> {
             if (holder0 instanceof LeftView) {
                 LetterModel model = mDataSet.get(position);
                 LeftView holder = (LeftView) holder0;
-                ImageUtil.INSTANCE.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivAvatarLetter);
+                ImageUtil.loadAvatar(mContext, model.getAuthor_id(), holder.mCivAvatarLetter);
 //                LogUtil.dd("model", model.getContent());
                 holder.mTvContent.setText(model.getContent());
                 holder.mCivAvatarLetter.setOnClickListener(v -> {
@@ -83,7 +83,7 @@ public class LetterAdapter extends BaseAdapter<LetterModel> {
             } else if (holder0 instanceof RightView) {
                 RightView holder = (RightView) holder0;
                 LetterModel model = mDataSet.get(position);
-                ImageUtil.INSTANCE.loadAvatarAsBitmapByUidWithRight(mContext, model.getAuthor_id(), holder.mCivAvatarLetter);
+                ImageUtil.loadAvatarOnTheRight(mContext, model.getAuthor_id(), holder.mCivAvatarLetter);
                 holder.mTvContent.setText(model.getContent());
                 holder.mCivAvatarLetter.setOnClickListener(v -> {
                     startToPeople(model.getAuthor_id(), holder.mCivAvatarLetter);

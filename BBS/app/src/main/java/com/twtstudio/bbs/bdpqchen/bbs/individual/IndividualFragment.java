@@ -87,6 +87,7 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
     private int mUnread = 0;
     private boolean isRefreshing = false;
     private IndividualPresenter mPresenter;
+
     @Override
     protected int getFragmentLayoutId() {
         return R.layout.fragment_individual;
@@ -125,8 +126,8 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
         super.onLazyInitView(savedInstanceState);
         if (mPresenter != null) {
             mPresenter.initIndividualInfo();
-            ImageUtil.INSTANCE.loadMyAvatar(mContext, mCivAvatar);
-            ImageUtil.INSTANCE.loadMyBg(mContext, mIvBg);
+            ImageUtil.loadMyAvatar(mContext, mCivAvatar);
+            ImageUtil.loadMyBg(mContext, mIvBg);
 
         }
     }
@@ -206,8 +207,8 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
             mTvPoints.setText(String.valueOf(PrefUtil.getInfoPoints()));
             mTvHonor.setText(TextUtil.getHonor(info.getPoints()));
             if (isRefreshing) {
-                ImageUtil.INSTANCE.loadMyAvatar(mContext, mCivAvatar);
-                ImageUtil.INSTANCE.loadMyBg(mContext, mIvBg);
+                ImageUtil.loadMyAvatar(mContext, mCivAvatar);
+                ImageUtil.loadMyBg(mContext, mIvBg);
                 isRefreshing = false;
             }
         }
@@ -245,8 +246,8 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
     }
 
     private void refreshInfo() {
-        ImageUtil.INSTANCE.refreshMyAvatar(mContext, mCivAvatar);
-        ImageUtil.INSTANCE.refreshMyBg(mContext, mIvBg);
+        ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
+        ImageUtil.refreshMyBg(mContext, mIvBg);
         mTvNickname.setText(PrefUtil.getInfoNickname());
         mTvSignature.setText(PrefUtil.getInfoSignature());
     }
