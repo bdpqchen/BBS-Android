@@ -50,7 +50,7 @@ public class UpdateAvatarActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ImageUtil.refreshMyAvatar(this, resultView);
+        ImageUtil.INSTANCE.refreshMyAvatar(this, resultView);
         mBtnFinish.setOnClickListener(v -> {
             if (mImagePath != null) {
                 Intent data = new Intent();

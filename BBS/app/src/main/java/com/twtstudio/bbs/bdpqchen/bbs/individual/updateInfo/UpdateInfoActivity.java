@@ -90,7 +90,7 @@ public class UpdateInfoActivity extends BaseActivity implements UpdateInfoContra
         mSignature = PrefUtil.getInfoSignature();
         mTvNicknameUpdate.setText(mNickname);
         mTvSignatureUpdate.setText(mSignature);
-        ImageUtil.refreshMyAvatar(activity, mCivAvatar);
+        ImageUtil.INSTANCE.refreshMyAvatar(activity, mCivAvatar);
         pkTracker();
     }
 
@@ -238,14 +238,14 @@ public class UpdateInfoActivity extends BaseActivity implements UpdateInfoContra
     public void updateAvatarFailed(String msg) {
         hideProgressBar();
         SnackBarUtil.error(this, msg, true);
-        ImageUtil.refreshMyAvatar(this, mCivAvatar);
+        ImageUtil.INSTANCE.refreshMyAvatar(this, mCivAvatar);
     }
 
     @Override
     public void updateAvatarSuccess(BaseModel baseModel) {
         hideProgressBar();
         SnackBarUtil.normal(this, "头像上传成功, 嘿嘿嘿");
-        ImageUtil.refreshMyAvatar(this, mCivAvatar);
+        ImageUtil.INSTANCE.refreshMyAvatar(this, mCivAvatar);
         setUpdateAvatarResult();
     }
 

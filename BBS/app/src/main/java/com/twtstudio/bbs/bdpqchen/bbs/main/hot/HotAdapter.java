@@ -49,14 +49,14 @@ public class HotAdapter extends BaseAdapter<HotEntity> {
                 HotEntity model = mDataSet.get(position);
                 if (model.getAnonymous() == 1) {
                     model.setAuthor_name(ANONYMOUS_NAME);
-                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivHotAvatar);
+                    ImageUtil.INSTANCE.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivHotAvatar);
                     holder.mCivHotAvatar.setOnClickListener(null);
                 } else {
                     holder.mCivHotAvatar.setOnClickListener(v -> {
                         mContext.startActivity(IntentUtil.toPeople(mContext, model.getAuthor_id(), model.getAuthor_name()),
                                 TransUtil.getAvatarTransOptions(mContext, holder.mCivHotAvatar));
                     });
-                    ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivHotAvatar);
+                    ImageUtil.INSTANCE.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivHotAvatar);
                 }
                 holder.mTvLikeCount.setText(String.valueOf(model.getLike()));
                 holder.mTvUsername.setText(model.getAuthor_name());

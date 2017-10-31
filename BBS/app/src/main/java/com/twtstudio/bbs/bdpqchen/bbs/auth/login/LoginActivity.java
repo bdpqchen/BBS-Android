@@ -89,12 +89,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             mEtPassword.requestFocus();
         }
         mEtAccount.setText(usernameToSet);
-        if (PrefUtil.getAuthUid() == 0) {
-            ImageUtil.loadDrawable(this, R.drawable.avatar_default_left, mCivAvatar);
-        } else {
-            ImageUtil.loadAvatarAsBitmapByUid(this, PrefUtil.getAuthUid(), mCivAvatar);
-        }
-        ImageUtil.loadLoginCover(this, RandomUtil.getForumIdRandom(), mIvBanner);
+        ImageUtil.loadAvatarButAnon(this, PrefUtil.getAuthUid(), mCivAvatar);
+        ImageUtil.loadForumCover(this, RandomUtil.getForumIdRandom(), mIvBanner);
         pkTracker();
     }
 

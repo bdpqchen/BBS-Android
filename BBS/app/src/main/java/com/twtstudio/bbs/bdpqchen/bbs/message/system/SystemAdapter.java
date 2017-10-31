@@ -55,9 +55,9 @@ public class SystemAdapter extends BaseAdapter<MainModel.LatestBean> {
                 MainModel.LatestBean model = mDataSet.get(position);
                 if (model.getAnonymous() == 1) {
                     model.setAuthor_name(ANONYMOUS_NAME);
-                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivLatestAvatar);
+                    ImageUtil.INSTANCE.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivLatestAvatar);
                 } else {
-                    ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivLatestAvatar);
+                    ImageUtil.INSTANCE.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivLatestAvatar);
                 }
                 holder.mTvUsername.setText(model.getAuthor_name());
                 holder.mTvBoardName.setText(TextUtil.getBoardName(model.getBoard_name()));

@@ -71,7 +71,7 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
             if (holder instanceof CommentView) {
                 CommentView iHolder = (CommentView) holder;
                 setViewStatus(item.getRead(), iHolder.mTvRedDot);
-                ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, item.getAuthor_id(), iHolder.mCivMessage);
+                ImageUtil.INSTANCE.loadAvatarAsBitmapByUidWithLeft(mContext, item.getAuthor_id(), iHolder.mCivMessage);
                 iHolder.mCivMessage.setOnClickListener(v -> {
                     startToPeople(mContext, item.getAuthor_id(), iHolder.mCivMessage);
                 });
@@ -106,7 +106,7 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
             } else if (holder instanceof AppealView) {
                 AppealView iHolder = (AppealView) holder;
                 setViewStatus(item.getRead(), iHolder.mRedDot);
-                ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, item.getAuthor_id(), iHolder.mCivMessage);
+                ImageUtil.INSTANCE.loadAvatarAsBitmapByUidWithLeft(mContext, item.getAuthor_id(), iHolder.mCivMessage);
                 iHolder.mCivMessage.setOnClickListener(v -> {
                     startToPeople(mContext, item.getAuthor_id(), iHolder.mCivMessage);
                 });

@@ -48,9 +48,9 @@ public class StarAdapter extends BaseAdapter<StarModel> {
                 if (model.getAnonymous() == 1){
                     model.setAuthor_name(ANONYMOUS_NAME);
                     holder.mTvStarName.setText(model.getAuthor_name());
-                    ImageUtil.loadAnonAvatar(mContext, holder.mCivStarAvatar);
+                    ImageUtil.INSTANCE.loadAnonAvatar(mContext, holder.mCivStarAvatar);
                 }else{
-                    ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivStarAvatar);
+                    ImageUtil.INSTANCE.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivStarAvatar);
                     holder.mTvStarName.setText(TextUtil.getTwoNames(model.getAuthor_name(), model.getAuthor_nickname()));
                 }
                 holder.mTvStarCreateTime.setText(StampUtil.getDatetimeByStamp(model.getT_create()));

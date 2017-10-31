@@ -75,6 +75,10 @@ public final class Constants {
     public static final int MODE_SEARCH_USER = 1;
     public static final int MODE_SEARCH_BOTH = 2;
 
+    public static final int STATUS_USER_NORMAL = -1;
+    public static final int STATUS_USER_ANONYMOUS = 0;
+    public static final int STATUS_USER_NO_AVATAR = 1;
+
     //    public static final String NET_RETROFIT_POST_HEADER = "ContentActivity-Type:application/x-www-form-urlencoded; charset=utf-8";
     public static final String NET_RETROFIT_HEADER_TITLE = "authentication";
     public static final String NET_RETROFIT_HEADER_REQUEST = "X-Requested_With";
@@ -117,6 +121,8 @@ public final class Constants {
     public static final String TID = "tid";
     public static final String PID = "pid";
     public static final String USER = "user";
+    public static final String AVATAR = "avatar";
+    public static final String COVER = "cover";
     public static final String CONTENT = "content";
     public static final String TITLE = "title";
     public static final String REPLY_ID = "reply";

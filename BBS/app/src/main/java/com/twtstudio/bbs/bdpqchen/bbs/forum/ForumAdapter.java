@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsActivity;
@@ -58,9 +57,8 @@ public class ForumAdapter extends BaseAdapter<ForumModel> {
             if (holder0 instanceof ViewHolder) {
                 ViewHolder viewHolder = (ViewHolder) holder0;
                 ForumModel model = mDataSet.get(position);
-                String coverUrl = RxDoHttpClient.BASE_URL + "forum/" + model.getId() + "/cover";
                 viewHolder.mForumInfo.setText(model.getInfo());
-                ImageUtil.loadForumCover(mContext, coverUrl, viewHolder.mForumCover);
+                ImageUtil.INSTANCE.loadForumCover(mContext, model.getId(), viewHolder.mForumCover);
                 viewHolder.mForumName.setText(model.getName());
                 viewHolder.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, BoardsActivity.class);
@@ -68,7 +66,7 @@ public class ForumAdapter extends BaseAdapter<ForumModel> {
                     intent.putExtra(INTENT_FORUM_TITLE, model.getName());
                     mContext.startActivity(intent);
                 });
-            }else if (holder0 instanceof SimpleViewHolder){
+            } else if (holder0 instanceof SimpleViewHolder) {
                 SimpleViewHolder viewHolder = (SimpleViewHolder) holder0;
                 ForumModel model = mDataSet.get(position);
                 viewHolder.mForumInfo.setText(model.getInfo());
@@ -100,16 +98,18 @@ public class ForumAdapter extends BaseAdapter<ForumModel> {
         ImageView mForumCover;
         @BindView(R.id.forum_info)
         TextView mForumInfo;
+
         ViewHolder(View view) {
             super(view);
         }
     }
 
-    static class SimpleViewHolder extends BaseViewHolder{
+    static class SimpleViewHolder extends BaseViewHolder {
         @BindView(R.id.forum_name)
         TextView mForumName;
         @BindView(R.id.forum_info)
         TextView mForumInfo;
+
         SimpleViewHolder(View view) {
             super(view);
         }

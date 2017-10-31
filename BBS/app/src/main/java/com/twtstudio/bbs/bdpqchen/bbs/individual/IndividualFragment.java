@@ -125,8 +125,8 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
         super.onLazyInitView(savedInstanceState);
         if (mPresenter != null) {
             mPresenter.initIndividualInfo();
-            ImageUtil.loadMyAvatar(mContext, mCivAvatar);
-            ImageUtil.loadMyBg(mContext, mIvBg);
+            ImageUtil.INSTANCE.loadMyAvatar(mContext, mCivAvatar);
+            ImageUtil.INSTANCE.loadMyBg(mContext, mIvBg);
 
         }
     }
@@ -206,8 +206,8 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
             mTvPoints.setText(String.valueOf(PrefUtil.getInfoPoints()));
             mTvHonor.setText(TextUtil.getHonor(info.getPoints()));
             if (isRefreshing) {
-                ImageUtil.loadMyAvatar(mContext, mCivAvatar);
-                ImageUtil.loadMyBg(mContext, mIvBg);
+                ImageUtil.INSTANCE.loadMyAvatar(mContext, mCivAvatar);
+                ImageUtil.INSTANCE.loadMyBg(mContext, mIvBg);
                 isRefreshing = false;
             }
         }
@@ -245,8 +245,8 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
     }
 
     private void refreshInfo() {
-        ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
-        ImageUtil.refreshMyBg(mContext, mIvBg);
+        ImageUtil.INSTANCE.refreshMyAvatar(mContext, mCivAvatar);
+        ImageUtil.INSTANCE.refreshMyBg(mContext, mIvBg);
         mTvNickname.setText(PrefUtil.getInfoNickname());
         mTvSignature.setText(PrefUtil.getInfoSignature());
     }

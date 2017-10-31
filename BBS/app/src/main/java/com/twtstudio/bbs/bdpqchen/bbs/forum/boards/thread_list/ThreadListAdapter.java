@@ -59,13 +59,13 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
                 ViewHolder holder = (ViewHolder) viewHolder;
                 if (thread.getAnonymous() == 1) {
                     thread.setAuthor_name("匿名用户");
-                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivThreadAvatar);
+                    ImageUtil.loadAnonAvatar(mContext, holder.mCivThreadAvatar);
                 } else {
                     holder.mCivThreadAvatar.setOnClickListener(v -> {
                         mContext.startActivity(IntentUtil.toPeople(mContext, thread.getAuthor_id()),
                                 TransUtil.getAvatarTransOptions(mContext, holder.mCivThreadAvatar));
                     });
-                    ImageUtil.loadAvatarAsBitmapByUid(mContext, thread.getAuthor_id(), holder.mCivThreadAvatar);
+                    ImageUtil.loadAvatarButDefault(mContext, thread.getAuthor_id(), holder.mCivThreadAvatar);
                 }
                 holder.mTvThreadNickname.setText(thread.getAuthor_name());
                 holder.mTvThreadContent.setText(thread.getContent());

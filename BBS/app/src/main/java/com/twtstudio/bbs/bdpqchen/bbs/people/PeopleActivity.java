@@ -102,9 +102,9 @@ public class PeopleActivity extends BaseActivity implements PeopleContract.View 
 //        ViewCompat.setTransitionName(mCivAvatar, getString(R.string.share_avatar));
         TransUtil.setSharedElementsInterpolator(getWindow());
 
-        ImageUtil.loadAvatarAsBitmapByUidWithLeft(this, mUid, mCivAvatar);
+        ImageUtil.INSTANCE.loadAvatarAsBitmapByUidWithLeft(this, mUid, mCivAvatar);
         mPresenter.getUserInfo(mUid);
-        ImageUtil.loadBgByUid(this, mUid, mIvBg);
+        ImageUtil.INSTANCE.loadBgByUid(this, mUid, mIvBg);
         mAdapter = new PeopleAdapter(mContext);
         LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRvPeople.setLayoutManager(manager);
