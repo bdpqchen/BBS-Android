@@ -25,9 +25,13 @@ object MatcherTool {
     }
 
     @JvmStatic
-    fun getAtContent(content: String): String{
+    fun getAtContent(content: String): String {
         return TextUtil.getAtContent(content, atName2uid)
     }
 
+    @JvmStatic
+    fun getConvertedJson(json: String): String {
+        return TextUtil.getConvertedJson(json)
+    }
 
 }

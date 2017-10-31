@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by bdpqchen on 17-5-2.
  */
 
-class LoginPresenter extends RxPresenter implements LoginContract.Presenter{
+class LoginPresenter extends RxPresenter implements LoginContract.Presenter {
 
     private LoginContract.View mView;
 
@@ -25,13 +25,13 @@ class LoginPresenter extends RxPresenter implements LoginContract.Presenter{
     public void doLogin(String username, String password) {
 
         addSubscribe(sHttpClient.doLogin(username, password)
+                .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new ResponseTransformer<>())
                 .subscribeWith(new SimpleObserver<LoginModel>() {
                     @Override
                     public void _onError(String msg) {
-                        LogUtil.d("_onError", msg);
+                        LogUtil.dd("_onError", msg);
                         if (mView != null)
                             mView.loginFailed(msg);
 
@@ -39,7 +39,6 @@ class LoginPresenter extends RxPresenter implements LoginContract.Presenter{
 
                     @Override
                     public void _onNext(LoginModel loginModel) {
-                        LogUtil.d("_onNext()", loginModel);
                         if (mView != null)
                             mView.loginSuccess(loginModel);
                     }

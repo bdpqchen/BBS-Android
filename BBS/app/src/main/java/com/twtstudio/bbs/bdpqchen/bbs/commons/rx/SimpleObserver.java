@@ -1,5 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
+import android.text.TextUtils;
+
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import org.json.JSONException;
@@ -34,7 +36,7 @@ public abstract class SimpleObserver<T> extends DisposableObserver<T> {
     public void onError(Throwable throwable) {
         LogUtil.dd("onError() in SimpleObserver");
         String msg = throwable.getMessage();
-        if (msg != null && msg.length() == 0) {
+        if (TextUtils.isEmpty(msg)) {
             msg = "网络错误";
         }
         if (throwable instanceof SocketTimeoutException) {

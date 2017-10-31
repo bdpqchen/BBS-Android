@@ -12,6 +12,8 @@ import android.widget.EditText;
 import com.github.rjeschke.txtmark.Processor;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -329,11 +331,22 @@ public final class TextUtil {
                 LogUtil.dd("index is " + lastIndex, result.toString());
             }
         }
-        if (lastIndex == 0){
+        if (lastIndex == 0) {
             result = new StringBuilder(content);
         }
         LogUtil.dd("---.>", result.toString());
         return result.toString();
     }
 
+    public static String getConvertedJson(@NotNull String json) {
+        String result = json;
+        Matcher matcher = match("\\{\"err\":\\d+,\"data\":\"", json);
+        if (matcher.find()) {
+            LogUtil.dd("matched");
+            result = json.substring(0, matcher.end() - 1)
+                    .concat("{},\"message\":")
+                    .concat(json.substring(matcher.end() - 1, json.length()));
+        }
+        return result;
+    }
 }

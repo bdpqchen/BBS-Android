@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonWriter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.MatcherTool;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import java.io.IOException;
@@ -88,23 +89,13 @@ public class DirtyJsonConverter extends Converter.Factory {
 
         @Override
         public T convert(ResponseBody value) throws IOException {
-/*
-            String keyStart = "\"data\":\"";
-            String keyEnd = "\"}";
-            String dirty = value.string();
-            String clean = dirty;
-            if (dirty.endsWith(keyEnd) && dirty.contains(keyStart)){
-                clean = dirty.replace(keyStart, "\"message\":\"").replace(keyEnd, "\",\"data\":{}}");
-//                clean = dirty.replace(keyStart, "\"data\":{\"message\":\"").replace(keyEnd, "\"}}");
-            }
-*/
-            String dirty = value.string();
+            String dirty0 = MatcherTool.getConvertedJson(value.string());
             String keyStart0 = "\"content\":{";
-            String clean0 = dirty;
-            if (dirty.contains(keyStart0)){
-                clean0 = dirty.replace(keyStart0, "\"content_model\":{");
+            String clean0 = dirty0;
+            if (dirty0.contains(keyStart0)){
+                clean0 = dirty0.replace(keyStart0, "\"content_model\":{");
             }
-            LogUtil.dd(clean0);
+            LogUtil.dd("clean json", clean0);
             try {
                 return adapter.fromJson(clean0);
             } finally {

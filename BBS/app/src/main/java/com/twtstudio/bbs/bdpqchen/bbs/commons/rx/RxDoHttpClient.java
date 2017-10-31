@@ -49,7 +49,6 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PASSWORD;
@@ -91,13 +90,12 @@ public class RxDoHttpClient {
                 .build();
 
         GsonBuilder gson = new GsonBuilder().registerTypeHierarchyAdapter(BaseResponse.class, new ErrorJsonAdapter());
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
+//                .addConverterFactory(GsonConverterFactory.create(gson.create()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(DirtyJsonConverter.create())
-                .addConverterFactory(GsonConverterFactory.create(gson.create()))
                 .build();
         mApi = retrofit.create(BaseApi.class);
 
@@ -118,7 +116,7 @@ public class RxDoHttpClient {
     }
 
     private static Cache getCache() {
-        File cacheFile = new File(App.getContext().getExternalCacheDir(), "twt_qs_bbs_network_cache");
+        File cacheFile = new File(App.getContext().getExternalCacheDir(), "network_cache");
         return new Cache(cacheFile, 1024 * 1024 * 100);
     }
 
@@ -166,7 +164,6 @@ public class RxDoHttpClient {
     }
 
     public Observable<BaseResponse<BaseModel>> doUpdateInfo(Bundle bundle, int type) {
-
         if (type == 1) {
             return mApi.doUpdateInfoNickname(getLatestAuthentication(), bundle.getString(Constants.BUNDLE_NICKNAME, ""));
         } else if (type == 2) {
