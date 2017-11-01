@@ -6,9 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.tencent.bugly.beta.Beta;
+import com.tencent.bugly.beta.UpgradeInfo;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.release.EndlessRecyclerOnScrollListener;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainContract;
@@ -54,7 +58,7 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRvLatest.setLayoutManager(linearLayoutManager);
         mRvLatest.addItemDecoration(new RecyclerViewItemDecoration(16));
-        mAdapter.setNoDataHeader(true);
+        mAdapter.setCreateThread(true);
         mRvLatest.setAdapter(mAdapter);
         mSrlLatest.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlLatest.setOnRefreshListener(() -> {
@@ -72,7 +76,26 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
         });
 
         getDataList(0);
+        checkUpdate();
+
     }
+
+    private void checkUpdate() {
+
+        UpgradeInfo upgradeInfo = Beta.getUpgradeInfo();
+        if (upgradeInfo != null) {
+            LogUtil.dd("have a new version");
+            PrefUtil.setUpdateAvailable(true);
+        } else {
+            LogUtil.dd("no new version");
+            PrefUtil.setUpdateAvailable(false);
+        }
+        if (PrefUtil.isUpdateAvailable()) {
+            mAdapter.setUpdateAvailable(true);
+            mAdapter.addFirst(new LatestEntity());
+        }
+    }
+
 
     @Override
     protected MainPresenter getPresenter() {
@@ -82,17 +105,17 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
     @Override
     public void onGetLatestList(List<LatestEntity> list) {
         if (list != null && list.size() > 0) {
-            if (mIsLoadingMore){
+            if (mIsLoadingMore) {
                 mIsLoadingMore = false;
-                int size = mAdapter.getDataListSize();
+//                int size = mAdapter.getDataListSize();
                 mAdapter.addList(list);
-                mRvLatest.smoothScrollToPosition(++size);
+//                mRvLatest.smoothScrollToPosition(++size);
                 return;
             }
-            // add the header view data
             if (mRefreshing) {
                 mAdapter.clearAll();
             }
+            mAdapter.setCreateThread(true);
             mAdapter.addFirst(new LatestEntity());
             mAdapter.addList(list);
         }
@@ -110,7 +133,7 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
         hideLoading();
         setRefreshing(false);
         SnackBarUtil.notice(this.getActivity(), msg + "\n刷新试试");
-        if (mIsLoadingMore){
+        if (mIsLoadingMore) {
             mIsLoadingMore = false;
             mPage--;
         }

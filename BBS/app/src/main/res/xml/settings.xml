@@ -81,6 +81,20 @@
             android:title="检查更新"
             />
 
+        <Preference
+            android:key="@string/key_feedback"
+            android:layout="@layout/preference_item_normal"
+            android:title="线上客服"
+            />
+<!--
+
+        <Preference
+            android:key="@string/key_more_app"
+            android:layout="@layout/preference_item_normal"
+            android:title="更多产品"
+            />
+-->
+
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -43,6 +43,7 @@ public final class PrefUtil {
     private static final String IS_THIS_VERSION_FIRST_OPEN = "is_this_version_first_open";
     private static final String LAST_IMAGE_STAMP = "last_image_stamp";
     private static final String DISABLED_IMAGE_CACHE = "is_disabled_image_cache";
+    private static final String IS_UPDATE_AVAILABLE = "is_update_available";
 
     public static void setInfoGroup(int infoGroup) {
         Hawk.put(INFO_GROUP, infoGroup);
@@ -285,4 +286,12 @@ public final class PrefUtil {
     public static void setDisabledImageCache(boolean b) {
         Hawk.put(DISABLED_IMAGE_CACHE, b);
     }
+
+    public static boolean isUpdateAvailable(){
+        return Hawk.get(IS_UPDATE_AVAILABLE, false);
+    }
+    public static void setUpdateAvailable(boolean b){
+        Hawk.put(IS_UPDATE_AVAILABLE, b);
+    }
+
 }

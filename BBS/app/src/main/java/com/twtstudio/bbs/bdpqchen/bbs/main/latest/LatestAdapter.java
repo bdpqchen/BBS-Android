@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.latest;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tencent.bugly.beta.Beta;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
@@ -24,7 +24,8 @@ import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS_NAME;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_CREATE_THREAD;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_UPDATE_AVAILABLE;
 
 
 /**
@@ -33,7 +34,6 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEAD
 
 public class LatestAdapter extends BaseAdapter<LatestEntity> {
 
-    Activity mActivity;
 
     public LatestAdapter(Context context) {
         super(context);
@@ -42,8 +42,10 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == ITEM_HEADER) {
+        if (viewType == ITEM_CREATE_THREAD) {
             return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_header, parent, false));
+        } else if (viewType == ITEM_UPDATE_AVAILABLE) {
+            return new UpdateViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_update, parent, false));
         } else {
             return new LatestViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_latest, parent, false));
         }
@@ -86,12 +88,22 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
                 holder.itemView.setOnClickListener(v -> {
                     mContext.startActivity(IntentUtil.toCreateThread(mContext));
                 });
+            }else if(holder0 instanceof UpdateViewHolder){
+                ((UpdateViewHolder) holder0).itemView.setOnClickListener(v -> {
+                    Beta.checkUpgrade(true, false);
+                });
             }
         }
     }
 
+    class UpdateViewHolder extends BaseViewHolder {
 
-    static class LatestViewHolder extends BaseViewHolder {
+        UpdateViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    class LatestViewHolder extends BaseViewHolder {
 
         @BindView(R.id.civ_latest_avatar)
         CircleImageView mCivLatestAvatar;

@@ -65,6 +65,7 @@ public class UpdateInfoActivity extends BaseActivity implements UpdateInfoContra
     private String mOldSignature = PrefUtil.getInfoSignature();
     private MaterialDialog mMaterialDialog;
     private UpdateInfoPresenter mPresenter;
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_update_info;
@@ -90,7 +91,7 @@ public class UpdateInfoActivity extends BaseActivity implements UpdateInfoContra
         mSignature = PrefUtil.getInfoSignature();
         mTvNicknameUpdate.setText(mNickname);
         mTvSignatureUpdate.setText(mSignature);
-        ImageUtil.INSTANCE.refreshMyAvatar(activity, mCivAvatar);
+        ImageUtil.loadMyAvatar(activity, mCivAvatar);
         pkTracker();
     }
 
@@ -165,7 +166,7 @@ public class UpdateInfoActivity extends BaseActivity implements UpdateInfoContra
         } else {
             new MaterialDialog.Builder(this)
                     .title("提示")
-                    .content("你刚刚修改的资料还没有保存")
+                    .content("你刚刚才修改的资料还没有保存")
                     .positiveText("保存")
                     .onPositive((materialDialog, dialogAction) -> {
                         updateInfo();
@@ -238,14 +239,14 @@ public class UpdateInfoActivity extends BaseActivity implements UpdateInfoContra
     public void updateAvatarFailed(String msg) {
         hideProgressBar();
         SnackBarUtil.error(this, msg, true);
-        ImageUtil.INSTANCE.refreshMyAvatar(this, mCivAvatar);
+        ImageUtil.refreshMyAvatar(this, mCivAvatar);
     }
 
     @Override
     public void updateAvatarSuccess(BaseModel baseModel) {
         hideProgressBar();
         SnackBarUtil.normal(this, "头像上传成功, 嘿嘿嘿");
-        ImageUtil.INSTANCE.refreshMyAvatar(this, mCivAvatar);
+        ImageUtil.refreshMyAvatar(this, mCivAvatar);
         setUpdateAvatarResult();
     }
 

@@ -84,6 +84,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 HandlerUtil.postDelay(() -> ActivityManager.getActivityManager().recreateAllActivity(SettingsActivity.class), 10);
             } else if (key.equals(getString(R.string.key_disabled_image_cache))) {
                 PrefUtil.setDisabledImageCache(CastUtil.cast2boolean(obj));
+            } else if (key.equals(getString(R.string.key_feedback))) {
+                startActivity(IntentUtil.toThread(mActivity, 155651));
+            }else if (key.equals(getString(R.string.key_more_app))){
+
             }
         }
         return true;

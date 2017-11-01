@@ -53,7 +53,8 @@ public class App extends Application {
         mContext = this;
         sApplication = this;
 
-        if (!BuildConfig.DEBUG) {
+//        if (!BuildConfig.DEBUG) {
+        if (true) {
             initBuglyReport();
         }
 

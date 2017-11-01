@@ -200,10 +200,12 @@ object ImageUtil {
      */
     @JvmStatic
     fun clearCachedData(context: Context) {
+        LogUtil.ii("Clearing image cache", "true -------------->");
         Thread {
             Glide.get(context).clearDiskCache()
-            Glide.get(context).clearMemory()
         }.start()
+        //Must call on main thread.
+        Glide.get(context).clearMemory()
     }
 
 }

@@ -6,14 +6,14 @@ import android.view.View;
 
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.listener.OnItemClickListener;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_CREATE_THREAD;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_UPDATE_AVAILABLE;
 
 /**
  * Created by bdpqchen on 17-4-27.
@@ -27,7 +27,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     private boolean isShowHeader = false;
     private OnItemClickListener mOnItemClickListener = null;
     protected int mPage = 0;
-    private boolean noDataHeader = false;
+    private boolean mCreateThread, mUpdateAvailable = false;
 
     @Override
     public void onClick(View v) {
@@ -71,7 +71,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         notifyDataSetChanged();
     }
 
-    public int getDataListSize(){
+    public int getDataListSize() {
         return mDataSet.size();
     }
 
@@ -80,7 +80,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         notifyDataSetChanged();
     }
 
-    public void addFirst(T item){
+    public void addFirst(T item) {
         mDataSet.add(0, item);
         notifyDataSetChanged();
     }
@@ -92,8 +92,12 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        if (noDataHeader && position == 0) {
-            return ITEM_HEADER;
+        //Position = 0 and have to display an item.
+        if (mUpdateAvailable && position == 0) {
+            return ITEM_UPDATE_AVAILABLE;
+        }
+        if (mCreateThread && ((position == 1 && mUpdateAvailable) || (!mUpdateAvailable && position == 0))) {
+            return ITEM_CREATE_THREAD;
         }
         if (mDataSet != null && mDataSet.size() > 0) {
             if (position + 1 == getItemCount()) {
@@ -133,11 +137,11 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
 //        notifyDataSetChanged();
     }
 
-    public boolean isNoDataHeader() {
-        return noDataHeader;
+    public void setCreateThread(boolean b) {
+        this.mCreateThread = b;
     }
 
-    public void setNoDataHeader(boolean noDataHeader) {
-        this.noDataHeader = noDataHeader;
+    public void setUpdateAvailable(boolean b) {
+        this.mUpdateAvailable = b;
     }
 }

@@ -117,11 +117,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 //            PrefUtil.setIsSimpleBoardList(true);
 //        }
 
-        LogUtil.dd("HomeAct---", "start new thread to clear image cache");
         if (System.currentTimeMillis() - PrefUtil.getLastImageStamp() > 60 * 60 * 24 * 7) {
             ImageUtil.clearCachedData(mContext);
         }
-
         pkTracker();
     }
 

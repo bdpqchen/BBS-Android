@@ -89,7 +89,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             mEtPassword.requestFocus();
         }
         mEtAccount.setText(usernameToSet);
-        ImageUtil.loadAvatarButAnon(this, PrefUtil.getAuthUid(), mCivAvatar);
+        ImageUtil.loadAvatarButDefault(this, PrefUtil.getAuthUid(), mCivAvatar);
         ImageUtil.loadForumCover(this, RandomUtil.getForumIdRandom(), mIvBanner);
         pkTracker();
     }

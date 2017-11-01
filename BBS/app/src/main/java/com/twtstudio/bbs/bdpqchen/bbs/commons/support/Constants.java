@@ -50,6 +50,9 @@ public final class Constants {
     public static final int ITEM_SEARCH_USER_HIDING = 16;
     public static final int ITEM_SEARCH_DIVIDER = 17;
     public static final int ITEM_MSG_AT_USER = 18;
+    public static final int ITEM_CREATE_THREAD = 19;
+    public static final int ITEM_UPDATE_AVAILABLE = 20;
+
 
 
     public static final int TAG_MSG_SYSTEM = 0;
