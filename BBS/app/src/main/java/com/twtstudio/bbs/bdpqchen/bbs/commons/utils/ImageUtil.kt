@@ -19,15 +19,19 @@ object ImageUtil {
     private val myUid = PrefUtil.getAuthUid()
 
     /**
+     * Disabled all cache when the value is true.
+     */
+    private val cacheMode = if (PrefUtil.isDisabledImageCache()) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL
+
+    /**
      * Load icon with Glide if need.
-     *
      * @param context
      * @param resourceId
      * @param view
      */
     @JvmStatic
     fun loadIconAsBitmap(context: Context, resourceId: Int, view: ImageView) {
-        Glide.with(context).load(resourceId).asBitmap().centerCrop().into(view)
+        Glide.with(context).load(resourceId).asBitmap().centerCrop().diskCacheStrategy(cacheMode).into(view)
     }
 
     /**
@@ -37,7 +41,7 @@ object ImageUtil {
      */
     @JvmStatic
     fun loadAnonAvatar(context: Context, view: ImageView) {
-        Glide.with(context).load(R.drawable.avatar_anonymous_left).asBitmap().centerCrop().crossFade().into(view)
+        Glide.with(context).load(R.drawable.avatar_anonymous_left).asBitmap().centerCrop().crossFade().diskCacheStrategy(cacheMode).into(view)
     }
 
     @JvmStatic
@@ -45,6 +49,7 @@ object ImageUtil {
         Glide.with(context)
                 .load(UrlUtil.getCoverUrl(fid))
                 .crossFade()
+                .diskCacheStrategy(cacheMode)
                 .error(R.drawable.cover_login)
                 .into(view)
     }
@@ -147,7 +152,7 @@ object ImageUtil {
         Glide.with(context)
                 .load(UrlUtil.getAvatarUrl(uid))
                 .bitmapTransform(BlurTransformation(context, radius))
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .diskCacheStrategy(cacheMode)
                 .crossFade()
                 .into(view)
     }
@@ -167,6 +172,7 @@ object ImageUtil {
                 .bitmapTransform(BlurTransformation(context, radius))
 //                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .crossFade()
+                .diskCacheStrategy(cacheMode)
                 .into(view)
     }
 
@@ -183,10 +189,21 @@ object ImageUtil {
         Glide.with(context)
                 .load(UrlUtil.getAvatarUrl(uid))
                 .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(cacheMode)
                 .crossFade()
                 .into(view)
     }
 
+    /**
+     * clear all cached data of images, the method only called when
+     * current time stamp over the stamp of last time cached.
+     */
+    @JvmStatic
+    fun clearCachedData(context: Context) {
+        Thread {
+            Glide.get(context).clearDiskCache()
+            Glide.get(context).clearMemory()
+        }.start()
+    }
 
 }

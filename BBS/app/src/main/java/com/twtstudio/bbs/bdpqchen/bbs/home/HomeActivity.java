@@ -17,6 +17,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
@@ -46,6 +47,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     private int mHidingFragment = FIRST;
     private boolean mIsExit = false;
     private HomePresenter mPresenter;
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_main;
@@ -110,12 +112,15 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         });
 
 //        if (PrefUtil.thisVersionFirstOpen()) {
-            // TODO: 17-7-6 统一清理缓存
-//            ImageUtil.clearMemory(context);
-//            ImageUtil.clearDiskCache(context);
+        // TODO: 17-7-6 统一清理缓存
 //            PrefUtil.setIsThisVersionFirstOpen(false);
 //            PrefUtil.setIsSimpleBoardList(true);
 //        }
+
+        LogUtil.dd("HomeAct---", "start new thread to clear image cache");
+        if (System.currentTimeMillis() - PrefUtil.getLastImageStamp() > 60 * 60 * 24 * 7) {
+            ImageUtil.clearCachedData(mContext);
+        }
 
         pkTracker();
     }

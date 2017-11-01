@@ -39,6 +39,14 @@
             android:title="简版展示论坛区"
             />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_disabled_image_cache"
+            android:layout="@layout/preference_item_normal"
+            android:summary="开启会使用更多的流量"
+            android:title="不缓存图片"
+            />
+
         <!-- <ListPreference
              android:key="@string/key_habit_hand"
              android:layout="@layout/preference_item_normal"

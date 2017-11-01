@@ -14,6 +14,7 @@
     <string name="key_check_update">key_check_update</string>
     <string name="key_auto_clear_unread">key_auto_clear_unread</string>
     <string name="key_simple_forum">key_simple_forum</string>
+    <string name="key_disabled_image_cache">key_disabled_image_cache</string>
     <string name="default_signature">这个人很有趣,什么也不写..</string>
     <string name="hint_md_editor">在这里编辑内容\n向左滑动可切换预览视图\n点击 + 展开标记符号列表</string>
     <string name="share_avatar">share_avatar</string>

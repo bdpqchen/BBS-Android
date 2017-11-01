@@ -246,8 +246,9 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
     }
 
     private void refreshInfo() {
-        ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
+        PrefUtil.setLastImageStamp(System.currentTimeMillis());
         ImageUtil.refreshMyBg(mContext, mIvBg);
+        ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
         mTvNickname.setText(PrefUtil.getInfoNickname());
         mTvSignature.setText(PrefUtil.getInfoSignature());
     }
