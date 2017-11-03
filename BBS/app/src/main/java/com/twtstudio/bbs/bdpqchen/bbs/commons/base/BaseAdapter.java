@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.base;
 
 import android.content.Context;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -28,7 +29,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     private OnItemClickListener mOnItemClickListener = null;
     protected int mPage = 0;
     private boolean mCreateThread, mUpdateAvailable = false;
-
+DiffUtil
     @Override
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
