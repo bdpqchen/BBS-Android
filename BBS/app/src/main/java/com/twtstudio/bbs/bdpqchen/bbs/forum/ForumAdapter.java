@@ -58,7 +58,7 @@ public class ForumAdapter extends BaseAdapter<ForumModel> {
                 ViewHolder viewHolder = (ViewHolder) holder0;
                 ForumModel model = mDataSet.get(position);
                 viewHolder.mForumInfo.setText(model.getInfo());
-                ImageUtil.INSTANCE.loadForumCover(mContext, model.getId(), viewHolder.mForumCover);
+                ImageUtil.loadForumCover(mContext, model.getId(), viewHolder.mForumCover);
                 viewHolder.mForumName.setText(model.getName());
                 viewHolder.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(mContext, BoardsActivity.class);

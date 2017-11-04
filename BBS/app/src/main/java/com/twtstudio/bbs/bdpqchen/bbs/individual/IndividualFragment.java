@@ -232,6 +232,7 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        if (this.getActivity() != null)
         StatusBarUtil.setTranslucentForImageViewInFragment(this.getActivity(), 255, null);
         return rootView;
     }

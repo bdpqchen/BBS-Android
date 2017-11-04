@@ -1,7 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.base;
 
 import android.content.Context;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -24,16 +23,16 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
 
     protected Context mContext;
     protected List<T> mDataSet = new ArrayList<>();
+    protected List<T> mOldDataSet = new ArrayList<>();
     private boolean isShowFooter = false;
     private boolean isShowHeader = false;
     private OnItemClickListener mOnItemClickListener = null;
     protected int mPage = 0;
     private boolean mCreateThread, mUpdateAvailable = false;
-DiffUtil
+
     @Override
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
-            //注意这里使用getTag方法获取position
             mOnItemClickListener.onItemClick(v, (int) v.getTag());
         }
     }
@@ -41,8 +40,6 @@ DiffUtil
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
-
-//    public BaseAdapter(){}
 
     public BaseAdapter(Context context) {
         this.mContext = context;
@@ -61,15 +58,21 @@ DiffUtil
     }
 
     public void refreshList(List<T> items) {
+
+//        mOldDataSet = mDataSet;
+//        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffChecker<>(mOldDataSet, items), true);
         mDataSet.clear();
         mDataSet.addAll(items);
-//        setShowFooter(false);
         notifyDataSetChanged();
+//        result.dispatchUpdatesTo(this);
     }
 
     public void addList(List<T> items) {
+        final int oldSize = mDataSet.size();
         mDataSet.addAll(items);
+        final int newSize = mDataSet.size();
         notifyDataSetChanged();
+//        notifyItemRangeChanged(oldSize + 1, newSize);
     }
 
     public int getDataListSize() {
@@ -127,15 +130,12 @@ DiffUtil
     }
 
     public void clearAll() {
-        mDataSet.removeAll(mDataSet);
         mDataSet.clear();
-//        notifyDataSetChanged();
     }
 
     public void addOne(T model) {
         mDataSet.add(model);
         notifyItemInserted(mDataSet.size() - 1);
-//        notifyDataSetChanged();
     }
 
     public void setCreateThread(boolean b) {
@@ -144,5 +144,14 @@ DiffUtil
 
     public void setUpdateAvailable(boolean b) {
         this.mUpdateAvailable = b;
+    }
+
+    public void setDataSets(List<T> list) {
+        mDataSet = list;
+        notifyDataSetChanged();
+    }
+
+    public List<T> getDataSets(){
+        return mDataSet;
     }
 }

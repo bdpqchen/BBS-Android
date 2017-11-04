@@ -19,9 +19,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.MainContract;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.annotations.NonNull;
 
 /**
  * Created by bdpqchen on 17-6-5.
@@ -65,7 +67,6 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
             getDataList(0);
             mRefreshing = true;
             mSrlLatest.setRefreshing(true);
-
         });
         mRvLatest.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
@@ -103,21 +104,36 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
     }
 
     @Override
-    public void onGetLatestList(List<LatestEntity> list) {
+    public void onGetLatestList(@NonNull List<LatestEntity> list) {
         if (list != null && list.size() > 0) {
             if (mIsLoadingMore) {
                 mIsLoadingMore = false;
-//                int size = mAdapter.getDataListSize();
                 mAdapter.addList(list);
-//                mRvLatest.smoothScrollToPosition(++size);
+                setRefreshing(false);
                 return;
             }
-            if (mRefreshing) {
-                mAdapter.clearAll();
-            }
+            List<LatestEntity> newList = new ArrayList<>();
             mAdapter.setCreateThread(true);
-            mAdapter.addFirst(new LatestEntity());
-            mAdapter.addList(list);
+            newList.add(new LatestEntity());
+            newList.addAll(list);
+            if (mRefreshing) {
+                List<LatestEntity> oldList = mAdapter.getDataSets();
+/*
+                DiffUtil.calculateDiff(new DiffChecker2<LatestEntity>(oldList, newList) {
+                    @Override
+                    public boolean _areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean _areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                        return false;
+                    }
+                }, true);
+*/
+                mAdapter.refreshList(newList);
+            }
+            mAdapter.setDataSets(newList);
         }
         setRefreshing(false);
         hideLoading();
@@ -153,4 +169,5 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
     public void getDataList(int page) {
         mPresenter.getLatestList(page);
     }
+
 }

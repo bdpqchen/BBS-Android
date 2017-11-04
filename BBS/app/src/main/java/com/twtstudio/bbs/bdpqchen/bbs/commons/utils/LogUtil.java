@@ -14,25 +14,26 @@ public final class LogUtil {
     public static boolean mIsLogable = true;
     private static final String TAG = "LogUtil-->";
 
-    public static void v(String s){
+    public static void v(String s) {
         Logger.v(s);
     }
 
-    public static void d(Object o){
+    public static void d(Object o) {
         Logger.d(o);
     }
-    public static void d(String t, Object o){
+
+    public static void d(String t, Object o) {
         Logger.t(t).d(o);
     }
 
-    public static void i(String s){
+    public static void i(String s) {
         Logger.i(s);
     }
    /* public static void i(String t, Object o){
         Logger.i(t, o);
     }*/
 
-    public static void w(String s, Object o){
+    public static void w(String s, Object o) {
         Logger.w(s, o);
     }
    /* public static void e(String s, Object o){
@@ -40,37 +41,42 @@ public final class LogUtil {
         Logger.i("sss");
     }*/
 
-   public static void vv(@Nullable String t, String m){
-       if (mIsLogable)
-           Log.v(t, m);
-   }
+    public static void vv(@Nullable String t, String m) {
+        if (mIsLogable)
+            Log.v(t, m);
+    }
 
-    public static void dd(String m){
+    public static void dd(String m) {
         if (mIsLogable)
             Log.d(TAG, m);
     }
 
-    public static void dd(@Nullable String t, String m){
-       if (mIsLogable)
-           Log.d(t, m);
-   }
+    public static void dd(@Nullable String t, String m) {
+        if (mIsLogable)
+            Log.d(t, m);
+    }
 
-    public static void ii(@Nullable String t, String m){
+    public static void dd(@Nullable String t, int m){
+        dd(t, String.valueOf(m));
+    }
+    public static void dd(@Nullable String t, boolean m){
+        dd(t, String.valueOf(m));
+    }
+
+    public static void ii(@Nullable String t, String m) {
         if (mIsLogable)
             Log.i(t, m);
     }
 
-    public static void ww(@Nullable String t, String m){
+    public static void ww(@Nullable String t, String m) {
         if (mIsLogable)
             Log.w(t, m);
     }
 
-    public static void ee(@Nullable String t, String m){
+    public static void ee(@Nullable String t, String m) {
         if (mIsLogable)
             Log.e(t, m);
     }
-
-
 
 
 }
