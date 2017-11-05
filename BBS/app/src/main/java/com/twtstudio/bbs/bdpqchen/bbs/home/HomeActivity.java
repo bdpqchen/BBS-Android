@@ -111,13 +111,12 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
             }
         });
 
-//        if (PrefUtil.thisVersionFirstOpen()) {
-        // TODO: 17-7-6 统一清理缓存
-//            PrefUtil.setIsThisVersionFirstOpen(false);
-//            PrefUtil.setIsSimpleBoardList(true);
-//        }
-
+        if (PrefUtil.getLastImageStamp() == 0) {
+            PrefUtil.setLastImageStamp(System.currentTimeMillis());
+        }
+        //Clear cached images and set {@LastImageStamp()} to currentTime.
         if (System.currentTimeMillis() - PrefUtil.getLastImageStamp() > 60 * 60 * 24 * 7) {
+            PrefUtil.setLastImageStamp(System.currentTimeMillis());
             ImageUtil.clearCachedData(mContext);
         }
         pkTracker();

@@ -258,7 +258,7 @@ public final class PrefUtil {
 
     public static long getLastImageStamp() {
         LogUtil.dd("PrefUtil", "getLastImageStamp");
-        return Hawk.get(LAST_IMAGE_STAMP, System.currentTimeMillis());
+        return Hawk.get(LAST_IMAGE_STAMP, 0L);
     }
 
     public static boolean isDisabledImageCache() {

@@ -126,7 +126,7 @@ public class PeopleActivity extends BaseActivity implements PeopleContract.View 
             mToolbar.getBackground().mutate().setAlpha(alpha);
         });
         mCivAvatar.setOnClickListener(v -> {
-            Intent intent1 = IntentUtil.toBigPhoto(mContext, UrlUtil.getAvatarUrl(mUid));
+            Intent intent1 = IntentUtil.toBigPhoto(mContext, UrlUtil.INSTANCE.getAvatarUrl(mUid));
             Bundle bundle = TransUtil.getTransOptions(mContext, mCivAvatar, R.string.share_big_photo);
             startActivity(intent1, bundle);
         });
