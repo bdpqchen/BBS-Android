@@ -3,9 +3,12 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -22,27 +25,45 @@ class ForumPresenter extends RxPresenter implements ForumContract.Presenter {
     }
 
     @Override
-    public void getForumList() {
-
-        SimpleObserver<List<ForumModel>> observer = new SimpleObserver<List<ForumModel>>() {
+    public void getForumBoardList() {
+        SimpleObserver<ForumBoardModel> observer = new SimpleObserver<ForumBoardModel>() {
             @Override
             public void _onError(String msg) {
                 if (mView != null)
-                    mView.failedToGetForum(msg);
+                    mView.getForumBoardFailed(msg);
             }
 
             @Override
-            public void _onNext(List<ForumModel> forumModels) {
-                if (mView != null)
-                    mView.showForumList(forumModels);
+            public void _onNext(ForumBoardModel forumBoardModels) {
+                if (mView != null) mView.onGotForumBoard(forumBoardModels);
             }
 
         };
         addSubscribe(sHttpClient.getForumList()
-                .map(new ResponseTransformer<>())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(observer)
+                        .map(new ResponseTransformer<>())
+//                .flatMap((Function<List<ForumModel>, ObservableSource<ForumModel>>) forumModels -> Observable.fromIterable(forumModels))
+                        .flatMap(Observable::fromIterable)
+                        .flatMap(forumModel -> sHttpClient.getBoardList(forumModel.getId()))
+                        .map(new ResponseTransformer<>())
+//                .map(new Function<BoardsModel, ForumBoardModel>() {
+                        .map(forumList -> {
+                            List<BoardsModel.BoardsBean> boards = forumList.getBoards();
+                            List<ForumBoardModel.BoardModel> resultBoardList = new ArrayList<>();
+                            for (int i = 0; i < boards.size(); i++) {
+                                resultBoardList.add(new ForumBoardModel.BoardModel(boards.get(i).getId(), boards.get(i).getName()));
+                            }
+                            return new ForumBoardModel(forumList.getForum().getId(),
+                                    forumList.getForum().getName(),
+                                    resultBoardList);
+
+                        })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(observer)
         );
+
+
     }
+
+
 }

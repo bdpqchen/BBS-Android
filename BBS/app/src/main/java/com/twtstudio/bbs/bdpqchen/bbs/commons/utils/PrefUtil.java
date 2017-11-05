@@ -38,8 +38,6 @@ public final class PrefUtil {
     private static final String IS_ALWAYS_ANONYMOUS = "is_always_anonymous";
     private static final String HABIT_HAND = "habit_hand";
     private static final String IS_SIMPLE_BOARD_LIST = "is_simple_board_list";
-    private static final String IS_AUTO_CLEAR_UNREAD = "is_auto_clear_unread";
-    private static final String IS_SIMPLE_FORUM = "is_simple_forum";
     private static final String IS_THIS_VERSION_FIRST_OPEN = "is_this_version_first_open";
     private static final String LAST_IMAGE_STAMP = "last_image_stamp";
     private static final String DISABLED_IMAGE_CACHE = "is_disabled_image_cache";
@@ -244,22 +242,6 @@ public final class PrefUtil {
 
     public static void setIsSimpleBoardList(boolean b) {
         Hawk.put(IS_SIMPLE_BOARD_LIST, b);
-    }
-
-    public static void setIsAutoClearUnread(boolean b) {
-        Hawk.put(IS_AUTO_CLEAR_UNREAD, b);
-    }
-
-    public static boolean isAutoClearUnread() {
-        return Hawk.get(IS_AUTO_CLEAR_UNREAD, false);
-    }
-
-    public static boolean isSimpleForum() {
-        return Hawk.get(IS_SIMPLE_FORUM, false);
-    }
-
-    public static void setIsSimpleForum(boolean b) {
-        Hawk.put(IS_SIMPLE_FORUM, b);
     }
 
     public static boolean thisVersionFirstOpen() {

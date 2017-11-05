@@ -80,7 +80,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             } else if (key.equals(getString(R.string.key_simple_board_list))) {
                 PrefUtil.setIsSimpleBoardList(CastUtil.cast2boolean(obj));
             } else if (key.equals(getString(R.string.key_simple_forum))) {
-                PrefUtil.setIsSimpleForum(CastUtil.cast2boolean(obj));
                 HandlerUtil.postDelay(() -> ActivityManager.getActivityManager().recreateAllActivity(SettingsActivity.class), 10);
             } else if (key.equals(getString(R.string.key_disabled_image_cache))) {
                 PrefUtil.setDisabledImageCache(CastUtil.cast2boolean(obj));

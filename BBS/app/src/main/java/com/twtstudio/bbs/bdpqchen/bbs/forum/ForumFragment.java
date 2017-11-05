@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,10 +12,8 @@ import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
-
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -30,7 +27,6 @@ public class ForumFragment extends BaseFragment implements ForumContract.View {
     TextView mTvTitleToolbar;
     @BindView(R.id.rv_forum_list)
     RecyclerView mRvForumList;
-
     ForumAdapter mAdapter;
     Activity mActivity;
     @BindView(R.id.pb_loading_forum)
@@ -38,8 +34,8 @@ public class ForumFragment extends BaseFragment implements ForumContract.View {
     @BindView(R.id.srl_forum)
     SwipeRefreshLayout mSrlForum;
     private boolean mRefreshing = false;
-    private boolean isSimple = PrefUtil.isSimpleForum();
     private ForumPresenter mPresenter;
+
     @Override
     protected int getFragmentLayoutId() {
         return R.layout.fragment_forum;
@@ -52,22 +48,22 @@ public class ForumFragment extends BaseFragment implements ForumContract.View {
     @Override
     protected void initFragment() {
         mActivity = this.getActivity();
-        mPresenter = new ForumPresenter(this);
         mTvTitleToolbar.setText("论坛区");
-        mAdapter = new ForumAdapter(mContext, this.getActivity());
-        if (isSimple){
-            GridLayoutManager manager = new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false);
-            mRvForumList.setLayoutManager(manager);
-        }else{
-            LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-            mRvForumList.setLayoutManager(manager);
-        }
+        mPresenter = new ForumPresenter(this);
+        mAdapter = new ForumAdapter(mContext);
+        LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        mRvForumList.setHasFixedSize(true);
+        mRvForumList.setLayoutManager(manager);
         mRvForumList.setAdapter(mAdapter);
         mSrlForum.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlForum.setOnRefreshListener(() -> {
-            mPresenter.getForumList();
+            getForumList();
             mRefreshing = true;
         });
+    }
+
+    private void getForumList() {
+        mPresenter.getForumBoardList();
     }
 
     @Override
@@ -76,21 +72,20 @@ public class ForumFragment extends BaseFragment implements ForumContract.View {
     }
 
     @Override
-    public void showForumList(List<ForumModel> forumModel) {
-        if (forumModel != null && forumModel.size() != 0) {
-            if (mRefreshing){
-                mRefreshing = false;
-                mAdapter.clearAll();
-            }
-            mAdapter.addList(forumModel);
-            mAdapter.notifyDataSetChanged();
+    public void onGotForumBoard(ForumBoardModel forumBoard) {
+        LogUtil.dd("board size is", forumBoard.getBoardList().size());
+        if (mRefreshing) {
+            mRefreshing = false;
+            mAdapter.clearAll();
         }
+        mAdapter.addOne(forumBoard);
         hideProgressBar();
         setRefreshing(false);
+
     }
 
     @Override
-    public void failedToGetForum(String msg) {
+    public void getForumBoardFailed(String msg) {
         SnackBarUtil.error(this.getActivity(), msg);
         hideProgressBar();
         setRefreshing(false);
@@ -99,22 +94,18 @@ public class ForumFragment extends BaseFragment implements ForumContract.View {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        if (mPresenter != null){
-            mPresenter.getForumList();
-
+        if (mPresenter != null) {
+            getForumList();
         }
     }
 
-    void setRefreshing(boolean b){
-        if (mSrlForum != null){
-            mSrlForum.setRefreshing(b);
-        }
+    void setRefreshing(boolean b) {
+        mSrlForum.setRefreshing(b);
         mRefreshing = b;
     }
+
     private void hideProgressBar() {
-        if (mPbLoadingForum != null){
-            mPbLoadingForum.setVisibility(View.GONE);
-        }
+        mPbLoadingForum.setVisibility(View.GONE);
     }
 
 }
