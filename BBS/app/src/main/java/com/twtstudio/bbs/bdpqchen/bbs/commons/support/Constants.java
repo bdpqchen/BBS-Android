@@ -52,6 +52,8 @@ public final class Constants {
     public static final int ITEM_MSG_AT_USER = 18;
     public static final int ITEM_CREATE_THREAD = 19;
     public static final int ITEM_UPDATE_AVAILABLE = 20;
+    public static final int ITEM_BOARD = 21;
+    public static final int ITEM_FORUM = 22;
 
 
 

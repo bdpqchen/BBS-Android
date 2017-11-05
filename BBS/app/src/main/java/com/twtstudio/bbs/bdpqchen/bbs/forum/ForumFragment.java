@@ -3,19 +3,25 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_BOARD;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FORUM;
 
 /**
  * Created by bdpqchen on 17-5-3.
@@ -31,9 +37,7 @@ public class ForumFragment extends BaseFragment implements ForumContract.View {
     Activity mActivity;
     @BindView(R.id.pb_loading_forum)
     ProgressBar mPbLoadingForum;
-    @BindView(R.id.srl_forum)
-    SwipeRefreshLayout mSrlForum;
-    private boolean mRefreshing = false;
+
     private ForumPresenter mPresenter;
 
     @Override
@@ -51,15 +55,14 @@ public class ForumFragment extends BaseFragment implements ForumContract.View {
         mTvTitleToolbar.setText("论坛区");
         mPresenter = new ForumPresenter(this);
         mAdapter = new ForumAdapter(mContext);
-        LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        mRvForumList.setHasFixedSize(true);
-        mRvForumList.setLayoutManager(manager);
+//        LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        mRvForumList.setLayoutManager(new FlexboxLayoutManager(mContext, FlexDirection.ROW));
         mRvForumList.setAdapter(mAdapter);
-        mSrlForum.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
-        mSrlForum.setOnRefreshListener(() -> {
-            getForumList();
-            mRefreshing = true;
-        });
+//        mSrlForum.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
+//        mSrlForum.setOnRefreshListener(() -> {
+//            getForumList();
+//            mRefreshing = true;
+//        });
     }
 
     private void getForumList() {
@@ -74,21 +77,21 @@ public class ForumFragment extends BaseFragment implements ForumContract.View {
     @Override
     public void onGotForumBoard(ForumBoardModel forumBoard) {
         LogUtil.dd("board size is", forumBoard.getBoardList().size());
-        if (mRefreshing) {
-            mRefreshing = false;
-            mAdapter.clearAll();
+        mAdapter.addOne(new FlexBoardModel(forumBoard.getFid(), forumBoard.getForumName(), ITEM_FORUM, 0));
+        List<FlexBoardModel> flexBoardModelList = new ArrayList<>();
+        int size = forumBoard.getBoardList().size();
+        for (int i = 0; i < size; i++) {
+            ForumBoardModel.BoardModel board = forumBoard.getBoardList().get(i);
+            flexBoardModelList.add(new FlexBoardModel(board.getBid(), board.getBoardName(), ITEM_BOARD, board.getCanAnon()));
         }
-        mAdapter.addOne(forumBoard);
+        mAdapter.addList(flexBoardModelList);
         hideProgressBar();
-        setRefreshing(false);
-
     }
 
     @Override
     public void getForumBoardFailed(String msg) {
         SnackBarUtil.error(this.getActivity(), msg);
         hideProgressBar();
-        setRefreshing(false);
     }
 
     @Override
@@ -97,11 +100,6 @@ public class ForumFragment extends BaseFragment implements ForumContract.View {
         if (mPresenter != null) {
             getForumList();
         }
-    }
-
-    void setRefreshing(boolean b) {
-        mSrlForum.setRefreshing(b);
-        mRefreshing = b;
     }
 
     private void hideProgressBar() {

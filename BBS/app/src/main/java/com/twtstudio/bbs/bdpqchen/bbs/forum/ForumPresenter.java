@@ -50,7 +50,7 @@ class ForumPresenter extends RxPresenter implements ForumContract.Presenter {
                             List<BoardsModel.BoardsBean> boards = forumList.getBoards();
                             List<ForumBoardModel.BoardModel> resultBoardList = new ArrayList<>();
                             for (int i = 0; i < boards.size(); i++) {
-                                resultBoardList.add(new ForumBoardModel.BoardModel(boards.get(i).getId(), boards.get(i).getName()));
+                                resultBoardList.add(new ForumBoardModel.BoardModel(boards.get(i).getId(), boards.get(i).getName(), boards.get(i).getAnonymous()));
                             }
                             return new ForumBoardModel(forumList.getForum().getId(),
                                     forumList.getForum().getName(),

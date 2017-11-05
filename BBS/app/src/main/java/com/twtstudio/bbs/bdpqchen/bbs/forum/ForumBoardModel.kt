@@ -5,5 +5,5 @@ package com.twtstudio.bbs.bdpqchen.bbs.forum
  *
  */
 data class ForumBoardModel(var fid: Int, var forumName: String, var boardList: List<BoardModel>) {
-    data class BoardModel(var bid: Int, var boardName: String)
+    data class BoardModel(var bid: Int, var boardName: String, var canAnon: Int)
 }

@@ -159,4 +159,5 @@ public final class IntentUtil {
     public static Intent toSearch(Context context) {
         return new Intent(context, SearchActivity.class);
     }
+
 }
