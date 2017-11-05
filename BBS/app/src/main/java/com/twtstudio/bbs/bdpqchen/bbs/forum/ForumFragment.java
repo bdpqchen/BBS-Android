@@ -77,12 +77,12 @@ public class ForumFragment extends BaseFragment implements ForumContract.View {
     @Override
     public void onGotForumBoard(ForumBoardModel forumBoard) {
         LogUtil.dd("board size is", forumBoard.getBoardList().size());
-        mAdapter.addOne(new FlexBoardModel(forumBoard.getFid(), forumBoard.getForumName(), ITEM_FORUM, 0));
+        mAdapter.addOne(new FlexBoardModel(forumBoard.getFid(), forumBoard.getForumName(), 0, ITEM_FORUM));
         List<FlexBoardModel> flexBoardModelList = new ArrayList<>();
         int size = forumBoard.getBoardList().size();
         for (int i = 0; i < size; i++) {
             ForumBoardModel.BoardModel board = forumBoard.getBoardList().get(i);
-            flexBoardModelList.add(new FlexBoardModel(board.getBid(), board.getBoardName(), ITEM_BOARD, board.getCanAnon()));
+            flexBoardModelList.add(new FlexBoardModel(board.getBid(), board.getBoardName(), board.getCanAnon(), ITEM_BOARD));
         }
         mAdapter.addList(flexBoardModelList);
         hideProgressBar();

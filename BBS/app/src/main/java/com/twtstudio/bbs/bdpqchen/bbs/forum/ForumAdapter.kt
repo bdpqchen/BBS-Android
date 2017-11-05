@@ -10,6 +10,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FORUM
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil
 
 
 /**
@@ -22,18 +23,15 @@ class ForumAdapter internal constructor(context: Context) : BaseAdapter<FlexBoar
         mContext = context
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-//        return ForumVH(LayoutInflater.from(mContext).inflate(R.layout.item_forum, parent, false))
         return when (viewType) {
             ITEM_FORUM -> ForumVH(LayoutInflater.from(mContext).inflate(R.layout.item_forum_text, parent, false))
-        //ITEM_BOARD
             else -> BoardVH(LayoutInflater.from(mContext).inflate(R.layout.view_board_text, parent, false))
         }
     }
 
     override fun onBindViewHolder(holder0: BaseViewHolder, position: Int) {
-        if (mDataSet != null && mDataSet.size > 0) {
+        if (mDataSet.size > 0) {
             if (holder0 is BoardVH) {
                 val board = mDataSet[position]
                 with(holder0) {
@@ -42,7 +40,6 @@ class ForumAdapter internal constructor(context: Context) : BaseAdapter<FlexBoar
                         mBoardName.setOnClickListener({
                             mContext.startActivity(IntentUtil.toThreadList(mContext, id, name, canAnon))
                         })
-
                     }
                 }
             } else if (holder0 is ForumVH) {
@@ -63,13 +60,10 @@ class ForumAdapter internal constructor(context: Context) : BaseAdapter<FlexBoar
 
     internal class ForumVH(view: View) : BaseViewHolder(view) {
         val mForumName = view.findViewById<TextView>(R.id.tvForumName)
-//        val mRvBoards = view.findViewById<RecyclerView>(R.id.rvBoards)
     }
 
     internal class BoardVH(view: View) : BaseViewHolder(view) {
         val mBoardName = view.findViewById<TextView>(R.id.tvBName)
-        //        val mFlexBoxLayout = view.findViewById<FlexboxLayout>(R.id.flexBoxLayout)
-//        val mRvBoards = view.findViewById<RecyclerView>(R.id.rvBoards)
     }
 
 }
