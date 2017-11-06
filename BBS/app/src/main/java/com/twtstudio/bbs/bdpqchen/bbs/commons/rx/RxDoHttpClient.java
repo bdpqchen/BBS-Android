@@ -1,8 +1,10 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
-import com.google.gson.GsonBuilder;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldModel;
@@ -51,6 +53,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PASSWORD;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REAL_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.STUNUM;
@@ -74,7 +77,7 @@ public class RxDoHttpClient {
         Interceptor tokenInterceptor = chain -> {
             Request originalRequest = chain.request();
             Request authorised = originalRequest.newBuilder()
-                    .header(Constants.NET_RETROFIT_HEADER_TITLE, getLatestAuthentication())
+                    .header(NET_RETROFIT_HEADER_TITLE, getLatestAuthentication())
                     .build();
             return chain.proceed(authorised);
         };
@@ -89,7 +92,7 @@ public class RxDoHttpClient {
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
 
-        GsonBuilder gson = new GsonBuilder().registerTypeHierarchyAdapter(BaseResponse.class, new ErrorJsonAdapter());
+//        GsonBuilder gson = new GsonBuilder().registerTypeHierarchyAdapter(BaseResponse.class, new ErrorJsonAdapter());
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
@@ -98,7 +101,6 @@ public class RxDoHttpClient {
                 .addConverterFactory(DirtyJsonConverter.create())
                 .build();
         mApi = retrofit.create(BaseApi.class);
-
     }
 
     private static Interceptor getNetWorkInterceptor() {
@@ -106,13 +108,33 @@ public class RxDoHttpClient {
             Request request = chain.request();
             Response response = chain.proceed(request);
             String cacheControl = request.cacheControl().toString();
-            if (!cacheControl.isEmpty()) {
-                response.header("Cache-Control", cacheControl);
+            Response.Builder builder = response.newBuilder();
+            LogUtil.dd("has network -->", hasNetwork(App.getContext()));
+            if (!hasNetwork(App.getContext())) {
+                LogUtil.dd("Network is available");
+                if (!cacheControl.isEmpty()) {
+                    builder.header("Cache-Control", cacheControl);
+                }
+            } else {
+                int maxScale = 60 * 60 * 24;  // 1周
+                builder.header("Cache-Control", "public, only-if-cached, max-stale=" + maxScale);
             }
-            return response.newBuilder()
-                    .removeHeader("Pragma")
-                    .build();
+            return builder.removeHeader("Pragma").build();
         };
+    }
+
+    //Whether the network is available.
+    private static boolean hasNetwork(Context context) {
+        if (context != null) {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm != null) {
+                NetworkInfo info = cm.getActiveNetworkInfo();
+                if (info != null) {
+                    return info.isAvailable();
+                }
+            }
+        }
+        return false;
     }
 
     private static Cache getCache() {
