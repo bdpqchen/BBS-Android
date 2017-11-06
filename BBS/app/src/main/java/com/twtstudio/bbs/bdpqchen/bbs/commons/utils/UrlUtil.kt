@@ -21,9 +21,6 @@ object UrlUtil {
         }
 
     fun getAvatarUrl(uid: Int): String {
-        LogUtil.dd("mDisableImageCache", mDisableImageCache)
-        LogUtil.dd("getImageUrlSuffixStamp", imageUrlSuffixStamp)
-        LogUtil.dd("current stamp", System.currentTimeMillis().toString())
         return "$BASE_URL$USER/$uid/$AVATAR$imageUrlSuffixStamp"
     }
 

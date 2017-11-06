@@ -1,11 +1,13 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.latest;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.bdpqchen.diffutilpractice.DiffChecker2;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.beta.UpgradeInfo;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -118,22 +120,22 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
             newList.addAll(list);
             if (mRefreshing) {
                 List<LatestEntity> oldList = mAdapter.getDataSets();
-/*
-                DiffUtil.calculateDiff(new DiffChecker2<LatestEntity>(oldList, newList) {
+                DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffChecker2<LatestEntity>(oldList, newList) {
                     @Override
                     public boolean _areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                        return false;
+                        return oldList.get(oldItemPosition).getT_reply() == newList.get(newItemPosition).getT_reply();
                     }
 
                     @Override
                     public boolean _areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                        return false;
+                        return oldList.get(oldItemPosition).getId() == newList.get(newItemPosition).getId();
                     }
                 }, true);
-*/
-                mAdapter.refreshList(newList);
+                mAdapter.replaceDataSets(newList);
+                result.dispatchUpdatesTo(mAdapter);
+            } else {
+                mAdapter.setDataSets(newList);
             }
-            mAdapter.setDataSets(newList);
         }
         setRefreshing(false);
         hideLoading();

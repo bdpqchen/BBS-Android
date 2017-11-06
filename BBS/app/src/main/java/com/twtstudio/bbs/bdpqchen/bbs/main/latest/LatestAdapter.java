@@ -36,7 +36,7 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_UPDA
 public class LatestAdapter extends BaseAdapter<LatestEntity> {
 
 
-    public LatestAdapter(Context context) {
+    LatestAdapter(Context context) {
         super(context);
         mContext = context;
     }

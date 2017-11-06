@@ -151,7 +151,16 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         notifyDataSetChanged();
     }
 
-    public List<T> getDataSets(){
+    /**
+     * Use for DiffUtil to calculate different items,
+     * so this method should't use notifyDataSetChanged().
+     */
+    public void replaceDataSets(List<T> newList) {
+        mDataSet.clear();
+        mDataSet.addAll(newList);
+    }
+
+    public List<T> getDataSets() {
         return mDataSet;
     }
 }
