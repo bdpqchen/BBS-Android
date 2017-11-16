@@ -12,9 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.jaeger.library.StatusBarUtil;
-import com.oubowu.slideback.SlideBackHelper;
 import com.oubowu.slideback.SlideConfig;
-import com.oubowu.slideback.widget.SlideBackLayout;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
@@ -42,13 +40,13 @@ public abstract class BaseActivity extends SupportActivity {
     protected Activity mActivity;
     protected Context mContext;
     private Unbinder mUnBinder;
-    protected SlideBackLayout mSlideBackLayout;
+//    protected SlideBackLayout mSlideBackLayout;
 
     protected abstract int getLayoutResourceId();
 
     protected abstract Toolbar getToolbarView();
 
-    //主要用于 dispose subscribe
+    //use to dispose subscribe mainly.
     protected abstract BasePresenter getPresenter();
 
     @Override
@@ -62,7 +60,7 @@ public abstract class BaseActivity extends SupportActivity {
         mContext = this;
         setArrowBack(true);
 
-        mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
+//        mSlideBackLayout = SlideBackHelper.attach(this, App.getActivityHelper(), getSlideConfig(), null);
 /*
         if (mBasePresenter != null) {
             mBasePresenter.attachView(this);

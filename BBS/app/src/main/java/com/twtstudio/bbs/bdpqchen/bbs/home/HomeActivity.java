@@ -65,7 +65,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        HandlerUtil.postDelay(() -> mSlideBackLayout.lock(true));
+//        HandlerUtil.postDelay(() -> mSlideBackLayout.lock(true));
         mPresenter = new HomePresenter(this);
         LogUtil.dd("current_token", PrefUtil.getAuthToken());
         PrefUtil.setHadLogin(true);

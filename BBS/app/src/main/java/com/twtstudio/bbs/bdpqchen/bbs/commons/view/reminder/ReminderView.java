@@ -26,7 +26,7 @@ final class ReminderView extends LinearLayout {
     private LinearLayout mLayout;
     private TextView mTvMessage, mTvAction;
     private Context mContext;
-    private Animation mLayoutInAnim, mLayoutOutAnim;
+    private Animation mLayoutOutAnim;
     private static int mDuration = 2000;
 
     public ReminderView(Context context) {
@@ -110,8 +110,8 @@ final class ReminderView extends LinearLayout {
     }
 
     private void setLayoutInAnim() {
-        mLayoutInAnim = AnimationUtils.loadAnimation(getContext(), R.anim.layout_in);
-        mLayoutInAnim.setAnimationListener(new Animation.AnimationListener() {
+        Animation layoutInAnim = AnimationUtils.loadAnimation(getContext(), R.anim.layout_in);
+        layoutInAnim.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
             }
@@ -131,7 +131,7 @@ final class ReminderView extends LinearLayout {
 
             }
         });
-        setAnimation(mLayoutInAnim);
+        setAnimation(layoutInAnim);
     }
 
     private void setLayoutOutAnim() {

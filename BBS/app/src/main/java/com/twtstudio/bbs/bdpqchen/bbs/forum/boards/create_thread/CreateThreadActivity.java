@@ -113,7 +113,7 @@ public class CreateThreadActivity extends BaseActivity implements CreateThreadCo
         super.onCreate(savedInstanceState);
         mContext = this;
         mPresenter = new CreateThreadPresenter(this);
-        mSlideBackLayout.lock(true);
+//        mSlideBackLayout.lock(true);
         Intent intent = getIntent();
         mForumId = intent.getIntExtra(INTENT_FORUM_ID, 0);
         mCanAnon = intent.getIntExtra(INTENT_BOARD_CAN_ANON, 0);
