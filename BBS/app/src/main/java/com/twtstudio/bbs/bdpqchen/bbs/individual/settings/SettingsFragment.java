@@ -17,7 +17,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity.IS_SWITCH_NIGHT_MODE_LOCK;
@@ -55,6 +54,11 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     }
 
+    /**
+     * Method will be called when item onClicked
+     * @param preference
+     * @return
+     */
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
@@ -62,19 +66,26 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             reallyLogout();
         } else if (key.equals(getString(R.string.key_check_update))) {
             checkUpdate();
+        } else if (key.equals(getString(R.string.key_feedback))) {
+            startActivity(IntentUtil.toThread(mActivity, 155651));
         }
-
         return false;
     }
 
+    /**
+     * This method will be called when certainly time just for item onChanged, not onClicked
+     * @param preference
+     * @param obj
+     * @return
+     */
     @Override
     public boolean onPreferenceChange(Preference preference, Object obj) {
         if (preference.getKey() != null) {
             String key = preference.getKey();
             if (key.equals(getString(R.string.key_night_mode))) {
-                LogUtil.d(obj);
+//                LogUtil.d(obj);
                 PrefUtil.setIsNightMode(CastUtil.cast2boolean(obj));
-                startMySelf();
+                startMyself();
             } else if (key.equals(getString(R.string.key_always_anon))) {
                 PrefUtil.setIsAlwaysAnonymous(CastUtil.cast2boolean(obj));
             } else if (key.equals(getString(R.string.key_simple_board_list))) {
@@ -83,16 +94,11 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 HandlerUtil.postDelay(() -> ActivityManager.getActivityManager().recreateAllActivity(SettingsActivity.class), 10);
             } else if (key.equals(getString(R.string.key_disabled_image_cache))) {
                 PrefUtil.setDisabledImageCache(CastUtil.cast2boolean(obj));
-            } else if (key.equals(getString(R.string.key_feedback))) {
-                startActivity(IntentUtil.toThread(mActivity, 155651));
-            }else if (key.equals(getString(R.string.key_more_app))){
+            } else if (key.equals(getString(R.string.key_more_app))){
 
             }
         }
         return true;
-        /*else if (key.equals(getString(R.string.key_habit_hand))) {
-                PrefUtil.setHabitHand(CastUtil.cast2int(obj));
-            } */
     }
 
     private void reallyLogout() {
@@ -100,7 +106,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 ((materialDialog, dialogAction) -> logout()), null);
     }
 
-    public void startMySelf() {
+    public void startMyself() {
         HandlerUtil.postDelay(() -> ActivityManager.getActivityManager().recreateAllActivity(SettingsActivity.class), 100);
         ActivityManager.getActivityManager().finishActivity(mActivity);
         mActivity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

@@ -6,12 +6,12 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.utils;
 
 public final class AuthUtil {
 
-    public static void logout(){
+    public static void logout() {
         PrefUtil.setHadLogin(false);
         PrefUtil.setAuthToken("");
-//        PrefUtil.setAuthUsername("");
+        PrefUtil.setAuthUsername("");
         PrefUtil.setAuthGroup(0);
-//        PrefUtil.setAuthUid(0);
+        PrefUtil.setAuthUid(0);
         PrefUtil.setInfoNickname("");
         PrefUtil.setInfoSignature("");
         PrefUtil.setInfoCreate(0);

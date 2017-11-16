@@ -109,14 +109,13 @@ public class RxDoHttpClient {
             Response response = chain.proceed(request);
             String cacheControl = request.cacheControl().toString();
             Response.Builder builder = response.newBuilder();
-            LogUtil.dd("has network -->", hasNetwork(App.getContext()));
-            if (!hasNetwork(App.getContext())) {
+            if (hasNetwork(App.getContext())) {
                 LogUtil.dd("Network is available");
                 if (!cacheControl.isEmpty()) {
                     builder.header("Cache-Control", cacheControl);
                 }
             } else {
-                int maxScale = 60 * 60 * 24;  // 1周
+                int maxScale = 60 * 60 * 24;  //1周
                 builder.header("Cache-Control", "public, only-if-cached, max-stale=" + maxScale);
             }
             return builder.removeHeader("Pragma").build();

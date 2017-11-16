@@ -14,7 +14,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.RandomUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
@@ -54,7 +53,7 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder0, int position) {
-        LogUtil.dd("position--->", String.valueOf(position));
+//        LogUtil.dd("position--->", String.valueOf(position));
         if (mDataSet != null && mDataSet.size() > 0) {
             if (holder0 instanceof LatestViewHolder) {
                 LatestViewHolder holder = (LatestViewHolder) holder0;
