@@ -11,8 +11,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.view.ProgressButton;
 
-import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -40,7 +40,7 @@ public class AppealPassportActivity extends BaseActivity implements AppealPasspo
     @BindView(R.id.et_comment)
     EditText mEtComment;
     @BindView(R.id.cp_btn_submit_appeal)
-    CircularProgressButton mCpBtnSubmitAppeal;
+    ProgressButton mCpBtnSubmitAppeal;
 
     private String mUsername;
     private String mCaptchaId;
@@ -119,19 +119,19 @@ public class AppealPassportActivity extends BaseActivity implements AppealPasspo
         bundle.putString(Constants.BUNDLE_MESSAGE, comment);
         bundle.putString(Constants.CAPTCHA_ID, mCaptchaId);
         bundle.putString(Constants.CAPTCHA_VALUE, mCaptchaValue);
+        mCpBtnSubmitAppeal.start();
         mPresenter.appealPassport(bundle);
-        mCpBtnSubmitAppeal.startAnimation();
     }
 
     @Override
     public void sendFailed(String s) {
         SnackBarUtil.error(this, s, true);
-        mCpBtnSubmitAppeal.revertAnimation();
+        mCpBtnSubmitAppeal.error();
     }
 
     @Override
     public void sendSuccess() {
-        mCpBtnSubmitAppeal.revertAnimation();
+        mCpBtnSubmitAppeal.done();
         SnackBarUtil.normal(this, "提交成功，我们会尽快处理，结果会以邮件的形式通知", true);
         HandlerUtil.postDelay(() -> {
                     Intent intent = new Intent(this, LoginActivity.class);

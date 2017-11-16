@@ -10,11 +10,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.appeal.AppealPassportActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.view.ProgressButton;
 
-import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -35,7 +33,7 @@ public class IdentifyActivity extends BaseActivity implements IdentifyContract.V
     @BindView(R.id.old_password)
     EditText mOldPassword;
     @BindView(R.id.cp_btn_identify)
-    CircularProgressButton mCpBtnIdentify;
+    ProgressButton mCpBtnIdentify;
 
     private IdentifyPresenter mPresenter;
     public static final String INTENT_USERNAME = "intent_username";
@@ -94,14 +92,13 @@ public class IdentifyActivity extends BaseActivity implements IdentifyContract.V
             return;
         }
 
-        mCpBtnIdentify.startAnimation();
+        mCpBtnIdentify.start();
         mPresenter.doIdentify(mUsername, password);
     }
 
     @Override
     public void identifyFailed(String m) {
-        mCpBtnIdentify.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_clear_white_24dp));
-        HandlerUtil.postDelay(() -> mCpBtnIdentify.revertAnimation(), 3000);
+        mCpBtnIdentify.error();
         SnackBarUtil.error(this, m, "账户申诉", v -> {
             Intent intent = new Intent(this, AppealPassportActivity.class);
             intent.putExtra(INTENT_ENTERING_USERNAME, mOldAccount.getText());
@@ -113,7 +110,7 @@ public class IdentifyActivity extends BaseActivity implements IdentifyContract.V
     @Override
     public void identifySuccess(IdentifyModel model) {
         pkTracker();
-        mCpBtnIdentify.doneLoadingAnimation(R.color.material_red_700, ResourceUtil.getBitmapFromResource(this, R.drawable.ic_done_white_48dp));
+        mCpBtnIdentify.done();
         Intent intent = new Intent(this, RegisterOldActivity.class);
         intent.putExtra(INTENT_USERNAME, mUsername);
         intent.putExtra(INTENT_TOKEN, model.token);

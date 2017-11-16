@@ -12,8 +12,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.view.ProgressButton;
 
-import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -35,7 +35,8 @@ public class UpdatePasswordActivity extends BaseActivity implements UpdatePasswo
     @BindView(R.id.et_again)
     EditText mEtAgain;
     @BindView(R.id.cpb_identify)
-    CircularProgressButton mCpbIdentify;
+    ProgressButton mCpbIdentify;
+
     private UpdatePasswordPresenter mPresenter;
     @Override
     protected int getLayoutResourceId() {
@@ -80,7 +81,7 @@ public class UpdatePasswordActivity extends BaseActivity implements UpdatePasswo
             mEtAgain.setError("两次不一致");
             return;
         }
-
+        mCpbIdentify.start();
         mPresenter.doUpdatePass(newPass, oldPass);
     }
 
@@ -91,7 +92,8 @@ public class UpdatePasswordActivity extends BaseActivity implements UpdatePasswo
 
     @Override
     public void onUpdated(BaseModel model) {
-        SnackBarUtil.normal(this, "修改成功，将要进行登录");
+        mCpbIdentify.done();
+        SnackBarUtil.normal(this, "修改成功，将要进行重新登录");
         HandlerUtil.postDelay(() -> {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.putExtra(USERNAME, PrefUtil.getAuthUsername());
@@ -102,6 +104,7 @@ public class UpdatePasswordActivity extends BaseActivity implements UpdatePasswo
 
     @Override
     public void onUpdateFailed(String errorMsg) {
+        mCpbIdentify.error();
         SnackBarUtil.error(this, errorMsg);
     }
 }

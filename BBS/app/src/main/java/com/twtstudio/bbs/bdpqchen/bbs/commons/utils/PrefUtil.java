@@ -257,7 +257,7 @@ public final class PrefUtil {
     }
 
     public static long getLastImageStamp() {
-        LogUtil.dd("PrefUtil", "getLastImageStamp");
+//        LogUtil.dd("PrefUtil", "getLastImageStamp");
         return Hawk.get(LAST_IMAGE_STAMP, 0L);
     }
 

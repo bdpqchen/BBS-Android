@@ -13,8 +13,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.view.ProgressButton;
 
-import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -37,7 +37,7 @@ public class RetrieveActivity extends BaseActivity implements RetrieveContract.V
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.cp_btn_retrieve)
-    CircularProgressButton mCpBtnRetrieve;
+    ProgressButton mCpBtnRetrieve;
     @BindView(R.id.et_stu_or_username)
     EditText mEtStuOrUsername;
     @BindView(R.id.et_real_name)
@@ -80,7 +80,7 @@ public class RetrieveActivity extends BaseActivity implements RetrieveContract.V
     public void onViewClicked() {
         getInputtedData();
         if (isInputtedNotNull()) {
-            mCpBtnRetrieve.startAnimation();
+            mCpBtnRetrieve.start();
             mPresenter.doRetrievePassword(getRetrieveData());
         }
     }
@@ -135,7 +135,7 @@ public class RetrieveActivity extends BaseActivity implements RetrieveContract.V
 
     private void requestFailed(String msg) {
         SnackBarUtil.error(this, msg, "点击申诉", v -> gotoResetPassword());
-        mCpBtnRetrieve.revertAnimation();
+        mCpBtnRetrieve.error();
     }
 
     @Override
@@ -156,7 +156,7 @@ public class RetrieveActivity extends BaseActivity implements RetrieveContract.V
 
     @Override
     public void resetSuccess(BaseModel model) {
-        mCpBtnRetrieve.revertAnimation();
+        mCpBtnRetrieve.done();
         Intent intentData = new Intent();
         intentData.putExtra(USERNAME, mUsername);
         setResult(RESULT_OK, intentData);

@@ -13,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.view.ProgressButton;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -38,6 +39,8 @@ public class RegisterOldActivity extends BaseActivity implements RegisterOldCont
     EditText mEtCid;
     @BindView(R.id.et_password_again)
     EditText mEtPasswordAgain;
+    @BindView(R.id.cp_btn_register)
+    ProgressButton mCpRegisterOld;
 
     private String mRealName;
     private String mCid;
@@ -81,12 +84,14 @@ public class RegisterOldActivity extends BaseActivity implements RegisterOldCont
             bundle.putString(Constants.BUNDLE_REGISTER_PASSWORD, mPasswordAgain);
             bundle.putString(Constants.BUNDLE_REGISTER_USERNAME, mUsername);
             bundle.putString(Constants.TOKEN, mToken);
+            mCpRegisterOld.start();
             mPresenter.doRegisterOld(bundle);
         }
     }
 
     @Override
     public void registerSuccess() {
+        mCpRegisterOld.done();
         SnackBarUtil.normal(this, "认证成功，请登录");
         HandlerUtil.postDelay(() -> {
             Intent intent = new Intent(this, LoginActivity.class);
@@ -99,6 +104,7 @@ public class RegisterOldActivity extends BaseActivity implements RegisterOldCont
 
     @Override
     public void registerFailed(String errorMessage) {
+        mCpRegisterOld.error();
         SnackBarUtil.error(this, errorMessage);
     }
 

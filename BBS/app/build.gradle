@@ -121,7 +121,7 @@ android {
         compile 'me.yokeyword:fragmentation:0.10.4'
         compile 'com.roughike:bottom-bar:2.3.1'
         compile 'com.dmitrymalkovich.android:material-design-dimens:1.4'
-        compile 'br.com.simplepass:loading-button-android:1.6.5'
+//        compile 'br.com.simplepass:loading-button-android:1.6.5'
         compile 'de.hdodenhof:circleimageview:2.1.0'
         compile 'com.github.bumptech.glide:glide:3.8.0'
         compile 'com.afollestad.material-dialogs:core:0.9.4.4'

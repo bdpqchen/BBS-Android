@@ -12,6 +12,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.view.ProgressButton;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,6 +41,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     EditText mEtPassword;
     @BindView(R.id.et_password_again)
     EditText mEtPasswordAgain;
+    @BindView(R.id.cp_btn_register)
+    ProgressButton mCpBtnRegister;
 
     private String mRealName;
     private String mStuNum;
@@ -97,12 +100,14 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
             bundle.putString(Constants.BUNDLE_REGISTER_STU_NUM, mStuNum);
             bundle.putString(Constants.BUNDLE_REGISTER_PASSWORD, mPassword);
             bundle.putString(Constants.BUNDLE_REGISTER_USERNAME, mUsername);
+            mCpBtnRegister.start();
             mPresenter.doRegister(bundle);
         }
     }
 
     @Override
     public void registerSuccess() {
+        mCpBtnRegister.done();
         SnackBarUtil.normal(this, "注册成功，请登录");
         HandlerUtil.postDelay(() -> {
             finishMe();
@@ -113,6 +118,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
     @Override
     public void registerFailed(String errorMessage) {
+        mCpBtnRegister.error();
         SnackBarUtil.error(this, errorMessage);
     }
 
