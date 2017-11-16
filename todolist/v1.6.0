@@ -14,3 +14,6 @@
 - 修修滑动返回库
 - ~~add interpolator to sharedElements~~
 - 广告放在最新消息的上面
+- ~~不适用第三方滑动返回库~~
+- ~~去掉自带bug的控件 CircularProgressButton, 用自己的~~
+- 

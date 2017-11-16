@@ -10,7 +10,6 @@ import com.github.piasy.biv.loader.glide.GlideImageLoader;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
-import com.oubowu.slideback.ActivityHelper;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.twtstudio.bbs.bdpqchen.bbs.BuildConfig;
@@ -37,7 +36,7 @@ public class App extends Application {
 
     private static Context mContext;
     private LogLevel mLogLevel = LogLevel.FULL;
-    private ActivityHelper mActivityHelper;
+//    private ActivityHelper mActivityHelper;
     private static App sApplication;
 
     public static Context getContext() {
@@ -60,7 +59,7 @@ public class App extends Application {
 
         BigImageViewer.initialize(GlideImageLoader.with(getApplicationContext()));
         initLogUtils();
-        initSlideBack();
+//        initSlideBack();
         StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
                 .detectAll()
                 .penaltyLog()
@@ -121,7 +120,7 @@ public class App extends Application {
                 .methodCount(3);
 
     }
-
+/*
     //滑动返回
     private void initSlideBack() {
         mActivityHelper = new ActivityHelper();
@@ -130,7 +129,7 @@ public class App extends Application {
 
     public static ActivityHelper getActivityHelper() {
         return sApplication.mActivityHelper;
-    }
+    }*/
 
     /**
      * 获取进程号对应的进程名

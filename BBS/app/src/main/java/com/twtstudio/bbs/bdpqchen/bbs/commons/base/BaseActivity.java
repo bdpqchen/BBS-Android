@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.jaeger.library.StatusBarUtil;
-import com.oubowu.slideback.SlideConfig;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
@@ -82,6 +81,7 @@ public abstract class BaseActivity extends SupportActivity {
             }
         }
     }
+/*
 
     private SlideConfig getSlideConfig() {
         return new SlideConfig.Builder()
@@ -91,6 +91,7 @@ public abstract class BaseActivity extends SupportActivity {
                 .slideOutPercent(0.2f)
                 .create();
     }
+*/
 
     //由于滑动返回库的bug 目前只在5.0系统上出现此问题, 暂时修复方案
     private void fixApi21blackBlockOnBottom() {
