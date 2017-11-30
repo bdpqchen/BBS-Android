@@ -37,7 +37,7 @@ public class App extends Application {
     private static Context mContext;
     private LogLevel mLogLevel = LogLevel.FULL;
 //    private ActivityHelper mActivityHelper;
-    private static App sApplication;
+//    private static App sApplication;
 
     public static Context getContext() {
         if (mContext != null) {
@@ -50,7 +50,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
-        sApplication = this;
+//        sApplication = this;
 
         if (!BuildConfig.DEBUG) {
 //        if (true) {

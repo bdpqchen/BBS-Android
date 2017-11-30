@@ -20,7 +20,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.twtstudio.bbs.bdpqchen.bbs"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 13
         versionName "1.6.0"

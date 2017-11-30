@@ -86,6 +86,8 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
     private void checkUpdate() {
 
         UpgradeInfo upgradeInfo = Beta.getUpgradeInfo();
+        LogUtil.dd("--->", upgradeInfo.versionCode);
+        LogUtil.dd("---> name", upgradeInfo.versionName);
         if (upgradeInfo != null) {
             LogUtil.dd("have a new version");
             PrefUtil.setUpdateAvailable(true);
