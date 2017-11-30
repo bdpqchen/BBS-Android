@@ -30,7 +30,7 @@ object ImageUtil {
      * @param view
      */
     @JvmStatic
-    fun loadIconAsBitmap(context: Context, resourceId: Int, view: ImageView) {
+    fun loadIcon(context: Context, resourceId: Int, view: ImageView) {
         Glide.with(context).load(resourceId).asBitmap().centerCrop().diskCacheStrategy(cacheMode).into(view)
     }
 
@@ -55,7 +55,7 @@ object ImageUtil {
     }
 
     @JvmStatic
-    fun loadResouse(context: Context, res: Int, view: ImageView) {
+    private fun loadResourse(context: Context, res: Int, view: ImageView) {
         loadSrc(context, res, view)
     }
 
@@ -119,7 +119,7 @@ object ImageUtil {
         } else {
             when (noUidThen) {
                 STATUS_USER_ANONYMOUS -> loadAnonAvatar(context, view)
-                STATUS_USER_NO_AVATAR -> loadResouse(context, getDefaultAvatar(), view)
+                STATUS_USER_NO_AVATAR -> loadResourse(context, getDefaultAvatar(), view)
             }
         }
     }
@@ -200,7 +200,7 @@ object ImageUtil {
      */
     @JvmStatic
     fun clearCachedData(context: Context) {
-        LogUtil.ii("Clearing image cache", "true -------------->");
+        LogUtil.ii("Clearing image cache", "true -------------->")
         Thread {
             Glide.get(context).clearDiskCache()
         }.start()

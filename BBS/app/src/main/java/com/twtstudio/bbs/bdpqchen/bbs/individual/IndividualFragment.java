@@ -207,8 +207,8 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
             mTvPoints.setText(String.valueOf(PrefUtil.getInfoPoints()));
             mTvHonor.setText(TextUtil.getHonor(info.getPoints()));
             if (isRefreshing) {
-                ImageUtil.loadMyAvatar(mContext, mCivAvatar);
-                ImageUtil.loadMyBg(mContext, mIvBg);
+                ImageUtil.refreshMyAvatar(mContext, mCivAvatar);
+                ImageUtil.refreshMyBg(mContext, mIvBg);
                 isRefreshing = false;
             }
         }

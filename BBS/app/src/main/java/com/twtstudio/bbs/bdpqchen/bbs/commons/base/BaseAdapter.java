@@ -13,7 +13,6 @@ import java.util.List;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_CREATE_THREAD;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_UPDATE_AVAILABLE;
 
 /**
  * Created by bdpqchen on 17-4-27.
@@ -28,7 +27,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     private boolean isShowHeader = false;
     private OnItemClickListener mOnItemClickListener = null;
     protected int mPage = 0;
-    private boolean mCreateThread, mUpdateAvailable = false;
+    private boolean mCreateThread = true;
 
     @Override
     public void onClick(View v) {
@@ -68,9 +67,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     }
 
     public void addList(List<T> items) {
-        final int oldSize = mDataSet.size();
+//        final int oldSize = mDataSet.size();
         mDataSet.addAll(items);
-        final int newSize = mDataSet.size();
+//        final int newSize = mDataSet.size();
         notifyDataSetChanged();
 //        notifyItemRangeChanged(oldSize + 1, newSize);
     }
@@ -97,10 +96,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     @Override
     public int getItemViewType(int position) {
         //Position = 0 and have to display an item.
-        if (mUpdateAvailable && position == 0) {
-            return ITEM_UPDATE_AVAILABLE;
-        }
-        if (mCreateThread && ((position == 1 && mUpdateAvailable) || (!mUpdateAvailable && position == 0))) {
+        if (mCreateThread && position == 0) {
             return ITEM_CREATE_THREAD;
         }
         if (mDataSet != null && mDataSet.size() > 0) {
@@ -140,10 +136,6 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
 
     public void setCreateThread(boolean b) {
         this.mCreateThread = b;
-    }
-
-    public void setUpdateAvailable(boolean b) {
-        this.mUpdateAvailable = b;
     }
 
     public void setDataSets(List<T> list) {

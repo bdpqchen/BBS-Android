@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tencent.bugly.beta.Beta;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
@@ -25,7 +24,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_CREATE_THREAD;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_UPDATE_AVAILABLE;
 
 
 /**
@@ -33,7 +31,6 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_UPDA
  */
 
 public class LatestAdapter extends BaseAdapter<LatestEntity> {
-
 
     LatestAdapter(Context context) {
         super(context);
@@ -44,8 +41,6 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == ITEM_CREATE_THREAD) {
             return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_header, parent, false));
-        } else if (viewType == ITEM_UPDATE_AVAILABLE) {
-            return new UpdateViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_update, parent, false));
         } else {
             return new LatestViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_latest, parent, false));
         }
@@ -89,18 +84,8 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
                 holder.itemView.setOnClickListener(v -> {
                     mContext.startActivity(IntentUtil.toCreateThread(mContext));
                 });
-            }else if(holder0 instanceof UpdateViewHolder){
-                ((UpdateViewHolder) holder0).itemView.setOnClickListener(v -> {
-                    Beta.checkUpgrade(true, false);
-                });
             }
-        }
-    }
 
-    class UpdateViewHolder extends BaseViewHolder {
-
-        UpdateViewHolder(View itemView) {
-            super(itemView);
         }
     }
 

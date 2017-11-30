@@ -8,13 +8,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.bdpqchen.diffutilpractice.DiffChecker2;
-import com.tencent.bugly.beta.Beta;
-import com.tencent.bugly.beta.UpgradeInfo;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.release.EndlessRecyclerOnScrollListener;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainContract;
@@ -79,28 +75,8 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
         });
 
         getDataList(0);
-        checkUpdate();
 
     }
-
-    private void checkUpdate() {
-
-        UpgradeInfo upgradeInfo = Beta.getUpgradeInfo();
-        LogUtil.dd("--->", upgradeInfo.versionCode);
-        LogUtil.dd("---> name", upgradeInfo.versionName);
-        if (upgradeInfo != null) {
-            LogUtil.dd("have a new version");
-            PrefUtil.setUpdateAvailable(true);
-        } else {
-            LogUtil.dd("no new version");
-            PrefUtil.setUpdateAvailable(false);
-        }
-        if (PrefUtil.isUpdateAvailable()) {
-            mAdapter.setUpdateAvailable(true);
-            mAdapter.addFirst(new LatestEntity());
-        }
-    }
-
 
     @Override
     protected MainPresenter getPresenter() {
