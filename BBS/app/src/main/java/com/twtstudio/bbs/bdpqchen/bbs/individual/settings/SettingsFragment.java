@@ -9,9 +9,9 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.tencent.bugly.beta.Beta;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.UpdateTool;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.CastUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
@@ -50,7 +50,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             preference.setTitle(PrefUtil.getAuthUsername());
             preference.setOnPreferenceClickListener(this);
         }
-
 
     }
 
@@ -122,7 +121,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     private void checkUpdate() {
-        Beta.checkUpgrade();
+        UpdateTool.checkUpdate();
     }
 
 }

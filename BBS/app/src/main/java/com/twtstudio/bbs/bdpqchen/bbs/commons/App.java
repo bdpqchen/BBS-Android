@@ -3,24 +3,19 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons;
 import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
-import android.text.TextUtils;
 
 import com.github.piasy.biv.BigImageViewer;
 import com.github.piasy.biv.loader.glide.GlideImageLoader;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
-import com.tencent.bugly.Bugly;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.twtstudio.bbs.bdpqchen.bbs.BuildConfig;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.UpdateTool;
 
 import org.piwik.sdk.Piwik;
 import org.piwik.sdk.Tracker;
 import org.piwik.sdk.TrackerConfig;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.NoSuchElementException;
 
 import timber.log.Timber;
@@ -52,10 +47,7 @@ public class App extends Application {
         mContext = this;
 //        sApplication = this;
 
-        if (!BuildConfig.DEBUG) {
-//        if (true) {
-            initBuglyReport();
-        }
+        UpdateTool.initBuglyReport(this);
 
         BigImageViewer.initialize(GlideImageLoader.with(getApplicationContext()));
         initLogUtils();
@@ -101,14 +93,6 @@ public class App extends Application {
         super.onTrimMemory(level);
     }
 
-    private void initBuglyReport() {
-        Context context = getApplicationContext();
-        String packageName = context.getPackageName();
-        String processName = getProcessName(android.os.Process.myPid());
-        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
-        strategy.setUploadProcess(processName == null || processName.equals(packageName));
-        Bugly.init(context, BuildConfig.ID_BUGLY, BuildConfig.DEBUG);
-    }
 
     private void initLogUtils() {
         if (BuildConfig.DEBUG) {
@@ -131,33 +115,5 @@ public class App extends Application {
         return sApplication.mActivityHelper;
     }*/
 
-    /**
-     * 获取进程号对应的进程名
-     *
-     * @param pid 进程号
-     * @return 进程名
-     */
-    private static String getProcessName(int pid) {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
-            String processName = reader.readLine();
-            if (!TextUtils.isEmpty(processName)) {
-                processName = processName.trim();
-            }
-            return processName;
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-        }
-        return null;
-    }
 
 }
