@@ -25,6 +25,9 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.BASE_HOST
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.FORUM;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MAX_LENGTH_QUOTE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PRE_MD_IMG;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TAG_MSG_AT_USER;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TAG_MSG_COMMENT;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TAG_MSG_REPLY;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.THREAD;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USER;
 
@@ -334,7 +337,7 @@ public final class TextUtil {
         if (lastIndex == 0) {
             result = new StringBuilder(content);
         }
-        LogUtil.dd("---.>", result.toString());
+//        LogUtil.dd("---.>", result.toString());
         return result.toString();
     }
 
@@ -342,11 +345,24 @@ public final class TextUtil {
         String result = json;
         Matcher matcher = match("\\{\"err\":\\d+,\"data\":\"", json);
         if (matcher.find()) {
-            LogUtil.dd("matched");
+//            LogUtil.dd("matched");
             result = json.substring(0, matcher.end() - 1)
                     .concat("{},\"message\":")
                     .concat(json.substring(matcher.end() - 1, json.length()));
         }
         return result;
+    }
+
+    public static String getMsgActionText(int tag) {
+        switch (tag) {
+            case TAG_MSG_AT_USER:
+                return "提到";
+            case TAG_MSG_COMMENT:
+                return "回复";
+            case TAG_MSG_REPLY:
+                return "评论";
+            default:
+                return "";
+        }
     }
 }

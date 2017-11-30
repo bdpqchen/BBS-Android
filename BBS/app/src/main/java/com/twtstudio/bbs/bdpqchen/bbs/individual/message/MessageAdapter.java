@@ -58,9 +58,9 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
         } else if (viewType == ITEM_MSG_APPEAL) {
             return new AppealView(inflater.inflate(R.layout.item_rv_message_appeal, parent, false));
         } else {
-
+            return new BaseViewHolder(inflater.inflate(R.layout.item_empty, parent, false));
         }
-        return new TheEndViewHolder(inflater.inflate(R.layout.item_common_no_more, parent, false));
+//        return new TheEndViewHolder(inflater.inflate(R.layout.item_common_no_more, parent, false));
     }
 
     @Override
@@ -87,11 +87,8 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                             mContext.startActivity(IntentUtil.toThread(mContext,
                                     model.getThread_id(), model.getThread_title(), model.getFloor()));
                         });
-                        String what = "回复";
-                        if (tag == 2) {
-                            what = "评论";
-                        }
-                        String composed = item.getAuthor_name() + " 在 " + model.getThread_title() + " 中" + what + "了你";
+                        String action = TextUtil.getMsgActionText(tag);
+                        String composed = item.getAuthor_name() + " 在 " + model.getThread_title() + " 中" + action + "了你";
                         iHolder.mTvComposeTitle.setText(composed);
                     }
                 }
