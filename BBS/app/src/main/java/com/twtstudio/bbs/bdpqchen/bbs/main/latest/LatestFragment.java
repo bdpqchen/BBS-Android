@@ -1,11 +1,13 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.latest;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.bdpqchen.diffutilpractice.DiffChecker2;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
@@ -15,9 +17,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.MainContract;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.annotations.NonNull;
 
 /**
  * Created by bdpqchen on 17-6-5.
@@ -54,14 +58,13 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRvLatest.setLayoutManager(linearLayoutManager);
         mRvLatest.addItemDecoration(new RecyclerViewItemDecoration(16));
-        mAdapter.setNoDataHeader(true);
+        mAdapter.setCreateThread(true);
         mRvLatest.setAdapter(mAdapter);
         mSrlLatest.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlLatest.setOnRefreshListener(() -> {
             getDataList(0);
             mRefreshing = true;
             mSrlLatest.setRefreshing(true);
-
         });
         mRvLatest.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
@@ -72,6 +75,7 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
         });
 
         getDataList(0);
+
     }
 
     @Override
@@ -80,21 +84,36 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
     }
 
     @Override
-    public void onGetLatestList(List<LatestEntity> list) {
+    public void onGetLatestList(@NonNull List<LatestEntity> list) {
         if (list != null && list.size() > 0) {
-            if (mIsLoadingMore){
+            if (mIsLoadingMore) {
                 mIsLoadingMore = false;
-                int size = mAdapter.getDataListSize();
                 mAdapter.addList(list);
-                mRvLatest.smoothScrollToPosition(++size);
+                setRefreshing(false);
                 return;
             }
-            // add the header view data
+            List<LatestEntity> newList = new ArrayList<>();
+            mAdapter.setCreateThread(true);
+            newList.add(new LatestEntity());
+            newList.addAll(list);
             if (mRefreshing) {
-                mAdapter.clearAll();
+                List<LatestEntity> oldList = mAdapter.getDataSets();
+                DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffChecker2<LatestEntity>(oldList, newList) {
+                    @Override
+                    public boolean _areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                        return oldList.get(oldItemPosition).getT_reply() == newList.get(newItemPosition).getT_reply();
+                    }
+
+                    @Override
+                    public boolean _areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                        return oldList.get(oldItemPosition).getId() == newList.get(newItemPosition).getId();
+                    }
+                }, true);
+                mAdapter.replaceDataSets(newList);
+                result.dispatchUpdatesTo(mAdapter);
+            } else {
+                mAdapter.setDataSets(newList);
             }
-            mAdapter.addFirst(new LatestEntity());
-            mAdapter.addList(list);
         }
         setRefreshing(false);
         hideLoading();
@@ -110,7 +129,7 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
         hideLoading();
         setRefreshing(false);
         SnackBarUtil.notice(this.getActivity(), msg + "\n刷新试试");
-        if (mIsLoadingMore){
+        if (mIsLoadingMore) {
             mIsLoadingMore = false;
             mPage--;
         }
@@ -130,4 +149,5 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
     public void getDataList(int page) {
         mPresenter.getLatestList(page);
     }
+
 }

@@ -22,12 +22,12 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageFormatUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImagePickUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PathUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
@@ -83,7 +83,6 @@ public class CreateThreadActivity extends BaseActivity implements CreateThreadCo
     private String mContent = "";
     private boolean mIsAnonymous = false;
     private Context mContext;
-    private ImageFormatUtil mImageFormatUtil;
     private boolean isPublished = false;
     private int mCanAnon = 0;
     private int mForumId = 0;
@@ -114,8 +113,7 @@ public class CreateThreadActivity extends BaseActivity implements CreateThreadCo
         super.onCreate(savedInstanceState);
         mContext = this;
         mPresenter = new CreateThreadPresenter(this);
-        mImageFormatUtil = new ImageFormatUtil();
-        mSlideBackLayout.lock(true);
+//        mSlideBackLayout.lock(true);
         Intent intent = getIntent();
         mForumId = intent.getIntExtra(INTENT_FORUM_ID, 0);
         mCanAnon = intent.getIntExtra(INTENT_BOARD_CAN_ANON, 0);
@@ -186,16 +184,12 @@ public class CreateThreadActivity extends BaseActivity implements CreateThreadCo
 
     @Override
     public void onUploaded(UploadImageModel model) {
-        if (mEtContent != null) {
-            if (model != null) {
-                mEtContent.setFocusable(true);
-                String added = mEtContent.getText() + mImageFormatUtil.getShowImageCode(model.getId());
-                mEtContent.setText(added);
-                mEtContent.setSelection(mEtContent.getText().length());
-            }
+        if (mEtContent != null && model != null) {
+            mEtContent.setFocusable(true);
+            TextUtil.addImg2Content(model.getId(), mEtContent);
+            SnackBarUtil.normal(this, "图片已添加");
         }
         hideProgress();
-        SnackBarUtil.normal(this, "图片已添加");
     }
 
     @Override
@@ -332,14 +326,13 @@ public class CreateThreadActivity extends BaseActivity implements CreateThreadCo
             SnackBarUtil.error(this, "你还没有选择板块");
             return;
         }
-        mContent = mImageFormatUtil.replaceImageFormat(mContent);
         if (!isPublished) {
+            LogUtil.dd("send content", mContent);
             publish();
         } else {
             mAlertDialog = DialogUtil.alertDialog(this, "你已经成功发布过帖子，还要再发一次吗？", "再次发布", "不要",
                     (materialDialog, dialogAction) -> publish(), null);
         }
-        LogUtil.dd("send content", mContent);
     }
 
     private void publish() {

@@ -36,6 +36,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -84,6 +85,7 @@ public interface BaseApi {
             @Field("password") String password);
 
     @GET("forum")
+    @Headers("Cache-Control: max-age=3600000")
     Observable<BaseResponse<List<ForumModel>>> getForums();
 
     @FormUrlEncoded
@@ -105,6 +107,7 @@ public interface BaseApi {
             @Field(Constants.BUNDLE_REGISTER_REAL_NAME) String string4);
 
     @GET("home")
+    @Headers("Cache-Control: max-age=3600")
     Observable<BaseResponse<IndividualInfoModel>> getIndividualInfo(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken);
 
@@ -138,9 +141,11 @@ public interface BaseApi {
             @Field(Constants.OLD_PASSWORD) String old);
 
     @GET("forum/{forumId}")
+    @Headers("Cache-Control: max-age=360000")
     Observable<BaseResponse<BoardsModel>> getBoardList(@Path("forumId") String forumId);
 
     @GET("board/{boardId}/page/{page}")
+    @Headers("Cache-Control: max-age=72000")
     Observable<BaseResponse<ThreadListModel>> getThreadList(
             @Header(Constants.NET_RETROFIT_HEADER_TITLE) String idAndToken,
             @Header(Constants.NET_RETROFIT_HEADER_REQUEST) String requestedWith,
@@ -191,10 +196,12 @@ public interface BaseApi {
             @Path("page") String postPage);
 
     @GET("home/publish/thread/page/{page}")
+    @Headers("Cache-Control: max-age=3600")
     Observable<BaseResponse<List<PublishEntity>>> getPublishList(
             @Path("page") String page);
 
     @GET("home/publish/post/page/{page}")
+    @Headers("Cache-Control: max-age=3600")
     Observable<BaseResponse<List<ReplyEntity>>> getReplyList(
             @Path("page") String page);
 
@@ -262,6 +269,7 @@ public interface BaseApi {
             @Part("name") String image);
 
     @GET("home/collection")
+    @Headers("Cache-Control: max-age=3600")
     Observable<BaseResponse<List<StarModel>>> getStarThreadList();
 
     @POST("home/friend/confirm")
@@ -271,9 +279,11 @@ public interface BaseApi {
             @Field(CONFIRM) int bool);
 
     @GET("home/friend")
+    @Headers("Cache-Control: max-age=3600")
     Observable<BaseResponse<List<FriendModel>>> getFriendList();
 
     @GET("user/{uid}/home")
+    @Headers("Cache-Control: max-age=3600")
     Observable<BaseResponse<PeopleModel>> getUserInfo(
             @Path(UID) int uid);
 
@@ -316,6 +326,7 @@ public interface BaseApi {
             @Query("p") String page);
 
     @GET("index/hot")
+    @Headers("Cache-Control: max-age=3600")
     Observable<BaseResponse<List<HotEntity>>> getHotList(@Header(NET_RETROFIT_HEADER_REQUEST) String mobile);
 
     @DELETE("post/{pid}")
@@ -325,9 +336,11 @@ public interface BaseApi {
     Observable<BaseResponse<BaseModel>> deleteThread(@Path(TID) int tid);
 
     @GET("search/user/{username}")
+    @Headers("Cache-Control: max-age=3600")
     Observable<BaseResponse<List<SearchUserModel>>> searchUser(@Path(USERNAME) String keyName);
 
     @GET("search/page/{page}")
+    @Headers("Cache-Control: max-age=3600")
     Observable<BaseResponse<List<SearchThreadModel>>> searchThread(
             @Path("page") String page,
             @Query(KEYWORD) String keyword);

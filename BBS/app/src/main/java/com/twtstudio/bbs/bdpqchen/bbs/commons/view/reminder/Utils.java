@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 
 /**
@@ -35,7 +34,7 @@ public final class Utils {
         if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
              height = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
         }
-        Log.d("height action bar", String.valueOf(height));
+//        Log.d("height action bar", String.valueOf(height));
         return height;
     }
     private static int getStatusBarHeight(Context context) {
@@ -45,7 +44,7 @@ public final class Utils {
         if (resourceId > 0) {
             statusBarHeight = res.getDimensionPixelSize(resourceId);
         }
-        Log.d("height status bar", String.valueOf(statusBarHeight));
+//        Log.d("height status bar", String.valueOf(statusBarHeight));
         return statusBarHeight;
     }
 

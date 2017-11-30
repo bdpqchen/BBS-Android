@@ -19,7 +19,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 /**
  * Created by bdpqchen on 17-10-21.
  */
-class SearchAdapter(val mContext: Context) : RecyclerView.Adapter<BaseViewHolder>() {
+class SearchAdapter(val mContext: Context, private val mUserClickListener: OnUserItemClick) : RecyclerView.Adapter<BaseViewHolder>() {
 
     private var mUserDataSet = ArrayList<SearchUserModel>()
     private var mThreadDataSet = ArrayList<SearchThreadModel>()
@@ -33,9 +33,9 @@ class SearchAdapter(val mContext: Context) : RecyclerView.Adapter<BaseViewHolder
                 is UserViewHolder -> {
                     val entity = mUserDataSet[mCommonDataSet[position].position]
                     holder.tvName.text = entity.name
-                    ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, entity.id, holder.civAvatar)
+                    ImageUtil.loadAvatar(mContext, entity.id, holder.civAvatar)
                     holder.itemView.setOnClickListener({
-                        mContext.startActivity(IntentUtil.toPeople(mContext, entity.id))
+                        mUserClickListener.onClick(position)
                     })
                 }
                 is ThreadViewHolder -> {
@@ -47,7 +47,7 @@ class SearchAdapter(val mContext: Context) : RecyclerView.Adapter<BaseViewHolder
                                 author_id = 0
                             }
                             tvAuthorAndTime.text = author_name + "  创建于 " + StampUtil.getDatetimeByStamp(t_create)
-                            ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, author_id, civAvatar)
+                            ImageUtil.loadAvatar(mContext, author_id, civAvatar)
                             holder.itemView.setOnClickListener({ mContext.startActivity(IntentUtil.toThread(mContext, id, title)) })
                         })
                     })
@@ -123,6 +123,14 @@ class SearchAdapter(val mContext: Context) : RecyclerView.Adapter<BaseViewHolder
         return mThreadDataSet.size
     }
 
+    fun getUser(position: Int): SearchUserModel{
+        return mUserDataSet[position]
+    }
+
+    fun getUserUid(position: Int): Int {
+        return mUserDataSet[position].id
+    }
+
     override fun getItemViewType(position: Int): Int {
         val entity = mCommonDataSet[position]
         return entity.type
@@ -161,11 +169,4 @@ class SearchAdapter(val mContext: Context) : RecyclerView.Adapter<BaseViewHolder
 
     }
 
-    private fun removeAllDataSet() {
-        mUserDataSet.removeAll(mUserDataSet)
-        mUserHiding.removeAll(mUserHiding)
-        mThreadDataSet.removeAll(mThreadDataSet)
-        mCommonDataSet.removeAll(mCommonDataSet)
-        notifyDataSetChanged()
-    }
 }

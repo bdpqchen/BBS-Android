@@ -9,6 +9,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 public final class Constants {
 
     public static final String BASE_HOST = "bbs.tju.edu.cn";
+    public static final String BASE_HOST_TWT = "bbs.twtstudio.com";
     public static final String BASE = "https://" + BASE_HOST;
     public static final String BASE_URL = BASE + "/api/";
 
@@ -22,6 +23,7 @@ public final class Constants {
     public static final int REQUEST_CODE_LOGIN = 13;
     public static final int REQUEST_CODE_EDITOR = 14;
     public static final int REQUEST_CODE_UPDATE_INFO = 15;
+    public static final int REQUEST_CODE_AT_USER = 16;
 
     public static final int MAX_LENGTH_QUOTE = 60;
     public static final int MAX_LENGTH_POST = 50;
@@ -47,6 +49,12 @@ public final class Constants {
     public static final int ITEM_SEARCH_USER_HEADER = 15;
     public static final int ITEM_SEARCH_USER_HIDING = 16;
     public static final int ITEM_SEARCH_DIVIDER = 17;
+    public static final int ITEM_MSG_AT_USER = 18;
+    public static final int ITEM_CREATE_THREAD = 19;
+    public static final int ITEM_UPDATE_AVAILABLE = 20;
+    public static final int ITEM_BOARD = 21;
+    public static final int ITEM_FORUM = 22;
+
 
 
     public static final int TAG_MSG_SYSTEM = 0;
@@ -54,6 +62,8 @@ public final class Constants {
     public static final int TAG_MSG_COMMENT = 2;
     public static final int TAG_MSG_REPLY = 3;
     public static final int TAG_MSG_APPEAL = 4;
+    public static final int TAG_MSG_AT_USER = 11;
+
 
     public static final String BUNDLE_REGISTER_CID = "cid";
     public static final String BUNDLE_REGISTER_REAL_NAME = "real_name";
@@ -69,6 +79,10 @@ public final class Constants {
     public static final int MODE_SEARCH_THREAD = 0;
     public static final int MODE_SEARCH_USER = 1;
     public static final int MODE_SEARCH_BOTH = 2;
+
+    public static final int STATUS_USER_NORMAL = -1;
+    public static final int STATUS_USER_ANONYMOUS = 0;
+    public static final int STATUS_USER_NO_AVATAR = 1;
 
     //    public static final String NET_RETROFIT_POST_HEADER = "ContentActivity-Type:application/x-www-form-urlencoded; charset=utf-8";
     public static final String NET_RETROFIT_HEADER_TITLE = "authentication";
@@ -87,16 +101,20 @@ public final class Constants {
     public static final String INTENT_BOARD_NAMES = "intent_board_names";
     public static final String INTENT_BOARD_IDS = "intent_board_ids";
     public static final String INTENT_BOARD_CAN_ANONS = "intent_board_can_anons";
-    public static final String INTENT_RESULT_IMAGE_PATH = "intent_result_image_path";
-    public static final String INTENT_RESULT_UPDATE_INFO = "intent_result_update_info";
     public static final String INTENT_IS_SPECIFY_BOARD = "intent_is_specify_board";
     public static final String INTENT_BOARD_MODEL_LIST = "intent_board_model_list";
     public static final String INTENT_UNREAD = "intent_unread_count";
     public static final String INTENT_EDITOR_TITLE = "intent_editor_title";
     public static final String INTENT_EDITOR_TOOLBAR_TITLE = "intent_editor_toolbar_title";
     public static final String INTENT_EDITOR_CONTENT = "intent_editor_content";
+    public static final String INTENT_SEARCH_MODE = "intent_search_mode";
     public static final String INTENT_SEARCH_THREAD = "intent_search_thread";
     public static final String INTENT_SEARCH_USER = "intent_search_user";
+
+    public static final String INTENT_RESULT_IMAGE_PATH = "intent_result_image_path";
+    public static final String INTENT_RESULT_UPDATE_INFO = "intent_result_update_info";
+    public static final String INTENT_RESULT_AT_USER_UID = "intent_result_at_user_uid";
+    public static final String INTENT_RESULT_AT_USER_NAME = "intent_result_at_user_name";
 
     public static final String TOKEN = "token";
     public static final String ID = "id";
@@ -108,6 +126,8 @@ public final class Constants {
     public static final String TID = "tid";
     public static final String PID = "pid";
     public static final String USER = "user";
+    public static final String AVATAR = "avatar";
+    public static final String COVER = "cover";
     public static final String CONTENT = "content";
     public static final String TITLE = "title";
     public static final String REPLY_ID = "reply";
@@ -132,6 +152,9 @@ public final class Constants {
     public static final String FORUM = "forum";
     public static final String KEYWORD = "keyword";
 
+    public static final String OBJECT_NAME_DATA = "data";
+    public static final String OBJECT_NAME_ERR = "err";
+    public static final String OBJECT_NAME_MESSAGE = "message";
 
     //PIWIK相关
     public static final String PK_THREAD = "/forum/thread/";
@@ -151,5 +174,6 @@ public final class Constants {
 
     //所有前缀字符
     public static final String PRE_ATTACH = "attach:";
+    public static final String PRE_MD_IMG = "![](" + PRE_ATTACH;
 
 }

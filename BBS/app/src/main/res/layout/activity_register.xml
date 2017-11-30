@@ -26,163 +26,168 @@
             android:layout_marginBottom="36dp"
             >
 
-        <LinearLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="@dimen/margin_side_text_input_layout_register"
-            android:layout_marginRight="@dimen/margin_side_text_input_layout_register"
-            android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
-            android:layout_marginBottom="@dimen/margin_top_text_input_layout_register"
-            >
-
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:theme="@style/AppTheme.EditText.Register"
-
-                >
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="姓名"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:id="@+id/et_real_name"
-
-                    />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/margin_top_text_input_layout_register"
+                android:layout_marginLeft="@dimen/margin_side_text_input_layout_register"
+                android:layout_marginRight="@dimen/margin_side_text_input_layout_register"
                 android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
-                app:counterEnabled="true"
-                app:counterOverflowTextAppearance="@color/colorAccent"
-                app:counterTextAppearance="@style/AppTheme.EditText.Register"
-                app:theme="@style/AppTheme.EditText.Register"
+                android:orientation="vertical"
                 >
 
-                <EditText
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="学号(新生用录取通知书号)"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:imeOptions="actionNext"
-                    android:id="@+id/et_stu_num"
-                    />
+                    app:theme="@style/AppTheme.EditText.Register"
 
-            </android.support.design.widget.TextInputLayout>
+                    >
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:counterEnabled="true"
-                app:theme="@style/AppTheme.EditText.Register"
-                >
+                    <EditText
+                        android:id="@+id/et_real_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="姓名"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
 
-                <EditText
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="身份证号"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
-                    android:inputType="text"
-                    android:digits="0123456789Xx"
-                    android:singleLine="true"
-                    android:id="@+id/et_cid"
-                    />
+                    android:layout_marginTop="@dimen/margin_top_text_input_layout_register"
+                    app:counterEnabled="true"
+                    app:counterOverflowTextAppearance="@color/colorAccent"
+                    app:counterTextAppearance="@style/AppTheme.EditText.Register"
+                    app:theme="@style/AppTheme.EditText.Register"
+                    >
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:id="@+id/et_stu_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="学号(新生用录取通知书号)"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        />
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:counterEnabled="true"
-                app:counterMaxLength="12"
-                app:theme="@style/AppTheme.EditText.Register"
-                >
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="用户名(2-12位字母,对外显示,不只是登录账户)"
-                    android:imeOptions="actionNext"
-                    android:minLines="2"
-                    android:maxLength="12"
-                    android:maxLines="2"
-                    android:id="@+id/et_username"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    android:singleLine="true"
-                    />
+                    app:counterEnabled="true"
+                    app:theme="@style/AppTheme.EditText.Register"
+                    >
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:id="@+id/et_cid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789Xx"
+                        android:hint="身份证号"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        />
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:counterEnabled="true"
-                app:errorEnabled="true"
-                app:passwordToggleEnabled="true"
-                app:theme="@style/AppTheme.EditText.Register"
-                >
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="至少8位的密码"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:id="@+id/et_password_again"
-                    android:singleLine="true"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="12"
+                    app:theme="@style/AppTheme.EditText.Register"
+                    >
 
-                    />
+                    <EditText
+                        android:id="@+id/et_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:hint="用户名(2-12位字母,对外显示,不只是登录账户)"
+                        android:imeOptions="actionNext"
+                        android:maxLength="12"
+                        android:maxLines="2"
+                        android:minLines="2"
+                        android:singleLine="true"
+                        />
 
-            </android.support.design.widget.TextInputLayout>
+                </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:counterEnabled="true"
-                app:errorEnabled="true"
-                app:passwordToggleEnabled="true"
-                app:theme="@style/AppTheme.EditText.Register"
-                >
-
-                <EditText
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="确认密码"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:imeOptions="actionDone"
-                    android:id="@+id/et_password"
-                    android:singleLine="true"
+                    app:counterEnabled="true"
+                    app:errorEnabled="true"
+                    app:passwordToggleEnabled="true"
+                    app:theme="@style/AppTheme.EditText.Register"
+                    >
 
+                    <EditText
+                        android:id="@+id/et_password_again"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="至少8位的密码"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:singleLine="true"
+
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:counterEnabled="true"
+                    app:errorEnabled="true"
+                    app:passwordToggleEnabled="true"
+                    app:theme="@style/AppTheme.EditText.Register"
+                    >
+
+                    <EditText
+                        android:id="@+id/et_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="确认密码"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:singleLine="true"
+
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <com.twtstudio.bbs.bdpqchen.bbs.commons.view.ProgressButton
+                    android:id="@+id/cp_btn_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingBottom="4dp"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingTop="4dp"
+                    app:backgroundColor="@color/colorPrimary"
+                    app:text="注册"
+                    app:textSize="16sp"
                     />
 
-            </android.support.design.widget.TextInputLayout>
-
-            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-                android:id="@+id/cp_btn_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_gravity="center"
-                android:background="@drawable/circular_border_shape"
-                android:textColor="@color/material_light_white"
-                app:spinning_bar_color="@color/colorMainBgLight"
-                app:spinning_bar_padding="8dp"
-                app:spinning_bar_width="3dp"
-                android:text="注册"
-                />
-        </LinearLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 

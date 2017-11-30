@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.latest;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -24,7 +23,7 @@ import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS_NAME;
-import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEADER;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_CREATE_THREAD;
 
 
 /**
@@ -33,16 +32,14 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_HEAD
 
 public class LatestAdapter extends BaseAdapter<LatestEntity> {
 
-    Activity mActivity;
-
-    public LatestAdapter(Context context) {
+    LatestAdapter(Context context) {
         super(context);
         mContext = context;
     }
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == ITEM_HEADER) {
+        if (viewType == ITEM_CREATE_THREAD) {
             return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_header, parent, false));
         } else {
             return new LatestViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_latest, parent, false));
@@ -51,21 +48,22 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder0, int position) {
+//        LogUtil.dd("position--->", String.valueOf(position));
         if (mDataSet != null && mDataSet.size() > 0) {
             if (holder0 instanceof LatestViewHolder) {
                 LatestViewHolder holder = (LatestViewHolder) holder0;
                 LatestEntity model = mDataSet.get(position);
                 if (model.getAnonymous() == 1) {
+                    model.setAuthor_id(0);
                     model.setAuthor_name(ANONYMOUS_NAME);
-                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.avatar_anonymous_left, holder.mCivLatestAvatar);
                     holder.mLlLayerHeader.setOnClickListener(null);
                 } else {
                     holder.mLlLayerHeader.setOnClickListener(v -> {
                         Intent intent = IntentUtil.toPeople(mContext, model.getAuthor_id());
                         mContext.startActivity(intent, TransUtil.getAvatarTransOptions(mContext, holder.mCivLatestAvatar));
                     });
-                    ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivLatestAvatar);
                 }
+                ImageUtil.loadAvatarButAnon(mContext, model.getAuthor_id(), holder.mCivLatestAvatar);
                 holder.mTvLikeCount.setText(String.valueOf(model.getLike()));
                 holder.mTvUsername.setText(model.getAuthor_name());
                 holder.mTvBoardName.setText(TextUtil.getBoardName(model.getBoard_name()));
@@ -87,11 +85,11 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
                     mContext.startActivity(IntentUtil.toCreateThread(mContext));
                 });
             }
+
         }
     }
 
-
-    static class LatestViewHolder extends BaseViewHolder {
+    class LatestViewHolder extends BaseViewHolder {
 
         @BindView(R.id.civ_latest_avatar)
         CircleImageView mCivLatestAvatar;

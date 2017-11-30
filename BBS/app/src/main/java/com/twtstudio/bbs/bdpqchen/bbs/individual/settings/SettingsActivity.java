@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 
 import butterknife.BindView;
 
@@ -44,11 +43,13 @@ public class SettingsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         //本Activity不支持滑动返回，当前使用的滑动返回库不太友好
+/*
         if (getIntent().getBooleanExtra(IS_SWITCH_NIGHT_MODE_LOCK, false)) {
             mSlideBackLayout.lock(true);
         } else {
             mSlideBackLayout.lock(!PrefUtil.isSlideBackMode());
         }
+*/
         SettingsFragment fragment = new SettingsFragment();
         FragmentManager manager = getFragmentManager();
         manager.beginTransaction().replace(R.id.settings_container, fragment).commit();

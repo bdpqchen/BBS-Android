@@ -89,7 +89,7 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
         if (keyword.isEmpty()) {
             return
         }
-        startActivity(IntentUtil.toSearch(mContext, mode, keyword))
+        startActivity(IntentUtil.toSearch(mContext, mode))
     }
 
     private fun setIconTint() {

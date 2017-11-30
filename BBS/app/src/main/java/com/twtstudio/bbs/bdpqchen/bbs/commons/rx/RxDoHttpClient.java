@@ -1,5 +1,8 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons.rx;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
@@ -7,6 +10,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.renew.identify.IdentifyModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.retrieve.RetrieveModel;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
@@ -36,18 +40,20 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.NET_RETROFIT_HEADER_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PASSWORD;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REAL_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.STUNUM;
@@ -68,41 +74,81 @@ public class RxDoHttpClient {
     private static RxDoHttpClient sINSTANCE;
 
     private RxDoHttpClient() {
-        Interceptor mTokenInterceptor = chain -> {
+        Interceptor tokenInterceptor = chain -> {
             Request originalRequest = chain.request();
             Request authorised = originalRequest.newBuilder()
-                    .header(Constants.NET_RETROFIT_HEADER_TITLE, getLatestAuthentication())
+                    .header(NET_RETROFIT_HEADER_TITLE, getLatestAuthentication())
                     .build();
             return chain.proceed(authorised);
         };
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
+                .cache(getCache())
+                .addNetworkInterceptor(getNetWorkInterceptor())
                 .addInterceptor(interceptor)
-                .addInterceptor(mTokenInterceptor)
+                .addInterceptor(tokenInterceptor)
                 .retryOnConnectionFailure(true)
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
 
+//        GsonBuilder gson = new GsonBuilder().registerTypeHierarchyAdapter(BaseResponse.class, new ErrorJsonAdapter());
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
-                .addConverterFactory(DirtyJsonConverter.create())
+//                .addConverterFactory(GsonConverterFactory.create(gson.create()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(DirtyJsonConverter.create())
                 .build();
         mApi = retrofit.create(BaseApi.class);
+    }
 
+    private static Interceptor getNetWorkInterceptor() {
+        return chain -> {
+            Request request = chain.request();
+            Response response = chain.proceed(request);
+            String cacheControl = request.cacheControl().toString();
+            Response.Builder builder = response.newBuilder();
+            if (hasNetwork(App.getContext())) {
+                LogUtil.dd("Network is available");
+                if (!cacheControl.isEmpty()) {
+                    builder.header("Cache-Control", cacheControl);
+                }
+            } else {
+                int maxScale = 60 * 60 * 24;  //1周
+                builder.header("Cache-Control", "public, only-if-cached, max-stale=" + maxScale);
+            }
+            return builder.removeHeader("Pragma").build();
+        };
+    }
+
+    //Whether the network is available.
+    private static boolean hasNetwork(Context context) {
+        if (context != null) {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm != null) {
+                NetworkInfo info = cm.getActiveNetworkInfo();
+                if (info != null) {
+                    return info.isAvailable();
+                }
+            }
+        }
+        return false;
+    }
+
+    private static Cache getCache() {
+        File cacheFile = new File(App.getContext().getExternalCacheDir(), "network_cache");
+        return new Cache(cacheFile, 1024 * 1024 * 100);
     }
 
     public static RxDoHttpClient getInstance() {
         if (sINSTANCE == null) {
-            return new RxDoHttpClient();
+            sINSTANCE = new RxDoHttpClient();
         }
         return sINSTANCE;
     }
 
-    private String getLatestAuthentication() {
+    private static String getLatestAuthentication() {
         return PrefUtil.getAuthUid() + "|" + PrefUtil.getAuthToken();
 //        return PrefUtil.getAuthUid() + "" + PrefUtil.getAuthToken();
     }
@@ -120,6 +166,7 @@ public class RxDoHttpClient {
     }
 
     public Observable<BaseResponse<List<HotEntity>>> getHotList() {
+//        return getApi().getHotList("Mobile");
         return mApi.getHotList("Mobile");
     }
 
@@ -138,7 +185,6 @@ public class RxDoHttpClient {
     }
 
     public Observable<BaseResponse<BaseModel>> doUpdateInfo(Bundle bundle, int type) {
-
         if (type == 1) {
             return mApi.doUpdateInfoNickname(getLatestAuthentication(), bundle.getString(Constants.BUNDLE_NICKNAME, ""));
         } else if (type == 2) {

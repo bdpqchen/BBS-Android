@@ -11,7 +11,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -23,6 +22,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.RandomUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.view.ProgressButton;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
@@ -89,12 +89,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             mEtPassword.requestFocus();
         }
         mEtAccount.setText(usernameToSet);
-        if (PrefUtil.getAuthUid() == 0) {
-            ImageUtil.loadDrawable(this, R.drawable.avatar_default_left, mCivAvatar);
-        } else {
-            ImageUtil.loadAvatarAsBitmapByUid(this, PrefUtil.getAuthUid(), mCivAvatar);
-        }
-        ImageUtil.loadLoginCover(this, RandomUtil.getForumIdRandom(), mIvBanner);
+        ImageUtil.loadAvatarButDefault(this, PrefUtil.getAuthUid(), mCivAvatar);
+        ImageUtil.loadForumCover(this, RandomUtil.getForumIdRandom(), mIvBanner);
         pkTracker();
     }
 
@@ -168,8 +164,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     @Override
     public void loginFailed(String msg) {
         mPBtnLogin.error();
-//        SnackBarUtil.error(this, msg);
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        SnackBarUtil.error(this, msg);
+//        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
 

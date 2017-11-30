@@ -24,6 +24,7 @@ public class Reminder {
 
     public Reminder(Activity activity, Params params) {
         this.mActivity = activity;
+        if (mActivity == null) return;
         mReminderView = new ReminderView(mActivity);
         mReminderView.setParams(params);
     }

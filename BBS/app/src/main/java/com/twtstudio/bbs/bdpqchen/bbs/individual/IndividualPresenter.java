@@ -3,7 +3,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 
@@ -34,7 +33,6 @@ public class IndividualPresenter extends RxPresenter implements IndividualContra
 
             @Override
             public void _onNext(IndividualInfoModel individualInfoModel) {
-                LogUtil.dd(individualInfoModel.getNickname() + "1");
                 if (mView != null){
                     mView.gotInfo(individualInfoModel);
                 }

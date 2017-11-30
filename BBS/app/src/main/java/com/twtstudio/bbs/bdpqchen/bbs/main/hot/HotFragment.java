@@ -1,12 +1,14 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.hot;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bdpqchen.diffutilpractice.DiffChecker2;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -24,7 +26,6 @@ import butterknife.BindView;
 
 public class HotFragment extends BaseFragment implements MainContract.View {
 
-
     @BindView(R.id.pb_loading)
     ProgressBar mPbLoading;
     @BindView(R.id.rv_hot)
@@ -37,6 +38,7 @@ public class HotFragment extends BaseFragment implements MainContract.View {
     private HotAdapter mAdapter;
     private boolean mRefreshing = false;
     private MainPresenter mPresenter;
+
     public static HotFragment newInstance() {
         return new HotFragment();
     }
@@ -75,7 +77,20 @@ public class HotFragment extends BaseFragment implements MainContract.View {
     public void onGetHotList(List<HotEntity> list) {
         if (list != null && list.size() > 0) {
             if (mRefreshing) {
-                mAdapter.refreshList(list);
+                List<HotEntity> oldList = mAdapter.getDataSets();
+                DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffChecker2<HotEntity>(oldList, list) {
+                    @Override
+                    public boolean _areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                        return oldList.get(oldItemPosition).getC_post() == list.get(newItemPosition).getC_post();
+                    }
+
+                    @Override
+                    public boolean _areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                        return oldList.get(oldItemPosition).getId() == list.get(newItemPosition).getId();
+                    }
+                }, true);
+                mAdapter.replaceDataSets(list);
+                result.dispatchUpdatesTo(mAdapter);
             } else {
                 mAdapter.addList(list);
             }
@@ -98,12 +113,12 @@ public class HotFragment extends BaseFragment implements MainContract.View {
     void setRefreshing(boolean b) {
         mRefreshing = b;
         if (mSrlHot != null)
-        mSrlHot.setRefreshing(b);
+            mSrlHot.setRefreshing(b);
     }
 
     private void hideLoading() {
         if (mPbLoading != null)
-        mPbLoading.setVisibility(View.GONE);
+            mPbLoading.setVisibility(View.GONE);
     }
 
 

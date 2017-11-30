@@ -41,29 +41,29 @@ public class StarAdapter extends BaseAdapter<StarModel> {
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder0, int position) {
-        if (mDataSet != null && mDataSet.size() > 0){
-            if (holder0 instanceof ViewHolder){
+        if (mDataSet != null && mDataSet.size() > 0) {
+            if (holder0 instanceof ViewHolder) {
                 ViewHolder holder = (ViewHolder) holder0;
                 StarModel model = mDataSet.get(position);
-                if (model.getAnonymous() == 1){
+                if (model.getAnonymous() == 1) {
                     model.setAuthor_name(ANONYMOUS_NAME);
+                    model.setAuthor_id(0);
                     holder.mTvStarName.setText(model.getAuthor_name());
-                    ImageUtil.loadAnonAvatar(mContext, holder.mCivStarAvatar);
-                }else{
-                    ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getAuthor_id(), holder.mCivStarAvatar);
+                } else {
                     holder.mTvStarName.setText(TextUtil.getTwoNames(model.getAuthor_name(), model.getAuthor_nickname()));
                 }
+                ImageUtil.loadAvatarButAnon(mContext, model.getAuthor_id(), holder.mCivStarAvatar);
                 holder.mTvStarCreateTime.setText(StampUtil.getDatetimeByStamp(model.getT_create()));
                 holder.mTvStarTitle.setText(model.getTitle());
 
-                if (model.getIn_collection() == 0){
+                if (model.getIn_collection() == 0) {
                     holder.mIvStar.setVisibility(View.VISIBLE);
                     holder.mIvUnStar.setVisibility(View.GONE);
 //                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.ic_star_yellow_24dp, holder.mIvStar);
                     holder.mIvStar.setOnClickListener(v -> {
                         mStarPresenter.unStarThread(model.getId(), position);
                     });
-                }else{
+                } else {
                     holder.mIvUnStar.setVisibility(View.VISIBLE);
                     holder.mIvStar.setVisibility(View.GONE);
 //                    ImageUtil.loadIconAsBitmap(mContext, R.drawable.ic_star_border_yellow_24dp, holder.mIvUnStar);
@@ -86,7 +86,7 @@ public class StarAdapter extends BaseAdapter<StarModel> {
         mDataSet.get(position).setIn_collection(status);
     }
 
-    static class ViewHolder extends BaseViewHolder{
+    static class ViewHolder extends BaseViewHolder {
         @BindView(R.id.civ_star_avatar)
         CircleImageView mCivStarAvatar;
         @BindView(R.id.tv_star_name)
@@ -99,6 +99,7 @@ public class StarAdapter extends BaseAdapter<StarModel> {
         TextView mTvStarTitle;
         @BindView(R.id.tv_star_create_time)
         TextView mTvStarCreateTime;
+
         ViewHolder(View view) {
             super(view);
         }

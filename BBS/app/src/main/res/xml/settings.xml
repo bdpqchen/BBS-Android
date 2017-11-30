@@ -39,6 +39,14 @@
             android:title="简版展示论坛区"
             />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_disabled_image_cache"
+            android:layout="@layout/preference_item_normal"
+            android:summary="开启会使用更多的流量"
+            android:title="不缓存图片"
+            />
+
         <!-- <ListPreference
              android:key="@string/key_habit_hand"
              android:layout="@layout/preference_item_normal"
@@ -72,6 +80,20 @@
             android:summary="@string/current_version"
             android:title="检查更新"
             />
+
+        <Preference
+            android:key="@string/key_feedback"
+            android:layout="@layout/preference_item_normal"
+            android:title="线上客服"
+            />
+<!--
+
+        <Preference
+            android:key="@string/key_more_app"
+            android:layout="@layout/preference_item_normal"
+            android:title="更多产品"
+            />
+-->
 
     </PreferenceCategory>
 

@@ -1,10 +1,14 @@
 package com.twtstudio.bbs.bdpqchen.bbs.search
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.AppCompatEditText
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.GONE
@@ -14,6 +18,7 @@ import android.widget.TextView
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.*
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.individual.release.EndlessRecyclerOnScrollListener
@@ -25,7 +30,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.search.model.SearchUserModel
  * Created by bdpqchen on 17-10-18.
  */
 
-class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener {
+class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener, OnUserItemClick {
 
     private val mPresenter: SearchPresenter = SearchPresenter(this)
     override fun getPresenter(): SearchPresenter {
@@ -51,6 +56,10 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
     private var mEnding = false
     private var mPage = 0
     private var mIsLoadingMore = false
+    private var mMode = MODE_SEARCH_BOTH
+    private var mAutoSearchInterval = 300
+    private var mLastTimeInput : Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mTvEmptyResult = findViewById(R.id.tv_search_result_empty) as TextView
@@ -59,10 +68,15 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
         mEtSearch = findViewById(R.id.et_search) as AppCompatEditText
         mTvSearch = findViewById(R.id.tv_search) as TextView
         mEtSearch.setOnTouchListener(this)
+        mMode = intent.getIntExtra(INTENT_SEARCH_MODE, MODE_SEARCH_BOTH)
+        if (mMode == MODE_SEARCH_USER){
+            mTvSearch.visibility = GONE
+            mEtSearch.hint = "Search user"
+        }
 
         val layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
         rvSearchResult.layoutManager = layoutManager
-        mAdapter = SearchAdapter(mContext)
+        mAdapter = SearchAdapter(mContext, this)
         rvSearchResult.adapter = mAdapter
 
         rvSearchResult.addOnScrollListener(object : EndlessRecyclerOnScrollListener(layoutManager) {
@@ -84,16 +98,58 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
                 doSearch()
             }
         })
+        if (mMode == MODE_SEARCH_USER) {
+            mEtSearch.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable) {
+                    if (System.currentTimeMillis() - mLastTimeInput > mAutoSearchInterval) {
+                        mKeyword = s.toString()
+                        doSearch()
+                        mReSearch = true
+                    }
+                    mLastTimeInput = System.currentTimeMillis()
+                }
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+            })
+        }
+    }
+
+    override fun onClick(position: Int) {
+        LogUtil.dd("====getuid", mAdapter.getUserUid(position).toString())
+        val entity : SearchUserModel = mAdapter.getUser(position)
+        if (mMode == MODE_SEARCH_USER){
+            val intentResult = Intent()
+            intentResult.putExtra(INTENT_RESULT_AT_USER_UID, entity.id)
+            intentResult.putExtra(INTENT_RESULT_AT_USER_NAME, entity.name)
+            setResult(Activity.RESULT_OK, intentResult)
+            finishMe()
+        }else{
+            mContext.startActivity(IntentUtil.toPeople(mContext, mAdapter.getUserUid(position)))
+        }
     }
 
     private fun doSearch() {
-        showLoading()
-        mPresenter.searchUser(mKeyword)
-        searchThread()
+        if (mKeyword.isNotEmpty()) {
+            showLoading()
+            searchUser()
+            searchThread()
+        }
+    }
+
+    private fun searchUser(){
+        if (mMode == MODE_SEARCH_USER || mMode == MODE_SEARCH_BOTH){
+            mPresenter.searchUser(mKeyword)
+        }
     }
 
     private fun searchThread() {
-        mPresenter.searchThread(mKeyword, mPage)
+        if (mMode == MODE_SEARCH_THREAD || mMode == MODE_SEARCH_BOTH) {
+            mPresenter.searchThread(mKeyword, mPage)
+        }
     }
 
     override fun onGotUserList(userList: List<SearchUserModel>) {
@@ -105,6 +161,12 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
             hideLoading()
             val commonList = ArrayList<CommonModel>()
             var i = 0
+            if (mMode == MODE_SEARCH_USER){
+                userList.mapTo(commonList, { CommonModel(ITEM_SEARCH_USER, i++) })
+                mAdapter.addUserList(userList)
+                mAdapter.addCommonList(commonList)
+                return
+            }
             var showingList = userList
             val subAt = MAX_SEARCH_RESULT_USER
             if (userList.size > subAt) {

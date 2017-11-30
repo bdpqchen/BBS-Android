@@ -57,6 +57,7 @@ public final class SnackBarUtil {
     }
 
     private static void show(final Activity act, String m, int duration, final int color, String actionTitle, Reminder.OnActionClickListener listener) {
+        if (act == null) return;
         new Reminder.Builder(act)
                 .setMessage(m)
                 .setDuration(duration)

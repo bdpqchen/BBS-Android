@@ -11,3 +11,4 @@
 /release
 *.apk
 /debug
+/app/release

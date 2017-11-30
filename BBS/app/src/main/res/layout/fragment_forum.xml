@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorMainBg"
-    android:orientation="vertical"
     android:clipToPadding="false"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     >
 
     <android.support.v7.widget.Toolbar
@@ -17,12 +17,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:layout_marginBottom="4dp"
         android:background="?attr/colorPrimary"
         android:elevation="8dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         tools:targetApi="lollipop"
-        android:layout_marginBottom="4dp"
         >
 
         <TextView
@@ -44,18 +44,21 @@
         tools:visibility="gone"
         />
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/srl_forum"
-        >
+    <!--
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/srl_forum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+    -->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_forum_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorMainBg"
         />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
 
 </LinearLayout>

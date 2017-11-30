@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.home;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,6 +46,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     private int mHidingFragment = FIRST;
     private boolean mIsExit = false;
     private HomePresenter mPresenter;
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_main;
@@ -65,8 +65,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        HandlerUtil.postDelay(() -> mSlideBackLayout.lock(true));
-        Context context = this;
+//        HandlerUtil.postDelay(() -> mSlideBackLayout.lock(true));
         mPresenter = new HomePresenter(this);
         LogUtil.dd("current_token", PrefUtil.getAuthToken());
         PrefUtil.setHadLogin(true);
@@ -110,14 +109,14 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
             }
         });
 
-        if (PrefUtil.thisVersionFirstOpen()) {
-            // TODO: 17-7-6 统一清理缓存
-            ImageUtil.clearMemory(context);
-            ImageUtil.clearDiskCache(context);
-            PrefUtil.setIsThisVersionFirstOpen(false);
-            PrefUtil.setIsSimpleBoardList(true);
+        if (PrefUtil.getLastImageStamp() == 0) {
+            PrefUtil.setLastImageStamp(System.currentTimeMillis());
         }
-
+        //Clear cached images and set {@LastImageStamp()} to currentTime.
+        if (System.currentTimeMillis() - PrefUtil.getLastImageStamp() > 60 * 60 * 24 * 7) {
+            PrefUtil.setLastImageStamp(System.currentTimeMillis());
+            ImageUtil.clearCachedData(mContext);
+        }
         pkTracker();
     }
 
@@ -156,10 +155,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     @Override
     public void onGetMessageFailed(String m) {
-//        LogUtil.dd("onGetMessageFailed()");
-        if (PrefUtil.isNoAccountUser()) {
-            return;
-        }
         if (m.contains("token") || m.contains("UID") || m.contains("过期") || m.contains("无效")) {
             SnackBarUtil.error(mActivity, "当前账户的登录信息已过期，请重新登录", true);
             HandlerUtil.postDelay(() -> {

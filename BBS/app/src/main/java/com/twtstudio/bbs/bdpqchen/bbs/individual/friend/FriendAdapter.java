@@ -42,7 +42,7 @@ public class FriendAdapter extends BaseAdapter<FriendModel> {
                 holder.mTvFriendName.setText(TextUtil.getTwoNames(model.getName(), model.getNickname()));
                 holder.mTvFriendSignature.setText(model.getSignature());
                 holder.mTvConfirmStatus.setVisibility(model.getStatus() == 1 ? View.GONE : View.VISIBLE);
-                ImageUtil.loadAvatarAsBitmapByUidWithLeft(mContext, model.getUid(), holder.mCivFriendAvatar);
+                ImageUtil.loadAvatar(mContext, model.getUid(), holder.mCivFriendAvatar);
                 holder.mCivFriendAvatar.setOnClickListener(v -> {
                     mContext.startActivity(IntentUtil.toPeople(mContext, model.getUid()),
                             TransUtil.getAvatarTransOptions(mContext, holder.mCivFriendAvatar));

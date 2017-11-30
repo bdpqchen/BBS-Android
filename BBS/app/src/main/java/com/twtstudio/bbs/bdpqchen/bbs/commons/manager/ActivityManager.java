@@ -14,7 +14,7 @@ import java.util.Stack;
  */
 
 public final class ActivityManager {
-    private Stack<AppCompatActivity> mActivityStack;
+    private static Stack<AppCompatActivity> mActivityStack;
 
     private static ActivityManager mInstance;
 

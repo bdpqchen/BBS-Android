@@ -10,7 +10,6 @@ import com.github.piasy.biv.loader.glide.GlideImageLoader;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
-import com.oubowu.slideback.ActivityHelper;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.twtstudio.bbs.bdpqchen.bbs.BuildConfig;
@@ -22,6 +21,7 @@ import org.piwik.sdk.TrackerConfig;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
 import timber.log.Timber;
 
@@ -34,24 +34,32 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.PK_USER_I
 
 public class App extends Application {
 
-    private Context mContext;
+    private static Context mContext;
     private LogLevel mLogLevel = LogLevel.FULL;
-    private ActivityHelper mActivityHelper;
-    private static App sApplication;
+//    private ActivityHelper mActivityHelper;
+//    private static App sApplication;
+
+    public static Context getContext() {
+        if (mContext != null) {
+            return mContext;
+        }
+        throw new NoSuchElementException("No context from App.class");
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = this;
-        sApplication = this;
+//        sApplication = this;
 
         if (!BuildConfig.DEBUG) {
+//        if (true) {
             initBuglyReport();
         }
 
         BigImageViewer.initialize(GlideImageLoader.with(getApplicationContext()));
         initLogUtils();
-        initSlideBack();
+//        initSlideBack();
         StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
                 .detectAll()
                 .penaltyLog()
@@ -112,7 +120,7 @@ public class App extends Application {
                 .methodCount(3);
 
     }
-
+/*
     //滑动返回
     private void initSlideBack() {
         mActivityHelper = new ActivityHelper();
@@ -121,7 +129,7 @@ public class App extends Application {
 
     public static ActivityHelper getActivityHelper() {
         return sApplication.mActivityHelper;
-    }
+    }*/
 
     /**
      * 获取进程号对应的进程名
