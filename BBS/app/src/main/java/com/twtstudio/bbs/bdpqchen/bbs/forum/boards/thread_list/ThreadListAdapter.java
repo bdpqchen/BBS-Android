@@ -21,6 +21,7 @@ import java.util.List;
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_FOOTER;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ITEM_NORMAL;
 
@@ -39,7 +40,7 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = null;
+        View view;
         if (viewType == ITEM_NORMAL) {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_list, parent, false);
             return new ViewHolder(view);
@@ -47,7 +48,7 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
             view = LayoutInflater.from(mContext).inflate(R.layout.item_rv_thread_list, parent, false);
             return new BaseFooterViewHolder(view);
         }
-        return new ViewHolder(view);
+        return null;
     }
 
     @Override
@@ -58,7 +59,7 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
 //                ThreadListModel.BoardBean board = mDataSet.get(position);
                 ViewHolder holder = (ViewHolder) viewHolder;
                 if (thread.getAnonymous() == 1) {
-                    thread.setAuthor_name("匿名用户");
+                    thread.setAuthor_name(ANONYMOUS_NAME);
                     ImageUtil.loadAnonAvatar(mContext, holder.mCivThreadAvatar);
                 } else {
                     holder.mCivThreadAvatar.setOnClickListener(v -> {
