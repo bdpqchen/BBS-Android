@@ -27,7 +27,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
     private boolean isShowHeader = false;
     private OnItemClickListener mOnItemClickListener = null;
     protected int mPage = 0;
-    private boolean mCreateThread = true;
+    private boolean mCreateThread = false;
 
     @Override
     public void onClick(View v) {

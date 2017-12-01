@@ -56,7 +56,6 @@ public class ThreadListAdapter extends BaseAdapter<ThreadListModel.ThreadBean> {
         if (mDataSet != null && mDataSet.size() > 0) {
             if (viewHolder instanceof ViewHolder) {
                 ThreadListModel.ThreadBean thread = mDataSet.get(position);
-//                ThreadListModel.BoardBean board = mDataSet.get(position);
                 ViewHolder holder = (ViewHolder) viewHolder;
                 if (thread.getAnonymous() == 1) {
                     thread.setAuthor_name(ANONYMOUS_NAME);
