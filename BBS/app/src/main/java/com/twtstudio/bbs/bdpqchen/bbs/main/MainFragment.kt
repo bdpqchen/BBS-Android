@@ -62,7 +62,7 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
 
     override fun initFragments() {
         StatusBarUtil.setColor(this.activity, ResourceUtil.getColor(this.activity, R.color.colorPrimaryDark), 0)
-        val tabAdapter = MainTabAdapter(fragmentManager, mContext)
+        val tabAdapter = MainTabAdapter(fragmentManager)
         mViewpager.adapter = tabAdapter
         mTabLayout.setupWithViewPager(mViewpager)
         mEtSearch.setOnTouchListener(this)

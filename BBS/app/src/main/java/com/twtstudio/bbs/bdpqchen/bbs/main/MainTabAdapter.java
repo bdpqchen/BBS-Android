@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -13,12 +12,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestFragment;
  */
 
 public class MainTabAdapter extends FragmentPagerAdapter {
-    private Context mContext;
     private final String[] titles = {"最新动态", "全站十大"};
 
-    public MainTabAdapter(FragmentManager fm, Context context) {
+    public MainTabAdapter(FragmentManager fm) {
         super(fm);
-        mContext = context;
     }
 
     @Override

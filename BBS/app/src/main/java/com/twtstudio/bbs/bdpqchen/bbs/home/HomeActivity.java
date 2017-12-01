@@ -14,11 +14,10 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.AuthUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.AuthTool;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -33,7 +32,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     @BindView(R.id.bottom_bar)
     BottomBar mBottomBar;
-
     BottomBarTab mNearBy;
     @BindView(R.id.fl_main_container)
     FrameLayout mFlMainContainer;
@@ -67,7 +65,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         super.onCreate(savedInstanceState);
 //        HandlerUtil.postDelay(() -> mSlideBackLayout.lock(true));
         mPresenter = new HomePresenter(this);
-        LogUtil.dd("current_token", PrefUtil.getAuthToken());
+//        LogUtil.dd("current_token", PrefUtil.getAuthToken());
         PrefUtil.setHadLogin(true);
         if (savedInstanceState == null) {
             mFragments[FIRST] = com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment.Companion.newInstance();
@@ -99,7 +97,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                 } else if (i == R.id.bottom_bar_tab_individual) {
                     mShowingFragment = FORTH;
                     StatusBarUtil.setTranslucentForImageView(this, 0, null);
-
 //                } else if (i == R.id.bottom_bar_tab_message){
 //                    mShowingFragment = THIRD;
                 }
@@ -158,7 +155,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         if (m.contains("token") || m.contains("UID") || m.contains("过期") || m.contains("无效")) {
             SnackBarUtil.error(mActivity, "当前账户的登录信息已过期，请重新登录", true);
             HandlerUtil.postDelay(() -> {
-                AuthUtil.logout();
+                AuthTool.logout();
                 startActivity(IntentUtil.toLogin(mContext));
                 ActivityManager.getActivityManager().finishAllActivity();
             }, 3000);

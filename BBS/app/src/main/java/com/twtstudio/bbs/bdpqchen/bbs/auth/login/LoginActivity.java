@@ -136,15 +136,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     public void loginSuccess(LoginModel loginModel) {
-        PrefUtil.setFirstOpen(false);
         mPBtnLogin.done();
 
-        PrefUtil.setAuthToken(loginModel.getToken());
-        PrefUtil.setAuthGroup(loginModel.getGroup());
-        PrefUtil.setAuthUid(loginModel.getUid());
         ActivityOptions activityOptions = null;
         Intent intent = new Intent(this, HomeActivity.class);
-        PrefUtil.setIsNoAccountUser(false);
         if (VersionUtil.eaLollipop()) {
             activityOptions = ActivityOptions.makeSceneTransitionAnimation(this, new Pair<>(findViewById(R.id.p_btn_login), "transition"));
         }
@@ -165,7 +160,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     public void loginFailed(String msg) {
         mPBtnLogin.error();
         SnackBarUtil.error(this, msg);
-//        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
 
