@@ -18,6 +18,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.AuthTool;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -115,6 +116,11 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
             ImageUtil.clearCachedData(mContext);
         }
         pkTracker();
+        getUnreadMsg();
+    }
+
+    private void getUnreadMsg(){
+        mPresenter.getUnreadMessageCount();
     }
 
     private void pkTracker() {
