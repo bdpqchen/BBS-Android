@@ -3,7 +3,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.auth.login;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.presenter.RxPresenter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.ResponseTransformer;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.rx.SimpleObserver;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -23,7 +22,6 @@ class LoginPresenter extends RxPresenter implements LoginContract.Presenter {
 
     @Override
     public void doLogin(String username, String password) {
-
         addSubscribe(sHttpClient.doLogin(username, password)
                 .map(new ResponseTransformer<>())
                 .subscribeOn(Schedulers.io())
@@ -31,10 +29,8 @@ class LoginPresenter extends RxPresenter implements LoginContract.Presenter {
                 .subscribeWith(new SimpleObserver<LoginModel>() {
                     @Override
                     public void _onError(String msg) {
-                        LogUtil.dd("_onError", msg);
                         if (mView != null)
                             mView.loginFailed(msg);
-
                     }
 
                     @Override
@@ -42,10 +38,7 @@ class LoginPresenter extends RxPresenter implements LoginContract.Presenter {
                         if (mView != null)
                             mView.loginSuccess(loginModel);
                     }
-
                 }));
-
-
     }
 
 }

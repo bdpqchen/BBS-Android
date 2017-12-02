@@ -110,6 +110,8 @@ public final class Constants {
     public static final String INTENT_SEARCH_MODE = "intent_search_mode";
     public static final String INTENT_SEARCH_THREAD = "intent_search_thread";
     public static final String INTENT_SEARCH_USER = "intent_search_user";
+    public static final String INTENT_LOGIN = "intent_login";
+
 
     public static final String INTENT_RESULT_IMAGE_PATH = "intent_result_image_path";
     public static final String INTENT_RESULT_UPDATE_INFO = "intent_result_update_info";

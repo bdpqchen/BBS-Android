@@ -1,13 +1,11 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.latest;
 
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.bdpqchen.diffutilpractice.DiffChecker2;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
@@ -73,9 +71,7 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
                 getDataList(++mPage);
             }
         });
-
         getDataList(0);
-
     }
 
     @Override
@@ -97,6 +93,8 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
             newList.add(new LatestEntity());
             newList.addAll(list);
             if (mRefreshing) {
+                mAdapter.refreshList(list);
+/*
                 List<LatestEntity> oldList = mAdapter.getDataSets();
                 DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffChecker2<LatestEntity>(oldList, newList) {
                     @Override
@@ -109,8 +107,9 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
                         return oldList.get(oldItemPosition).getId() == newList.get(newItemPosition).getId();
                     }
                 }, true);
-                mAdapter.replaceDataSets(newList);
-                result.dispatchUpdatesTo(mAdapter);
+*/
+//                mAdapter.replaceDataSets(newList);
+//                result.dispatchUpdatesTo(mAdapter);
             } else {
                 mAdapter.setDataSets(newList);
             }

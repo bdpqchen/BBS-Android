@@ -12,7 +12,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -25,6 +24,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_USER
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil
+import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestFragment
 import kotterknife.bindView
 
 /**
@@ -60,9 +60,11 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
         return R.layout.fragment_main
     }
 
+    private lateinit var tabAdapter: MainTabAdapter
+
     override fun initFragments() {
         StatusBarUtil.setColor(this.activity, ResourceUtil.getColor(this.activity, R.color.colorPrimaryDark), 0)
-        val tabAdapter = MainTabAdapter(fragmentManager, mContext)
+        tabAdapter = MainTabAdapter(fragmentManager)
         mViewpager.adapter = tabAdapter
         mTabLayout.setupWithViewPager(mViewpager)
         mEtSearch.setOnTouchListener(this)
@@ -157,7 +159,7 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
         viewRoot.setBackgroundColor(ResourceUtil.getColor(mContext, color))
         if (anim != null) {
             anim.duration = 500
-            anim.interpolator = AccelerateDecelerateInterpolator()
+//            anim.interpolator = AccelerateDecelerateInterpolator()
             anim.start()
         }
     }

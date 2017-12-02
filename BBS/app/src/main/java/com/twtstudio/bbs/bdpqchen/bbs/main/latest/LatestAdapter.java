@@ -13,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseAdapter;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.viewholder.BaseViewHolder;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IsUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.RandomUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
@@ -53,7 +54,7 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
             if (holder0 instanceof LatestViewHolder) {
                 LatestViewHolder holder = (LatestViewHolder) holder0;
                 LatestEntity model = mDataSet.get(position);
-                if (model.getAnonymous() == 1) {
+                if (IsUtil.isAnon(model.getAnonymous())) {
                     model.setAuthor_id(0);
                     model.setAuthor_name(ANONYMOUS_NAME);
                     holder.mLlLayerHeader.setOnClickListener(null);
@@ -87,6 +88,10 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
             }
 
         }
+    }
+
+    void notifyHeader(){
+        notifyItemChanged(0);
     }
 
     class LatestViewHolder extends BaseViewHolder {

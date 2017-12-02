@@ -59,14 +59,6 @@ public final class PrefUtil {
         return Hawk.get(AUTH_USERNAME, "");
     }
 
-    public static boolean getIsLatestInfo() {
-        return Hawk.get(IS_LATEST_INFO, false);
-    }
-
-    public static void setIsLatestInfo(boolean isLatestInfo) {
-        Hawk.put(IS_LATEST_INFO, isLatestInfo);
-    }
-
     public static void setInfoPost(int infoPost) {
         Hawk.put(INFO_POST, infoPost);
     }

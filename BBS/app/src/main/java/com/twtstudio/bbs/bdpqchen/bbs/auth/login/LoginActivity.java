@@ -17,6 +17,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.AuthTool;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
@@ -136,15 +138,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     public void loginSuccess(LoginModel loginModel) {
-        PrefUtil.setFirstOpen(false);
         mPBtnLogin.done();
-
-        PrefUtil.setAuthToken(loginModel.getToken());
-        PrefUtil.setAuthGroup(loginModel.getGroup());
-        PrefUtil.setAuthUid(loginModel.getUid());
+        AuthTool.login(loginModel);
         ActivityOptions activityOptions = null;
         Intent intent = new Intent(this, HomeActivity.class);
-        PrefUtil.setIsNoAccountUser(false);
+        intent.putExtra(Constants.INTENT_LOGIN, true);
         if (VersionUtil.eaLollipop()) {
             activityOptions = ActivityOptions.makeSceneTransitionAnimation(this, new Pair<>(findViewById(R.id.p_btn_login), "transition"));
         }
@@ -165,7 +163,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     public void loginFailed(String msg) {
         mPBtnLogin.error();
         SnackBarUtil.error(this, msg);
-//        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
 

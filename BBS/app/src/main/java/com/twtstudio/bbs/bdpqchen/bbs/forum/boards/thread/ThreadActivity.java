@@ -54,6 +54,7 @@ import java.util.List;
 import butterknife.BindView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_CONTENT;
@@ -299,7 +300,6 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
                 int uid = data.getIntExtra(INTENT_RESULT_AT_USER_UID, 0);
                 TextUtil.addAt2Content(name, mEtComment);
                 MatcherTool.addAtName(name, uid);
-                LogUtil.dd("I get the hash map data===", String.valueOf(MatcherTool.matchAtUid(name)));
             }
         }
     }
@@ -319,11 +319,11 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
         //将帖主重组成一个回复
         if (mPage == 0 && model.getThread() != null) {
             ThreadModel.ThreadBean thread = model.getThread();
-            mIsStared = IsUtil.is1(thread.getIn_collection());
-            mIsLiked = IsUtil.is1(thread.getLiked());
+            mIsStared = IsUtil.isStarred(thread.getIn_collection());
+            mIsLiked = IsUtil.isLiked(thread.getLiked());
             showStarOrNot();
-            if (IsUtil.is1(thread.getAnonymous())) {
-                thread.setAuthor_name("匿名用户");
+            if (IsUtil.isAnon(thread.getAnonymous())) {
+                thread.setAuthor_name(ANONYMOUS_NAME);
             }
             ThreadModel.PostBean post = new ThreadModel.PostBean();
             post.setAnonymous(thread.getAnonymous());

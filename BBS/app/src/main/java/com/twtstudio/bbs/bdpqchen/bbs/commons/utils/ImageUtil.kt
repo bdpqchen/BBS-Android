@@ -16,7 +16,6 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 object ImageUtil {
 
     private val radius = 30
-    private val myUid = PrefUtil.getAuthUid()
 
     /**
      * Disabled all cache when the value is true.
@@ -139,12 +138,12 @@ object ImageUtil {
 
     @JvmStatic
     fun loadMyAvatar(context: Context, civAvatar: ImageView) {
-        loadAvatarByUid(context, myUid, civAvatar)
+        loadAvatarByUid(context, PrefUtil.getAuthUid(), civAvatar)
     }
 
     @JvmStatic
     fun loadMyBg(context: Context, imageView: ImageView) {
-        loadBgByUid(context, myUid, imageView)
+        loadBgByUid(context, PrefUtil.getAuthUid(), imageView)
     }
 
     @JvmStatic
@@ -159,7 +158,7 @@ object ImageUtil {
 
     @JvmStatic
     fun refreshMyBg(context: Context, view: ImageView) {
-        refreshMyBg(context, myUid, view)
+        refreshMyBg(context, PrefUtil.getAuthUid(), view)
     }
 
     /**
@@ -167,7 +166,7 @@ object ImageUtil {
      */
     private fun refreshMyBg(context: Context, myUid: Int, view: ImageView) {
         Glide.with(context)
-                .load(UrlUtil.getAvatarUrl(myUid))
+                .load(UrlUtil.getAvatarUrl(PrefUtil.getAuthUid()))
                 .skipMemoryCache(true)
                 .bitmapTransform(BlurTransformation(context, radius))
 //                .diskCacheStrategy(DiskCacheStrategy.NONE)

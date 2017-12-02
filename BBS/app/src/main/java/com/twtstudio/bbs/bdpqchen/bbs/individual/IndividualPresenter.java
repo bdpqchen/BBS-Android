@@ -26,7 +26,6 @@ public class IndividualPresenter extends RxPresenter implements IndividualContra
             @Override
             public void _onError(String msg) {
                 if (mView != null){
-                    PrefUtil.setIsLatestInfo(false);
                     mView.getInfoFailed(msg);
                 }
             }

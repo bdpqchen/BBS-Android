@@ -13,6 +13,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.retrieve.RetrieveModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.FileTool;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
@@ -137,7 +138,7 @@ public class RxDoHttpClient {
     }
 
     private static Cache getCache() {
-        File cacheFile = new File(App.getContext().getExternalCacheDir(), "network_cache");
+        File cacheFile = FileTool.getCacheFile();
         return new Cache(cacheFile, 1024 * 1024 * 100);
     }
 

@@ -117,7 +117,7 @@ public class BoardsAdapter extends RecyclerView.Adapter {
                     holder.mTvPreviewBoardTitle.setText(previewThread.getBoard().getName());
                     holder.mRlBoardTitle.setOnClickListener(v -> {
                         Intent intent = new Intent(mContext, ThreadListActivity.class);
-                        LogUtil.dd("boardname_in adapter", previewThread.getBoard().getName());
+                        LogUtil.dd("board name_in adapter", previewThread.getBoard().getName());
                         intent.putExtra(INTENT_BOARD_ID, previewThread.getBoard().getId());
                         intent.putExtra(INTENT_BOARD_TITLE, previewThread.getBoard().getName());
                         mContext.startActivity(intent);

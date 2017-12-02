@@ -62,7 +62,7 @@ public final class TextUtil {
         if (name.equals(ANONYMOUS_NAME)) return Html.fromHtml(name);
         String friend = "<font color=\'#e77574\'> [好友] </font>";
         String result = getTwoNames(name, nickname);
-        if (IsUtil.is1(isFriend)) result = friend + result;
+        if (IsUtil.isFriend(isFriend)) result = friend + result;
         return Html.fromHtml(result);
     }
 
@@ -200,7 +200,7 @@ public final class TextUtil {
     }
 
     private static String isAnon(int status) {
-        return IsUtil.is1(status) ? "匿名" : "";
+        return IsUtil.isAnon(status) ? "匿名" : "";
     }
 
     //去掉最后面的两层的引用

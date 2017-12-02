@@ -71,7 +71,7 @@ public final class StampUtil {
         }
     }
 
-    public static String getTimeFromNow(int date) {
+    private static String getTimeFromNow(int date) {
         Calendar calendar = Calendar.getInstance();
         int years = calendar.get(Calendar.YEAR);
         int months = calendar.get(Calendar.MONTH);
