@@ -54,6 +54,7 @@ import java.util.List;
 import butterknife.BindView;
 
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.rx.RxDoHttpClient.BASE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.ANONYMOUS_NAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_EDITOR_CONTENT;
@@ -299,7 +300,6 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
                 int uid = data.getIntExtra(INTENT_RESULT_AT_USER_UID, 0);
                 TextUtil.addAt2Content(name, mEtComment);
                 MatcherTool.addAtName(name, uid);
-                LogUtil.dd("I get the hash map data===", String.valueOf(MatcherTool.matchAtUid(name)));
             }
         }
     }
@@ -323,7 +323,7 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
             mIsLiked = IsUtil.isLiked(thread.getLiked());
             showStarOrNot();
             if (IsUtil.isAnon(thread.getAnonymous())) {
-                thread.setAuthor_name("匿名用户");
+                thread.setAuthor_name(ANONYMOUS_NAME);
             }
             ThreadModel.PostBean post = new ThreadModel.PostBean();
             post.setAnonymous(thread.getAnonymous());
