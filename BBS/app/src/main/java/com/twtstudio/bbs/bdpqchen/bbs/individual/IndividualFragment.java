@@ -15,9 +15,13 @@ import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.AuthTool;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.home.InfoContract;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.friend.FriendActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
@@ -87,6 +91,7 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
     private int mUnread = 0;
     private boolean isRefreshing = false;
     private IndividualPresenter mPresenter;
+    private static String NICKNAME = PrefUtil.getInfoNickname();
 
     @Override
     protected int getFragmentLayoutId() {
@@ -111,7 +116,7 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
         mIvRefreshInfo.setOnClickListener(v -> {
             mPresenter.initIndividualInfo();
             isRefreshing = true;
-            mPresenter.getUnreadMessageCount();
+            getUnreadMsgCount();
         });
 
     }
@@ -125,10 +130,9 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         if (mPresenter != null) {
-            mPresenter.initIndividualInfo();
+            getInfo();
             ImageUtil.loadMyAvatar(mContext, mCivAvatar);
             ImageUtil.loadMyBg(mContext, mIvBg);
-
         }
     }
 
@@ -174,6 +178,7 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
         mUnread = unread;
         if (mTvIndividualUnread != null) {
             if (unread > 0) {
+                getCallback().showUnreadMsg(unread);
                 mTvIndividualUnread.setVisibility(View.VISIBLE);
                 mTvIndividualUnread.setText(String.valueOf(unread));
             } else {
@@ -182,24 +187,32 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
         }
     }
 
+    private InfoContract getCallback() {
+        return (InfoContract) getActivity();
+    }
+
+    private void getInfo() {
+        if (mPresenter != null) mPresenter.initIndividualInfo();
+    }
+
+    private void getUnreadMsgCount() {
+        if (mPresenter != null) mPresenter.getUnreadMessageCount();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.getUnreadMessageCount();
+        getUnreadMsgCount();
+        if (NICKNAME.length() == 0) {
+            NICKNAME = "taken";
+            getInfo();
+        }
     }
 
     @Override
     public void gotInfo(IndividualInfoModel info) {
         if (info != null) {
-            PrefUtil.setInfoNickname(info.getNickname());
-            PrefUtil.setInfoSignature(info.getSignature());
-            PrefUtil.setInfoOnline(info.getC_online());
-            PrefUtil.setInfoPost(info.getC_post());
-            PrefUtil.setInfoPoints(info.getPoints());
-            PrefUtil.setInfoCreate(info.getT_create());
-            PrefUtil.setInfoGroup(info.getGroup());
-            PrefUtil.setInfoLevel(info.getLevel());
-            PrefUtil.setIsLatestInfo(true);
+            AuthTool.userInfo(info);
             mTvPastDays.setText(TextUtil.getPastDays(mContext, info.getT_create()), TextView.BufferType.SPANNABLE);
             mTvPostCount.setText(String.valueOf(PrefUtil.getInfoPost()));
             mTvNickname.setText(PrefUtil.getInfoNickname());
@@ -216,7 +229,12 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
 
     @Override
     public void getInfoFailed(String m) {
-
+        if (m.contains("token") || m.contains("UID") || m.contains("过期") || m.contains("无效")) {
+            SnackBarUtil.error(mActivity, "当前账户的登录信息已过期，请重新登录", true);
+            HandlerUtil.postDelay(() -> {
+                AuthTool.logout(this.getActivity());
+            }, 3000);
+        }
     }
 
     @Override
@@ -233,7 +251,7 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         if (this.getActivity() != null)
-        StatusBarUtil.setTranslucentForImageViewInFragment(this.getActivity(), 255, null);
+            StatusBarUtil.setTranslucentForImageViewInFragment(this.getActivity(), 255, null);
         return rootView;
     }
 

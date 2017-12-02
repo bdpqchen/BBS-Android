@@ -319,10 +319,10 @@ public class ThreadActivity extends BaseActivity implements ThreadContract.View,
         //将帖主重组成一个回复
         if (mPage == 0 && model.getThread() != null) {
             ThreadModel.ThreadBean thread = model.getThread();
-            mIsStared = IsUtil.is1(thread.getIn_collection());
-            mIsLiked = IsUtil.is1(thread.getLiked());
+            mIsStared = IsUtil.INSTANCE.is1(thread.getIn_collection());
+            mIsLiked = IsUtil.INSTANCE.is1(thread.getLiked());
             showStarOrNot();
-            if (IsUtil.is1(thread.getAnonymous())) {
+            if (IsUtil.INSTANCE.is1(thread.getAnonymous())) {
                 thread.setAuthor_name("匿名用户");
             }
             ThreadModel.PostBean post = new ThreadModel.PostBean();

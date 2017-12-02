@@ -115,9 +115,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     }
 
     public void logout() {
-        AuthTool.logout();
-        ActivityManager.getActivityManager().finishAllActivity();
-        startActivity(IntentUtil.toLogin(mActivity));
+        AuthTool.logout(mActivity);
     }
 
     private void checkUpdate() {

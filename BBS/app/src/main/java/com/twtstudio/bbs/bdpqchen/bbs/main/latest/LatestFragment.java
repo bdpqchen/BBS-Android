@@ -73,9 +73,7 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
                 getDataList(++mPage);
             }
         });
-
         getDataList(0);
-
     }
 
     @Override

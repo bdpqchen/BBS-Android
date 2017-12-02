@@ -16,14 +16,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.R;
 
 public final class TransUtil {
 
-    static int count = 0;
-
     public static Bundle getAvatarTransOptions(Context context, View view) {
         return getTransOptions(context, view, R.string.share_avatar);
     }
 
     public static Bundle getTransOptions(Context context, View view, int stringId) {
-        count++;
         ActivityOptionsCompat options = ActivityOptionsCompat
                 .makeSceneTransitionAnimation((Activity) context, view, context.getString(stringId));
         return options.toBundle();

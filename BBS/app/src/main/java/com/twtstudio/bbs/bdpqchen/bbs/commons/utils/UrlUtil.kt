@@ -13,11 +13,11 @@ object UrlUtil {
     /**
      * Skip cache and to memory If the value is true
      */
-    private val mDisableImageCache = PrefUtil.isDisabledImageCache()
+//    private val mDisableImageCache = PrefUtil.isDisabledImageCache()
 
     private val imageUrlSuffixStamp: String
         get() {
-            return if (mDisableImageCache) "" else "?" + PrefUtil.getLastImageStamp().toString()
+            return if (PrefUtil.isDisabledImageCache()) "" else "?" + PrefUtil.getLastImageStamp().toString()
         }
 
     fun getAvatarUrl(uid: Int): String {

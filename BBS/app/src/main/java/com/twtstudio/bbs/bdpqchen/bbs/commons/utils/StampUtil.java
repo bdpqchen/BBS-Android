@@ -64,7 +64,7 @@ public final class StampUtil {
     }
 
     public static String getTimeFromNow(int createTime, int replyTime) {
-        if (IsUtil.is0(replyTime) || replyTime == createTime) {
+        if (IsUtil.INSTANCE.is0(replyTime) || replyTime == createTime) {
             return "发布于 " + getTimeFromNow(createTime);
         } else {
             return getTimeFromNow(replyTime) + "有新动态";
