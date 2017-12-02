@@ -99,7 +99,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (holder instanceof HeaderHolder) {
                 HeaderHolder headerHolder = (HeaderHolder) holder;
                 ThreadModel.PostBean p = mPostData.get(position);
-                if (IsUtil.INSTANCE.is1(p.getAnonymous())) {
+                if (IsUtil.isAnon(p.getAnonymous())) {
                     p.setAuthor_name(ANONYMOUS_NAME);
                     p.setAuthor_id(0);
                     headerHolder.mCivAvatarThread.setOnClickListener(null);
@@ -117,7 +117,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ThreadModel.PostBean p = mPostData.get(position);
                 PostHolder h = (PostHolder) holder;
                 int uid = p.getAuthor_id();
-                if (IsUtil.INSTANCE.is1(p.getAnonymous())) {
+                if (IsUtil.isAnon(p.getAnonymous())) {
                     p.setAuthor_name(ANONYMOUS_NAME);
                     p.setAuthor_id(0);
                     h.mCivAvatarPost.setOnClickListener(null);
@@ -131,7 +131,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 h.mTvPostDatetime.setText(StampUtil.getDatetimeByStamp(p.getT_create()));
                 h.mTvFloorPost.setText(String.valueOf(p.getFloor() + "楼"));
                 h.mHtvPostContent.setHtml(p.getContent_converted(), new GlideImageGeter(mContext, h.mHtvPostContent));
-                final boolean isLiked = IsUtil.INSTANCE.is1(p.getLiked());
+                final boolean isLiked = IsUtil.isLiked(p.getLiked());
                 h.mThumbView.setIsLiked(isLiked);
                 h.mThumbView.setLikeCount(p.getLike());
                 h.mThumbView.setThumbOnClickListener(v -> {

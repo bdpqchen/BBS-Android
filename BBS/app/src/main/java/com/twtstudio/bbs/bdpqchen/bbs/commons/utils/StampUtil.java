@@ -64,14 +64,14 @@ public final class StampUtil {
     }
 
     public static String getTimeFromNow(int createTime, int replyTime) {
-        if (IsUtil.INSTANCE.is0(replyTime) || replyTime == createTime) {
+        if (IsUtil.is0(replyTime) || replyTime == createTime) {
             return "发布于 " + getTimeFromNow(createTime);
         } else {
             return getTimeFromNow(replyTime) + "有新动态";
         }
     }
 
-    public static String getTimeFromNow(int date) {
+    private static String getTimeFromNow(int date) {
         Calendar calendar = Calendar.getInstance();
         int years = calendar.get(Calendar.YEAR);
         int months = calendar.get(Calendar.MONTH);

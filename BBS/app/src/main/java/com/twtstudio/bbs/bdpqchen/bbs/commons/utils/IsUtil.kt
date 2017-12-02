@@ -17,7 +17,22 @@ object IsUtil {
     }
 
     @JvmStatic
-    fun isAnon(status: Int) : Boolean{
+    fun isLiked(status: Int): Boolean {
+        return status == 1
+    }
+
+    @JvmStatic
+    fun isStarred(status: Int): Boolean {
+        return status == 1
+    }
+
+    @JvmStatic
+    fun isFriend(status: Int): Boolean {
+        return status == 1
+    }
+
+    @JvmStatic
+    fun isAnon(status: Int): Boolean {
         return status == 1
     }
 

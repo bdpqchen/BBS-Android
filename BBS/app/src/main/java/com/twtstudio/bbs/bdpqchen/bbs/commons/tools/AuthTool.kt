@@ -5,6 +5,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IsUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel
 

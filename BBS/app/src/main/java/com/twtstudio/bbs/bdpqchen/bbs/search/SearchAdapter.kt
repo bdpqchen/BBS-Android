@@ -42,7 +42,7 @@ class SearchAdapter(val mContext: Context, private val mUserClickListener: OnUse
                     val entity = mThreadDataSet[mCommonDataSet[position].position]
                     with(holder, { with(entity, {
                             tvTitle.text = title
-                            if (IsUtil.is1(anonymous)) {
+                            if (IsUtil.isAnon(anonymous)) {
                                 author_name = ANONYMOUS_NAME
                                 author_id = 0
                             }
