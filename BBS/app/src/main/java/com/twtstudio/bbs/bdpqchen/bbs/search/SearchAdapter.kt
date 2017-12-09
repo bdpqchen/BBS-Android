@@ -89,7 +89,7 @@ class SearchAdapter(val mContext: Context, private val mUserClickListener: OnUse
     }
 
     private fun addMoreUser() {
-        var pos = MAX_SEARCH_RESULT_USER
+        var pos = MAX_SEARCH_RESULT_USER_VISIBLE
         mCommonDataSet.removeAt(pos + 1)
         mCommonDataSet.addAll(pos + 1, mUserHiding.map({ CommonModel(ITEM_SEARCH_USER, pos++) }))
         mUserDataSet.addAll(mUserHiding)
@@ -124,11 +124,11 @@ class SearchAdapter(val mContext: Context, private val mUserClickListener: OnUse
     }
 
     fun getUser(position: Int): SearchUserModel{
-        return mUserDataSet[position]
+        return mUserDataSet[mCommonDataSet[position].position]
     }
 
     fun getUserUid(position: Int): Int {
-        return mUserDataSet[position].id
+        return mUserDataSet[mCommonDataSet[position].position].id
     }
 
     override fun getItemViewType(position: Int): Int {

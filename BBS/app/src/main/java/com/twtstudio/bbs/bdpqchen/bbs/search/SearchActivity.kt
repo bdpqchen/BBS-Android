@@ -19,7 +19,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.*
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.individual.release.EndlessRecyclerOnScrollListener
 import com.twtstudio.bbs.bdpqchen.bbs.search.model.CommonModel
@@ -84,7 +83,6 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
                 if (!mEnding && !mIsLoadingMore){
                     ++mPage
                     searchThread()
-                    LogUtil.dd("Loading more , in endless recycler scroll listener")
                     mIsLoadingMore = true
                 }
             }
@@ -119,7 +117,6 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
     }
 
     override fun onClick(position: Int) {
-        LogUtil.dd("====getuid", mAdapter.getUserUid(position).toString())
         val entity : SearchUserModel = mAdapter.getUser(position)
         if (mMode == MODE_SEARCH_USER){
             val intentResult = Intent()
@@ -129,6 +126,73 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
             finishMe()
         }else{
             mContext.startActivity(IntentUtil.toPeople(mContext, mAdapter.getUserUid(position)))
+        }
+    }
+
+    override fun onGotUserList(userList: List<SearchUserModel>) {
+        clearDataSet()
+        if (userList.isEmpty()) {
+            emptyResult()
+        } else {
+            hideLoading()
+            val commonList = ArrayList<CommonModel>()
+            var i = 0
+            // search when mention users.
+            if (mMode == MODE_SEARCH_USER){
+                userList.mapTo(commonList, { CommonModel(ITEM_SEARCH_USER, i++) })
+                mAdapter.addUserList(userList)
+                mAdapter.addCommonList(commonList)
+                return
+            }
+            // search users and threads.
+            var showingList = userList
+            val subAt = MAX_SEARCH_RESULT_USER_VISIBLE
+            if (userList.size > subAt) {
+                showingList = userList.subList(0, subAt)
+                val hidingList = userList.subList(subAt, userList.size)
+                mAdapter.addHidingList(hidingList)
+            }
+            commonList.add(CommonModel(ITEM_SEARCH_USER_HEADER, -1))
+            showingList.mapTo(commonList, { CommonModel(ITEM_SEARCH_USER, i++) })
+            if (userList.size > subAt) {
+                commonList.add(CommonModel(ITEM_SEARCH_USER_HIDING, i++))
+            }
+            commonList.add(CommonModel(ITEM_SEARCH_DIVIDER, i++))
+            mAdapter.addUserList(showingList)
+            mAdapter.addCommonList(commonList, true)
+        }
+    }
+
+    override fun onGotUserFailed(msg: String) {
+        mReSearch = false
+        SnackBarUtil.notice(mActivity, msg)
+        hideLoading()
+    }
+
+    override fun onGotThreadList(list: List<SearchThreadModel>) {
+        clearDataSet()
+        if (mIsLoadingMore) {
+            addThreadCommonData(list)
+            mAdapter.addThreadList(list)
+            mIsLoadingMore = false
+            return
+        }
+        if (list.isEmpty()) {
+            emptyResult()
+        } else {
+            hideLoading()
+            addThreadCommonData(list)
+            mAdapter.addThreadList(list)
+        }
+    }
+
+    override fun onGotThreadFailed(msg: String) {
+        mReSearch = false
+        SnackBarUtil.notice(mActivity, msg)
+        hideLoading()
+        if (mIsLoadingMore) {
+            mIsLoadingMore = false
+            mPage--
         }
     }
 
@@ -152,63 +216,6 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
         }
     }
 
-    override fun onGotUserList(userList: List<SearchUserModel>) {
-        clearDataSet()
-        LogUtil.dd("onGotUserList")
-        if (userList.isEmpty()) {
-            emptyResult()
-        } else {
-            hideLoading()
-            val commonList = ArrayList<CommonModel>()
-            var i = 0
-            if (mMode == MODE_SEARCH_USER){
-                userList.mapTo(commonList, { CommonModel(ITEM_SEARCH_USER, i++) })
-                mAdapter.addUserList(userList)
-                mAdapter.addCommonList(commonList)
-                return
-            }
-            var showingList = userList
-            val subAt = MAX_SEARCH_RESULT_USER
-            if (userList.size > subAt) {
-                showingList = userList.subList(0, subAt)
-                val hidingList = userList.subList(subAt, userList.size)
-                mAdapter.addHidingList(hidingList)
-            }
-            commonList.add(CommonModel(ITEM_SEARCH_USER_HEADER, -1))
-            showingList.mapTo(commonList, { CommonModel(ITEM_SEARCH_USER, i++) })
-            if (userList.size > subAt) {
-                commonList.add(CommonModel(ITEM_SEARCH_USER_HIDING, i++))
-            }
-            commonList.add(CommonModel(ITEM_SEARCH_DIVIDER, i++))
-            mAdapter.addUserList(showingList)
-            mAdapter.addCommonList(commonList, true)
-        }
-    }
-
-    override fun onGotUserFailed(msg: String) {
-        mReSearch = false
-        LogUtil.dd("onGotUserListFailed()", msg)
-        SnackBarUtil.notice(mActivity, msg)
-        hideLoading()
-    }
-
-    override fun onGotThreadList(list: List<SearchThreadModel>) {
-        clearDataSet()
-        if (mIsLoadingMore) {
-            addThreadCommonData(list)
-            mAdapter.addThreadList(list)
-            mIsLoadingMore = false
-            return
-        }
-        if (list.isEmpty()) {
-            emptyResult()
-        } else {
-            hideLoading()
-            addThreadCommonData(list)
-            mAdapter.addThreadList(list)
-        }
-    }
-
     private fun addThreadCommonData(list: List<SearchThreadModel>) {
         if (list.isEmpty()) return
         val commonList = ArrayList<CommonModel>()
@@ -218,16 +225,6 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
         }
         list.mapTo(commonList, { CommonModel(ITEM_SEARCH_THREAD, i++) })
         mAdapter.addCommonList(commonList)
-    }
-
-    override fun onGotThreadFailed(msg: String) {
-        mReSearch = false
-        SnackBarUtil.notice(mActivity, msg)
-        hideLoading()
-        if (mIsLoadingMore) {
-            mIsLoadingMore = false
-            mPage--
-        }
     }
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
