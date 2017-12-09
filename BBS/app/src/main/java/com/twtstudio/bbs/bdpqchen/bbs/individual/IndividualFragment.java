@@ -177,8 +177,8 @@ public class IndividualFragment extends BaseFragment implements IndividualContra
     private void setUnread(int unread) {
         mUnread = unread;
         if (mTvIndividualUnread != null) {
+            getCallback().showUnreadMsg(unread);
             if (unread > 0) {
-                getCallback().showUnreadMsg(unread);
                 mTvIndividualUnread.setVisibility(View.VISIBLE);
                 mTvIndividualUnread.setText(String.valueOf(unread));
             } else {
