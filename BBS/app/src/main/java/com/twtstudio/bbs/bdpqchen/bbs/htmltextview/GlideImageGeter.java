@@ -20,7 +20,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.WindowUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.WindowTool;
 
 import java.util.HashSet;
 
@@ -30,7 +30,7 @@ public class GlideImageGeter implements Html.ImageGetter {
     private HashSet<GifDrawable> gifDrawables;
     private final Context mContext;
     private final TextView mTextView;
-//    private float betterImgScale = 0.65f;
+    //    private float betterImgScale = 0.65f;
     private float betterImgScale = 1f;
 
     public GlideImageGeter(Context context, TextView textView) {
@@ -42,7 +42,7 @@ public class GlideImageGeter implements Html.ImageGetter {
     @Override
     public Drawable getDrawable(String url) {
         final UrlDrawable urlDrawable = new UrlDrawable(mContext);
-        final  GenericRequestBuilder load;
+        final GenericRequestBuilder load;
         final Target target;
         load = Glide.with(mContext).load(url).asBitmap().fitCenter()
                 .listener(new RequestListener<String, Bitmap>() {
@@ -98,11 +98,11 @@ public class GlideImageGeter implements Html.ImageGetter {
     }
 
     private boolean isTooWide(int imgWidth) {
-        return imgWidth > WindowUtil.getWindowWidth(mContext) / 2;
+        return imgWidth > WindowTool.getWindowWidth(mContext) / 2;
     }
 
     private boolean isTooHigh(int imgHigh) {
-        return imgHigh > WindowUtil.getWindowHeight(mContext) / 2;
+        return imgHigh > WindowTool.getWindowHeight(mContext) / 2;
     }
 
 

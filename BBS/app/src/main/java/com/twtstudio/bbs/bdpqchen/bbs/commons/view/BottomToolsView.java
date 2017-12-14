@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.WindowUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.WindowTool;
 
 /**
  * Created by bdpqchen on 17-9-26.
@@ -60,7 +60,7 @@ public class BottomToolsView extends LinearLayout {
     }
 
     private int getImageMargin(int resSize, int defWidth) {
-        int rest = WindowUtil.getWindowWidth(mContext) / resSize - defWidth;
+        int rest = WindowTool.getWindowWidth(mContext) / resSize - defWidth;
         return rest / 2;
     }
 
