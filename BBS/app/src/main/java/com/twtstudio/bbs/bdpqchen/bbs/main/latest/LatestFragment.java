@@ -93,7 +93,7 @@ public class LatestFragment extends BaseFragment implements MainContract.View {
             newList.add(new LatestEntity());
             newList.addAll(list);
             if (mRefreshing) {
-                mAdapter.refreshList(list);
+                mAdapter.refreshList(newList);
 /*
                 List<LatestEntity> oldList = mAdapter.getDataSets();
                 DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffChecker2<LatestEntity>(oldList, newList) {
