@@ -22,6 +22,7 @@ import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
 
 /**
+ *
  * Created by bdpqchen on 17-6-5.
  */
 

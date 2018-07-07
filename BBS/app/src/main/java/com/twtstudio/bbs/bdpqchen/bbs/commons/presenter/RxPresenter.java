@@ -14,21 +14,21 @@ public class RxPresenter implements BasePresenter {
 
     protected static RxDoHttpClient sHttpClient = RxDoHttpClient.getInstance();
 
-    /*
-    * 在每个 Presenter 里都会创建这个 CompositeDisposable,
-    * so, unSubscribe 的调用时机为 each onDestroy() of Activity or Fragment be called.
-    * */
+    /**
+     * 在每个 Presenter 里都会创建这个 CompositeDisposable,
+     * so, unSubscribe 的调用时机为 each Activity or Fragment'onDestroy() be called.
+     */
     private CompositeDisposable mCompositeDisposable;
 
-    protected void addSubscribe(Disposable disposable){
-        if (mCompositeDisposable == null){
+    protected void addSubscribe(Disposable disposable) {
+        if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();
         }
         mCompositeDisposable.add(disposable);
     }
 
-    public void unSubscribe(){
-        if (mCompositeDisposable != null){
+    public void unSubscribe() {
+        if (mCompositeDisposable != null) {
             mCompositeDisposable.dispose();
         }
     }

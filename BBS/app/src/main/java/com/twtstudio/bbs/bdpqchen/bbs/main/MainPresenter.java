@@ -12,11 +12,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
+ *
  * Created by bdpqchen on 17-6-5.
  */
 
 public class MainPresenter extends RxPresenter implements MainContract.Presenter {
     private MainContract.View mView;
+
 
     public MainPresenter(MainContract.View view) {
         mView = view;
@@ -33,8 +35,12 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
 
             @Override
             public void _onNext(List<LatestEntity> latestEntity) {
-                if (mView != null)
+                if (mView != null){
+                    if (latestEntity == null || latestEntity.size() == 0){
+                        return;
+                    }
                     mView.onGetLatestList(latestEntity);
+                }
             }
         };
         addSubscribe(sHttpClient.getLatestList(page)

@@ -19,7 +19,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  */
 public abstract class BaseFragment extends SupportFragment {
 
-    protected BasePresenter mPresenter;
+    private BasePresenter mPresenter;
     protected View mView;
     protected Activity mActivity;
     protected Context mContext;

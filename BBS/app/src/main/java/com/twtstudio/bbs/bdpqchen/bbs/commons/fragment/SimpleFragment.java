@@ -9,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -24,10 +22,9 @@ public abstract class SimpleFragment extends SupportFragment {
     protected View mView;
     protected Activity mActivity;
 
-    private Unbinder mUnBinder;
-
     protected abstract int getPerMainFragmentLayoutId();
     protected abstract void initFragments();
+
     @Override
     public void onAttach(Context context) {
         mActivity = (Activity) context;
@@ -45,7 +42,6 @@ public abstract class SimpleFragment extends SupportFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mUnBinder = ButterKnife.bind(this, view);
 /*
         if (savedInstanceState == null) {
             if (!isHidden()) {

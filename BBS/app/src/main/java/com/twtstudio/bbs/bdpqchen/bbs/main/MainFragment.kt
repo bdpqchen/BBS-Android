@@ -24,13 +24,13 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.MODE_SEARCH_USER
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil
-import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestFragment
 import kotterknife.bindView
 
 /**
  * Created by bdpqchen on 17-5-3.
- * 这个类所有没有用到的代码 是第一个搜索版本.
+ * 这个类所有没有用到的代码 是初始版本代码所遗留, 不建议删除, 以后可能用到一两行.
  */
+
 class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListener {
 
     private val mTabLayout: TabLayout by bindView(R.id.main_tab_layout)
@@ -180,7 +180,6 @@ class MainFragment : SimpleFragment(), View.OnTouchListener, View.OnClickListene
     private fun showSearch() {
         startActivity(IntentUtil.toSearch(mContext))
         return
-
 /*
         var bgColor = R.color.material_light_white;
         if (PrefUtil.isNightMode()) {

@@ -63,7 +63,7 @@ public class HomeActivity extends BaseActivity implements InfoContract {
 //        mPresenter = new HomePresenter(this);
 //        LogUtil.dd("current_token", PrefUtil.getAuthToken());
         if (savedInstanceState == null) {
-            mFragments[FIRST] = MainFragment.Companion.newInstance();
+            mFragments[FIRST] = MainFragment.newInstance();
             mFragments[SECOND] = ForumFragment.newInstance();
             mFragments[FORTH] = IndividualFragment.newInstance();
 //            mFragments[FORTH] = MessageFragment.newInstance();
@@ -73,7 +73,7 @@ public class HomeActivity extends BaseActivity implements InfoContract {
 //                    mFragments[THIRD],
                     mFragments[FORTH]);
         } else {
-            mFragments[FIRST] = findFragment(com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment.class);
+            mFragments[FIRST] = findFragment(MainFragment.class);
             mFragments[SECOND] = findFragment(ForumFragment.class);
 //            mFragments[THIRD] = findFragment(MessageFragment.class);
             mFragments[FORTH] = findFragment(IndividualFragment.class);

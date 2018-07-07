@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 
+import com.google.gson.GsonBuilder;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.RegisterModel;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.register.old.RegisterOldModel;
@@ -75,6 +76,8 @@ public class RxDoHttpClient {
     private static RxDoHttpClient sINSTANCE;
 
     private RxDoHttpClient() {
+        LogUtil.dd("RxDoHttpClient", "Created..");
+
         Interceptor tokenInterceptor = chain -> {
             Request originalRequest = chain.request();
             Request authorised = originalRequest.newBuilder()
@@ -93,7 +96,7 @@ public class RxDoHttpClient {
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
 
-//        GsonBuilder gson = new GsonBuilder().registerTypeHierarchyAdapter(BaseResponse.class, new ErrorJsonAdapter());
+        GsonBuilder gson = new GsonBuilder().registerTypeHierarchyAdapter(BaseResponse.class, new ErrorJsonAdapter());
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
@@ -144,8 +147,10 @@ public class RxDoHttpClient {
 
     public static RxDoHttpClient getInstance() {
         if (sINSTANCE == null) {
+            LogUtil.dd("RxDoHttpClient", "is null");
             sINSTANCE = new RxDoHttpClient();
         }
+        LogUtil.dd("RxDoHttpClient", "return instance");
         return sINSTANCE;
     }
 
