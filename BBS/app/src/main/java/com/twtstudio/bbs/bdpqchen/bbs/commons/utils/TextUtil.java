@@ -365,4 +365,13 @@ public final class TextUtil {
                 return "";
         }
     }
+
+    public static String getContentWithin2Lines(String content) {
+        if (content.length() > 25) {
+            return content.substring(0, 25) + "...";
+        }
+        else{
+            return content;
+        }
+    }
 }

@@ -31,12 +31,12 @@ class PersonHeaderItem(val people : PeopleModel, val context: Context, val uid :
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             item as PersonHeaderItem
+            ImageUtil.loadAvatar(item.context,item.uid,holder.userAvatarIv)
+            ImageUtil.loadBgByUid(item.context,item.uid,holder.background)
             holder.backArrowIv.setOnClickListener{
                 Toast.makeText(item.context,"返回键暂时不能用",Toast.LENGTH_LONG).show()
             }
-//            ImageUtil.loadAvatar(item.context,item.uid,holder.userAvatarIv)
             holder.userNameTv.text = TextUtil.getTwoNames(item.people.name,item.people.nickname)
-            holder.userLevelTv.text = TextUtil.getHonor(item.people.points)
             holder.userSignTv.text = item.people.signature
             holder.userPointTv.text = ""+ item.people.points
             holder.userThreadTV.text = "" + item.people.c_thread
@@ -46,6 +46,7 @@ class PersonHeaderItem(val people : PeopleModel, val context: Context, val uid :
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
             val view = inflater.inflate(R.layout.item_ind_header ,parent,false)
+            val background : ImageView = view.findViewById(R.id.ind_cover)
             val backArrowIv = view.findViewById<ImageView>(R.id.item_ind_header_back_arrow)
             val userAvatarIv = view.findViewById<ImageView>(R.id.ind_ac_avatar)
             val userNameTv = view.findViewById<TextView>(R.id.ind_ac_username)
@@ -54,12 +55,12 @@ class PersonHeaderItem(val people : PeopleModel, val context: Context, val uid :
             val userPointTv = view.findViewById<TextView>(R.id.ind_ac_points)
             val userThreadTv = view.findViewById<TextView>(R.id.ind_ac_threads)
             val userAgeTv = view.findViewById<TextView>(R.id.ind_ac_station_age)
-            return ViewHolder(view,backArrowIv,userAvatarIv,userNameTv,userLevelTv,userSignTv,userPointTv,userThreadTv,userAgeTv)
+            return ViewHolder(view,background ,backArrowIv,userAvatarIv,userNameTv,userLevelTv,userSignTv,userPointTv,userThreadTv,userAgeTv)
         }
 
     }
 
-    private class ViewHolder(itemView : View?, val backArrowIv: ImageView, val userAvatarIv : ImageView,
+    private class ViewHolder(itemView : View?,val background:ImageView, val backArrowIv: ImageView, val userAvatarIv : ImageView,
                              val userNameTv: TextView, val userLevelTv:TextView, val userSignTv:TextView,
                              val userPointTv: TextView,val userThreadTV:TextView, val userAgeTv:TextView
                              ) : RecyclerView.ViewHolder(itemView)
@@ -103,7 +104,7 @@ class ThreadItem(val threadBean: ThreadModel.ThreadBean ,val context: Context, v
             ImageUtil.loadAvatar(item.context, item.uid, holder.threadAvatarIv)
             holder.threadNameTv.text = " " + threadBean.author_name + " 发布了帖子"
             holder.threadTitleTv.text = threadBean.title
-            holder.threadContentTv.text = threadBean.content
+            holder.threadContentTv.text = TextUtil.getContentWithin2Lines(threadBean.content)
             holder.threadCommentNumTv.text = "" + threadBean.c_post
             holder.threadFavorNumTv.text = "" + threadBean.like
             holder.threadTimeTv.text = TextUtil.getThreadDateTime(threadBean.t_create,threadBean.t_modify)
