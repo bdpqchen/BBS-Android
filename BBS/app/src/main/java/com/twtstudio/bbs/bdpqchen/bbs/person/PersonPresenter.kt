@@ -27,6 +27,7 @@ class PersonPresenter(view: PersonContract.View?) : RxPresenter(), PersonContrac
             override fun _onNext(t: PeopleModel?) {
                 mView?.onPersonInfoSuccess(t!!)
             }
+
         }
 
         addSubscribe(connectObservable.refCount()
@@ -35,7 +36,6 @@ class PersonPresenter(view: PersonContract.View?) : RxPresenter(), PersonContrac
                 .subscribeWith(peopleObserver))
 
         val threadObserver : SimpleObserver<ThreadModel.ThreadBean> = object : SimpleObserver<ThreadModel.ThreadBean>() {
-
             override fun _onError(msg: String) {
                 mView?.onLoadFailed(msg)
             }
@@ -44,6 +44,9 @@ class PersonPresenter(view: PersonContract.View?) : RxPresenter(), PersonContrac
                 mView?.onThreadInfoSuccess(t)
             }
 
+            override fun onComplete() {
+                super.onComplete()
+            }
         }
 
         addSubscribe(connectObservable.refCount()
@@ -56,8 +59,7 @@ class PersonPresenter(view: PersonContract.View?) : RxPresenter(), PersonContrac
                 .map (ResponseTransformer())
                 .map { it.thread }
                 .subscribeWith(threadObserver))
+
     }
-
-
 
 }
