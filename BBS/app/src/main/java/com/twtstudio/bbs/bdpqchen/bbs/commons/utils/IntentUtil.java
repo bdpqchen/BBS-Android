@@ -11,6 +11,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivit
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.mdeditor.EditorActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.person.PersonActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.picture.BigPhotoActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.search.SearchActivity;
 
@@ -72,7 +73,7 @@ public final class IntentUtil {
     }
 
     public static Intent toPeople(Context context, int uid) {
-        Intent intent = new Intent(context, PeopleActivity.class);
+        Intent intent = new Intent(context, PersonActivity.class);
         intent.putExtra(UID, uid);
         return intent;
     }

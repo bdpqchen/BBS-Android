@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <ImageView
+        android:background="#44000000"
+        android:id="@+id/ind_cover"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"/>
+
+    <ImageView
+        android:id="@+id/item_ind_header_back_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_arrow_back_white_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ind_ac_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:layout_marginStart="16dp"
+        android:text="whyso"
+
+        android:textColor="#f2f2f2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/ind_ac_user_sign"
+        />
+
+    <TextView
+        android:id="@+id/ind_ac_userlevel"
+        android:layout_width="56dp"
+        android:layout_height="16dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/text_view_border"
+        android:gravity="center"
+        android:text="中级站友"
+        android:textColor="#f2f2f2"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/ind_ac_user_sign"
+        app:layout_constraintStart_toEndOf="@id/ind_ac_username" />
+
+    <TextView
+        android:id="@+id/ind_ac_user_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:text="Nothing to do and nothing to say."
+        android:textColor="#f2f2f2"
+        app:layout_constraintBottom_toBottomOf="@id/ind_cover"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ind_ac_avatar"
+        android:layout_width="108dp"
+        android:layout_height="108dp"
+        android:layout_marginBottom="64dp"
+        android:src="@drawable/avatar_default_left"
+        app:civ_border_color="#ffffff"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ind_ac_points"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="12dp"
+        android:text="1807"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@id/ind_ac_jifen"
+        app:layout_constraintEnd_toStartOf="@id/ind_ac_threads"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ind_cover" />
+
+    <TextView
+        android:id="@+id/ind_ac_threads"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginStart="42dp"
+        android:text="532"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@id/ind_ac_tiezi"
+        app:layout_constraintEnd_toStartOf="@+id/ind_ac_station_age"
+        app:layout_constraintStart_toEndOf="@+id/ind_ac_points"
+        app:layout_constraintTop_toBottomOf="@id/ind_cover" />
+
+    <TextView
+        android:id="@+id/ind_ac_station_age"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="12dp"
+        android:text="343"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@id/ind_ac_zhanling"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ind_ac_threads"
+        app:layout_constraintTop_toBottomOf="@id/ind_cover" />
+
+    <TextView
+        android:id="@+id/ind_ac_jifen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="积分"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ind_ac_tiezi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ind_ac_points" />
+
+    <TextView
+        android:id="@+id/ind_ac_tiezi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="66dp"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
+        android:text="帖子"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ind_ac_zhanling"
+        app:layout_constraintStart_toEndOf="@id/ind_ac_jifen"
+        app:layout_constraintTop_toBottomOf="@+id/ind_ac_threads" />
+
+    <TextView
+        android:id="@+id/ind_ac_zhanling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
+        android:text="站龄"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ind_ac_tiezi"
+        app:layout_constraintTop_toBottomOf="@+id/ind_ac_station_age" />
+
+</android.support.constraint.ConstraintLayout>
