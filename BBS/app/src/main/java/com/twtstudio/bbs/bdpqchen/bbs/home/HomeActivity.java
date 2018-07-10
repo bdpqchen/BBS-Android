@@ -124,6 +124,7 @@ public class HomeActivity extends BaseActivity implements InfoContract {
         mHidingFragment = mShowingFragment;
     }
 
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (mIsExit) {

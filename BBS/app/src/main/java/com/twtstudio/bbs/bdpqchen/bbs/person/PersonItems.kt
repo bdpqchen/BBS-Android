@@ -34,7 +34,9 @@ class PersonHeaderItem(val people : PeopleModel, val context: Context, val uid :
             ImageUtil.loadAvatar(item.context,item.uid,holder.userAvatarIv)
             ImageUtil.loadBgByUid(item.context,item.uid,holder.background)
             holder.backArrowIv.setOnClickListener{
-                Toast.makeText(item.context,"返回键暂时不能用",Toast.LENGTH_LONG).show()
+                val ac = item.context as Activity
+                ac.onBackPressed()
+//                Toast.makeText(item.context,"返回键暂时不能用",Toast.LENGTH_LONG).show()
             }
             holder.userNameTv.text = TextUtil.getTwoNames(item.people.name,item.people.nickname)
             holder.userSignTv.text = item.people.signature

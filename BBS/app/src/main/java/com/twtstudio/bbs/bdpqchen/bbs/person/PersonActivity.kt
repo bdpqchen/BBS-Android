@@ -1,22 +1,29 @@
 package com.twtstudio.bbs.bdpqchen.bbs.person
 
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.widget.Toast
+import android.support.v7.widget.Toolbar
+import android.view.WindowManager
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.twtstudio.bbs.bdpqchen.bbs.R
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel
-import com.twtstudio.bbs.bdpqchen.bbs.home.HomeContract
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel
-import org.jetbrains.anko.activityManager
 
-class PersonActivity : AppCompatActivity() , PersonContract.View {
+class PersonActivity : BaseActivity() , PersonContract.View {
+
+    override fun getLayoutResourceId() = R.layout.activity_person
+
+    override fun getToolbarView(): Toolbar? = null
+
+    override fun getPresenter(): BasePresenter = mPresenter
 
     private val mPresenter = PersonPresenter(this)
     private lateinit var recyclerView: RecyclerView
@@ -26,7 +33,12 @@ class PersonActivity : AppCompatActivity() , PersonContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_person)
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+        }
         uid = intent.getIntExtra("uid",0)
         mPresenter.getPersonInfo(uid)
         recyclerView = findViewById(R.id.rv_person) as RecyclerView
@@ -36,7 +48,7 @@ class PersonActivity : AppCompatActivity() , PersonContract.View {
 
     override fun onPersonInfoSuccess(person: PeopleModel) {
         itemList.add(PersonHeaderItem(person,this@PersonActivity,uid))
-        itemList.add(SingleTextItem("最近帖子"))
+        itemList.add(SingleTextItem("— 最近动态 —"))
         recyclerView.withItems (itemList)
     }
 
