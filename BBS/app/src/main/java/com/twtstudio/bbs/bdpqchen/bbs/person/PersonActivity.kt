@@ -1,13 +1,14 @@
 package com.twtstudio.bbs.bdpqchen.bbs.person
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.view.WindowManager
+import android.view.View
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.twtstudio.bbs.bdpqchen.bbs.R
@@ -16,6 +17,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel
+
 
 class PersonActivity : BaseActivity() , PersonContract.View {
 
@@ -33,12 +35,18 @@ class PersonActivity : BaseActivity() , PersonContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT) {
-            //透明状态栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            //透明导航栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+        //设置浸入式状态栏
+        if (Build.VERSION.SDK_INT >= 21) {
+            val decorView = window.decorView
+            val option = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+            decorView.systemUiVisibility = option
+            window.navigationBarColor = Color.TRANSPARENT
+            window.statusBarColor = Color.TRANSPARENT
         }
+        val actionBar = supportActionBar
+        actionBar?.hide()
         uid = intent.getIntExtra("uid",0)
         mPresenter.getPersonInfo(uid)
         recyclerView = findViewById(R.id.rv_person) as RecyclerView
@@ -57,7 +65,7 @@ class PersonActivity : BaseActivity() , PersonContract.View {
     }
 
     override fun onThreadInfoSuccess(thread: ThreadModel.ThreadBean) {
-        itemList.add(ThreadItem(thread,this@PersonActivity,uid))
+        itemList.add(IndThreadItem(thread, this@PersonActivity, uid))
         recyclerView.withItems(itemList)
     }
 

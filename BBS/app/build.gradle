@@ -150,6 +150,7 @@ android {
         compile "org.jetbrains.anko:anko-appcompat-v7:0.9.1"
         compile "org.jetbrains.anko:anko-design:0.9.1"
         compile "org.jetbrains.anko:anko-recyclerview-v7:0.9.1"
+        compile 'com.youth.banner:banner:1.4.10'
 
     }
 

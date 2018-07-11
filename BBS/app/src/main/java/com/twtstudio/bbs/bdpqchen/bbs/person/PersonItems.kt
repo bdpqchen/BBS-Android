@@ -4,23 +4,18 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
-import com.bumptech.glide.Glide
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel
-import org.jetbrains.anko.find
 import org.jetbrains.anko.layoutInflater
 
 class PersonHeaderItem(val people : PeopleModel, val context: Context, val uid : Int) : Item{
@@ -96,12 +91,12 @@ class SingleTextItem(val content : String):Item{
         get() = Controller
 }
 
-class ThreadItem(val threadBean: ThreadModel.ThreadBean ,val context: Context, val uid: Int): Item{
+class IndThreadItem(val threadBean: ThreadModel.ThreadBean, val context: Context, val uid: Int) : Item {
 
     companion object Controller : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
-            item as ThreadItem
+            item as IndThreadItem
             val threadBean = item.threadBean
             ImageUtil.loadAvatar(item.context, item.uid, holder.threadAvatarIv)
             holder.threadNameTv.text = " " + threadBean.author_name + " 发布了帖子"
