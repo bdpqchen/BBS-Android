@@ -34,7 +34,7 @@ class PersonHeaderItem(val people : PeopleModel, val context: Context, val uid :
 //                Toast.makeText(item.context,"返回键暂时不能用",Toast.LENGTH_LONG).show()
             }
             holder.userNameTv.text = TextUtil.getTwoNames(item.people.name,item.people.nickname)
-            holder.userSignTv.text = item.people.signature
+            holder.userSignTv.text = TextUtil.getUserSignature(item.people.signature)
             holder.userPointTv.text = ""+ item.people.points
             holder.userThreadTV.text = "" + item.people.c_thread
             holder.userAgeTv.text = "" + item.people.c_online

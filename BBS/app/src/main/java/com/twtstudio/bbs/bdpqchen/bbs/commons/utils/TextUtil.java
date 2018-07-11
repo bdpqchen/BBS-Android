@@ -374,4 +374,12 @@ public final class TextUtil {
             return content;
         }
     }
+
+    public static String getUserSignature(String sign) {
+        if (!sign.equals("")) {
+            return sign;
+        } else {
+            return "这个人很有个性，就是不写签名";
+        }
+    }
 }

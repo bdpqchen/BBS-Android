@@ -2,9 +2,11 @@ package com.twtstudio.bbs.bdpqchen.bbs.main.mainV3
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.ImageView
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity
 import kotterknife.bindView
@@ -15,6 +17,8 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
 //    val imgList = mutableListOf(R.drawable.bbs_banner0)
     private val recyclerView: RecyclerView by bindView(R.id.fragment_main_v3_rv)
     private val mPresenter = MainV3Presenter(this)
+    private val searchIv: ImageView by bindView(R.id.main_thread_search)
+
 
     override fun getPerMainFragmentLayoutId(): Int = R.layout.fragment_main_v3
 
@@ -24,6 +28,7 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
 //                .setImages(imgList)
 //                .setIndicatorGravity(BannerConfig.CENTER)
 //                .start()
+        searchIv.setOnClickListener { startActivity(IntentUtil.toSearch(this@MainFragmentV3.mContext)) }
         recyclerView.setHasFixedSize(true)
         recyclerView.isNestedScrollingEnabled = false
         recyclerView.layoutManager = LinearLayoutManager(this.mContext)

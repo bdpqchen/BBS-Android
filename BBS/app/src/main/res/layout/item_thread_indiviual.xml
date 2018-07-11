@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#ffffff"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ind_item_avatar"
         android:layout_margin="12dp"
@@ -28,7 +27,7 @@
         android:textSize="14sp"/>
 
     <TextView
-        android:layout_width="300dp"
+        android:layout_width="336dp"
         android:layout_height="wrap_content"
         android:id="@+id/ind_item_title"
         app:layout_constraintTop_toBottomOf="@id/ind_item_avatar"
