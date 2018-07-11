@@ -63,11 +63,11 @@
         android:id="@+id/item_main_thread_comment_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
         android:text="14"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@id/item_main_thread_ic_comment"
         app:layout_constraintBottom_toBottomOf="@id/item_main_thread_ic_comment"
-        android:layout_marginBottom="2dp" />
+        app:layout_constraintStart_toEndOf="@id/item_main_thread_ic_comment" />
 
     <ImageView
         android:id="@+id/item_main_thread_ic_favour"
@@ -82,7 +82,6 @@
         android:id="@+id/item_main_thread_favor_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
         android:text="3"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@id/item_main_thread_ic_favour"
