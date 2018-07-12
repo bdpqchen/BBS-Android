@@ -5,12 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <com.youth.banner.Banner
         android:id="@+id/main_v3_banner"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bbs_banner0" />
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

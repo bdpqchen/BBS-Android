@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.mainV3
 
+import android.app.Activity
 import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
@@ -10,19 +11,35 @@ import android.widget.TextView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twtstudio.bbs.bdpqchen.bbs.R
+import com.twtstudio.bbs.bdpqchen.bbs.commons.banner.GlideImageLoader
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IsUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity
+import com.youth.banner.Banner
+import com.youth.banner.BannerConfig
+import com.youth.banner.Transformer
 import org.jetbrains.anko.layoutInflater
 
-class MainV3Threadheader() : Item {
+class MainV3Threadheader(val activity: Activity) : Item {
+
+
     companion object Controller : ItemController {
+        private val images = mutableListOf(R.drawable.bbs_banner0)
+
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             item as MainV3Threadheader
+            var banner = holder.banner
+            banner.setImageLoader(GlideImageLoader())
+            banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
+            banner.setImages(images)
+            banner.setBannerAnimation(Transformer.DepthPage)
+            banner.setDelayTime(2000)
+            banner.setIndicatorGravity(BannerConfig.CENTER)
+            banner.start()
         }
 
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -32,12 +49,13 @@ class MainV3Threadheader() : Item {
             val activityIv = view.findViewById<ImageView>(R.id.main_activity_iv)
             val hotIv = view.findViewById<ImageView>(R.id.main_hot_iv)
             val rankIv = view.findViewById<ImageView>(R.id.main_rank_iv)
-            return ViewHolder(view, noticeIv, activityIv, hotIv, rankIv)
+            val banner = view.findViewById<Banner>(R.id.main_v3_banner)
+            return ViewHolder(view, banner, noticeIv, activityIv, hotIv, rankIv)
         }
 
     }
 
-    class ViewHolder(itemView: View, val noticeIv: ImageView, val activityIv: ImageView, val hotIv: ImageView, val rankIv: ImageView) : RecyclerView.ViewHolder(itemView)
+    class ViewHolder(itemView: View, val banner: Banner, val noticeIv: ImageView, val activityIv: ImageView, val hotIv: ImageView, val rankIv: ImageView) : RecyclerView.ViewHolder(itemView)
 
     override val controller: ItemController
         get() = Controller

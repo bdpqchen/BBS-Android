@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.commons
 
+import android.app.Activity
 import android.content.Context
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity
@@ -11,4 +12,4 @@ fun MutableList<Item>.latestThread(latest: LatestEntity, context: Context, uid: 
 
 fun MutableList<Item>.singleText(content: String) = add(SingleTextItem(content))
 
-fun MutableList<Item>.mainV3Header() = add(MainV3Threadheader())
+fun MutableList<Item>.mainV3Header(activity: Activity) = add(MainV3Threadheader(activity))

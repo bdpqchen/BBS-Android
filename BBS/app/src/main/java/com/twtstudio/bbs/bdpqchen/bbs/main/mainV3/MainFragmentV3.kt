@@ -18,12 +18,11 @@ import kotterknife.bindView
 
 class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
 
-
     private var latestList: MutableList<LatestEntity> = mutableListOf()
     private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.main_srl)
     private val recyclerView: RecyclerView by bindView(R.id.fragment_main_v3_rv)
-    private val mPresenter = MainV3Presenter(this)
     private val searchIv: ImageView by bindView(R.id.main_thread_search)
+    private val mPresenter = MainV3Presenter(this)
     private var mPage = 0
     private lateinit var itemManager: ItemManager
     private lateinit var linearLayoutManager: LinearLayoutManager
@@ -32,24 +31,27 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
 
     override fun initFragments() {
         searchIv.setOnClickListener { startActivity(IntentUtil.toSearch(mContext)) }
-        itemManager = ItemManager()
+
         swipeRefreshLayout.setOnRefreshListener {
             refresh()
         }
+
+        itemManager = ItemManager()
         linearLayoutManager = LinearLayoutManager(mContext)
         recyclerView.adapter = ItemAdapter(itemManager)
         recyclerView.adapter.notifyDataSetChanged()
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.addOnScrollListener(object : EndlessRecyclerOnScrollListener(linearLayoutManager) {
             override fun onLoadMore() {
-                //TODO:loadMore()
+                //
             }
         })
+
         mPresenter.getLastest(0)
     }
 
     override fun onLatestSucess(latestList: List<LatestEntity>) {
-        val temp = mutableListOf<Item>(MainV3Threadheader())
+        val temp = mutableListOf<Item>(MainV3Threadheader(_mActivity))
         temp.addAll(latestList.map { t -> MainV3ThreadItem(t, mContext, t.author_id) })
         recyclerView.withItems(temp)
     }
