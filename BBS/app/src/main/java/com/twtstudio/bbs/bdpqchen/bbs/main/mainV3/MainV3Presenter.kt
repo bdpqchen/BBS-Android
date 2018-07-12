@@ -9,7 +9,9 @@ import io.reactivex.schedulers.Schedulers
 
 class MainV3Presenter(val view: MainV3Contract.View) : RxPresenter(), MainV3Contract.Presenter {
 
-    override fun getLastest() {
+    val latestList = mutableListOf<LatestEntity>()
+
+    override fun getLastest(page: Int) {
 
         val observer = object : SimpleObserver<List<LatestEntity>>() {
             override fun _onError(msg: String) {
@@ -17,11 +19,13 @@ class MainV3Presenter(val view: MainV3Contract.View) : RxPresenter(), MainV3Cont
             }
 
             override fun _onNext(t: List<LatestEntity>) {
-                view.onLatestSucess(t)
+                latestList.clear()
+                latestList.addAll(t)
+                view.onLatestSucess(latestList)
             }
         }
 
-        addSubscribe(sHttpClient.getLatestList(0)
+        addSubscribe(sHttpClient.getLatestList(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(ResponseTransformer<List<LatestEntity>>())

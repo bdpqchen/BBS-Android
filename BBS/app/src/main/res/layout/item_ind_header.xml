@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#ffffff"
@@ -95,8 +94,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginStart="42dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginStart="36dp"
         android:text="532"
         android:textColor="#000000"
         android:textSize="28sp"
@@ -127,34 +126,32 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ind_ac_tiezi"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/ind_ac_points"
+        app:layout_constraintStart_toStartOf="@id/ind_ac_points"
         app:layout_constraintTop_toBottomOf="@id/ind_ac_points" />
 
     <TextView
         android:id="@+id/ind_ac_tiezi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="66dp"
-        android:layout_marginStart="66dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="8dp"
         android:text="帖子"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ind_ac_zhanling"
-        app:layout_constraintStart_toEndOf="@id/ind_ac_jifen"
+        app:layout_constraintEnd_toEndOf="@id/ind_ac_threads"
+        app:layout_constraintStart_toStartOf="@+id/ind_ac_threads"
         app:layout_constraintTop_toBottomOf="@+id/ind_ac_threads" />
 
     <TextView
         android:id="@+id/ind_ac_zhanling"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="8dp"
         android:text="站龄"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ind_ac_tiezi"
+        app:layout_constraintEnd_toEndOf="@+id/ind_ac_station_age"
+        app:layout_constraintStart_toStartOf="@+id/ind_ac_station_age"
         app:layout_constraintTop_toBottomOf="@+id/ind_ac_station_age" />
 
 </android.support.constraint.ConstraintLayout>

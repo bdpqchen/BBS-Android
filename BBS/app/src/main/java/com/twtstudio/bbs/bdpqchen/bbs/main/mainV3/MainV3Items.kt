@@ -18,6 +18,31 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity
 import org.jetbrains.anko.layoutInflater
 
+class MainV3Threadheader() : Item {
+    companion object Controller : ItemController {
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
+            holder as ViewHolder
+            item as MainV3Threadheader
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+            val inflater = parent.context.layoutInflater
+            val view = inflater.inflate(R.layout.item_main_v3_header, parent, false)
+            val noticeIv = view.findViewById<ImageView>(R.id.main_notice_iv)
+            val activityIv = view.findViewById<ImageView>(R.id.main_activity_iv)
+            val hotIv = view.findViewById<ImageView>(R.id.main_hot_iv)
+            val rankIv = view.findViewById<ImageView>(R.id.main_rank_iv)
+            return ViewHolder(view, noticeIv, activityIv, hotIv, rankIv)
+        }
+
+    }
+
+    class ViewHolder(itemView: View, val noticeIv: ImageView, val activityIv: ImageView, val hotIv: ImageView, val rankIv: ImageView) : RecyclerView.ViewHolder(itemView)
+
+    override val controller: ItemController
+        get() = Controller
+}
+
 class MainV3ThreadItem(val latest: LatestEntity, val context: Context, val uid: Int) : Item {
     override val controller: ItemController
         get() = Controller
@@ -28,7 +53,7 @@ class MainV3ThreadItem(val latest: LatestEntity, val context: Context, val uid: 
             item as MainV3ThreadItem
             ImageUtil.loadAvatar(item.context, item.uid, holder.avatar)
             if (IsUtil.isAnon(item.latest.anonymous)) {
-                item.latest.author_id = 0;
+                item.latest.author_id = 0
                 item.latest.author_name = Constants.ANONYMOUS_NAME
                 holder.avatar.setOnClickListener(null)
             } else {

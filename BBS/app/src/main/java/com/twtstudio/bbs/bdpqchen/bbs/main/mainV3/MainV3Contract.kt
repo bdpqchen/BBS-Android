@@ -6,7 +6,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity
 
 interface MainV3Contract {
     interface Presenter : BasePresenter {
-        fun getLastest()
+        fun getLastest(page: Int)
     }
 
     interface View : BaseView {
