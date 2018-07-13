@@ -11,9 +11,10 @@ import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel
 import org.jetbrains.anko.layoutInflater
 
-class AnnounceItem(val announce: AnnounceEntity, val context: Context) : Item {
+class AnnounceItem(val announce: AnnounceEntity, val thread: ThreadModel.ThreadBean, val context: Context) : Item {
 
     companion object Controller : ItemController {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
@@ -24,6 +25,8 @@ class AnnounceItem(val announce: AnnounceEntity, val context: Context) : Item {
             }
             holder.title.text = item.announce.title
             holder.time.text = TextUtil.getThreadDateTime(item.announce.t_create, item.announce.t_modify)
+            holder.content.text = item.thread.content
+            holder.content.maxLines = 3
         }
 
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {

@@ -8,18 +8,18 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.ImageView
-import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel
 import kotterknife.bindView
 
 class AnnounceActivity : BaseActivity(), AnnounceContract.View {
-
 //    private val toolbar: Toolbar by bindView(R.id.announce_bar)
 
+    private val announceList: MutableList<AnnounceEntity> = mutableListOf()
     private val backIv: ImageView by bindView(R.id.announce_ic_back)
     private lateinit var recyclerView: RecyclerView
     private val mPresenter = AnnouncePresenter(this)
@@ -50,12 +50,19 @@ class AnnounceActivity : BaseActivity(), AnnounceContract.View {
     override fun getPresenter(): BasePresenter = mPresenter
 
     override fun onGetAnnounceSuccess(announceList: List<AnnounceEntity>) {
-        val list: List<Item> = announceList.map { t -> AnnounceItem(t, this) }
-        recyclerView.withItems(list)
+        this.announceList.addAll(announceList)
     }
 
     override fun onGetAnnounceFail(msg: String) {
         SnackBarUtil.error(this, "加载失败，请检查网络设置")
+    }
+
+    override fun onGetAnnounceDetailSucceess(thread: List<ThreadModel.ThreadBean>) {
+        val itemList: MutableList<AnnounceItem> = mutableListOf()
+        for (i in 0..thread.size - 1) {
+            itemList.add(AnnounceItem(announceList[i], thread[i], mContext))
+        }
+        recyclerView.withItems(itemList)
     }
 
 }

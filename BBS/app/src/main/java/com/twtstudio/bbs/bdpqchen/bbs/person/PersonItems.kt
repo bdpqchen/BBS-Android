@@ -101,7 +101,8 @@ class IndThreadItem(val threadBean: ThreadModel.ThreadBean, val context: Context
             ImageUtil.loadAvatar(item.context, item.uid, holder.threadAvatarIv)
             holder.threadNameTv.text = " " + threadBean.author_name + " 发布了帖子"
             holder.threadTitleTv.text = threadBean.title
-            holder.threadContentTv.text = TextUtil.getContentWithin2Lines(threadBean.content)
+            holder.threadContentTv.text = threadBean.content
+            holder.threadContentTv.maxLines = 3
             holder.threadCommentNumTv.text = "" + threadBean.c_post
             holder.threadFavorNumTv.text = "" + threadBean.like
             holder.threadTimeTv.text = TextUtil.getThreadDateTime(threadBean.t_create,threadBean.t_modify)

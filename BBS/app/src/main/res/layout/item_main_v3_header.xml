@@ -31,9 +31,9 @@
             android:id="@+id/main_notice_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
             android:text="公告"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/main_notice_iv"
             app:layout_constraintEnd_toEndOf="@+id/main_notice_iv"
             app:layout_constraintTop_toBottomOf="@id/main_notice_iv"
             app:layout_constraintVertical_bias="0.0" />
@@ -42,6 +42,8 @@
             android:id="@+id/main_activity_iv"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/activity"
             app:layout_constraintEnd_toStartOf="@id/main_hot_iv"
             app:layout_constraintStart_toEndOf="@id/main_notice_iv"
@@ -51,15 +53,17 @@
             android:id="@+id/main_activity_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
             android:text="活动"
+            app:layout_constraintStart_toStartOf="@id/main_activity_iv"
             app:layout_constraintBottom_toBottomOf="@+id/main_notice_tv"
             app:layout_constraintEnd_toEndOf="@+id/main_activity_iv" />
 
         <ImageView
             android:id="@+id/main_hot_iv"
             android:layout_width="48dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
             android:src="@drawable/hot"
             app:layout_constraintEnd_toStartOf="@id/main_rank_iv"
             app:layout_constraintStart_toEndOf="@id/main_activity_iv"
@@ -69,9 +73,9 @@
             android:id="@+id/main_hot_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
             android:text="十大"
-            app:layout_constraintBottom_toBottomOf="@+id/main_activity_tv"
+            app:layout_constraintStart_toStartOf="@id/main_hot_iv"
+            app:layout_constraintBottom_toBottomOf="@+id/main_notice_tv"
             app:layout_constraintEnd_toEndOf="@+id/main_hot_iv" />
 
         <ImageView
@@ -90,9 +94,9 @@
             android:id="@+id/main_rank_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
             android:text="排行"
-            app:layout_constraintBottom_toBottomOf="@+id/main_activity_tv"
+            app:layout_constraintStart_toStartOf="@id/main_rank_iv"
+            app:layout_constraintBottom_toBottomOf="@+id/main_notice_tv"
             app:layout_constraintEnd_toEndOf="@+id/main_rank_iv" />
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -103,6 +107,7 @@
             android:layout_margin="3dp"
             app:civ_border_color="#ffffff"
             app:civ_border_width="1dp"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="@+id/main_notice_iv"
             app:layout_constraintEnd_toEndOf="@id/main_notice_iv" />
 
@@ -115,6 +120,7 @@
             android:layout_margin="3dp"
             app:civ_border_color="#ffffff"
             app:civ_border_width="1dp"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="@+id/main_activity_iv"
             app:layout_constraintEnd_toEndOf="@id/main_activity_iv" />
 
@@ -127,6 +133,7 @@
             android:layout_margin="3dp"
             app:civ_border_color="#ffffff"
             app:civ_border_width="1dp"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="@+id/main_hot_iv"
             app:layout_constraintEnd_toEndOf="@id/main_hot_iv" />
 
@@ -138,6 +145,7 @@
             android:layout_margin="3dp"
             app:civ_border_color="#ffffff"
             app:civ_border_width="1dp"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="@+id/main_rank_iv"
             app:layout_constraintEnd_toEndOf="@id/main_rank_iv" />
 

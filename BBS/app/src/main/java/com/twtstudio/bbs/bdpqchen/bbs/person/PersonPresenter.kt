@@ -20,12 +20,12 @@ class PersonPresenter(view: PersonContract.View?) : RxPresenter(), PersonContrac
                 .publish()
 
         val peopleObserver: SimpleObserver<PeopleModel> = object : SimpleObserver<PeopleModel>() {
-            override fun _onError(msg: String?) {
-                mView?.onLoadFailed(msg!!)
+            override fun _onError(msg: String) {
+                mView?.onLoadFailed(msg)
             }
 
-            override fun _onNext(t: PeopleModel?) {
-                mView?.onPersonInfoSuccess(t!!)
+            override fun _onNext(t: PeopleModel) {
+                mView?.onPersonInfoSuccess(t)
             }
 
         }
