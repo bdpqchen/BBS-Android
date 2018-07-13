@@ -6,11 +6,11 @@
     android:orientation="vertical">
 
 
-    <com.youth.banner.Banner
+    <com.youth.banner.Banner xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/main_v3_banner"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto" />
+        android:background="#cb3b5583" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:id="@+id/main_notice_iv"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/notice"
             app:layout_constraintBottom_toTopOf="@id/main_notice_tv"
             app:layout_constraintEnd_toStartOf="@id/main_activity_iv"
@@ -32,11 +32,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="公告"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/main_notice_iv"
             app:layout_constraintEnd_toEndOf="@+id/main_notice_iv"
-            app:layout_constraintTop_toBottomOf="@id/main_notice_iv"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@id/main_notice_iv" />
 
         <ImageView
             android:id="@+id/main_activity_iv"
