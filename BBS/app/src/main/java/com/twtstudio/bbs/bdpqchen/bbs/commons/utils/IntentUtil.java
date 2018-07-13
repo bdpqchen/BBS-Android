@@ -9,8 +9,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadAct
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.main.announce.AnnounceActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.mdeditor.EditorActivity;
-import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.person.PersonActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.picture.BigPhotoActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.search.SearchActivity;
@@ -161,5 +161,7 @@ public final class IntentUtil {
         return new Intent(context, SearchActivity.class);
     }
 
-
+    public static Intent toAnnounce(Context context) {
+        return new Intent(context, AnnounceActivity.class);
+    }
 }

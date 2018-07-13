@@ -40,6 +40,9 @@ class MainV3Threadheader(val activity: Activity) : Item {
             banner.setDelayTime(2000)
             banner.setIndicatorGravity(BannerConfig.CENTER)
             banner.start()
+            holder.noticeIv.setOnClickListener {
+                item.activity.startActivity(IntentUtil.toAnnounce(item.activity))
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {

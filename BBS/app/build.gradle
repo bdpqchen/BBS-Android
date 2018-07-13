@@ -59,7 +59,7 @@ android {
             minifyEnabled true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            if(pro.getProperty("id_bugly") != null){
+            if (pro.getProperty("id_bugly") != null) {
                 it.buildConfigField 'String', 'ID_BUGLY', pro.getProperty("id_bugly")
             }
         }

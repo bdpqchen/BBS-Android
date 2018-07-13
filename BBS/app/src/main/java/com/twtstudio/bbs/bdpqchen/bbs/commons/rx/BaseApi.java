@@ -21,6 +21,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.release.publish.PublishEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.release.reply.ReplyEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
+import com.twtstudio.bbs.bdpqchen.bbs.main.announce.AnnounceBean;
 import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel;
@@ -345,6 +346,8 @@ public interface BaseApi {
             @Path("page") String page,
             @Query(KEYWORD) String keyword);
 
+    @GET("index/announce")
+    Observable<AnnounceBean> getAnnounce();
 
 }
 

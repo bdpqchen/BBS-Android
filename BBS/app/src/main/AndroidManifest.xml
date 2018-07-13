@@ -92,6 +92,7 @@
         <activity android:name=".individual.release.ReleaseActivity" />
         <activity android:name=".search.SearchActivity" />
         <activity android:name=".person.PersonActivity" />
+        <activity android:name=".main.announce.AnnounceActivity"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.person
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -30,7 +29,6 @@ class PersonActivity : BaseActivity() , PersonContract.View {
     private val mPresenter = PersonPresenter(this)
     private lateinit var recyclerView: RecyclerView
     private var uid : Int = 0
-    private lateinit var mContext: Context
     private val itemList : MutableList<Item> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
