@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.home;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +20,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.individual2.Individual2Fragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment;
 
 import butterknife.BindView;
@@ -65,7 +67,8 @@ public class HomeActivity extends BaseActivity implements InfoContract {
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragment.Companion.newInstance();
             mFragments[SECOND] = ForumFragment.newInstance();
-            mFragments[FORTH] = IndividualFragment.newInstance();
+            mFragments[FORTH] = Individual2Fragment.Companion.newInstance();
+//            mFragments[FORTH] = IndividualFragment.newInstance();
 //            mFragments[FORTH] = MessageFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_main_container, FIRST,
                     mFragments[FIRST],
@@ -76,9 +79,9 @@ public class HomeActivity extends BaseActivity implements InfoContract {
             mFragments[FIRST] = findFragment(com.twtstudio.bbs.bdpqchen.bbs.main.MainFragment.class);
             mFragments[SECOND] = findFragment(ForumFragment.class);
 //            mFragments[THIRD] = findFragment(MessageFragment.class);
-            mFragments[FORTH] = findFragment(IndividualFragment.class);
+//            mFragments[FORTH] = findFragment(IndividualFragment.class);
+            mFragments[FORTH] = findFragment(Individual2Fragment.class);
         }
-
         mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
         mBottomBar.setOnTabSelectListener(i -> {
             if (PrefUtil.hadLogin()) {
@@ -90,6 +93,8 @@ public class HomeActivity extends BaseActivity implements InfoContract {
                     clearFullScreen();
                 } else if (i == R.id.bottom_bar_tab_individual) {
                     mShowingFragment = FORTH;
+//                    StatusBarUtil.setTransparent(this);
+//                    clearFullScreen();
                     StatusBarUtil.setTranslucentForImageView(this, 0, null);
 //                } else if (i == R.id.bottom_bar_tab_message){
 //                    mShowingFragment = THIRD;
@@ -116,7 +121,8 @@ public class HomeActivity extends BaseActivity implements InfoContract {
     }
 
     private void clearFullScreen() {
-        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark), 0);
+        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark)
+                , 0);
     }
 
     private void loadFragment() {

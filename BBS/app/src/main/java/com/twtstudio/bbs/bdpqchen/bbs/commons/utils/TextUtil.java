@@ -98,11 +98,11 @@ public final class TextUtil {
     }
 
     public static SpannableString getPastDays(Context context, int create) {
-        String days = StampUtil.getDaysFromCreateToNow(create) + "天";
+        String days = String.valueOf(StampUtil.getDaysFromCreateToNow(create));
         int daysLength = days.length();
         SpannableString styledText = new SpannableString(days);
-        styledText.setSpan(new TextAppearanceSpan(context, R.style.tvTextSizeNormal), 0, daysLength - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        styledText.setSpan(new TextAppearanceSpan(context, R.style.tvTextSizeVeryLittle), daysLength - 1, daysLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        styledText.setSpan(new TextAppearanceSpan(context, R.style.tvTextSizeNormal), 0, daysLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        styledText.setSpan(new TextAppearanceSpan(context, R.style.tvTextSizeVeryLittle), daysLength - 1, daysLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         //TextView.BufferType.SPANNABLE
         return styledText;
     }

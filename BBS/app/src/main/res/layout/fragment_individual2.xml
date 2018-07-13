@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainBg">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/ind_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorMainBgLight">
+
+        <TextView xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="我的" />
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/ind_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/ind_toolbar"
+        android:background="@color/colorMainBgLight"
+        android:foreground="@drawable/selector_foreground_settings">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ind_avatar"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/avatar_default_left"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/ind_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_marginStart="18dp"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            app:layout_constraintLeft_toRightOf="@id/ind_avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="someone" />
+        <TextView
+            android:id="@+id/ind_honor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="@+id/ind_nickname"
+            app:layout_constraintTop_toBottomOf="@+id/ind_nickname"
+            tools:text="中级站友"/>
+        <TextView
+            android:id="@+id/ind_signature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@+id/ind_honor"
+            app:layout_constraintTop_toBottomOf="@+id/ind_honor"
+            tools:text="what I wanna to say is ..."/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toLeftOf="@+id/ind_arrow"
+            app:layout_constraintTop_toTopOf="@id/ind_arrow"
+            app:layout_constraintBottom_toBottomOf="@id/ind_arrow"
+            android:text="个人主页"/>
+
+        <ImageView
+            android:id="@+id/ind_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:tint="@color/colorTintIconBlack"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/ind_count_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/ind_info"
+        android:background="@color/colorMainBgLight">
+
+        <TextView
+            android:id="@+id/ind_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/ind_post_count"
+            app:layout_constraintEnd_toStartOf="@id/ind_post_count"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="积分" />
+
+        <TextView
+            android:id="@+id/ind_post_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="42dp"
+            android:layout_marginStart="42dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ind_past_day"
+            app:layout_constraintStart_toEndOf="@+id/ind_points"
+            android:text="帖子" />
+
+        <TextView
+            android:id="@+id/ind_past_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@+id/ind_post_count"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/ind_post_count"
+            android:text="站龄" />
+
+        <TextView
+            android:id="@+id/ind_points_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="#000000"
+            app:layout_constraintLeft_toLeftOf="@+id/ind_points"
+            app:layout_constraintRight_toRightOf="@+id/ind_points"
+            app:layout_constraintBottom_toBottomOf="@+id/ind_post_count_data"
+            tools:text="807" />
+
+        <TextView
+            android:id="@+id/ind_post_count_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="4dp"
+            android:textSize="25sp"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/ind_post_count"
+            app:layout_constraintLeft_toLeftOf="@+id/ind_post_count"
+            app:layout_constraintRight_toRightOf="@+id/ind_post_count"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="532" />
+
+        <TextView
+            android:id="@+id/ind_past_day_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="#000000"
+            app:layout_constraintLeft_toLeftOf="@+id/ind_past_day"
+            app:layout_constraintRight_toRightOf="@+id/ind_past_day"
+            app:layout_constraintBottom_toBottomOf="@+id/ind_post_count_data"
+            tools:text="324" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/ind_collection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/ind_count_data"
+        android:background="@color/colorMainBgLight"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/selector_foreground_settings">
+
+        <ImageView
+            android:id="@+id/ind_collection_icon"
+            android:layout_width="@dimen/icon_size_normal"
+            android:layout_height="@dimen/icon_size_normal"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/margin_info_list"
+            android:padding="@dimen/icon_padding_small"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_star_white"
+            android:tint="@color/colorTintIconBlack" />
+
+        <TextView
+            android:id="@+id/ind_collection_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_toEndOf="@+id/ind_collection_icon"
+            android:text="我的收藏"
+            android:textColor="@color/colorTvBlackMain"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ind_publish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/ind_collection"
+        android:background="@color/colorMainBgLight"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/selector_foreground_settings">
+
+        <ImageView
+            android:id="@+id/ind_publish_icon"
+            android:layout_width="@dimen/icon_size_normal"
+            android:layout_height="@dimen/icon_size_normal"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/margin_info_list"
+            android:padding="@dimen/icon_padding_small"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_send_white"
+
+            android:tint="@color/colorTintIconBlack" />
+
+        <TextView
+            android:id="@+id/ind_publish_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_toEndOf="@+id/ind_publish_icon"
+            android:text="我的帖子"
+            android:textColor="@color/colorTvBlackMain"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ind_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/ind_publish"
+        android:background="@color/colorMainBgLight"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/selector_foreground_settings">
+
+        <ImageView
+            android:id="@+id/ind_setting_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/margin_info_list"
+            android:padding="@dimen/icon_padding_small"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_settings"
+            android:tint="@color/colorTintIconBlack" />
+
+        <TextView
+            android:id="@+id/ind_setting_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_toEndOf="@+id/ind_setting_icon"
+            android:text="通用设置"
+            android:textColor="@color/colorTvBlackMain"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
