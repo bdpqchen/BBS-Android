@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.announce
 
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel
+import com.twtstudio.bbs.bdpqchen.bbs.main.AnnounceEntity
 
 interface AnnounceContract {
 

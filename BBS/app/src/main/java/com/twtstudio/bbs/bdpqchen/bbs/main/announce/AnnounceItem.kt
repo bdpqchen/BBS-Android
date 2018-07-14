@@ -12,6 +12,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel
+import com.twtstudio.bbs.bdpqchen.bbs.main.AnnounceEntity
 import org.jetbrains.anko.layoutInflater
 
 class AnnounceItem(val announce: AnnounceEntity, val thread: ThreadModel.ThreadBean, val context: Context) : Item {

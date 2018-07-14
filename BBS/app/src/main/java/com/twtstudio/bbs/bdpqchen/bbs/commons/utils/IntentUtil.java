@@ -10,6 +10,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.announce.AnnounceActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.main.rank.RankActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.mdeditor.EditorActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.person.PersonActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.picture.BigPhotoActivity;
@@ -163,5 +164,9 @@ public final class IntentUtil {
 
     public static Intent toAnnounce(Context context) {
         return new Intent(context, AnnounceActivity.class);
+    }
+
+    public static Intent toRank(Context context) {
+        return new Intent(context, RankActivity.class);
     }
 }

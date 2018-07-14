@@ -14,6 +14,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel
+import com.twtstudio.bbs.bdpqchen.bbs.main.AnnounceEntity
 import kotterknife.bindView
 
 class AnnounceActivity : BaseActivity(), AnnounceContract.View {

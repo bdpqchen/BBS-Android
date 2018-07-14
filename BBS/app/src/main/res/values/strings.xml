@@ -24,5 +24,8 @@
     <string name="title">天津大学求实BBS注册管理条例</string>
     <string name="timeformat">2017年12月13号 16：58</string>
     <string name="content">一、在注册天津大学求是BBS账号和发表帖子之前，请仔细阅读本管理协议。参与天津大学BBS的一切活动，均视为已收悉并接受了本管理协议所规定的所有条款</string>
+    <string name="username">Whyso</string>
+    <string name="user_level">开国元老</string>
+    <string name="week_point">周积分</string>
 
 </resources>

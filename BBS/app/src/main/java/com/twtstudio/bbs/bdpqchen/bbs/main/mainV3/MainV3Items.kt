@@ -32,7 +32,7 @@ class MainV3Threadheader(val activity: Activity) : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             item as MainV3Threadheader
-            var banner = holder.banner
+            val banner = holder.banner
             banner.setImageLoader(GlideImageLoader())
             banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
             banner.setImages(images)
@@ -42,6 +42,9 @@ class MainV3Threadheader(val activity: Activity) : Item {
             banner.start()
             holder.noticeIv.setOnClickListener {
                 item.activity.startActivity(IntentUtil.toAnnounce(item.activity))
+            }
+            holder.rankIv.setOnClickListener {
+                item.activity.startActivity(IntentUtil.toRank(item.activity))
             }
         }
 

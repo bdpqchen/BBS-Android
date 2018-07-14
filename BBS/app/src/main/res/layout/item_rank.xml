@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="85dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f2f2f2" />
+
+    <TextView
+        android:id="@+id/rank_item_index"
+        android:layout_width="24dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="1"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/rank_item_avatar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="#000000"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/rank_item_index"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/rank_item_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/username"
+        android:textSize="@dimen/text_size_16sp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/rank_item_avatar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/rank_item_user_level" />
+
+    <TextView
+        android:id="@+id/rank_item_user_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_level"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintStart_toStartOf="@id/rank_item_username"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rank_item_username" />
+
+    <TextView
+        android:id="@+id/zongjifen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="总积分"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/rank_item_user_level"
+        app:layout_constraintBottom_toBottomOf="@id/rank_item_user_level" />
+
+
+    <TextView
+        android:id="@+id/item_rank_user_point"
+        android:layout_width="42dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:gravity="center"
+        android:text="66666"
+        app:layout_constraintStart_toEndOf="@id/zongjifen"
+        app:layout_constraintBottom_toBottomOf="@id/rank_item_user_level" />
+
+    <TextView
+        android:id="@+id/item_rank_week_point"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:text="233"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_16sp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="@id/rank_item_username"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/item_rank_week_or_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/week_point"
+        app:layout_constraintStart_toStartOf="@id/item_rank_week_point"
+        app:layout_constraintEnd_toEndOf="@id/item_rank_week_point"
+        app:layout_constraintBottom_toBottomOf="@id/rank_item_user_level" />
+
+</android.support.constraint.ConstraintLayout>

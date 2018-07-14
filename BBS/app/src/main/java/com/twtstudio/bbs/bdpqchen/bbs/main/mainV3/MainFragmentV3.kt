@@ -43,7 +43,7 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.addOnScrollListener(object : EndlessRecyclerOnScrollListener(linearLayoutManager) {
             override fun onLoadMore() {
-                //
+                loadMore()
             }
         })
 
