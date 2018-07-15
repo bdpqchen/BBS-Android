@@ -1,119 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_main_thread_avatar"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_margin="15dp"
-        android:src="#000000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/item_main_thread_username"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="whyso"
-        app:layout_constraintBottom_toBottomOf="@id/item_main_thread_avatar"
-        app:layout_constraintStart_toEndOf="@id/item_main_thread_avatar" />
-
-    <TextView
-        android:id="@+id/item_main_thread_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="16dp"
-        android:text="求实焦点"
         android:clickable="true"
         android:focusable="true"
         android:foreground="@drawable/selector_foreground_settings"
-        android:textColor="#1e88e5"
-        app:layout_constraintBottom_toBottomOf="@id/item_main_thread_avatar"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:cardBackgroundColor="@color/colorMainBgLight"
+        app:cardElevation="0dp">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/item_main_thread_cl"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/item_main_thread_avatar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="15dp"
+                android:src="#000000"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/item_main_thread_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="whyso"
+                app:layout_constraintBottom_toBottomOf="@id/item_main_thread_avatar"
+                app:layout_constraintStart_toEndOf="@id/item_main_thread_avatar" />
+
+            <TextView
+                android:id="@+id/item_main_thread_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/selector_foreground_settings"
+                android:text="求实焦点"
+                android:textColor="#1e88e5"
+                app:layout_constraintBottom_toBottomOf="@id/item_main_thread_avatar"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/item_main_thread_cl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                app:layout_constraintTop_toBottomOf="@id/item_main_thread_avatar">
+
+                <TextView
+                    android:id="@+id/item_main_thread_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:paddingEnd="24dp"
+                    android:paddingStart="15dp"
+                    android:text="活动【水果节】水果雕刻大赛！年年都发柚子，但我们雕的柚子年年不同！"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/item_main_thread_ic_comment"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_margin="15dp"
+                    android:src="@drawable/ic_comment"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/item_main_thread_title" />
+
+                <TextView
+                    android:id="@+id/item_main_thread_comment_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:text="14"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/item_main_thread_ic_comment"
+                    app:layout_constraintStart_toEndOf="@id/item_main_thread_ic_comment" />
+
+
+                <ImageView
+                    android:id="@+id/item_main_thread_ic_favour"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/ic_favor"
+                    app:layout_constraintBottom_toBottomOf="@id/item_main_thread_ic_comment"
+                    app:layout_constraintStart_toEndOf="@id/item_main_thread_comment_num" />
+
+                <TextView
+                    android:id="@+id/item_main_thread_favor_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/item_main_thread_comment_num"
+                    app:layout_constraintStart_toEndOf="@id/item_main_thread_ic_favour" />
+
+                <TextView
+                    android:id="@+id/item_main_thread_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="5分钟前有新动态"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/item_main_thread_ic_favour"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <View
+        android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:clickable="true"
-        app:layout_constraintTop_toBottomOf="@id/item_main_thread_avatar">
+        android:layout_height="6dp"
+        android:background="#f2f2f2" />
 
-        <TextView
-            android:layout_marginTop="8dp"
-            android:id="@+id/item_main_thread_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingEnd="24dp"
-            android:paddingStart="15dp"
-            android:text="活动【水果节】水果雕刻大赛！年年都发柚子，但我们雕的柚子年年不同！"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
-            android:id="@+id/item_main_thread_ic_comment"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_margin="15dp"
-            android:src="@drawable/ic_comment"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_main_thread_title" />
-
-        <TextView
-            android:id="@+id/item_main_thread_comment_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:text="14"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/item_main_thread_ic_comment"
-            app:layout_constraintStart_toEndOf="@id/item_main_thread_ic_comment" />
-
-
-        <ImageView
-            android:id="@+id/item_main_thread_ic_favour"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="12dp"
-            android:src="@drawable/ic_favor"
-            app:layout_constraintBottom_toBottomOf="@id/item_main_thread_ic_comment"
-            app:layout_constraintStart_toEndOf="@id/item_main_thread_comment_num" />
-
-        <TextView
-            android:id="@+id/item_main_thread_favor_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/item_main_thread_comment_num"
-            app:layout_constraintStart_toEndOf="@id/item_main_thread_ic_favour" />
-
-        <TextView
-            android:id="@+id/item_main_thread_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="5分钟前有新动态"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/item_main_thread_ic_favour"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:background="#f2f2f2"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-    </android.support.constraint.ConstraintLayout>
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
