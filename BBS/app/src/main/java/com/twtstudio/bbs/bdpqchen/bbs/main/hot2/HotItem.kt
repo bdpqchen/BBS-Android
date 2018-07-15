@@ -38,6 +38,9 @@ class HotItem(val context: Context, val hot: Hot) : Item {
             }
             holder.name.text = " " + hot.author_name
             holder.boardType.text = TextUtil.getBoardName(hot.board_name)
+            holder.boardType.setOnClickListener {
+                item.context.startActivity(IntentUtil.toThreadList(item.context, item.hot.board_id, item.hot.board_name, item.hot.anonymous))
+            }
             holder.title.text = hot.title
             holder.content.text = hot.content
             holder.content.maxLines = 3
