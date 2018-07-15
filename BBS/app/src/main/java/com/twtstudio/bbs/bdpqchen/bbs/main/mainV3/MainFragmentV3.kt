@@ -71,7 +71,6 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
         mPage = 0
         mPresenter.getLastest(mPage)
         swipeRefreshLayout.isRefreshing = false
-        SnackBarUtil.notice(mActivity, "刷新成功！")
     }
 
     private fun loadMore() {

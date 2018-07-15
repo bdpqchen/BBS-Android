@@ -3,6 +3,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.person
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -106,7 +107,7 @@ class IndThreadItem(val threadBean: ThreadModel.ThreadBean, val context: Context
             holder.threadCommentNumTv.text = "" + threadBean.c_post
             holder.threadFavorNumTv.text = "" + threadBean.like
             holder.threadTimeTv.text = TextUtil.getThreadDateTime(threadBean.t_create,threadBean.t_modify)
-            holder.itemView.setOnClickListener {
+            holder.card.setOnClickListener {
                 item.context.startActivity(IntentUtil.toThread(item.context,threadBean.id))
             }
         }
@@ -114,6 +115,7 @@ class IndThreadItem(val threadBean: ThreadModel.ThreadBean, val context: Context
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val layoutInflater = parent.context.layoutInflater
             val view = layoutInflater.inflate(R.layout.item_thread_indiviual,parent,false)
+            val card = view.findViewById<CardView>(R.id.ind_item_card)
             val threadAvatarIv = view.findViewById<ImageView>(R.id.ind_item_avatar)
             val threadNameTv = view.findViewById<TextView>(R.id.ind_item_name)
             val threadTitleTv = view.findViewById<TextView>(R.id.ind_item_title)
@@ -121,14 +123,14 @@ class IndThreadItem(val threadBean: ThreadModel.ThreadBean, val context: Context
             val threadCommentNumTv = view.findViewById<TextView>(R.id.ind_item_comment_num)
             val threadFavorNumTv = view.findViewById<TextView>(R.id.ind_item_favor_num)
             val threadTimeTv = view.findViewById<TextView>(R.id.ind_item_time)
-            return ViewHolder(view,threadAvatarIv,threadNameTv,threadTitleTv,threadContentTv,threadCommentNumTv,threadFavorNumTv,threadTimeTv)
+            return ViewHolder(view, card, threadAvatarIv, threadNameTv, threadTitleTv, threadContentTv, threadCommentNumTv, threadFavorNumTv, threadTimeTv)
         }
 
     }
 
-    class ViewHolder(itemView: View?, val threadAvatarIv : ImageView,val threadNameTv : TextView,val threadTitleTv : TextView,
-                       val threadContentTv : TextView, val threadCommentNumTv : TextView, val threadFavorNumTv : TextView,
-                       val threadTimeTv : TextView) : RecyclerView.ViewHolder(itemView)
+    class ViewHolder(itemView: View?, val card: CardView, val threadAvatarIv: ImageView, val threadNameTv: TextView, val threadTitleTv: TextView,
+                     val threadContentTv : TextView, val threadCommentNumTv : TextView, val threadFavorNumTv : TextView,
+                     val threadTimeTv : TextView) : RecyclerView.ViewHolder(itemView)
 
     override val controller: ItemController
         get() = Controller

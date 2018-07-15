@@ -93,7 +93,8 @@
         <activity android:name=".search.SearchActivity" />
         <activity android:name=".person.PersonActivity" />
         <activity android:name=".main.announce.AnnounceActivity" />
-        <activity android:name=".main.rank.RankActivity"></activity>
+        <activity android:name=".main.rank.RankActivity" />
+        <activity android:name=".main.hot2.HotActivity"></activity>
     </application>
 
 </manifest>

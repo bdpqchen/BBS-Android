@@ -31,6 +31,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.individual.release.publish.PublishEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.release.reply.ReplyEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.star.StarModel;
 import com.twtstudio.bbs.bdpqchen.bbs.main.AnnounceBean;
+import com.twtstudio.bbs.bdpqchen.bbs.main.HotBean;
 import com.twtstudio.bbs.bdpqchen.bbs.main.RankBean;
 import com.twtstudio.bbs.bdpqchen.bbs.main.hot.HotEntity;
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity;
@@ -386,6 +387,10 @@ public class RxDoHttpClient {
 
     public Observable<AnnounceBean> getAnnounce() {
         return mApi.getAnnounce();
+    }
+
+    public Observable<HotBean> getHot() {
+        return mApi.getHot();
     }
 
     public Observable<RankBean> getWeekRank() {

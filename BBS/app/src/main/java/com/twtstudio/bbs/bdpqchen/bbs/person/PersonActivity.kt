@@ -3,7 +3,6 @@ package com.twtstudio.bbs.bdpqchen.bbs.person
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -49,7 +48,6 @@ class PersonActivity : BaseActivity() , PersonContract.View {
         mPresenter.getPersonInfo(uid)
         recyclerView = findViewById(R.id.rv_person) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.addItemDecoration(DividerItemDecoration(this@PersonActivity,0))
     }
 
     override fun onPersonInfoSuccess(person: PeopleModel) {

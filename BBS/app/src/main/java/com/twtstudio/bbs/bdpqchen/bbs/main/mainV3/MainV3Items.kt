@@ -44,6 +44,9 @@ class MainV3Threadheader(val activity: Activity) : Item {
             holder.noticeIv.setOnClickListener {
                 item.activity.startActivity(IntentUtil.toAnnounce(item.activity))
             }
+            holder.hotIv.setOnClickListener {
+                item.activity.startActivity(IntentUtil.toHot(item.activity))
+            }
             holder.rankIv.setOnClickListener {
                 item.activity.startActivity(IntentUtil.toRank(item.activity))
             }
