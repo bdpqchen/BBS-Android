@@ -21,6 +21,9 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/selector_foreground_settings"
                 android:id="@+id/announce_ic_back"
                 android:scaleType="center"
                 android:layout_width="48dp"

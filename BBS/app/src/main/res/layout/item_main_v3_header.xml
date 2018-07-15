@@ -10,13 +10,16 @@
         android:id="@+id/main_v3_banner"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:background="#cb3b5583" />
+        android:background="#cbc6d3eb" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="96dp">
 
         <ImageView
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/selector_foreground_settings"
             android:id="@+id/main_notice_iv"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -40,6 +43,9 @@
             app:layout_constraintTop_toBottomOf="@id/main_notice_iv" />
 
         <ImageView
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/selector_foreground_settings"
             android:id="@+id/main_activity_iv"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -60,6 +66,9 @@
             app:layout_constraintEnd_toEndOf="@+id/main_activity_iv" />
 
         <ImageView
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/selector_foreground_settings"
             android:id="@+id/main_hot_iv"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -71,6 +80,7 @@
             app:layout_constraintTop_toTopOf="@+id/main_notice_iv" />
 
         <TextView
+
             android:id="@+id/main_hot_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,6 +90,9 @@
             app:layout_constraintEnd_toEndOf="@+id/main_hot_iv" />
 
         <ImageView
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/selector_foreground_settings"
             android:id="@+id/main_rank_iv"
             android:layout_width="48dp"
             android:layout_height="48dp"

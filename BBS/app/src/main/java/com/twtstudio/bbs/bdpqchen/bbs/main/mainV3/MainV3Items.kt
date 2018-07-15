@@ -2,7 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.main.mainV3
 
 import android.app.Activity
 import android.content.Context
-import android.support.constraint.ConstraintLayout
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -96,7 +96,7 @@ class MainV3ThreadItem(val latest: LatestEntity, val context: Context, val uid: 
                 item.context.startActivity(IntentUtil.toThreadList(item.context, item.latest.board_id, item.latest.board_name, item.latest.anonymous))
             }
             holder.title.text = item.latest.title
-            holder.clickLayout.setOnClickListener {
+            holder.card.setOnClickListener {
                 item.context.startActivity(IntentUtil.toThread(item.context, item.latest.id, item.latest.title, item.latest.board_id, item.latest.board_name))
             }
             holder.time.text = StampUtil.getTimeFromNow(item.latest.t_create, item.latest.t_reply)
@@ -107,7 +107,7 @@ class MainV3ThreadItem(val latest: LatestEntity, val context: Context, val uid: 
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val layoutInflater = parent.context.layoutInflater
             val view = layoutInflater.inflate(R.layout.item_main_v3_thread, parent, false)
-            val clickLayout: ConstraintLayout = view.findViewById(R.id.item_main_thread_cl)
+            val card: CardView = view.findViewById(R.id.item_thread_v3_card)
             val avtar: ImageView = view.findViewById(R.id.item_main_thread_avatar)
             val name: TextView = view.findViewById(R.id.item_main_thread_username)
             val threadType: TextView = view.findViewById(R.id.item_main_thread_type)
@@ -115,12 +115,12 @@ class MainV3ThreadItem(val latest: LatestEntity, val context: Context, val uid: 
             val commentNum: TextView = view.findViewById(R.id.item_main_thread_comment_num)
             val favorNum: TextView = view.findViewById(R.id.item_main_thread_favor_num)
             val time: TextView = view.findViewById(R.id.item_main_thread_time)
-            return ViewHolder(view, clickLayout, avtar, name, threadType, title, commentNum, favorNum, time)
+            return ViewHolder(view, card, avtar, name, threadType, title, commentNum, favorNum, time)
         }
 
     }
 
-    class ViewHolder(@NotNull itemView: View, val clickLayout: ConstraintLayout, val avatar: ImageView, val name: TextView, val threadType: TextView,
+    class ViewHolder(@NotNull itemView: View, val card: CardView, val avatar: ImageView, val name: TextView, val threadType: TextView,
                      val title: TextView, val commentNum: TextView, val favorNum: TextView,
                      val time: TextView) : RecyclerView.ViewHolder(itemView)
 }
