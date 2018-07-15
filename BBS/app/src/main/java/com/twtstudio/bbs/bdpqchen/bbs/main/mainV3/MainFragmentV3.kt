@@ -46,12 +46,14 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
                 loadMore()
             }
         })
-
         mPresenter.getLastest(0)
     }
 
     override fun onLatestSucess(latestList: List<LatestEntity>) {
-        val temp = mutableListOf<Item>(MainV3Threadheader(_mActivity))
+        val temp = mutableListOf<Item>()
+        if (mPage == 0) {
+            temp.add(MainV3Threadheader(mActivity))
+        }
         temp.addAll(latestList.map { t -> MainV3ThreadItem(t, mContext, t.author_id) })
         recyclerView.withItems(temp)
     }
@@ -65,20 +67,15 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
         fun newInstance(): MainFragmentV3 = MainFragmentV3()
     }
 
-    fun refresh() {
+    private fun refresh() {
         mPage = 0
-        mPresenter.latestList.clear()
-        mPresenter.getLastest(0)
+        mPresenter.getLastest(mPage)
         swipeRefreshLayout.isRefreshing = false
         SnackBarUtil.notice(mActivity, "刷新成功！")
     }
 
-    fun loadMore() {
-        SnackBarUtil.notice(mActivity, "aa")
-        mPresenter.getLastest(++mPage)
-        latestList = mPresenter.latestList
-        val temp = latestList.map { t -> MainV3ThreadItem(t, mContext, t.author_id) }
-        itemManager.addAll(temp)
+    private fun loadMore() {
+        //      mPresenter.getLastest(++mPage)
     }
 
 }

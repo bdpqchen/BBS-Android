@@ -9,7 +9,6 @@ import io.reactivex.schedulers.Schedulers
 
 class MainV3Presenter(val view: MainV3Contract.View) : RxPresenter(), MainV3Contract.Presenter {
 
-    val latestList = mutableListOf<LatestEntity>()
 
     override fun getLastest(page: Int) {
 
@@ -19,9 +18,7 @@ class MainV3Presenter(val view: MainV3Contract.View) : RxPresenter(), MainV3Cont
             }
 
             override fun _onNext(t: List<LatestEntity>) {
-                latestList.clear()
-                latestList.addAll(t)
-                view.onLatestSucess(latestList)
+                view.onLatestSucess(t)
             }
         }
 

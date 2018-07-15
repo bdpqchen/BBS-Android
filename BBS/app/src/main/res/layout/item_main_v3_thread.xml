@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,8 +11,9 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="@drawable/selector_foreground_settings"
-        app:cardBackgroundColor="@color/colorMainBgLight"
-        app:cardElevation="0dp">
+        android:id="@+id/item_thread_v3_card"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/colorMainBgLight">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -42,10 +43,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginEnd="16dp"
+                android:text="求实焦点"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="@drawable/selector_foreground_settings"
-                android:text="求实焦点"
                 android:textColor="#1e88e5"
                 app:layout_constraintBottom_toBottomOf="@id/item_main_thread_avatar"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -55,22 +56,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:clickable="true"
                 app:layout_constraintTop_toBottomOf="@id/item_main_thread_avatar">
 
                 <TextView
+                    android:layout_marginTop="8dp"
                     android:id="@+id/item_main_thread_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:paddingEnd="24dp"
                     android:paddingStart="15dp"
                     android:text="活动【水果节】水果雕刻大赛！年年都发柚子，但我们雕的柚子年年不同！"
                     android:textColor="#000000"
                     android:textSize="18sp"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
                     android:id="@+id/item_main_thread_ic_comment"
@@ -121,7 +121,9 @@
                     app:layout_constraintBottom_toBottomOf="@id/item_main_thread_ic_favour"
                     app:layout_constraintEnd_toEndOf="parent" />
 
+
             </android.support.constraint.ConstraintLayout>
+
 
         </android.support.constraint.ConstraintLayout>
 
@@ -131,6 +133,7 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="6dp"
-        android:background="#f2f2f2" />
+        android:background="#f2f2f2"
+        app:layout_constraintTop_toBottomOf="@id/item_thread_v3_card" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -13,3 +13,5 @@ fun MutableList<Item>.latestThread(latest: LatestEntity, context: Context, uid: 
 fun MutableList<Item>.singleText(content: String) = add(SingleTextItem(content))
 
 fun MutableList<Item>.mainV3Header(activity: Activity) = add(MainV3Threadheader(activity))
+
+fun MutableList<Item>.lastestItem(latest: LatestEntity, context: Context) = add(MainV3ThreadItem(latest, context, latest.author_id))

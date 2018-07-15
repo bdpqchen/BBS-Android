@@ -11,6 +11,7 @@ import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil
 import com.twtstudio.bbs.bdpqchen.bbs.main.Rank
 import org.jetbrains.anko.layoutInflater
@@ -27,6 +28,7 @@ class RankItem(val rank: Rank, val context: Context, val index: Int, val type: I
             item as RankItem
             holder.index.text = "" + item.index
             ImageUtil.loadAvatar(item.context, item.rank.id, holder.avatar)
+            holder.avatar.setOnClickListener { item.context.startActivity(IntentUtil.toPeople(item.context, item.rank.id)) }
             holder.name.text = item.rank.name
             holder.level.text = TextUtil.getHonor(item.rank.points)
             holder.point.text = "" + item.rank.points

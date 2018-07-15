@@ -22,6 +22,7 @@ import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import com.youth.banner.Transformer
 import org.jetbrains.anko.layoutInflater
+import org.jetbrains.annotations.NotNull
 
 class MainV3Threadheader(val activity: Activity) : Item {
 
@@ -61,7 +62,7 @@ class MainV3Threadheader(val activity: Activity) : Item {
 
     }
 
-    class ViewHolder(itemView: View, val banner: Banner, val noticeIv: ImageView, val activityIv: ImageView, val hotIv: ImageView, val rankIv: ImageView) : RecyclerView.ViewHolder(itemView)
+    class ViewHolder(@NotNull itemView: View, val banner: Banner, val noticeIv: ImageView, val activityIv: ImageView, val hotIv: ImageView, val rankIv: ImageView) : RecyclerView.ViewHolder(itemView)
 
     override val controller: ItemController
         get() = Controller
@@ -116,7 +117,7 @@ class MainV3ThreadItem(val latest: LatestEntity, val context: Context, val uid: 
 
     }
 
-    class ViewHolder(itemView: View, val clickLayout: ConstraintLayout, val avatar: ImageView, val name: TextView, val threadType: TextView,
+    class ViewHolder(@NotNull itemView: View, val clickLayout: ConstraintLayout, val avatar: ImageView, val name: TextView, val threadType: TextView,
                      val title: TextView, val commentNum: TextView, val favorNum: TextView,
                      val time: TextView) : RecyclerView.ViewHolder(itemView)
 }

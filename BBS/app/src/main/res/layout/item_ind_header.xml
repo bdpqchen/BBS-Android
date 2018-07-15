@@ -14,8 +14,6 @@
         android:layout_height="320dp"/>
 
     <ImageView
-        android:clickable="true"
-        android:focusable="true"
         android:id="@+id/item_ind_header_back_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
