@@ -60,8 +60,8 @@ class PersonActivity : BaseActivity() , PersonContract.View {
         SnackBarUtil.error(this@PersonActivity,"加载失败，请检查网络设置")
     }
 
-    override fun onThreadInfoSuccess(thread: ThreadModel.ThreadBean) {
-        itemList.add(IndThreadItem(thread, this@PersonActivity, uid))
+    override fun onThreadInfoSuccess(thread: List<ThreadModel.ThreadBean>) {
+        itemList.addAll(thread.map { t -> IndThreadItem(t, this@PersonActivity, uid) })
         recyclerView.withItems(itemList)
     }
 

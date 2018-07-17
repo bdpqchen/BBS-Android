@@ -72,6 +72,7 @@ class MainV3Threadheader(val activity: Activity) : Item {
 }
 
 class MainV3ThreadItem(val latest: LatestEntity, val context: Context, val uid: Int) : Item {
+
     override val controller: ItemController
         get() = Controller
 

@@ -7,7 +7,6 @@ import android.widget.ImageView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemAdapter
 import cn.edu.twt.retrox.recyclerviewdsl.ItemManager
-import cn.edu.twt.retrox.recyclerviewdsl.withItems
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
@@ -18,12 +17,13 @@ import kotterknife.bindView
 
 class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
 
-    private var latestList: MutableList<LatestEntity> = mutableListOf()
+    private var latestList: MutableList<MainV3ThreadItem> = mutableListOf()
     private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.main_srl)
     private val recyclerView: RecyclerView by bindView(R.id.fragment_main_v3_rv)
     private val searchIv: ImageView by bindView(R.id.main_thread_search)
     private val mPresenter = MainV3Presenter(this)
     private var mPage = 0
+    private var isRefreshing = false
     private lateinit var itemManager: ItemManager
     private lateinit var linearLayoutManager: LinearLayoutManager
 
@@ -33,6 +33,7 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
         searchIv.setOnClickListener { startActivity(IntentUtil.toSearch(mContext)) }
 
         swipeRefreshLayout.setOnRefreshListener {
+            isRefreshing = true
             refresh()
         }
 
@@ -50,12 +51,18 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
     }
 
     override fun onLatestSucess(latestList: List<LatestEntity>) {
+
         val temp = mutableListOf<Item>()
         if (mPage == 0) {
             temp.add(MainV3Threadheader(mActivity))
         }
         temp.addAll(latestList.map { t -> MainV3ThreadItem(t, mContext, t.author_id) })
-        recyclerView.withItems(temp)
+        if (isRefreshing) {
+            itemManager.refreshAll(temp)
+            isRefreshing = false
+        } else {
+            itemManager.addAll(temp)
+        }
     }
 
     override fun onLatestFail(msg: String) {
@@ -69,12 +76,13 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
 
     private fun refresh() {
         mPage = 0
+        isRefreshing = true
         mPresenter.getLastest(mPage)
         swipeRefreshLayout.isRefreshing = false
     }
 
     private fun loadMore() {
-        //      mPresenter.getLastest(++mPage)
+        mPresenter.getLastest(++mPage)
     }
 
 }

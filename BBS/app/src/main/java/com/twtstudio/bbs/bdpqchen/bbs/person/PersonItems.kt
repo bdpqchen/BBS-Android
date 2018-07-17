@@ -44,7 +44,7 @@ class PersonHeaderItem(val people : PeopleModel, val context: Context, val uid :
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
             val inflater = parent.context.layoutInflater
             val view = inflater.inflate(R.layout.item_ind_header ,parent,false)
-            val background : ImageView = view.findViewById(R.id.ind_cover)
+            val background = view.findViewById<ImageView>(R.id.ind_cover)
             val backArrowIv = view.findViewById<ImageView>(R.id.item_ind_header_back_arrow)
             val userAvatarIv = view.findViewById<ImageView>(R.id.ind_ac_avatar)
             val userNameTv = view.findViewById<TextView>(R.id.ind_ac_username)

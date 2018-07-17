@@ -14,7 +14,7 @@ interface PersonContract {
     interface View : BaseView {
         fun onPersonInfoSuccess(person : PeopleModel)
         fun onLoadFailed(info : String)
-        fun onThreadInfoSuccess(thread : ThreadModel.ThreadBean)
+        fun onThreadInfoSuccess(thread: List<ThreadModel.ThreadBean>)
         fun addFooter()
     }
 

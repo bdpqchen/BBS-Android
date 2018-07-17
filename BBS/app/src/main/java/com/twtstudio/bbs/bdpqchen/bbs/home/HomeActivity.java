@@ -20,7 +20,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumFragment;
+import com.twtstudio.bbs.bdpqchen.bbs.forum2.ForumFragment2;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.mainV3.MainFragmentV3;
 
@@ -78,7 +78,7 @@ public class HomeActivity extends BaseActivity implements InfoContract {
 //        actionBar.hide();
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragmentV3.Companion.newInstance();
-            mFragments[SECOND] = ForumFragment.newInstance();
+            mFragments[SECOND] = ForumFragment2.Companion.newInstance();
             mFragments[FORTH] = IndividualFragment.newInstance();
 //            mFragments[FORTH] = MessageFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_main_container, FIRST,
@@ -88,7 +88,7 @@ public class HomeActivity extends BaseActivity implements InfoContract {
                     mFragments[FORTH]);
         } else {
             mFragments[FIRST] = findFragment(MainFragmentV3.class);
-            mFragments[SECOND] = findFragment(ForumFragment.class);
+            mFragments[SECOND] = findFragment(ForumFragment2.class);
 //            mFragments[THIRD] = findFragment(MessageFragment.class);
             mFragments[FORTH] = findFragment(IndividualFragment.class);
         }
