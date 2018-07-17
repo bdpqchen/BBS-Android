@@ -20,12 +20,12 @@ class PersonPresenter(view: PersonContract.View?) : RxPresenter(), PersonContrac
                 .publish()
 
         val peopleObserver: SimpleObserver<PeopleModel> = object : SimpleObserver<PeopleModel>() {
-            override fun _onError(msg: String?) {
-                mView?.onLoadFailed(msg!!)
+            override fun _onError(msg: String) {
+                mView?.onLoadFailed(msg)
             }
 
-            override fun _onNext(t: PeopleModel?) {
-                mView?.onPersonInfoSuccess(t!!)
+            override fun _onNext(t: PeopleModel) {
+                mView?.onPersonInfoSuccess(t)
             }
 
         }
@@ -36,16 +36,18 @@ class PersonPresenter(view: PersonContract.View?) : RxPresenter(), PersonContrac
                 .subscribeWith(peopleObserver))
 
         val threadObserver : SimpleObserver<ThreadModel.ThreadBean> = object : SimpleObserver<ThreadModel.ThreadBean>() {
+            val list = mutableListOf<ThreadModel.ThreadBean>()
             override fun _onError(msg: String) {
                 mView?.onLoadFailed(msg)
             }
 
             override fun _onNext(t: ThreadModel.ThreadBean) {
-                mView?.onThreadInfoSuccess(t)
+                list.add(t)
             }
 
             override fun onComplete() {
                 super.onComplete()
+                mView?.onThreadInfoSuccess(list)
             }
         }
 

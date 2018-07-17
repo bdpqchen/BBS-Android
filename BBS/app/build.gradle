@@ -20,12 +20,12 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.twtstudio.bbs.bdpqchen.bbs"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 15
         versionName "1.6.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-//        multiDexEnabled true
+        multiDexEnabled true
 
     }
 
@@ -59,7 +59,7 @@ android {
             minifyEnabled true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            if(pro.getProperty("id_bugly") != null){
+            if (pro.getProperty("id_bugly") != null) {
                 it.buildConfigField 'String', 'ID_BUGLY', pro.getProperty("id_bugly")
             }
         }
@@ -150,7 +150,8 @@ android {
         compile "org.jetbrains.anko:anko-appcompat-v7:0.9.1"
         compile "org.jetbrains.anko:anko-design:0.9.1"
         compile "org.jetbrains.anko:anko-recyclerview-v7:0.9.1"
-
+        compile 'com.youth.banner:banner:1.4.10'
+        compile 'com.google.android:flexbox:0.2.3'
     }
 
 
