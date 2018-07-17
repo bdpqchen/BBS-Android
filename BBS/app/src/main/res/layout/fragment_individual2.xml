@@ -42,19 +42,17 @@
             android:id="@+id/ind_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textColor="#000000"
             android:layout_marginBottom="10.6dp"
             app:layout_constraintLeft_toLeftOf="@+id/ind_honor"
             app:layout_constraintBottom_toTopOf="@id/ind_honor"
-            tools:text="someone" />
+            tools:text="哒哒哒" />
         <TextView
             android:id="@+id/ind_honor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-
-
             android:textSize="12sp"
             android:textColor="#757575"
             app:layout_constraintLeft_toRightOf="@id/ind_avatar"
@@ -281,7 +279,6 @@
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_settings"
-            android:tint="@color/colorTintIconBlack"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

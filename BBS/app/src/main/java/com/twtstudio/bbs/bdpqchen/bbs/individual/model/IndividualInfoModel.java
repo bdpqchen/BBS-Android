@@ -29,6 +29,7 @@ public class IndividualInfoModel {
     private int c_online;
     private int group;
     private int t_create;
+    private int c_thread;
 
     public String getName() {
         return name;
@@ -108,5 +109,14 @@ public class IndividualInfoModel {
 
     public void setT_create(int t_create) {
         this.t_create = t_create;
+    }
+
+    public void setC_thread(int c_thread) {
+        this.c_thread = c_thread;
+    }
+
+    public int getC_thread() {
+        return c_thread;
+
     }
 }

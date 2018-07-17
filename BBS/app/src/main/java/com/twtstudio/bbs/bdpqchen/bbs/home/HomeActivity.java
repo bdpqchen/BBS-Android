@@ -73,7 +73,8 @@ public class HomeActivity extends BaseActivity implements InfoContract {
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
-            getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            getWindow().setNavigationBarColor(Color.BLACK);
+
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
 //        ActionBar actionBar = getSupportActionBar();

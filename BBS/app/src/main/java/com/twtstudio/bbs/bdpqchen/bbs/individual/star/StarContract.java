@@ -13,7 +13,8 @@ interface StarContract {
     interface View extends BaseView{
         void onGetStarList(List<StarModel> list);
         void onGetStarFailed(String m);
-        void onStar(int position);
+        void
+        onStar(int position);
         void onStarFailed(String m);
         void onUnStar(int position);
         void onUnStarFailed(String s);

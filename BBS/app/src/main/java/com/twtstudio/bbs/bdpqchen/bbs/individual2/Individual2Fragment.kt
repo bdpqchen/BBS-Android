@@ -52,11 +52,11 @@ class Individual2Fragment : BaseFragment(), Individual2Contract.View {
     override fun gotInfo(info: IndividualInfoModel) {
         AuthTool.userInfo(info)
         ImageUtil.loadMyAvatar(mContext, mAvatar)
-        mPastDays.setText(TextUtil.getPastDays(mContext, info.t_create), TextView.BufferType.SPANNABLE)
-        mPostCount.setText(PrefUtil.getInfoPost().toString())
-        mNickname.setText(PrefUtil.getInfoNickname())
-        mSignature.setText(PrefUtil.getInfoSignature())
-        mPoints.setText(PrefUtil.getInfoPoints().toString())
+        mPastDays.setText(""+info.c_online)
+        mPostCount.setText(""+info.c_thread)
+        mNickname.setText(info.nickname)
+        mSignature.setText(info.signature)
+        mPoints.setText(""+info.points)
         mHonor.setText(TextUtil.getHonor(info.points))
     }
 
