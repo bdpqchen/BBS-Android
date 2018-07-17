@@ -65,6 +65,7 @@ public class HomeActivity extends BaseActivity implements InfoContract {
 //        HandlerUtil.postDelay(() -> mSlideBackLayout.lock(true));
 //        mPresenter = new HomePresenter(this);
 //        LogUtil.dd("current_token", PrefUtil.getAuthToken());
+
         if (VersionUtil.eaLollipop()) {
             View decorView = getWindow().getDecorView();
             int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION

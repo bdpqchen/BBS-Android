@@ -7,6 +7,7 @@ import android.widget.ImageView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemAdapter
 import cn.edu.twt.retrox.recyclerviewdsl.ItemManager
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
@@ -30,6 +31,7 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
     override fun getPerMainFragmentLayoutId(): Int = R.layout.fragment_main_v3
 
     override fun initFragments() {
+        mActivity.enableLightStatusBarMode(true)
         searchIv.setOnClickListener { startActivity(IntentUtil.toSearch(mContext)) }
 
         swipeRefreshLayout.setOnRefreshListener {

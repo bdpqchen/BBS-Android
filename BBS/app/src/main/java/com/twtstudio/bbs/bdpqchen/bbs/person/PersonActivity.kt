@@ -66,12 +66,12 @@ class PersonActivity : BaseActivity() , PersonContract.View {
     }
 
     override fun addFooter() {
-        if(itemList.size == 11){
-            itemList.add(SingleTextItem("没有更多帖子了（只展示最近十条）"))
-        } else {
-            itemList.add(SingleTextItem("没有更多帖子了"))
-        }
-        recyclerView.withItems(itemList)
+//        if(itemList.size == 11){
+//            itemList.add(SingleTextItem("没有更多帖子了（只展示最近十条）"))
+//        } else {
+//            itemList.add(SingleTextItem("没有更多帖子了"))
+//        }
+//        recyclerView.withItems(itemList)
     }
 
 }

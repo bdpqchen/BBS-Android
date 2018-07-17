@@ -1,12 +1,16 @@
 package com.twtstudio.bbs.bdpqchen.bbs.main.hot2
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import android.widget.ImageView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
+import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
@@ -29,6 +33,16 @@ class HotActivity : BaseActivity(), HotContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= 21) {
+            val decorView = window.decorView
+            val option = (View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+            decorView.systemUiVisibility = option
+            window.navigationBarColor = Color.TRANSPARENT
+            window.statusBarColor = Color.WHITE
+        }
+        enableLightStatusBarMode(true)
         recyclerView.layoutManager = layoutManager
         mPresenter.getHotList()
         backIv.setOnClickListener {
