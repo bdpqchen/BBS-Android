@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".main.rank.RankActivity"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:background="#FFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/material_layout_vertical_spacing_tool_bar">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/selector_foreground_settings"
+                android:id="@+id/rank_ic_back"
+                android:scaleType="center"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_arrow_back_black_24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/rank_tab_layout"
+                android:layout_width="196dp"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tabIndicatorHeight="4dp"
+                app:tabIndicatorColor="#2565ac"
+                app:tabSelectedTextColor="#2565ac">
+
+            </android.support.design.widget.TabLayout>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#f2f2f2" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/rank_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

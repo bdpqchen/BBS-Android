@@ -86,8 +86,7 @@
                     android:foreground="@drawable/selector_foreground_settings"
                     android:orientation="vertical"
                     android:textColor="@color/colorPrimaryCopy"
-                    tools:text="[求实焦点]"
-                    />
+                    tools:text="[求实焦点]" />
             </LinearLayout>
 
             <LinearLayout

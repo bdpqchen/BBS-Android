@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false"
+    tools:context=".main.announce.AnnounceActivity"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/announce_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/material_layout_vertical_spacing_tool_bar"
+        android:background="#ffffff">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/selector_foreground_settings"
+                android:id="@+id/announce_ic_back"
+                android:scaleType="center"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_arrow_back_black_24dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="公告"
+                android:layout_marginStart="8dp"
+                android:textColor="#131313"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@id/announce_ic_back" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/announce_rv" />
+
+</LinearLayout>

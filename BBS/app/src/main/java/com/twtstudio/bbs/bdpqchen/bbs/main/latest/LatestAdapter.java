@@ -71,12 +71,8 @@ public class LatestAdapter extends BaseAdapter<LatestEntity> {
                 holder.mTvThreadTitle.setText(model.getTitle());
                 holder.mTvPostCount.setText(String.valueOf(model.getC_post()));
                 holder.mTvLatestTime.setText(StampUtil.getTimeFromNow(model.getT_create(), model.getT_reply()));
-                holder.itemView.setOnClickListener(v -> {
-                    mContext.startActivity(IntentUtil.toThread(mContext, model.getId(), model.getTitle(), model.getBoard_id(), model.getBoard_name()));
-                });
-                holder.mTvBoardName.setOnClickListener(v -> {
-                    mContext.startActivity(IntentUtil.toThreadList(mContext, model.getBoard_id(), model.getBoard_name(), model.getAnonymous()));
-                });
+                holder.itemView.setOnClickListener(v -> mContext.startActivity(IntentUtil.toThread(mContext, model.getId(), model.getTitle(), model.getBoard_id(), model.getBoard_name())));
+                holder.mTvBoardName.setOnClickListener(v -> mContext.startActivity(IntentUtil.toThreadList(mContext, model.getBoard_id(), model.getBoard_name(), model.getAnonymous())));
             } else if (holder0 instanceof HeaderHolder) {
                 HeaderHolder holder = (HeaderHolder) holder0;
                 holder.mTvUsername.setText(PrefUtil.getAuthUsername());
