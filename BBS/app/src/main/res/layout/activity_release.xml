@@ -16,21 +16,23 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            android:background="#FFFFFF"
+            app:titleTextColor="#757575"
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
+            android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tl_release"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
             android:background="@color/colorMainBgLight"
-            app:tabIndicatorColor="@color/material_yellow_accent_700"
-            app:tabSelectedTextColor="@color/material_yellow_accent_700"
-            app:tabTextColor="@color/colorTintIconBlack"
-            />
+            app:tabIndicatorColor="@color/material_light_blue_400"
+            app:tabSelectedTextColor="@color/material_light_blue_400"
+            app:tabTextColor="@color/colorTintIconBlack" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -38,6 +40,7 @@
         android:id="@+id/vp_release"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/appbar"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
 

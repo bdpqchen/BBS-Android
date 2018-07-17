@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -73,7 +74,7 @@ public class ReplyAdapter extends BaseAdapter<ReplyEntity> {
         @BindView(R.id.tv_bottom_info)
         TextView mTvBottomInfo;
         @BindView(R.id.tv_delete)
-        TextView mTvDelete;
+        ImageView mTvDelete;
 
         ReplyHolder(View view) {
             super(view);

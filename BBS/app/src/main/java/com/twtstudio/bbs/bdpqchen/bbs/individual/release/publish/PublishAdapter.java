@@ -1,9 +1,11 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.release.publish;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -65,7 +67,7 @@ public class PublishAdapter extends BaseAdapter<PublishEntity> {
 
     static class PublishHolder extends BaseViewHolder {
         @BindView(R.id.rl_publish)
-        RelativeLayout mRlPublish;
+        ConstraintLayout mRlPublish;
         @BindView(R.id.tv_title)
         TextView mTvTitle;
         @BindView(R.id.tv_content)
@@ -73,7 +75,7 @@ public class PublishAdapter extends BaseAdapter<PublishEntity> {
         @BindView(R.id.tv_datetime)
         TextView mTvDatetime;
         @BindView(R.id.tv_delete)
-        TextView mTvDelete;
+        ImageView mTvDelete;
 
         PublishHolder(View view) {
             super(view);

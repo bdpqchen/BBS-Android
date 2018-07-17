@@ -98,11 +98,11 @@ public final class TextUtil {
     }
 
     public static SpannableString getPastDays(Context context, int create) {
-        String days = StampUtil.getDaysFromCreateToNow(create) + "天";
+        String days = String.valueOf(StampUtil.getDaysFromCreateToNow(create));
         int daysLength = days.length();
         SpannableString styledText = new SpannableString(days);
-        styledText.setSpan(new TextAppearanceSpan(context, R.style.tvTextSizeNormal), 0, daysLength - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        styledText.setSpan(new TextAppearanceSpan(context, R.style.tvTextSizeVeryLittle), daysLength - 1, daysLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        styledText.setSpan(new TextAppearanceSpan(context, R.style.tvTextSizeNormal), 0, daysLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        styledText.setSpan(new TextAppearanceSpan(context, R.style.tvTextSizeVeryLittle), daysLength - 1, daysLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         //TextView.BufferType.SPANNABLE
         return styledText;
     }
@@ -183,12 +183,17 @@ public final class TextUtil {
     }
 
     public static String getPostCountAndTime(int postCount, int datetime) {
-        return new StringBuilder("回复量 : ")
-                .append(postCount)
-                .append("    ")
-                .append("时间 : ")
-                .append(StampUtil.getDatetimeByStamp(datetime))
-                .toString();
+        return "我 发布于" +
+                StampUtil.getDatetimeByStamp(datetime) +
+                " | " +
+                postCount +
+                "回复";
+    }
+    public static String getPostCountAndTimeInReply(int postCount, int datetime) {
+        return  StampUtil.getDatetimeByStamp(datetime) +
+                " | " +
+                postCount +
+                "回复";
     }
 
     private static String getFloorAndAnon(int floor, int anonymous) {
@@ -196,7 +201,7 @@ public final class TextUtil {
     }
 
     public static String getPostBottomInfo(int postCount, int datetime, int floor, int anonymous) {
-        return getFloorAndAnon(floor, anonymous).concat("    ").concat(getPostCountAndTime(postCount, datetime));
+        return getFloorAndAnon(floor, anonymous).concat("    ").concat(getPostCountAndTimeInReply(postCount, datetime));
     }
 
     private static String isAnon(int status) {

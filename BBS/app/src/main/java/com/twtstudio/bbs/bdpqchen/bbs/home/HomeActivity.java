@@ -21,8 +21,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum2.ForumFragment2;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.mainV3.MainFragmentV3;
+import com.twtstudio.bbs.bdpqchen.bbs.individual2.Individual2Fragment;
+
 
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -80,8 +81,8 @@ public class HomeActivity extends BaseActivity implements InfoContract {
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragmentV3.Companion.newInstance();
             mFragments[SECOND] = ForumFragment2.Companion.newInstance();
-            mFragments[FORTH] = IndividualFragment.newInstance();
-//            mFragments[FORTH] = MessageFragment.newInstance();
+            mFragments[FORTH] = Individual2Fragment.Companion.newInstance();
+//          mFragments[FORTH] = MessageFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_main_container, FIRST,
                     mFragments[FIRST],
                     mFragments[SECOND],
@@ -91,9 +92,9 @@ public class HomeActivity extends BaseActivity implements InfoContract {
             mFragments[FIRST] = findFragment(MainFragmentV3.class);
             mFragments[SECOND] = findFragment(ForumFragment2.class);
 //            mFragments[THIRD] = findFragment(MessageFragment.class);
-            mFragments[FORTH] = findFragment(IndividualFragment.class);
+//            mFragments[FORTH] = findFragment(IndividualFragment.class);
+            mFragments[FORTH] = findFragment(Individual2Fragment.class);
         }
-
         mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
         mBottomBar.setOnTabSelectListener(i -> {
             if (PrefUtil.hadLogin()) {
@@ -105,6 +106,8 @@ public class HomeActivity extends BaseActivity implements InfoContract {
                     clearFullScreen();
                 } else if (i == R.id.bottom_bar_tab_individual) {
                     mShowingFragment = FORTH;
+//                    StatusBarUtil.setTransparent(this);
+//                    clearFullScreen();
                     StatusBarUtil.setTranslucentForImageView(this, 0, null);
 //                } else if (i == R.id.bottom_bar_tab_message){
 //                    mShowingFragment = THIRD;
@@ -131,7 +134,8 @@ public class HomeActivity extends BaseActivity implements InfoContract {
     }
 
     private void clearFullScreen() {
-        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark), 0);
+        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark)
+                , 0);
     }
 
     private void loadFragment() {
