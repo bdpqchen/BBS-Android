@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import cn.edu.twt.retrox.recyclerviewdsl.withItems
-import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
@@ -21,7 +20,7 @@ class ForumFragment2 : SimpleFragment(), ForumContract2.View {
     override fun getPerMainFragmentLayoutId(): Int = R.layout.fragment_forum_2
 
     override fun initFragments() {
-        mActivity.enableLightStatusBarMode(true)
+//        mActivity.enableLightStatusBarMode(true)
         mPresenter = ForumPresenter2(this)
         mPresenter.getBoardList()
         recyclerView.layoutManager = linearLayoutManager

@@ -7,12 +7,10 @@ import android.widget.ImageView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemAdapter
 import cn.edu.twt.retrox.recyclerviewdsl.ItemManager
-import com.twt.wepeiyang.commons.experimental.extensions.enableLightStatusBarMode
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
-import com.twtstudio.bbs.bdpqchen.bbs.individual.release.EndlessRecyclerOnScrollListener
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity
 import kotterknife.bindView
 
@@ -25,13 +23,15 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
     private val mPresenter = MainV3Presenter(this)
     private var mPage = 0
     private var isRefreshing = false
+    private var latestVisibleItem = 0
     private lateinit var itemManager: ItemManager
     private lateinit var linearLayoutManager: LinearLayoutManager
+
 
     override fun getPerMainFragmentLayoutId(): Int = R.layout.fragment_main_v3
 
     override fun initFragments() {
-        mActivity.enableLightStatusBarMode(true)
+//        mActivity.enableLightStatusBarMode(true)
         searchIv.setOnClickListener { startActivity(IntentUtil.toSearch(mContext)) }
 
         swipeRefreshLayout.setOnRefreshListener {
@@ -44,9 +44,18 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
         recyclerView.adapter = ItemAdapter(itemManager)
         recyclerView.adapter.notifyDataSetChanged()
         recyclerView.layoutManager = linearLayoutManager
-        recyclerView.addOnScrollListener(object : EndlessRecyclerOnScrollListener(linearLayoutManager) {
-            override fun onLoadMore() {
-                loadMore()
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                latestVisibleItem = linearLayoutManager.findLastVisibleItemPosition()
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && latestVisibleItem + 1 == recyclerView.adapter.itemCount) {
+                    loadMore()
+                }
             }
         })
         mPresenter.getLastest(0)
