@@ -5,9 +5,10 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="?attr/colorPrimary"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    android:background="#FFFFFF"
+    app:titleTextColor="#757575"
+    android:theme="@style/ThemeOverlay.AppCompat.Light"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
     android:elevation="8dp"
     tools:targetApi="lollipop"
 

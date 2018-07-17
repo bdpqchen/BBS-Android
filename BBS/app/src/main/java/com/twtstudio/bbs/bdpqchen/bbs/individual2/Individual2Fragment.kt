@@ -38,9 +38,9 @@ class Individual2Fragment : BaseFragment(), Individual2Contract.View {
     private val mSignature: TextView by bindView(R.id.ind_signature)
     private val mPoints: TextView by bindView(R.id.ind_points_data)
     private val mHonor: TextView by bindView(R.id.ind_honor)
-    private val mcollections: LinearLayout by bindView(R.id.ind_collection)
-    private val mPublish: LinearLayout by bindView(R.id.ind_publish)
-    private val mSettings: LinearLayout by bindView(R.id.ind_setting)
+    private val mcollections: ConstraintLayout by bindView(R.id.ind_collection)
+    private val mPublish: ConstraintLayout by bindView(R.id.ind_publish)
+    private val mSettings: ConstraintLayout by bindView(R.id.ind_setting)
     private val ACT_IND = 1
     private val ACT_STAR = 2
     private val ACT_PUBLISH = 3

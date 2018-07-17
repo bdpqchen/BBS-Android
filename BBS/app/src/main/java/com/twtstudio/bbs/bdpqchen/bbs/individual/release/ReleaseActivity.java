@@ -31,7 +31,7 @@ public class ReleaseActivity extends BaseActivity {
 
     @Override
     protected Toolbar getToolbarView() {
-        mToolbar.setTitle("我的帖子");
+        mToolbar.setTitle("");
         return mToolbar;
     }
 

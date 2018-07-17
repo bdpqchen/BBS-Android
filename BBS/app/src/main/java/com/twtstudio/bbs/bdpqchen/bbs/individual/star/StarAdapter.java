@@ -53,7 +53,7 @@ public class StarAdapter extends BaseAdapter<StarModel> {
                     holder.mTvStarName.setText(TextUtil.getTwoNames(model.getAuthor_name(), model.getAuthor_nickname()));
                 }
                 ImageUtil.loadAvatarButAnon(mContext, model.getAuthor_id(), holder.mCivStarAvatar);
-                holder.mTvStarCreateTime.setText(StampUtil.getDatetimeByStamp(model.getT_create()));
+                holder.mTvStarCreateTime.setText("发布于"+StampUtil.getDatetimeByStamp(model.getT_create()));
                 holder.mTvStarTitle.setText(model.getTitle());
 
                 if (model.getIn_collection() == 0) {
