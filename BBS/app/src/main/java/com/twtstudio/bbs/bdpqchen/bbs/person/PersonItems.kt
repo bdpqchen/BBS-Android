@@ -14,6 +14,7 @@ import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleModel
@@ -39,6 +40,20 @@ class PersonHeaderItem(val people : PeopleModel, val context: Context, val uid :
             holder.userPointTv.text = ""+ item.people.points
             holder.userThreadTV.text = "" + item.people.c_thread
             holder.userAgeTv.text = "" + item.people.c_online
+            holder.messageaOrModify.apply {
+                if (PrefUtil.getAuthUid() == item.uid){
+                    this.setImageResource(R.drawable.modify)
+                    this.setOnClickListener{
+                        item.context.startActivity(IntentUtil.toUpDateInfo(item.context))
+                    }
+                } else {
+                    this.setImageResource(R.drawable.priviate_message)
+                    this.setOnClickListener {
+                        item.context.startActivity(IntentUtil.toLetter(item.context,item.uid,item.people.name))
+                    }
+                }
+            }
+
         }
 
         override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -53,12 +68,13 @@ class PersonHeaderItem(val people : PeopleModel, val context: Context, val uid :
             val userPointTv = view.findViewById<TextView>(R.id.ind_ac_points)
             val userThreadTv = view.findViewById<TextView>(R.id.ind_ac_threads)
             val userAgeTv = view.findViewById<TextView>(R.id.ind_ac_station_age)
-            return ViewHolder(view,background ,backArrowIv,userAvatarIv,userNameTv,userLevelTv,userSignTv,userPointTv,userThreadTv,userAgeTv)
+            val messageOrModify = view.findViewById<ImageView>(R.id.modify_or_message)
+            return ViewHolder(view,background ,messageOrModify,backArrowIv,userAvatarIv,userNameTv,userLevelTv,userSignTv,userPointTv,userThreadTv,userAgeTv)
         }
 
     }
 
-    private class ViewHolder(itemView : View?,val background:ImageView, val backArrowIv: ImageView, val userAvatarIv : ImageView,
+    private class ViewHolder(itemView : View?,val background:ImageView,val messageaOrModify:ImageView, val backArrowIv: ImageView, val userAvatarIv : ImageView,
                              val userNameTv: TextView, val userLevelTv:TextView, val userSignTv:TextView,
                              val userPointTv: TextView,val userThreadTV:TextView, val userAgeTv:TextView
                              ) : RecyclerView.ViewHolder(itemView)
