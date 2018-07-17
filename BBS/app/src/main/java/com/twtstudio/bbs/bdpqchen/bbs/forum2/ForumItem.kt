@@ -38,6 +38,7 @@ class ForumItem(val forumList: ForumBoardModel, val screenWidth: Int, val contex
             val cHeight = Math.ceil(boardNum / 3.0).toInt() * tHeight
             holder.constraintLayout.layoutParams.height = context.dip(cHeight)
             holder.constraintLayout.layoutParams.width = context.dip(cWidth)
+            holder.flexbox.removeAllViews()
             item.forumList.boardList.forEach {
                 holder.flexbox.textView {
                     text = it.boardName

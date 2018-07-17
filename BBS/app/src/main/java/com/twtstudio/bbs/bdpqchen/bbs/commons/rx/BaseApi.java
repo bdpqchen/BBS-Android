@@ -272,7 +272,6 @@ public interface BaseApi {
             @Part("name") String image);
 
     @GET("home/collection")
-    @Headers("Cache-Control: max-age=3600")
     Observable<BaseResponse<List<StarModel>>> getStarThreadList();
 
     @POST("home/friend/confirm")
