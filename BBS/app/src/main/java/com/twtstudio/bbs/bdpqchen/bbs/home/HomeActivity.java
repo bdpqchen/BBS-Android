@@ -8,23 +8,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.jaeger.library.StatusBarUtil;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.BottomBarTab;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum2.ForumFragment2;
-import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
-import com.twtstudio.bbs.bdpqchen.bbs.main.mainV3.MainFragmentV3;
 import com.twtstudio.bbs.bdpqchen.bbs.individual2.Individual2Fragment;
-
+import com.twtstudio.bbs.bdpqchen.bbs.main.mainV3.MainFragmentV3;
 
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -32,9 +30,19 @@ import me.yokeyword.fragmentation.SupportFragment;
 
 public class HomeActivity extends BaseActivity implements InfoContract {
 
-    @BindView(R.id.bottom_bar)
-    BottomBar mBottomBar;
-    BottomBarTab mNearBy;
+//    @BindView(R.id.home_bottom_bar)
+//    BottomBar mBottomBar;
+//    BottomBarTab mNearBy;
+    @BindView(R.id.home_bottom_bar_main)
+    ImageView tabHome;
+    @BindView(R.id.home_bottom_bar_forum)
+    ImageView tabForum;
+    @BindView(R.id.home_bottom_bar_message)
+    ImageView tabMessage;
+    @BindView(R.id.home_bottom_bar_individual)
+    ImageView tabIndividual;
+    @BindView(R.id.home_bar_create_thread)
+    ImageView createThread;
     @BindView(R.id.fl_main_container)
     FrameLayout mFlMainContainer;
     private SupportFragment[] mFragments = new SupportFragment[4];
@@ -67,7 +75,6 @@ public class HomeActivity extends BaseActivity implements InfoContract {
 //        HandlerUtil.postDelay(() -> mSlideBackLayout.lock(true));
 //        mPresenter = new HomePresenter(this);
 //        LogUtil.dd("current_token", PrefUtil.getAuthToken());
-
         if (VersionUtil.eaLollipop()) {
             View decorView = getWindow().getDecorView();
             int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -78,46 +85,73 @@ public class HomeActivity extends BaseActivity implements InfoContract {
 
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
+        setTabStatus(mShowingFragment);
 //        ActionBar actionBar = getSupportActionBar();
 //        actionBar.hide();
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragmentV3.Companion.newInstance();
             mFragments[SECOND] = ForumFragment2.Companion.newInstance();
-            mFragments[THIRD] = IndividualFragment.newInstance();
             mFragments[FORTH] = Individual2Fragment.Companion.newInstance();
+//          mFragments[FORTH] = MessageFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_main_container, FIRST,
                     mFragments[FIRST],
                     mFragments[SECOND],
-                    mFragments[THIRD],
+//                    mFragments[THIRD],
                     mFragments[FORTH]);
         } else {
             mFragments[FIRST] = findFragment(MainFragmentV3.class);
             mFragments[SECOND] = findFragment(ForumFragment2.class);
-            mFragments[THIRD] = findFragment(IndividualFragment.class);
+//            mFragments[THIRD] = findFragment(MessageFragment.class);
+//            mFragments[FORTH] = findFragment(IndividualFragment.class);
             mFragments[FORTH] = findFragment(Individual2Fragment.class);
         }
-        mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
-        mBottomBar.setOnTabSelectListener(i -> {
-            if (PrefUtil.hadLogin()) {
-                if (i == R.id.bottom_bar_tab_main) {
-                    mShowingFragment = FIRST;
-//                    clearFullScreen();
-                } else if (i == R.id.bottom_bar_tab_forum) {
-                    mShowingFragment = SECOND;
-//                    clearFullScreen();
-                } else if (i == R.id.bottom_bar_tab_individual) {
-                    mShowingFragment = FORTH;
-//                    StatusBarUtil.setTransparent(this);
-//                    clearFullScreen();
-//                    StatusBarUtil.setTranslucentForImageView(this, 0, null);
-                } else if (i == R.id.bottom_bar_tab_message){
-                    mShowingFragment = THIRD;
-                }
-                loadFragment();
-            } else if (i == R.id.bottom_bar_tab_individual && !PrefUtil.hadLogin()) {
-                startActivity(new Intent(this, LoginActivity.class));
-            }
+        createThread.setOnClickListener(v -> {
+            startActivity(IntentUtil.toCreateThread(this));
         });
+        tabHome.setOnClickListener( v -> {
+            setTabStatus(FIRST);
+            mShowingFragment = FIRST;
+            clearFullScreen();
+            loadFragment();
+        });
+        tabForum.setOnClickListener( v -> {
+            setTabStatus(SECOND);
+            mShowingFragment = SECOND;
+            clearFullScreen();
+            loadFragment();
+        });
+        tabMessage.setOnClickListener( v -> {
+            setTabStatus(THIRD);
+        });
+        tabIndividual.setOnClickListener( v -> {
+            setTabStatus(FORTH);
+            mShowingFragment = FORTH;
+            clearFullScreen();
+            loadFragment();
+        });
+
+//        mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
+//        mBottomBar.setOnTabSelectListener(i -> {
+//            if (PrefUtil.hadLogin()) {
+//                if (i == R.id.bottom_bar_tab_main) {
+//                    mShowingFragment = FIRST;
+//                    clearFullScreen();
+//                } else if (i == R.id.bottom_bar_tab_forum) {
+//                    mShowingFragment = SECOND;
+//                    clearFullScreen();
+//                } else if (i == R.id.bottom_bar_tab_individual) {
+//                    mShowingFragment = FORTH;
+////                    StatusBarUtil.setTransparent(this);
+////                    clearFullScreen();
+//                    StatusBarUtil.setTranslucentForImageView(this, 0, null);
+////                } else if (i == R.id.bottom_bar_tab_message){
+////                    mShowingFragment = THIRD;
+//                }
+//                loadFragment();
+//            } else if (i == R.id.bottom_bar_tab_individual && !PrefUtil.hadLogin()) {
+//                startActivity(new Intent(this, LoginActivity.class));
+//            }
+//        });
 
         if (PrefUtil.getLastImageStamp() == 0) {
             PrefUtil.setLastImageStamp(System.currentTimeMillis());
@@ -161,8 +195,20 @@ public class HomeActivity extends BaseActivity implements InfoContract {
 
     @Override
     public void showUnreadMsg(int count) {
-        mNearBy.setBadgeCount(count);
+//        mNearBy.setBadgeCount(count);
     }
 
+    private void setTabStatus(int position){
+        int []ids1 = {R.drawable.my_home,R.drawable.my_forum,R.drawable.my_message,R.drawable.my_individual};
+        int [] ids2 = {R.drawable.my_home_2,R.drawable.my_forum_2,R.drawable.my_message_2,R.drawable.my_individual_2};
+        ImageView [] views = {tabHome,tabForum,tabMessage,tabIndividual};
+        for (int i = 0; i < 4; i++) {
+            if(i == position){
+                views[i].setImageResource(ids2[i]);
+            } else {
+                views[i].setImageResource(ids1[i]);
+            }
+        }
+    }
 
 }

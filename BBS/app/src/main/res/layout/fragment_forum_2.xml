@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:text="讨论区"
                 android:textColor="#444444"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

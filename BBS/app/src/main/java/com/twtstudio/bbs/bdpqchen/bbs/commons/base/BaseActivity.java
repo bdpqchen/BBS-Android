@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.jaeger.library.StatusBarUtil;
@@ -39,6 +41,9 @@ public abstract class BaseActivity extends SupportActivity {
     protected Activity mActivity;
     protected Context mContext;
     private Unbinder mUnBinder;
+    private WindowManager wm ;
+    private DisplayMetrics dm;
+    private Float density ;
 //    protected SlideBackLayout mSlideBackLayout;
 
     protected abstract int getLayoutResourceId();
@@ -54,6 +59,9 @@ public abstract class BaseActivity extends SupportActivity {
         AppCompatDelegate.setDefaultNightMode(PrefUtil.isNightMode() ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(getLayoutResourceId());
         fixApi21blackBlockOnBottom();
+        wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        dm = new DisplayMetrics();
+        density = dm.density;
         mUnBinder = ButterKnife.bind(this);
         mActivity = this;
         mContext = this;
@@ -154,5 +162,18 @@ public abstract class BaseActivity extends SupportActivity {
         finishThisActivity();
     }
 
+    public int getWidthInDp() {
+        wm.getDefaultDisplay().getMetrics(dm);
+        int widthPx = dm.widthPixels;
+        Float res = (widthPx / density);
+        return res.intValue();
+    }
+
+    public int getHeightInDp() {
+        wm.getDefaultDisplay().getMetrics(dm);
+        int heightPx = dm.heightPixels;
+        Float res = heightPx / density;
+        return res.intValue();
+    }
 
 }

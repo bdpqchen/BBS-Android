@@ -15,7 +15,8 @@
         <TextView xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="20sp"
+            android:textColor="#444444"
             android:text="我的" />
     </android.support.v7.widget.Toolbar>
 
