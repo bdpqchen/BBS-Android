@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/transparent">
+
+    <android.support.constraint.ConstraintLayout
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+
+        <ImageView
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/selector_foreground_settings"
+            android:id="@+id/home_bottom_bar_main"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding = "6dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/my_home"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/home_bottom_bar_forum"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <ImageView
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/selector_foreground_settings"
+            android:id="@+id/home_bottom_bar_forum"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding = "6dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/my_forum"
+            android:layout_marginEnd="32dp"
+            app:layout_constraintStart_toEndOf="@id/home_bottom_bar_main"
+            app:layout_constraintEnd_toStartOf="@id/home_bottom_bar_message"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            />
+
+        <ImageView
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/selector_foreground_settings"
+            android:id="@+id/home_bottom_bar_message"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding = "6dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/my_message"
+            android:layout_marginStart="32dp"
+            app:layout_constraintStart_toEndOf="@id/home_bottom_bar_forum"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/home_bottom_bar_individual"
+            />
+
+        <TextView
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/selector_foreground_settings"
+            android:gravity="center"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:text="99"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/shape_red_dot"
+            app:layout_constraintTop_toTopOf="@id/home_bottom_bar_message"
+            app:layout_constraintEnd_toEndOf="@id/home_bottom_bar_message"/>
+
+        <ImageView
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/selector_foreground_settings"
+            android:id="@+id/home_bottom_bar_individual"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding = "6dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/my_individual"
+            app:layout_constraintStart_toEndOf="@id/home_bottom_bar_message"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/selector_foreground_settings"
+        android:id="@+id/home_bar_create_thread"
+        android:elevation="1dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/create_thread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

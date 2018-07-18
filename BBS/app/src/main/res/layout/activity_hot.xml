@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:text="十大"
                 android:textColor="#444444"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:layout_marginStart="8dp"
                 app:layout_constraintStart_toEndOf="@id/activity_hot_ic_back"
                 app:layout_constraintTop_toTopOf="parent"

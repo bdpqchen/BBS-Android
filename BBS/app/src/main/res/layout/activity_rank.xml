@@ -38,7 +38,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:tabIndicatorHeight="4dp"
                 app:tabIndicatorColor="#2565ac"
-                app:tabSelectedTextColor="#2565ac">
+                app:tabSelectedTextColor="#2565ac"
+                >
 
             </android.support.design.widget.TabLayout>
 
