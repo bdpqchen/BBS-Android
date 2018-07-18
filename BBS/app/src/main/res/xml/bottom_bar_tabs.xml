@@ -13,11 +13,11 @@
         title="论坛"
         />
 
-   <!-- <tab
+    <tab
         icon="@drawable/icon_bb_message"
         id="@+id/bottom_bar_tab_message"
         title="消息"
-        />-->
+        />
 
     <tab
         icon="@drawable/icon_bb_individual"

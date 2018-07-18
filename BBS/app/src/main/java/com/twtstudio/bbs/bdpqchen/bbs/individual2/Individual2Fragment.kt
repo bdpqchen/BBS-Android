@@ -15,6 +15,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_RESULT_UP
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_UPDATE_INFO
 import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.AuthTool
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.*
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel
 import com.twtstudio.bbs.bdpqchen.bbs.individual.release.ReleaseActivity
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity
@@ -29,7 +30,7 @@ import me.yokeyword.fragmentation.SupportFragment
  */
 class Individual2Fragment : BaseFragment(), Individual2Contract.View {
 
-    private val xPresenter: Individual2Presenter? = Individual2Presenter(this)
+    private lateinit var xPresenter: Individual2Presenter
     private val mInfo: ConstraintLayout by bindView(R.id.ind_info)
     private val mAvatar: CircleImageView by bindView(R.id.ind_avatar)
     private val mPastDays: TextView by bindView(R.id.ind_past_day_data)
@@ -52,11 +53,11 @@ class Individual2Fragment : BaseFragment(), Individual2Contract.View {
     override fun gotInfo(info: IndividualInfoModel) {
         AuthTool.userInfo(info)
         ImageUtil.loadMyAvatar(mContext, mAvatar)
-        mPastDays.setText(""+info.c_online)
-        mPostCount.setText(""+info.c_thread)
+        mPastDays.setText("" + info.c_online)
+        mPostCount.setText("" + info.c_thread)
         mNickname.setText(info.nickname)
         mSignature.setText(info.signature)
-        mPoints.setText(""+info.points)
+        mPoints.setText("" + info.points)
         mHonor.setText(TextUtil.getHonor(info.points))
     }
 
@@ -67,7 +68,7 @@ class Individual2Fragment : BaseFragment(), Individual2Contract.View {
     override fun getPresenter(): Individual2Presenter? = xPresenter
 
     override fun initFragment() {
-
+        xPresenter = Individual2Presenter(this)
         xPresenter!!.initIndividualInfo()
         mInfo.setOnClickListener { startItemActivity(ACT_IND) }
         mcollections.setOnClickListener { startItemActivity(ACT_STAR) }

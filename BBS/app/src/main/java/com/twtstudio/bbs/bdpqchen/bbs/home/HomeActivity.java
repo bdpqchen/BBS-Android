@@ -21,6 +21,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum2.ForumFragment2;
+import com.twtstudio.bbs.bdpqchen.bbs.individual.IndividualFragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.mainV3.MainFragmentV3;
 import com.twtstudio.bbs.bdpqchen.bbs.individual2.Individual2Fragment;
 
@@ -36,11 +37,11 @@ public class HomeActivity extends BaseActivity implements InfoContract {
     BottomBarTab mNearBy;
     @BindView(R.id.fl_main_container)
     FrameLayout mFlMainContainer;
-    private SupportFragment[] mFragments = new SupportFragment[3];
+    private SupportFragment[] mFragments = new SupportFragment[4];
     private static final int FIRST = 0;
     private static final int SECOND = 1;
-    //    private static final int THIRD = 2;
-    private static final int FORTH = 2;
+    private static final int THIRD = 2;
+    private static final int FORTH = 3;
     private int mShowingFragment = FIRST;
     private int mHidingFragment = FIRST;
     private boolean mIsExit = false;
@@ -82,18 +83,17 @@ public class HomeActivity extends BaseActivity implements InfoContract {
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragmentV3.Companion.newInstance();
             mFragments[SECOND] = ForumFragment2.Companion.newInstance();
+            mFragments[THIRD] = IndividualFragment.newInstance();
             mFragments[FORTH] = Individual2Fragment.Companion.newInstance();
-//          mFragments[FORTH] = MessageFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_main_container, FIRST,
                     mFragments[FIRST],
                     mFragments[SECOND],
-//                    mFragments[THIRD],
+                    mFragments[THIRD],
                     mFragments[FORTH]);
         } else {
             mFragments[FIRST] = findFragment(MainFragmentV3.class);
             mFragments[SECOND] = findFragment(ForumFragment2.class);
-//            mFragments[THIRD] = findFragment(MessageFragment.class);
-//            mFragments[FORTH] = findFragment(IndividualFragment.class);
+            mFragments[THIRD] = findFragment(IndividualFragment.class);
             mFragments[FORTH] = findFragment(Individual2Fragment.class);
         }
         mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
@@ -101,17 +101,17 @@ public class HomeActivity extends BaseActivity implements InfoContract {
             if (PrefUtil.hadLogin()) {
                 if (i == R.id.bottom_bar_tab_main) {
                     mShowingFragment = FIRST;
-                    clearFullScreen();
+//                    clearFullScreen();
                 } else if (i == R.id.bottom_bar_tab_forum) {
                     mShowingFragment = SECOND;
-                    clearFullScreen();
+//                    clearFullScreen();
                 } else if (i == R.id.bottom_bar_tab_individual) {
                     mShowingFragment = FORTH;
 //                    StatusBarUtil.setTransparent(this);
 //                    clearFullScreen();
-                    StatusBarUtil.setTranslucentForImageView(this, 0, null);
-//                } else if (i == R.id.bottom_bar_tab_message){
-//                    mShowingFragment = THIRD;
+//                    StatusBarUtil.setTranslucentForImageView(this, 0, null);
+                } else if (i == R.id.bottom_bar_tab_message){
+                    mShowingFragment = THIRD;
                 }
                 loadFragment();
             } else if (i == R.id.bottom_bar_tab_individual && !PrefUtil.hadLogin()) {

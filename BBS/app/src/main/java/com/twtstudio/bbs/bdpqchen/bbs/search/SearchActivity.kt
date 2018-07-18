@@ -119,8 +119,8 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
     }
 
     override fun onClick(position: Int) {
-        LogUtil.dd("====getuid", mAdapter.getUserUid(position).toString())
-        val entity : SearchUserModel = mAdapter.getUser(position)
+        LogUtil.dd("====getuid", mAdapter.getUserUid(position-1).toString())
+        val entity : SearchUserModel = mAdapter.getUser(position-1)
         if (mMode == MODE_SEARCH_USER){
             val intentResult = Intent()
             intentResult.putExtra(INTENT_RESULT_AT_USER_UID, entity.id)
@@ -128,7 +128,7 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
             setResult(Activity.RESULT_OK, intentResult)
             finishMe()
         }else{
-            mContext.startActivity(IntentUtil.toPeople(mContext, mAdapter.getUserUid(position)))
+            mContext.startActivity(IntentUtil.toPeople(mContext, mAdapter.getUserUid(position-1)))
         }
     }
 

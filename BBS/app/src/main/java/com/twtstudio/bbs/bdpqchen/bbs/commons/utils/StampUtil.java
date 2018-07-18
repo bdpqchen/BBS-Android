@@ -24,6 +24,7 @@ public final class StampUtil {
         return days + 1;    //不能从零天开始计算
     }
 
+
     public static String getDatetimeByStamp(int postTime) {
         Calendar calendar = Calendar.getInstance();
         int[] dateNow = getCalendar(calendar);
@@ -40,6 +41,35 @@ public final class StampUtil {
                 result = date[1] + "月" + date[2] + "号 ";
             }
         }
+        if (date[3] == 0) {
+            result += "0";
+        }
+        result += date[3] + ":";
+        if (date[4] < 10) {
+            result += "0";
+        }
+        result += date[4];
+//        LogUtil.dd("result time", result);
+        return result;
+    }
+
+    public static String getMessageDatetimeByStamp(int postTime) {
+        Calendar calendar = Calendar.getInstance();
+        int[] dateNow = getCalendar(calendar);
+        Long dateLong = Long.valueOf((postTime + "000"));
+        calendar.setTimeInMillis(dateLong);
+        int[] date = getCalendar(calendar);
+        String result = "";
+        if (date[0] < dateNow[0])
+            return date[0] + "年" + date[1] + "月" + date[2] + "号";
+        if (date[1] < dateNow[1] || (date[1] == dateNow[1] && dateNow[2] - date[2] > 1))
+            return date[1] + "月" + date[2] + "号";
+        if (date[1] == dateNow[1] && date[2] + 1 == dateNow[2])
+            return "昨天";
+        if (date[3] == dateNow[3] && date[4] < dateNow[4])
+            return (dateNow[4] - date[4]) + "分钟前";
+        if (date[3] == dateNow[3]&&dateNow[4] == date[4])
+            return "刚刚";
         if (date[3] == 0) {
             result += "0";
         }
