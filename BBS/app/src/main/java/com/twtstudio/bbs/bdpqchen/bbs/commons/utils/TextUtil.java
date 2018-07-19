@@ -86,13 +86,15 @@ public final class TextUtil {
         return content;
     }
 
-    public static String formatContent(String contentBefore) {
+    public static String formatContent(String contentBefore, String action) {
         String content = "";
         if (contentBefore != null && contentBefore.length() > 0) {
+            if (contentBefore.indexOf("attach:") != -1) contentBefore = "[图片]";
             content = Processor.process(contentBefore);
             content = TextUtil.getReplacedContent(content);
-            content = content.replaceAll("attach:", BASE_URL + "img/");
-            content = content.replaceAll("<img", "<br /><img");
+//            if (content.length()>24) {
+//                content = "<p>" + content.substring(17,content.length()-4) + "...</p>";
+//            }
         }
         return content;
     }
@@ -189,8 +191,9 @@ public final class TextUtil {
                 postCount +
                 "回复";
     }
+
     public static String getPostCountAndTimeInReply(int postCount, int datetime) {
-        return  StampUtil.getDatetimeByStamp(datetime) +
+        return StampUtil.getDatetimeByStamp(datetime) +
                 " | " +
                 postCount +
                 "回复";
@@ -374,8 +377,7 @@ public final class TextUtil {
     public static String getContentWithin2Lines(String content) {
         if (content.length() > 25) {
             return content.substring(0, 25) + "...";
-        }
-        else{
+        } else {
             return content;
         }
     }

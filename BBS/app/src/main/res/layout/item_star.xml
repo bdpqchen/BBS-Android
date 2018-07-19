@@ -13,8 +13,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civ_star_avatar"
-        android:layout_width="21dp"
-        android:layout_height="21dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         tools:src="@drawable/avatar_default_left" />
 
 
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintLeft_toRightOf="@+id/civ_star_avatar"
         app:layout_constraintTop_toTopOf="@id/civ_star_avatar"
         app:layout_constraintBottom_toBottomOf="@id/civ_star_avatar"
@@ -32,8 +32,9 @@
 
     <ImageView
         android:id="@+id/iv_star"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="6dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/civ_star_avatar"
         app:layout_constraintBottom_toBottomOf="@id/civ_star_avatar"
@@ -41,8 +42,9 @@
 
     <ImageView
         android:id="@+id/iv_un_star"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="6dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/civ_star_avatar"
         app:layout_constraintBottom_toBottomOf="@id/civ_star_avatar"

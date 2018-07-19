@@ -1,6 +1,5 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual2
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
@@ -12,10 +11,12 @@ import android.widget.TextView
 import com.jaeger.library.StatusBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment
+import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_RESULT_UPDATE_INFO
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_UPDATE_INFO
 import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.AuthTool
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.*
+import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel
 import com.twtstudio.bbs.bdpqchen.bbs.individual.release.ReleaseActivity
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity
@@ -28,9 +29,11 @@ import me.yokeyword.fragmentation.SupportFragment
 /**
  * Created by linjiaxin on 2018/7/12.
  */
-class Individual2Fragment : BaseFragment(), Individual2Contract.View {
+class Individual2Fragment : SimpleFragment(), Individual2Contract.View {
+    override fun getPerMainFragmentLayoutId(): Int = R.layout.fragment_individual2
 
-    private val xPresenter: Individual2Presenter? = Individual2Presenter(this)
+
+    private lateinit var xPresenter: Individual2Presenter
     private val mInfo: ConstraintLayout by bindView(R.id.ind_info)
     private val mAvatar: CircleImageView by bindView(R.id.ind_avatar)
     private val mPastDays: TextView by bindView(R.id.ind_past_day_data)
@@ -48,28 +51,24 @@ class Individual2Fragment : BaseFragment(), Individual2Contract.View {
     private val ACT_SETS = 4
     private var NICKNAME = PrefUtil.getInfoNickname()
 
-    override fun getFragmentLayoutId(): Int = R.layout.fragment_individual2
-
-    @SuppressLint("SetTextI18n")
     override fun gotInfo(info: IndividualInfoModel) {
         AuthTool.userInfo(info)
         ImageUtil.loadMyAvatar(mContext, mAvatar)
-        mPastDays.text = ""+info.c_online
-        mPostCount.text = ""+info.c_thread
-        mNickname.text = info.nickname
-        mSignature.text = info.signature
-        mPoints.text = ""+info.points
-        mHonor.text = TextUtil.getHonor(info.points)
+        mPastDays.setText("" + info.c_online)
+        mPostCount.setText("" + info.c_thread)
+        mNickname.setText(info.nickname)
+        mSignature.setText(info.signature)
+        mPoints.setText("" + info.points)
+        mHonor.setText(TextUtil.getHonor(info.points))
     }
 
     private fun getInfo() {
         xPresenter!!.initIndividualInfo()
     }
 
-    override fun getPresenter(): Individual2Presenter? = xPresenter
 
-    override fun initFragment() {
-
+    override fun initFragments() {
+        xPresenter = Individual2Presenter(this)
         xPresenter!!.initIndividualInfo()
         mInfo.setOnClickListener { startItemActivity(ACT_IND) }
         mcollections.setOnClickListener { startItemActivity(ACT_STAR) }
@@ -123,7 +122,7 @@ class Individual2Fragment : BaseFragment(), Individual2Contract.View {
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        if (mPresenter != null) {
+        if (xPresenter != null) {
             getInfo()
             ImageUtil.loadMyAvatar(mContext, mAvatar)
         }

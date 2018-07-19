@@ -20,6 +20,8 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.StampUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -79,23 +81,30 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                     LogUtil.dd("load avatarr", String.valueOf(item.getAuthor_id()));
                     if (tag == TAG_MSG_COMMENT || tag == TAG_MSG_REPLY || tag == TAG_MSG_AT_USER) {
                         MessageModel.ContentModel model = item.getContent_model();
-                        iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(model.getT_create()));
-                        String content = TextUtil.formatContent(model.getContent());
+                        iHolder.mTvComposeTitle.setText(item.getAuthor_name());
+                        iHolder.mTvDatetime.setText(StampUtil.getMessageDatetimeByStamp(model.getT_create()));
+                        String action = TextUtil.getMsgActionText(tag);
+                        String content = TextUtil.formatContent(model.getContent(), action);
+                        action = action + "了你";
+                        if (Objects.equals(action, "提到了你"))
+                            content = " 在 " + model.getThread_title() + " 中" + action;
+                        else content = "<p>" + action + ":" + content.substring(3);
                         iHolder.mHtvSummary.setHtml(content, new GlideImageGeter(mContext, iHolder.mHtvSummary));
                         iHolder.itemView.setOnClickListener(v -> {
                             iHolder.mTvRedDot.setVisibility(View.GONE);
                             mContext.startActivity(IntentUtil.toThread(mContext,
                                     model.getThread_id(), model.getThread_title(), model.getFloor()));
                         });
-                        String action = TextUtil.getMsgActionText(tag);
-                        String composed = item.getAuthor_name() + " 在 " + model.getThread_title() + " 中" + action + "了你";
-                        iHolder.mTvComposeTitle.setText(composed);
                     }
                 }
                 if (tag == 1) {
                     iHolder.mTvComposeTitle.setText(TextUtil.getTwoNames(item.getAuthor_name(), item.getAuthor_nickname()));
-                    iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
-                    iHolder.mHtvSummary.setText(item.getContent());
+                    iHolder.mTvDatetime.setText(StampUtil.getMessageDatetimeByStamp(item.getT_create()));
+                    String content = item.getContent();
+                    if (content.length() > 17) {
+                        content = content.substring(0, 17) + "...";
+                    }
+                    iHolder.mHtvSummary.setText(content);
                     iHolder.itemView.setOnClickListener(v -> {
                         mContext.startActivity(IntentUtil.toLetter(mContext, item.getAuthor_id(), item.getAuthor_name()));
                     });
@@ -108,7 +117,7 @@ public class MessageAdapter extends BaseAdapter<MessageModel> {
                     startToPeople(mContext, item.getAuthor_id(), iHolder.mCivMessage);
                 });
                 iHolder.mTvAppealName.setText(TextUtil.getTwoNames(item.getAuthor_name(), item.getAuthor_nickname()));
-                iHolder.mTvDatetime.setText(StampUtil.getDatetimeByStamp(item.getT_create()));
+                iHolder.mTvDatetime.setText(StampUtil.getMessageDatetimeByStamp(item.getT_create()));
                 if (item.getContent_model() != null) {
                     MessageModel.ContentModel content = item.getContent_model();
                     iHolder.mTvAppealMsg.setText("请求成为好友 " + content.getMessage());
