@@ -14,10 +14,12 @@ interface Message2Contract {
         fun showMessageList(messageList: List<MessageModel>)
         fun onCleared()
         fun onClearFailed(msg: String)
+        fun onGotMessageCount(integer: Int)
     }
 
     interface Presenter : BasePresenter {
         fun getMessageList(page: Int)
         fun doClearUnreadMessage()
+        fun getUnreadMessageCount()
     }
 }

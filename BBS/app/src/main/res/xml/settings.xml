@@ -9,13 +9,13 @@
         android:layout="@layout/preference_category_widget"
         android:title="基本设置">
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/key_night_mode"
-            android:layout="@layout/preference_item_normal"
-            android:summary="拒绝亮瞎眼式应用"
-            android:title="夜间模式"
-            />
+        <!--<SwitchPreference-->
+            <!--android:defaultValue="false"-->
+            <!--android:key="@string/key_night_mode"-->
+            <!--android:layout="@layout/preference_item_normal"-->
+            <!--android:summary="拒绝亮瞎眼式应用"-->
+            <!--android:title="夜间模式"-->
+            <!--/>-->
 
         <SwitchPreference
             android:defaultValue="false"

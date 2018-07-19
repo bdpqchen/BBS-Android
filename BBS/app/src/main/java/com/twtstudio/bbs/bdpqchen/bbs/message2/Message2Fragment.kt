@@ -14,6 +14,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
+import com.twtstudio.bbs.bdpqchen.bbs.home.InfoContract
 import com.twtstudio.bbs.bdpqchen.bbs.individual.message.model.MessageModel
 import kotterknife.bindView
 
@@ -29,6 +30,7 @@ class Message2Fragment : SimpleFragment(), Message2Contract.View {
     private val mRecyclerView: RecyclerView by bindView(R.id.rv_message_list)
     private val mTvNoMessage: TextView by bindView(R.id.tv_no_message)
     private val mSrlMessage: SwipeRefreshLayout by bindView(R.id.srl_message)
+    private val mUnreadCount: TextView by bindView(R.id.unread_count)
     private var mRefreshing = false
     private var lastVisibleItemPosition = 0
     private var mPage = 0
@@ -41,6 +43,7 @@ class Message2Fragment : SimpleFragment(), Message2Contract.View {
         mRecyclerView.adapter = ItemAdapter(itemManager)
         mRecyclerView.layoutManager = mLayoutManager
         mRecyclerView.addItemDecoration(RecyclerViewItemDecoration(2))
+        mPresenter.getUnreadMessageCount()
         mPresenter.getMessageList(0)
         setRefreshing(true)
         mSrlMessage.setOnRefreshListener {
@@ -102,6 +105,14 @@ class Message2Fragment : SimpleFragment(), Message2Contract.View {
             SnackBarUtil.error(this.mActivity, "失败" + msg)
         }
         stopRefresh()
+    }
+
+    override fun onGotMessageCount(unread: Int) {
+        getCallback().showUnreadMsg(unread)
+    }
+
+    private fun getCallback(): InfoContract {
+        return activity as InfoContract
     }
 
     fun showNoMessage() {

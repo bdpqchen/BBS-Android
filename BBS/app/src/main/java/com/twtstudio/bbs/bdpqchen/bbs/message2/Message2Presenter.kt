@@ -13,6 +13,27 @@ import io.reactivex.schedulers.Schedulers
  */
 class Message2Presenter(view: Message2Contract.View?) : RxPresenter(), Message2Contract.Presenter {
     private var mView: Message2Contract.View? = view
+    override fun getUnreadMessageCount() {
+
+        val observer = object : SimpleObserver<Int>() {
+            override fun _onError(msg: String) {
+                if (mView != null) {
+                    mView?.onGetMessageFailed(msg)
+                }
+            }
+
+            override fun _onNext(integer: Int?) {
+                if (mView != null) {
+                    mView?.onGotMessageCount(integer!!)
+                }
+            }
+        }
+        addSubscribe(RxPresenter.sHttpClient.unreadCount
+                .map(ResponseTransformer())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith<SimpleObserver<Int>>(observer))
+    }
     override fun getMessageList(page: Int) {
         val observer: SimpleObserver<List<MessageModel>> = object : SimpleObserver<List<MessageModel>>() {
             override fun _onError(msg: String) {

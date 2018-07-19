@@ -62,13 +62,13 @@
             />
 
         <TextView
+            android:id="@+id/unread_count"
             android:clickable="true"
             android:focusable="true"
             android:foreground="@drawable/selector_foreground_settings"
             android:gravity="center"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:text="99"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:background="@drawable/shape_red_dot"

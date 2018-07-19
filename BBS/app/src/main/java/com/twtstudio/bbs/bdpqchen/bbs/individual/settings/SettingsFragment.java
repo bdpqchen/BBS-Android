@@ -55,6 +55,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     /**
      * Method will be called when item onClicked
+     *
      * @param preference
      * @return
      */
@@ -73,6 +74,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     /**
      * This method will be called when certainly time just for item onChanged, not onClicked
+     *
      * @param preference
      * @param obj
      * @return
@@ -81,11 +83,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     public boolean onPreferenceChange(Preference preference, Object obj) {
         if (preference.getKey() != null) {
             String key = preference.getKey();
-            if (key.equals(getString(R.string.key_night_mode))) {
-//                LogUtil.d(obj);
-                PrefUtil.setIsNightMode(CastUtil.cast2boolean(obj));
-                startMyself();
-            } else if (key.equals(getString(R.string.key_always_anon))) {
+//            if (key.equals(getString(R.string.key_night_mode))) {
+////                LogUtil.d(obj);
+//                PrefUtil.setIsNightMode(CastUtil.cast2boolean(obj));
+//                startMyself();
+//            } else
+            if (key.equals(getString(R.string.key_always_anon))) {
                 PrefUtil.setIsAlwaysAnonymous(CastUtil.cast2boolean(obj));
             } else if (key.equals(getString(R.string.key_simple_board_list))) {
                 PrefUtil.setIsSimpleBoardList(CastUtil.cast2boolean(obj));
@@ -93,7 +96,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 HandlerUtil.postDelay(() -> ActivityManager.getActivityManager().recreateAllActivity(SettingsActivity.class), 10);
             } else if (key.equals(getString(R.string.key_disabled_image_cache))) {
                 PrefUtil.setDisabledImageCache(CastUtil.cast2boolean(obj));
-            } else if (key.equals(getString(R.string.key_more_app))){
+            } else if (key.equals(getString(R.string.key_more_app))) {
 
             }
         }
