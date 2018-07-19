@@ -18,7 +18,7 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
 
     private var latestList: MutableList<MainV3ThreadItem> = mutableListOf()
     private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.main_srl)
-    private val recyclerView: RecyclerView by bindView(R.id.fragment_main_v3_rv)
+    val recyclerView: RecyclerView by bindView(R.id.fragment_main_v3_rv)
     private val searchIv: ImageView by bindView(R.id.main_thread_search)
     private val mPresenter = MainV3Presenter(this)
     private var mPage = 0

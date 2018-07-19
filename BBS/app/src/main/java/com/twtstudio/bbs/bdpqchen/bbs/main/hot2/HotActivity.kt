@@ -39,7 +39,6 @@ class HotActivity : BaseActivity(), HotContract.View {
                     or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
             decorView.systemUiVisibility = option
-            window.navigationBarColor = Color.TRANSPARENT
             window.statusBarColor = Color.WHITE
         }
         enableLightStatusBarMode(true)

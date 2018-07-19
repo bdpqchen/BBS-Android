@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual2
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
@@ -49,15 +50,16 @@ class Individual2Fragment : BaseFragment(), Individual2Contract.View {
 
     override fun getFragmentLayoutId(): Int = R.layout.fragment_individual2
 
+    @SuppressLint("SetTextI18n")
     override fun gotInfo(info: IndividualInfoModel) {
         AuthTool.userInfo(info)
         ImageUtil.loadMyAvatar(mContext, mAvatar)
-        mPastDays.setText(""+info.c_online)
-        mPostCount.setText(""+info.c_thread)
-        mNickname.setText(info.nickname)
-        mSignature.setText(info.signature)
-        mPoints.setText(""+info.points)
-        mHonor.setText(TextUtil.getHonor(info.points))
+        mPastDays.text = ""+info.c_online
+        mPostCount.text = ""+info.c_thread
+        mNickname.text = info.nickname
+        mSignature.text = info.signature
+        mPoints.text = ""+info.points
+        mHonor.text = TextUtil.getHonor(info.points)
     }
 
     private fun getInfo() {
