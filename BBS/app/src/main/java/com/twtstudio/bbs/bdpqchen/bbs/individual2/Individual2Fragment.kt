@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.jaeger.library.StatusBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment
+import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_RESULT_UPDATE_INFO
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_UPDATE_INFO
 import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.AuthTool
@@ -28,7 +29,9 @@ import me.yokeyword.fragmentation.SupportFragment
 /**
  * Created by linjiaxin on 2018/7/12.
  */
-class Individual2Fragment : BaseFragment(), Individual2Contract.View {
+class Individual2Fragment : SimpleFragment(), Individual2Contract.View {
+    override fun getPerMainFragmentLayoutId(): Int = R.layout.fragment_individual2
+
 
     private lateinit var xPresenter: Individual2Presenter
     private val mInfo: ConstraintLayout by bindView(R.id.ind_info)
@@ -48,8 +51,6 @@ class Individual2Fragment : BaseFragment(), Individual2Contract.View {
     private val ACT_SETS = 4
     private var NICKNAME = PrefUtil.getInfoNickname()
 
-    override fun getFragmentLayoutId(): Int = R.layout.fragment_individual2
-
     override fun gotInfo(info: IndividualInfoModel) {
         AuthTool.userInfo(info)
         ImageUtil.loadMyAvatar(mContext, mAvatar)
@@ -65,9 +66,8 @@ class Individual2Fragment : BaseFragment(), Individual2Contract.View {
         xPresenter!!.initIndividualInfo()
     }
 
-    override fun getPresenter(): Individual2Presenter? = xPresenter
 
-    override fun initFragment() {
+    override fun initFragments() {
         xPresenter = Individual2Presenter(this)
         xPresenter!!.initIndividualInfo()
         mInfo.setOnClickListener { startItemActivity(ACT_IND) }
@@ -122,7 +122,7 @@ class Individual2Fragment : BaseFragment(), Individual2Contract.View {
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        if (mPresenter != null) {
+        if (xPresenter != null) {
             getInfo()
             ImageUtil.loadMyAvatar(mContext, mAvatar)
         }

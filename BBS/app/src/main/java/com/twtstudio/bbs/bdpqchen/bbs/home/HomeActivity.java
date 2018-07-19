@@ -23,6 +23,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum2.ForumFragment2;
 import com.twtstudio.bbs.bdpqchen.bbs.individual2.Individual2Fragment;
 import com.twtstudio.bbs.bdpqchen.bbs.main.mainV3.MainFragmentV3;
+import com.twtstudio.bbs.bdpqchen.bbs.message2.Message2Fragment;
 
 import butterknife.BindView;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -91,17 +92,18 @@ public class HomeActivity extends BaseActivity implements InfoContract {
         if (savedInstanceState == null) {
             mFragments[FIRST] = MainFragmentV3.Companion.newInstance();
             mFragments[SECOND] = ForumFragment2.Companion.newInstance();
+            mFragments[THIRD] = Message2Fragment.Companion.newInstance();
             mFragments[FORTH] = Individual2Fragment.Companion.newInstance();
 //          mFragments[FORTH] = MessageFragment.newInstance();
             loadMultipleRootFragment(R.id.fl_main_container, FIRST,
                     mFragments[FIRST],
                     mFragments[SECOND],
-//                    mFragments[THIRD],
+                    mFragments[THIRD],
                     mFragments[FORTH]);
         } else {
             mFragments[FIRST] = findFragment(MainFragmentV3.class);
             mFragments[SECOND] = findFragment(ForumFragment2.class);
-//            mFragments[THIRD] = findFragment(MessageFragment.class);
+            mFragments[THIRD] = findFragment(Message2Fragment.class);
 //            mFragments[FORTH] = findFragment(IndividualFragment.class);
             mFragments[FORTH] = findFragment(Individual2Fragment.class);
         }
@@ -122,6 +124,9 @@ public class HomeActivity extends BaseActivity implements InfoContract {
         });
         tabMessage.setOnClickListener( v -> {
             setTabStatus(THIRD);
+            mShowingFragment = THIRD;
+            clearFullScreen();
+            loadFragment();
         });
         tabIndividual.setOnClickListener( v -> {
             setTabStatus(FORTH);

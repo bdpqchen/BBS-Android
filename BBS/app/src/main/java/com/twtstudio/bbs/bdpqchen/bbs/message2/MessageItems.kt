@@ -27,21 +27,30 @@ class MessageItems(val context: Context, val message: MessageModel) : Item {
             item as MessageItems
             var message = item.message
             ImageUtil.loadAvatarButDefault(item.context, message.author_id, holder.mAvatar)
-            holder.mAvatar.setOnClickListener { item.context.startActivity(IntentUtil.toPeople(item.context, message.author_id), TransUtil.getAvatarTransOptions(item.context, holder.mAvatar)) }
-            val model = message.content_model
+            holder.mRedDot.visibility = if (message.read == 0) View.VISIBLE else View.GONE
             holder.mComposeTitle.text = message.author_name
-            holder.mRedDot.visibility = if (model.status == 0) View.VISIBLE else View.GONE
-            holder.mDatetime.text = StampUtil.getMessageDatetimeByStamp(model.t_create)
-            var action = TextUtil.getMsgActionText(message.tag) + "了你"
-            var content = TextUtil.formatContent(model.content, action)
-            content = if (action == "提到了你")
-                " 在 " + model.thread_title + " 中" + action
-            else
-                "<p>" + action + ":" + content.substring(3)
-            holder.mSummary.setHtml(content, GlideImageGeter(item.context, holder.mSummary))
-            holder.itemView.setOnClickListener {
-                holder.mRedDot.visibility = View.GONE
-                item.context.startActivity(IntentUtil.toThread(item.context, model.thread_id, model.thread_title, model.floor))
+            holder.mDatetime.text = StampUtil.getMessageDatetimeByStamp(message.t_create)
+            holder.mAvatar.setOnClickListener { item.context.startActivity(IntentUtil.toPeople(item.context, message.author_id), TransUtil.getAvatarTransOptions(item.context, holder.mAvatar)) }
+            if (message.tag == 1) {
+                var content = if (message.content.length>17) message.content.substring(0,17)+"..." else message.content
+                holder.mSummary.text = content
+                holder.itemView.setOnClickListener {
+                    holder.mRedDot.visibility = View.GONE
+                    item.context.startActivity(IntentUtil.toLetter(item.context,message.author_id,message.author_name))
+                }
+            } else {
+                val model = message.content_model
+                var action = TextUtil.getMsgActionText(message.tag) + "了你"
+                var content = TextUtil.formatContent(model.content, action)
+                content = if (action == "提到了你")
+                    " 在 " + model.thread_title + " 中" + action
+                else
+                    "<p>" + action + ":" + content.substring(3)
+                holder.mSummary.setHtml(content, GlideImageGeter(item.context, holder.mSummary))
+                holder.itemView.setOnClickListener {
+                    holder.mRedDot.visibility = View.GONE
+                    item.context.startActivity(IntentUtil.toThread(item.context, model.thread_id, model.thread_title, model.floor))
+                }
             }
         }
 

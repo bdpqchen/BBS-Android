@@ -6,28 +6,42 @@
     android:layout_height="match_parent"
     android:background="@color/colorMainBg">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/ind_toolbar"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/ind_hearder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorMainBgLight">
+        android:layout_height="@dimen/material_layout_vertical_spacing_tool_bar"
+        android:background="#ffffff"
+        android:orientation="vertical">
 
-        <TextView xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="#444444"
-            android:text="我的" />
-    </android.support.v7.widget.Toolbar>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的"
+                android:textColor="#444444"
+                android:textSize="20sp"
+                android:layout_marginTop="5.3dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="20dp" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.design.widget.AppBarLayout>>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/ind_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5.3dp"
-        app:layout_constraintTop_toBottomOf="@+id/ind_toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/ind_hearder"
         android:background="@color/colorMainBgLight"
         android:foreground="@drawable/selector_foreground_settings"
+        android:layout_marginTop="8dp"
         android:padding="16dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
