@@ -128,7 +128,7 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
             setResult(Activity.RESULT_OK, intentResult)
             finishMe()
         }else{
-            mContext.startActivity(IntentUtil.toPeople(mContext, mAdapter.getUserUid(position-1)))
+            mContext.startActivity(IntentUtil.toPeople(mContext, mAdapter.getUserUid(position - 1)))
         }
     }
 

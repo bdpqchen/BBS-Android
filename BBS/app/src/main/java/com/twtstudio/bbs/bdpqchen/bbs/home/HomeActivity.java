@@ -2,24 +2,24 @@ package com.twtstudio.bbs.bdpqchen.bbs.home;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Outline;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.BottomBarTab;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.LogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
@@ -89,10 +89,16 @@ public class HomeActivity extends BaseActivity implements InfoContract {
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
-            getWindow().setNavigationBarColor(Color.BLACK);
-
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
+            getWindow().setStatusBarColor(Color.WHITE);
         }
+        ViewOutlineProvider provider = new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setOval(0,0,createThread.getWidth(),createThread.getHeight());
+            }
+        };
+        createThread.setOutlineProvider(provider);
+        createThread.setClipToOutline(true);
         setTabStatus(mShowingFragment);
         mUnread.setVisibility(View.GONE);
 //        ActionBar actionBar = getSupportActionBar();
@@ -118,25 +124,30 @@ public class HomeActivity extends BaseActivity implements InfoContract {
         createThread.setOnClickListener(v -> {
             startActivity(IntentUtil.toCreateThread(this));
         });
-        tabHome.setOnClickListener(v -> {
+        tabHome.setOnClickListener( v -> {
+            boolean flag = mShowingFragment == FIRST;
             setTabStatus(FIRST);
             mShowingFragment = FIRST;
             clearFullScreen();
             loadFragment();
+            if(flag){
+                MainFragmentV3 fragmentV3 = (MainFragmentV3)mFragments[FIRST];
+                fragmentV3.getRecyclerView().smoothScrollToPosition(0);
+            }
         });
-        tabForum.setOnClickListener(v -> {
+        tabForum.setOnClickListener( v -> {
             setTabStatus(SECOND);
             mShowingFragment = SECOND;
             clearFullScreen();
             loadFragment();
         });
-        tabMessage.setOnClickListener(v -> {
+        tabMessage.setOnClickListener( v -> {
             setTabStatus(THIRD);
             mShowingFragment = THIRD;
             clearFullScreen();
             loadFragment();
         });
-        tabIndividual.setOnClickListener(v -> {
+        tabIndividual.setOnClickListener( v -> {
             setTabStatus(FORTH);
             mShowingFragment = FORTH;
             clearFullScreen();
@@ -217,12 +228,12 @@ public class HomeActivity extends BaseActivity implements InfoContract {
 //        mNearBy.setBadgeCount(count);
     }
 
-    private void setTabStatus(int position) {
-        int[] ids1 = {R.drawable.my_home, R.drawable.my_forum, R.drawable.my_message, R.drawable.my_individual};
-        int[] ids2 = {R.drawable.my_home_2, R.drawable.my_forum_2, R.drawable.my_message_2, R.drawable.my_individual_2};
-        ImageView[] views = {tabHome, tabForum, tabMessage, tabIndividual};
+    private void setTabStatus(int position){
+        int []ids1 = {R.drawable.my_home,R.drawable.my_forum,R.drawable.my_message,R.drawable.my_individual};
+        int [] ids2 = {R.drawable.my_home_2,R.drawable.my_forum_2,R.drawable.my_message_2,R.drawable.my_individual_2};
+        ImageView [] views = {tabHome,tabForum,tabMessage,tabIndividual};
         for (int i = 0; i < 4; i++) {
-            if (i == position) {
+            if(i == position){
                 views[i].setImageResource(ids2[i]);
             } else {
                 views[i].setImageResource(ids1[i]);

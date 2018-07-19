@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.commons.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,12 +21,16 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.App;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.manager.ActivityManager;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.home.HomeActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.people.PeopleActivity;
 
 import org.piwik.sdk.Tracker;
 import org.piwik.sdk.extra.CustomVariables;
 import org.piwik.sdk.extra.TrackHelper;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -174,6 +179,47 @@ public abstract class BaseActivity extends SupportActivity {
         int heightPx = dm.heightPixels;
         Float res = heightPx / density;
         return res.intValue();
+    }
+
+    public String enableLightStatusBarMode(boolean enable){
+
+        try{
+            Class layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
+            int darkModeFlag = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE").getInt(layoutParams);
+            Method extraFlagField = getWindow().getClass().getMethod("setExtraFlags",int.class,int.class);
+            extraFlagField.invoke(getWindow(),enable? darkModeFlag : 0,darkModeFlag);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                getWindow().getDecorView().setSystemUiVisibility(enable? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : View.SYSTEM_UI_FLAG_VISIBLE);
+            }
+            return "MIUI";
+        } catch (Exception e){
+
+        }
+
+        try{
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            Field darkFlag = WindowManager.LayoutParams.class.getDeclaredField("MEIZU_FLAG_DARK_STATUS_BAR_ICON");
+            Field meizuFlags = WindowManager.LayoutParams.class.getDeclaredField("meizuFlags");
+            darkFlag.setAccessible(true);
+            meizuFlags.setAccessible(true);
+            int bit = darkFlag.getInt(null);
+            int value = meizuFlags.getInt(layoutParams);
+            value = enable? value|bit : value& ~bit;
+            meizuFlags.setInt(layoutParams,value);
+            getWindow().setAttributes(layoutParams);
+            return "Flyme";
+        } catch (Exception e){
+
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            getWindow().getDecorView().setSystemUiVisibility(enable ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : View.SYSTEM_UI_FLAG_VISIBLE);
+            return "Android M";
+        }
+
+
+        return "None";
+
     }
 
 }
