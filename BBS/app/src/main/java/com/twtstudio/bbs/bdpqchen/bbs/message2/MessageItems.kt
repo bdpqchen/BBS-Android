@@ -25,7 +25,7 @@ class MessageItems(val context: Context, val message: MessageModel) : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             item as MessageItems
-            var message = item.message
+            val message = item.message
             ImageUtil.loadAvatarButDefault(item.context, message.author_id, holder.mAvatar)
             holder.mRedDot.visibility = if (message.read == 0) View.VISIBLE else View.GONE
             holder.mComposeTitle.text = message.author_name
@@ -40,7 +40,7 @@ class MessageItems(val context: Context, val message: MessageModel) : Item {
                 }
             } else {
                 val model = message.content_model
-                var action = TextUtil.getMsgActionText(message.tag) + "了你"
+                val action = TextUtil.getMsgActionText(message.tag) + "了你"
                 var content = TextUtil.formatContent(model.content, action)
                 content = if (action == "提到了你")
                     " 在 " + model.thread_title + " 中" + action

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="#FFFFFF"
-    app:titleTextColor="#2c2c2c"
+    app:titleTextColor="#444444"
     android:theme="@style/ThemeOverlay.AppCompat.Light"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
     android:elevation="8dp"

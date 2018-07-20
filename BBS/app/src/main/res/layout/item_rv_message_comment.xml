@@ -15,9 +15,6 @@
         android:layout_height="42dp"
         android:layout_gravity="center_horizontal"
         android:transitionName="@string/share_avatar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:targetApi="lollipop" />
 
 
