@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewOutlineProvider;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
@@ -89,7 +90,7 @@ public class HomeActivity extends BaseActivity implements InfoContract {
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
-            getWindow().setStatusBarColor(Color.WHITE);
+            getWindow().setStatusBarColor(Color.BLACK);
         }
         ViewOutlineProvider provider = new ViewOutlineProvider() {
             @Override
@@ -193,8 +194,16 @@ public class HomeActivity extends BaseActivity implements InfoContract {
     }
 
     private void clearFullScreen() {
-        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark)
-                , 0);
+//        StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark)
+//                , 0);
+        if (VersionUtil.eaLollipop()) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(Color.BLACK);
+        }
     }
 
     private void loadFragment() {

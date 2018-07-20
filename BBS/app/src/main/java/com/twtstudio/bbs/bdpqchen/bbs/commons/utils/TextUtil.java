@@ -89,7 +89,7 @@ public final class TextUtil {
     public static String formatContent(String contentBefore, String action) {
         String content = "";
         if (contentBefore != null && contentBefore.length() > 0) {
-            if (contentBefore.indexOf("attach:") != -1) contentBefore = "[图片]";
+//            if (contentBefore.indexOf("attach:") != -1) contentBefore = "[图片]";
             content = Processor.process(contentBefore);
             content = TextUtil.getReplacedContent(content);
 //            if (content.length()>24) {
