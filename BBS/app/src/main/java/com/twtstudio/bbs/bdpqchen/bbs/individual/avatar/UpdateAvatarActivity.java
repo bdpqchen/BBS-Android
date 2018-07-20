@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.avatar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.jaeger.library.StatusBarUtil;
 import com.soundcloud.android.crop.Crop;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -51,6 +53,8 @@ public class UpdateAvatarActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ImageUtil.refreshMyAvatar(this, resultView);
+        StatusBarUtil.setColor(this, Color.WHITE,0);
+        enableLightStatusBarMode(true);
         mBtnFinish.setOnClickListener(v -> {
             if (mImagePath != null) {
                 Intent data = new Intent();
