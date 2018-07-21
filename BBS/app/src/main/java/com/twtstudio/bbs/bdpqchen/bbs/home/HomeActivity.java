@@ -92,14 +92,6 @@ public class HomeActivity extends BaseActivity implements InfoContract {
             decorView.setSystemUiVisibility(option);
             getWindow().setStatusBarColor(Color.BLACK);
         }
-        ViewOutlineProvider provider = new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                outline.setOval(0,0,createThread.getWidth(),createThread.getHeight());
-            }
-        };
-        createThread.setOutlineProvider(provider);
-        createThread.setClipToOutline(true);
         setTabStatus(mShowingFragment);
         mUnread.setVisibility(View.GONE);
 //        ActionBar actionBar = getSupportActionBar();

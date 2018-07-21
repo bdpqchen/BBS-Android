@@ -40,6 +40,7 @@ class HotActivity : BaseActivity(), HotContract.View {
                     or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
             decorView.systemUiVisibility = option
             window.statusBarColor = Color.WHITE
+            window.navigationBarColor = Color.BLACK
         }
         enableLightStatusBarMode(true)
         recyclerView.layoutManager = layoutManager

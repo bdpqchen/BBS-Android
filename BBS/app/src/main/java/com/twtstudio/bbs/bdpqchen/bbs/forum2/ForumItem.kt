@@ -42,7 +42,7 @@ class ForumItem(val forumList: ForumBoardModel, val screenWidth: Int, val contex
             item.forumList.boardList.forEach {
                 holder.flexbox.textView {
                     text = it.boardName
-                    textSize = 16f
+                    textSize = 14f
                     isClickable = true
                     isFocusable = true
                     foreground = resources.getDrawable(R.drawable.selector_foreground_settings)

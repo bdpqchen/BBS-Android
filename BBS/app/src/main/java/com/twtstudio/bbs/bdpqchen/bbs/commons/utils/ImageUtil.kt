@@ -148,8 +148,9 @@ object ImageUtil {
 
     @JvmStatic
     fun loadBgByUid(context: Context, uid: Int, view: ImageView) {
+        val temp = UrlUtil.getAvatarUrl(uid)
         Glide.with(context)
-                .load(UrlUtil.getAvatarUrl(uid))
+                .load(temp)
                 .bitmapTransform(BlurTransformation(context, radius))
                 .diskCacheStrategy(cacheMode)
                 .crossFade()

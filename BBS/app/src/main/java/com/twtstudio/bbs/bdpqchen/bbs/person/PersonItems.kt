@@ -33,8 +33,8 @@ class PersonHeaderItem(val people : PeopleModel, val context: Context, val uid :
             holder.backArrowIv.setOnClickListener{
                 val ac = item.context as Activity
                 ac.onBackPressed()
-//                Toast.makeText(item.context,"返回键暂时不能用",Toast.LENGTH_LONG).show()
             }
+            holder.userLevelTv.text = TextUtil.getHonor(item.people.points)
             holder.userNameTv.text = TextUtil.getTwoNames(item.people.name,item.people.nickname)
             holder.userSignTv.text = TextUtil.getUserSignature(item.people.signature)
             holder.userPointTv.text = ""+ item.people.points

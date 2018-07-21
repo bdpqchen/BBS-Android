@@ -11,7 +11,7 @@
         android:id="@+id/ind_cover"
         android:layout_width="match_parent"
         android:layout_height="320dp"
-        android:background="#456065"
+        android:background="@drawable/bg_default"
         android:scaleType="centerCrop" />
 
     <ImageView
@@ -81,14 +81,13 @@
         android:id="@+id/ind_ac_avatar"
         android:layout_width="108dp"
         android:layout_height="108dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="32dp"
         android:src="@drawable/avatar_default_left"
         app:civ_border_color="#ffffff"
         app:civ_border_width="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ind_ac_username"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <ImageView
         android:id="@+id/modify_or_message"

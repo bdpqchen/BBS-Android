@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMainBg"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorMainBg"
+        android:orientation="vertical">
+
+        <include layout="@layout/common_toolbar"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical"
+            >
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_top_create_thread"
+                android:background="@color/colorMainBgLight"
+                android:hint="帖子的标题"
+                android:maxLines="5"
+                android:minHeight="44dp"
+                android:paddingEnd="@dimen/padding_start_create_thread"
+                android:paddingStart="@dimen/padding_start_create_thread"
+                />
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|top"
+                android:layout_marginTop="@dimen/margin_top_create_thread"
+                android:background="@color/colorMainBgLight"
+                android:gravity="start"
+                android:hint="帖子的正文"
+                android:padding="8dp"
+                android:inputType="textMultiLine"
+                android:minHeight="300dp"
+                android:paddingEnd="@dimen/padding_start_create_thread"
+                android:paddingStart="@dimen/padding_start_create_thread"
+                android:scrollbars="vertical"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="@dimen/margin_top_create_thread"
+                android:background="@color/colorMainBgLight"
+                >
+
+                <TextView
+                    android:id="@+id/tv_open_editor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginStart="4dp"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/ic_crop_free_white_24dp"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text=" 富文本编辑"
+                    android:textColor="@color/colorPrimaryCopy"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_select_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="4dp"
+                    android:drawableStart="@drawable/ic_image_white_24dp"
+                    android:gravity="center"
+                    android:text="添加图片到正文 "
+                    android:textColor="@color/colorPrimaryCopy"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

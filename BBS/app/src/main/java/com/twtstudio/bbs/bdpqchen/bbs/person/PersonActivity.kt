@@ -41,6 +41,7 @@ class PersonActivity : BaseActivity() , PersonContract.View {
             decorView.systemUiVisibility = option
             window.statusBarColor = Color.TRANSPARENT
         }
+//        hideBottomUIMenu()
         val actionBar = supportActionBar
         actionBar?.hide()
         uid = intent.getIntExtra("uid",0)

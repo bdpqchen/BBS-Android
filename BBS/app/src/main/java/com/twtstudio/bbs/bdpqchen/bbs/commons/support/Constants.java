@@ -93,6 +93,7 @@ public final class Constants {
     /*intent*/
     public static final String INTENT_THREAD_ID = "intent_thread_id";
     public static final String INTENT_THREAD_TITLE = "intent_thread_title";
+    public static final String INTENT_THREAD_CONTENT = "intent_thread_content";
     public static final String INTENT_BOARD_ID = "intent_board_id";
     public static final String INTENT_BOARD_TITLE = "intent_board_title";
     public static final String INTENT_BOARD_CAN_ANON = "intent_board_can_anons";

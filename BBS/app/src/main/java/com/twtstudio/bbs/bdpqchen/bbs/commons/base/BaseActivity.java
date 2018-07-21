@@ -46,7 +46,7 @@ public abstract class BaseActivity extends SupportActivity {
     protected Activity mActivity;
     protected Context mContext;
     private Unbinder mUnBinder;
-    private WindowManager wm ;
+    private WindowManager wm;
     private DisplayMetrics dm;
     private Float density ;
 //    protected SlideBackLayout mSlideBackLayout;
@@ -107,7 +107,7 @@ public abstract class BaseActivity extends SupportActivity {
 */
 
     //由于滑动返回库的bug 目前只在5.0系统上出现此问题, 暂时修复方案
-    private void fixApi21blackBlockOnBottom() {
+    private void    fixApi21blackBlockOnBottom() {
         String className = getClass().getSimpleName();
         if (!(className.equals(PeopleActivity.class.getSimpleName())
                 || className.equals(HomeActivity.class.getSimpleName())
@@ -220,6 +220,20 @@ public abstract class BaseActivity extends SupportActivity {
 
         return "None";
 
+    }
+
+    protected void hideBottomUIMenu() {
+        //隐藏虚拟按键，并且全屏
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
     }
 
 }

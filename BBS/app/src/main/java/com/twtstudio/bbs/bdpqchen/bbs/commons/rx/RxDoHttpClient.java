@@ -19,6 +19,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.edit_thread.EditModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
@@ -401,4 +402,7 @@ public class RxDoHttpClient {
         return mApi.getMonthRank(System.currentTimeMillis() / 1000);
     }
 
+    public Observable<EditModel> doEdit(String tid, String title,String cotent){
+        return mApi.doEdit(tid,title,cotent);
+    }
 }

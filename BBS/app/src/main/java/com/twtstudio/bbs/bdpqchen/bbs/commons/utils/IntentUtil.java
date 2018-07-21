@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.retrieve.RetrieveActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadActivity;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.edit_thread.EditThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread_list.ThreadListActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.individual.letter.LetterActivity;
@@ -18,6 +19,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.person.PersonActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.picture.BigPhotoActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.search.SearchActivity;
 
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.IMG_URL;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_CAN_ANON;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_BOARD_ID;
@@ -29,8 +31,11 @@ import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FO
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_FORUM_TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_IS_SPECIFY_BOARD;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_SEARCH_MODE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_CONTENT;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_ID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_THREAD_TITLE;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TID;
+import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.TITLE;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.UID;
 import static com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.USERNAME;
 import static com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.ThreadActivity.INTENT_THREAD_FLOOR;
@@ -143,6 +148,15 @@ public final class IntentUtil {
     public static Intent toCreateThread(Context context) {
         return new Intent(context, CreateThreadActivity.class);
     }
+
+    public static Intent toEditThread(Context context,String tid,String title,String content){
+        Intent intent = new Intent(context , EditThreadActivity.class);
+        intent.putExtra(TID, tid);
+        intent.putExtra(TITLE,title);
+        intent.putExtra(CONTENT,content);
+        return intent;
+    }
+
 
     public static Intent toLogin(Context context) {
         return toLogin(context, PrefUtil.getAuthUsername());

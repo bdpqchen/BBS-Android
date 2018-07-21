@@ -31,7 +31,6 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
     override fun getPerMainFragmentLayoutId(): Int = R.layout.fragment_main_v3
 
     override fun initFragments() {
-//        mActivity.enableLightStatusBarMode(true)
         searchIv.setOnClickListener { startActivity(IntentUtil.toSearch(mContext)) }
 
         swipeRefreshLayout.setOnRefreshListener {

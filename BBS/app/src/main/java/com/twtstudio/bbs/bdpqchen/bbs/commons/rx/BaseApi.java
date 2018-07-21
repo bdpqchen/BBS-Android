@@ -10,6 +10,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.BoardsModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.create_thread.CreateThreadModel;
+import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.edit_thread.EditModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.PostModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.ThreadModel;
 import com.twtstudio.bbs.bdpqchen.bbs.forum.boards.thread.model.UploadImageModel;
@@ -358,5 +359,12 @@ public interface BaseApi {
 
     @GET("rank/month")
     Observable<RankBean> getMonthRank(@Query("t") long timeStamp);
+
+    @FormUrlEncoded
+    @PUT("thread/{tid}")
+    Observable<EditModel> doEdit(
+        @Path("tid") String tid,
+        @Field(TITLE) String title,
+        @Field(CONTENT) String content);
 }
 

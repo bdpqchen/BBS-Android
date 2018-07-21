@@ -53,11 +53,12 @@
 
             <TextView
                 android:id="@+id/ind_item_content"
-                android:layout_width="360dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="没错！就是小猫猫！好可爱啊！（此处有表情23333）\nvfdgbgbebebebytrnerbtrgeynum"
                 app:layout_constraintTop_toBottomOf="@id/ind_item_title"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp" />
@@ -90,9 +91,8 @@
                 android:src="@drawable/ic_favor"
                 android:id="@+id/item_ic_favor"
                 app:layout_constraintStart_toEndOf="@id/ind_item_comment_num"
-                app:layout_constraintTop_toBottomOf="@id/ind_item_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="9dp" />
+                app:layout_constraintTop_toTopOf="@id/ind_item_ic_comment"
+                android:layout_marginStart="12dp"/>
 
             <TextView
                 android:id="@+id/ind_item_favor_num"

@@ -56,7 +56,20 @@
         android:foreground="@drawable/selector_foreground_settings"
         android:src="@drawable/ic_delete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_title"/>
+        app:layout_constraintBottom_toBottomOf="@id/tv_title"/>
 
+    <ImageView
+        android:id="@+id/iv_edit"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="6dp"
+        android:layout_marginEnd="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="@drawable/selector_foreground_settings"
+        android:src="@drawable/post_edit"
+        app:layout_constraintBottom_toBottomOf="@id/tv_delete"
+        app:layout_constraintEnd_toStartOf="@id/tv_delete"
+        />
 
 </android.support.constraint.ConstraintLayout>

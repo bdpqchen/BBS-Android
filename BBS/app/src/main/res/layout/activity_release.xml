@@ -29,13 +29,14 @@
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tl_release"
-                android:layout_width="wrap_content"
+                android:layout_width="196dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/colorMainBgLight"
-                app:tabIndicatorColor="@color/material_light_blue_400"
-                app:tabSelectedTextColor="@color/material_light_blue_400"
-                app:tabTextColor="@color/colorTintIconBlack" />
+                app:tabIndicatorHeight="4dp"
+                app:tabTextColor="#444444"
+                app:tabIndicatorColor="#2565ac"
+                app:tabSelectedTextColor="#2565ac"/>
         </FrameLayout>
 
 

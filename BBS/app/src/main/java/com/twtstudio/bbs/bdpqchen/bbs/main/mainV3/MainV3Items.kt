@@ -28,7 +28,7 @@ class MainV3Threadheader(val activity: Activity) : Item {
 
 
     companion object Controller : ItemController {
-        private val images = mutableListOf(R.drawable.bbs_banner0)
+        private val images = mutableListOf(R.drawable.bbs_banner0,R.drawable.bbs_banner0,R.drawable.bbs_banner0)
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
@@ -80,16 +80,17 @@ class MainV3ThreadItem(val latest: LatestEntity, val context: Context, val uid: 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             item as MainV3ThreadItem
-            ImageUtil.loadAvatar(item.context, item.uid, holder.avatar)
             if (IsUtil.isAnon(item.latest.anonymous)) {
                 item.latest.author_id = 0
                 item.latest.author_name = Constants.ANONYMOUS_NAME
                 holder.avatar.setOnClickListener(null)
+                ImageUtil.loadAnonAvatar(item.context,holder.avatar)
             } else {
                 holder.avatar.setOnClickListener {
                     val intent = IntentUtil.toPeople(item.context, item.uid)
                     item.context.startActivity(intent)
                 }
+                ImageUtil.loadAvatar(item.context, item.uid, holder.avatar)
             }
             holder.name.text = item.latest.author_name
             holder.threadType.text = item.latest.board_name

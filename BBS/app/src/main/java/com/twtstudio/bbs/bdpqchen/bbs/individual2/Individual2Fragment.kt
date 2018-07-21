@@ -6,17 +6,14 @@ import android.support.constraint.ConstraintLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.jaeger.library.StatusBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.R
-import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseFragment
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.INTENT_RESULT_UPDATE_INFO
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.REQUEST_CODE_UPDATE_INFO
 import com.twtstudio.bbs.bdpqchen.bbs.commons.tools.AuthTool
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.*
-import com.twtstudio.bbs.bdpqchen.bbs.individual.message.MessageActivity
 import com.twtstudio.bbs.bdpqchen.bbs.individual.model.IndividualInfoModel
 import com.twtstudio.bbs.bdpqchen.bbs.individual.release.ReleaseActivity
 import com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity
@@ -42,7 +39,7 @@ class Individual2Fragment : SimpleFragment(), Individual2Contract.View {
     private val mSignature: TextView by bindView(R.id.ind_signature)
     private val mPoints: TextView by bindView(R.id.ind_points_data)
     private val mHonor: TextView by bindView(R.id.ind_honor)
-    private val mcollections: ConstraintLayout by bindView(R.id.ind_collection)
+    private val mCollections: ConstraintLayout by bindView(R.id.ind_collection)
     private val mPublish: ConstraintLayout by bindView(R.id.ind_publish)
     private val mSettings: ConstraintLayout by bindView(R.id.ind_setting)
     private val ACT_IND = 1
@@ -51,35 +48,35 @@ class Individual2Fragment : SimpleFragment(), Individual2Contract.View {
     private val ACT_SETS = 4
     private var NICKNAME = PrefUtil.getInfoNickname()
 
-    override fun gotInfo(info: IndividualInfoModel) {
-        AuthTool.userInfo(info)
+    override fun gotInfo(model: IndividualInfoModel) {
+        AuthTool.userInfo(model)
         ImageUtil.loadMyAvatar(mContext, mAvatar)
-        mPastDays.setText("" + info.c_online)
-        mPostCount.setText("" + info.c_thread)
-        mNickname.setText(info.nickname)
-        mSignature.setText(info.signature)
-        mPoints.setText("" + info.points)
-        mHonor.setText(TextUtil.getHonor(info.points))
+        mPastDays.text = "" + model.c_online
+        mPostCount.text = "" + model.c_thread
+        mNickname.text = model.nickname
+        mSignature.text = model.signature
+        mPoints.text = "" + model.points
+        mHonor.text = TextUtil.getHonor(model.points)
     }
 
     private fun getInfo() {
-        xPresenter!!.initIndividualInfo()
+        xPresenter.initIndividualInfo()
     }
 
 
     override fun initFragments() {
         xPresenter = Individual2Presenter(this)
-        xPresenter!!.initIndividualInfo()
+        xPresenter.initIndividualInfo()
         mInfo.setOnClickListener { startItemActivity(ACT_IND) }
-        mcollections.setOnClickListener { startItemActivity(ACT_STAR) }
+        mCollections.setOnClickListener { startItemActivity(ACT_STAR) }
         mPublish.setOnClickListener { startItemActivity(ACT_PUBLISH) }
         mSettings.setOnClickListener { startItemActivity(ACT_SETS) }
 
 
     }
 
-    fun startItemActivity(index: Int) {
-        var intent: Intent = Intent()
+    private fun startItemActivity(index: Int) {
+        val intent: Intent = Intent()
         when (index) {
             ACT_IND -> {
                 intent.putExtra("uid", PrefUtil.getAuthUid())
@@ -94,7 +91,7 @@ class Individual2Fragment : SimpleFragment(), Individual2Contract.View {
 
     override fun onResume() {
         super.onResume()
-        if (NICKNAME.length == 0) {
+        if (NICKNAME.isEmpty()) {
             NICKNAME = "taken"
             getInfo()
         }
@@ -110,8 +107,8 @@ class Individual2Fragment : SimpleFragment(), Individual2Contract.View {
 
     private fun refreshInfo() {
         ImageUtil.refreshMyAvatar(mContext, mAvatar)
-        mNickname.setText(PrefUtil.getInfoNickname())
-        mSignature.setText(PrefUtil.getInfoSignature())
+        mNickname.text = PrefUtil.getInfoNickname()
+        mSignature.text = PrefUtil.getInfoSignature()
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -122,10 +119,8 @@ class Individual2Fragment : SimpleFragment(), Individual2Contract.View {
 
     override fun onLazyInitView(savedInstanceState: Bundle?) {
         super.onLazyInitView(savedInstanceState)
-        if (xPresenter != null) {
-            getInfo()
-            ImageUtil.loadMyAvatar(mContext, mAvatar)
-        }
+        getInfo()
+        ImageUtil.loadMyAvatar(mContext, mAvatar)
     }
 
     override fun getInfoFailed(m: String) {

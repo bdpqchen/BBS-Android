@@ -346,7 +346,7 @@ public class CreateThreadActivity extends BaseActivity implements CreateThreadCo
         bundle.putInt(Constants.BID, mSelectedBoardId);
         bundle.putBoolean(Constants.IS_ANONYMOUS, mIsAnonymous);
         mPresenter.doPublishThread(bundle);
-        showProgress("正在发布，请稍后..");
+        showProgress("正在发布，请稍候..");
     }
 
     private void hideProgress() {
