@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum.boards;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
@@ -76,6 +78,8 @@ public class BoardsActivity extends BaseActivity implements BoardsContract.View 
         mForumId = getIntent().getIntExtra(INTENT_FORUM_ID, 0);
         mForumTitle = getIntent().getStringExtra(INTENT_FORUM_TITLE);
         super.onCreate(savedInstanceState);
+        StatusBarUtil.setColor(this, Color.WHITE,0);
+        enableLightStatusBarMode(true);
         mContext = this;
         mPresenter = new BoardsPresenter(this);
         if (isSimpleBoardList){

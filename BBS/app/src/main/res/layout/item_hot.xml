@@ -39,7 +39,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:layout_width="336dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/item_hot_title"
                 app:layout_constraintTop_toBottomOf="@id/item_hot_avatar"
@@ -48,6 +48,8 @@
                 android:textSize="@dimen/text_size_16sp"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="44dp"
                 android:textColor="#000000" />
 
             <TextView
@@ -65,11 +67,12 @@
 
             <TextView
                 android:id="@+id/item_hot_content"
-                android:layout_width="360dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="没错！就是小猫猫！好可爱啊！（此处有表情23333）\nvfdgbgbebebebytrnerbtrgeynum"
                 app:layout_constraintTop_toBottomOf="@id/item_hot_title"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp" />

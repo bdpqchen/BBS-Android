@@ -2,6 +2,8 @@ package com.twtstudio.bbs.bdpqchen.bbs.mdeditor;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -17,13 +19,18 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.TextUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.mdeditor.support.ExpandableLinearLayout;
 import com.twtstudio.bbs.bdpqchen.bbs.mdeditor.support.TabIconView;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,6 +61,8 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarUtil.setColor(this, Color.WHITE,0);
+        enableLightStatusBarMode(true);
         Intent intent = getIntent();
         mTitle = intent.getStringExtra(INTENT_EDITOR_TITLE);
         mToolbarTitle = TextUtil.getEditorToolbarTitle(intent.getIntExtra(INTENT_EDITOR_TOOLBAR_TITLE, 0));
@@ -289,6 +298,47 @@ public class EditorActivity extends SupportActivity implements View.OnClickListe
 
         dialog.show();
     */
+    }
+
+    public String enableLightStatusBarMode(boolean enable){
+
+        try{
+            Class layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
+            int darkModeFlag = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE").getInt(layoutParams);
+            Method extraFlagField = getWindow().getClass().getMethod("setExtraFlags",int.class,int.class);
+            extraFlagField.invoke(getWindow(),enable? darkModeFlag : 0,darkModeFlag);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                getWindow().getDecorView().setSystemUiVisibility(enable? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : View.SYSTEM_UI_FLAG_VISIBLE);
+            }
+            return "MIUI";
+        } catch (Exception e){
+
+        }
+
+        try{
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            Field darkFlag = WindowManager.LayoutParams.class.getDeclaredField("MEIZU_FLAG_DARK_STATUS_BAR_ICON");
+            Field meizuFlags = WindowManager.LayoutParams.class.getDeclaredField("meizuFlags");
+            darkFlag.setAccessible(true);
+            meizuFlags.setAccessible(true);
+            int bit = darkFlag.getInt(null);
+            int value = meizuFlags.getInt(layoutParams);
+            value = enable? value|bit : value& ~bit;
+            meizuFlags.setInt(layoutParams,value);
+            getWindow().setAttributes(layoutParams);
+            return "Flyme";
+        } catch (Exception e){
+
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            getWindow().getDecorView().setSystemUiVisibility(enable ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : View.SYSTEM_UI_FLAG_VISIBLE);
+            return "Android M";
+        }
+
+
+        return "None";
+
     }
 
 

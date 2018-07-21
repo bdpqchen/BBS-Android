@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.search
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.AppCompatEditText
 import android.support.v7.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.jaeger.library.StatusBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants.*
@@ -62,6 +64,8 @@ class SearchActivity : BaseActivity(), SearchContract.View, View.OnTouchListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        StatusBarUtil.setColor(this, Color.WHITE,0)
+        enableLightStatusBarMode(true)
         mTvEmptyResult = findViewById(R.id.tv_search_result_empty) as TextView
         mPbLoading = findViewById(R.id.pb_search_result) as ProgressBar
         rvSearchResult = findViewById(R.id.rv_search_result) as RecyclerView
