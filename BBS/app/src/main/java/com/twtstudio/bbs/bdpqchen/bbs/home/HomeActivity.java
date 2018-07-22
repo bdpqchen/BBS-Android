@@ -3,6 +3,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.home;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Outline;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewOutlineProvider;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -84,14 +86,6 @@ public class HomeActivity extends BaseActivity implements InfoContract {
 //        mPresenter = new HomePresenter(this);
 //        LogUtil.dd("current_token", PrefUtil.getAuthToken());
 
-        if (VersionUtil.eaLollipop()) {
-            View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            getWindow().setStatusBarColor(Color.BLACK);
-        }
         setTabStatus(mShowingFragment);
         mUnread.setVisibility(View.GONE);
 //        ActionBar actionBar = getSupportActionBar();
@@ -147,6 +141,13 @@ public class HomeActivity extends BaseActivity implements InfoContract {
             loadFragment();
         });
 
+        // 放在Looper里面操作 渲染好了再操作
+        tabHome.post(new Runnable() {
+            @Override
+            public void run() {
+                clearFullScreen();
+            }
+        });
 //        mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
 //        mBottomBar.setOnTabSelectListener(i -> {
 //            if (PrefUtil.hadLogin()) {
@@ -194,7 +195,11 @@ public class HomeActivity extends BaseActivity implements InfoContract {
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
-            getWindow().setStatusBarColor(Color.BLACK);
+            // 状态栏反色
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                this.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+            getWindow().setStatusBarColor(Color.WHITE);
         }
     }
 

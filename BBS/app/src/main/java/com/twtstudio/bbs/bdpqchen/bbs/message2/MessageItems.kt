@@ -45,7 +45,7 @@ class MessageItems(val context: Context, val message: MessageModel) : Item {
                 content = if (action == "提到了你")
                     " 在 " + model.thread_title + " 中" + action
                 else
-                    "<p>" + action + ":" + content.substring(3)
+                    "<p>" + action + ":" + content.substring(if (content.length > 3) 3 else content.length )
                 holder.mSummary.setHtml(content, GlideImageGeter(item.context, holder.mSummary))
                 holder.itemView.setOnClickListener {
                     holder.mRedDot.visibility = View.GONE

@@ -81,6 +81,7 @@ public abstract class BaseActivity extends SupportActivity {
         }
 */
 
+        // 建议替换掉 没啥卵用
         StatusBarUtil.setColor(this, ResourceUtil.getColor(this, R.color.colorPrimaryDark), 0);
         ActivityManager.getActivityManager().addActivity(this);
     }
