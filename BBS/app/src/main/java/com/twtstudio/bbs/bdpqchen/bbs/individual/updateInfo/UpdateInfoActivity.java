@@ -2,6 +2,7 @@ package com.twtstudio.bbs.bdpqchen.bbs.individual.updateInfo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.model.BaseModel;
@@ -85,6 +87,8 @@ public class UpdateInfoActivity extends BaseActivity implements UpdateInfoContra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarUtil.setColor(this, Color.WHITE,0);
+        enableLightStatusBarMode(true);
         mPresenter = new UpdateInfoPresenter(this);
         Activity activity = this;
         mNickname = PrefUtil.getInfoNickname();

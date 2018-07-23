@@ -51,6 +51,7 @@ public class BigPhotoActivity extends BaseActivity {
         return null;
     }
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);

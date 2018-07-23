@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.letter;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.BuildConfig;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -79,6 +81,9 @@ public class LetterActivity extends BaseActivity implements LetterContract.View 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        StatusBarUtil.setColor(this, Color.WHITE,0);
+        enableLightStatusBarMode(true);
         mPresenter= new LetterPresenter(this);
         Intent intent = getIntent();
         mUid = intent.getIntExtra(UID, 0);

@@ -1,11 +1,13 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.settings;
 
 import android.app.FragmentManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BasePresenter;
@@ -41,6 +43,8 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarUtil.setColor(this, Color.WHITE,0);
+        enableLightStatusBarMode(true);
 
         //本Activity不支持滑动返回，当前使用的滑动返回库不太友好
 /*

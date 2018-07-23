@@ -200,12 +200,10 @@ public interface BaseApi {
             @Path("page") String postPage);
 
     @GET("home/publish/thread/page/{page}")
-    @Headers("Cache-Control: max-age=3600")
     Observable<BaseResponse<List<PublishEntity>>> getPublishList(
             @Path("page") String page);
 
     @GET("home/publish/post/page/{page}")
-    @Headers("Cache-Control: max-age=3600")
     Observable<BaseResponse<List<ReplyEntity>>> getReplyList(
             @Path("page") String page);
 

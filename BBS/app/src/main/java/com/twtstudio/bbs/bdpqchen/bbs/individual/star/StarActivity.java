@@ -1,5 +1,6 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.star;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.helper.RecyclerViewItemDecoration;
@@ -53,6 +55,8 @@ public class StarActivity extends BaseActivity implements StarContract.View {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarUtil.setColor(this, Color.WHITE,0);
+        enableLightStatusBarMode(true);
         mPresenter = new StarPresenter(this);
         mAdapter = new StarAdapter(this, mPresenter);
         mRvStar.setAdapter(mAdapter);

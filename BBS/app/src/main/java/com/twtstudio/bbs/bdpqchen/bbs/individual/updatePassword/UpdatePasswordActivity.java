@@ -1,10 +1,12 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.updatePassword;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 
+import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
 import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
@@ -58,6 +60,8 @@ public class UpdatePasswordActivity extends BaseActivity implements UpdatePasswo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = new UpdatePasswordPresenter(this);
+        StatusBarUtil.setColor(this, Color.WHITE,0);
+        enableLightStatusBarMode(true);
     }
 
     void checkInput() {
