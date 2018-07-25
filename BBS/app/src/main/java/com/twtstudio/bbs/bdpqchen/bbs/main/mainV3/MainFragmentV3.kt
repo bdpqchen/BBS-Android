@@ -8,6 +8,7 @@ import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemAdapter
 import cn.edu.twt.retrox.recyclerviewdsl.ItemManager
 import com.twtstudio.bbs.bdpqchen.bbs.R
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
@@ -64,7 +65,7 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
 
         val temp = mutableListOf<Item>()
         if (mPage == 0) {
-            temp.add(MainV3Threadheader(mActivity))
+            temp.add(MainV3Threadheader(mActivity as BaseActivity))
         }
         temp.addAll(latestList.map { t -> MainV3ThreadItem(t, mContext, t.author_id) })
         if (isRefreshing) {

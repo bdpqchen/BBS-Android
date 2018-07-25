@@ -6,12 +6,15 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import cn.edu.twt.retrox.recyclerviewdsl.Item
 import cn.edu.twt.retrox.recyclerviewdsl.ItemController
 import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.banner.GlideImageLoader
+import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity
 import com.twtstudio.bbs.bdpqchen.bbs.commons.support.Constants
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
@@ -21,10 +24,11 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity
 import com.youth.banner.Banner
 import com.youth.banner.BannerConfig
 import com.youth.banner.Transformer
+import org.jetbrains.anko.dip
 import org.jetbrains.anko.layoutInflater
 import org.jetbrains.annotations.NotNull
 
-class MainV3Threadheader(val activity: Activity) : Item {
+class MainV3Threadheader(val activity: BaseActivity) : Item {
 
 
     companion object Controller : ItemController {

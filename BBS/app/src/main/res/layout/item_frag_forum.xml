@@ -5,21 +5,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="#f2f2f2" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF">
 
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/item_forum_constraint"
             android:layout_width="103dp"
             android:layout_height="180dp"
-            android:background="#FFFFFF">
+            android:background="@drawable/flex_item_decoration">
 
             <ImageView
                 android:id="@+id/item_forum_icon"
@@ -57,5 +54,10 @@
 
     </LinearLayout>
 
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#f2f2f2" />
 
 </LinearLayout>

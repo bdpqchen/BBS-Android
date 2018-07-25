@@ -19,7 +19,6 @@ import com.twtstudio.bbs.bdpqchen.bbs.main.AnnounceEntity
 import kotterknife.bindView
 
 class AnnounceActivity : BaseActivity(), AnnounceContract.View {
-//    private val toolbar: Toolbar by bindView(R.id.announce_bar)
 
     private val announceList: MutableList<AnnounceEntity> = mutableListOf()
     private val backIv: ImageView by bindView(R.id.announce_ic_back)
@@ -62,7 +61,7 @@ class AnnounceActivity : BaseActivity(), AnnounceContract.View {
 
     override fun onGetAnnounceDetailSucceess(thread: List<ThreadModel.ThreadBean>) {
         val itemList: MutableList<AnnounceItem> = mutableListOf()
-        for (i in 0..thread.size - 1) {
+        for (i in 0 until thread.size) {
             itemList.add(AnnounceItem(announceList[i], thread[i], mContext))
         }
         recyclerView.withItems(itemList)

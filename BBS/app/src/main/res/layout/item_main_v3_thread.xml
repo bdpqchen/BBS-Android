@@ -132,7 +132,7 @@
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="6dp"
+        android:layout_height="1dp"
         android:background="#f2f2f2"
         app:layout_constraintTop_toBottomOf="@id/item_thread_v3_card" />
 

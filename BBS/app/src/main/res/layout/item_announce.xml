@@ -8,7 +8,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="8dp"
+        android:layout_height="1dp"
         android:background="#f2f2f2"
         app:layout_constraintTop_toTopOf="parent" />
 

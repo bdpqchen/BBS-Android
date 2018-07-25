@@ -6,10 +6,10 @@
     android:orientation="vertical">
 
 
-    <com.youth.banner.Banner xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.youth.banner.Banner xmlns:app ="http://schemas.android.com/apk/res-auto"
         android:id="@+id/main_v3_banner"
         android:layout_width="match_parent"
-        android:layout_height="160dp"/>
+        android:layout_height="140dp"/>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

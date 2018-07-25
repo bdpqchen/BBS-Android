@@ -52,7 +52,7 @@ class PersonActivity : BaseActivity() , PersonContract.View {
 
     override fun onPersonInfoSuccess(person: PeopleModel) {
         itemList.add(PersonHeaderItem(person,this@PersonActivity,uid))
-        itemList.add(SingleTextItem("— 最近动态 —"))
+        itemList.add(SingleTextItem("最近动态"))
         recyclerView.withItems (itemList)
     }
 

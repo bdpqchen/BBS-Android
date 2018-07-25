@@ -45,10 +45,16 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/hot_srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/hot_rv"

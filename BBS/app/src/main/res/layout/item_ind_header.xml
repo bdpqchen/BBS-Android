@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/ind_cover"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="400dp"
         android:background="@drawable/bg_default"
         android:scaleType="centerCrop" />
 
@@ -46,9 +46,9 @@
 
     <TextView
         android:id="@+id/ind_ac_userlevel"
-        android:layout_width="56dp"
-        android:layout_height="16dp"
-        android:layout_marginBottom="7dp"
+        android:layout_width="60dp"
+        android:layout_height="18dp"
+        android:layout_marginBottom="6dp"
         android:layout_marginStart="12dp"
         android:background="@drawable/text_view_border"
         android:gravity="center"
@@ -81,11 +81,11 @@
         android:id="@+id/ind_ac_avatar"
         android:layout_width="108dp"
         android:layout_height="108dp"
-        android:layout_marginBottom="32dp"
         android:src="@drawable/avatar_default_left"
         app:civ_border_color="#ffffff"
         app:civ_border_width="2dp"
-        app:layout_constraintBottom_toTopOf="@id/ind_ac_username"
+        app:layout_constraintTop_toTopOf="@id/item_ind_header_back_arrow"
+        app:layout_constraintBottom_toBottomOf="@id/ind_cover"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -97,7 +97,7 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginTop="372dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
@@ -110,10 +110,10 @@
         android:text="18070"
         android:textColor="#000000"
         android:textSize="28sp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toStartOf="@id/ind_ac_threads"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/modify_or_message" />
+        app:layout_constraintTop_toBottomOf="@id/ind_cover" />
 
     <TextView
         android:id="@+id/ind_ac_threads"
