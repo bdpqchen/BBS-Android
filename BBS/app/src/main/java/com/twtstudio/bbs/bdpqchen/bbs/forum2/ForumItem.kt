@@ -41,26 +41,45 @@ class ForumItem(val forumList: ForumBoardModel, val screenWidth: Int, val contex
             holder.constraintLayout.layoutParams.height = context.dip(cHeight)
             holder.constraintLayout.layoutParams.width = context.dip(cWidth)
             holder.flexbox.removeAllViews()
-            item.forumList.boardList.forEach {
-                holder.flexbox.textView {
-                    text = it.boardName
-                    textSize = 14f
-                    isClickable = true
-                    isFocusable = true
-                    foreground = resources.getDrawable(R.drawable.selector_foreground_settings)
-                    background = resources.getDrawable(R.drawable.flex_item_decoration)
-                    when (it.boardName) {
-                        "段子手", "音乐会", "文学艺术", "鹊桥", "青年湖", "绿茵足球", "找工作", "招聘信息" -> textColor = Color.parseColor("#f2680e")
-                    }//临时加上的，等后台开动以后让后台改
-                }.apply {
-                    gravity = Gravity.CENTER
-                    layoutParams = FlexboxLayout.LayoutParams(context.dip(tWidth), context.dip(tHeight))
+            if (item.forumList.fid == 33) {
+                holder.boardName.visibility = View.GONE
+                val temp = item.forumList.boardList.map { it.boardName }.toMutableList()
+                temp.addAll(arrayOf("(๑>\u0602<๑）", "(｢･ω･)｢嘿", "(*°∀°)=3"))
+                temp.forEach {
+                    holder.flexbox.textView {
+                        text = it
+                        textSize = 14f
+                        isClickable = true
+                        isFocusable = true
+                        foreground = resources.getDrawable(R.drawable.selector_foreground_settings)
+                        background = resources.getDrawable(R.drawable.flex_item_decoration)
+                    }.apply {
+                        gravity = Gravity.CENTER
+                        layoutParams = FlexboxLayout.LayoutParams(context.dip(tWidth), context.dip(tHeight))
+                    }
+                }
+            } else {
+                item.forumList.boardList.forEach {
+                    holder.flexbox.textView {
+                        text = it.boardName
+                        textSize = 14f
+                        isClickable = true
+                        isFocusable = true
+                        foreground = resources.getDrawable(R.drawable.selector_foreground_settings)
+                        background = resources.getDrawable(R.drawable.flex_item_decoration)
+                        when (it.boardName) {
+                            "段子手", "音乐会", "文学艺术", "鹊桥", "青年湖", "绿茵足球", "找工作", "招聘信息" -> textColor = Color.parseColor("#f2680e")
+                        }//临时加上的，等后台开动以后让后台改
+                    }.apply {
+                        gravity = Gravity.CENTER
+                        layoutParams = FlexboxLayout.LayoutParams(context.dip(tWidth), context.dip(tHeight))
+                    }
                 }
             }
+
             holder.icon.setImageResource(getIconRes(item.forumList.fid))
             holder.boardName.text = item.forumList.forumName
-            val temp: Int = if (item.forumList.fid == 33) 3 else 0
-            val blankNum: Int = boardNum % 3 + temp
+            val blankNum: Int = boardNum % 3
             for (i in 0 until blankNum) {
                 holder.flexbox.textView { background = resources.getDrawable(R.drawable.flex_item_decoration) }.apply { layoutParams = FlexboxLayout.LayoutParams(context.dip(tWidth), context.dip(tHeight)) }
             }
@@ -105,7 +124,6 @@ class ForumItem(val forumList: ForumBoardModel, val screenWidth: Int, val contex
 
     override val controller
         get() = Controller
-
 
 }
 
