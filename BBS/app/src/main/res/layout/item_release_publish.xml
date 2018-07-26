@@ -8,42 +8,50 @@
     android:background="@color/colorMainBgLight"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="@drawable/selector_foreground_settings"
-    android:padding="16dp">
+    android:foreground="@drawable/selector_foreground_settings">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp"
         android:textColor="@color/colorTvBlackMainTint"
         android:textSize="18sp"
+        android:layout_marginEnd="96dp"
         tools:text="here 中文中文中文中文中文"
+        app:layout_constraintBottom_toBottomOf="@id/tv_delete"
+        app:layout_constraintStart_toStartOf="parent"
         />
 
     <TextView
         android:id="@+id/tv_datetime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tv_title"
-        app:layout_constraintTop_toBottomOf="@id/tv_title"
-        app:layout_constraintLeft_toLeftOf="@id/tv_title"
-        android:layout_marginTop="10.6dp"
+        android:layout_marginTop="10dp"
         android:textSize="12sp"
-        tools:text="评论 : 18    时间 : 2017年5月12日"
-        />
+        app:layout_constraintStart_toStartOf="@id/tv_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_delete"
+        tools:text="评论 : 18    时间 : 2017年5月12日" />
 
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tv_datetime"
-        app:layout_constraintLeft_toLeftOf="@id/tv_title"
-        android:layout_marginTop="10.6dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:maxLines="3"
         android:textColor="@color/colorTvBlackMain"
-        tools:text="内容内容内容内容内容内容内容内容内容内容内容内容内容内容"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/tv_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_datetime"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="内容内容内容内容内容内容内容内容内容内容内容内容内容内容" />
 
 
     <ImageView
@@ -51,12 +59,13 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:padding="6dp"
+        android:layout_margin="8dp"
         android:clickable="true"
         android:focusable="true"
         android:foreground="@drawable/selector_foreground_settings"
         android:src="@drawable/ic_delete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/tv_title"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_edit"
@@ -68,8 +77,8 @@
         android:focusable="true"
         android:foreground="@drawable/selector_foreground_settings"
         android:src="@drawable/post_edit"
-        app:layout_constraintBottom_toBottomOf="@id/tv_delete"
         app:layout_constraintEnd_toStartOf="@id/tv_delete"
+        app:layout_constraintBottom_toBottomOf="@id/tv_delete"
         />
 
 </android.support.constraint.ConstraintLayout>
