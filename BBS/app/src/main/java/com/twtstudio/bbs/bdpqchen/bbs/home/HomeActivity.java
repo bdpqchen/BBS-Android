@@ -1,30 +1,21 @@
 package com.twtstudio.bbs.bdpqchen.bbs.home;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Outline;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewOutlineProvider;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.R;
-import com.twtstudio.bbs.bdpqchen.bbs.auth.login.LoginActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ImageUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
-import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.ResourceUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.VersionUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.forum2.ForumFragment2;
@@ -154,7 +145,7 @@ public class HomeActivity extends BaseActivity implements InfoContract {
 //                    mShowingFragment = SECOND;
 //                    clearFullScreen();
 //                } else if (i == R.id.bottom_bar_tab_individual) {
-//                    mShowingFragment = FORTH;
+//                      mShowingFragment = FORTH;
 ////                    StatusBarUtil.setTransparent(this);
 ////                    clearFullScreen();
 //                    StatusBarUtil.setTranslucentForImageView(this, 0, null);

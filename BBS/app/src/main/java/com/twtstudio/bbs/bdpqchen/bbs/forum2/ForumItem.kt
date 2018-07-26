@@ -1,6 +1,7 @@
 package com.twtstudio.bbs.bdpqchen.bbs.forum2
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.constraint.ConstraintLayout
@@ -20,6 +21,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.forum.ForumBoardModel
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.internals.AnkoInternals
 import org.jetbrains.anko.layoutInflater
+import org.jetbrains.anko.textColor
 import org.jetbrains.annotations.NotNull
 
 class ForumItem(val forumList: ForumBoardModel, val screenWidth: Int, val context: Context) : Item {
@@ -47,6 +49,9 @@ class ForumItem(val forumList: ForumBoardModel, val screenWidth: Int, val contex
                     isFocusable = true
                     foreground = resources.getDrawable(R.drawable.selector_foreground_settings)
                     background = resources.getDrawable(R.drawable.flex_item_decoration)
+                    when (it.boardName) {
+                        "段子手", "音乐会", "文学艺术", "鹊桥", "青年湖", "绿茵足球", "找工作", "招聘信息" -> textColor = Color.parseColor("#f2680e")
+                    }//临时加上的，等后台开动以后让后台改
                 }.apply {
                     gravity = Gravity.CENTER
                     layoutParams = FlexboxLayout.LayoutParams(context.dip(tWidth), context.dip(tHeight))
