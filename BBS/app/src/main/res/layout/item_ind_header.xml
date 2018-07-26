@@ -57,6 +57,7 @@
         android:shadowRadius="1"
         android:shadowDx="1"
         android:shadowDy="1"
+        android:paddingBottom="1dp"
         android:textColor="#f2f2f2"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@id/ind_ac_user_sign"

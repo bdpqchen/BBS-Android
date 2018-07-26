@@ -88,7 +88,7 @@ public class ThreadListActivity extends BaseActivity implements ThreadListContra
         mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(10));
+        mRecyclerView.addItemDecoration(new RecyclerViewItemDecoration(2));
         mSrlThreadList.setRefreshing(true);
         mSrlThreadList.setColorSchemeColors(getResources().getIntArray(R.array.swipeRefreshColors));
         mSrlThreadList.setOnRefreshListener(() -> {

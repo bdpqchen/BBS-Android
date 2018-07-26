@@ -38,6 +38,7 @@ import me.yokeyword.fragmentation.SupportFragment;
 
 public class HomeActivity extends BaseActivity implements InfoContract {
 
+
 //    @BindView(R.id.home_bottom_bar)
 //    BottomBar mBottomBar;
 //    BottomBarTab mNearBy;
@@ -142,12 +143,7 @@ public class HomeActivity extends BaseActivity implements InfoContract {
         });
 
         // 放在Looper里面操作 渲染好了再操作
-        tabHome.post(new Runnable() {
-            @Override
-            public void run() {
-                clearFullScreen();
-            }
-        });
+        tabHome.post(this::clearFullScreen);
 //        mNearBy = mBottomBar.getTabWithId(R.id.bottom_bar_tab_individual);
 //        mBottomBar.setOnTabSelectListener(i -> {
 //            if (PrefUtil.hadLogin()) {
