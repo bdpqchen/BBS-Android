@@ -37,12 +37,14 @@ class ForumItem(val forumList: ForumBoardModel, val screenWidth: Int, val contex
             val tHeight = 48
             val boardNum = item.forumList.boardList.size
             val cWidth = width - 3 * tWidth
-            val cHeight = Math.ceil(boardNum / 3.0).toInt() * tHeight
+            var cHeight = Math.ceil(boardNum / 3.0).toInt() * tHeight
+            if (item.forumList.fid == 33) {
+                cHeight += 48
+            }
             holder.constraintLayout.layoutParams.height = context.dip(cHeight)
             holder.constraintLayout.layoutParams.width = context.dip(cWidth)
             holder.flexbox.removeAllViews()
             if (item.forumList.fid == 33) {
-                holder.boardName.visibility = View.GONE
                 val temp = item.forumList.boardList.map { it.boardName }.toMutableList()
                 temp.addAll(arrayOf("(๑>\u0602<๑）", "(｢･ω･)｢嘿", "(*°∀°)=3"))
                 temp.forEach {
