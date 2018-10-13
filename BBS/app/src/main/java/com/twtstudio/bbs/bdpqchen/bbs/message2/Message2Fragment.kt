@@ -79,7 +79,7 @@ class Message2Fragment : SimpleFragment(), Message2Contract.View {
             itemManager.refreshAll(temp)
             mRefreshing = false
         }
-        if (messageList.size > 0) {
+        if (messageList.isNotEmpty()) {
             temp.addAll(messageList.map { t -> MessageItems(this.mContext, t) })
             itemManager.addAll(temp)
         } else {
@@ -115,8 +115,8 @@ class Message2Fragment : SimpleFragment(), Message2Contract.View {
         return activity as InfoContract
     }
 
-    fun showNoMessage() {
-        if (mTvNoMessage != null && mPage == 0) {
+    private fun showNoMessage() {
+        if (mPage == 0) {
             mTvNoMessage.visibility = View.VISIBLE
         }
     }
@@ -131,7 +131,7 @@ class Message2Fragment : SimpleFragment(), Message2Contract.View {
         mRefreshing = b
     }
 
-    fun pageDecrease() {
+    private fun pageDecrease() {
         mPage = if (mPage > 0) mPage-- else mPage
 
     }

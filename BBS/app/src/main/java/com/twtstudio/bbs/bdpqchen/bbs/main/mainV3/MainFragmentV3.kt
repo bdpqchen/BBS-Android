@@ -11,6 +11,7 @@ import com.twtstudio.bbs.bdpqchen.bbs.R
 import com.twtstudio.bbs.bdpqchen.bbs.commons.base.BaseActivity
 import com.twtstudio.bbs.bdpqchen.bbs.commons.fragment.SimpleFragment
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil
 import com.twtstudio.bbs.bdpqchen.bbs.main.latest.LatestEntity
 import kotterknife.bindView
@@ -67,7 +68,11 @@ class MainFragmentV3 : SimpleFragment(), MainV3Contract.View {
         if (mPage == 0) {
             temp.add(MainV3Threadheader(mActivity as BaseActivity))
         }
-        temp.addAll(latestList.map { t -> MainV3ThreadItem(t, mContext, t.author_id) })
+        if (PrefUtil.isFilterAdvertisement()) {
+            temp.addAll(latestList.filter { it.board_name != "招聘信息" && it.board_name != "找工作" }.map { t -> MainV3ThreadItem(t, mContext, t.author_id) })
+        } else {
+            temp.addAll(latestList.map { t -> MainV3ThreadItem(t, mContext, t.author_id) })
+        }
         if (isRefreshing) {
             itemManager.refreshAll(temp)
             isRefreshing = false

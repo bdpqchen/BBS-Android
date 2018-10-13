@@ -98,6 +98,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                 PrefUtil.setDisabledImageCache(CastUtil.cast2boolean(obj));
             } else if (key.equals(getString(R.string.key_more_app))) {
 
+            } else if (key.equals(getString(R.string.key_not_advertisement))){
+                PrefUtil.setIsFilterAdvertisement(CastUtil.cast2boolean(obj));
             }
         }
         return true;

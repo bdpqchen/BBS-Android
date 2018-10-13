@@ -8,7 +8,6 @@ import com.orhanobut.hawk.Hawk;
 
 public final class PrefUtil {
 
-    //
     private static final String IS_JUST_INSTALLED = "is_just_installed";
     private static final String IS_NIGHT_MODE = "is_night_mode";
     private static final String IS_SLIDE_BACK_MODE = "is_slide_back_mode";
@@ -42,6 +41,7 @@ public final class PrefUtil {
     private static final String LAST_IMAGE_STAMP = "last_image_stamp";
     private static final String DISABLED_IMAGE_CACHE = "is_disabled_image_cache";
     private static final String IS_UPDATE_AVAILABLE = "is_update_available";
+    private static final String IS_FILTER_ADVERTISEMENT = "is_filter_advertisement";
 
     public static void setInfoGroup(int infoGroup) {
         Hawk.put(INFO_GROUP, infoGroup);
@@ -266,6 +266,14 @@ public final class PrefUtil {
     }
     public static void setUpdateAvailable(boolean b){
         Hawk.put(IS_UPDATE_AVAILABLE, b);
+    }
+
+    public static void setIsFilterAdvertisement(boolean b){
+        Hawk.put(IS_FILTER_ADVERTISEMENT, b);
+    }
+
+    public static boolean isFilterAdvertisement(){
+        return Hawk.get(IS_FILTER_ADVERTISEMENT,false);
     }
 
 }

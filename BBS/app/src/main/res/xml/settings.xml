@@ -47,6 +47,13 @@
             android:title="不缓存图片"
             />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_not_advertisement"
+            android:layout="@layout/preference_item_normal"
+            android:title="过滤广告"
+            android:summary="开启会过滤掉招聘信息等广告"
+            />
         <!-- <ListPreference
              android:key="@string/key_habit_hand"
              android:layout="@layout/preference_item_normal"

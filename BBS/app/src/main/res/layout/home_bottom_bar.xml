@@ -15,9 +15,6 @@
     <ImageView
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="@drawable/selector_foreground_settings"
         android:id="@+id/home_bottom_bar_main"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -33,9 +30,6 @@
 
     <ImageView
         android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="@drawable/selector_foreground_settings"
         android:id="@+id/home_bottom_bar_forum"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -51,9 +45,6 @@
 
     <ImageView
         android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="@drawable/selector_foreground_settings"
         android:id="@+id/home_bottom_bar_message"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -68,9 +59,6 @@
 
     <TextView
         android:id="@+id/unread_count"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="@drawable/selector_foreground_settings"
         android:gravity="center"
         android:layout_width="20dp"
         android:layout_height="20dp"
@@ -84,9 +72,6 @@
         android:layout_marginEnd="32dp"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="@drawable/selector_foreground_settings"
         android:id="@+id/home_bottom_bar_individual"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -107,9 +92,6 @@
         android:background="@drawable/shadow"/>
 
     <ImageView
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="@drawable/selector_foreground_settings"
         android:id="@+id/home_bar_create_thread"
         android:elevation="1dp"
         android:padding="1dp"
