@@ -40,11 +40,13 @@
             app:layout_constraintTop_toBottomOf="@id/main_notice_iv" />
 
         <ImageView
-            android:visibility="gone"
             android:clickable="true"
             android:focusable="true"
             android:foreground="@drawable/selector_foreground_settings"
             android:id="@+id/main_activity_iv"
+
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@drawable/activity"
@@ -53,7 +55,6 @@
             app:layout_constraintTop_toTopOf="@+id/main_notice_iv" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/main_activity_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,8 +67,8 @@
             android:id="@+id/main_hot_iv"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
             android:src="@drawable/hot"
             app:layout_constraintEnd_toStartOf="@id/main_rank_iv"
             app:layout_constraintStart_toEndOf="@id/main_activity_iv"

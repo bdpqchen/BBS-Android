@@ -95,7 +95,8 @@
         <activity android:name=".main.announce.AnnounceActivity" />
         <activity android:name=".main.rank.RankActivity" />
         <activity android:name=".main.hot2.HotActivity" />
-        <activity android:name=".forum.boards.edit_thread.EditThreadActivity"></activity>
+        <activity android:name=".forum.boards.edit_thread.EditThreadActivity" />
+        <activity android:name=".main.activity.AcActivity"></activity>
     </application>
 
 </manifest>

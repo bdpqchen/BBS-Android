@@ -48,6 +48,9 @@ class MainV3Threadheader(val activity: BaseActivity) : Item {
             holder.noticeIv.setOnClickListener {
                 item.activity.startActivity(IntentUtil.toAnnounce(item.activity))
             }
+            holder.activityIv.setOnClickListener {
+//                item.activity.startActivity(IntentUtil.)
+            }
             holder.hotIv.setOnClickListener {
                 item.activity.startActivity(IntentUtil.toHot(item.activity))
             }

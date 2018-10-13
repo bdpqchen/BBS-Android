@@ -91,7 +91,7 @@
         <Preference
             android:key="@string/key_feedback"
             android:layout="@layout/preference_item_normal"
-            android:title="线上客服"
+            android:title="反馈加群"
             />
 <!--
 

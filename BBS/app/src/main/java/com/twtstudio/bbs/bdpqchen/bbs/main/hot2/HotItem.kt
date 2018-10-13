@@ -24,7 +24,7 @@ class HotItem(val context: Context, val hot: Hot) : Item {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: Item) {
             holder as ViewHolder
             item as HotItem
-            var hot = item.hot
+            val hot = item.hot
             ImageUtil.loadAvatar(item.context, item.hot.author_id, holder.avatar)
             if (IsUtil.isAnon(item.hot.anonymous)) {
                 hot.author_id = 0

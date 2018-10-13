@@ -1,12 +1,16 @@
 package com.twtstudio.bbs.bdpqchen.bbs.individual.settings;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.twtstudio.bbs.bdpqchen.bbs.R;
@@ -18,7 +22,9 @@ import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.DialogUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.HandlerUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.IntentUtil;
 import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.PrefUtil;
+import com.twtstudio.bbs.bdpqchen.bbs.commons.utils.SnackBarUtil;
 
+import static android.support.v7.app.AlertDialog.*;
 import static com.twtstudio.bbs.bdpqchen.bbs.individual.settings.SettingsActivity.IS_SWITCH_NIGHT_MODE_LOCK;
 
 
@@ -67,7 +73,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         } else if (key.equals(getString(R.string.key_check_update))) {
             checkUpdate();
         } else if (key.equals(getString(R.string.key_feedback))) {
-            startActivity(IntentUtil.toThread(mActivity, 155651));
+            feedBackWithQQ();
         }
         return false;
     }
@@ -125,6 +131,18 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     private void checkUpdate() {
         UpdateTool.checkUpdate();
+    }
+
+
+    private void feedBackWithQQ(){
+        String qq = "738068756";
+        String url = "mqqwpa://im/chat?chat_type=group&uin="+ qq +"&version=1";
+        try {
+           getActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        } catch (Exception e){
+            SnackBarUtil.error(getActivity(),"加群失败，请确保您已经安装 Tim 或 QQ)");
+        }
+
     }
 
 }
